@@ -120,7 +120,8 @@ file static class BuildPipelineConfiguration
                 .AddModule<AddLocalNugetSourceModule>()
                 .AddModule<UploadPackagesToLocalNuGetModule>();
         }
-        else if (!builder.Environment.IsDevelopment())
+        // CI publishes the rehearsed artifacts in a separate job after every validation lane passes.
+        else if (!isRunningInCI && !builder.Environment.IsDevelopment())
         {
             builder.AddModule<UploadPackagesToNugetModule>()
                 .AddModule<CreateReleaseModule>();

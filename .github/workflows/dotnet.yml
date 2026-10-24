@@ -130,6 +130,7 @@ jobs:
           ./scripts/Test-FullPipelineValidation.ps1
           ./scripts/Test-ChangedIntegrationValidation.ps1
           ./scripts/Test-RequiredPipelineContext.ps1
+          ./scripts/Test-PublishRelease.ps1
       - name: Test generation download verification
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
@@ -151,7 +152,7 @@ jobs:
         run: node --test .github/scripts/generation-artifact.test.mjs
       - name: Test release inputs
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
-        run: node --test .github/scripts/release-inputs.test.mjs
+        run: node --test .github/scripts/release-inputs.test.mjs .github/scripts/release-gate.test.mjs
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
@@ -611,8 +612,10 @@ jobs:
   pipeline:
     name: full pipeline (${{ matrix.os }}, instance ${{ matrix.instance }})
     needs: [fast-fail, pipeline-host]
+    outputs:
+      release_artifact: release-packages-${{ github.run_attempt }}
     # Only core-related changes need the full suite, on both PRs and main pushes.
-    # Manual dispatch always runs the suite, including package publishing.
+    # Manual dispatch always runs the suite and prepares packages for gated publication.
     if: ${{ !cancelled() && needs.fast-fail.outputs.run_full_pipeline == 'true' }}
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
     strategy:
@@ -620,8 +623,7 @@ jobs:
       fail-fast: false
     runs-on: ${{ matrix.os }}
     permissions:
-      contents: write
-      id-token: write
+      contents: read
     timeout-minutes: 90
     env: &pipeline-env
       # Tear down MSBuild worker/compiler nodes after each build instead of keeping them
@@ -736,13 +738,6 @@ jobs:
             echo "::endgroup::"
           done < <(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' BuildSolutions.txt)
 
-      - name: NuGet login
-        if: ${{ github.ref == 'refs/heads/main' && github.event.inputs.publish-packages == 'true' && matrix.instance == 0 }}
-        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
-        id: login
-        with:
-          user: ${{ secrets.NUGET_USER }}
-
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         if: needs.fast-fail.outputs.distributed == 'true'
         with:
@@ -761,10 +756,8 @@ jobs:
           MODULAR_PIPELINES_DIRECTORY: ${{ github.workspace }}/src/ModularPipelines.Build
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
-          NuGet__ApiKey: ${{ steps.login.outputs.NUGET_API_KEY }}
           GitHub__Actor: ${{ github.actor }}
           GitHub__Repository__Id: ${{ github.repository_id }}
-          GitHub__AdminToken: ${{ matrix.instance == 0 && secrets.ADMIN_TOKEN || '' }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
           Publish__ExpectedVersion: ${{ inputs.expected-version }}
           # Exercise every packed package and its symbols against a disposable local feed.
@@ -779,6 +772,16 @@ jobs:
           MODULARPIPELINES_RUN_ID: ${{ needs.fast-fail.outputs.run_identifier }}
           REDIS_ENDPOINT: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_ENDPOINT || '' }}
           REDIS_KEY: ${{ needs.fast-fail.outputs.distributed == 'true' && secrets.REDIS_KEY || '' }}
+
+      - name: Upload release packages
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: release-packages-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/nuget-publish-rehearsal/
+          if-no-files-found: error
+          # Preserve the validated bytes through delayed Production approval and retries.
+          retention-days: 90
 
       - name: Upload publish rehearsal evidence
         if: always() && matrix.instance == 0 && runner.os == 'Linux'
@@ -832,7 +835,7 @@ jobs:
       matrix: ${{ fromJSON(needs.fast-fail.outputs.worker_matrix) }}
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    # Workers share execution steps, but cannot mint publishing tokens or write the repository.
+    # Validation jobs share execution steps and read-only repository permissions.
     permissions:
       contents: read
     timeout-minutes: 90
@@ -1098,6 +1101,48 @@ jobs:
             -GeneratedIntegrationResult '${{ needs.generated-integration.result }}' `
             -RunIntegrationValidation '${{ needs.fast-fail.outputs.run_integration_validation }}' `
             -IntegrationResult '${{ needs.changed-integration.result }}'
+
+  publish:
+    name: Publish validated release
+    needs: [required-pipeline, pipeline]
+    # The aggregate explicitly checks applicable successes and intentional skips.
+    # Override implicit success() for skipped ancestors, but never publish after cancellation.
+    if: ${{ !cancelled() && needs.required-pipeline.result == 'success' && needs.pipeline.result == 'success' && github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.publish-packages == true }}
+    runs-on: ubuntu-latest
+    environment: Production
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+      - name: Download validated release packages
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: ${{ needs.pipeline.outputs.release_artifact }}
+          path: ${{ runner.temp }}/release-packages
+      - name: Verify release artifacts before authentication
+        shell: pwsh
+        env:
+          EXPECTED_VERSION: ${{ inputs.expected-version }}
+        run: ./scripts/Publish-Release.ps1 -PackageDirectory "$env:RUNNER_TEMP/release-packages" -ExpectedVersion $env:EXPECTED_VERSION -ValidateOnly
+      - name: NuGet login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+      - name: Publish packages and create release
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN || github.token }}
+          EXPECTED_VERSION: ${{ inputs.expected-version }}
+        run: ./scripts/Publish-Release.ps1 -PackageDirectory "$env:RUNNER_TEMP/release-packages" -ExpectedVersion $env:EXPECTED_VERSION -Repository $env:GITHUB_REPOSITORY -Commit $env:GITHUB_SHA
 
   trim-aot:
     name: trim and Native AOT

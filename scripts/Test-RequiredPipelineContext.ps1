@@ -198,8 +198,9 @@ if ($workerJob -notmatch '(?m)^    permissions:\s*\r?\n      contents: read\s*\r
     throw 'Distributed workers must share pipeline steps with read-only repository permissions and no identity-token grant.'
 }
 if (-not $fullPipelineJob.Contains('steps: &pipeline-steps', [StringComparison]::Ordinal) -or
-    -not $fullPipelineJob.Contains('id-token: write', [StringComparison]::Ordinal)) {
-    throw 'The master must retain the shared steps and publishing identity permission.'
+    $fullPipelineJob.Contains('id-token: write', [StringComparison]::Ordinal) -or
+    $fullPipelineJob.Contains('contents: write', [StringComparison]::Ordinal)) {
+    throw 'The master must retain the shared steps with read-only validation permissions.'
 }
 
 $cmdJob = [regex]::Match($workflow, '(?ms)^  cmd-tests:.*?(?=^  [a-z0-9-]+:|\z)').Value
