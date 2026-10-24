@@ -1569,12 +1569,15 @@ public class SecretMaskingPatternTests
         await Assert.That(maskedOutput).IsEqualTo("**********");
     }
 
+    // Keep these two checkpoint-sensitive fixtures outside unrelated suite work;
+    // their dedicated workers still race against the test and each other.
     [Test]
+    [TUnit.Core.ParallelGroup(nameof(SecretMaskingPatternTests))]
     public async Task StableSecretEmission_UsesEvenDeferredSnapshotVersions()
     {
         const string discoveredSecret = "even-deferred-version-secret";
         var provider = CreateProvider(out _);
-        using var emissionStarted = new ManualResetEventSlim();
+        var emissionStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var releaseEmission = new ManualResetEventSlim();
 
         // Emission intentionally holds a synchronous gate until this test releases it.
@@ -1582,7 +1585,7 @@ public class SecretMaskingPatternTests
             emissionStarted,
             started =>
             {
-                started.Set();
+                started.SetResult();
                 if (!releaseEmission.Wait(TimeSpan.FromSeconds(10)))
                 {
                     throw new TimeoutException("Timed out waiting to release the emission.");
@@ -1592,7 +1595,7 @@ public class SecretMaskingPatternTests
         long deferredVersion;
         try
         {
-            await Assert.That(emissionStarted.Wait(TimeSpan.FromSeconds(5))).IsTrue();
+            await emissionStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
             provider.AddSecret(discoveredSecret);
             deferredVersion = provider.Version;
         }
@@ -2410,6 +2413,7 @@ public class SecretMaskingPatternTests
     }
 
     [Test]
+    [TUnit.Core.ParallelGroup(nameof(SecretMaskingPatternTests))]
     public async Task DeferredInput_ReservesQueueAdmissionWhileResolvingLineBuffer()
     {
         var provider = CreateProvider(out _);
@@ -2440,7 +2444,11 @@ public class SecretMaskingPatternTests
             {
                 writeCompleted.SetException(exception);
             }
-        });
+        })
+        {
+            IsBackground = true,
+        };
+        var writeTask = Task.CompletedTask;
         var admissionReserved = false;
         var flushTask = writer.FlushAsync();
         try
@@ -2451,6 +2459,7 @@ public class SecretMaskingPatternTests
                 using (ExecutionContext.SuppressFlow())
                 {
                     writeThread.Start();
+                    writeTask = writeCompleted.Task;
                 }
 
                 // The only blocking operation before queue admission is the line-buffer
@@ -2474,11 +2483,9 @@ public class SecretMaskingPatternTests
         finally
         {
             realConsole.ReleaseFlush();
-            await flushTask.WaitAsync(TimeSpan.FromSeconds(5));
-            if ((writeThread.ThreadState & ThreadState.Unstarted) == 0)
-            {
-                await writeCompleted.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            }
+            // Observe both workers even when flush faults or startup never reaches
+            // the checkpoint. Awaiting flush first could abandon the write worker.
+            await Task.WhenAll(flushTask, writeTask).WaitAsync(TimeSpan.FromSeconds(5));
         }
 
         writer.WriteLine("second");
