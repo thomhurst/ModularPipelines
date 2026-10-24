@@ -12,7 +12,11 @@
   <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines.UnitTests'">
     <ProjectReference Include="$(MSBuildThisFileDirectory)..\src\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(MSBuildProjectName)' == 'ModularPipelines.Testing.UnitTests' or '$(MSBuildProjectName)' == 'ModularPipelines.Distributed.UnitTests'">
+  <!-- Limit concurrent pipeline startup so outer test deadlines cover the behavior under test. -->
+  <ItemGroup Condition="
+    '$(MSBuildProjectName)' == 'ModularPipelines.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Testing.UnitTests' or
+    '$(MSBuildProjectName)' == 'ModularPipelines.Distributed.UnitTests'">
     <Compile Include="$(MSBuildThisFileDirectory)Shared\PipelineTestParallelLimit.cs" Link="PipelineTestParallelLimit.cs" />
   </ItemGroup>
   <!-- Preserve the output-directory setup only for projects that previously compiled a local copy. -->
