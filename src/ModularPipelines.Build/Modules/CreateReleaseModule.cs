@@ -39,12 +39,23 @@ public class CreateReleaseModule(IOptions<GitHubSettings> githubSettings,
             throw new InvalidOperationException($"Failed to parse RepositoryId '{repositoryIdString}' as a valid long integer.");
         }
 
-        return await context.Tools.GitHub.Client.Repository.Release.Create(repositoryId,
-            new NewRelease($"v{versionInfoResult.Value}")
-            {
-                Name = versionInfoResult.Value,
-                GenerateReleaseNotes = true,
-                Prerelease = versionInfoResult.Value.Split('+')[0].Contains('-'),
-            });
+        var version = versionInfoResult.Value;
+        var release = new NewRelease($"v{version}")
+        {
+            Name = version,
+            GenerateReleaseNotes = true,
+            Prerelease = version.Split('+')[0].Contains('-'),
+        };
+
+        if (version == "4.0.0")
+        {
+            using var notesStream = typeof(CreateReleaseModule).Assembly.GetManifestResourceStream("ModularPipelines.Build.RELEASE_NOTES_V4.md")
+                ?? throw new InvalidOperationException("The curated v4 release notes are missing from the build assembly.");
+            using var reader = new StreamReader(notesStream);
+            release.Body = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
+            release.GenerateReleaseNotes = false;
+        }
+
+        return await context.Tools.GitHub.Client.Repository.Release.Create(repositoryId, release).ConfigureAwait(false);
     }
 }
