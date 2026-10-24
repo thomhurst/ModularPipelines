@@ -12,6 +12,7 @@ internal static class ShutdownPipeline
 {
     public static async Task<int> RunAsync(string mode, string directory)
     {
+        Host.RecordStartupStage(directory, "shutdown-entered");
         var builder = Pipeline.CreateBuilder(new PipelineBuilderSettings { WorkingDirectory = directory });
         builder.Services.AddSingleton(new ShutdownState(directory, mode));
         builder.Services.AddSingleton<DisposalMarker>();
@@ -31,6 +32,7 @@ internal static class ShutdownPipeline
             });
 
         await using var pipeline = await builder.BuildAsync();
+        Host.RecordStartupStage(directory, "pipeline-built");
         // Activate the container-owned marker before shutdown begins.
         _ = pipeline.Services.GetRequiredService<DisposalMarker>();
         if (mode == "pipeline-sigterm-before-run")
@@ -54,6 +56,7 @@ internal static class ShutdownPipeline
 
         try
         {
+            Host.RecordStartupStage(directory, "pipeline-run-starting");
             await pipeline.RunAsync();
         }
         catch (OperationCanceledException)
@@ -90,6 +93,7 @@ internal static class ShutdownPipeline
     {
         protected override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
+            Host.RecordStartupStage(state.Directory, "waiting-module-entered");
             if (state.Mode == "pipeline-sigterm-after-run")
             {
                 return true;
@@ -98,6 +102,7 @@ internal static class ShutdownPipeline
             using var registration = state.Mode == "pipeline-exit-blocked-cancellation"
                 ? cancellationToken.Register(() => Thread.Sleep(Timeout.Infinite))
                 : default;
+            Host.RecordStartupStage(state.Directory, "cancellation-registered");
             await File.WriteAllTextAsync(Path.Combine(state.Directory, "ready"), string.Empty, cancellationToken);
             await Task.Delay(Timeout.Infinite, cancellationToken);
             return true;

@@ -1,12 +1,12 @@
 using System.Diagnostics;
 using ModularPipelines.Engine;
 using ModularPipelines.ProcessTestHost;
-using ModularPipelines.UnitTests.Helpers;
 
 namespace ModularPipelines.UnitTests.Execution;
 
-[TUnit.Core.ParallelGroup(nameof(ProcessFixtureParallelLimit))]
-[TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
+// Process-exit coverage includes a blocking cancellation callback. Keep these hosts'
+// startup and shutdown separate from other hosts' readiness and pipe-drain windows.
+[TUnit.Core.NotInParallel]
 public class ShutdownProcessTests
 {
     [Test]
@@ -54,8 +54,14 @@ public class ShutdownProcessTests
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
+            CreateNoWindow = true,
             WorkingDirectory = directory,
         };
+        if (OperatingSystem.IsWindows())
+        {
+            // Inherit the redirected standard handles, not unrelated test-runner handles.
+            startInfo.InheritedHandles = [];
+        }
         foreach (var argument in new[]
                  {
                      "exec", "--runtimeconfig", Path.ChangeExtension(testAssembly, ".runtimeconfig.json"),
@@ -105,6 +111,7 @@ public class ShutdownProcessTests
         catch (OperationCanceledException exception) when (
             phase == "startup" ? startupDeadline.IsCancellationRequested : shutdownDeadline.IsCancellationRequested)
         {
+            var processState = DescribeProcess(process);
             if (!process.HasExited)
             {
                 process.Kill();
@@ -112,8 +119,12 @@ public class ShutdownProcessTests
             }
 
             var events = await File.ReadAllTextAsync(Path.Combine(directory, "events.log"));
+            var stages = string.Join(Environment.NewLine, Directory.EnumerateFiles(directory, "*.stage")
+                .Order(StringComparer.Ordinal)
+                .Select(path => $"{Path.GetFileName(path)}: {File.ReadAllText(path)}"));
             throw new TimeoutException(
                 $"Shutdown fixture {mode} timed out during {phase}. " +
+                $"{processState}. Startup stages: {stages}. " +
                 $"Ready: {File.Exists(Path.Combine(directory, "ready"))}. " +
                 $"Events: {events}. Standard output: {await output}. Standard error: {await error}", exception);
         }
@@ -127,6 +138,19 @@ public class ShutdownProcessTests
 
             await Task.WhenAll(output, error);
             Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    private static string DescribeProcess(Process process)
+    {
+        try
+        {
+            return $"PID: {process.Id}. CPU: {process.TotalProcessorTime}. Exited: {process.HasExited}";
+        }
+        catch (Exception exception) when (exception is InvalidOperationException or System.ComponentModel.Win32Exception)
+        {
+            // An exit racing the timeout must not hide the readiness failure.
+            return $"PID: {process.Id}. Process statistics unavailable: {exception.Message}";
         }
     }
 
