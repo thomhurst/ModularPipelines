@@ -53,6 +53,7 @@ if (await versionOutput.TryWriteAsync(builder).ConfigureAwait(false))
 
 builder
     .AddModule<BuildSolutionsModule>()
+    .AddModule<PublishRedisBuildOutputModule>()
     .AddModule<BuildAndTestCoreOnWindowsModule>()
     .AddModule<BuildAndTestCoreOnMacOSModule>()
     .AddModules(UnitTestProjects.ModuleTypes)

@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Helpers;
 using ModularPipelines.Distributed;
@@ -117,13 +117,19 @@ public class BuildOutputSharingTests
         store.Setup(x => x.DownloadAsync(reference, CancellationToken.None))
             .Returns(() => Task.FromResult<Stream>(File.OpenRead(ArchivePath)));
         var options = Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 });
-        var sharing = new BuildOutputSharing(options, Mock.Of<IHostApplicationLifetime>(),
-            useTransport ? new RecordingTransport() : null);
-        var lifecycle = new ArtifactLifecycleManager(store.Object, options,
-            NullLogger<ArtifactLifecycleManager>.Instance, RepositoryRoot);
+        var transport = useTransport ? new RecordingTransport() : null;
+        var sharing = new BuildOutputSharing(options, Mock.Of<IHostApplicationLifetime>(), transport);
+        var logger = new RecordingLogger();
+        var lifecycle = new ArtifactLifecycleManager(store.Object, options, logger, RepositoryRoot);
 
         await sharing.PublishAsync(RepositoryRoot, CancellationToken.None);
-        var references = await lifecycle.UploadProducedArtifactsAsync(typeof(ArchiveProducer), CancellationToken.None);
+        // BuildSolutionsModule has no declared output. Only the fallback producer runs
+        // the attributed lifecycle, after its Redis fallback run condition passes.
+        var references = await lifecycle.UploadProducedArtifactsAsync(typeof(ExternalArchiveProducer), CancellationToken.None);
+        if (sharing.UsesRedisFallback)
+        {
+            references = await lifecycle.UploadProducedArtifactsAsync(typeof(ArchiveProducer), CancellationToken.None);
+        }
 
         await Assert.That(references.Count).IsEqualTo(useTransport ? 0 : 1);
         if (!useTransport)
@@ -139,11 +145,53 @@ public class BuildOutputSharingTests
         }
         store.Verify(x => x.UploadAsync(It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), CancellationToken.None),
             useTransport ? Times.Never() : Times.Once());
+        await Assert.That(logger.Warnings).IsEmpty();
+        await Assert.That(transport?.Publications ?? 0).IsEqualTo(useTransport ? 1 : 0);
         artifacts.VerifyNoOtherCalls();
+    }
+
+    [Test]
+    public async Task Missing_Declared_Output_Still_Warns_And_Fails_When_Required()
+    {
+        File.Delete(ArchivePath);
+        var store = new Mock<IDistributedArtifactStore>(MockBehavior.Strict);
+        var logger = new RecordingLogger();
+        var lifecycle = new ArtifactLifecycleManager(store.Object,
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions { TotalInstances = 2 }),
+            logger, RepositoryRoot);
+
+        var references = await lifecycle.UploadProducedArtifactsAsync(typeof(ArchiveProducer), CancellationToken.None);
+
+        await Assert.That(references).IsEmpty();
+        await Assert.That(logger.Warnings).Contains(message => message.Contains("No files matched pattern", StringComparison.Ordinal));
+        await Assert.That(() => ArtifactLifecycleManager.EnsureRequiredArtifactsProduced(
+            typeof(ArchiveProducer), references, ["build-output"]))
+            .Throws<InvalidOperationException>();
+        store.VerifyNoOtherCalls();
+    }
+
+    private sealed class RecordingLogger : ILogger<ArtifactLifecycleManager>
+    {
+        public List<string> Warnings { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state,
+            Exception? exception, Func<TState, Exception?, string> formatter)
+        {
+            if (logLevel >= LogLevel.Warning)
+            {
+                Warnings.Add(formatter(state, exception));
+            }
+        }
     }
 
     [ProducesArtifact("build-output", BuildOutputArchive.FileName)]
     private sealed class ArchiveProducer;
+
+    private sealed class ExternalArchiveProducer;
 
     [Test]
     [Arguments(false)]
@@ -210,6 +258,7 @@ public class BuildOutputSharingTests
         await sharing.RestoreAsync(artifacts.Object, Producer, RepositoryRoot, CancellationToken.None);
 
         await Assert.That(sharing.IsEnabled).IsFalse();
+        await Assert.That(sharing.UsesRedisFallback).IsFalse();
         artifacts.VerifyNoOtherCalls();
     }
 

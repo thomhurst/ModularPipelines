@@ -21,18 +21,19 @@ internal sealed class BuildOutputSharing(
     /// </summary>
     public bool IsEnabled => options.Value.TotalInstances > 1;
 
+    public bool UsesRedisFallback => IsEnabled && transport is null;
+
     public async Task PublishAsync(string repositoryRoot, CancellationToken cancellationToken)
     {
         if (transport is null)
         {
-            // ProducesArtifact uploads the Redis fallback and includes its reference in
-            // the module's accepted distributed result.
+            // PublishRedisBuildOutputModule uploads the fallback and includes its
+            // reference in that module's accepted distributed result.
             return;
         }
 
         await transport.PublishAsync(repositoryRoot, cancellationToken).ConfigureAwait(false);
-        // The external upload is complete. Leave no file for ProducesArtifact to
-        // upload a second time through Redis when the module finishes.
+        // The external upload is complete; its local archive is no longer needed.
         File.Delete(Path.Combine(repositoryRoot, BuildOutputArchive.FileName));
     }
 

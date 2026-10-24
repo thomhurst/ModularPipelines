@@ -27,6 +27,7 @@ namespace ModularPipelines.Build.Modules.UnitTests;
 /// Runs a unit test project and renders its failures and skipped tests as structured output.
 /// </summary>
 [DependsOn<BuildSolutionsModule>]
+[DependsOn<PublishRedisBuildOutputModule>(Optional = true)]
 [RunIf<ModularPipelines.OnLinux>]
 [RequiresCapability("linux")]
 [ExecutionHint(ExecutionHint.CpuBound)]
@@ -51,7 +52,7 @@ public abstract partial class RunUnitTestModule(IOptions<PipelineSettings> pipel
             ?? throw new InvalidOperationException("Git repository information is unavailable.");
         await context.Services.GetRequiredService<BuildOutputSharing>().RestoreAsync(
             context.Artifacts,
-            ModuleId.FromType(typeof(BuildSolutionsModule)),
+            ModuleId.FromType(typeof(PublishRedisBuildOutputModule)),
             repositoryInfo.Root.Path,
             cancellationToken).ConfigureAwait(false);
 
