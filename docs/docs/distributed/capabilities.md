@@ -99,7 +99,6 @@ Mark a module with `[RequiresCapability]` to restrict which workers can execute 
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Modules;
 
 [RequiresCapability(Capability.Names.Docker)]
 public class DockerBuildModule : Module<string>

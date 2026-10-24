@@ -38,6 +38,8 @@ public partial class DocumentationSnippetTests
             await Assert.That(LegacyPipelineStatusRegex().IsMatch(contents)).IsFalse();
             await Assert.That(contents).DoesNotContain("ExecuteAsync(IPipelineContext");
             await Assert.That(contents).DoesNotContain("await GetModule<");
+            await Assert.That(contents).DoesNotContain("using ModularPipelines.Modules;");
+            await Assert.That(contents).DoesNotContain("using ModularPipelines.Extensions;");
 
             await AssertDoesNotUseRetiredBuilderApisAsync(contents);
         }
@@ -48,6 +50,19 @@ public partial class DocumentationSnippetTests
                 .ConfigureAwait(false);
 
             await AssertDoesNotUseRetiredBuilderApisAsync(contents);
+        }
+    }
+
+    [Test]
+    public async Task Compiled_Snippets_Use_Current_Core_Namespaces()
+    {
+        var snippetDirectory = Path.Combine(FindRepositoryRoot(), "test/ModularPipelines.DocumentationSnippets");
+
+        foreach (var path in Directory.EnumerateFiles(snippetDirectory, "*.cs"))
+        {
+            var contents = await File.ReadAllTextAsync(path);
+            await Assert.That(contents).DoesNotContain("using ModularPipelines.Modules;");
+            await Assert.That(contents).DoesNotContain("using ModularPipelines.Extensions;");
         }
     }
 
@@ -138,6 +153,7 @@ public partial class DocumentationSnippetTests
     [Arguments("docs/docs/how-to/run-conditions.md", "test/ModularPipelines.DocumentationSnippets/HowToSnippets.cs", "class ServiceIsAvailable")]
     [Arguments("docs/docs/how-to/cancellation-tokens.md", "test/ModularPipelines.DocumentationSnippets/HowToSnippets.cs", "class MyModule")]
     [Arguments("docs/docs/how-to/defining-modules.md", "test/ModularPipelines.DocumentationSnippets/HowToSnippets.cs", "class FindAFileModule")]
+    [Arguments("docs/docs/how-to/module-caching.md", "test/ModularPipelines.DocumentationSnippets/CachingSnippets.cs", "class BuildModule : Module<BuildOutput>")]
     public async Task Published_Example_Matches_Compiled_Fixture(string documentationPath, string fixturePath, string declaration)
     {
         var repositoryRoot = FindRepositoryRoot();

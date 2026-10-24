@@ -1,7 +1,6 @@
 using ModularPipelines;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.DocumentationSnippets;
 

@@ -1,7 +1,6 @@
 using System.Net;
 using ModularPipelines.Context;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Modules;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.DocumentationSnippets;
