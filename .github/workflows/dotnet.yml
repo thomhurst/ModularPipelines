@@ -1046,6 +1046,21 @@ jobs:
       - name: Require fast-fail success
         if: needs.fast-fail.result != 'success'
         run: exit 1
+      # Debugging must be enabled through repository variables/secrets before the job
+      # starts; job env cannot enable the runner's post-action diagnostic archive.
+      # See scripts/CiPostActionDiagnostics.md and #6895 before disabling it.
+      - name: Record post-action diagnostic configuration
+        shell: pwsh
+        env:
+          RUNNER_DIAGNOSTICS_CONFIGURED: ${{ vars.ACTIONS_RUNNER_DEBUG }}
+          STEP_DIAGNOSTICS_CONFIGURED: ${{ vars.ACTIONS_STEP_DEBUG }}
+        run: |
+          Write-Output "Runner diagnostic variable: $env:RUNNER_DIAGNOSTICS_CONFIGURED"
+          Write-Output "Step diagnostic variable: $env:STEP_DIAGNOSTICS_CONFIGURED"
+          Write-Output "Effective step debug flag: $env:RUNNER_DEBUG"
+          if ($env:RUNNER_DEBUG -ne '1') {
+            Write-Output '::warning::Debug logging is disabled. See scripts/CiPostActionDiagnostics.md before investigating post-action failures.'
+          }
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
