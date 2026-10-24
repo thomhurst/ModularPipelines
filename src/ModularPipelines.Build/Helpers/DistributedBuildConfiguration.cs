@@ -131,6 +131,10 @@ internal static class DistributedBuildConfiguration
             },
             KeyPrefix = "modularpipelines-ci",
             TimeToLive = TimeSpan.FromHours(2),
+            // Runners are scheduled independently and can finish setup more than five minutes
+            // apart. Allow a 30-minute startup window within the workflow's 90-minute job limit,
+            // while still failing a worker whose master never starts.
+            MasterStartTimeout = TimeSpan.FromMinutes(30),
         });
         return true;
     }
