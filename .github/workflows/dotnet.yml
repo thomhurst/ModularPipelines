@@ -56,7 +56,7 @@ jobs:
     services:
       redis:
         # Hash field expiry in the coordinator requires Redis 7.4 or later.
-        image: redis:7.4-alpine
+        image: redis:8.10-alpine
         ports:
           - 6379/tcp
         options: >-
