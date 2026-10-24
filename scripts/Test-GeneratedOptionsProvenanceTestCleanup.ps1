@@ -8,12 +8,18 @@ $script:attempts = @{}
 $script:delays = 0
 $script:failuresRemaining = 0
 $script:failureType = [IO.IOException]
+$script:failurePaths = @($repository)
+$script:innerException = $null
+$script:providerLock = $null
 
 function Remove-Item {
     param($LiteralPath, [switch]$Recurse, [switch]$Force, $ErrorAction)
     $script:attempts[$LiteralPath]++
-    if ($LiteralPath -eq $repository -and $script:failuresRemaining -ne 0) {
+    if ($LiteralPath -in $script:failurePaths -and $script:failuresRemaining -ne 0) {
         $script:failuresRemaining--
+        if ($null -ne $script:innerException) {
+            throw [Activator]::CreateInstance($script:failureType, 'simulated cleanup failure', $script:innerException)
+        }
         throw [Activator]::CreateInstance($script:failureType, 'simulated cleanup failure')
     }
     Microsoft.PowerShell.Management\Remove-Item @PSBoundParameters
@@ -23,6 +29,10 @@ function Start-Sleep {
     param([int]$Milliseconds)
     if ($Milliseconds -ne 100) { throw "Unexpected retry delay: $Milliseconds" }
     $script:delays++
+    if ($null -ne $script:providerLock -and $script:delays -eq 2) {
+        $script:providerLock.Dispose()
+        $script:providerLock = $null
+    }
 }
 
 function Reset-Fixture {
@@ -33,6 +43,8 @@ function Reset-Fixture {
     $script:delays = 0
     $script:failuresRemaining = 0
     $script:failureType = [IO.IOException]
+    $script:failurePaths = @($repository)
+    $script:innerException = $null
 }
 
 try {
@@ -53,6 +65,37 @@ try {
     }
 
     Reset-Fixture
+    $script:failuresRemaining = 2
+    $script:failureType = [UnauthorizedAccessException]
+    $script:innerException = [IO.IOException]::new('underlying filesystem failure')
+    Remove-GeneratedOptionsProvenanceTestArtifacts -LiteralPath @($repository, $manifest)
+    if ($script:attempts[$repository] -ne 3 -or $script:delays -ne 2 -or
+        (Test-Path $repository) -or (Test-Path $manifest)) {
+        throw 'Provider-wrapped I/O failures were not retried to successful cleanup.'
+    }
+
+    if ($IsWindows) {
+        Reset-Fixture
+        $script:providerLock = [IO.File]::Open(
+            (Join-Path $repository '.git/objects/object'), [IO.FileMode]::Open,
+            [IO.FileAccess]::Read, [IO.FileShare]::None)
+        try {
+            # Exercise real Remove-Item provider errors; release the file after two retries.
+            Remove-GeneratedOptionsProvenanceTestArtifacts -LiteralPath @($repository, $manifest)
+            if ($script:attempts[$repository] -ne 3 -or $script:delays -ne 2 -or
+                (Test-Path $repository) -or (Test-Path $manifest)) {
+                throw 'Real provider file-lock errors were not retried to successful cleanup.'
+            }
+        }
+        finally {
+            if ($null -ne $script:providerLock) {
+                $script:providerLock.Dispose()
+                $script:providerLock = $null
+            }
+        }
+    }
+
+    Reset-Fixture
     $script:failuresRemaining = 10
     $cleanupError = $null
     try { Remove-GeneratedOptionsProvenanceTestArtifacts -LiteralPath @($repository, $manifest) }
@@ -61,6 +104,19 @@ try {
         -not $cleanupError.Exception.Message.Contains($repository) -or
         -not $cleanupError.Exception.Message.Contains('simulated cleanup failure') -or (Test-Path $manifest)) {
         throw 'Persistent I/O failures were not bounded, reported, or allowed to clean the manifest.'
+    }
+
+    Reset-Fixture
+    $script:failurePaths = @($repository, $manifest)
+    $script:failuresRemaining = 10
+    $cleanupError = $null
+    try { Remove-GeneratedOptionsProvenanceTestArtifacts -LiteralPath @($repository, $manifest) }
+    catch { $cleanupError = $_ }
+    if ($null -eq $cleanupError -or $script:attempts[$repository] -ne 5 -or
+        $script:attempts[$manifest] -ne 5 -or $script:delays -ne 8 -or
+        -not $cleanupError.Exception.Message.Contains($repository) -or
+        -not $cleanupError.Exception.Message.Contains($manifest)) {
+        throw 'Combined cleanup failures did not retry and report both paths.'
     }
 
     Reset-Fixture

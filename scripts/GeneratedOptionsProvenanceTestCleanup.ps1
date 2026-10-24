@@ -16,7 +16,8 @@ function Remove-GeneratedOptionsProvenanceTestArtifacts {
             }
             catch {
                 # Directory activity and file locks can briefly outlive a Git command.
-                if ($_.Exception -is [IO.IOException] -and $attempt -lt 5) {
+                if (($_.Exception -is [IO.IOException] -or
+                    $_.Exception.GetBaseException() -is [IO.IOException]) -and $attempt -lt 5) {
                     Start-Sleep -Milliseconds 100
                     continue
                 }
