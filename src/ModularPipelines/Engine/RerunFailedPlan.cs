@@ -16,7 +16,8 @@ internal sealed class RerunFailedPlan(
     IModuleResultHistoryProvider resultHistoryProvider,
     IPipelineContextProvider contextProvider,
     IExecutionLocationContext executionLocation,
-    ILogger<RerunFailedPlan> logger)
+    ILogger<RerunFailedPlan> logger,
+    TimeProvider timeProvider)
 {
     private readonly Dictionary<Type, IModuleResult> _results = [];
 
@@ -37,19 +38,19 @@ internal sealed class RerunFailedPlan(
             return;
         }
 
-        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeout.CancelAfter(TimeSpan.FromSeconds(30));
+        using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30), timeProvider);
+        using var readCancellation = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeout.Token);
         try
         {
-            var report = await FindCompatibleReportAsync(modules.AllModules, timeout.Token)
-                .WaitAsync(timeout.Token).ConfigureAwait(false);
+            var report = await FindCompatibleReportAsync(modules.AllModules, readCancellation.Token)
+                .WaitAsync(readCancellation.Token).ConfigureAwait(false);
             if (report is null)
             {
                 logger.LogInformation("No compatible previous run found; executing selected modules normally");
                 return;
             }
 
-            await RestoreSuccessfulResultsAsync(modules, report, timeout.Token).ConfigureAwait(false);
+            await RestoreSuccessfulResultsAsync(modules, report, readCancellation.Token).ConfigureAwait(false);
             InvalidateDependents();
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
