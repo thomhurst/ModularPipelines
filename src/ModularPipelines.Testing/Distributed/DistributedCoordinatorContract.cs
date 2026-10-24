@@ -612,7 +612,7 @@ public static class DistributedCoordinatorContract
         // Allow the deliberate expiry delays plus backend/scheduling time for every expiry round
         // (including concurrent scans), setup, and final assertions/publication. A single operation
         // timeout leaves progressively less headroom as the expiration budget grows.
-        return LeaseTimeout * 3 * expirationWaitCount + Timeout * (expirationWaitCount + 2);
+        return (LeaseTimeout * 3 * expirationWaitCount) + (Timeout * (expirationWaitCount + 2));
     }
 
     private static async Task WaitUntilReadyAsync(Task? waitUntilReady)
