@@ -55,7 +55,7 @@
   },
   "overrides": {
     "body-parser": "1.20.9",
-    "fast-uri": "3.1.9",
+    "fast-uri": "4.2.3",
     "http-cache-semantics": "4.3.0",
     "js-yaml": "5.5.0",
     "micromark-extension-gfm-table": "2.1.2",
@@ -68,7 +68,7 @@
   },
   "resolutions": {
     "body-parser": "1.20.9",
-    "fast-uri": "3.1.9",
+    "fast-uri": "4.2.3",
     "http-cache-semantics": "4.3.0",
     "js-yaml": "5.5.0",
     "micromark-extension-gfm-table": "2.1.2",
