@@ -8,11 +8,13 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
+using ModularPipelines.UnitTests.Helpers;
 using NReco.Logging.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests.Commands;
 
+[TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class CommandLoggerTests : TestBase
 {
     [Test]
