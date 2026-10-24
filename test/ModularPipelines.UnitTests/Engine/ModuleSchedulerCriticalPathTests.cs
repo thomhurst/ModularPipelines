@@ -101,7 +101,9 @@ public class ModuleSchedulerCriticalPathTests
         }
     }
 
+    // Isolate the allocation-heavy graph from full-suite contention while retaining its deadline.
     [Test]
+    [TUnit.Core.NotInParallel]
     [Timeout(10_000)]
     public async Task Critical_Path_Calculation_Handles_Deep_Graphs_Iteratively(
         CancellationToken cancellationToken)
