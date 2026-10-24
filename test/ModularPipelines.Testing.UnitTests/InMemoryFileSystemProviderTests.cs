@@ -641,6 +641,36 @@ public class InMemoryFileSystemProviderTests
     }
 
     [Test]
+    [Arguments(-1)]
+    [Arguments(2)]
+    [Arguments(999)]
+    public async Task FileEnumerationRejectsUndefinedSearchOptions(int searchOption)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "invalid-file-search-option");
+        provider.CreateDirectory(Path.Combine(root, "subdirectory"));
+        await provider.WriteAllTextAsync(Path.Combine(root, "file.txt"), "contents");
+
+        await Assert.That(() => provider.EnumerateFiles(root, "*", (SearchOption) searchOption).ToArray())
+            .Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    [Arguments(-1)]
+    [Arguments(2)]
+    [Arguments(999)]
+    public async Task DirectoryEnumerationRejectsUndefinedSearchOptions(int searchOption)
+    {
+        var provider = new InMemoryFileSystemProvider();
+        var root = Path.Combine(provider.GetTempPath(), "invalid-directory-search-option");
+        provider.CreateDirectory(Path.Combine(root, "subdirectory"));
+        await provider.WriteAllTextAsync(Path.Combine(root, "file.txt"), "contents");
+
+        await Assert.That(() => provider.EnumerateDirectories(root, "*", (SearchOption) searchOption).ToArray())
+            .Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public async Task EnumeratesFilesUnderFileSystemRoot()
     {
         var provider = new InMemoryFileSystemProvider();

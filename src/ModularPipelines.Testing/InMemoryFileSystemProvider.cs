@@ -867,6 +867,11 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         string searchPattern,
         SearchOption searchOption)
     {
+        if (searchOption is not (SearchOption.TopDirectoryOnly or SearchOption.AllDirectories))
+        {
+            throw new ArgumentOutOfRangeException(nameof(searchOption), searchOption, "Unsupported search option.");
+        }
+
         var root = NormalizeDirectoryPath(path);
         var separatorIndex = searchPattern.LastIndexOfAny(
             [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar]);
