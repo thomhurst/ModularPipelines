@@ -79,3 +79,4 @@ ModularPipelines.Testing.ModuleTestBuilderBase<TModule, TBuilder>.WithSkippedDep
 ModularPipelines.Testing.ModuleTestBuilderBase<TModule, TBuilder>.InterceptHttp(System.Func<System.Net.Http.HttpRequestMessage!, System.Threading.CancellationToken, System.Threading.Tasks.ValueTask<System.Net.Http.HttpResponseMessage!>>! handler) -> TBuilder!
 *REMOVED*ModularPipelines.Testing.RecordedCommand.CommandLine.get -> ModularPipelines.Models.CommandLine!
 ModularPipelines.Testing.RecordedCommand.CommandLine.get -> ModularPipelines.CommandLine!
+static ModularPipelines.Testing.Distributed.DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(ModularPipelines.Distributed.IDistributedMasterCoordinator! coordinator, System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task!>! expireLeases) -> System.Threading.Tasks.Task!
