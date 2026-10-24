@@ -3795,6 +3795,114 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    [Timeout(15_000)]
+    public async Task Executor_Minimum_Worker_Count_Excludes_Final_Workers(
+        bool replacementRegisters, CancellationToken testCancellation)
+    {
+        var module = new DistributedModule();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(DistributedModule)));
+        var coordinator = new InMemoryDistributedCoordinator();
+        var finishedWorker = WorkerId.FromInstanceIndex(1);
+        var registration = new WorkerRegistration
+        {
+            WorkerId = finishedWorker,
+            Capabilities = [],
+            RegisteredAt = DateTimeOffset.UtcNow,
+            PipelineSchemaVersion = CreateSchema(typeof(DistributedModule)),
+        };
+        await coordinator.RegisterWorkerAsync(registration, testCancellation);
+        await coordinator.SendHeartbeatAsync(new WorkerStatus
+        {
+            WorkerId = finishedWorker,
+            IsFinal = true,
+            UnattributedCommandCount = 7,
+        }, testCancellation);
+
+        var secondSnapshot = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseSnapshot = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var queryCount = 0;
+        var tracking = new ResultTrackingCoordinator(coordinator, afterWorkerSnapshot: async cancellationToken =>
+        {
+            if (replacementRegisters && Interlocked.Increment(ref queryCount) == 2)
+            {
+                secondSnapshot.TrySetResult();
+                await releaseSnapshot.Task.WaitAsync(cancellationToken);
+            }
+        });
+        tracking.ReleaseWorkerQuery();
+        var logger = new Mock<ILogger<DistributedModuleExecutor>>();
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(scheduler,
+            coordinator: tracking,
+            resultRegistry: resultRegistry,
+            executorLogger: logger.Object,
+            distributedOptions: new DistributedOptions
+            {
+                TotalInstances = 2,
+                MinimumWorkerCount = 1,
+                WorkerRegistrationTimeout = replacementRegisters
+                    ? TimeSpan.FromMinutes(1)
+                    : TimeSpan.FromMilliseconds(100),
+            });
+        using var executionCancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
+        var execution = executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(),
+            new ExecutionBackendContext(resultRegistry), executionCancellation.Token);
+        try
+        {
+            if (replacementRegisters)
+            {
+                // A second poll proves the final registration was processed without opening the barrier.
+                var nextStep = await Task.WhenAny(secondSnapshot.Task, tracking.ResultWaitStarted.Task)
+                    .WaitAsync(testCancellation);
+                await Assert.That(nextStep).IsEqualTo(secondSnapshot.Task);
+                await Assert.That(tracking.ResultWaitStarted.Task.IsCompleted).IsFalse();
+                await coordinator.RegisterWorkerAsync(registration with
+                {
+                    WorkerId = WorkerId.FromInstanceIndex(2),
+                }, testCancellation);
+                releaseSnapshot.TrySetResult();
+            }
+
+            await tracking.ResultWaitStarted.Task.WaitAsync(testCancellation);
+            var typeRegistry = new ModuleTypeRegistry();
+            typeRegistry.Register(typeof(DistributedModule));
+            var serializer = new ModuleResultSerializer(typeRegistry);
+            await coordinator.PublishResultAsync(serializer.Serialize(
+                CreateSuccessResult(new SimpleResult(), nameof(DistributedModule)),
+                ModuleId.FromType(typeof(DistributedModule)), WorkerId.FromInstanceIndex(0)), lease: null, testCancellation);
+            await execution.WaitAsync(testCancellation);
+
+            logger.Verify(log => log.Log(
+                LogLevel.Warning,
+                It.IsAny<EventId>(),
+                It.Is<It.IsAnyType>((state, _) => state!.ToString()!.Contains("0/1 required worker(s) registered")),
+                It.IsAny<Exception>(),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+                replacementRegisters ? Times.Never() : Times.Once());
+            await Assert.That(resultRegistry.GetResult(typeof(DistributedModule))?.Status)
+                .IsEqualTo(ModuleStatus.Succeeded);
+            await Assert.That((await coordinator.GetRegisteredWorkersAsync(testCancellation)).Count)
+                .IsEqualTo(replacementRegisters ? 2 : 1);
+            await Assert.That((await coordinator.GetWorkerStatusesAsync(testCancellation))
+                .Single(status => status.WorkerId == finishedWorker).UnattributedCommandCount).IsEqualTo(7);
+        }
+        finally
+        {
+            await executionCancellation.CancelAsync();
+            releaseSnapshot.TrySetResult();
+            try
+            {
+                await execution;
+            }
+            catch (OperationCanceledException) when (executionCancellation.IsCancellationRequested)
+            {
+            }
+        }
+    }
+
+    [Test]
     [Arguments(0)]
     [Arguments(1)]
     public async Task Executor_Skips_Worker_Wait_When_No_Workers_Are_Expected(int totalInstances)
