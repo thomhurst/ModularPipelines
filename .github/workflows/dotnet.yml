@@ -1077,13 +1077,55 @@ jobs:
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
-      - name: Run Cmd integration tests on Windows
+      # Keep the guarded phase budgets within ten minutes, leaving time for setup,
+      # diagnostic upload and post-actions under the unchanged job deadline (#7204).
+      - name: Restore Cmd regression tests
+        timeout-minutes: 4
         shell: pwsh
         run: |
-          ./scripts/Invoke-AgentDotNet.ps1 -SingleNode -DotNetArguments @(
+          $log = Join-Path $env:RUNNER_TEMP 'cmd-regression/restore.log'
+          ./scripts/Invoke-AgentDotNet.ps1 -TimeoutSeconds 180 -LogPath $log -DotNetArguments @(
+            'restore', 'test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj',
+            '--disable-parallel')
+          $phaseExitCode = $LASTEXITCODE
+          Add-Content -LiteralPath $log -Value "Cmd restore exited with code $phaseExitCode at $([DateTimeOffset]::UtcNow.ToString('O'))"
+          Get-Content -LiteralPath $log -Tail 100
+          exit $phaseExitCode
+      - name: Build Cmd regression tests
+        timeout-minutes: 6
+        shell: pwsh
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP 'cmd-regression/build.log'
+          ./scripts/Invoke-AgentDotNet.ps1 -SingleNode -TimeoutSeconds 300 -LogPath $log -DotNetArguments @(
+            'build', 'test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj',
+            '-c', 'Release', '--framework', 'net11.0', '--no-restore')
+          $phaseExitCode = $LASTEXITCODE
+          Add-Content -LiteralPath $log -Value "Cmd build exited with code $phaseExitCode at $([DateTimeOffset]::UtcNow.ToString('O'))"
+          Get-Content -LiteralPath $log -Tail 100
+          exit $phaseExitCode
+      - name: Run Cmd integration tests on Windows
+        timeout-minutes: 3
+        shell: pwsh
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP 'cmd-regression/test.log'
+          $results = Join-Path $env:RUNNER_TEMP 'cmd-regression/results'
+          ./scripts/Invoke-AgentDotNet.ps1 -TimeoutSeconds 120 -LogPath $log -DotNetArguments @(
             'run', '--project', 'test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj',
-            '-c', 'Release', '--framework', 'net11.0')
-          exit $LASTEXITCODE
+            '-c', 'Release', '--framework', 'net11.0', '--no-build', '--no-restore', '--',
+            '--results-directory', $results, '--report-trx', '--report-trx-filename', 'test-results.trx')
+          $phaseExitCode = $LASTEXITCODE
+          Add-Content -LiteralPath $log -Value "Cmd tests exited with code $phaseExitCode at $([DateTimeOffset]::UtcNow.ToString('O'))"
+          Get-Content -LiteralPath $log -Tail 100
+          exit $phaseExitCode
+      - name: Upload Cmd regression diagnostics
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: cmd-regression-diagnostics-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cmd-regression
+          if-no-files-found: warn
+          retention-days: 7
 
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
