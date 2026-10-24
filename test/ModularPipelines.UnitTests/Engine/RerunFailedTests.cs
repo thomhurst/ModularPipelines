@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Attributes;
 using ModularPipelines.Caching;
 using ModularPipelines.Configuration;
@@ -15,6 +16,7 @@ using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.PipelineCli;
 using ModularPipelines.Reporting;
+using ModularPipelines.TestHelpers;
 using Moq;
 using OptionsFactory = Microsoft.Extensions.Options.Options;
 
@@ -357,6 +359,7 @@ public class RerunFailedTests
     {
         var state = new RunState { Fail = false };
         await RunAsync(state);
+        var time = new FakeTimeProvider();
         using var cancellation = new CancellationTokenSource();
         var readStarted = new TaskCompletionSource<CancellationToken>(TaskCreationOptions.RunContinuationsAsynchronously);
         var readCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -374,34 +377,47 @@ public class RerunFailedTests
             }
         };
 
-        var rerun = RunAsync(state, rerun: true, cancellationToken: cancellation.Token);
+        var rerun = RunAsync(state, rerun: true, cancellationToken: cancellation.Token, timeProvider: time);
         try
         {
-            var token = await readStarted.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var token = await readStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await Assert.That(token.CanBeCanceled).IsTrue();
+            // The read is waiting before either cancellation source is triggered.
+            time.Advance(TimeSpan.FromSeconds(29));
+            await Assert.That(token.IsCancellationRequested).IsFalse();
             if (cancelPipeline)
             {
                 await cancellation.CancelAsync();
                 await Assert.That(async () =>
                 {
-                    await rerun.WaitAsync(TimeSpan.FromSeconds(10));
+                    await rerun.WaitAsync(TestHostSettings.DefaultTestTimeout);
                 }).Throws<OperationCanceledException>();
             }
             else
             {
-                var summary = await rerun.WaitAsync(TimeSpan.FromSeconds(45));
+                time.Advance(TimeSpan.FromSeconds(1));
+                await Assert.That(token.IsCancellationRequested).IsTrue();
+                var summary = await rerun.WaitAsync(TestHostSettings.DefaultTestTimeout);
                 await Assert.That(state.Count<RootModule>()).IsEqualTo(2);
                 await Assert.That(state.Count<FinalModule>()).IsEqualTo(2);
                 await Assert.That(state.Count<IndependentModule>()).IsEqualTo(2);
                 await Assert.That(summary.Results.All(result => result.Status == ModuleStatus.Succeeded)).IsTrue();
             }
 
-            await Assert.That(token.CanBeCanceled).IsTrue();
             await Assert.That(token.IsCancellationRequested).IsTrue();
-            await readCanceled.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await readCanceled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         }
         finally
         {
             await cancellation.CancelAsync();
+            try
+            {
+                await rerun.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            }
+            catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+            {
+                // Observe the rerun even if an assertion above failed.
+            }
         }
     }
 
@@ -439,7 +455,8 @@ public class RerunFailedTests
             Mock.Of<IModuleResultHistoryProvider>(),
             Mock.Of<IPipelineContextProvider>(),
             location.Object,
-            NullLogger<RerunFailedPlan>.Instance);
+            NullLogger<RerunFailedPlan>.Instance,
+            TimeProvider.System);
 
         await Assert.That(() => plan.InitializeAsync(new OrganizedModules([], []), CancellationToken.None))
             .Throws<NotSupportedException>();
@@ -455,9 +472,15 @@ public class RerunFailedTests
         Func<PipelineOptions, PipelineOptions>? configure = null,
         TrackingCacheRepository? cache = null,
         bool addNullModule = false,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        TimeProvider? timeProvider = null)
     {
         var builder = Pipeline.CreateBuilder();
+        if (timeProvider is not null)
+        {
+            builder.Services.AddSingleton(timeProvider);
+        }
+
         builder.Configuration["RerunTests:AddDependency"] = state.AddDependency.ToString();
         builder.ConfigureOptions(options =>
         {
