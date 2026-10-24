@@ -706,25 +706,34 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
         }
 
         // Pattern: "Possible values: value1, value2, value3" or "Valid values: ..."
-        var match = EnumValuesPattern().Match(description);
-        if (!match.Success || !IsOptionLevelEnumHeading(description, match.Index))
+        foreach (Match match in EnumValuesPattern().Matches(description))
         {
-            return null;
+            if (!IsOptionLevelEnumHeading(description, match.Index))
+            {
+                continue;
+            }
+
+            var choices = WhitespacePattern().Replace(match.Groups["values"].Value, " ").Trim();
+            if (NumericConstraintValuesPattern().IsMatch(choices) || choices.Contains("- ", StringComparison.Ordinal))
+            {
+                // An ASCII wrap hyphen may be either inserted by the renderer or part of
+                // the actual CLI value. A later option-level heading may list exact choices.
+                continue;
+            }
+
+            var values = ParseEnumChoices(choices);
+            if (values.Length > 0 && values.All(value => EnumValuePattern().IsMatch(value))
+                                  && !values.Any(FreeFormValueDescriptionTokens.Contains))
+            {
+                var definition = OptionEnumFactory.TryCreateFromHint(className, propertyName, switchName ?? propertyName, values);
+                if (definition is not null)
+                {
+                    return definition;
+                }
+            }
         }
 
-        var choices = WhitespacePattern().Replace(match.Groups["values"].Value, " ").Trim();
-        if (NumericConstraintValuesPattern().IsMatch(choices) || choices.Contains("- ", StringComparison.Ordinal))
-        {
-            // An ASCII wrap hyphen may be either inserted by the renderer or part of
-            // the actual CLI value. Keep the string contract instead of guessing.
-            return null;
-        }
-
-        var values = ParseEnumChoices(choices);
-        return values.Length > 0 && values.All(value => EnumValuePattern().IsMatch(value))
-                                 && !values.Any(FreeFormValueDescriptionTokens.Contains)
-            ? OptionEnumFactory.TryCreateFromHint(className, propertyName, switchName ?? propertyName, values)
-            : null;
+        return null;
     }
 
     private static string[] ParseEnumChoices(string choices)
@@ -910,7 +919,7 @@ public partial class AwsCliScraper(ICliCommandExecutor executor, IHelpTextCache 
     // A dot inside a literal is significant; a trailing dot ends the choice list.
     private const string EnumValueToken = @"[a-zA-Z0-9][a-zA-Z0-9_+-]*(?:\.[a-zA-Z0-9_+-]+)*";
 
-    [GeneratedRegex(@"(?:Possible|Valid|Allowed)\s+values?:\s*(?<values>.*?)(?=\.(?:\s|$)|\s+(?:Constraints|Shorthand Syntax|JSON Syntax):|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
+    [GeneratedRegex(@"(?:Possible|Valid|Allowed)\s+values?:\s*(?<values>.*?)(?=\.(?:\s|$)|\s+(?:Possible|Valid|Allowed)\s+values?:|\s+(?:Constraints|Shorthand Syntax|JSON Syntax):|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline)]
     private static partial Regex EnumValuesPattern();
 
     [GeneratedRegex(@"\A" + EnumValueToken + @"\z")]

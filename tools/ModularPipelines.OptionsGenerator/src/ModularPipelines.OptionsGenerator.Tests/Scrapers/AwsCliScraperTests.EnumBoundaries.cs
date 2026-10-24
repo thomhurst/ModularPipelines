@@ -11,6 +11,7 @@ public partial class AwsCliScraperTests
     [Arguments("The name of an attribute.\n    o FifoThroughputScope. Possible values: Topic MessageGroup")]
     [Arguments("The name of an attribute.\no FifoThroughputScope. Possible values: Topic MessageGroup")]
     [Arguments("The name of an attribute.\n\u2022 FifoThroughputScope. Possible values: Topic MessageGroup")]
+    [Arguments("The name of an attribute. Possible values: o Mode - described below\n    o FifoThroughputScope\n        Possible values: Topic MessageGroup")]
     public async Task Enum_Detection_Rejects_Nested_Attribute_Values(string description)
     {
         await Assert.That(AwsCliScraper.TryDetectEnum("AttributeName", "AwsSnsSetTopicAttributesOptions", description)).IsNull();
