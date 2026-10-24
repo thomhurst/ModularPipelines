@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the details of a SIP rule, such as the rule ID, name, trig- gers, and target endpoints. See also: AWS API Documentation
+/// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsChimeSdkVoiceGetSipRuleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the details of a SIP rule, such as the rule ID, name, trig- gers, and target endpoints. See also: AWS API Documentation
+    /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipRuleId">The SIP rule ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="SipRuleId">The SIP rule ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetSipRuleOptions(
         string SipRuleId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceGetSipRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SIP rule ID. Constraints: o pattern: .*\S.*
+    /// The SIP rule ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-rule-id")]
     public string? SipRuleId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceGetSipRuleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

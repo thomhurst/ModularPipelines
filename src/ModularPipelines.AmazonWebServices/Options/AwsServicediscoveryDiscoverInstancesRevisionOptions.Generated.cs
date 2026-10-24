@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsServicediscoveryDiscoverInstancesRevisionOptions : AwsOptions, 
     /// <summary>
     /// Discovers the increasing revision associated with an instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamespaceName">The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. Constraints: o max: 1024 o pattern: ^[!-~]{1,1024}$</param>
-    /// <param name="ServiceName">The name of the service that you specified when you registered the instance. Constraints: o pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)</param>
+    /// <param name="NamespaceName">The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. Constraints: • max: 1024 • pattern: ^[!-~]{1,1024}$</param>
+    /// <param name="ServiceName">The name of the service that you specified when you registered the instance. Constraints: • pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)</param>
     public AwsServicediscoveryDiscoverInstancesRevisionOptions(
         string NamespaceName,
         string ServiceName
@@ -60,19 +61,19 @@ public record AwsServicediscoveryDiscoverInstancesRevisionOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. Constraints: o max: 1024 o pattern: ^[!-~]{1,1024}$
+    /// The HttpName name of the namespace. The HttpName is found in the HttpProperties member of the Properties member of the namespace. Constraints: • max: 1024 • pattern: ^[!-~]{1,1024}$
     /// </summary>
     [CliOption("--namespace-name")]
     public string? NamespaceName { get; private init; }
 
     /// <summary>
-    /// The name of the service that you specified when you registered the instance. Constraints: o pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)
+    /// The name of the service that you specified when you registered the instance. Constraints: • pattern: ((?=^.{1,127}$)^([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9])(\.([a-zA-Z0-9_][a-zA-Z0-9-_]{0,61}[a-zA-Z0-9_]|[a-zA-Z0-9]))*$)|(^\.$)
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace Re- sourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount . For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o min: 12 o max: 12
+    /// The ID of the Amazon Web Services account that owns the namespace associated with the instance, as specified in the namespace ResourceOwner field. For instances associated with namespaces that are shared with your account, you must specify an OwnerAccount . For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • min: 12 • max: 12
     /// </summary>
     [CliOption("--owner-account")]
     public string? OwnerAccount { get; set; }
@@ -98,6 +99,15 @@ public record AwsServicediscoveryDiscoverInstancesRevisionOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKendraUpdateExperienceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates your Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of your Amazon Kendra experience you want to update. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Id">The identifier of your Amazon Kendra experience you want to update. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
     public AwsKendraUpdateExperienceOptions(
         string Id,
         string IndexId
@@ -60,37 +61,37 @@ public record AwsKendraUpdateExperienceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of your Amazon Kendra experience you want to update. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of your Amazon Kendra experience you want to update. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// A new name for your Amazon Kendra experience. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A new name for your Amazon Kendra experience. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role with permission to ac- cess the Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your users and groups information. For more information, see IAM roles for Amazon Kendra . Constraints: o min: 0 o max: 1284 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the Query API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your users and groups information. For more information, see IAM roles for Amazon Kendra . Constraints: • min: 0 • max: 1284 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Configuration information you want to update for your Amazon Kendra experience. ContentSourceConfiguration -&gt; (structure) The identifiers of your data sources and FAQs. Or, you can spec- ify that you want to use documents indexed via the BatchPutDocu- ment API. This is the content you want to use for your Amazon Kendra experience. DataSourceIds -&gt; (list) The identifier of the data sources you want to use for your Amazon Kendra experience. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* FaqIds -&gt; (list) The identifier of the FAQs that you want to use for your Ama- zon Kendra experience. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* DirectPutContent -&gt; (boolean) TRUE to use documents you indexed directly using the Batch- PutDocument API. UserIdentityConfiguration -&gt; (structure) The IAM Identity Center field name that contains the identifiers of your users, such as their emails. IdentityAttributeName -&gt; (string) The IAM Identity Center field name that contains the identi- fiers of your users, such as their emails. This is used for user context filtering and for granting access to your Amazon Kendra experience. You must set up IAM Identity Center with Amazon Kendra. You must include your users and groups in your Access Control List when you ingest documents into your in- dex. For more information, see Getting started with an IAM Identity Center identity source . Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: ContentSourceConfiguration={DataSourceIds=[string,string],FaqIds=[string,string],DirectPutContent=boolean},UserIdentityConfiguration={IdentityAttributeName=string} JSON Syntax: { "ContentSourceConfiguration": { "DataSourceIds": ["string", ...], "FaqIds": ["string", ...], "DirectPutContent": true|false }, "UserIdentityConfiguration": { "IdentityAttributeName": "string" } }
+    /// Configuration information you want to update for your Amazon Kendra experience. ContentSourceConfiguration -&gt; (structure) The identifiers of your data sources and FAQs. Or, you can specify that you want to use documents indexed via the BatchPutDocument API. This is the content you want to use for your Amazon Kendra experience. DataSourceIds -&gt; (list) The identifier of the data sources you want to use for your Amazon Kendra experience. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* FaqIds -&gt; (list) The identifier of the FAQs that you want to use for your Amazon Kendra experience. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* DirectPutContent -&gt; (boolean) TRUE to use documents you indexed directly using the BatchPutDocument API. UserIdentityConfiguration -&gt; (structure) The IAM Identity Center field name that contains the identifiers of your users, such as their emails. IdentityAttributeName -&gt; (string) The IAM Identity Center field name that contains the identifiers of your users, such as their emails. This is used for user context filtering and for granting access to your Amazon Kendra experience. You must set up IAM Identity Center with Amazon Kendra. You must include your users and groups in your Access Control List when you ingest documents into your index. For more information, see Getting started with an IAM Identity Center identity source . Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: ContentSourceConfiguration={DataSourceIds=[string,string],FaqIds=[string,string],DirectPutContent=boolean},UserIdentityConfiguration={IdentityAttributeName=string} JSON Syntax: { "ContentSourceConfiguration": { "DataSourceIds": ["string", ...], "FaqIds": ["string", ...], "DirectPutContent": true|false }, "UserIdentityConfiguration": { "IdentityAttributeName": "string" } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
 
     /// <summary>
-    /// A new description for your Amazon Kendra experience. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A new description for your Amazon Kendra experience. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -116,6 +117,15 @@ public record AwsKendraUpdateExperienceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

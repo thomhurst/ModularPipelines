@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Used to override a stage condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
+/// Used to override a stage condition. For more information about conditions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsCodepipelineOverrideStageConditionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Used to override a stage condition. For more information about condi- tions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
+    /// Used to override a stage condition. For more information about conditions, see Stage conditions and How do stage conditions work? . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline with the stage that will override the con- dition. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="StageName">The name of the stage for the override. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="PipelineExecutionId">The ID of the pipeline execution for the override. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="ConditionType">The type of condition to override for the stage, such as entry con- ditions, failure conditions, or success conditions. Possible values: o BEFORE_ENTRY o ON_SUCCESS</param>
+    /// <param name="PipelineName">The name of the pipeline with the stage that will override the condition. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage for the override. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="PipelineExecutionId">The ID of the pipeline execution for the override. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="ConditionType">The type of condition to override for the stage, such as entry conditions, failure conditions, or success conditions. Possible values: • BEFORE_ENTRY • ON_SUCCESS</param>
     public AwsCodepipelineOverrideStageConditionOptions(
         string PipelineName,
         string StageName,
@@ -68,25 +69,25 @@ public record AwsCodepipelineOverrideStageConditionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline with the stage that will override the con- dition. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline with the stage that will override the condition. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The name of the stage for the override. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the stage for the override. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
 
     /// <summary>
-    /// The ID of the pipeline execution for the override. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The ID of the pipeline execution for the override. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--pipeline-execution-id")]
     public string? PipelineExecutionId { get; private init; }
 
     /// <summary>
-    /// The type of condition to override for the stage, such as entry con- ditions, failure conditions, or success conditions. Possible values: o BEFORE_ENTRY o ON_SUCCESS
+    /// The type of condition to override for the stage, such as entry conditions, failure conditions, or success conditions. Possible values: • BEFORE_ENTRY • ON_SUCCESS
     /// </summary>
     [CliOption("--condition-type")]
     public AwsCodepipelineOverrideStageConditionConditionType? ConditionType { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCodepipelineOverrideStageConditionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

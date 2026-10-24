@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsOpensearchListDataSourceAttachmentsOptions : AwsOptions, IValid
     /// <summary>
     /// Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (PENDING , ATTACHED , and FAILED ). See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier or name of the OpenSearch application to list attachments for. Constraints: o pattern: [a-z0-9]{3,30}</param>
+    /// <param name="Id">The unique identifier or name of the OpenSearch application to list attachments for. Constraints: • pattern: [a-z0-9]{3,30}</param>
     public AwsOpensearchListDataSourceAttachmentsOptions(
         string Id
     )
@@ -57,7 +58,7 @@ public record AwsOpensearchListDataSourceAttachmentsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier or name of the OpenSearch application to list attachments for. Constraints: o pattern: [a-z0-9]{3,30}
+    /// The unique identifier or name of the OpenSearch application to list attachments for. Constraints: • pattern: [a-z0-9]{3,30}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -96,6 +97,15 @@ public record AwsOpensearchListDataSourceAttachmentsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsConnectDisassociateQueueQuickConnectsOptions : AwsOptions, IVal
     /// <summary>
     /// Disassociates a set of quick connects from a queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QueueId">The identifier for the queue.</param>
-    /// <param name="QuickConnectIds">The quick connects to disassociate from the queue. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...</param>
+    /// <param name="QuickConnectIds">The quick connects to disassociate from the queue. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...</param>
     public AwsConnectDisassociateQueueQuickConnectsOptions(
         string InstanceId,
         string QueueId,
@@ -75,7 +76,7 @@ public record AwsConnectDisassociateQueueQuickConnectsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -87,7 +88,7 @@ public record AwsConnectDisassociateQueueQuickConnectsOptions : AwsOptions, IVal
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The quick connects to disassociate from the queue. Constraints: o min: 1 o max: 50 (string) Syntax: "string" "string" ...
+    /// The quick connects to disassociate from the queue. Constraints: • min: 1 • max: 50 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--quick-connect-ids", GroupValues = true)]
     public IEnumerable<string>? QuickConnectIds { get; private init; }
@@ -113,6 +114,15 @@ public record AwsConnectDisassociateQueueQuickConnectsOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

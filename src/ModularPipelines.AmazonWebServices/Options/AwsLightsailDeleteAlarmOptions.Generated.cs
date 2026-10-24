@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLightsailDeleteAlarmOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AlarmName">The name of the alarm to delete. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="AlarmName">The name of the alarm to delete. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailDeleteAlarmOptions(
         string AlarmName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailDeleteAlarmOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the alarm to delete. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the alarm to delete. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--alarm-name")]
     public string? AlarmName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailDeleteAlarmOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

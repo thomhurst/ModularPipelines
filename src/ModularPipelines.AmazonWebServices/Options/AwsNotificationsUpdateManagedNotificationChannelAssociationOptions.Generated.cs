@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the isSensitiveEventsSubscribed property of a particular Man- agedNotification channel association. See also: AWS API Documentation
+/// Updates the isSensitiveEventsSubscribed property of a particular ManagedNotification channel association. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNotificationsUpdateManagedNotificationChannelAssociationOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the isSensitiveEventsSubscribed property of a particular Man- agedNotification channel association. See also: AWS API Documentation
+    /// Updates the isSensitiveEventsSubscribed property of a particular ManagedNotification channel association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion whose Channel association property you want to update. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}</param>
-    /// <param name="ChannelIdentifier">The identifier of the channel association to update. You can specify one of the following: o An Account contact identifier. o A Channel ARN. Constraints: o pattern: (ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTER- NATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chat- bot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)</param>
+    /// <param name="ManagedNotificationConfigurationArn">The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration whose Channel association property you want to update. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}</param>
+    /// <param name="ChannelIdentifier">The identifier of the channel association to update. You can specify one of the following: • An Account contact identifier. • A Channel ARN. Constraints: • pattern: (ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTERNATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)</param>
     public AwsNotificationsUpdateManagedNotificationChannelAssociationOptions(
         string ManagedNotificationConfigurationArn,
         string ChannelIdentifier
@@ -60,19 +61,19 @@ public record AwsNotificationsUpdateManagedNotificationChannelAssociationOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfigura- tion whose Channel association property you want to update. Constraints: o pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notifi- cation-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-cate- gory/[a-zA-Z0-9\-]{3,64}
+    /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration whose Channel association property you want to update. Constraints: • pattern: arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\-]{3,64}/sub-category/[a-zA-Z0-9\-]{3,64}
     /// </summary>
     [CliOption("--managed-notification-configuration-arn")]
     public string? ManagedNotificationConfigurationArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the channel association to update. You can specify one of the following: o An Account contact identifier. o A Channel ARN. Constraints: o pattern: (ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTER- NATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chat- bot|consoleapp|notifications-con- tacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)
+    /// The identifier of the channel association to update. You can specify one of the following: • An Account contact identifier. • A Channel ARN. Constraints: • pattern: (ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTERNATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)
     /// </summary>
     [CliOption("--channel-identifier")]
     public string? ChannelIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies whether the association is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls ac- cess to sensitive events.
+    /// Specifies whether the association is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events.
     /// </summary>
     [CliFlag("--is-sensitive-events-subscribed", NegatedName = "--no-is-sensitive-events-subscribed")]
     public bool? IsSensitiveEventsSubscribed { get; set; }
@@ -98,6 +99,15 @@ public record AwsNotificationsUpdateManagedNotificationChannelAssociationOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves an annotation from an Amazon S3 object. To use this opera- tion, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. NOTE: Annotations are not supported by the following features: S3 Inven- tory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buck- ets). Th...
+/// Retrieves an annotation from an Amazon S3 object. To use this operation, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. NOTE: Annotations are not supported by the following features: S3 Inventory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buckets). The foll...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
 {
     /// <summary>
-    /// Retrieves an annotation from an Amazon S3 object. To use this opera- tion, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. NOTE: Annotations are not supported by the following features: S3 Inven- tory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buck- ets). Th...
+    /// Retrieves an annotation from an Amazon S3 object. To use this operation, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. NOTE: Annotations are not supported by the following features: S3 Inventory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buckets). The foll...
     /// </summary>
     /// <param name="Bucket">The name of the bucket that contains the object.</param>
-    /// <param name="Key">The object key. Constraints: o min: 1</param>
+    /// <param name="Key">The object key. Constraints: • min: 1</param>
     /// <param name="AnnotationName">The name of the annotation to retrieve. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsS3apiGetObjectAnnotationOptions(
@@ -60,7 +60,7 @@ public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
     public string Bucket { get; private init; }
 
     /// <summary>
-    /// The object key. Constraints: o min: 1
+    /// The object key. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string Key { get; private init; }
@@ -78,7 +78,7 @@ public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
     public string? VersionId { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
@@ -90,7 +90,7 @@ public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
     public string? ExpectedBucketOwner { get; set; }
 
     /// <summary>
-    /// Set to ENABLED to validate the checksum of the annotation payload on retrieval. Possible values: o ENABLED outfile (string) [required] Filename where the content will be saved
+    /// Set to ENABLED to validate the checksum of the annotation payload on retrieval. Possible values: • ENABLED outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--checksum-mode")]
     public string? ChecksumMode { get; set; }
@@ -100,5 +100,14 @@ public record AwsS3apiGetObjectAnnotationOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

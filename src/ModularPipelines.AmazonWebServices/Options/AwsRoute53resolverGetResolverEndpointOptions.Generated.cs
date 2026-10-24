@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current sta- tus of the endpoint. See also: AWS API Documentation
+/// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53resolverGetResolverEndpointOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current sta- tus of the endpoint. See also: AWS API Documentation
+    /// Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to get information about. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverEndpointId">The ID of the Resolver endpoint that you want to get information about. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverGetResolverEndpointOptions(
         string ResolverEndpointId
     )
@@ -56,7 +57,7 @@ public record AwsRoute53resolverGetResolverEndpointOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver endpoint that you want to get information about. Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver endpoint that you want to get information about. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-endpoint-id")]
     public string? ResolverEndpointId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53resolverGetResolverEndpointOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

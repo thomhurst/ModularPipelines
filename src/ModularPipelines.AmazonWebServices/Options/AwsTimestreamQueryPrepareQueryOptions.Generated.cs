@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A synchronous operation that allows you to submit a query with parame- ters to be stored by Timestream for later running. Timestream only sup- ports using this operation with ValidateOnly set to true . See also: AWS API Documentation
+/// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsTimestreamQueryPrepareQueryOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A synchronous operation that allows you to submit a query with parame- ters to be stored by Timestream for later running. Timestream only sup- ports using this operation with ValidateOnly set to true . See also: AWS API Documentation
+    /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true . See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryString">The Timestream query string that you want to use as a prepared statement. Parameter names can be specified in the query string @ character followed by an identifier. Constraints: o min: 1 o max: 262144</param>
+    /// <param name="QueryString">The Timestream query string that you want to use as a prepared statement. Parameter names can be specified in the query string @ character followed by an identifier. Constraints: • min: 1 • max: 262144</param>
     public AwsTimestreamQueryPrepareQueryOptions(
         string QueryString
     )
@@ -56,13 +57,13 @@ public record AwsTimestreamQueryPrepareQueryOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Timestream query string that you want to use as a prepared statement. Parameter names can be specified in the query string @ character followed by an identifier. Constraints: o min: 1 o max: 262144
+    /// The Timestream query string that you want to use as a prepared statement. Parameter names can be specified in the query string @ character followed by an identifier. Constraints: • min: 1 • max: 262144
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// By setting this value to true , Timestream will only validate that the query string is a valid Timestream query, and not store the pre- pared query for later use.
+    /// By setting this value to true , Timestream will only validate that the query string is a valid Timestream query, and not store the prepared query for later use.
     /// </summary>
     [CliFlag("--validate-only", NegatedName = "--no-validate-only")]
     public bool? ValidateOnly { get; set; }
@@ -88,6 +89,15 @@ public record AwsTimestreamQueryPrepareQueryOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

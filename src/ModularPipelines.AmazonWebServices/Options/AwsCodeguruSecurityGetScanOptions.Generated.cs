@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about a scan, including whether or not a scan has com- pleted. See also: AWS API Documentation
+/// Returns details about a scan, including whether or not a scan has completed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCodeguruSecurityGetScanOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details about a scan, including whether or not a scan has com- pleted. See also: AWS API Documentation
+    /// Returns details about a scan, including whether or not a scan has completed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanName">The name of the scan you want to view details about. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*</param>
+    /// <param name="ScanName">The name of the scan you want to view details about. Constraints: • min: 1 • max: 140 • pattern: [a-zA-Z0-9-_$:.]*</param>
     public AwsCodeguruSecurityGetScanOptions(
         string ScanName
     )
@@ -56,13 +57,13 @@ public record AwsCodeguruSecurityGetScanOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the scan you want to view details about. Constraints: o min: 1 o max: 140 o pattern: [a-zA-Z0-9-_$:.]*
+    /// The name of the scan you want to view details about. Constraints: • min: 1 • max: 140 • pattern: [a-zA-Z0-9-_$:.]*
     /// </summary>
     [CliOption("--scan-name")]
     public string? ScanName { get; private init; }
 
     /// <summary>
-    /// UUID that identifies the individual scan run you want to view de- tails about. You retrieve this when you call the CreateScan opera- tion. Defaults to the latest scan run if missing. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// UUID that identifies the individual scan run you want to view details about. You retrieve this when you call the CreateScan operation. Defaults to the latest scan run if missing. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; set; }
@@ -88,6 +89,15 @@ public record AwsCodeguruSecurityGetScanOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

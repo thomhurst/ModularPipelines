@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevopsGuruDescribeFeedbackOptions : AwsOptions
 {
     /// <summary>
-    /// The ID of the insight for which the feedback was provided. Constraints: o min: 1 o max: 100 o pattern: ^[\w-]*$
+    /// The ID of the insight for which the feedback was provided. Constraints: • min: 1 • max: 100 • pattern: ^[\w-]*$
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; set; }
@@ -32,5 +32,14 @@ public record AwsDevopsGuruDescribeFeedbackOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

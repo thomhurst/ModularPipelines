@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53globalresolverGetHostedZoneAssociationOptions : AwsOptio
     /// <summary>
     /// Retrieves information about a hosted zone association. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amazon Web Services CLI commands. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HostedZoneAssociationId">ID of the private hosted zone association. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="HostedZoneAssociationId">ID of the private hosted zone association. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
     public AwsRoute53globalresolverGetHostedZoneAssociationOptions(
         string HostedZoneAssociationId
     )
@@ -56,7 +57,7 @@ public record AwsRoute53globalresolverGetHostedZoneAssociationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the private hosted zone association. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// ID of the private hosted zone association. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--hosted-zone-association-id")]
     public string? HostedZoneAssociationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53globalresolverGetHostedZoneAssociationOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

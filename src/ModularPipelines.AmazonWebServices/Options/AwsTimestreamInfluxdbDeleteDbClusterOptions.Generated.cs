@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTimestreamInfluxdbDeleteDbClusterOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes a Timestream for InfluxDB cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterId">Service-generated unique identifier of the DB cluster. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="DbClusterId">Service-generated unique identifier of the DB cluster. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbDeleteDbClusterOptions(
         string DbClusterId
     )
@@ -56,7 +57,7 @@ public record AwsTimestreamInfluxdbDeleteDbClusterOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Service-generated unique identifier of the DB cluster. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// Service-generated unique identifier of the DB cluster. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--db-cluster-id")]
     public string? DbClusterId { get; private init; }
@@ -88,6 +89,15 @@ public record AwsTimestreamInfluxdbDeleteDbClusterOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

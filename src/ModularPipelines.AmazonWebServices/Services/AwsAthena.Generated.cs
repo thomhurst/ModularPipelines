@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAthena : IAwsAthena
     #region Commands
 
     /// <summary>
-    /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a sub- mitted query ID, information about the query ID submitted is listed un- der UnprocessedNamedQueryId . Named queries differ from executed queries. Use BatchGet...
+    /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId . Named queries differ from executed queries. Use BatchGetQuer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPrepared- StatementNames . See also: AWS API Documentation
+    /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use ListQueryExecu- tionsInput$WorkGroup . Query executions differ from named (saved) queries. Use BatchGetNamedQueryInput to get details about named queries. See also: AWS API Documentation
+    /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use ListQueryExecutionsInput$WorkGroup . Query executions differ from named (saved) queries. Use BatchGetNamedQueryInput to get details about named queries. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Creates (registers) a data catalog with the specified name and proper- ties. Catalogs created are visible to all users of the same Amazon Web Services account. For a FEDERATED catalog, this API operation creates the following re- sources. o CFN Stack Name with a maximum length of 128 characters and prefix athenafederatedcatalog-CATALOG_NAME_SANITIZED with length 23 charac- ters. o Lambda Function Name with a maximum length of 64 characters and pre- fix athenafederatedcatalog_CATALOG_NAME_SANITIZ...
+    /// Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same Amazon Web Services account. For a FEDERATED catalog, this API operation creates the following resources. • CFN Stack Name with a maximum length of 128 characters and prefix athenafederatedcatalog-CATALOG_NAME_SANITIZED with length 23 characters. • Lambda Function Name with a maximum length of 64 characters and prefix athenafederatedcatalog_CATALOG_NAME_SANITIZED with ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Creates an empty ipynb file in the specified Apache Spark enabled work- group. Throws an error if a file in the workgroup with the same name already exists. See also: AWS API Documentation
+    /// Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an error if a file in the workgroup with the same name already exists. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For in- formation about granting programmatic access, see Grant programmatic access . See also: AWS API Documentation
+    /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see Grant programmatic access . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Deletes a cancelled capacity reservation. A reservation must be can- celled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReserva- tion , and deleted reservations do not appear in the output of ListCa- pacityReservations . See also: AWS API Documentation
+    /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation , and deleted reservations do not appear in the output of ListCapacityReservations . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Deletes the prepared statement with the specified name from the speci- fied workgroup. See also: AWS API Documentation
+    /// Deletes the prepared statement with the specified name from the specified workgroup. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,21 +377,6 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Returns a database object for the specified database and data catalog. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetDatabaseAsync(
-        AwsAthenaGetDatabaseOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Returns the specified data catalog. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -400,6 +385,21 @@ public class AwsAthena : IAwsAthena
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDataCatalogAsync(
         AwsAthenaGetDataCatalogOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a database object for the specified database and data catalog. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDatabaseAsync(
+        AwsAthenaGetDatabaseOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -437,7 +437,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Retrieves the prepared statement with the specified name from the spec- ified workgroup. See also: AWS API Documentation
+    /// Retrieves the prepared statement with the specified name from the specified workgroup. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Returns information about a single execution of a query if you have ac- cess to the workgroup in which the query ran. Each time a query exe- cutes, information about the query execution is saved with a unique ID. See also: AWS API Documentation
+    /// Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Streams the results of a single query execution specified by QueryExe- cutionId from the Athena query results location in Amazon S3. For more information, see Working with query results, recent queries, and output files in the Amazon Athena User Guide . This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetOb...
+    /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Working with query results, recent queries, and output files in the Amazon Athena User Guide . This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObje...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Returns query execution runtime statistics related to a single execu- tion of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query com- pletes or,...
+    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes or, in ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or Note- BookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be im- ported is 10 megabytes. If an ipynb file with the same name already ex- ists in the workgroup, throws an error. See also: AWS API Documentation
+    /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or NoteBookS3LocationUri . If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Lists the calculations that have been submitted to a session in de- scending order. Newer calculations are listed first; older calculations are listed later. See also: AWS API Documentation
+    /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,21 +647,6 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Lists the databases in the specified data catalog. See also: AWS API Documentation list-databases is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DatabaseList
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDatabasesAsync(
-        AwsAthenaListDatabasesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists the data catalogs in the current Amazon Web Services account. NOTE: In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column. See also: AWS API Documentation list-data-catalogs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -674,6 +659,21 @@ public class AwsAthena : IAwsAthena
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsAthenaListDataCatalogsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the databases in the specified data catalog. See also: AWS API Documentation list-databases is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DatabaseList
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDatabasesAsync(
+        AwsAthenaListDatabasesOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -692,7 +692,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The re- sult can be optionally filtered by state. See also: AWS API Documentation
+    /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Lists the sessions in a workgroup that are in an active state like CRE- ATING , CREATED , IDLE , or BUSY . Newer sessions are listed first; older sessions are listed later. See also: AWS API Documentation
+    /// Lists the sessions in a workgroup that are in an active state like CREATING , CREATED , IDLE , or BUSY . Newer sessions are listed first; older sessions are listed later. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Lists the metadata for the tables in the specified data catalog data- base. See also: AWS API Documentation list-table-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TableMetadataList
+    /// Lists the metadata for the tables in the specified data catalog database. See also: AWS API Documentation list-table-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TableMetadataList
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. NOTE: The request syntax requires the StartCalculationExecutionRe- quest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead. See also: AWS API Documentation
+    /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. NOTE: The request syntax requires the StartCalculationExecutionRequest$CodeBlock parameter or the CalculationConfiguration$CodeBlock parameter, but not both. Because CalculationConfiguration$CodeBlock is deprecated, use the StartCalculationExecutionRequest$CodeBlock parameter instead. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Creates a session for running calculations within a workgroup. The ses- sion is ready when it reaches an IDLE state. See also: AWS API Documentation
+    /// Creates a session for running calculations within a workgroup. The session is ready when it reaches an IDLE state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calcu- lation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that can- not be cancelled, consider terminating the session in which the cal- culation is run...
+    /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED , FAILED , or COMPLETED ) succeeds but has no effect. NOTE: Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running. ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it eas- ier to search and filter the resources in your account. For best prac- tices, see Tagging Best Practices . Tag keys can be from 1 to 128 UTF-8 U...
+    /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see Tagging Best Practices . Tag keys can be from 1 to 128 UTF-8 Unico...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED , TERMINATED or TERMINAT- ING state) succeeds but has no effect. Calculations running in the ses- sion when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED . See also: AWS API Documentation
+    /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED , TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsAthena : IAwsAthena
     }
 
     /// <summary>
-    /// Updates a NamedQuery object. The database or workgroup cannot be up- dated. See also: AWS API Documentation
+    /// Updates a NamedQuery object. The database or workgroup cannot be updated. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

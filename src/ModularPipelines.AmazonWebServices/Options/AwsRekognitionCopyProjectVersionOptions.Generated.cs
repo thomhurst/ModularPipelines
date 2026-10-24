@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +28,11 @@ public record AwsRekognitionCopyProjectVersionOptions : AwsOptions, IValidatable
     /// <summary>
     /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project. The source and destination projects can be in different AWS accounts but must be in the same AWS Region. You can't copy a model to another AWS service. To copy a model version to a different AWS account, you need to create a resource-based policy known as a project policy . You attach the project policy to the source ...
     /// </summary>
-    /// <param name="SourceProjectArn">The ARN of the source project in the trusting AWS account. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
-    /// <param name="SourceProjectVersionArn">The ARN of the model version in the source project that you want to copy to a destination project. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
-    /// <param name="DestinationProjectArn">The ARN of the project in the trusted AWS account that you want to copy the model version to. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
-    /// <param name="VersionName">A name for the version of the model that's copied to the destination project. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
-    /// <param name="OutputConfig">The S3 bucket and folder location where the training output for the source model version is placed. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
+    /// <param name="SourceProjectArn">The ARN of the source project in the trusting AWS account. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="SourceProjectVersionArn">The ARN of the model version in the source project that you want to copy to a destination project. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="DestinationProjectArn">The ARN of the project in the trusted AWS account that you want to copy the model version to. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)</param>
+    /// <param name="VersionName">A name for the version of the model that's copied to the destination project. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="OutputConfig">The S3 bucket and folder location where the training output for the source model version is placed. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: • max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }</param>
     public AwsRekognitionCopyProjectVersionOptions(
         string SourceProjectArn,
         string SourceProjectVersionArn,
@@ -73,43 +73,43 @@ public record AwsRekognitionCopyProjectVersionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the source project in the trusting AWS account. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The ARN of the source project in the trusting AWS account. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--source-project-arn")]
     public string? SourceProjectArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the model version in the source project that you want to copy to a destination project. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/ver- sion\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The ARN of the model version in the source project that you want to copy to a destination project. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/version\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--source-project-version-arn")]
     public string? SourceProjectVersionArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the project in the trusted AWS account that you want to copy the model version to. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
+    /// The ARN of the project in the trusted AWS account that you want to copy the model version to. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/[0-9]+$)
     /// </summary>
     [CliOption("--destination-project-arn")]
     public string? DestinationProjectArn { get; private init; }
 
     /// <summary>
-    /// A name for the version of the model that's copied to the destination project. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// A name for the version of the model that's copied to the destination project. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// The S3 bucket and folder location where the training output for the source model version is placed. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
+    /// The S3 bucket and folder location where the training output for the source model version is placed. S3Bucket -&gt; (string) The S3 bucket where training output is placed. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* S3KeyPrefix -&gt; (string) The prefix applied to the training output files. Constraints: • max: 1024 Shorthand Syntax: S3Bucket=string,S3KeyPrefix=string JSON Syntax: { "S3Bucket": "string", "S3KeyPrefix": "string" }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; private init; }
 
     /// <summary>
-    /// The key-value tags to assign to the model version. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The key-value tags to assign to the model version. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training results and manifest files writ- ten to the output Amazon S3 bucket (OutputConfig ). If you choose to use your own KMS key, you need the following per- missions on the KMS key. o kms:CreateGrant o kms:DescribeKey o kms:GenerateDataKey o kms:Decrypt If you don't specify a value for KmsKeyId , images copied into the service are encrypted using a key that AWS owns and manages. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// The identifier for your AWS Key Management Service key (AWS KMS key). You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt training results and manifest files written to the output Amazon S3 bucket (OutputConfig ). If you choose to use your own KMS key, you need the following permissions on the KMS key. • kms:CreateGrant • kms:DescribeKey • kms:GenerateDataKey • kms:Decrypt If you don't specify a value for KmsKeyId , images copied into the service are encrypted using a key that AWS owns and manages. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -135,6 +135,15 @@ public record AwsRekognitionCopyProjectVersionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

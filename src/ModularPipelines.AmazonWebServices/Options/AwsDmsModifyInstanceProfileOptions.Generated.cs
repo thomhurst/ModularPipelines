@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
+/// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more informa- tion, see Actions, resources, and condition keys for Database Migra- tion Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
+    /// Modifies the specified instance profile using the provided parameters. Required permissions: dms:UpdateInstanceProfile . For more information, see Actions, resources, and condition keys for Database Migration Service . NOTE: All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile. See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceProfileIdentifier">The identifier of the instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.</param>
     public AwsDmsModifyInstanceProfileOptions(
@@ -68,19 +69,19 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions, IValidatableObjec
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the KMS key that is used to en- crypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your re- sources.
+    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP ad- dress. A value of false represents an instance profile with a pri- vate IP address. The default value is true .
+    /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true .
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only sup- ports IPv4 addressing. A value of IPV6 represents an instance pro- file with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
+    /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }
@@ -104,7 +105,7 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions, IValidatableObjec
     public string? SubnetGroupIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the VPC security groups to be used with the instance pro- file. The VPC security group must work with the VPC containing the instance profile. (string) Syntax: "string" "string" ...
+    /// Specifies the VPC security groups to be used with the instance profile. The VPC security group must work with the VPC containing the instance profile. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-groups", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroups { get; set; }
@@ -130,6 +131,15 @@ public record AwsDmsModifyInstanceProfileOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

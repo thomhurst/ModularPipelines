@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a Region to an IAM Identity Center instance. This operation initi- ates an asynchronous workflow to replicate the IAM Identity Center in- stance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide . The following actions are related to AddRegion : o RemoveRegion o DescribeReg...
+/// Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide . The following actions are related to AddRegion : • RemoveRegion • DescribeRegion ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSsoAdminAddRegionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a Region to an IAM Identity Center instance. This operation initi- ates an asynchronous workflow to replicate the IAM Identity Center in- stance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide . The following actions are related to AddRegion : o RemoveRegion o DescribeReg...
+    /// Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide . The following actions are related to AddRegion : • RemoveRegion • DescribeRegion ...
     /// </summary>
-    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="RegionName">The name of the Amazon Web Services Region to add to the IAM Iden- tity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for ex- ample, us-east-1). Constraints: o min: 1 o max: 32 o pattern: ([a-z]+-){2,3}\d</param>
+    /// <param name="InstanceArn">The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="RegionName">The name of the Amazon Web Services Region to add to the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). Constraints: • min: 1 • max: 32 • pattern: ([a-z]+-){2,3}\d</param>
     public AwsSsoAdminAddRegionOptions(
         string InstanceArn,
         string RegionName
@@ -60,13 +61,13 @@ public record AwsSsoAdminAddRegionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--instance-arn")]
     public string? InstanceArn { get; private init; }
 
     /// <summary>
-    /// The name of the Amazon Web Services Region to add to the IAM Iden- tity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for ex- ample, us-east-1). Constraints: o min: 1 o max: 32 o pattern: ([a-z]+-){2,3}\d
+    /// The name of the Amazon Web Services Region to add to the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). Constraints: • min: 1 • max: 32 • pattern: ([a-z]+-){2,3}\d
     /// </summary>
     [CliOption("--region-name")]
     public string? RegionName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSsoAdminAddRegionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

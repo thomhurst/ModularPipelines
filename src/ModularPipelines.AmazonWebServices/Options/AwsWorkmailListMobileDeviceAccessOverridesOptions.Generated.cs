@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsWorkmailListMobileDeviceAccessOverridesOptions : AwsOptions, IV
     /// <summary>
     /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization under which to list mobile device access overrides. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The WorkMail organization under which to list mobile device access overrides. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailListMobileDeviceAccessOverridesOptions(
         string OrganizationId
     )
@@ -57,32 +58,32 @@ public record AwsWorkmailListMobileDeviceAccessOverridesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization under which to list mobile device access overrides. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization under which to list mobile device access overrides. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The WorkMail user under which you list the mobile device access overrides. Accepts the following types of user identities: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The mobile device to which the access override applies. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9]+
+    /// The mobile device to which the access override applies. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next page of results. The first call does not require a token. Constraints: o min: 1 o max: 1024 o pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
+    /// The token to use to retrieve the next page of results. The first call does not require a token. Constraints: • min: 1 • max: 1024 • pattern: [\S\s]*|[a-zA-Z0-9/+=]{1,1024}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in a single call. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return in a single call. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -108,6 +109,15 @@ public record AwsWorkmailListMobileDeviceAccessOverridesOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 ad- dresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule. See also: AWS API Documentation
+/// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 ad- dresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule. See also: AWS API Documentation
+    /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The rule name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="Effect">The rule effect. Possible values: o ALLOW o DENY</param>
-    /// <param name="Description">The rule description. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\u00FF]+</param>
-    /// <param name="OrganizationId">The identifier of the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="Name">The rule name. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="Effect">The rule effect. Possible values: • ALLOW • DENY</param>
+    /// <param name="Description">The rule description. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\u00FF]+</param>
+    /// <param name="OrganizationId">The identifier of the organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailPutAccessControlRuleOptions(
         string Name,
         AwsWorkmailPutAccessControlRuleEffect Effect,
@@ -68,73 +69,73 @@ public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The rule name. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The rule name. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The rule effect. Possible values: o ALLOW o DENY
+    /// The rule effect. Possible values: • ALLOW • DENY
     /// </summary>
     [CliOption("--effect")]
     public AwsWorkmailPutAccessControlRuleEffect? Effect { get; private init; }
 
     /// <summary>
-    /// The rule description. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\u00FF]+
+    /// The rule description. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The identifier of the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier of the organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// IPv4 CIDR ranges to include in the rule. Constraints: o min: 0 o max: 1024 (string) Constraints: o min: 1 o max: 18 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$ Syntax: "string" "string" ...
+    /// IPv4 CIDR ranges to include in the rule. Constraints: • min: 0 • max: 1024 (string) Constraints: • min: 1 • max: 18 • pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ip-ranges", GroupValues = true)]
     public IEnumerable<string>? IpRanges { get; set; }
 
     /// <summary>
-    /// IPv4 CIDR ranges to exclude from the rule. Constraints: o min: 0 o max: 1024 (string) Constraints: o min: 1 o max: 18 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$ Syntax: "string" "string" ...
+    /// IPv4 CIDR ranges to exclude from the rule. Constraints: • min: 0 • max: 1024 (string) Constraints: • min: 1 • max: 18 • pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])/([0-9]|[12][0-9]|3[0-2])$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-ip-ranges", GroupValues = true)]
     public IEnumerable<string>? NotIpRanges { get; set; }
 
     /// <summary>
-    /// Access protocol actions to include in the rule. Valid values include ActiveSync , AutoDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]+ Syntax: "string" "string" ...
+    /// Access protocol actions to include in the rule. Valid values include ActiveSync , AutoDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--actions", GroupValues = true)]
     public IEnumerable<string>? Actions { get; set; }
 
     /// <summary>
-    /// Access protocol actions to exclude from the rule. Valid values in- clude ActiveSync , AutoDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]+ Syntax: "string" "string" ...
+    /// Access protocol actions to exclude from the rule. Valid values include ActiveSync , AutoDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-actions", GroupValues = true)]
     public IEnumerable<string>? NotActions { get; set; }
 
     /// <summary>
-    /// User IDs to include in the rule. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 12 o max: 256 Syntax: "string" "string" ...
+    /// User IDs to include in the rule. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 12 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--user-ids", GroupValues = true)]
     public IEnumerable<string>? UserIds { get; set; }
 
     /// <summary>
-    /// User IDs to exclude from the rule. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 12 o max: 256 Syntax: "string" "string" ...
+    /// User IDs to exclude from the rule. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 12 • max: 256 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-user-ids", GroupValues = true)]
     public IEnumerable<string>? NotUserIds { get; set; }
 
     /// <summary>
-    /// Impersonation role IDs to include in the rule. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
+    /// Impersonation role IDs to include in the rule. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--impersonation-role-ids", GroupValues = true)]
     public IEnumerable<string>? ImpersonationRoleIds { get; set; }
 
     /// <summary>
-    /// Impersonation role IDs to exclude from the rule. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
+    /// Impersonation role IDs to exclude from the rule. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--not-impersonation-role-ids", GroupValues = true)]
     public IEnumerable<string>? NotImpersonationRoleIds { get; set; }
@@ -160,6 +161,15 @@ public record AwsWorkmailPutAccessControlRuleOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

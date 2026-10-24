@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Displays the details about a resource set, including a list of the re- sources in the set. See also: AWS API Documentation
+/// Displays the details about a resource set, including a list of the resources in the set. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRoute53RecoveryReadinessGetResourceSetOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Displays the details about a resource set, including a list of the re- sources in the set. See also: AWS API Documentation
+    /// Displays the details about a resource set, including a list of the resources in the set. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceSetName">Name of a resource set.</param>
     public AwsRoute53RecoveryReadinessGetResourceSetOptions(
@@ -82,6 +83,15 @@ public record AwsRoute53RecoveryReadinessGetResourceSetOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

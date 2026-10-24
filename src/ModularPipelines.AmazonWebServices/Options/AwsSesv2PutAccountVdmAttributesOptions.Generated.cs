@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSesv2PutAccountVdmAttributesOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Update your Amazon SES account VDM attributes. You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VdmAttributes">The VDM attributes that you wish to apply to your Amazon SES ac- count. VdmEnabled -&gt; (string) [required] Specifies the status of your VDM configuration. Can be one of the following: o ENABLED Amazon SES enables VDM for your account. o DISABLED Amazon SES disables VDM for your account. Possible values: o ENABLED o DISABLED DashboardAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collec- tion. Can be one of the following: o ENABLED Amazon SES enables engagement metrics for your ac- count. o DISABLED Amazon SES disables engagement metrics for your account. Possible values: o ENABLED o DISABLED GuardianAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: o ENABLED Amazon SES enables optimized shared delivery for your account. o DISABLED Amazon SES disables optimized shared delivery for your account. Possible values: o ENABLED o DISABLED Shorthand Syntax: VdmEnabled=string,DashboardAttributes={EngagementMetrics=string},GuardianAttributes={OptimizedSharedDelivery=string} JSON Syntax: { "VdmEnabled": "ENABLED"|"DISABLED", "DashboardAttributes": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianAttributes": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }</param>
+    /// <param name="VdmAttributes">The VDM attributes that you wish to apply to your Amazon SES account. VdmEnabled -&gt; (string) [required] Specifies the status of your VDM configuration. Can be one of the following: • ENABLED Amazon SES enables VDM for your account. • DISABLED Amazon SES disables VDM for your account. Possible values: • ENABLED • DISABLED DashboardAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as applicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collection. Can be one of the following: • ENABLED Amazon SES enables engagement metrics for your account. • DISABLED Amazon SES disables engagement metrics for your account. Possible values: • ENABLED • DISABLED GuardianAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as applicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: • ENABLED Amazon SES enables optimized shared delivery for your account. • DISABLED Amazon SES disables optimized shared delivery for your account. Possible values: • ENABLED • DISABLED Shorthand Syntax: VdmEnabled=string,DashboardAttributes={EngagementMetrics=string},GuardianAttributes={OptimizedSharedDelivery=string} JSON Syntax: { "VdmEnabled": "ENABLED"|"DISABLED", "DashboardAttributes": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianAttributes": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }</param>
     public AwsSesv2PutAccountVdmAttributesOptions(
         string VdmAttributes
     )
@@ -56,7 +57,7 @@ public record AwsSesv2PutAccountVdmAttributesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The VDM attributes that you wish to apply to your Amazon SES ac- count. VdmEnabled -&gt; (string) [required] Specifies the status of your VDM configuration. Can be one of the following: o ENABLED Amazon SES enables VDM for your account. o DISABLED Amazon SES disables VDM for your account. Possible values: o ENABLED o DISABLED DashboardAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collec- tion. Can be one of the following: o ENABLED Amazon SES enables engagement metrics for your ac- count. o DISABLED Amazon SES disables engagement metrics for your account. Possible values: o ENABLED o DISABLED GuardianAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as ap- plicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: o ENABLED Amazon SES enables optimized shared delivery for your account. o DISABLED Amazon SES disables optimized shared delivery for your account. Possible values: o ENABLED o DISABLED Shorthand Syntax: VdmEnabled=string,DashboardAttributes={EngagementMetrics=string},GuardianAttributes={OptimizedSharedDelivery=string} JSON Syntax: { "VdmEnabled": "ENABLED"|"DISABLED", "DashboardAttributes": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianAttributes": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }
+    /// The VDM attributes that you wish to apply to your Amazon SES account. VdmEnabled -&gt; (string) [required] Specifies the status of your VDM configuration. Can be one of the following: • ENABLED Amazon SES enables VDM for your account. • DISABLED Amazon SES disables VDM for your account. Possible values: • ENABLED • DISABLED DashboardAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as applicable to the Dashboard. EngagementMetrics -&gt; (string) Specifies the status of your VDM engagement metrics collection. Can be one of the following: • ENABLED Amazon SES enables engagement metrics for your account. • DISABLED Amazon SES disables engagement metrics for your account. Possible values: • ENABLED • DISABLED GuardianAttributes -&gt; (structure) Specifies additional settings for your VDM configuration as applicable to the Guardian. OptimizedSharedDelivery -&gt; (string) Specifies the status of your VDM optimized shared delivery. Can be one of the following: • ENABLED Amazon SES enables optimized shared delivery for your account. • DISABLED Amazon SES disables optimized shared delivery for your account. Possible values: • ENABLED • DISABLED Shorthand Syntax: VdmEnabled=string,DashboardAttributes={EngagementMetrics=string},GuardianAttributes={OptimizedSharedDelivery=string} JSON Syntax: { "VdmEnabled": "ENABLED"|"DISABLED", "DashboardAttributes": { "EngagementMetrics": "ENABLED"|"DISABLED" }, "GuardianAttributes": { "OptimizedSharedDelivery": "ENABLED"|"DISABLED" } }
     /// </summary>
     [CliOption("--vdm-attributes")]
     public string? VdmAttributes { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesv2PutAccountVdmAttributesOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

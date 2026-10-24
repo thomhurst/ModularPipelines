@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified Exascale VM cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExadbVmClusterId">The unique identifier of the Exascale VM cluster to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
+    /// <param name="ExadbVmClusterId">The unique identifier of the Exascale VM cluster to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})</param>
     public AwsOdbUpdateExadbVmClusterOptions(
         string ExadbVmClusterId
     )
@@ -57,67 +58,67 @@ public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Exascale VM cluster to update. Constraints: o min: 6 o max: 2048 o pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
+    /// The unique identifier of the Exascale VM cluster to update. Constraints: • min: 6 • max: 2048 • pattern: (arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})
     /// </summary>
     [CliOption("--exadb-vm-cluster-id")]
     public string? ExadbVmClusterId { get; private init; }
 
     /// <summary>
-    /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM clus- ter. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
+    /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster. isDiagnosticsEventsEnabled -&gt; (boolean) Indicates whether diagnostic collection is enabled for the VM cluster. isHealthMonitoringEnabled -&gt; (boolean) Indicates whether health monitoring is enabled for the VM cluster. isIncidentLogsEnabled -&gt; (boolean) Indicates whether incident logs are enabled for the cloud VM cluster. Shorthand Syntax: isDiagnosticsEventsEnabled=boolean,isHealthMonitoringEnabled=boolean,isIncidentLogsEnabled=boolean JSON Syntax: { "isDiagnosticsEventsEnabled": true|false, "isHealthMonitoringEnabled": true|false, "isIncidentLogsEnabled": true|false }
     /// </summary>
     [CliOption("--data-collection-options")]
     public string? DataCollectionOptions { get; set; }
 
     /// <summary>
-    /// A new user-friendly name for the Exascale VM cluster. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
+    /// A new user-friendly name for the Exascale VM cluster. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The number of ECPUs to enable for the Exascale VM cluster. Constraints: o min: 0
+    /// The number of ECPUs to enable for the Exascale VM cluster. Constraints: • min: 0
     /// </summary>
     [CliOption("--enabled-ecpu-count")]
     public int? EnabledEcpuCount { get; set; }
 
     /// <summary>
-    /// The Grid Infrastructure software image ID for the Exascale VM clus- ter. Constraints: o min: 1 o max: 255
+    /// The Grid Infrastructure software image ID for the Exascale VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--grid-image-id")]
     public string? GridImageId { get; set; }
 
     /// <summary>
-    /// The Oracle license model to apply to the Exascale VM cluster. Possible values: o BRING_YOUR_OWN_LICENSE o LICENSE_INCLUDED
+    /// The Oracle license model to apply to the Exascale VM cluster. Possible values: • BRING_YOUR_OWN_LICENSE • LICENSE_INCLUDED
     /// </summary>
     [CliOption("--license-model")]
     public AwsOdbUpdateExadbVmClusterLicenseModel? LicenseModel { get; set; }
 
     /// <summary>
-    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: o min: 1 o max: 1024 (string) Syntax: "string" "string" ...
+    /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster. Constraints: • min: 1 • max: 1024 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ssh-public-keys", GroupValues = true)]
     public IEnumerable<string>? SshPublicKeys { get; set; }
 
     /// <summary>
-    /// The version of the operating system of the image for the Exascale VM cluster. Constraints: o min: 1 o max: 255
+    /// The version of the operating system of the image for the Exascale VM cluster. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--system-version")]
     public string? SystemVersion { get; set; }
 
     /// <summary>
-    /// The total number of ECPUs for the Exascale VM cluster. Constraints: o min: 2
+    /// The total number of ECPUs for the Exascale VM cluster. Constraints: • min: 2
     /// </summary>
     [CliOption("--total-ecpu-count")]
     public int? TotalEcpuCount { get; set; }
 
     /// <summary>
-    /// The update action to perform on the Exascale VM cluster. Possible values: o ROLLING_APPLY o NON_ROLLING_APPLY o PRECHECK o ROLLBACK
+    /// The update action to perform on the Exascale VM cluster. Possible values: • ROLLING_APPLY • NON_ROLLING_APPLY • PRECHECK • ROLLBACK
     /// </summary>
     [CliOption("--update-action")]
     public AwsOdbUpdateExadbVmClusterUpdateAction? UpdateAction { get; set; }
 
     /// <summary>
-    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: o min: 0
+    /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster. Constraints: • min: 0
     /// </summary>
     [CliOption("--vm-file-system-storage-total-size-in-gbs")]
     public int? VmFileSystemStorageTotalSizeInGbs { get; set; }
@@ -143,6 +144,15 @@ public record AwsOdbUpdateExadbVmClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

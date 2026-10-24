@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsTransferListHostKeysOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a list of host keys for the server that's specified by the ServerId parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">The identifier of the server that contains the host keys that you want to view. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="ServerId">The identifier of the server that contains the host keys that you want to view. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
     public AwsTransferListHostKeysOptions(
         string ServerId
     )
@@ -57,19 +58,19 @@ public record AwsTransferListHostKeysOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the server that contains the host keys that you want to view. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// The identifier of the server that contains the host keys that you want to view. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The maximum number of items to return. Constraints: o min: 1 o max: 1000
+    /// The maximum number of items to return. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// When there are additional results that were not returned, a NextTo- ken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results. Constraints: o min: 1 o max: 6144
+    /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results. Constraints: • min: 1 • max: 6144
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsTransferListHostKeysOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

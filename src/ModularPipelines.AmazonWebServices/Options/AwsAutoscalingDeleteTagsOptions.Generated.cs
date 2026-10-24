@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAutoscalingDeleteTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Tags">One or more tags. (structure) Describes a tag for an Auto Scaling group. ResourceId -&gt; (string) The name of the Auto Scaling group. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ResourceType -&gt; (string) The type of resource. The only supported value is auto-scal- ing-group . Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Value -&gt; (string) The tag value. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PropagateAtLaunch -&gt; (boolean) Determines whether the tag is added to new instances as they are launched in the group. Shorthand Syntax: ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean ... JSON Syntax: [ { "ResourceId": "string", "ResourceType": "string", "Key": "string", "Value": "string", "PropagateAtLaunch": true|false } ... ]</param>
+    /// <param name="Tags">One or more tags. (structure) Describes a tag for an Auto Scaling group. ResourceId -&gt; (string) The name of the Auto Scaling group. Constraints: • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ResourceType -&gt; (string) The type of resource. The only supported value is auto-scaling-group . Constraints: • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Value -&gt; (string) The tag value. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PropagateAtLaunch -&gt; (boolean) Determines whether the tag is added to new instances as they are launched in the group. Shorthand Syntax: ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean ... JSON Syntax: [ { "ResourceId": "string", "ResourceType": "string", "Key": "string", "Value": "string", "PropagateAtLaunch": true|false } ... ]</param>
     public AwsAutoscalingDeleteTagsOptions(
         IEnumerable<string> Tags
     )
@@ -67,7 +68,7 @@ public record AwsAutoscalingDeleteTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more tags. (structure) Describes a tag for an Auto Scaling group. ResourceId -&gt; (string) The name of the Auto Scaling group. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ResourceType -&gt; (string) The type of resource. The only supported value is auto-scal- ing-group . Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Value -&gt; (string) The tag value. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PropagateAtLaunch -&gt; (boolean) Determines whether the tag is added to new instances as they are launched in the group. Shorthand Syntax: ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean ... JSON Syntax: [ { "ResourceId": "string", "ResourceType": "string", "Key": "string", "Value": "string", "PropagateAtLaunch": true|false } ... ]
+    /// One or more tags. (structure) Describes a tag for an Auto Scaling group. ResourceId -&gt; (string) The name of the Auto Scaling group. Constraints: • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ResourceType -&gt; (string) The type of resource. The only supported value is auto-scaling-group . Constraints: • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Value -&gt; (string) The tag value. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* PropagateAtLaunch -&gt; (boolean) Determines whether the tag is added to new instances as they are launched in the group. Shorthand Syntax: ResourceId=string,ResourceType=string,Key=string,Value=string,PropagateAtLaunch=boolean ... JSON Syntax: [ { "ResourceId": "string", "ResourceType": "string", "Key": "string", "Value": "string", "PropagateAtLaunch": true|false } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -93,6 +94,15 @@ public record AwsAutoscalingDeleteTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

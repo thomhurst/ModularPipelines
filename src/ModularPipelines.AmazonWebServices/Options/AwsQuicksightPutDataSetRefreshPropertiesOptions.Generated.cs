@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQuicksightPutDataSetRefreshPropertiesOptions : AwsOptions, IVal
     /// <summary>
     /// Creates or updates the dataset refresh properties for the dataset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     /// <param name="DataSetId">The ID of the dataset.</param>
-    /// <param name="DataSetRefreshProperties">The dataset refresh properties. RefreshConfiguration -&gt; (structure) The refresh configuration for a dataset. IncrementalRefresh -&gt; (structure) [required] The incremental refresh for the dataset. LookbackWindow -&gt; (structure) [required] The lookback window setup for an incremental refresh con- figuration. ColumnName -&gt; (string) [required] The name of the lookback window column. Size -&gt; (long) [required] The lookback window column size. Constraints: o min: 1 SizeUnit -&gt; (string) [required] The size unit that is used for the lookback window column. Valid values for this structure are HOUR , DAY , and WEEK . Possible values: o HOUR o DAY o WEEK FailureConfiguration -&gt; (structure) The failure configuration for a dataset. EmailAlert -&gt; (structure) The email alert configuration for a dataset refresh failure. AlertStatus -&gt; (string) The status value that determines if email alerts are sent. Possible values: o ENABLED o DISABLED JSON Syntax: { "RefreshConfiguration": { "IncrementalRefresh": { "LookbackWindow": { "ColumnName": "string", "Size": long, "SizeUnit": "HOUR"|"DAY"|"WEEK" } } }, "FailureConfiguration": { "EmailAlert": { "AlertStatus": "ENABLED"|"DISABLED" } } }</param>
+    /// <param name="DataSetRefreshProperties">The dataset refresh properties. RefreshConfiguration -&gt; (structure) The refresh configuration for a dataset. IncrementalRefresh -&gt; (structure) [required] The incremental refresh for the dataset. LookbackWindow -&gt; (structure) [required] The lookback window setup for an incremental refresh configuration. ColumnName -&gt; (string) [required] The name of the lookback window column. Size -&gt; (long) [required] The lookback window column size. Constraints: • min: 1 SizeUnit -&gt; (string) [required] The size unit that is used for the lookback window column. Valid values for this structure are HOUR , DAY , and WEEK . Possible values: • HOUR • DAY • WEEK FailureConfiguration -&gt; (structure) The failure configuration for a dataset. EmailAlert -&gt; (structure) The email alert configuration for a dataset refresh failure. AlertStatus -&gt; (string) The status value that determines if email alerts are sent. Possible values: • ENABLED • DISABLED JSON Syntax: { "RefreshConfiguration": { "IncrementalRefresh": { "LookbackWindow": { "ColumnName": "string", "Size": long, "SizeUnit": "HOUR"|"DAY"|"WEEK" } } }, "FailureConfiguration": { "EmailAlert": { "AlertStatus": "ENABLED"|"DISABLED" } } }</param>
     public AwsQuicksightPutDataSetRefreshPropertiesOptions(
         string AwsAccountId,
         string DataSetId,
@@ -64,7 +65,7 @@ public record AwsQuicksightPutDataSetRefreshPropertiesOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
@@ -76,7 +77,7 @@ public record AwsQuicksightPutDataSetRefreshPropertiesOptions : AwsOptions, IVal
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The dataset refresh properties. RefreshConfiguration -&gt; (structure) The refresh configuration for a dataset. IncrementalRefresh -&gt; (structure) [required] The incremental refresh for the dataset. LookbackWindow -&gt; (structure) [required] The lookback window setup for an incremental refresh con- figuration. ColumnName -&gt; (string) [required] The name of the lookback window column. Size -&gt; (long) [required] The lookback window column size. Constraints: o min: 1 SizeUnit -&gt; (string) [required] The size unit that is used for the lookback window column. Valid values for this structure are HOUR , DAY , and WEEK . Possible values: o HOUR o DAY o WEEK FailureConfiguration -&gt; (structure) The failure configuration for a dataset. EmailAlert -&gt; (structure) The email alert configuration for a dataset refresh failure. AlertStatus -&gt; (string) The status value that determines if email alerts are sent. Possible values: o ENABLED o DISABLED JSON Syntax: { "RefreshConfiguration": { "IncrementalRefresh": { "LookbackWindow": { "ColumnName": "string", "Size": long, "SizeUnit": "HOUR"|"DAY"|"WEEK" } } }, "FailureConfiguration": { "EmailAlert": { "AlertStatus": "ENABLED"|"DISABLED" } } }
+    /// The dataset refresh properties. RefreshConfiguration -&gt; (structure) The refresh configuration for a dataset. IncrementalRefresh -&gt; (structure) [required] The incremental refresh for the dataset. LookbackWindow -&gt; (structure) [required] The lookback window setup for an incremental refresh configuration. ColumnName -&gt; (string) [required] The name of the lookback window column. Size -&gt; (long) [required] The lookback window column size. Constraints: • min: 1 SizeUnit -&gt; (string) [required] The size unit that is used for the lookback window column. Valid values for this structure are HOUR , DAY , and WEEK . Possible values: • HOUR • DAY • WEEK FailureConfiguration -&gt; (structure) The failure configuration for a dataset. EmailAlert -&gt; (structure) The email alert configuration for a dataset refresh failure. AlertStatus -&gt; (string) The status value that determines if email alerts are sent. Possible values: • ENABLED • DISABLED JSON Syntax: { "RefreshConfiguration": { "IncrementalRefresh": { "LookbackWindow": { "ColumnName": "string", "Size": long, "SizeUnit": "HOUR"|"DAY"|"WEEK" } } }, "FailureConfiguration": { "EmailAlert": { "AlertStatus": "ENABLED"|"DISABLED" } } }
     /// </summary>
     [CliOption("--data-set-refresh-properties")]
     public string? DataSetRefreshProperties { get; private init; }
@@ -102,6 +103,15 @@ public record AwsQuicksightPutDataSetRefreshPropertiesOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsChimeSdkMessagingGetMessagingSessionEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6). Possible values: o IPV4_ONLY o DUAL_STACK
+    /// The type of network for the messaging session endpoint. Either IPv4 only or dual-stack (IPv4 and IPv6). Possible values: • IPV4_ONLY • DUAL_STACK
     /// </summary>
     [CliOption("--network-type")]
     public AwsChimeSdkMessagingGetMessagingSessionEndpointNetworkType? NetworkType { get; set; }
@@ -33,5 +33,14 @@ public record AwsChimeSdkMessagingGetMessagingSessionEndpointOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

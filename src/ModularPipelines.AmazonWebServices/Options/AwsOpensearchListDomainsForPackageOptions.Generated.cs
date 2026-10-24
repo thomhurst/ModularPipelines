@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsOpensearchListDomainsForPackageOptions : AwsOptions, IValidatab
     /// <summary>
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
     /// </summary>
-    /// <param name="PackageId">The unique identifier of the package for which to list associated domains. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
+    /// <param name="PackageId">The unique identifier of the package for which to list associated domains. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$</param>
     public AwsOpensearchListDomainsForPackageOptions(
         string PackageId
     )
@@ -57,19 +58,19 @@ public record AwsOpensearchListDomainsForPackageOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the package for which to list associated domains. Constraints: o pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
+    /// The unique identifier of the package for which to list associated domains. Constraints: • pattern: ^([FG][0-9]+)$|^(pkg-[a-f0-9]+)$
     /// </summary>
     [CliOption("--package-id")]
     public string? PackageId { get; private init; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial ListDomainsForPackage operation returns a nextToken , you can include the returned nextToken in subsequent ListDomains- ForPackage operations, which returns results in the next page.
+    /// If your initial ListDomainsForPackage operation returns a nextToken , you can include the returned nextToken in subsequent ListDomainsForPackage operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsOpensearchListDomainsForPackageOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

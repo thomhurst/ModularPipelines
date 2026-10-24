@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC secu- rity best practices . NOTE: ParticipantToken is used for invoking this API instead of Connec- tionToken . The participant token is valid for the lifetime of the participant un- til they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs t...
+/// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC security best practices . NOTE: ParticipantToken is used for invoking this API instead of ConnectionToken . The participant token is valid for the lifetime of the participant until they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs to be c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC secu- rity best practices . NOTE: ParticipantToken is used for invoking this API instead of Connec- tionToken . The participant token is valid for the lifetime of the participant un- til they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs t...
+    /// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC security best practices . NOTE: ParticipantToken is used for invoking this API instead of ConnectionToken . The participant token is valid for the lifetime of the participant until they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs to be c...
     /// </summary>
-    /// <param name="ParticipantToken">This is a header parameter. The ParticipantToken as obtained from StartChatContact API response. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ParticipantToken">This is a header parameter. The ParticipantToken as obtained from StartChatContact API response. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantCreateParticipantConnectionOptions(
         string ParticipantToken
     )
@@ -57,20 +58,20 @@ public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response. Constraints: o min: 1 o max: 1000
+    /// This is a header parameter. The ParticipantToken as obtained from StartChatContact API response. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--participant-token")]
     public string? ParticipantToken { get; private init; }
 
     /// <summary>
-    /// Type of connection information required. If you need CONNECTION_CRE- DENTIALS along with marking participant as connected, pass CONNEC- TION_CREDENTIALS in Type . Constraints: o min: 1 (string) Possible values: o WEBSOCKET o CONNECTION_CREDENTIALS o WEBRTC_CONNECTION Syntax: "string" "string" ...
+    /// Type of connection information required. If you need CONNECTION_CREDENTIALS along with marking participant as connected, pass CONNECTION_CREDENTIALS in Type . Constraints: • min: 1 (string) Possible values: • WEBSOCKET • CONNECTION_CREDENTIALS • WEBRTC_CONNECTION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--type", GroupValues = true)]
     public IEnumerable<string>? Type { get; set; }
 
     /// <summary>
-    /// Amazon Connect Participant is used to mark the participant as con- nected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
+    /// Amazon Connect Participant is used to mark the participant as connected for customer participant in message streaming, as well as for agent or manager participant in non-streaming chats.
     /// </summary>
     [CliFlag("--connect-participant", NegatedName = "--no-connect-participant")]
     public bool? ConnectParticipant { get; set; }
@@ -96,6 +97,15 @@ public record AwsConnectparticipantCreateParticipantConnectionOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -24,37 +24,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
 {
     /// <summary>
-    /// The identifiers of the data lifecycle policies. (string) Constraints: o min: 0 o max: 64 o pattern: policy-[a-f0-9]+ Syntax: "string" "string" ...
+    /// The identifiers of the data lifecycle policies. (string) Constraints: • min: 0 • max: 64 • pattern: policy-[a-f0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--policy-ids", GroupValues = true)]
     public IEnumerable<string>? PolicyIds { get; set; }
 
     /// <summary>
-    /// The activation state. Possible values: o ENABLED o DISABLED o ERROR
+    /// The activation state. Possible values: • ENABLED • DISABLED • ERROR
     /// </summary>
     [CliOption("--state")]
     public AwsDlmGetLifecyclePoliciesState? State { get; set; }
 
     /// <summary>
-    /// The resource type. Constraints: o min: 1 o max: 1 (string) Possible values: o VOLUME o INSTANCE Syntax: "string" "string" ...
+    /// The resource type. Constraints: • min: 1 • max: 1 (string) Possible values: • VOLUME • INSTANCE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-types", GroupValues = true)]
     public IEnumerable<string>? ResourceTypes { get; set; }
 
     /// <summary>
-    /// The target tag for a policy. Tags are strings in the format key=value . Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [\p{all}]* Syntax: "string" "string" ...
+    /// The target tag for a policy. Tags are strings in the format key=value . Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: [\p{all}]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TargetTags { get; set; }
 
     /// <summary>
-    /// The tags to add to objects created by the policy. Tags are strings in the format key=value . These user-defined tags are added in addition to the Amazon Web Ser- vices-added lifecycle tags. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: [\p{all}]* Syntax: "string" "string" ...
+    /// The tags to add to objects created by the policy. Tags are strings in the format key=value . These user-defined tags are added in addition to the Amazon Web Services-added lifecycle tags. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: [\p{all}]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tags-to-add", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? TagsToAdd { get; set; }
 
     /// <summary>
-    /// [Default policies only] Specifies the type of default policy to get. Specify one of the following: o VOLUME - To get only the default policy for EBS snapshots o INSTANCE - To get only the default policy for EBS-backed AMIs o ALL - To get all default policies Possible values: o VOLUME o INSTANCE o ALL
+    /// [Default policies only] Specifies the type of default policy to get. Specify one of the following: • VOLUME - To get only the default policy for EBS snapshots • INSTANCE - To get only the default policy for EBS-backed AMIs • ALL - To get all default policies Possible values: • VOLUME • INSTANCE • ALL
     /// </summary>
     [CliOption("--default-policy-type")]
     public string? DefaultPolicyType { get; set; }
@@ -64,5 +64,14 @@ public record AwsDlmGetLifecyclePoliciesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

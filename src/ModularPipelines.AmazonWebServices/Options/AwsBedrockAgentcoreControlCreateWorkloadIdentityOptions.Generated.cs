@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions : AwsOptio
     /// <summary>
     /// Creates a new workload identity. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the workload identity. The name must be unique within your account. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+</param>
+    /// <param name="Name">The name of the workload identity. The name must be unique within your account. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+</param>
     public AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions(
         string Name
     )
@@ -57,19 +57,19 @@ public record AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload identity. The name must be unique within your account. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+
+    /// The name of the workload identity. The name must be unique within your account. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The list of allowed OAuth2 return URLs for resources associated with this workload identity. (string) Constraints: o min: 1 o max: 2048 o pattern: \w+:(\/?\/?)[^\s]+ Syntax: "string" "string" ...
+    /// The list of allowed OAuth2 return URLs for resources associated with this workload identity. (string) Constraints: • min: 1 • max: 2048 • pattern: \w+:(\/?\/?)[^\s]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allowed-resource-oauth2-return-urls", GroupValues = true)]
     public IEnumerable<string>? AllowedResourceOauth2ReturnUrls { get; set; }
 
     /// <summary>
-    /// A map of tag keys and values to assign to the workload identity. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tag keys and values to assign to the workload identity. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -95,6 +95,15 @@ public record AwsBedrockAgentcoreControlCreateWorkloadIdentityOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

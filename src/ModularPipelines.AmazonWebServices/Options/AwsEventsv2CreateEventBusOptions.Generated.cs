@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an event bus. Provisioning is asynchronous: the bus is returned in the CREATING state and transitions to ACTIVE when ready (see the EventBusActive waiter). Retries carrying the same ClientToken are idem- potent. See also: AWS API Documentation
+/// Creates an event bus. Provisioning is asynchronous: the bus is returned in the CREATING state and transitions to ACTIVE when ready (see the EventBusActive waiter). Retries carrying the same ClientToken are idempotent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsEventsv2CreateEventBusOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an event bus. Provisioning is asynchronous: the bus is returned in the CREATING state and transitions to ACTIVE when ready (see the EventBusActive waiter). Retries carrying the same ClientToken are idem- potent. See also: AWS API Documentation
+    /// Creates an event bus. Provisioning is asynchronous: the bus is returned in the CREATING state and transitions to ACTIVE when ready (see the EventBusActive waiter). Retries carrying the same ClientToken are idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][\.\-_A-Za-z0-9]*</param>
+    /// <param name="Name">Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][\.\-_A-Za-z0-9]*</param>
     public AwsEventsv2CreateEventBusOptions(
         string Name
     )
@@ -58,37 +58,37 @@ public record AwsEventsv2CreateEventBusOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][\.\-_A-Za-z0-9]*
+    /// Name of an event bus. The first character must be alphanumeric; the remaining characters may also include '.', '-', and '_'. The grammar matches the name segment of EventBusArn (event-busv2//), so every valid name can be represented in the bus's ARN. The same type is used everywhere a bus name appears. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][\.\-_A-Za-z0-9]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Free-text description. Used by every resource type that has one: event buses, subscribers, and event sources. Constraints: o min: 0 o max: 512 o pattern: [^\u0000-\u001F\u007F-\u009F\u2028\u2029]*(?![\s\S]).*
+    /// Free-text description. Used by every resource type that has one: event buses, subscribers, and event sources. Constraints: • min: 0 • max: 512 • pattern: [^\u0000-\u001F\u007F-\u009F\u2028\u2029]*(?![\s\S]).*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Encryption configuration for an event bus. KmsKeyIdentifier -&gt; (string) Identifier of the AWS KMS customer managed key used to encrypt events: a key ID, key ARN, alias name, or alias ARN. When ab- sent, events are encrypted with an AWS owned key. Constraints: o min: 0 o max: 2048 o pattern: [a-zA-Z0-9_\-/:]* Shorthand Syntax: KmsKeyIdentifier=string JSON Syntax: { "KmsKeyIdentifier": "string" }
+    /// Encryption configuration for an event bus. KmsKeyIdentifier -&gt; (string) Identifier of the AWS KMS customer managed key used to encrypt events: a key ID, key ARN, alias name, or alias ARN. When absent, events are encrypted with an AWS owned key. Constraints: • min: 0 • max: 2048 • pattern: [a-zA-Z0-9_\-/:]* Shorthand Syntax: KmsKeyIdentifier=string JSON Syntax: { "KmsKeyIdentifier": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// Event storage configuration for an event bus. RetentionPeriodInDays -&gt; (integer) Number of days events are retained on the event bus. Constraints: o min: 1 o max: 365 Shorthand Syntax: RetentionPeriodInDays=integer JSON Syntax: { "RetentionPeriodInDays": integer }
+    /// Event storage configuration for an event bus. RetentionPeriodInDays -&gt; (integer) Number of days events are retained on the event bus. Constraints: • min: 1 • max: 365 Shorthand Syntax: RetentionPeriodInDays=integer JSON Syntax: { "RetentionPeriodInDays": integer }
     /// </summary>
     [CliOption("--storage-configuration")]
     public string? StorageConfiguration { get; set; }
 
     /// <summary>
-    /// Tags attached to a resource, as key-value pairs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: \S([\s\S]*\S)?(?![\s\S]).* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: (\S([\s\S]*\S)?)?(?![\s\S]).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags attached to a resource, as key-value pairs. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: \S([\s\S]*\S)?(?![\s\S]).* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: (\S([\s\S]*\S)?)?(?![\s\S]).* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that ensures the idempotency of the request. The SDK generates one automatically when the field is omitted. Constraints: o min: 1 o max: 64 o pattern: [\u0021-\u007E]+
+    /// Unique, case-sensitive identifier that ensures the idempotency of the request. The SDK generates one automatically when the field is omitted. Constraints: • min: 1 • max: 64 • pattern: [\u0021-\u007E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -115,6 +115,15 @@ public record AwsEventsv2CreateEventBusOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

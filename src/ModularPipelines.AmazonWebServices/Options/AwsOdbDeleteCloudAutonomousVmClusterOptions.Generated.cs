@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOdbDeleteCloudAutonomousVmClusterOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes an Autonomous VM cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudAutonomousVmClusterId">The unique identifier of the Autonomous VM cluster to delete. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+</param>
+    /// <param name="CloudAutonomousVmClusterId">The unique identifier of the Autonomous VM cluster to delete. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+</param>
     public AwsOdbDeleteCloudAutonomousVmClusterOptions(
         string CloudAutonomousVmClusterId
     )
@@ -56,7 +57,7 @@ public record AwsOdbDeleteCloudAutonomousVmClusterOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Autonomous VM cluster to delete. Constraints: o min: 6 o max: 64 o pattern: [a-zA-Z0-9_~.-]+
+    /// The unique identifier of the Autonomous VM cluster to delete. Constraints: • min: 6 • max: 64 • pattern: [a-zA-Z0-9_~.-]+
     /// </summary>
     [CliOption("--cloud-autonomous-vm-cluster-id")]
     public string? CloudAutonomousVmClusterId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOdbDeleteCloudAutonomousVmClusterOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new trans- actions. Call ModifyCurrentDBClusterCapacity to set the capacity ex- plicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period ...
+/// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRdsModifyCurrentDbClusterCapacityOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new trans- actions. Call ModifyCurrentDBClusterCapacity to set the capacity ex- plicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period ...
+    /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific value. Aurora Serverless v1 scales seamlessly based on the workload on the DB cluster. In some cases, the capacity might not scale fast enough to meet a sudden change in workload, such as a large number of new transactions. Call ModifyCurrentDBClusterCapacity to set the capacity explicitly. After this call sets the DB cluster capacity, Aurora Serverless v1 can automatically scale the DB cluster based on the cooldown period for ...
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier for the cluster being modified. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB cluster.</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB cluster.</param>
     public AwsRdsModifyCurrentDbClusterCapacityOptions(
         string DbClusterIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsRdsModifyCurrentDbClusterCapacityOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier for the cluster being modified. This para- meter isn't case-sensitive. Constraints: o Must match the identifier of an existing DB cluster.
+    /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing DB cluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless v1 DB cluster, it automatically resumes. Constraints: o For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . o For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 .
+    /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless v1 DB cluster, it automatically resumes. Constraints: • For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . • For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 .
     /// </summary>
     [CliOption("--capacity")]
     public int? Capacity { get; set; }
@@ -74,7 +75,7 @@ public record AwsRdsModifyCurrentDbClusterCapacityOptions : AwsOptions, IValidat
     public int? SecondsBeforeTimeout { get; set; }
 
     /// <summary>
-    /// The action to take when the timeout is reached, either ForceApplyCa- pacityChange or RollbackCapacityChange . ForceApplyCapacityChange , the default, sets the capacity to the specified value as soon as possible. RollbackCapacityChange ignores the capacity change if a scaling point isn't found in the timeout period.
+    /// The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange . ForceApplyCapacityChange , the default, sets the capacity to the specified value as soon as possible. RollbackCapacityChange ignores the capacity change if a scaling point isn't found in the timeout period.
     /// </summary>
     [CliOption("--timeout-action")]
     public string? TimeoutAction { get; set; }
@@ -100,6 +101,15 @@ public record AwsRdsModifyCurrentDbClusterCapacityOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

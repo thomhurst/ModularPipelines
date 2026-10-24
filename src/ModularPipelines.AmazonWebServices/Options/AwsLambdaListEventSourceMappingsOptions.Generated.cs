@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLambdaListEventSourceMappingsOptions : AwsOptions
 {
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the event source. o Amazon Kinesis The ARN of the data stream or a stream consumer. o Amazon DynamoDB Streams The ARN of the stream. o Amazon Simple Queue Service The ARN of the queue. o Amazon Managed Streaming for Apache Kafka The ARN of the cluster or the ARN of the VPC connection (for cross-account event source mappings ). o Amazon MQ The ARN of the broker. o Amazon DocumentDB The ARN of the DocumentDB change stream. Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*)
+    /// The Amazon Resource Name (ARN) of the event source. • Amazon Kinesis The ARN of the data stream or a stream consumer. • Amazon DynamoDB Streams The ARN of the stream. • Amazon Simple Queue Service The ARN of the queue. • Amazon Managed Streaming for Apache Kafka The ARN of the cluster or the ARN of the VPC connection (for cross-account event source mappings ). • Amazon MQ The ARN of the broker. • Amazon DocumentDB The ARN of the DocumentDB change stream. Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*)
     /// </summary>
     [CliOption("--event-source-arn")]
     public string? EventSourceArn { get; set; }
 
     /// <summary>
-    /// The name or ARN of the Lambda function. Name formats o Function name MyFunction . o Function ARN arn:aws:lambda:us-west-2:123456789012:function:My- Function . o Version or Alias ARN arn:aws:lambda:us-west-2:123456789012:func- tion:MyFunction:PROD . o Partial ARN 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length. Constraints: o min: 1 o max: 256 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(func- tion:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUB- LISHED)?|[a-zA-Z0-9-_]+))?
+    /// The name or ARN of the Lambda function. Name formats • Function name MyFunction . • Function ARN arn:aws:lambda:us-west-2:123456789012:function:MyFunction . • Version or Alias ARN arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD . • Partial ARN 123456789012:function:MyFunction . The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length. Constraints: • min: 1 • max: 256 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST(\.PUBLISHED)?|[a-zA-Z0-9-_]+))?
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,9 +51,21 @@ public record AwsLambdaListEventSourceMappingsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 10000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

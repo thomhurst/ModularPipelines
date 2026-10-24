@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of cases that you specify by passing one or more case IDs. You can use the afterTime and beforeTime parameters to filter the cases by date. You can set values for the includeResolvedCases and in- cludeCommunications parameters to specify how much information to re- turn. The response returns the following in JSON format: o One or more CaseDetails data types. o One or more nextToken values, which specify where to paginate the re- turned records represented by the CaseDetails object...
+/// Returns a list of cases that you specify by passing one or more case IDs. You can use the afterTime and beforeTime parameters to filter the cases by date. You can set values for the includeResolvedCases and includeCommunications parameters to specify how much information to return. The response returns the following in JSON format: • One or more CaseDetails data types. • One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects. Cas...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSupportDescribeCasesOptions : AwsOptions
 {
     /// <summary>
-    /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100. Constraints: o min: 0 o max: 100 (string) Syntax: "string" "string" ...
+    /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100. Constraints: • min: 0 • max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--case-id-list", GroupValues = true)]
     public IEnumerable<string>? CaseIdList { get; set; }
 
     /// <summary>
-    /// The ID displayed for a case in the Amazon Web Services Support Cen- ter user interface.
+    /// The ID displayed for a case in the Amazon Web Services Support Center user interface.
     /// </summary>
     [CliOption("--display-id")]
     public string? DisplayId { get; set; }
 
     /// <summary>
-    /// The start date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
+    /// The start date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
     /// </summary>
     [CliOption("--after-time")]
     public string? AfterTime { get; set; }
 
     /// <summary>
-    /// The end date for a filtered date search on support case communica- tions. Case communications are available for 24 months after cre- ation.
+    /// The end date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
     /// </summary>
     [CliOption("--before-time")]
     public string? BeforeTime { get; set; }
 
     /// <summary>
-    /// Specifies whether to include resolved support cases in the De- scribeCases response. By default, resolved cases aren't included.
+    /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
     /// </summary>
     [CliFlag("--include-resolved-cases", NegatedName = "--no-include-resolved-cases")]
     public bool? IncludeResolvedCases { get; set; }
@@ -59,7 +59,7 @@ public record AwsSupportDescribeCasesOptions : AwsOptions
     public string? Language { get; set; }
 
     /// <summary>
-    /// Specifies whether to include communications in the DescribeCases re- sponse. By default, communications are included.
+    /// Specifies whether to include communications in the DescribeCases response. By default, communications are included.
     /// </summary>
     [CliFlag("--include-communications", NegatedName = "--no-include-communications")]
     public bool? IncludeCommunications { get; set; }
@@ -73,9 +73,6 @@ public record AwsSupportDescribeCasesOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -84,15 +81,27 @@ public record AwsSupportDescribeCasesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 10 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 10 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

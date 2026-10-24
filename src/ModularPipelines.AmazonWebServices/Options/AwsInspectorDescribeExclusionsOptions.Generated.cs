@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspectorDescribeExclusionsOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Describes the exclusions that are specified by the exclusions' ARNs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExclusionArns">The list of ARNs that specify the exclusions that you want to de- scribe. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="ExclusionArns">The list of ARNs that specify the exclusions that you want to describe. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsInspectorDescribeExclusionsOptions(
         IEnumerable<string> ExclusionArns
     )
@@ -67,13 +68,13 @@ public record AwsInspectorDescribeExclusionsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of ARNs that specify the exclusions that you want to de- scribe. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The list of ARNs that specify the exclusions that you want to describe. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exclusion-arns", GroupValues = true)]
     public IEnumerable<string>? ExclusionArns { get; private init; }
 
     /// <summary>
-    /// The locale into which you want to translate the exclusion's title, description, and recommendation. Possible values: o EN_US
+    /// The locale into which you want to translate the exclusion's title, description, and recommendation. Possible values: • EN_US
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
@@ -99,6 +100,15 @@ public record AwsInspectorDescribeExclusionsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

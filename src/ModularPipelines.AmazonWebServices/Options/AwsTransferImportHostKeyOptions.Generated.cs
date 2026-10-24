@@ -10,12 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds a host key to the server that's specified by the ServerId parame- ter. See also: AWS API Documentation
+/// Adds a host key to the server that's specified by the ServerId parameter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +27,10 @@ public record AwsTransferImportHostKeyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds a host key to the server that's specified by the ServerId parame- ter. See also: AWS API Documentation
+    /// Adds a host key to the server that's specified by the ServerId parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">The identifier of the server that contains the host key that you are importing. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
-    /// <param name="HostKeyBody">The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 4096</param>
+    /// <param name="ServerId">The identifier of the server that contains the host key that you are importing. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
+    /// <param name="HostKeyBody">The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: • min: 0 • max: 4096</param>
     public AwsTransferImportHostKeyOptions(
         string ServerId,
         string HostKeyBody
@@ -60,28 +62,40 @@ public record AwsTransferImportHostKeyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the server that contains the host key that you are importing. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// The identifier of the server that contains the host key that you are importing. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
 
     /// <summary>
-    /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: o min: 0 o max: 4096
+    /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--host-key-body")]
     public string? HostKeyBody { get; private init; }
 
     /// <summary>
-    /// The text description that identifies this host key. Constraints: o min: 0 o max: 200 o pattern: [\p{Print}]*
+    /// The text description that identifies this host key. Constraints: • min: 0 • max: 200 • pattern: [\p{Print}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key-value pairs that can be used to group and search for host keys. Constraints: o min: 1 o max: 50 (structure) Creates a key-value pair for a specific resource. Tags are meta- data that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: o min: 0 o max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Key-value pairs that can be used to group and search for host keys. Constraints: • min: 1 • max: 50 (structure) Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group. Key -&gt; (string) [required] The name assigned to the tag that you create. Constraints: • min: 0 • max: 128 Value -&gt; (string) [required] Contains one or more values that you assigned to the key name you create. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED ) or in Secrets Manager (SECRETS_MANAGER ). When you specify SECRETS_MANAGER , Transfer Family stores the private host key material in an Secrets Manager secret. Possible values: • SERVICE_MANAGED • SECRETS_MANAGER
+    /// </summary>
+    [CliOption("--storage-type")]
+    public AwsTransferImportHostKeyStorageType? StorageType { get; set; }
+
+    /// <summary>
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager. Constraints: • min: 20 • max: 1600 • pattern: arn:\S+
+    /// </summary>
+    [CliOption("--kms-key")]
+    public string? KmsKey { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -104,6 +118,15 @@ public record AwsTransferImportHostKeyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

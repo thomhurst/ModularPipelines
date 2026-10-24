@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCloudhsmv2CreateHsmOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new hardware security module (HSM) in the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}</param>
-    /// <param name="AvailabilityZone">The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters . Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|cen- tral){1,2}-\d[a-z]</param>
+    /// <param name="ClusterId">The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}</param>
+    /// <param name="AvailabilityZone">The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters . Constraints: • pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d[a-z]</param>
     public AwsCloudhsmv2CreateHsmOptions(
         string ClusterId,
         string AvailabilityZone
@@ -60,19 +61,19 @@ public record AwsCloudhsmv2CreateHsmOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters . Constraints: o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// The identifier (ID) of the HSM's cluster. To find the cluster ID, use DescribeClusters . Constraints: • pattern: cluster-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters . Constraints: o pattern: [a-z]{2}(-(gov))?-(east|west|north|south|cen- tral){1,2}-\d[a-z]
+    /// The Availability Zone where you are creating the HSM. To find the cluster's Availability Zones, use DescribeClusters . Constraints: • pattern: [a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d[a-z]
     /// </summary>
     [CliOption("--availability-zone")]
     public string? AvailabilityZone { get; private init; }
 
     /// <summary>
-    /// The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet. Constraints: o pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
+    /// The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet. Constraints: • pattern: \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}
     /// </summary>
     [CliOption("--ip-address")]
     public string? IpAddress { get; set; }
@@ -98,6 +99,15 @@ public record AwsCloudhsmv2CreateHsmOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

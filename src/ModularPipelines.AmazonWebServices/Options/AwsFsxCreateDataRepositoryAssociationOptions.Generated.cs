@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associa- tions are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or ...
+/// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or pr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associa- tions are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or ...
+    /// Creates an Amazon FSx for Lustre data repository association (DRA). A data repository association is a link between a directory on the file system and an Amazon S3 bucket or prefix. You can have a maximum of 8 data repository associations on a file system. Data repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type. Each data repository association must have a unique Amazon FSx file system directory and a unique S3 bucket or pr...
     /// </summary>
-    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
-    /// <param name="DataRepositoryPath">The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix/ (where prefix is optional). This path spec- ifies where in the S3 data repository files will be imported from or exported to. Constraints: o min: 3 o max: 4357 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$</param>
+    /// <param name="FileSystemId">The globally unique ID of the file system, assigned by Amazon FSx. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="DataRepositoryPath">The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix/ (where prefix is optional). This path specifies where in the S3 data repository files will be imported from or exported to. Constraints: • min: 3 • max: 4357 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$</param>
     public AwsFsxCreateDataRepositoryAssociationOptions(
         string FileSystemId,
         string DataRepositoryPath
@@ -61,50 +62,50 @@ public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// The globally unique ID of the file system, assigned by Amazon FSx. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix/ (where prefix is optional). This path spec- ifies where in the S3 data repository files will be imported from or exported to. Constraints: o min: 3 o max: 4357 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$
+    /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://bucket-name/prefix/ (where prefix is optional). This path specifies where in the S3 data repository files will be imported from or exported to. Constraints: • min: 3 • max: 4357 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{3,4357}$
     /// </summary>
     [CliOption("--data-repository-path")]
     public string? DataRepositoryPath { get; private init; }
 
     /// <summary>
-    /// A path on the file system that points to a high-level directory (such as /ns1/ ) or subdirectory (such as /ns1/subdir/ ) that will be mapped 1-1 with DataRepositoryPath . The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/ , then you cannot link an- other data repository with file system path /ns1/ns2 . This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory. NOTE: If you specify only a forward slash (/ ) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system. Constraints: o min: 1 o max: 4096 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,4096}$
+    /// A path on the file system that points to a high-level directory (such as /ns1/ ) or subdirectory (such as /ns1/subdir/ ) that will be mapped 1-1 with DataRepositoryPath . The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/ , then you cannot link another data repository with file system path /ns1/ns2 . This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory. NOTE: If you specify only a forward slash (/ ) as the file system path, you can link only one data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system. Constraints: • min: 1 • max: 4096 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{1,4096}$
     /// </summary>
     [CliOption("--file-system-path")]
     public string? FileSystemPath { get; set; }
 
     /// <summary>
-    /// port-meta-data-on-create (boolean) Set to true to run an import data repository task to import metadata from the data repository to the file system after the data reposi- tory association is created. Default is false .
+    /// Set to true to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created. Default is false .
     /// </summary>
     [CliFlag("--batch-import-meta-data-on-create", NegatedName = "--no-batch-import-meta-data-on-create")]
     public bool? BatchImportMetaDataOnCreate { get; set; }
 
     /// <summary>
-    /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB. Constraints: o min: 1 o max: 512000
+    /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB. Constraints: • min: 1 • max: 512000
     /// </summary>
     [CliOption("--imported-file-chunk-size")]
     public int? ImportedFileChunkSize { get; set; }
 
     /// <summary>
-    /// The configuration for an Amazon S3 data repository linked to an Ama- zon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository. AutoImportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically imported from the linked S3 bucket to your file system. Events -&gt; (list) The AutoImportPolicy can have the following event values: o NEW - Amazon FSx automatically imports metadata of files added to the linked S3 bucket that do not currently exist in the FSx file system. o CHANGED - Amazon FSx automatically updates file metadata and invalidates existing file content on the file system as files change in the data repository. o DELETED - Amazon FSx automatically deletes files on the file system as corresponding files are deleted in the data repository. You can define any combination of event types for your Au- toImportPolicy . Constraints: o max: 3 (string) Possible values: o NEW o CHANGED o DELETED AutoExportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically exported from your file system to the linked S3 bucket. Events -&gt; (list) The AutoExportPolicy can have the following event values: o NEW - New files and directories are automatically exported to the data repository as they are added to the file sys- tem. o CHANGED - Changes to files and directories on the file sys- tem are automatically exported to the data repository. o DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system. You can define any combination of event types for your Auto- ExportPolicy . Constraints: o max: 3 (string) Possible values: o NEW o CHANGED o DELETED Shorthand Syntax: AutoImportPolicy={Events=[string,string]},AutoExportPolicy={Events=[string,string]} JSON Syntax: { "AutoImportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] }, "AutoExportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] } }
+    /// The configuration for an Amazon S3 data repository linked to an Amazon FSx Lustre file system with a data repository association. The configuration defines which file events (new, changed, or deleted files or directories) are automatically imported from the linked data repository to the file system or automatically exported from the file system to the data repository. AutoImportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically imported from the linked S3 bucket to your file system. Events -&gt; (list) The AutoImportPolicy can have the following event values: • NEW - Amazon FSx automatically imports metadata of files added to the linked S3 bucket that do not currently exist in the FSx file system. • CHANGED - Amazon FSx automatically updates file metadata and invalidates existing file content on the file system as files change in the data repository. • DELETED - Amazon FSx automatically deletes files on the file system as corresponding files are deleted in the data repository. You can define any combination of event types for your AutoImportPolicy . Constraints: • max: 3 (string) Possible values: • NEW • CHANGED • DELETED AutoExportPolicy -&gt; (structure) Specifies the type of updated objects (new, changed, deleted) that will be automatically exported from your file system to the linked S3 bucket. Events -&gt; (list) The AutoExportPolicy can have the following event values: • NEW - New files and directories are automatically exported to the data repository as they are added to the file system. • CHANGED - Changes to files and directories on the file system are automatically exported to the data repository. • DELETED - Files and directories are automatically deleted on the data repository when they are deleted on the file system. You can define any combination of event types for your AutoExportPolicy . Constraints: • max: 3 (string) Possible values: • NEW • CHANGED • DELETED Shorthand Syntax: AutoImportPolicy={Events=[string,string]},AutoExportPolicy={Events=[string,string]} JSON Syntax: { "AutoImportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] }, "AutoExportPolicy": { "Events": ["NEW"|"CHANGED"|"DELETED", ...] } }
     /// </summary>
     [CliOption("--s3")]
     public string? S3 { get; set; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// A list of Tag values, with a maximum of 50 elements. Constraints: o min: 1 o max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are at- tached. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of Tag values, with a maximum of 50 elements. Constraints: • min: 1 • max: 50 (structure) Specifies a key-value pair for a resource tag. Key -&gt; (string) [required] A value that specifies the TagKey , the name of the tag. Tag keys must be unique for the resource to which they are attached. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] A value that specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and don't have to be unique in a tag set. For example, you can have a key-value pair in a tag set of finances : April and also of payroll : April . Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -130,6 +131,15 @@ public record AwsFsxCreateDataRepositoryAssociationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

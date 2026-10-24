@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an IAM principal to the pull time update exclusion list for a reg- istry. Amazon ECR will not record the pull time if an excluded princi- pal pulls an image. See also: AWS API Documentation
+/// Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEcrRegisterPullTimeUpdateExclusionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an IAM principal to the pull time update exclusion list for a reg- istry. Amazon ECR will not record the pull time if an excluded princi- pal pulls an image. See also: AWS API Documentation
+    /// Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PrincipalArn">The ARN of the IAM principal to exclude from having image pull times recorded. Constraints: o max: 200 o pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:(role|user)/[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
+    /// <param name="PrincipalArn">The ARN of the IAM principal to exclude from having image pull times recorded. Constraints: • max: 200 • pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:(role|user)/[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
     public AwsEcrRegisterPullTimeUpdateExclusionOptions(
         string PrincipalArn
     )
@@ -56,7 +57,7 @@ public record AwsEcrRegisterPullTimeUpdateExclusionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the IAM principal to exclude from having image pull times recorded. Constraints: o max: 200 o pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:(role|user)/[\w+=,.@-]+(/[\w+=,.@-]+)*$
+    /// The ARN of the IAM principal to exclude from having image pull times recorded. Constraints: • max: 200 • pattern: ^arn:aws(-[a-z]+)*:iam::[0-9]{12}:(role|user)/[\w+=,.@-]+(/[\w+=,.@-]+)*$
     /// </summary>
     [CliOption("--principal-arn")]
     public string? PrincipalArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEcrRegisterPullTimeUpdateExclusionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

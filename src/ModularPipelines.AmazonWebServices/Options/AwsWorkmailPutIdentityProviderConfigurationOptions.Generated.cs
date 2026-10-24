@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Per- sonal Access Tokens. See also: AWS API Documentation
+/// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsWorkmailPutIdentityProviderConfigurationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Per- sonal Access Tokens. See also: AWS API Documentation
+    /// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The ID of the WorkMail Organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="AuthenticationMode">The authentication mode used in WorkMail. Possible values: o IDENTITY_PROVIDER_ONLY o IDENTITY_PROVIDER_AND_DIRECTORY</param>
-    /// <param name="IdentityCenterConfiguration">The details of the IAM Identity Center configuration. InstanceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the of IAM Identity Center in- stance. Must be in the same AWS account and region as WorkMail organization. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$ ApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateI- dentityCenterApplication. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:ap- plication/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$ Shorthand Syntax: InstanceArn=string,ApplicationArn=string JSON Syntax: { "InstanceArn": "string", "ApplicationArn": "string" }</param>
-    /// <param name="PersonalAccessTokenConfiguration">The details of the Personal Access Token configuration. Status -&gt; (string) [required] The status of the Personal Access Token allowed for the organi- zation. o Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connec- tion from desktop or mobile email clients. o Inactive - Personal Access Tokens are disabled for your orga- nization. Mailbox users cant create, list, or delete Personal Access Tokens and cant use them to connect to their mailboxes from desktop or mobile email clients. Possible values: o ACTIVE o INACTIVE LifetimeInDays -&gt; (integer) The validity of the Personal Access Token status in days. Constraints: o min: 1 o max: 3653 Shorthand Syntax: Status=string,LifetimeInDays=integer JSON Syntax: { "Status": "ACTIVE"|"INACTIVE", "LifetimeInDays": integer }</param>
+    /// <param name="OrganizationId">The ID of the WorkMail Organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="AuthenticationMode">The authentication mode used in WorkMail. Possible values: • IDENTITY_PROVIDER_ONLY • IDENTITY_PROVIDER_AND_DIRECTORY</param>
+    /// <param name="IdentityCenterConfiguration">The details of the IAM Identity Center configuration. InstanceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the of IAM Identity Center instance. Must be in the same AWS account and region as WorkMail organization. Constraints: • min: 10 • max: 1124 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$ ApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateIdentityCenterApplication. Constraints: • min: 10 • max: 1224 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$ Shorthand Syntax: InstanceArn=string,ApplicationArn=string JSON Syntax: { "InstanceArn": "string", "ApplicationArn": "string" }</param>
+    /// <param name="PersonalAccessTokenConfiguration">The details of the Personal Access Token configuration. Status -&gt; (string) [required] The status of the Personal Access Token allowed for the organization. • Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connection from desktop or mobile email clients. • Inactive - Personal Access Tokens are disabled for your organization. Mailbox users cant create, list, or delete Personal Access Tokens and cant use them to connect to their mailboxes from desktop or mobile email clients. Possible values: • ACTIVE • INACTIVE LifetimeInDays -&gt; (integer) The validity of the Personal Access Token status in days. Constraints: • min: 1 • max: 3653 Shorthand Syntax: Status=string,LifetimeInDays=integer JSON Syntax: { "Status": "ACTIVE"|"INACTIVE", "LifetimeInDays": integer }</param>
     public AwsWorkmailPutIdentityProviderConfigurationOptions(
         string OrganizationId,
         AwsWorkmailPutIdentityProviderConfigurationAuthenticationMode AuthenticationMode,
@@ -69,25 +70,25 @@ public record AwsWorkmailPutIdentityProviderConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WorkMail Organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The ID of the WorkMail Organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The authentication mode used in WorkMail. Possible values: o IDENTITY_PROVIDER_ONLY o IDENTITY_PROVIDER_AND_DIRECTORY
+    /// The authentication mode used in WorkMail. Possible values: • IDENTITY_PROVIDER_ONLY • IDENTITY_PROVIDER_AND_DIRECTORY
     /// </summary>
     [CliOption("--authentication-mode")]
     public AwsWorkmailPutIdentityProviderConfigurationAuthenticationMode? AuthenticationMode { get; private init; }
 
     /// <summary>
-    /// The details of the IAM Identity Center configuration. InstanceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the of IAM Identity Center in- stance. Must be in the same AWS account and region as WorkMail organization. Constraints: o min: 10 o max: 1124 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}$ ApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateI- dentityCenterApplication. Constraints: o min: 10 o max: 1224 o pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:ap- plication/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$ Shorthand Syntax: InstanceArn=string,ApplicationArn=string JSON Syntax: { "InstanceArn": "string", "ApplicationArn": "string" }
+    /// The details of the IAM Identity Center configuration. InstanceArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the of IAM Identity Center instance. Must be in the same AWS account and region as WorkMail organization. Constraints: • min: 10 • max: 1124 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$ ApplicationArn -&gt; (string) [required] The Amazon Resource Name (ARN) of IAMIdentity Center Application for WorkMail. Must be created by the WorkMail API, see CreateIdentityCenterApplication. Constraints: • min: 10 • max: 1224 • pattern: ^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$ Shorthand Syntax: InstanceArn=string,ApplicationArn=string JSON Syntax: { "InstanceArn": "string", "ApplicationArn": "string" }
     /// </summary>
     [CliOption("--identity-center-configuration")]
     public string? IdentityCenterConfiguration { get; private init; }
 
     /// <summary>
-    /// The details of the Personal Access Token configuration. Status -&gt; (string) [required] The status of the Personal Access Token allowed for the organi- zation. o Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connec- tion from desktop or mobile email clients. o Inactive - Personal Access Tokens are disabled for your orga- nization. Mailbox users cant create, list, or delete Personal Access Tokens and cant use them to connect to their mailboxes from desktop or mobile email clients. Possible values: o ACTIVE o INACTIVE LifetimeInDays -&gt; (integer) The validity of the Personal Access Token status in days. Constraints: o min: 1 o max: 3653 Shorthand Syntax: Status=string,LifetimeInDays=integer JSON Syntax: { "Status": "ACTIVE"|"INACTIVE", "LifetimeInDays": integer }
+    /// The details of the Personal Access Token configuration. Status -&gt; (string) [required] The status of the Personal Access Token allowed for the organization. • Active - Mailbox users can login to the web application and choose Settings to see the new Personal Access Tokens page to create and delete the Personal Access Tokens. Mailbox users can use the Personal Access Tokens to set up mailbox connection from desktop or mobile email clients. • Inactive - Personal Access Tokens are disabled for your organization. Mailbox users cant create, list, or delete Personal Access Tokens and cant use them to connect to their mailboxes from desktop or mobile email clients. Possible values: • ACTIVE • INACTIVE LifetimeInDays -&gt; (integer) The validity of the Personal Access Token status in days. Constraints: • min: 1 • max: 3653 Shorthand Syntax: Status=string,LifetimeInDays=integer JSON Syntax: { "Status": "ACTIVE"|"INACTIVE", "LifetimeInDays": integer }
     /// </summary>
     [SecretValue]
     [CliOption("--personal-access-token-configuration")]
@@ -114,6 +115,15 @@ public record AwsWorkmailPutIdentityProviderConfigurationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

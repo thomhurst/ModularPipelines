@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEvsGetDepotUrlOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns a URL and authentication token for accessing the Amazon EVS Custom Addon depot. Configure the depot URL as a download source in vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS Custom Addon. The depot URL remains active until you rotate the authentication token by calling this action with rotate set to true . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The unique ID of the Amazon EVS environment to get the depot URL for. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="EnvironmentId">The unique ID of the Amazon EVS environment to get the depot URL for. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
     public AwsEvsGetDepotUrlOptions(
         string EnvironmentId
     )
@@ -56,7 +57,7 @@ public record AwsEvsGetDepotUrlOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the Amazon EVS environment to get the depot URL for. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// The unique ID of the Amazon EVS environment to get the depot URL for. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
@@ -88,6 +89,15 @@ public record AwsEvsGetDepotUrlOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

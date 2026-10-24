@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluat- ing a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results ar...
+/// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluating a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results are ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluat- ing a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results ar...
+    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluating a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results are ...
     /// </summary>
-    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$</param>
+    /// <param name="Catalog">The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$</param>
     public AwsMarketplaceCatalogListAssessmentsOptions(
         string Catalog
     )
@@ -57,34 +58,31 @@ public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z]+$
+    /// The catalog related to the request. Fixed value: AWSMarketplace Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z]+$
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of a framework. When specified, only assess- ments performed against this framework are returned. For example, AMISecurity . Constraints: o min: 1 o max: 255 o pattern: ^[\w\-@]+$
+    /// The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity . Constraints: • min: 1 • max: 255 • pattern: ^[\w\-@]+$
     /// </summary>
     [CliOption("--framework-id")]
     public string? FrameworkId { get; set; }
 
     /// <summary>
-    /// Filters the list of assessments to those performed against a spe- cific entity or change set. EntityId -&gt; (string) The unique ID of the entity whose assessments you want to list. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$ ChangeSetId -&gt; (string) The unique ID of the change set that triggered the assessments you want to list. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$ Shorthand Syntax: EntityId=string,ChangeSetId=string JSON Syntax: { "EntityId": "string", "ChangeSetId": "string" }
+    /// Filters the list of assessments to those performed against a specific entity or change set. EntityId -&gt; (string) The unique ID of the entity whose assessments you want to list. Constraints: • min: 1 • max: 255 • pattern: ^[\w\-]+$ ChangeSetId -&gt; (string) The unique ID of the change set that triggered the assessments you want to list. Constraints: • min: 1 • max: 255 • pattern: ^[\w\-]+$ Shorthand Syntax: EntityId=string,ChangeSetId=string JSON Syntax: { "EntityId": "string", "ChangeSetId": "string" }
     /// </summary>
     [CliOption("--assessment-target-filter")]
     public string? AssessmentTargetFilter { get; set; }
 
     /// <summary>
-    /// Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AMISecurityFilters, ContainerSecurityFil- ters. AMISecurityFilters -&gt; (structure) Filters that apply to assessments performed against the AMI Se- curity framework. DeliveryOptionId -&gt; (string) The unique ID of the delivery option whose AMI Security as- sessments you want to list. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$ ContainerSecurityFilters -&gt; (structure) Filters that apply to assessments performed against the Con- tainer Security framework. DeliveryOptionId -&gt; (string) The unique ID of the delivery option whose Container Security assessments you want to list. Constraints: o min: 1 o max: 255 o pattern: ^[\w\-]+$ Shorthand Syntax: AMISecurityFilters={DeliveryOptionId=string},ContainerSecurityFilters={DeliveryOptionId=string} JSON Syntax: { "AMISecurityFilters": { "DeliveryOptionId": "string" }, "ContainerSecurityFilters": { "DeliveryOptionId": "string" } }
+    /// Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AMISecurityFilters, ContainerSecurityFilters. AMISecurityFilters -&gt; (structure) Filters that apply to assessments performed against the AMI Security framework. DeliveryOptionId -&gt; (string) The unique ID of the delivery option whose AMI Security assessments you want to list. Constraints: • min: 1 • max: 255 • pattern: ^[\w\-]+$ ContainerSecurityFilters -&gt; (structure) Filters that apply to assessments performed against the Container Security framework. DeliveryOptionId -&gt; (string) The unique ID of the delivery option whose Container Security assessments you want to list. Constraints: • min: 1 • max: 255 • pattern: ^[\w\-]+$ Shorthand Syntax: AMISecurityFilters={DeliveryOptionId=string},ContainerSecurityFilters={DeliveryOptionId=string} JSON Syntax: { "AMISecurityFilters": { "DeliveryOptionId": "string" }, "ContainerSecurityFilters": { "DeliveryOptionId": "string" } }
     /// </summary>
     [CliOption("--framework-filters")]
     public string? FrameworkFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -94,16 +92,19 @@ public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -120,6 +121,15 @@ public record AwsMarketplaceCatalogListAssessmentsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsRoute53RecoveryControlConfigUpdateClusterOptions : AwsOptions, 
     /// <summary>
     /// Updates an existing cluster. You can only update the network type of a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
-    /// <param name="NetworkType">The network type of the cluster. NetworkType can be one of the fol- lowing: IPV4, DUALSTACK. Possible values: o IPV4 o DUALSTACK</param>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="NetworkType">The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK. Possible values: • IPV4 • DUALSTACK</param>
     public AwsRoute53RecoveryControlConfigUpdateClusterOptions(
         string ClusterArn,
         AwsRoute53RecoveryControlConfigUpdateClusterNetworkType NetworkType
@@ -60,13 +61,13 @@ public record AwsRoute53RecoveryControlConfigUpdateClusterOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cluster. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// The Amazon Resource Name (ARN) of the cluster. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--cluster-arn")]
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// The network type of the cluster. NetworkType can be one of the fol- lowing: IPV4, DUALSTACK. Possible values: o IPV4 o DUALSTACK
+    /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK. Possible values: • IPV4 • DUALSTACK
     /// </summary>
     [CliOption("--network-type")]
     public AwsRoute53RecoveryControlConfigUpdateClusterNetworkType? NetworkType { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53RecoveryControlConfigUpdateClusterOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

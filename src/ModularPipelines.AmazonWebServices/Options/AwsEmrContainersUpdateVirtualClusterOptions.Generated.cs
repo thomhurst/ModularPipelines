@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a virtual cluster. Virtual cluster is a managed entity on Ama- zon EMR on EKS. You can create, update, describe, list and delete vir- tual clusters. They do not consume any additional resource in your sys- tem. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
+/// Updates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEmrContainersUpdateVirtualClusterOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a virtual cluster. Virtual cluster is a managed entity on Ama- zon EMR on EKS. You can create, update, describe, list and delete vir- tual clusters. They do not consume any additional resource in your sys- tem. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
+    /// Updates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the virtual cluster to update. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+</param>
+    /// <param name="Id">The ID of the virtual cluster to update. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+</param>
     public AwsEmrContainersUpdateVirtualClusterOptions(
         string Id
     )
@@ -57,19 +58,19 @@ public record AwsEmrContainersUpdateVirtualClusterOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the virtual cluster to update. Constraints: o min: 1 o max: 64 o pattern: [0-9a-z]+
+    /// The ID of the virtual cluster to update. Constraints: • min: 1 • max: 64 • pattern: [0-9a-z]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit a field, the corresponding limit is removed. maxInQueueJobRuns -&gt; (integer) The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException . If you omit this field, the service ap- plies no queue-depth limit. Constraints: o min: 100 o max: 10000 maxConcurrentJobRuns -&gt; (integer) The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit. Constraints: o min: 1 o max: 10000 Shorthand Syntax: maxInQueueJobRuns=integer,maxConcurrentJobRuns=integer JSON Syntax: { "maxInQueueJobRuns": integer, "maxConcurrentJobRuns": integer }
+    /// The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit a field, the corresponding limit is removed. maxInQueueJobRuns -&gt; (integer) The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException . If you omit this field, the service applies no queue-depth limit. Constraints: • min: 100 • max: 10000 maxConcurrentJobRuns -&gt; (integer) The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit. Constraints: • min: 1 • max: 10000 Shorthand Syntax: maxInQueueJobRuns=integer,maxConcurrentJobRuns=integer JSON Syntax: { "maxInQueueJobRuns": integer, "maxConcurrentJobRuns": integer }
     /// </summary>
     [CliOption("--scheduler-configuration")]
     public string? SchedulerConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -96,6 +97,15 @@ public record AwsEmrContainersUpdateVirtualClusterOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the current value for one or more asset properties. For more in- formation, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
+/// Gets the current value for one or more asset properties. For more information, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotsitewiseBatchGetAssetPropertyValueOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the current value for one or more asset properties. For more in- formation, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
+    /// Gets the current value for one or more asset properties. For more information, see Querying current values in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Entries">The list of asset property value entries for the batch get request. You can specify up to 128 entries per request. (structure) Contains information for an asset property value entry that is associated with the BatchGetAssetPropertyValue API. To identify an asset property, you must specify one of the fol- lowing: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an as- set property's alias, see UpdateAssetProperty . entryId -&gt; (string) [required] The ID of the entry. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ assetId -&gt; (string) The ID of the asset in which the asset property was created. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) The ID of the asset property, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyAlias -&gt; (string) The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/wind- farm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: entryId=string,assetId=string,propertyId=string,propertyAlias=string ... JSON Syntax: [ { "entryId": "string", "assetId": "string", "propertyId": "string", "propertyAlias": "string" } ... ]</param>
+    /// <param name="Entries">The list of asset property value entries for the batch get request. You can specify up to 128 entries per request. (structure) Contains information for an asset property value entry that is associated with the BatchGetAssetPropertyValue API. To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . entryId -&gt; (string) [required] The ID of the entry. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ assetId -&gt; (string) The ID of the asset in which the asset property was created. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) The ID of the asset property, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyAlias -&gt; (string) The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: entryId=string,assetId=string,propertyId=string,propertyAlias=string ... JSON Syntax: [ { "entryId": "string", "assetId": "string", "propertyId": "string", "propertyAlias": "string" } ... ]</param>
     public AwsIotsitewiseBatchGetAssetPropertyValueOptions(
         IEnumerable<string> Entries
     )
@@ -68,13 +69,13 @@ public record AwsIotsitewiseBatchGetAssetPropertyValueOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of asset property value entries for the batch get request. You can specify up to 128 entries per request. (structure) Contains information for an asset property value entry that is associated with the BatchGetAssetPropertyValue API. To identify an asset property, you must specify one of the fol- lowing: o The assetId and propertyId of an asset property. o A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an as- set property's alias, see UpdateAssetProperty . entryId -&gt; (string) [required] The ID of the entry. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$ assetId -&gt; (string) The ID of the asset in which the asset property was created. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) The ID of the asset property, in UUID format. Constraints: o min: 36 o max: 36 o pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyAlias -&gt; (string) The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/wind- farm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: entryId=string,assetId=string,propertyId=string,propertyAlias=string ... JSON Syntax: [ { "entryId": "string", "assetId": "string", "propertyId": "string", "propertyAlias": "string" } ... ]
+    /// The list of asset property value entries for the batch get request. You can specify up to 128 entries per request. (structure) Contains information for an asset property value entry that is associated with the BatchGetAssetPropertyValue API. To identify an asset property, you must specify one of the following: • The assetId and propertyId of an asset property. • A propertyAlias , which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature ). To define an asset property's alias, see UpdateAssetProperty . entryId -&gt; (string) [required] The ID of the entry. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$ assetId -&gt; (string) The ID of the asset in which the asset property was created. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyId -&gt; (string) The ID of the asset property, in UUID format. Constraints: • min: 36 • max: 36 • pattern: ^(?!00000000-0000-0000-0000-000000000000)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ propertyAlias -&gt; (string) The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature ). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide . Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+ Shorthand Syntax: entryId=string,assetId=string,propertyId=string,propertyAlias=string ... JSON Syntax: [ { "entryId": "string", "assetId": "string", "propertyId": "string", "propertyAlias": "string" } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; private init; }
 
     /// <summary>
-    /// The token to be used for the next set of paginated results. Constraints: o min: 1 o max: 4096 o pattern: [A-Za-z0-9+/=]+
+    /// The token to be used for the next set of paginated results. Constraints: • min: 1 • max: 4096 • pattern: [A-Za-z0-9+/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -101,6 +102,15 @@ public record AwsIotsitewiseBatchGetAssetPropertyValueOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsOpensearchUpdateDirectQueryDataSourceOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceName">A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+</param>
-    /// <param name="DataSourceType">The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CloudWatchLog, SecurityLake, Prometheus. CloudWatchLog -&gt; (structure) Specifies CloudWatch Logs as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ SecurityLake -&gt; (structure) Specifies Security Lake as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ Prometheus -&gt; (structure) Specifies Prometheus as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ WorkspaceArn -&gt; (string) [required] The unique identifier of the Amazon Managed Prometheus Work- space that is associated with the specified data source. Constraints: o pattern: ^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:work- space\/ws-[a-z0-9-]*$ Shorthand Syntax: CloudWatchLog={RoleArn=string},SecurityLake={RoleArn=string},Prometheus={RoleArn=string,WorkspaceArn=string} JSON Syntax: { "CloudWatchLog": { "RoleArn": "string" }, "SecurityLake": { "RoleArn": "string" }, "Prometheus": { "RoleArn": "string", "WorkspaceArn": "string" } }</param>
+    /// <param name="DataSourceName">A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+</param>
+    /// <param name="DataSourceType">The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CloudWatchLog, SecurityLake, Prometheus. CloudWatchLog -&gt; (structure) Specifies CloudWatch Logs as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: • min: 32 • max: 200 • pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/service-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ SecurityLake -&gt; (structure) Specifies Security Lake as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: • min: 32 • max: 200 • pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/service-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ Prometheus -&gt; (structure) Specifies Prometheus as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: • min: 32 • max: 200 • pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/service-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ WorkspaceArn -&gt; (string) [required] The unique identifier of the Amazon Managed Prometheus Workspace that is associated with the specified data source. Constraints: • pattern: ^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:workspace\/ws-[a-z0-9-]*$ Shorthand Syntax: CloudWatchLog={RoleArn=string},SecurityLake={RoleArn=string},Prometheus={RoleArn=string,WorkspaceArn=string} JSON Syntax: { "CloudWatchLog": { "RoleArn": "string" }, "SecurityLake": { "RoleArn": "string" }, "Prometheus": { "RoleArn": "string", "WorkspaceArn": "string" } }</param>
     public AwsOpensearchUpdateDirectQueryDataSourceOptions(
         string DataSourceName,
         string DataSourceType
@@ -60,31 +61,31 @@ public record AwsOpensearchUpdateDirectQueryDataSourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+
     /// </summary>
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; private init; }
 
     /// <summary>
-    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CloudWatchLog, SecurityLake, Prometheus. CloudWatchLog -&gt; (structure) Specifies CloudWatch Logs as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ SecurityLake -&gt; (structure) Specifies Security Lake as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ Prometheus -&gt; (structure) Specifies Prometheus as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: o min: 32 o max: 200 o pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/ser- vice-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ WorkspaceArn -&gt; (string) [required] The unique identifier of the Amazon Managed Prometheus Work- space that is associated with the specified data source. Constraints: o pattern: ^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:work- space\/ws-[a-z0-9-]*$ Shorthand Syntax: CloudWatchLog={RoleArn=string},SecurityLake={RoleArn=string},Prometheus={RoleArn=string,WorkspaceArn=string} JSON Syntax: { "CloudWatchLog": { "RoleArn": "string" }, "SecurityLake": { "RoleArn": "string" }, "Prometheus": { "RoleArn": "string", "WorkspaceArn": "string" } }
+    /// The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CloudWatchLog, SecurityLake, Prometheus. CloudWatchLog -&gt; (structure) Specifies CloudWatch Logs as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: • min: 32 • max: 200 • pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/service-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ SecurityLake -&gt; (structure) Specifies Security Lake as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: • min: 32 • max: 200 • pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/service-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ Prometheus -&gt; (structure) Specifies Prometheus as a type of data source for direct queries. RoleArn -&gt; (string) [required] The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source. Constraints: • min: 32 • max: 200 • pattern: ^arn:aws[a-zA-Z-]*:iam::\d{12}:role(\/service-role)?\/[A-Za-z0-9+=,.@\-_]{1,64}$ WorkspaceArn -&gt; (string) [required] The unique identifier of the Amazon Managed Prometheus Workspace that is associated with the specified data source. Constraints: • pattern: ^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:workspace\/ws-[a-z0-9-]*$ Shorthand Syntax: CloudWatchLog={RoleArn=string},SecurityLake={RoleArn=string},Prometheus={RoleArn=string,WorkspaceArn=string} JSON Syntax: { "CloudWatchLog": { "RoleArn": "string" }, "SecurityLake": { "RoleArn": "string" }, "Prometheus": { "RoleArn": "string", "WorkspaceArn": "string" } }
     /// </summary>
     [CliOption("--data-source-type")]
     public string? DataSourceType { get; private init; }
 
     /// <summary>
-    /// An optional text field for providing additional context and details about the data source. Constraints: o max: 1000 o pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
+    /// An optional text field for providing additional context and details about the data source. Constraints: • max: 1000 • pattern: ^([a-zA-Z0-9_])*[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake data- source types. (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Ac- cess Management for more information. Constraints: o min: 20 o max: 2048 o pattern: .* Syntax: "string" "string" ...
+    /// An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types. (string) The Amazon Resource Name (ARN) of the domain. See Identifiers for IAM Entities in Using Amazon Web Services Identity and Access Management for more information. Constraints: • min: 20 • max: 2048 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--open-search-arns", GroupValues = true)]
     public IEnumerable<string>? OpenSearchArns { get; set; }
 
     /// <summary>
-    /// An optional IAM access policy document that defines the updated per- missions for accessing the direct query data source. The policy doc- ument must be in valid JSON format and follow IAM policy syntax. If not specified, the existing access policy if present remains un- changed. Constraints: o min: 0 o max: 102400 o pattern: .*
+    /// An optional IAM access policy document that defines the updated permissions for accessing the direct query data source. The policy document must be in valid JSON format and follow IAM policy syntax. If not specified, the existing access policy if present remains unchanged. Constraints: • min: 0 • max: 102400 • pattern: .*
     /// </summary>
     [CliOption("--data-source-access-policy")]
     public string? DataSourceAccessPolicy { get; set; }
@@ -110,6 +111,15 @@ public record AwsOpensearchUpdateDirectQueryDataSourceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

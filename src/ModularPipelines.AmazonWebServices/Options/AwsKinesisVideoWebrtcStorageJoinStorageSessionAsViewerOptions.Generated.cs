@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If theres no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn ) and client id (clien- tId ). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a...
+/// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If theres no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn ) and client id (clientId ). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If theres no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn ) and client id (clien- tId ). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a...
+    /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If theres no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn ) and client id (clientId ). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a s...
     /// </summary>
-    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*):kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$</param>
-    /// <param name="ClientId">The unique identifier for the sender client. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_.-]+$</param>
+    /// <param name="ChannelArn">The Amazon Resource Name (ARN) of the signaling channel. Constraints: • pattern: ^arn:(aws[a-zA-Z-]*):kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$</param>
+    /// <param name="ClientId">The unique identifier for the sender client. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_.-]+$</param>
     public AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions(
         string ChannelArn,
         string ClientId
@@ -60,13 +61,13 @@ public record AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the signaling channel. Constraints: o pattern: ^arn:(aws[a-zA-Z-]*):kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the signaling channel. Constraints: • pattern: ^arn:(aws[a-zA-Z-]*):kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$
     /// </summary>
     [CliOption("--channel-arn")]
     public string? ChannelArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the sender client. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_.-]+$
+    /// The unique identifier for the sender client. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_.-]+$
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKinesisVideoWebrtcStorageJoinStorageSessionAsViewerOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

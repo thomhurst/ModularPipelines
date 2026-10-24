@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of voices that are available for use when requesting speech synthesis. Each voice speaks a specified language, is either male or female, and is identified by an ID, which is the ASCII version of the voice name. When synthesizing speech ( SynthesizeSpeech ), you provide the voice ID for the voice you want from the list of voices returned by De- scribeVoices . For example, you want your news reader application to read news in a specific language, but giving a user the option to ch...
+/// Returns the list of voices that are available for use when requesting speech synthesis. Each voice speaks a specified language, is either male or female, and is identified by an ID, which is the ASCII version of the voice name. When synthesizing speech ( SynthesizeSpeech ), you provide the voice ID for the voice you want from the list of voices returned by DescribeVoices . For example, you want your news reader application to read news in a specific language, but giving a user the option to choo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,28 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsPollyDescribeVoicesOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the engine (standard , neural , long-form or generative ) used by Amazon Polly when processing input text for speech synthe- sis. Possible values: o standard o neural o long-form o generative
+    /// Specifies the engine (standard , neural , long-form or generative ) used by Amazon Polly when processing input text for speech synthesis. Possible values: • standard • neural • long-form • generative
     /// </summary>
     [CliOption("--engine")]
     public AwsPollyDescribeVoicesEngine? Engine { get; set; }
 
     /// <summary>
-    /// The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices re- turned. If you don't specify this optional parameter, all available voices are returned. Possible values: o arb o cmn-CN o cy-GB o da-DK o de-DE o en-AU o en-GB o en-GB-WLS o en-IN o en-US o es-ES o es-MX o es-US o fr-CA o fr-FR o is-IS o it-IT o ja-JP o hi-IN o ko-KR o nb-NO o nl-NL o pl-PL o pt-BR o pt-PT o ro-RO o ru-RU o sv-SE o tr-TR o en-NZ o en-ZA o ca-ES o de-AT o yue-CN o ar-AE o fi-FI o en-IE o nl-BE o fr-BE o cs-CZ o de-CH o en-SG
+    /// The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. Possible values: • arb • cmn-CN • cy-GB • da-DK • de-DE • en-AU • en-GB • en-GB-WLS • en-IN • en-US • es-ES • es-MX • es-US • fr-CA • fr-FR • is-IS • it-IT • ja-JP • hi-IN • ko-KR • nb-NO • nl-NL • pl-PL • pt-BR • pt-PT • ro-RO • ru-RU • sv-SE • tr-TR • en-NZ • en-ZA • ca-ES • de-AT • yue-CN • ar-AE • fi-FI • en-IE • nl-BE • fr-BE • cs-CZ • de-CH • en-SG
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
     /// <summary>
-    /// guage-codes (boolean) Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you spec- ify no .
+    /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no .
     /// </summary>
     [CliFlag("--include-additional-language-codes", NegatedName = "--no-include-additional-language-codes")]
     public bool? IncludeAdditionalLanguageCodes { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -55,9 +52,21 @@ public record AwsPollyDescribeVoicesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

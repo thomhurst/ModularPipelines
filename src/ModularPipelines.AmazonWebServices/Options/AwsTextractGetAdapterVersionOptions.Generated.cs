@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets configuration information for the specified adapter version, in- cluding: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMes- sage, DatasetConfig, KMSKeyId, OutputConfig, Tags and Evaluation- Metrics. See also: AWS API Documentation
+/// Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsTextractGetAdapterVersionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets configuration information for the specified adapter version, in- cluding: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMes- sage, DatasetConfig, KMSKeyId, OutputConfig, Tags and Evaluation- Metrics. See also: AWS API Documentation
+    /// Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterId">A string specifying a unique ID for the adapter version you want to retrieve information for. Constraints: o min: 12 o max: 1011</param>
-    /// <param name="AdapterVersion">A string specifying the adapter version you want to retrieve infor- mation for. Constraints: o min: 1 o max: 128</param>
+    /// <param name="AdapterId">A string specifying a unique ID for the adapter version you want to retrieve information for. Constraints: • min: 12 • max: 1011</param>
+    /// <param name="AdapterVersion">A string specifying the adapter version you want to retrieve information for. Constraints: • min: 1 • max: 128</param>
     public AwsTextractGetAdapterVersionOptions(
         string AdapterId,
         string AdapterVersion
@@ -60,13 +61,13 @@ public record AwsTextractGetAdapterVersionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string specifying a unique ID for the adapter version you want to retrieve information for. Constraints: o min: 12 o max: 1011
+    /// A string specifying a unique ID for the adapter version you want to retrieve information for. Constraints: • min: 12 • max: 1011
     /// </summary>
     [CliOption("--adapter-id")]
     public string? AdapterId { get; private init; }
 
     /// <summary>
-    /// A string specifying the adapter version you want to retrieve infor- mation for. Constraints: o min: 1 o max: 128
+    /// A string specifying the adapter version you want to retrieve information for. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--adapter-version")]
     public string? AdapterVersion { get; private init; }
@@ -92,6 +93,15 @@ public record AwsTextractGetAdapterVersionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

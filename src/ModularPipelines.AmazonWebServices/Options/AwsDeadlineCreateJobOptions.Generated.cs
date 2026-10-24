@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,9 +30,9 @@ public record AwsDeadlineCreateJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm to connect to the job. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The ID of the queue that the job is submitted to. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="Priority">The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is sched- uled first. Constraints: o min: 0 o max: 100</param>
+    /// <param name="FarmId">The farm ID of the farm to connect to the job. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The ID of the queue that the job is submitted to. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="Priority">The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first. Constraints: • min: 0 • max: 100</param>
     public AwsDeadlineCreateJobOptions(
         string FarmId,
         string QueueId,
@@ -66,98 +66,98 @@ public record AwsDeadlineCreateJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm to connect to the job. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm to connect to the job. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The ID of the queue that the job is submitted to. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The ID of the queue that the job is submitted to. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is sched- uled first. Constraints: o min: 0 o max: 100
+    /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The job template to use for this job. Constraints: o min: 1 o max: 1000000
+    /// The job template to use for this job. Constraints: • min: 1 • max: 1000000
     /// </summary>
     [CliOption("--template")]
     public string? Template { get; set; }
 
     /// <summary>
-    /// The file type for the job template. Possible values: o JSON o YAML
+    /// The file type for the job template. Possible values: • JSON • YAML
     /// </summary>
     [CliOption("--template-type")]
     public AwsDeadlineCreateJobTemplateType? TemplateType { get; set; }
 
     /// <summary>
-    /// The parameters for the job. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 1024 value -&gt; (tagged union structure) The details of job parameters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: int, float, string, path, bool, rangeExpr, stringList, pathList, intList, floatList, bool- List, intListList. int -&gt; (string) A signed integer represented as a string. Constraints: o min: 1 o max: 20 o pattern: [-]?(0|[1-9][0-9]*) float -&gt; (string) A double precision IEEE-754 floating point number represented as a string. Constraints: o min: 1 o max: 26 o pattern: [-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)? string -&gt; (string) A UTF-8 string. Constraints: o min: 0 o max: 1024 path -&gt; (string) A file system path represented as a string. Constraints: o min: 0 o max: 1024 bool -&gt; (string) A boolean value represented as a string. Accepted values are true , false , yes , no , on , off , 1 , and 0 , case-insen- sitive. Constraints: o min: 1 o max: 5 o pattern: ([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01]) rangeExpr -&gt; (string) An Open Job Description range expression represented as a string, such as 1-10:2 . Constraints: o min: 1 o max: 1024 stringList -&gt; (list) A list of UTF-8 strings. Constraints: o min: 0 o max: 64 (string) Constraints: o min: 0 o max: 1024 pathList -&gt; (list) A list of file system paths, each represented as a string. Constraints: o min: 0 o max: 64 (string) Constraints: o min: 0 o max: 1024 intList -&gt; (list) A list of signed integers, each represented as a string. Constraints: o min: 0 o max: 512 (string) Constraints: o min: 1 o max: 20 o pattern: [-]?(0|[1-9][0-9]*) floatList -&gt; (list) A list of double precision IEEE-754 floating point numbers, each represented as a string. Constraints: o min: 0 o max: 512 (string) Constraints: o min: 1 o max: 26 o pattern: [-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)? boolList -&gt; (list) A list of boolean values, each represented as a string. Constraints: o min: 0 o max: 512 (string) Constraints: o min: 1 o max: 5 o pattern: ([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01]) intListList -&gt; (list) A list of lists of signed integers, each represented as a string. Constraints: o min: 0 o max: 512 (list) Constraints: o min: 0 o max: 64 (string) Constraints: o min: 1 o max: 20 o pattern: [-]?(0|[1-9][0-9]*) JSON Syntax: {"string": { "int": "string", "float": "string", "string": "string", "path": "string", "bool": "string", "rangeExpr": "string", "stringList": ["string", ...], "pathList": ["string", ...], "intList": ["string", ...], "floatList": ["string", ...], "boolList": ["string", ...], "intListList": [ ["string", ...] ... ] } ...}
+    /// The parameters for the job. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 1024 value -&gt; (tagged union structure) The details of job parameters. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: int, float, string, path, bool, rangeExpr, stringList, pathList, intList, floatList, boolList, intListList. int -&gt; (string) A signed integer represented as a string. Constraints: • min: 1 • max: 20 • pattern: [-]?(0|[1-9][0-9]*) float -&gt; (string) A double precision IEEE-754 floating point number represented as a string. Constraints: • min: 1 • max: 26 • pattern: [-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)? string -&gt; (string) A UTF-8 string. Constraints: • min: 0 • max: 1024 path -&gt; (string) A file system path represented as a string. Constraints: • min: 0 • max: 1024 bool -&gt; (string) A boolean value represented as a string. Accepted values are true , false , yes , no , on , off , 1 , and 0 , case-insensitive. Constraints: • min: 1 • max: 5 • pattern: ([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01]) rangeExpr -&gt; (string) An Open Job Description range expression represented as a string, such as 1-10:2 . Constraints: • min: 1 • max: 1024 stringList -&gt; (list) A list of UTF-8 strings. Constraints: • min: 0 • max: 64 (string) Constraints: • min: 0 • max: 1024 pathList -&gt; (list) A list of file system paths, each represented as a string. Constraints: • min: 0 • max: 64 (string) Constraints: • min: 0 • max: 1024 intList -&gt; (list) A list of signed integers, each represented as a string. Constraints: • min: 0 • max: 512 (string) Constraints: • min: 1 • max: 20 • pattern: [-]?(0|[1-9][0-9]*) floatList -&gt; (list) A list of double precision IEEE-754 floating point numbers, each represented as a string. Constraints: • min: 0 • max: 512 (string) Constraints: • min: 1 • max: 26 • pattern: [-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)? boolList -&gt; (list) A list of boolean values, each represented as a string. Constraints: • min: 0 • max: 512 (string) Constraints: • min: 1 • max: 5 • pattern: ([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01]) intListList -&gt; (list) A list of lists of signed integers, each represented as a string. Constraints: • min: 0 • max: 512 (list) Constraints: • min: 0 • max: 64 (string) Constraints: • min: 1 • max: 20 • pattern: [-]?(0|[1-9][0-9]*) JSON Syntax: {"string": { "int": "string", "float": "string", "string": "string", "path": "string", "bool": "string", "rangeExpr": "string", "stringList": ["string", ...], "pathList": ["string", ...], "intList": ["string", ...], "floatList": ["string", ...], "boolList": ["string", ...], "intListList": [ ["string", ...] ... ] } ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The attachments for the job. Attach files required for the job to run to a render job. manifests -&gt; (list) [required] The manifest properties for the attachments. Constraints: o min: 1 o max: 10 (structure) The details of the manifest that links a job's source infor- mation. fileSystemLocationName -&gt; (string) The file system location name. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z ]* rootPath -&gt; (string) [required] The file's root path. Constraints: o min: 1 o max: 1024 rootPathFormat -&gt; (string) [required] The format of the root path. Possible values: o windows o posix outputRelativeDirectories -&gt; (list) The file path relative to the directory. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 1 o max: 1024 inputManifestPath -&gt; (string) The file path. Constraints: o min: 1 o max: 512 inputManifestHash -&gt; (string) The hash value of the file. Constraints: o min: 1 o max: 256 fileSystem -&gt; (string) The file system location for the attachments. Possible values: o COPIED o VIRTUAL JSON Syntax: { "manifests": [ { "fileSystemLocationName": "string", "rootPath": "string", "rootPathFormat": "windows"|"posix", "outputRelativeDirectories": ["string", ...], "inputManifestPath": "string", "inputManifestHash": "string" } ... ], "fileSystem": "COPIED"|"VIRTUAL" }
+    /// The attachments for the job. Attach files required for the job to run to a render job. manifests -&gt; (list) [required] The manifest properties for the attachments. Constraints: • min: 1 • max: 10 (structure) The details of the manifest that links a job's source information. fileSystemLocationName -&gt; (string) The file system location name. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z ]* rootPath -&gt; (string) [required] The file's root path. Constraints: • min: 1 • max: 1024 rootPathFormat -&gt; (string) [required] The format of the root path. Possible values: • windows • posix outputRelativeDirectories -&gt; (list) The file path relative to the directory. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 1 • max: 1024 inputManifestPath -&gt; (string) The file path. Constraints: • min: 1 • max: 512 inputManifestHash -&gt; (string) The hash value of the file. Constraints: • min: 1 • max: 256 fileSystem -&gt; (string) The file system location for the attachments. Possible values: • COPIED • VIRTUAL JSON Syntax: { "manifests": [ { "fileSystemLocationName": "string", "rootPath": "string", "rootPathFormat": "windows"|"posix", "outputRelativeDirectories": ["string", ...], "inputManifestPath": "string", "inputManifestHash": "string" } ... ], "fileSystem": "COPIED"|"VIRTUAL" }
     /// </summary>
     [CliOption("--attachments")]
     public string? Attachments { get; set; }
 
     /// <summary>
-    /// The storage profile ID for the storage profile to connect to the job. Constraints: o pattern: sp-[0-9a-f]{32}
+    /// The storage profile ID for the storage profile to connect to the job. Constraints: • pattern: sp-[0-9a-f]{32}
     /// </summary>
     [CliOption("--storage-profile-id")]
     public string? StorageProfileId { get; set; }
 
     /// <summary>
-    /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued. Possible values: o READY o SUSPENDED
+    /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued. Possible values: • READY • SUSPENDED
     /// </summary>
     [CliOption("--target-task-run-status")]
     public AwsDeadlineCreateJobTargetTaskRunStatus? TargetTaskRunStatus { get; set; }
 
     /// <summary>
-    /// The number of task failures before the job stops running and is marked as FAILED . Constraints: o min: 0 o max: 2147483647
+    /// The number of task failures before the job stops running and is marked as FAILED . Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--max-failed-tasks-count")]
     public int? MaxFailedTasksCount { get; set; }
 
     /// <summary>
-    /// The maximum number of retries for each task. Constraints: o min: 0 o max: 2147483647
+    /// The maximum number of retries for each task. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--max-retries-per-task")]
     public int? MaxRetriesPerTask { get; set; }
 
     /// <summary>
-    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be as- signed to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount , Deadline Cloud won't throttle the number of workers used to process the job. Constraints: o min: -1 o max: 2147483647
+    /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount , Deadline Cloud won't throttle the number of workers used to process the job. Constraints: • min: -1 • max: 2147483647
     /// </summary>
     [CliOption("--max-worker-count")]
     public int? MaxWorkerCount { get; set; }
 
     /// <summary>
-    /// The job ID for the source job. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID for the source job. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--source-job-id")]
     public string? SourceJobId { get; set; }
 
     /// <summary>
-    /// A custom name to override the job name derived from the job tem- plate. Constraints: o min: 1 o max: 512
+    /// A custom name to override the job name derived from the job template. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--name-override")]
     public string? NameOverride { get; set; }
 
     /// <summary>
-    /// A custom description to override the job description derived from the job template. Constraints: o min: 0 o max: 2048
+    /// A custom description to override the job description derived from the job template. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description-override")]
     public string? DescriptionOverride { get; set; }
@@ -189,6 +189,15 @@ public record AwsDeadlineCreateJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

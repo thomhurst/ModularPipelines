@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig tar- gets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web , Mobile and Back-end components for your application. You can config- ure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the syste...
+/// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web , Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system ro...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsAppConfigCreateEnvironmentOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig tar- gets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web , Mobile and Back-end components for your application. You can config- ure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the syste...
+    /// Creates an environment. For each application, you define one or more environments. An environment is a deployment group of AppConfig targets, such as applications in a Beta or Production environment. You can also define environments for application subcomponents such as the Web , Mobile and Back-end components for your application. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system ro...
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Name">A name for the environment. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Name">A name for the environment. Constraints: • min: 1 • max: 64</param>
     public AwsAppConfigCreateEnvironmentOptions(
         string ApplicationId,
         string Name
@@ -61,31 +61,31 @@ public record AwsAppConfigCreateEnvironmentOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// A name for the environment. Constraints: o min: 1 o max: 64
+    /// A name for the environment. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description of the environment. Constraints: o min: 0 o max: 1024
+    /// A description of the environment. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Amazon CloudWatch alarms to monitor during the deployment process. Constraints: o min: 0 o max: 5 (structure) Amazon CloudWatch alarms to monitor during the deployment process. AlarmArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon CloudWatch alarm. Constraints: o min: 1 o max: 2048 AlarmRoleArn -&gt; (string) ARN of an Identity and Access Management (IAM) role for App- Config to monitor AlarmArn . Constraints: o min: 20 o max: 2048 o pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$ Shorthand Syntax: AlarmArn=string,AlarmRoleArn=string ... JSON Syntax: [ { "AlarmArn": "string", "AlarmRoleArn": "string" } ... ]
+    /// Amazon CloudWatch alarms to monitor during the deployment process. Constraints: • min: 0 • max: 5 (structure) Amazon CloudWatch alarms to monitor during the deployment process. AlarmArn -&gt; (string) [required] Amazon Resource Name (ARN) of the Amazon CloudWatch alarm. Constraints: • min: 1 • max: 2048 AlarmRoleArn -&gt; (string) ARN of an Identity and Access Management (IAM) role for AppConfig to monitor AlarmArn . Constraints: • min: 20 • max: 2048 • pattern: ^((arn):(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov|aws-eusc):(iam)::\d{12}:role[/].*)$ Shorthand Syntax: AlarmArn=string,AlarmRoleArn=string ... JSON Syntax: [ { "AlarmArn": "string", "AlarmRoleArn": "string" } ... ]
     /// </summary>
     [CliOption("--monitors", GroupValues = true)]
     public IEnumerable<string>? Monitors { get; set; }
 
     /// <summary>
-    /// Metadata to assign to the environment. Tags help organize and cate- gorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -111,6 +111,15 @@ public record AwsAppConfigCreateEnvironmentOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

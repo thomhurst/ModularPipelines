@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsSdb : IAwsSdb
     #region Commands
 
     /// <summary>
-    /// Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to op- timize requests, which generally yields better throughput. The following limitations are enforced for this operation: o 1 MB request size o 25 item limit per BatchDeleteAttributes operation See also: AWS API Documentation
+    /// Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to optimize requests, which generally yields better throughput. The following limitations are enforced for this operation: • 1 MB request size • 25 item limit per BatchDeleteAttributes operation See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// The BatchPutAttributes operation creates or replaces attributes within one or more items. By using this operation, the client can perform mul- tiple PutAttribute operation with a single call. This helps yield sav- ings in round trips and latencies, enabling Amazon SimpleDB to optimize requests and generally produce better throughput. The client may specify the item name with the Item.X.ItemName parame- ter. The client may specify new attributes using a combination of the Item.X.Attribute.Y.Name ...
+    /// The BatchPutAttributes operation creates or replaces attributes within one or more items. By using this operation, the client can perform multiple PutAttribute operation with a single call. This helps yield savings in round trips and latencies, enabling Amazon SimpleDB to optimize requests and generally produce better throughput. The client may specify the item name with the Item.X.ItemName parameter. The client may specify new attributes using a combination of the Item.X.Attribute.Y.Name and It...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// Deletes one or more attributes associated with an item. If all attrib- utes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error re- sponse. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Se- lect operation (read) immediately after a DeleteAttributes or PutAt- tributes operation (write) m...
+    /// Deletes one or more attributes associated with an item. If all attributes of the item are deleted, the item is deleted. DeleteAttributes is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response. Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a GetAttributes or Select operation (read) immediately after a DeleteAttributes or PutAttributes operation (write) might not...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// The DeleteDomain operation deletes a domain. Any items (and their at- tributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
+    /// The DeleteDomain operation deletes a domain. Any items (and their attributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// Returns all of the attributes associated with the specified item. Op- tionally, the attributes returned can be limited to one or more attrib- utes by specifying an attribute name parameter. If the item does not exist on the replica that was accessed for this operation, an empty set is returned. The system does not return an er- ror as it cannot guarantee the item does not exist on other replicas. See also: AWS API Documentation
+    /// Returns all of the attributes associated with the specified item. Optionally, the attributes returned can be limited to one or more attributes by specifying an attribute name parameter. If the item does not exist on the replica that was accessed for this operation, an empty set is returned. The system does not return an error as it cannot guarantee the item does not exist on other replicas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// The ListDomains operation lists all domains associated with the Access Key ID. It returns domain names up to the limit set by MaxNumberOfDomains . A NextToken is returned if there are more than MaxNumberOfDomains domains. Calling ListDomains successive times with the NextToken provided by the operation returns up to MaxNumberOfDo- mains more domain names with each successive operation call. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in...
+    /// The ListDomains operation lists all domains associated with the Access Key ID. It returns domain names up to the limit set by MaxNumberOfDomains . A NextToken is returned if there are more than MaxNumberOfDomains domains. Calling ListDomains successive times with the NextToken provided by the operation returns up to MaxNumberOfDomains more domain names with each successive operation call. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the At- tribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and At- tribute.0.Value , the second attribute by the parameters At- tribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value com- bination. For example, a single item can have...
+    /// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the Attribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and Attribute.0.Value , the second attribute by the parameters Attribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value combination. For example, a single item can have the att...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsSdb : IAwsSdb
     }
 
     /// <summary>
-    /// The Select operation returns a set of attributes for ItemNames that match the select expression. Select is similar to the standard SQL SE- LECT statement. The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system returns 100 items and an appropriate NextToken so the client can access...
+    /// The Select operation returns a set of attributes for ItemNames that match the select expression. Select is similar to the standard SQL SELECT statement. The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system returns 100 items and an appropriate NextToken so the client can access t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

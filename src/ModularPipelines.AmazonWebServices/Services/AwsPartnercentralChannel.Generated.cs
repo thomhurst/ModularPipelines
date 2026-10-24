@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralchannel commands.
+/// aws partnercentral-channel commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPartnercentralChannel : IAwsPartnercentralChannel
@@ -77,7 +77,7 @@ public class AwsPartnercentralChannel : IAwsPartnercentralChannel
     }
 
     /// <summary>
-    /// Creates a new program management account for managing partner relation- ships. See also: AWS API Documentation
+    /// Creates a new program management account for managing partner relationships. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPartnercentralChannel : IAwsPartnercentralChannel
     }
 
     /// <summary>
-    /// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists channel handshakes based on specified criteria. See also: AWS API Documentation list-channel-handshakes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPartnercentralChannel : IAwsPartnercentralChannel
     }
 
     /// <summary>
-    /// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists program management accounts based on specified criteria. See also: AWS API Documentation list-program-management-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

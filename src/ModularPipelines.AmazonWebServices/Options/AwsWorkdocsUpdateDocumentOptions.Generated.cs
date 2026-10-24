@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified attributes of a document. The user must have ac- cess to both the document and its parent folder, if applicable. See also: AWS API Documentation
+/// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsWorkdocsUpdateDocumentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified attributes of a document. The user must have ac- cess to both the document and its parent folder, if applicable. See also: AWS API Documentation
+    /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="DocumentId">The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsUpdateDocumentOptions(
         string DocumentId
     )
@@ -58,32 +59,32 @@ public record AwsWorkdocsUpdateDocumentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The name of the document. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\u202D\u202F-\uFFFF]+
+    /// The name of the document. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\u202D\u202F-\uFFFF]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The ID of the parent folder. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the parent folder. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--parent-folder-id")]
     public string? ParentFolderId { get; set; }
 
     /// <summary>
-    /// The resource state of the document. Only ACTIVE and RECYCLED are supported. Possible values: o ACTIVE o RESTORING o RECYCLING o RECYCLED
+    /// The resource state of the document. Only ACTIVE and RECYCLED are supported. Possible values: • ACTIVE • RESTORING • RECYCLING • RECYCLED
     /// </summary>
     [CliOption("--resource-state")]
     public AwsWorkdocsUpdateDocumentResourceState? ResourceState { get; set; }
@@ -109,6 +110,15 @@ public record AwsWorkdocsUpdateDocumentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

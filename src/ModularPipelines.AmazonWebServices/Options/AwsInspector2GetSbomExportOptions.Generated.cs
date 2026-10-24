@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspector2GetSbomExportOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets details of a software bill of materials (SBOM) report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportId">The report ID of the SBOM export to get details for. Constraints: o pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*</param>
+    /// <param name="ReportId">The report ID of the SBOM export to get details for. Constraints: • pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*</param>
     public AwsInspector2GetSbomExportOptions(
         string ReportId
     )
@@ -56,7 +57,7 @@ public record AwsInspector2GetSbomExportOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The report ID of the SBOM export to get details for. Constraints: o pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*
+    /// The report ID of the SBOM export to get details for. Constraints: • pattern: .*\b[a-f0-9]{8}\b-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-\b[a-f0-9]{12}\b.*
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInspector2GetSbomExportOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

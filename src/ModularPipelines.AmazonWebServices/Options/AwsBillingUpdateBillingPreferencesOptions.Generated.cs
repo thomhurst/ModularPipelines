@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{credi- tId}/status key may be set by member accounts ...
+/// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{creditId}/status key may be set by member accounts fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{credi- tId}/status key may be set by member accounts ...
+    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , and sharing keys under CREDIT_PREFERENCE_OPTIONS ) may only be set by the management account of a consolidated billing family. The credit/{creditId}/status key may be set by member accounts fo...
     /// </summary>
-    /// <param name="Feature">The feature to update. Valid values: BILLING_ALERTS , RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY ) are read-only and cannot be updated. Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS</param>
-    /// <param name="BillingPreferencesPerKey">Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS , all keys must reference the same credi- tId . Constraints: o min: 1 (structure) A single key/value entry used to update a billing preference. key -&gt; (string) [required] The preference key. Format depends on the feature being up- dated. Constraints: o min: 1 o max: 2148 o pattern: [a-zA-Z0-9-\/\*: ]+ value -&gt; (string) [required] The preference value. Valid values: ENABLED or DISABLED . Possible values: o ENABLED o DISABLED Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "ENABLED"|"DISABLED" } ... ]</param>
+    /// <param name="Feature">The feature to update. Valid values: BILLING_ALERTS , RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY ) are read-only and cannot be updated. Possible values: • RI_SHARING • RI_SHARING_HISTORY • CREDIT_SHARING • CREDIT_SHARING_HISTORY • CREDIT_LEVEL_SHARING • BILLING_ALERTS • CREDIT_PREFERENCE_OPTIONS</param>
+    /// <param name="BillingPreferencesPerKey">Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS , all keys must reference the same creditId . Constraints: • min: 1 (structure) A single key/value entry used to update a billing preference. key -&gt; (string) [required] The preference key. Format depends on the feature being updated. Constraints: • min: 1 • max: 2148 • pattern: [a-zA-Z0-9-\/\*: ]+ value -&gt; (string) [required] The preference value. Valid values: ENABLED or DISABLED . Possible values: • ENABLED • DISABLED Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "ENABLED"|"DISABLED" } ... ]</param>
     public AwsBillingUpdateBillingPreferencesOptions(
         AwsBillingUpdateBillingPreferencesFeature Feature,
         IEnumerable<string> BillingPreferencesPerKey
@@ -71,13 +72,13 @@ public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The feature to update. Valid values: BILLING_ALERTS , RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY ) are read-only and cannot be updated. Possible values: o RI_SHARING o RI_SHARING_HISTORY o CREDIT_SHARING o CREDIT_SHARING_HISTORY o CREDIT_LEVEL_SHARING o BILLING_ALERTS o CREDIT_PREFERENCE_OPTIONS
+    /// The feature to update. Valid values: BILLING_ALERTS , RI_SHARING , CREDIT_SHARING , CREDIT_LEVEL_SHARING , CREDIT_PREFERENCE_OPTIONS . The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY ) are read-only and cannot be updated. Possible values: • RI_SHARING • RI_SHARING_HISTORY • CREDIT_SHARING • CREDIT_SHARING_HISTORY • CREDIT_LEVEL_SHARING • BILLING_ALERTS • CREDIT_PREFERENCE_OPTIONS
     /// </summary>
     [CliOption("--feature")]
     public AwsBillingUpdateBillingPreferencesFeature? Feature { get; private init; }
 
     /// <summary>
-    /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS , all keys must reference the same credi- tId . Constraints: o min: 1 (structure) A single key/value entry used to update a billing preference. key -&gt; (string) [required] The preference key. Format depends on the feature being up- dated. Constraints: o min: 1 o max: 2148 o pattern: [a-zA-Z0-9-\/\*: ]+ value -&gt; (string) [required] The preference value. Valid values: ENABLED or DISABLED . Possible values: o ENABLED o DISABLED Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "ENABLED"|"DISABLED" } ... ]
+    /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS , all keys must reference the same creditId . Constraints: • min: 1 (structure) A single key/value entry used to update a billing preference. key -&gt; (string) [required] The preference key. Format depends on the feature being updated. Constraints: • min: 1 • max: 2148 • pattern: [a-zA-Z0-9-\/\*: ]+ value -&gt; (string) [required] The preference value. Valid values: ENABLED or DISABLED . Possible values: • ENABLED • DISABLED Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "ENABLED"|"DISABLED" } ... ]
     /// </summary>
     [CliOption("--billing-preferences-per-key", GroupValues = true)]
     public IEnumerable<string>? BillingPreferencesPerKey { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBillingUpdateBillingPreferencesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

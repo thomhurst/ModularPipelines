@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsConfigserviceDeleteStoredQueryOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryName">The name of the query that you want to delete. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="QueryName">The name of the query that you want to delete. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsConfigserviceDeleteStoredQueryOptions(
         string QueryName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeleteStoredQueryOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the query that you want to delete. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// The name of the query that you want to delete. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--query-name")]
     public string? QueryName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeleteStoredQueryOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

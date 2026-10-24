@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable t...
+/// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trust...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAccountGetAlternateContactOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Ama- zon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Manage- ment and Organizations. For more information, see Enable t...
+    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Update the alternate contacts for your Amazon Web Services account . NOTE: Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trust...
     /// </summary>
-    /// <param name="AlternateContactType">Specifies which alternate contact you want to retrieve. Possible values: o BILLING o OPERATIONS o SECURITY</param>
+    /// <param name="AlternateContactType">Specifies which alternate contact you want to retrieve. Possible values: • BILLING • OPERATIONS • SECURITY</param>
     public AwsAccountGetAlternateContactOptions(
         AwsAccountGetAlternateContactAlternateContactType AlternateContactType
     )
@@ -56,13 +57,13 @@ public record AwsAccountGetAlternateContactOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies which alternate contact you want to retrieve. Possible values: o BILLING o OPERATIONS o SECURITY
+    /// Specifies which alternate contact you want to retrieve. Possible values: • BILLING • OPERATIONS • SECURITY
     /// </summary>
     [CliOption("--alternate-contact-type")]
     public AwsAccountGetAlternateContactAlternateContactType? AlternateContactType { get; private init; }
 
     /// <summary>
-    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator ac- count, and the specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Ac- count Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId ; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an or- ganization, then don't specify this parameter, and call the opera- tion using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: o pattern: \d{12}
+    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled , and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned. NOTE: The management account can't specify its own AccountId ; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -88,6 +89,15 @@ public record AwsAccountGetAlternateContactOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

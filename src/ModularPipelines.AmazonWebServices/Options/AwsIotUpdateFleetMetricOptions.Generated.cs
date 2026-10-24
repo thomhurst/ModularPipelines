@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotUpdateFleetMetricOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the data for a fleet metric. Requires permission to access the UpdateFleetMetric action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricName">The name of the fleet metric to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+</param>
-    /// <param name="IndexName">The name of the index to search. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="MetricName">The name of the fleet metric to update. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\-\.]+</param>
+    /// <param name="IndexName">The name of the index to search. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotUpdateFleetMetricOptions(
         string MetricName,
         string IndexName
@@ -60,43 +61,43 @@ public record AwsIotUpdateFleetMetricOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the fleet metric to update. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\-\.]+
+    /// The name of the fleet metric to update. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\-\.]+
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; private init; }
 
     /// <summary>
-    /// The name of the index to search. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The name of the index to search. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; private init; }
 
     /// <summary>
-    /// The search query string. Constraints: o min: 1
+    /// The search query string. Constraints: • min: 1
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; set; }
 
     /// <summary>
-    /// The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: o Statistics o Percentiles o Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: o min: 1 o max: 12 o pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }
+    /// The type of the aggregation query. name -&gt; (string) [required] The name of the aggregation type. Possible values: • Statistics • Percentiles • Cardinality values -&gt; (list) A list of the values of aggregation types. (string) Constraints: • min: 1 • max: 12 • pattern: [a-zA-Z0-9]+ Shorthand Syntax: name=string,values=string,string JSON Syntax: { "name": "Statistics"|"Percentiles"|"Cardinality", "values": ["string", ...] }
     /// </summary>
     [CliOption("--aggregation-type")]
     public string? AggregationType { get; set; }
 
     /// <summary>
-    /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: o min: 60 o max: 86400
+    /// The time in seconds between fleet metric emissions. Range [60(1 min), 86400(1 day)] and must be multiple of 60. Constraints: • min: 60 • max: 86400
     /// </summary>
     [CliOption("--period")]
     public int? Period { get; set; }
 
     /// <summary>
-    /// The field to aggregate. Constraints: o min: 1
+    /// The field to aggregate. Constraints: • min: 1
     /// </summary>
     [CliOption("--aggregation-field")]
     public string? AggregationField { get; set; }
 
     /// <summary>
-    /// The description of the fleet metric. Constraints: o max: 1024 o pattern: [\p{Graph}\x20]*
+    /// The description of the fleet metric. Constraints: • max: 1024 • pattern: [\p{Graph}\x20]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -108,7 +109,7 @@ public record AwsIotUpdateFleetMetricOptions : AwsOptions, IValidatableObject
     public string? QueryVersion { get; set; }
 
     /// <summary>
-    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric . Possible values: o Seconds o Microseconds o Milliseconds o Bytes o Kilobytes o Megabytes o Gigabytes o Terabytes o Bits o Kilobits o Megabits o Gigabits o Terabits o Percent o Count o Bytes/Second o Kilobytes/Second o Megabytes/Second o Gigabytes/Second o Terabytes/Second o Bits/Second o Kilobits/Second o Megabits/Second o Gigabits/Second o Terabits/Second o Count/Second o None
+    /// Used to support unit transformation such as milliseconds to seconds. The unit must be supported by CW metric . Possible values: • Seconds • Microseconds • Milliseconds • Bytes • Kilobytes • Megabytes • Gigabytes • Terabytes • Bits • Kilobits • Megabits • Gigabits • Terabits • Percent • Count • Bytes/Second • Kilobytes/Second • Megabytes/Second • Gigabytes/Second • Terabytes/Second • Bits/Second • Kilobits/Second • Megabits/Second • Gigabits/Second • Terabits/Second • Count/Second • None
     /// </summary>
     [CliOption("--unit")]
     public string? Unit { get; set; }
@@ -117,7 +118,7 @@ public record AwsIotUpdateFleetMetricOptions : AwsOptions, IValidatableObject
     /// The expected version of the fleet metric record in the registry.
     /// </summary>
     [CliOption("--expected-version")]
-    public int? ExpectedVersion { get; set; }
+    public long? ExpectedVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -140,6 +141,15 @@ public record AwsIotUpdateFleetMetricOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

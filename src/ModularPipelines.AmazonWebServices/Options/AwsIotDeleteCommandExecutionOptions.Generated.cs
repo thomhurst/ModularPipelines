@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotDeleteCommandExecutionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Delete a command execution. NOTE: Only command executions that enter a terminal state can be deleted from your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionId">The unique identifier of the command execution that you want to delete from your account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the target device for which you want to delete command executions. Constraints: o max: 2048</param>
+    /// <param name="ExecutionId">The unique identifier of the command execution that you want to delete from your account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="TargetArn">The Amazon Resource Number (ARN) of the target device for which you want to delete command executions. Constraints: • max: 2048</param>
     public AwsIotDeleteCommandExecutionOptions(
         string ExecutionId,
         string TargetArn
@@ -60,13 +61,13 @@ public record AwsIotDeleteCommandExecutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the command execution that you want to delete from your account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The unique identifier of the command execution that you want to delete from your account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the target device for which you want to delete command executions. Constraints: o max: 2048
+    /// The Amazon Resource Number (ARN) of the target device for which you want to delete command executions. Constraints: • max: 2048
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotDeleteCommandExecutionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

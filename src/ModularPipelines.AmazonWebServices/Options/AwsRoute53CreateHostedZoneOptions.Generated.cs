@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the in- ternet for a domain, such as example.com, and its subdomains (apex.ex- ample.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its sub- domains within one or more Amazon Virtual Private Clouds (Amazon VPCs). WARNING: You can't convert a public hosted zone to a private hosted zone or vi...
+/// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the internet for a domain, such as example.com, and its subdomains (apex.example.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs). WARNING: You can't convert a public hosted zone to a private hosted zone or vice ver...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53CreateHostedZoneOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the in- ternet for a domain, such as example.com, and its subdomains (apex.ex- ample.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its sub- domains within one or more Amazon Virtual Private Clouds (Amazon VPCs). WARNING: You can't convert a public hosted zone to a private hosted zone or vi...
+    /// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the internet for a domain, such as example.com, and its subdomains (apex.example.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs). WARNING: You can't convert a public hosted zone to a private hosted zone or vice ver...
     /// </summary>
-    /// <param name="Name">The name of the domain. Specify a fully qualified domain name, for example, www.example.com . The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is regis- tered with a registrar other than Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone re- turns in DelegationSet . Constraints: o max: 1024</param>
-    /// <param name="CallerReference">A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of execut- ing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerRef- erence can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Name">The name of the domain. Specify a fully qualified domain name, for example, www.example.com . The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in DelegationSet . Constraints: • max: 1024</param>
+    /// <param name="CallerReference">A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 128</param>
     public AwsRoute53CreateHostedZoneOptions(
         string Name,
         string CallerReference
@@ -60,31 +61,31 @@ public record AwsRoute53CreateHostedZoneOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Specify a fully qualified domain name, for example, www.example.com . The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is regis- tered with a registrar other than Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone re- turns in DelegationSet . Constraints: o max: 1024
+    /// The name of the domain. Specify a fully qualified domain name, for example, www.example.com . The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical. If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in DelegationSet . Constraints: • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of execut- ing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerRef- erence can be any unique string, for example, a date/time stamp. Constraints: o min: 1 o max: 128
+    /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--caller-reference")]
     public string? CallerReference { get; private init; }
 
     /// <summary>
-    /// (Private hosted zones only) A complex type that contains information about the Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon VPC when you create a private hosted zone. If you are associating a VPC with a hosted zone with this re- quest, the paramaters VPCId and VPCRegion are also required. To associate additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone. VPCRegion -&gt; (string) (Private hosted zones only) The region that an Amazon VPC was created in. Possible values: o us-east-1 o us-east-2 o us-west-1 o us-west-2 o eu-west-1 o eu-west-2 o eu-west-3 o eu-central-1 o eu-central-2 o ap-east-1 o me-south-1 o us-gov-west-1 o us-gov-east-1 o us-iso-east-1 o us-iso-west-1 o us-isob-east-1 o me-central-1 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-south-1 o ap-south-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o eu-north-1 o sa-east-1 o ca-central-1 o cn-north-1 o cn-northwest-1 o af-south-1 o eu-south-1 o eu-south-2 o ap-southeast-4 o il-central-1 o ca-west-1 o ap-southeast-5 o mx-central-1 o us-isof-south-1 o us-isof-east-1 o ap-southeast-7 o ap-east-2 o eu-isoe-west-1 o ap-southeast-6 o us-isob-west-1 o eusc-de-east-1 Constraints: o min: 1 o max: 64 VPCId -&gt; (string) (Private hosted zones only) The ID of an Amazon VPC. Constraints: o max: 1024 Shorthand Syntax: VPCRegion=string,VPCId=string JSON Syntax: { "VPCRegion": "us-east-1"|"us-east-2"|"us-west-1"|"us-west-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"eu-central-1"|"eu-central-2"|"ap-east-1"|"me-south-1"|"us-gov-west-1"|"us-gov-east-1"|"us-iso-east-1"|"us-iso-west-1"|"us-isob-east-1"|"me-central-1"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-south-1"|"ap-south-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"eu-north-1"|"sa-east-1"|"ca-central-1"|"cn-north-1"|"cn-northwest-1"|"af-south-1"|"eu-south-1"|"eu-south-2"|"ap-southeast-4"|"il-central-1"|"ca-west-1"|"ap-southeast-5"|"mx-central-1"|"us-isof-south-1"|"us-isof-east-1"|"ap-southeast-7"|"ap-east-2"|"eu-isoe-west-1"|"ap-southeast-6"|"us-isob-west-1"|"eusc-de-east-1", "VPCId": "string" }
+    /// (Private hosted zones only) A complex type that contains information about the Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon VPC when you create a private hosted zone. If you are associating a VPC with a hosted zone with this request, the paramaters VPCId and VPCRegion are also required. To associate additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone. VPCRegion -&gt; (string) (Private hosted zones only) The region that an Amazon VPC was created in. Possible values: • us-east-1 • us-east-2 • us-west-1 • us-west-2 • eu-west-1 • eu-west-2 • eu-west-3 • eu-central-1 • eu-central-2 • ap-east-1 • me-south-1 • us-gov-west-1 • us-gov-east-1 • us-iso-east-1 • us-iso-west-1 • us-isob-east-1 • me-central-1 • ap-southeast-1 • ap-southeast-2 • ap-southeast-3 • ap-south-1 • ap-south-2 • ap-northeast-1 • ap-northeast-2 • ap-northeast-3 • eu-north-1 • sa-east-1 • ca-central-1 • cn-north-1 • cn-northwest-1 • af-south-1 • eu-south-1 • eu-south-2 • ap-southeast-4 • il-central-1 • ca-west-1 • ap-southeast-5 • mx-central-1 • us-isof-south-1 • us-isof-east-1 • ap-southeast-7 • ap-east-2 • eu-isoe-west-1 • ap-southeast-6 • us-isob-west-1 • eusc-de-east-1 Constraints: • min: 1 • max: 64 VPCId -&gt; (string) (Private hosted zones only) The ID of an Amazon VPC. Constraints: • max: 1024 Shorthand Syntax: VPCRegion=string,VPCId=string JSON Syntax: { "VPCRegion": "us-east-1"|"us-east-2"|"us-west-1"|"us-west-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"eu-central-1"|"eu-central-2"|"ap-east-1"|"me-south-1"|"us-gov-west-1"|"us-gov-east-1"|"us-iso-east-1"|"us-iso-west-1"|"us-isob-east-1"|"me-central-1"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-south-1"|"ap-south-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"eu-north-1"|"sa-east-1"|"ca-central-1"|"cn-north-1"|"cn-northwest-1"|"af-south-1"|"eu-south-1"|"eu-south-2"|"ap-southeast-4"|"il-central-1"|"ca-west-1"|"ap-southeast-5"|"mx-central-1"|"us-isof-south-1"|"us-isof-east-1"|"ap-southeast-7"|"ap-east-2"|"eu-isoe-west-1"|"ap-southeast-6"|"us-isob-west-1"|"eusc-de-east-1", "VPCId": "string" }
     /// </summary>
     [CliOption("--vpc")]
     public string? Vpc { get; set; }
 
     /// <summary>
-    /// (Optional) A complex type that contains the following optional val- ues: o For public and private hosted zones, an optional comment o For private hosted zones, an optional PrivateZone element If you don't specify a comment or the PrivateZone element, omit HostedZoneConfig and the other elements. Comment -&gt; (string) Any comments that you want to include about the hosted zone. Constraints: o max: 256 PrivateZone -&gt; (boolean) A value that indicates whether this is a private hosted zone. Note do not include PrivateZone in this input structure. Its value is returned in the output to the command. Shorthand Syntax: Comment=string,PrivateZone=boolean JSON Syntax: { "Comment": "string", "PrivateZone": true|false }
+    /// (Optional) A complex type that contains the following optional values: • For public and private hosted zones, an optional comment • For private hosted zones, an optional PrivateZone element If you don't specify a comment or the PrivateZone element, omit HostedZoneConfig and the other elements. Comment -&gt; (string) Any comments that you want to include about the hosted zone. Constraints: • max: 256 PrivateZone -&gt; (boolean) A value that indicates whether this is a private hosted zone. Note do not include PrivateZone in this input structure. Its value is returned in the output to the command. Shorthand Syntax: Comment=string,PrivateZone=boolean JSON Syntax: { "Comment": "string", "PrivateZone": true|false }
     /// </summary>
     [CliOption("--hosted-zone-config")]
     public string? HostedZoneConfig { get; set; }
 
     /// <summary>
-    /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delega- tion set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet . If you are using a reusable delegation set to create a public hosted zone for a subdomain, make sure that the parent hosted zone doesn't use one or more of the same name servers. If you have overlapping nameservers, the operation will cause a ConflictingDomainsExist er- ror. Constraints: o max: 32
+    /// If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet . If you are using a reusable delegation set to create a public hosted zone for a subdomain, make sure that the parent hosted zone doesn't use one or more of the same name servers. If you have overlapping nameservers, the operation will cause a ConflictingDomainsExist error. Constraints: • max: 32
     /// </summary>
     [CliOption("--delegation-set-id")]
     public string? DelegationSetId { get; set; }
@@ -110,6 +111,15 @@ public record AwsRoute53CreateHostedZoneOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

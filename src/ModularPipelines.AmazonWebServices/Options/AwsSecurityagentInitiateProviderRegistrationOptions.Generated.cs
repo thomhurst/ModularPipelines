@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates the OAuth registration flow with a third-party provider. Re- turns a redirect URL and CSRF state token for completing the authoriza- tion. See also: AWS API Documentation
+/// Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates the OAuth registration flow with a third-party provider. Re- turns a redirect URL and CSRF state token for completing the authoriza- tion. See also: AWS API Documentation
+    /// Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Provider">The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS</param>
+    /// <param name="Provider">The provider to initiate registration with. Possible values: • GITHUB • GITLAB • BITBUCKET • CONFLUENCE • AZURE_DEVOPS • JIRA</param>
     public AwsSecurityagentInitiateProviderRegistrationOptions(
         AwsSecurityagentInitiateProviderRegistrationProvider Provider
     )
@@ -57,7 +58,7 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The provider to initiate registration with. Possible values: o GITHUB o GITLAB o BITBUCKET o CONFLUENCE o AZURE_DEVOPS
+    /// The provider to initiate registration with. Possible values: • GITHUB • GITLAB • BITBUCKET • CONFLUENCE • AZURE_DEVOPS • JIRA
     /// </summary>
     [CliOption("--provider")]
     public AwsSecurityagentInitiateProviderRegistrationProvider? Provider { get; private init; }
@@ -75,7 +76,7 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
     public string? OrganizationName { get; set; }
 
     /// <summary>
-    /// The client ID of the OAuth application registered on your self-man- aged provider instance.
+    /// The client ID of the OAuth application registered on your self-managed provider instance.
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
@@ -108,6 +109,15 @@ public record AwsSecurityagentInitiateProviderRegistrationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

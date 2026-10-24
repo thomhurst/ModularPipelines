@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of your hosted zones in lexicographic order. The re- sponse includes a HostedZones child element for each hosted zone cre- ated by the current Amazon Web Services account. ListHostedZonesByName sorts hosted zones by name with the labels re- versed. For example: com.example.www. Note the trailing dot, which can change the sort order in some circum- stances. If the domain name includes escape characters or Punycode, ListHosted- ZonesByName alphabetizes the domain name using the es...
+/// Retrieves a list of your hosted zones in lexicographic order. The response includes a HostedZones child element for each hosted zone created by the current Amazon Web Services account. ListHostedZonesByName sorts hosted zones by name with the labels reversed. For example: com.example.www. Note the trailing dot, which can change the sort order in some circumstances. If the domain name includes escape characters or Punycode, ListHostedZonesByName alphabetizes the domain name using the escaped or P...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53ListHostedZonesByNameOptions : AwsOptions
 {
     /// <summary>
-    /// (Optional) For your first request to ListHostedZonesByName , include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current Amazon Web Services account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid para- meters. For dnsname , specify the value of NextDNSName from the pre- vious response. Constraints: o max: 1024
+    /// (Optional) For your first request to ListHostedZonesByName , include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current Amazon Web Services account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname , specify the value of NextDNSName from the previous response. Constraints: • max: 1024
     /// </summary>
     [CliOption("--dns-name")]
     public string? DnsName { get; set; }
 
     /// <summary>
-    /// (Optional) For your first request to ListHostedZonesByName , do not include the hostedzoneid parameter. If you have more hosted zones than the value of maxitems , ListHost- edZonesByName returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZonesByName and include both dnsname and hostedzoneid pa- rameters. For the value of hostedzoneid , specify the value of the NextHostedZoneId element from the previous response. Constraints: o max: 32
+    /// (Optional) For your first request to ListHostedZonesByName , do not include the hostedzoneid parameter. If you have more hosted zones than the value of maxitems , ListHostedZonesByName returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZonesByName and include both dnsname and hostedzoneid parameters. For the value of hostedzoneid , specify the value of the NextHostedZoneId element from the previous response. Constraints: • max: 32
     /// </summary>
     [CliOption("--hosted-zone-id")]
     public string? HostedZoneId { get; set; }
@@ -44,5 +44,14 @@ public record AwsRoute53ListHostedZonesByNameOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

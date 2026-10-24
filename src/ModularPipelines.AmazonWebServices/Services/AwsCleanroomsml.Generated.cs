@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -62,7 +62,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Defines the information necessary to create an audience model. An audi- ence model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
+    /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Deletes the specified audience generation job, and removes all data as- sociated with the job. See also: AWS API Documentation
+    /// Deletes the specified audience generation job, and removes all data associated with the job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that de- pend on the audience model. See also: AWS API Documentation
+    /// Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns information about a specific ML input channel in a collabora- tion. See also: AWS API Documentation
+    /// Returns information about a specific ML input channel in a collaboration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of the audience export jobs. See also: AWS API Documentation list-audience-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: audienceExportJobs
+    /// Returns a list of the audience export jobs. See also: AWS API Documentation list-audience-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: audienceExportJobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of audience generation jobs. See also: AWS API Documentation list-audience-generation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: audienceGenerationJobs
+    /// Returns a list of audience generation jobs. See also: AWS API Documentation list-audience-generation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: audienceGenerationJobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of the configured model algorithm associations in a col- laboration. See also: AWS API Documentation list-collaboration-configured-model-algorithm-associations is a pagi- nated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
+    /// Returns a list of the configured model algorithm associations in a collaboration. See also: AWS API Documentation list-collaboration-configured-model-algorithm-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of the ML input channels in a collaboration. See also: AWS API Documentation list-collaboration-ml-input-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationMLInput...
+    /// Returns a list of the ML input channels in a collaboration. See also: AWS API Documentation list-collaboration-ml-input-channels is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationMLInputChan...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of the export jobs for a trained model in a collabora- tion. See also: AWS API Documentation list-collaboration-trained-model-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressio...
+    /// Returns a list of the export jobs for a trained model in a collaboration. See also: AWS API Documentation list-collaboration-trained-model-export-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of trained model inference jobs in a specified collabo- ration. See also: AWS API Documentation list-collaboration-trained-model-inference-jobs is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Returns a list of trained model inference jobs in a specified collaboration. See also: AWS API Documentation list-collaboration-trained-model-inference-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of the trained models in a collaboration. See also: AWS API Documentation list-collaboration-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationTrainedModels
+    /// Returns a list of the trained models in a collaboration. See also: AWS API Documentation list-collaboration-trained-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: collaborationTrainedModels
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of the configured audience models. See also: AWS API Documentation list-configured-audience-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredAudienceModels
+    /// Returns a list of the configured audience models. See also: AWS API Documentation list-configured-audience-models is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredAudienceModels
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of configured model algorithm associations. See also: AWS API Documentation list-configured-model-algorithm-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: configuredMod...
+    /// Returns a list of configured model algorithm associations. See also: AWS API Documentation list-configured-model-algorithm-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredModelAl...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of configured model algorithms. See also: AWS API Documentation list-configured-model-algorithms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredModelAlgorithms
+    /// Returns a list of configured model algorithms. See also: AWS API Documentation list-configured-model-algorithms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: configuredModelAlgorithms
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Returns a list of trained model inference jobs that match the request parameters. See also: AWS API Documentation list-trained-model-inference-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: t...
+    /// Returns a list of trained model inference jobs that match the request parameters. See also: AWS API Documentation list-trained-model-inference-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: train...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -730,6 +730,21 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTrainedModelInferenceJobsAsync(
         AwsCleanroomsmlListTrainedModelInferenceJobsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training. See also: AWS API Documentation list-trained-model-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListTrainedModelVersionsAsync(
+        AwsCleanroomsmlListTrainedModelVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -745,21 +760,6 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTrainedModelsAsync(
         AwsCleanroomsmlListTrainedModelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, in- cluding information about their status and creation details. You can use this to track the evolution of your trained models and select spe- cific versions for inference or further training. See also: AWS API Documentation list-trained-model-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListTrainedModelVersionsAsync(
-        AwsCleanroomsmlListTrainedModelVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -812,7 +812,7 @@ public class AwsCleanroomsml : IAwsCleanroomsml
     }
 
     /// <summary>
-    /// Export an audience of a specified size after you have generated an au- dience. See also: AWS API Documentation
+    /// Export an audience of a specified size after you have generated an audience. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

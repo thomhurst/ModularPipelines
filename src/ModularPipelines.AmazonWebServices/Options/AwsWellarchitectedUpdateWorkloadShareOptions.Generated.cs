@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsWellarchitectedUpdateWorkloadShareOptions : AwsOptions, IValida
     /// <summary>
     /// Update a workload share. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ShareId">The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}</param>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="PermissionType">Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR</param>
+    /// <param name="ShareId">The ID associated with the share. Constraints: • pattern: [0-9a-f]{32}</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="PermissionType">Permission granted on a share request. Possible values: • READONLY • CONTRIBUTOR</param>
     public AwsWellarchitectedUpdateWorkloadShareOptions(
         string ShareId,
         string WorkloadId,
@@ -64,19 +65,19 @@ public record AwsWellarchitectedUpdateWorkloadShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID associated with the share. Constraints: o pattern: [0-9a-f]{32}
+    /// The ID associated with the share. Constraints: • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--share-id")]
     public string? ShareId { get; private init; }
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// Permission granted on a share request. Possible values: o READONLY o CONTRIBUTOR
+    /// Permission granted on a share request. Possible values: • READONLY • CONTRIBUTOR
     /// </summary>
     [CliOption("--permission-type")]
     public AwsWellarchitectedUpdateWorkloadSharePermissionType? PermissionType { get; private init; }
@@ -102,6 +103,15 @@ public record AwsWellarchitectedUpdateWorkloadShareOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

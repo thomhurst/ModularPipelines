@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsChimeSdkMessagingCreateChannelOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a channel to which you can add users and send messages. Restriction : You can't change a channel's privacy. NOTE: The x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppInstanceArn">The ARN of the channel request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Name">The name of the channel. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
-    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="AppInstanceArn">The ARN of the channel request. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Name">The name of the channel. Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
+    /// <param name="ChimeBearer">The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
     public AwsChimeSdkMessagingCreateChannelOptions(
         string AppInstanceArn,
         string Name,
@@ -66,80 +67,80 @@ public record AwsChimeSdkMessagingCreateChannelOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel request. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel request. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--app-instance-arn")]
     public string? AppInstanceArn { get; private init; }
 
     /// <summary>
-    /// The name of the channel. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
+    /// The name of the channel. Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the AppInstanceUser or AppInstanceBot that makes the API call. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--chime-bearer")]
     public string? ChimeBearer { get; private init; }
 
     /// <summary>
-    /// The channel mode: UNRESTRICTED or RESTRICTED . Administrators, mod- erators, and channel members can add themselves and other members to unrestricted channels. Only administrators and moderators can add members to restricted channels. Possible values: o UNRESTRICTED o RESTRICTED
+    /// The channel mode: UNRESTRICTED or RESTRICTED . Administrators, moderators, and channel members can add themselves and other members to unrestricted channels. Only administrators and moderators can add members to restricted channels. Possible values: • UNRESTRICTED • RESTRICTED
     /// </summary>
     [CliOption("--mode")]
     public AwsChimeSdkMessagingCreateChannelMode? Mode { get; set; }
 
     /// <summary>
-    /// The channel's privacy level: PUBLIC or PRIVATE . Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the AppInstance . Possible values: o PUBLIC o PRIVATE
+    /// The channel's privacy level: PUBLIC or PRIVATE . Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the AppInstance . Possible values: • PUBLIC • PRIVATE
     /// </summary>
     [CliOption("--privacy")]
     public AwsChimeSdkMessagingCreateChannelPrivacy? Privacy { get; set; }
 
     /// <summary>
-    /// The metadata of the creation request. Limited to 1KB and UTF-8. Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The metadata of the creation request. Limited to 1KB and UTF-8. Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--metadata")]
     public string? Metadata { get; set; }
 
     /// <summary>
-    /// The client token for the request. An Idempotency token. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The client token for the request. An Idempotency token. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags for the creation request. Constraints: o min: 1 o max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the creation request. Constraints: • min: 1 • max: 50 (structure) A tag object containing a key-value pair. Key -&gt; (string) [required] The key in a tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The value in a tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// An ID for the channel being created. If you do not specify an ID, a UUID will be created for the channel. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?
+    /// An ID for the channel being created. If you do not specify an ID, a UUID will be created for the channel. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9]([A-Za-z0-9\:\-\_\.\@]{0,62}[A-Za-z0-9])?
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; set; }
 
     /// <summary>
-    /// The ARNs of the channel members in the request. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
+    /// The ARNs of the channel members in the request. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--member-arns", GroupValues = true)]
     public IEnumerable<string>? MemberArns { get; set; }
 
     /// <summary>
-    /// The ARNs of the channel moderators in the request. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
+    /// The ARNs of the channel moderators in the request. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--moderator-arns", GroupValues = true)]
     public IEnumerable<string>? ModeratorArns { get; set; }
 
     /// <summary>
-    /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million users, exclud- ing moderators. MaximumSubChannels -&gt; (integer) [required] The maximum number of SubChannels that you want to allow in the elastic channel. Constraints: o min: 2 TargetMembershipsPerSubChannel -&gt; (integer) [required] The maximum number of members allowed in a SubChannel. Constraints: o min: 2 MinimumMembershipPercentage -&gt; (integer) [required] The minimum allowed percentage of TargetMembershipsPerSubChannel users. Ceil of the calculated value is used in balancing members among SubChannels of the elastic channel. Constraints: o min: 1 o max: 40 Shorthand Syntax: MaximumSubChannels=integer,TargetMembershipsPerSubChannel=integer,MinimumMembershipPercentage=integer JSON Syntax: { "MaximumSubChannels": integer, "TargetMembershipsPerSubChannel": integer, "MinimumMembershipPercentage": integer }
+    /// The attributes required to configure and create an elastic channel. An elastic channel can support a maximum of 1-million users, excluding moderators. MaximumSubChannels -&gt; (integer) [required] The maximum number of SubChannels that you want to allow in the elastic channel. Constraints: • min: 2 TargetMembershipsPerSubChannel -&gt; (integer) [required] The maximum number of members allowed in a SubChannel. Constraints: • min: 2 MinimumMembershipPercentage -&gt; (integer) [required] The minimum allowed percentage of TargetMembershipsPerSubChannel users. Ceil of the calculated value is used in balancing members among SubChannels of the elastic channel. Constraints: • min: 1 • max: 40 Shorthand Syntax: MaximumSubChannels=integer,TargetMembershipsPerSubChannel=integer,MinimumMembershipPercentage=integer JSON Syntax: { "MaximumSubChannels": integer, "TargetMembershipsPerSubChannel": integer, "MinimumMembershipPercentage": integer }
     /// </summary>
     [CliOption("--elastic-channel-configuration")]
     public string? ElasticChannelConfiguration { get; set; }
 
     /// <summary>
-    /// Settings that control the interval after which the channel is auto- matically deleted. ExpirationDays -&gt; (integer) [required] The period in days after which the system automatically deletes a channel. Constraints: o min: 1 o max: 5475 ExpirationCriterion -&gt; (string) [required] The conditions that must be met for a channel to expire. Possible values: o CREATED_TIMESTAMP o LAST_MESSAGE_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP"|"LAST_MESSAGE_TIMESTAMP" }
+    /// Settings that control the interval after which the channel is automatically deleted. ExpirationDays -&gt; (integer) [required] The period in days after which the system automatically deletes a channel. Constraints: • min: 1 • max: 5475 ExpirationCriterion -&gt; (string) [required] The conditions that must be met for a channel to expire. Possible values: • CREATED_TIMESTAMP • LAST_MESSAGE_TIMESTAMP Shorthand Syntax: ExpirationDays=integer,ExpirationCriterion=string JSON Syntax: { "ExpirationDays": integer, "ExpirationCriterion": "CREATED_TIMESTAMP"|"LAST_MESSAGE_TIMESTAMP" }
     /// </summary>
     [CliOption("--expiration-settings")]
     public string? ExpirationSettings { get; set; }
@@ -165,6 +166,15 @@ public record AwsChimeSdkMessagingCreateChannelOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

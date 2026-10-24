@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an alias for a directory and assigns the alias to the direc- tory. The alias is used to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com . WARNING: After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary. See also: AWS API Documentation
+/// Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com . WARNING: After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDsCreateAliasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an alias for a directory and assigns the alias to the direc- tory. The alias is used to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com . WARNING: After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary. See also: AWS API Documentation
+    /// Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com . WARNING: After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which to create the alias. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="Alias">The requested alias. The alias must be unique amongst all aliases in Amazon Web Services. This operation throws an EntityAlreadyExistsException error if the alias already exists. Constraints: o min: 1 o max: 62 o pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*</param>
+    /// <param name="DirectoryId">The identifier of the directory for which to create the alias. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="Alias">The requested alias. The alias must be unique amongst all aliases in Amazon Web Services. This operation throws an EntityAlreadyExistsException error if the alias already exists. Constraints: • min: 1 • max: 62 • pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*</param>
     public AwsDsCreateAliasOptions(
         string DirectoryId,
         string Alias
@@ -60,13 +61,13 @@ public record AwsDsCreateAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which to create the alias. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which to create the alias. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The requested alias. The alias must be unique amongst all aliases in Amazon Web Services. This operation throws an EntityAlreadyExistsException error if the alias already exists. Constraints: o min: 1 o max: 62 o pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*
+    /// The requested alias. The alias must be unique amongst all aliases in Amazon Web Services. This operation throws an EntityAlreadyExistsException error if the alias already exists. Constraints: • min: 1 • max: 62 • pattern: ^(?!D-|d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsCreateAliasOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

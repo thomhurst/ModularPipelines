@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Inspects text for syntax and the part of speech of words in the docu- ment. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
+/// Inspects text for syntax and the part of speech of words in the document. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsComprehendDetectSyntaxOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Inspects text for syntax and the part of speech of words in the docu- ment. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
+    /// Inspects text for syntax and the part of speech of words in the document. For more information, see Syntax in the Comprehend Developer Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Text">A UTF-8 string. The maximum string size is 5 KB. Constraints: o min: 1</param>
-    /// <param name="LanguageCode">The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). Possible values: o en o es o fr o de o it o pt</param>
+    /// <param name="Text">A UTF-8 string. The maximum string size is 5 KB. Constraints: • min: 1</param>
+    /// <param name="LanguageCode">The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). Possible values: • en • es • fr • de • it • pt</param>
     public AwsComprehendDetectSyntaxOptions(
         string Text,
         AwsComprehendDetectSyntaxLanguageCode LanguageCode
@@ -60,13 +61,13 @@ public record AwsComprehendDetectSyntaxOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A UTF-8 string. The maximum string size is 5 KB. Constraints: o min: 1
+    /// A UTF-8 string. The maximum string size is 5 KB. Constraints: • min: 1
     /// </summary>
     [CliOption("--text")]
     public string? Text { get; private init; }
 
     /// <summary>
-    /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). Possible values: o en o es o fr o de o it o pt
+    /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). Possible values: • en • es • fr • de • it • pt
     /// </summary>
     [CliOption("--language-code")]
     public AwsComprehendDetectSyntaxLanguageCode? LanguageCode { get; private init; }
@@ -92,6 +93,15 @@ public record AwsComprehendDetectSyntaxOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

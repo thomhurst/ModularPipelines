@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRbinLockRuleOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Locks a Region-level retention rule. A locked retention rule can't be modified or deleted. NOTE: You can't lock tag-level retention rules, or Region-level retention rules that have exclusion tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}</param>
-    /// <param name="LockConfiguration">Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: o min: 7 o max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Cur- rently, the unlock delay can be measured only in days. Possible values: o DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }</param>
+    /// <param name="Identifier">The unique ID of the retention rule. Constraints: • pattern: [0-9a-zA-Z]{11}</param>
+    /// <param name="LockConfiguration">Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: • min: 7 • max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measured only in days. Possible values: • DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }</param>
     public AwsRbinLockRuleOptions(
         string Identifier,
         string LockConfiguration
@@ -60,13 +61,13 @@ public record AwsRbinLockRuleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the retention rule. Constraints: o pattern: [0-9a-zA-Z]{11}
+    /// The unique ID of the retention rule. Constraints: • pattern: [0-9a-zA-Z]{11}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: o min: 7 o max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Cur- rently, the unlock delay can be measured only in days. Possible values: o DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }
+    /// Information about the retention rule lock configuration. UnlockDelay -&gt; (structure) [required] Information about the retention rule unlock delay. UnlockDelayValue -&gt; (integer) [required] The unlock delay period, measured in the unit specified for UnlockDelayUnit . Constraints: • min: 7 • max: 30 UnlockDelayUnit -&gt; (string) [required] The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measured only in days. Possible values: • DAYS Shorthand Syntax: UnlockDelay={UnlockDelayValue=integer,UnlockDelayUnit=string} JSON Syntax: { "UnlockDelay": { "UnlockDelayValue": integer, "UnlockDelayUnit": "DAYS" } }
     /// </summary>
     [CliOption("--lock-configuration")]
     public string? LockConfiguration { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRbinLockRuleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

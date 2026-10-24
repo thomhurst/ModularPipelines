@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +30,7 @@ public record AwsKafkaUpdateRebalancingOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster.</param>
     /// <param name="CurrentVersion">The current version of the cluster.</param>
-    /// <param name="Rebalancing">Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express bro- kers. Status -&gt; (string) Intelligent rebalancing status. The default intelligent re- balancing status is ACTIVE for all new Express-based clus- ters. Possible values: o PAUSED o ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }</param>
+    /// <param name="Rebalancing">Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express brokers. Status -&gt; (string) Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters. Possible values: • PAUSED • ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }</param>
     public AwsKafkaUpdateRebalancingOptions(
         string ClusterArn,
         string CurrentVersion,
@@ -76,7 +77,7 @@ public record AwsKafkaUpdateRebalancingOptions : AwsOptions, IValidatableObject
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express bro- kers. Status -&gt; (string) Intelligent rebalancing status. The default intelligent re- balancing status is ACTIVE for all new Express-based clus- ters. Possible values: o PAUSED o ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }
+    /// Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express brokers. Status -&gt; (string) Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters. Possible values: • PAUSED • ACTIVE Shorthand Syntax: Status=string JSON Syntax: { "Status": "PAUSED"|"ACTIVE" }
     /// </summary>
     [CliOption("--rebalancing")]
     public string? Rebalancing { get; private init; }
@@ -102,6 +103,15 @@ public record AwsKafkaUpdateRebalancingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

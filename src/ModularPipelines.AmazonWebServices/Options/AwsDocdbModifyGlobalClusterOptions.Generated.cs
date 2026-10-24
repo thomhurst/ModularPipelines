@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion pro- tection), or the global cluster identifier by specifying these parame- ters and the new values in the request. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+/// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDocdbModifyGlobalClusterOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion pro- tection), or the global cluster identifier by specifying these parame- ters and the new values in the request. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
+    /// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request. NOTE: This action only applies to Amazon DocumentDB clusters. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalClusterIdentifier">The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
+    /// <param name="GlobalClusterIdentifier">The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*</param>
     public AwsDocdbModifyGlobalClusterOptions(
         string GlobalClusterIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsDocdbModifyGlobalClusterOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints: o Must match the identifier of an existing global cluster. Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints: • Must match the identifier of an existing global cluster. Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--global-cluster-identifier")]
     public string? GlobalClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string. o Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster2 Constraints: o min: 1 o max: 255 o pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// The new identifier for a global cluster when you modify a global cluster. This value is stored as a lowercase string. • Must contain from 1 to 63 letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen or contain two consecutive hyphens Example: my-cluster2 Constraints: • min: 1 • max: 255 • pattern: [A-Za-z][0-9A-Za-z-:._]*
     /// </summary>
     [CliOption("--new-global-cluster-identifier")]
     public string? NewGlobalClusterIdentifier { get; set; }
@@ -94,6 +95,15 @@ public record AwsDocdbModifyGlobalClusterOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

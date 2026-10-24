@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about whether a specified geographic location is sup- ported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it re- trieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: `` GET /2013-04-01/geolocation?continentcode=*two-letter abbreviation for a continent* `` System Message: WARNING/2 (&lt;string&gt;:, line 33) Inline literal...
+/// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: `` GET /2013-04-01/geolocation?continentcode=*two-letter abbreviation for a continent* `` System Message: WARNING/2 (&lt;string&gt;:, line 33) Inline literal sta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53GetGeoLocationOptions : AwsOptions
 {
     /// <summary>
-    /// For geolocation resource record sets, a two-letter abbreviation that identifies a continent. Amazon Route 53 supports the following con- tinent codes: o AF : Africa o AN : Antarctica o AS : Asia o EU : Europe o OC : Oceania o NA : North America o SA : South America Constraints: o min: 2 o max: 2
+    /// For geolocation resource record sets, a two-letter abbreviation that identifies a continent. Amazon Route 53 supports the following continent codes: • AF : Africa • AN : Antarctica • AS : Asia • EU : Europe • OC : Oceania • NA : North America • SA : South America Constraints: • min: 2 • max: 2
     /// </summary>
     [CliOption("--continent-code")]
     public string? ContinentCode { get; set; }
 
     /// <summary>
-    /// Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1 alpha-2 . Route 53 also supports the country code UA for Ukraine. Constraints: o min: 1 o max: 2
+    /// Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1 alpha-2 . Route 53 also supports the country code UA for Ukraine. Constraints: • min: 1 • max: 2
     /// </summary>
     [CliOption("--country-code")]
     public string? CountryCode { get; set; }
 
     /// <summary>
-    /// The code for the subdivision, such as a particular state within the United States. For a list of US state abbreviations, see Appendix B: TwoLetter State and Possession Abbreviations on the United States Postal Service website. For a list of all supported subdivision codes, use the ListGeoLocations API. Constraints: o min: 1 o max: 3
+    /// The code for the subdivision, such as a particular state within the United States. For a list of US state abbreviations, see Appendix B: TwoLetter State and Possession Abbreviations on the United States Postal Service website. For a list of all supported subdivision codes, use the ListGeoLocations API. Constraints: • min: 1 • max: 3
     /// </summary>
     [CliOption("--subdivision-code")]
     public string? SubdivisionCode { get; set; }
@@ -44,5 +44,14 @@ public record AwsRoute53GetGeoLocationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

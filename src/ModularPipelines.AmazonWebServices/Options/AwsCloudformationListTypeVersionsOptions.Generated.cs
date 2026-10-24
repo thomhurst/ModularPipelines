@@ -24,44 +24,44 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationListTypeVersionsOptions : AwsOptions
 {
     /// <summary>
-    /// The kind of the extension. Conditional: You must specify either TypeName and Type , or Arn . Possible values: o RESOURCE o MODULE o HOOK
+    /// The kind of the extension. Conditional: You must specify either TypeName and Type , or Arn . Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationListTypeVersionsType? Type { get; set; }
 
     /// <summary>
-    /// The name of the extension for which you want version summary infor- mation. Conditional: You must specify either TypeName and Type , or Arn . Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The name of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type , or Arn . Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type , or Arn . Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
+    /// The Amazon Resource Name (ARN) of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type , or Arn . Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken re- quest parameter to get the next set of results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The deprecation status of the extension versions that you want to get summary information about. Valid values include: o LIVE : The extension version is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope. o DEPRECATED : The extension version has been deregistered and can no longer be used in CloudFormation operations. The default is LIVE . Possible values: o LIVE o DEPRECATED
+    /// The deprecation status of the extension versions that you want to get summary information about. Valid values include: • LIVE : The extension version is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope. • DEPRECATED : The extension version has been deregistered and can no longer be used in CloudFormation operations. The default is LIVE . Possible values: • LIVE • DEPRECATED
     /// </summary>
     [CliOption("--deprecated-status")]
     public AwsCloudformationListTypeVersionsDeprecatedStatus? DeprecatedStatus { get; set; }
 
     /// <summary>
-    /// The publisher ID of the extension publisher. Extensions published by Amazon aren't assigned a publisher ID. Constraints: o min: 1 o max: 40 o pattern: [0-9a-zA-Z]{12,40}
+    /// The publisher ID of the extension publisher. Extensions published by Amazon aren't assigned a publisher ID. Constraints: • min: 1 • max: 40 • pattern: [0-9a-zA-Z]{12,40}
     /// </summary>
     [CliOption("--publisher-id")]
     public string? PublisherId { get; set; }
@@ -71,5 +71,14 @@ public record AwsCloudformationListTypeVersionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

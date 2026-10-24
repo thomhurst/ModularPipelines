@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Moves a domain from Amazon Web Services to another registrar. Supported actions: o Changes the IPS tags of a .uk domain, and pushes it to transit. Tran- sit means that the domain is ready to be transferred to another reg- istrar. See also: AWS API Documentation
+/// Moves a domain from Amazon Web Services to another registrar. Supported actions: • Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means that the domain is ready to be transferred to another registrar. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53domainsPushDomainOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Moves a domain from Amazon Web Services to another registrar. Supported actions: o Changes the IPS tags of a .uk domain, and pushes it to transit. Tran- sit means that the domain is ready to be transferred to another reg- istrar. See also: AWS API Documentation
+    /// Moves a domain from Amazon Web Services to another registrar. Supported actions: • Changes the IPS tags of a .uk domain, and pushes it to transit. Transit means that the domain is ready to be transferred to another registrar. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the domain. Constraints: o max: 255</param>
-    /// <param name="Target">New IPS tag for the domain. Constraints: o min: 1 o max: 255</param>
+    /// <param name="DomainName">Name of the domain. Constraints: • max: 255</param>
+    /// <param name="Target">New IPS tag for the domain. Constraints: • min: 1 • max: 255</param>
     public AwsRoute53domainsPushDomainOptions(
         string DomainName,
         string Target
@@ -60,13 +61,13 @@ public record AwsRoute53domainsPushDomainOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the domain. Constraints: o max: 255
+    /// Name of the domain. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// New IPS tag for the domain. Constraints: o min: 1 o max: 255
+    /// New IPS tag for the domain. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53domainsPushDomainOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

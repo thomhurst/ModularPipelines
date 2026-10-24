@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsAppintegrationsUpdateApplicationOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates and persists an Application resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the Application. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the Application. Constraints: • min: 1 • max: 2048 • pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$</param>
     public AwsAppintegrationsUpdateApplicationOptions(
         string Arn
     )
@@ -57,43 +58,43 @@ public record AwsAppintegrationsUpdateApplicationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Application. Constraints: o min: 1 o max: 2048 o pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$
+    /// The Amazon Resource Name (ARN) of the Application. Constraints: • min: 1 • max: 2048 • pattern: ^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\w\$]+)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The name of the application. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._ \-]+$
+    /// The name of the application. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._ \-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the application. Constraints: o min: 0 o max: 1000 o pattern: .*
+    /// The description of the application. Constraints: • min: 0 • max: 1000 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration for where the application should be loaded from. ExternalUrlConfig -&gt; (structure) The external URL source for the application. AccessUrl -&gt; (string) [required] The URL to access the application. Constraints: o min: 1 o max: 1000 o pattern: ^\w+\:\/\/.*$ ApprovedOrigins -&gt; (list) Additional URLs to allow list if different than the access URL. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ^\w+\:\/\/.*$ Shorthand Syntax: ExternalUrlConfig={AccessUrl=string,ApprovedOrigins=[string,string]} JSON Syntax: { "ExternalUrlConfig": { "AccessUrl": "string", "ApprovedOrigins": ["string", ...] } }
+    /// The configuration for where the application should be loaded from. ExternalUrlConfig -&gt; (structure) The external URL source for the application. AccessUrl -&gt; (string) [required] The URL to access the application. Constraints: • min: 1 • max: 1000 • pattern: ^\w+\:\/\/.*$ ApprovedOrigins -&gt; (list) Additional URLs to allow list if different than the access URL. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ^\w+\:\/\/.*$ Shorthand Syntax: ExternalUrlConfig={AccessUrl=string,ApprovedOrigins=[string,string]} JSON Syntax: { "ExternalUrlConfig": { "AccessUrl": "string", "ApprovedOrigins": ["string", ...] } }
     /// </summary>
     [CliOption("--application-source-config")]
     public string? ApplicationSourceConfig { get; set; }
 
     /// <summary>
-    /// The events that the application subscribes. Constraints: o min: 0 o max: 50 (structure) The configuration of an event that the application subscribes. Event -&gt; (string) [required] The name of the subscription. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Description -&gt; (string) The description of the subscription. Constraints: o min: 0 o max: 1000 o pattern: .* Shorthand Syntax: Event=string,Description=string ... JSON Syntax: [ { "Event": "string", "Description": "string" } ... ]
+    /// The events that the application subscribes. Constraints: • min: 0 • max: 50 (structure) The configuration of an event that the application subscribes. Event -&gt; (string) [required] The name of the subscription. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Description -&gt; (string) The description of the subscription. Constraints: • min: 0 • max: 1000 • pattern: .* Shorthand Syntax: Event=string,Description=string ... JSON Syntax: [ { "Event": "string", "Description": "string" } ... ]
     /// </summary>
     [CliOption("--subscriptions", GroupValues = true)]
     public IEnumerable<string>? Subscriptions { get; set; }
 
     /// <summary>
-    /// The events that the application publishes. Constraints: o min: 0 o max: 50 (structure) The configuration of an event that the application publishes. Event -&gt; (string) [required] The name of the publication. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Schema -&gt; (string) [required] The JSON schema of the publication event. Constraints: o min: 1 o max: 10240 o pattern: ^.*$ Description -&gt; (string) The description of the publication. Constraints: o min: 0 o max: 1000 o pattern: .* Shorthand Syntax: Event=string,Schema=string,Description=string ... JSON Syntax: [ { "Event": "string", "Schema": "string", "Description": "string" } ... ]
+    /// The events that the application publishes. Constraints: • min: 0 • max: 50 (structure) The configuration of an event that the application publishes. Event -&gt; (string) [required] The name of the publication. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-]+::[a-zA-Z0-9\/\._\-]+(?:\*)?$ Schema -&gt; (string) [required] The JSON schema of the publication event. Constraints: • min: 1 • max: 10240 • pattern: ^.*$ Description -&gt; (string) The description of the publication. Constraints: • min: 0 • max: 1000 • pattern: .* Shorthand Syntax: Event=string,Schema=string,Description=string ... JSON Syntax: [ { "Event": "string", "Schema": "string", "Description": "string" } ... ]
     /// </summary>
     [CliOption("--publications", GroupValues = true)]
     public IEnumerable<string>? Publications { get; set; }
 
     /// <summary>
-    /// The configuration of events or requests that the application has ac- cess to. Constraints: o min: 0 o max: 150 (string) The permission of an event or request that the application has access to. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9\/\._\-\*]+$ Syntax: "string" "string" ...
+    /// The configuration of events or requests that the application has access to. Constraints: • min: 0 • max: 150 (string) The permission of an event or request that the application has access to. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9\/\._\-\*]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
@@ -105,31 +106,31 @@ public record AwsAppintegrationsUpdateApplicationOptions : AwsOptions, IValidata
     public bool? IsService { get; set; }
 
     /// <summary>
-    /// The maximum time in milliseconds allowed to establish a connection with the workspace. Constraints: o min: 1 o max: 600000
+    /// The maximum time in milliseconds allowed to establish a connection with the workspace. Constraints: • min: 1 • max: 600000
     /// </summary>
     [CliOption("--initialization-timeout")]
     public int? InitializationTimeout { get; set; }
 
     /// <summary>
-    /// The configuration settings for the application. ContactHandling -&gt; (structure) The contact handling configuration for the application. Scope -&gt; (string) Indicates whether the application refreshes for each contact or refreshes only with each new browser session. Possible values: o CROSS_CONTACTS o PER_CONTACT Shorthand Syntax: ContactHandling={Scope=string} JSON Syntax: { "ContactHandling": { "Scope": "CROSS_CONTACTS"|"PER_CONTACT" } }
+    /// The configuration settings for the application. ContactHandling -&gt; (structure) The contact handling configuration for the application. Scope -&gt; (string) Indicates whether the application refreshes for each contact or refreshes only with each new browser session. Possible values: • CROSS_CONTACTS • PER_CONTACT Shorthand Syntax: ContactHandling={Scope=string} JSON Syntax: { "ContactHandling": { "Scope": "CROSS_CONTACTS"|"PER_CONTACT" } }
     /// </summary>
     [CliOption("--application-config")]
     public string? ApplicationConfig { get; set; }
 
     /// <summary>
-    /// The iframe configuration for the application. Allow -&gt; (list) The list of features that are allowed in the iframe. Constraints: o min: 0 o max: 25 (string) A permission for the iframe. Constraints: o min: 1 o max: 100 o pattern: ^[a-z-]+$ Sandbox -&gt; (list) The list of sandbox attributes for the iframe. Constraints: o min: 0 o max: 25 (string) A permission for the iframe. Constraints: o min: 1 o max: 100 o pattern: ^[a-z-]+$ Shorthand Syntax: Allow=string,string,Sandbox=string,string JSON Syntax: { "Allow": ["string", ...], "Sandbox": ["string", ...] }
+    /// The iframe configuration for the application. Allow -&gt; (list) The list of features that are allowed in the iframe. Constraints: • min: 0 • max: 25 (string) A permission for the iframe. Constraints: • min: 1 • max: 100 • pattern: ^[a-z-]+$ Sandbox -&gt; (list) The list of sandbox attributes for the iframe. Constraints: • min: 0 • max: 25 (string) A permission for the iframe. Constraints: • min: 1 • max: 100 • pattern: ^[a-z-]+$ Shorthand Syntax: Allow=string,string,Sandbox=string,string JSON Syntax: { "Allow": ["string", ...], "Sandbox": ["string", ...] }
     /// </summary>
     [CliOption("--iframe-config")]
     public string? IframeConfig { get; set; }
 
     /// <summary>
-    /// The type of application. Possible values: o STANDARD o SERVICE o MCP_SERVER o A2A_SERVER
+    /// The type of application. Possible values: • STANDARD • SERVICE • MCP_SERVER • A2A_SERVER
     /// </summary>
     [CliOption("--application-type")]
     public AwsAppintegrationsUpdateApplicationApplicationType? ApplicationType { get; set; }
 
     /// <summary>
-    /// The authentication settings that Connect Customer uses when calling the external application. AuthType -&gt; (string) The type of authentication used when calling the external appli- cation. Possible values: o API_KEY CredentialProviderIdentifier -&gt; (string) The ARN of the Secrets Manager secret that stores the creden- tials. The secret must be accessible to Connect Customer. Constraints: o min: 1 o max: 2048 o pattern: ^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ Shorthand Syntax: AuthType=string,CredentialProviderIdentifier=string JSON Syntax: { "AuthType": "API_KEY", "CredentialProviderIdentifier": "string" }
+    /// The authentication settings that Connect Customer uses when calling the external application. AuthType -&gt; (string) The type of authentication that Connect Customer uses to call the external application endpoint. You must specify an authentication type for A2A_SERVER applications. Valid values: • API_KEY : Connect Customer sends an API key that is stored in the Secrets Manager secret that you specify in CredentialProviderIdentifier . • CONNECT_JWT : Connect Customer issues a short-lived, signed JSON Web Token (JWT). This authentication type doesn't require a stored credential. Possible values: • API_KEY • CONNECT_JWT CredentialProviderIdentifier -&gt; (string) The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer. You must specify this ARN when AuthType is API_KEY . Don't specify it when AuthType is CONNECT_JWT . Constraints: • min: 1 • max: 2048 • pattern: ^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$ AudienceOverride -&gt; (string) The value that Connect Customer uses as the audience (aud ) claim of the JSON Web Token (JWT) that it issues. You can specify this parameter only when AuthType is CONNECT_JWT . If you don't specify it, the audience is the AccessUrl of the application. The value can't contain connect.amazonaws.com . Constraints: • min: 1 • max: 255 • pattern: .*\S.* Shorthand Syntax: AuthType=string,CredentialProviderIdentifier=string,AudienceOverride=string JSON Syntax: { "AuthType": "API_KEY"|"CONNECT_JWT", "CredentialProviderIdentifier": "string", "AudienceOverride": "string" }
     /// </summary>
     [CliOption("--auth-config")]
     public string? AuthConfig { get; set; }
@@ -155,6 +156,15 @@ public record AwsAppintegrationsUpdateApplicationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

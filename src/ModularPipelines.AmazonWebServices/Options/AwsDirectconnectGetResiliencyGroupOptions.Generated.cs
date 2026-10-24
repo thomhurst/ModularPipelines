@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDirectconnectGetResiliencyGroupOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets information about the specified resiliency group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
+    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
     public AwsDirectconnectGetResiliencyGroupOptions(
         string ResiliencyGroupId
     )
@@ -56,7 +57,7 @@ public record AwsDirectconnectGetResiliencyGroupOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
+    /// The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
     /// </summary>
     [CliOption("--resiliency-group-id")]
     public string? ResiliencyGroupId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDirectconnectGetResiliencyGroupOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

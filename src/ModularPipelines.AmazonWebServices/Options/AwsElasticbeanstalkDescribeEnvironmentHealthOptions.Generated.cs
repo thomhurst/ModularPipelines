@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the overall health of the specified environ- ment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environ- ments. When the user calls this action, the response will only include the one environment that the user has permis...
+/// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission t...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeEnvironmentHealthOptions : AwsOptions
 {
     /// <summary>
-    /// Specify the environment by name. You must specify either this or an EnvironmentName, or both. Constraints: o min: 4 o max: 40
+    /// Specify the environment by name. You must specify either this or an EnvironmentName, or both. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -34,7 +34,7 @@ public record AwsElasticbeanstalkDescribeEnvironmentHealthOptions : AwsOptions
     public string? EnvironmentId { get; set; }
 
     /// <summary>
-    /// Specify the response elements to return. To retrieve all attributes, set to All . If no attribute names are specified, returns the name of the environment. (string) Possible values: o Status o Color o Causes o ApplicationMetrics o InstancesHealth o All o HealthStatus o RefreshedAt Syntax: "string" "string" ...
+    /// Specify the response elements to return. To retrieve all attributes, set to All . If no attribute names are specified, returns the name of the environment. (string) Possible values: • Status • Color • Causes • ApplicationMetrics • InstancesHealth • All • HealthStatus • RefreshedAt Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-names", GroupValues = true)]
     public IEnumerable<string>? AttributeNames { get; set; }
@@ -44,5 +44,14 @@ public record AwsElasticbeanstalkDescribeEnvironmentHealthOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

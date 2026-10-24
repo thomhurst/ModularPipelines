@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A replication set replicates and encrypts your data to the provided Re- gions with the provided KMS key. See also: AWS API Documentation
+/// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsSsmIncidentsCreateReplicationSetOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A replication set replicates and encrypts your data to the provided Re- gions with the provided KMS key. See also: AWS API Documentation
+    /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Regions">The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set. Constraints: o min: 1 o max: 3 key -&gt; (string) Constraints: o min: 0 o max: 20 value -&gt; (structure) The mapping between a Amazon Web Services Region and the key that's used to encrypt the data. sseKmsKeyId -&gt; (string) The KMS key used to encrypt the data in your replication set. Constraints: o min: 0 o max: 2048 Shorthand Syntax: KeyName1={sseKmsKeyId=string},KeyName2={sseKmsKeyId=string} JSON Syntax: {"string": { "sseKmsKeyId": "string" } ...}</param>
+    /// <param name="Regions">The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set. Constraints: • min: 1 • max: 3 key -&gt; (string) Constraints: • min: 0 • max: 20 value -&gt; (structure) The mapping between a Amazon Web Services Region and the key that's used to encrypt the data. sseKmsKeyId -&gt; (string) The KMS key used to encrypt the data in your replication set. Constraints: • min: 0 • max: 2048 Shorthand Syntax: KeyName1={sseKmsKeyId=string},KeyName2={sseKmsKeyId=string} JSON Syntax: {"string": { "sseKmsKeyId": "string" } ...}</param>
     public AwsSsmIncidentsCreateReplicationSetOptions(
         IReadOnlyList<KeyValue> Regions
     )
@@ -69,20 +69,20 @@ public record AwsSsmIncidentsCreateReplicationSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set. Constraints: o min: 1 o max: 3 key -&gt; (string) Constraints: o min: 0 o max: 20 value -&gt; (structure) The mapping between a Amazon Web Services Region and the key that's used to encrypt the data. sseKmsKeyId -&gt; (string) The KMS key used to encrypt the data in your replication set. Constraints: o min: 0 o max: 2048 Shorthand Syntax: KeyName1={sseKmsKeyId=string},KeyName2={sseKmsKeyId=string} JSON Syntax: {"string": { "sseKmsKeyId": "string" } ...}
+    /// The Regions that Incident Manager replicates your data to. You can have up to three Regions in your replication set. Constraints: • min: 1 • max: 3 key -&gt; (string) Constraints: • min: 0 • max: 20 value -&gt; (structure) The mapping between a Amazon Web Services Region and the key that's used to encrypt the data. sseKmsKeyId -&gt; (string) The KMS key used to encrypt the data in your replication set. Constraints: • min: 0 • max: 2048 Shorthand Syntax: KeyName1={sseKmsKeyId=string},KeyName2={sseKmsKeyId=string} JSON Syntax: {"string": { "sseKmsKeyId": "string" } ...}
     /// </summary>
     [CliOption("--regions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Regions { get; private init; }
 
     /// <summary>
-    /// A token that ensures that the operation is called only once with the specified details. Constraints: o min: 0 o max: 128
+    /// A token that ensures that the operation is called only once with the specified details. Constraints: • min: 0 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A list of tags to add to the replication set. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to add to the replication set. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[A-Za-z0-9 _=@:.+-/]+$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^[A-Za-z0-9 _=@:.+-/]*$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -108,6 +108,15 @@ public record AwsSsmIncidentsCreateReplicationSetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

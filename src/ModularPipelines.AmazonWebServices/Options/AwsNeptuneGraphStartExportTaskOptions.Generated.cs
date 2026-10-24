@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +29,11 @@ public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE . See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphIdentifier">The source graph identifier of the export task. Constraints: o pattern: g-[a-z0-9]{10}</param>
-    /// <param name="RoleArn">The ARN of the IAM role that will allow data to be exported to the destination. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+</param>
-    /// <param name="Format">The format of the export task. Possible values: o PARQUET o CSV</param>
-    /// <param name="Destination">The Amazon S3 URI where data will be exported to. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="KmsKeyIdentifier">The KMS key identifier of the export task. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}</param>
+    /// <param name="GraphIdentifier">The source graph identifier of the export task. Constraints: • pattern: g-[a-z0-9]{10}</param>
+    /// <param name="RoleArn">The ARN of the IAM role that will allow data to be exported to the destination. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)(/[\w+=,.@-]+)+</param>
+    /// <param name="Format">The format of the export task. Possible values: • PARQUET • CSV</param>
+    /// <param name="Destination">The Amazon S3 URI where data will be exported to. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="KmsKeyIdentifier">The KMS key identifier of the export task. Constraints: • min: 1 • max: 1024 • pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}</param>
     public AwsNeptuneGraphStartExportTaskOptions(
         string GraphIdentifier,
         string RoleArn,
@@ -73,49 +73,49 @@ public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The source graph identifier of the export task. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The source graph identifier of the export task. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string? GraphIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that will allow data to be exported to the destination. Constraints: o pattern: arn:aws[^:]*:iam::\d{12}:(role|role/ser- vice-role)(/[\w+=,.@-]+)+
+    /// The ARN of the IAM role that will allow data to be exported to the destination. Constraints: • pattern: arn:aws[^:]*:iam::\d{12}:(role|role/service-role)(/[\w+=,.@-]+)+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The format of the export task. Possible values: o PARQUET o CSV
+    /// The format of the export task. Possible values: • PARQUET • CSV
     /// </summary>
     [CliOption("--format")]
     public AwsNeptuneGraphStartExportTaskFormat? Format { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 URI where data will be exported to. Constraints: o min: 1 o max: 1024
+    /// The Amazon S3 URI where data will be exported to. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// The KMS key identifier of the export task. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// The KMS key identifier of the export task. Constraints: • min: 1 • max: 1024 • pattern: arn:aws[^:]*:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-identifier")]
     public string? KmsKeyIdentifier { get; private init; }
 
     /// <summary>
-    /// The parquet type of the export task. Possible values: o COLUMNAR
+    /// The parquet type of the export task. Possible values: • COLUMNAR
     /// </summary>
     [CliOption("--parquet-type")]
     public string? ParquetType { get; set; }
 
     /// <summary>
-    /// The export filter of the export task. vertexFilter -&gt; (map) Used to specify filters on a per-label basis for vertices. This allows you to control which vertex labels and properties are in- cluded in the export. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) Specifies which properties of that label should be included in the export. properties -&gt; (map) Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"), and the value is an object. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_]+ value -&gt; (structure) A structure representing a property's attributes. It is a map object of outputType, sourcePropertyName and multiValueHandling. outputType -&gt; (string) Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float"). If a type is not provided, the export process will determine the type. If a given property is present as multiple types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type will be of Any type, other- wise, it will be the type of the property as present in vertices. Constraints: o pattern: (Any|Byte|Short|Int|Long|Float|Dou- ble|String|Bool|Boolean|Float\[\]|Double\[\]) sourcePropertyName -&gt; (string) The name of the property as it exists in the orig- inal graph data. If not provided, it is assumed that the key matches the desired sourceProperty- Name. Constraints: o min: 1 o max: 128 multiValueHandling -&gt; (string) Specifies how to handle properties that have mul- tiple values. Can be either TO_LIST to export all values as a list, or PICK_FIRST to export the first value encountered. If not specified, the de- fault value is PICK_FIRST . Possible values: o TO_LIST o PICK_FIRST edgeFilter -&gt; (map) Used to specify filters on a per-label basis for edges. This al- lows you to control which edge labels and properties are in- cluded in the export. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) Specifies which properties of that label should be included in the export. properties -&gt; (map) Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"), and the value is an object. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_]+ value -&gt; (structure) A structure representing a property's attributes. It is a map object of outputType, sourcePropertyName and multiValueHandling. outputType -&gt; (string) Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float"). If a type is not provided, the export process will determine the type. If a given property is present as multiple types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type will be of Any type, other- wise, it will be the type of the property as present in vertices. Constraints: o pattern: (Any|Byte|Short|Int|Long|Float|Dou- ble|String|Bool|Boolean|Float\[\]|Double\[\]) sourcePropertyName -&gt; (string) The name of the property as it exists in the orig- inal graph data. If not provided, it is assumed that the key matches the desired sourceProperty- Name. Constraints: o min: 1 o max: 128 multiValueHandling -&gt; (string) Specifies how to handle properties that have mul- tiple values. Can be either TO_LIST to export all values as a list, or PICK_FIRST to export the first value encountered. If not specified, the de- fault value is PICK_FIRST . Possible values: o TO_LIST o PICK_FIRST JSON Syntax: { "vertexFilter": {"string": { "properties": {"string": { "outputType": "string", "sourcePropertyName": "string", "multiValueHandling": "TO_LIST"|"PICK_FIRST" } ...} } ...}, "edgeFilter": {"string": { "properties": {"string": { "outputType": "string", "sourcePropertyName": "string", "multiValueHandling": "TO_LIST"|"PICK_FIRST" } ...} } ...} }
+    /// The export filter of the export task. vertexFilter -&gt; (map) Used to specify filters on a per-label basis for vertices. This allows you to control which vertex labels and properties are included in the export. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) Specifies which properties of that label should be included in the export. properties -&gt; (map) Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"), and the value is an object. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_]+ value -&gt; (structure) A structure representing a property's attributes. It is a map object of outputType, sourcePropertyName and multiValueHandling. outputType -&gt; (string) Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float"). If a type is not provided, the export process will determine the type. If a given property is present as multiple types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type will be of Any type, otherwise, it will be the type of the property as present in vertices. Constraints: • pattern: (Any|Byte|Short|Int|Long|Float|Double|String|Bool|Boolean|Float\[\]|Double\[\]) sourcePropertyName -&gt; (string) The name of the property as it exists in the original graph data. If not provided, it is assumed that the key matches the desired sourcePropertyName. Constraints: • min: 1 • max: 128 multiValueHandling -&gt; (string) Specifies how to handle properties that have multiple values. Can be either TO_LIST to export all values as a list, or PICK_FIRST to export the first value encountered. If not specified, the default value is PICK_FIRST . Possible values: • TO_LIST • PICK_FIRST edgeFilter -&gt; (map) Used to specify filters on a per-label basis for edges. This allows you to control which edge labels and properties are included in the export. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) Specifies which properties of that label should be included in the export. properties -&gt; (map) Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"), and the value is an object. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_]+ value -&gt; (structure) A structure representing a property's attributes. It is a map object of outputType, sourcePropertyName and multiValueHandling. outputType -&gt; (string) Specifies the data type to use for the property in the exported data (e.g. "String", "Int", "Float"). If a type is not provided, the export process will determine the type. If a given property is present as multiple types (e.g. one vertex has "height" stored as a double, and another edge has it stored as a string), the type will be of Any type, otherwise, it will be the type of the property as present in vertices. Constraints: • pattern: (Any|Byte|Short|Int|Long|Float|Double|String|Bool|Boolean|Float\[\]|Double\[\]) sourcePropertyName -&gt; (string) The name of the property as it exists in the original graph data. If not provided, it is assumed that the key matches the desired sourcePropertyName. Constraints: • min: 1 • max: 128 multiValueHandling -&gt; (string) Specifies how to handle properties that have multiple values. Can be either TO_LIST to export all values as a list, or PICK_FIRST to export the first value encountered. If not specified, the default value is PICK_FIRST . Possible values: • TO_LIST • PICK_FIRST JSON Syntax: { "vertexFilter": {"string": { "properties": {"string": { "outputType": "string", "sourcePropertyName": "string", "multiValueHandling": "TO_LIST"|"PICK_FIRST" } ...} } ...}, "edgeFilter": {"string": { "properties": {"string": { "outputType": "string", "sourcePropertyName": "string", "multiValueHandling": "TO_LIST"|"PICK_FIRST" } ...} } ...} }
     /// </summary>
     [CliOption("--export-filter")]
     public string? ExportFilter { get; set; }
 
     /// <summary>
-    /// Tags to be applied to the export task. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to be applied to the export task. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -141,6 +141,15 @@ public record AwsNeptuneGraphStartExportTaskOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

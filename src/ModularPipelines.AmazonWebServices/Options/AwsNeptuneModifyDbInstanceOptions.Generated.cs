@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies settings for a DB instance. You can change one or more data- base configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance . See also: AWS API Documentation
+/// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies settings for a DB instance. You can change one or more data- base configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance . See also: AWS API Documentation
+    /// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier. This value is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier. This value is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance.</param>
     public AwsNeptuneModifyDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -57,7 +58,7 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier. This value is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance.
+    /// The DB instance identifier. This value is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
@@ -69,31 +70,31 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public int? AllocatedStorage { get; set; }
 
     /// <summary>
-    /// The new compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Ama- zon Regions. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request. Default: Uses existing setting
+    /// The new compute and memory capacity of the DB instance, for example, db.m4.large . Not all DB instance classes are available in all Amazon Regions. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request. Default: Uses existing setting
     /// </summary>
     [CliOption("--db-instance-class")]
     public string? DbInstanceClass { get; set; }
 
     /// <summary>
-    /// The new DB subnet group for the DB instance. You can use this para- meter to move your DB instance to a different VPC. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter. Constraints: If supplied, must match the name of an existing DBSub- netGroup. Example: mySubnetGroup
+    /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you specify true for the ApplyImmediately parameter. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
 
     /// <summary>
-    /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints: o If supplied, must match existing DBSecurityGroups. (string) Syntax: "string" "string" ...
+    /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints: • If supplied, must match existing DBSecurityGroups. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--db-security-groups", GroupValues = true)]
     public IEnumerable<string>? DbSecurityGroups { get; set; }
 
     /// <summary>
-    /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBClus- ter . Constraints: o If supplied, must match existing VpcSecurityGroupIds. (string) Syntax: "string" "string" ...
+    /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster . Constraints: • If supplied, must match existing VpcSecurityGroupIds. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the DB in- stance. If this parameter is set to false , changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBIn- stance , or the next failure reboot. Default: false
+    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance. If this parameter is set to false , changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance , or the next failure reboot. Default: false
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
@@ -112,13 +113,13 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? DbParameterGroupName { get; set; }
 
     /// <summary>
-    /// Not applicable. The retention period for automated backups is man- aged by the DB cluster. For more information, see ModifyDBCluster . Default: Uses existing setting
+    /// Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster . Default: Uses existing setting
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDB- Cluster . Constraints: o Must be in the format hh24:mi-hh24:mi o Must be in Universal Time Coordinated (UTC) o Must not conflict with the preferred maintenance window o Must be at least 30 minutes
+    /// The daily time range during which automated backups are created if automated backups are enabled. Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster . Constraints: • Must be in the format hh24:mi-hh24:mi • Must be in Universal Time Coordinated (UTC) • Must not conflict with the preferred maintenance window • Must be at least 30 minutes
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -130,25 +131,25 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage and the change is applied dur- ing the next maintenance window unless the ApplyImmediately parame- ter is set to true for this request.
+    /// Specifies if the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request.
     /// </summary>
     [CliFlag("--multi-az", NegatedName = "--no-multi-az")]
     public bool? MultiAz { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to upgrade to. Currently, setting this parameter has no effect. To upgrade your database en- gine to the most recent release, use the ApplyPendingMaintenanceAc- tion API.
+    /// The version number of the database engine to upgrade to. Currently, setting this parameter has no effect. To upgrade your database engine to the most recent release, use the ApplyPendingMaintenanceAction API.
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Indicates that major version upgrades are allowed. Changing this pa- rameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
+    /// Indicates that major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parame- ter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance win- dow, and a newer minor version is available, and Neptune has enabled auto patching for that engine version.
+    /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and Neptune has enabled auto patching for that engine version.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -160,7 +161,7 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? LicenseModel { get; set; }
 
     /// <summary>
-    /// The new Provisioned IOPS (I/O operations per second) value for the instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmedi- ately parameter is set to true for this request. Default: Uses existing setting
+    /// The new Provisioned IOPS (I/O operations per second) value for the instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true for this request. Default: Uses existing setting
     /// </summary>
     [CliOption("--iops")]
     public int? Iops { get; set; }
@@ -172,7 +173,7 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? OptionGroupName { get; set; }
 
     /// <summary>
-    /// The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot will occur immediately if you set Apply Immediately to true, or will occur during the next maintenance window if Apply Immedi- ately to false. This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot will occur immediately if you set Apply Immediately to true, or will occur during the next maintenance window if Apply Immediately to false. This value is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
     /// </summary>
     [CliOption("--new-db-instance-identifier")]
     public string? NewDbInstanceIdentifier { get; set; }
@@ -197,7 +198,7 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? TdeCredentialPassword { get; set; }
 
     /// <summary>
-    /// Indicates the certificate that needs to be associated with the in- stance.
+    /// Indicates the certificate that needs to be associated with the instance.
     /// </summary>
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
@@ -215,25 +216,25 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting En- hanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set Moni- toringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
     /// </summary>
     [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
     /// <summary>
-    /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB in- stance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter. Default: 8182
+    /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter. Default: 8182
     /// </summary>
     [CliOption("--db-port-number")]
     public int? DbPortNumber { get; set; }
 
     /// <summary>
-    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the end- point resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// The ARN for the IAM role that permits Neptune to send enhanced moni- toring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
+    /// The ARN for the IAM role that permits Neptune to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
     /// </summary>
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
@@ -245,13 +246,13 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? DomainIamRoleName { get; set; }
 
     /// <summary>
-    /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary in- stance. Default: 1 Valid Values: 0 - 15
+    /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
     /// </summary>
     [CliOption("--promotion-tier")]
     public int? PromotionTier { get; set; }
 
     /// <summary>
-    /// tication (boolean) True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following data- base engines Not applicable. Mapping Amazon IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBClus- ter . Default: false
+    /// True to enable mapping of Amazon Identity and Access Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM database authentication for the following database engines Not applicable. Mapping Amazon IAM accounts to database accounts is managed by the DB cluster. For more information, see ModifyDBCluster . Default: false
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
@@ -275,7 +276,7 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? CloudwatchLogsExportConfiguration { get; set; }
 
     /// <summary>
-    /// A value that indicates whether the DB instance has deletion protec- tion enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance .
+    /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. See Deleting a DB Instance .
     /// </summary>
     [CliFlag("--deletion-protection", NegatedName = "--no-deletion-protection")]
     public bool? DeletionProtection { get; set; }
@@ -301,6 +302,15 @@ public record AwsNeptuneModifyDbInstanceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by up- loading a CA certificate. Your Amazon Web Services workloads can au- thenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor . See also: AWS API Documentation
+/// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by up- loading a CA certificate. Your Amazon Web Services workloads can au- thenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor . See also: AWS API Documentation
+    /// Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:CreateTrustAnchor . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the trust anchor. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*</param>
-    /// <param name="Source">The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: o AWS_ACM_PCA o CERTIFICATE_BUNDLE o SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: o min: 1 o max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for tempo- rary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }</param>
+    /// <param name="Name">The name of the trust anchor. Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*</param>
+    /// <param name="Source">The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: • AWS_ACM_PCA • CERTIFICATE_BUNDLE • SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: • min: 1 • max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for temporary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }</param>
     public AwsRolesanywhereCreateTrustAnchorOptions(
         string Name,
         string Source
@@ -60,13 +61,13 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the trust anchor. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// The name of the trust anchor. Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: o AWS_ACM_PCA o CERTIFICATE_BUNDLE o SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: o min: 1 o max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for tempo- rary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }
+    /// The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: • AWS_ACM_PCA • CERTIFICATE_BUNDLE • SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: • min: 1 • max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for temporary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
@@ -78,13 +79,13 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions, IValidatabl
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// The tags to attach to the trust anchor. Constraints: o min: 0 o max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to attach to the trust anchor. Constraints: • min: 0 • max: 200 (structure) A label that consists of a key and value you define. key -&gt; (string) [required] The tag key. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_.:/=+@-]* value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: [ a-zA-Z0-9_.:/=+@-]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// A list of notification settings to be associated to the trust an- chor. Constraints: o min: 0 o max: 50 (structure) Customizable notification settings that will be applied to noti- fication events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard. enabled -&gt; (boolean) [required] Indicates whether the notification setting is enabled. event -&gt; (string) [required] The event to which this notification setting is applied. Possible values: o CA_CERTIFICATE_EXPIRY o END_ENTITY_CERTIFICATE_EXPIRY threshold -&gt; (integer) The number of days before a notification event. This value is required for a notification setting that is enabled. Constraints: o min: 1 o max: 360 channel -&gt; (string) The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. NOTE: In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels. Possible values: o ALL Shorthand Syntax: enabled=boolean,event=string,threshold=integer,channel=string ... JSON Syntax: [ { "enabled": true|false, "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "threshold": integer, "channel": "ALL" } ... ]
+    /// A list of notification settings to be associated to the trust anchor. Constraints: • min: 0 • max: 50 (structure) Customizable notification settings that will be applied to notification events. IAM Roles Anywhere consumes these settings while notifying across multiple channels - CloudWatch metrics, EventBridge, and Health Dashboard. enabled -&gt; (boolean) [required] Indicates whether the notification setting is enabled. event -&gt; (string) [required] The event to which this notification setting is applied. Possible values: • CA_CERTIFICATE_EXPIRY • END_ENTITY_CERTIFICATE_EXPIRY threshold -&gt; (integer) The number of days before a notification event. This value is required for a notification setting that is enabled. Constraints: • min: 1 • max: 360 channel -&gt; (string) The specified channel of notification. IAM Roles Anywhere uses CloudWatch metrics, EventBridge, and Health Dashboard to notify for an event. NOTE: In the absence of a specific channel, IAM Roles Anywhere applies this setting to 'ALL' channels. Possible values: • ALL Shorthand Syntax: enabled=boolean,event=string,threshold=integer,channel=string ... JSON Syntax: [ { "enabled": true|false, "event": "CA_CERTIFICATE_EXPIRY"|"END_ENTITY_CERTIFICATE_EXPIRY", "threshold": integer, "channel": "ALL" } ... ]
     /// </summary>
     [CliOption("--notification-settings", GroupValues = true)]
     public IEnumerable<string>? NotificationSettings { get; set; }
@@ -110,6 +111,15 @@ public record AwsRolesanywhereCreateTrustAnchorOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, re- gardless of which account in the environment creates the service. Ser- vices have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSec...
+/// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, regardless of which account in the environment creates the service. Services have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSecurit...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +28,12 @@ public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, re- gardless of which account in the environment creates the service. Ser- vices have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSec...
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, regardless of which account in the environment creates the service. Services have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSecurit...
     /// </summary>
-    /// <param name="ApplicationIdentifier">The ID of the application which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$</param>
-    /// <param name="EndpointType">The type of endpoint to use for the service. The type can be a URL in a VPC or an Lambda function. Possible values: o LAMBDA o URL</param>
-    /// <param name="EnvironmentIdentifier">The ID of the environment in which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$</param>
-    /// <param name="Name">The name of the service. Constraints: o min: 3 o max: 63 o pattern: ^(?!svc-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
+    /// <param name="ApplicationIdentifier">The ID of the application which the service is created. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$</param>
+    /// <param name="EndpointType">The type of endpoint to use for the service. The type can be a URL in a VPC or an Lambda function. Possible values: • LAMBDA • URL</param>
+    /// <param name="EnvironmentIdentifier">The ID of the environment in which the service is created. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$</param>
+    /// <param name="Name">The name of the service. Constraints: • min: 3 • max: 63 • pattern: ^(?!svc-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$</param>
     public AwsMigrationHubRefactorSpacesCreateServiceOptions(
         string ApplicationIdentifier,
         AwsMigrationHubRefactorSpacesCreateServiceEndpointType EndpointType,
@@ -70,62 +70,62 @@ public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^app-[0-9A-Za-z]{10}$
+    /// The ID of the application which the service is created. Constraints: • min: 14 • max: 14 • pattern: ^app-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--application-identifier")]
     public string? ApplicationIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of endpoint to use for the service. The type can be a URL in a VPC or an Lambda function. Possible values: o LAMBDA o URL
+    /// The type of endpoint to use for the service. The type can be a URL in a VPC or an Lambda function. Possible values: • LAMBDA • URL
     /// </summary>
     [CliOption("--endpoint-type")]
     public AwsMigrationHubRefactorSpacesCreateServiceEndpointType? EndpointType { get; private init; }
 
     /// <summary>
-    /// The ID of the environment in which the service is created. Constraints: o min: 14 o max: 14 o pattern: ^env-[0-9A-Za-z]{10}$
+    /// The ID of the environment in which the service is created. Constraints: • min: 14 • max: 14 • pattern: ^env-[0-9A-Za-z]{10}$
     /// </summary>
     [CliOption("--environment-identifier")]
     public string? EnvironmentIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the service. Constraints: o min: 3 o max: 63 o pattern: ^(?!svc-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
+    /// The name of the service. Constraints: • min: 3 • max: 63 • pattern: ^(?!svc-)[a-zA-Z0-9]+[a-zA-Z0-9-_ ]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^[\x20-\x7E]{1,64}$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: ^[\x20-\x7E]{1,64}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the service. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9-_\s\.\!\*\#\@\']+$
+    /// The description of the service. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9-_\s\.\!\*\#\@\']+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration for the Lambda endpoint type. Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function or alias. Constraints: o min: 1 o max: 2048 o pattern: ^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?$ Shorthand Syntax: Arn=string JSON Syntax: { "Arn": "string" }
+    /// The configuration for the Lambda endpoint type. Arn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function or alias. Constraints: • min: 1 • max: 2048 • pattern: ^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?$ Shorthand Syntax: Arn=string JSON Syntax: { "Arn": "string" }
     /// </summary>
     [CliOption("--lambda-endpoint")]
     public string? LambdaEndpoint { get; set; }
 
     /// <summary>
-    /// The tags to assign to the service. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:).+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to assign to the service. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:).+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The configuration for the URL endpoint type. When creating a route to a service, Refactor Spaces automatically resolves the address in the UrlEndpointInput object URL when the Domain Name System (DNS) time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60 seconds. HealthUrl -&gt; (string) The health check URL of the URL endpoint type. If the URL is a public endpoint, the HealthUrl must also be a public endpoint. If the URL is a private endpoint inside a virtual private cloud (VPC), the health URL must also be a private endpoint, and the host must be the same as the URL. Constraints: o min: 1 o max: 2048 o pattern: ^https?://[-a-zA-Z0-9+\x38@#/%?=~_|!:,.;]*[-a-zA-Z0-9+\x38@#/%=~_|]$ Url -&gt; (string) [required] The URL to route traffic to. The URL must be an rfc3986-formatted URL . If the host is a domain name, the name must be resolvable over the public internet. If the scheme is https , the top level domain of the host must be listed in the IANA root zone database . Constraints: o min: 1 o max: 2048 o pattern: ^https?://[-a-zA-Z0-9+\x38@#/%?=~_|!:,.;]*[-a-zA-Z0-9+\x38@#/%=~_|]$ Shorthand Syntax: HealthUrl=string,Url=string JSON Syntax: { "HealthUrl": "string", "Url": "string" }
+    /// The configuration for the URL endpoint type. When creating a route to a service, Refactor Spaces automatically resolves the address in the UrlEndpointInput object URL when the Domain Name System (DNS) time-to-live (TTL) expires, or every 60 seconds for TTLs less than 60 seconds. HealthUrl -&gt; (string) The health check URL of the URL endpoint type. If the URL is a public endpoint, the HealthUrl must also be a public endpoint. If the URL is a private endpoint inside a virtual private cloud (VPC), the health URL must also be a private endpoint, and the host must be the same as the URL. Constraints: • min: 1 • max: 2048 • pattern: ^https?://[-a-zA-Z0-9+\x38@#/%?=~_|!:,.;]*[-a-zA-Z0-9+\x38@#/%=~_|]$ Url -&gt; (string) [required] The URL to route traffic to. The URL must be an rfc3986-formatted URL . If the host is a domain name, the name must be resolvable over the public internet. If the scheme is https , the top level domain of the host must be listed in the IANA root zone database . Constraints: • min: 1 • max: 2048 • pattern: ^https?://[-a-zA-Z0-9+\x38@#/%?=~_|!:,.;]*[-a-zA-Z0-9+\x38@#/%=~_|]$ Shorthand Syntax: HealthUrl=string,Url=string JSON Syntax: { "HealthUrl": "string", "Url": "string" }
     /// </summary>
     [CliOption("--url-endpoint")]
     public string? UrlEndpoint { get; set; }
 
     /// <summary>
-    /// The ID of the VPC. Constraints: o min: 12 o max: 21 o pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$
+    /// The ID of the VPC. Constraints: • min: 12 • max: 21 • pattern: ^vpc-[-a-f0-9]{8}([-a-f0-9]{9})?$
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; set; }
@@ -151,6 +151,15 @@ public record AwsMigrationHubRefactorSpacesCreateServiceOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

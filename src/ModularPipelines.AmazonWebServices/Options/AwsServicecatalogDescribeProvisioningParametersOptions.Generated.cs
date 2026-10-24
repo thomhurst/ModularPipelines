@@ -22,43 +22,43 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsServicecatalogDescribeProvisioningParametersOptions : AwsOptions
 {
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The product identifier. You must provide the product name or ID, but not both. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The product identifier. You must provide the product name or ID, but not both. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; set; }
 
     /// <summary>
-    /// The name of the product. You must provide the name or ID, but not both. Constraints: o max: 8191
+    /// The name of the product. You must provide the name or ID, but not both. Constraints: • max: 8191
     /// </summary>
     [CliOption("--product-name")]
     public string? ProductName { get; set; }
 
     /// <summary>
-    /// The identifier of the provisioning artifact. You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the provisioning artifact. You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--provisioning-artifact-id")]
     public string? ProvisioningArtifactId { get; set; }
 
     /// <summary>
-    /// The name of the provisioning artifact. You must provide the name or ID, but not both. Constraints: o max: 8192
+    /// The name of the provisioning artifact. You must provide the name or ID, but not both. Constraints: • max: 8192
     /// </summary>
     [CliOption("--provisioning-artifact-name")]
     public string? ProvisioningArtifactName { get; set; }
 
     /// <summary>
-    /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths . You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths . You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--path-id")]
     public string? PathId { get; set; }
 
     /// <summary>
-    /// The name of the path. You must provide the name or ID, but not both. Constraints: o min: 1 o max: 100
+    /// The name of the path. You must provide the name or ID, but not both. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--path-name")]
     public string? PathName { get; set; }
@@ -68,5 +68,14 @@ public record AwsServicecatalogDescribeProvisioningParametersOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

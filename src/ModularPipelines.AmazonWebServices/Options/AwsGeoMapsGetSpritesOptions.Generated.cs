@@ -25,10 +25,10 @@ public record AwsGeoMapsGetSpritesOptions : AwsOptions
     /// <summary>
     /// GetSprites returns the map's sprites. For more information, see Style iconography with sprites in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileName">Sprites API: The name of the sprite le to retrieve, following pattern sprites(@2x)?\.(png|json) . Example: sprites.png Constraints: o pattern: sprites(@2x)?\.(png|json)</param>
-    /// <param name="Style">Style specifies the desired map style for the Sprites APIs. Possible values: o Standard o Monochrome o Hybrid o Satellite</param>
-    /// <param name="ColorScheme">Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark</param>
-    /// <param name="Variant">Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default NOTE: Valid values for Variant are case sensitive. Possible values: o Default outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="FileName">Sprites API: The name of the sprite le to retrieve, following pattern sprites(@2x)?\.(png|json) . Example: sprites.png Constraints: • pattern: sprites(@2x)?\.(png|json)</param>
+    /// <param name="Style">Style specifies the desired map style for the Sprites APIs. Possible values: • Standard • Monochrome • Hybrid • Satellite</param>
+    /// <param name="ColorScheme">Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: • Light • Dark</param>
+    /// <param name="Variant">Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default NOTE: Valid values for Variant are case sensitive. Possible values: • Default outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsGeoMapsGetSpritesOptions(
         string FileName,
@@ -58,25 +58,25 @@ public record AwsGeoMapsGetSpritesOptions : AwsOptions
     }
 
     /// <summary>
-    /// Sprites API: The name of the sprite le to retrieve, following pattern sprites(@2x)?\.(png|json) . Example: sprites.png Constraints: o pattern: sprites(@2x)?\.(png|json)
+    /// Sprites API: The name of the sprite le to retrieve, following pattern sprites(@2x)?\.(png|json) . Example: sprites.png Constraints: • pattern: sprites(@2x)?\.(png|json)
     /// </summary>
     [CliOption("--file-name")]
     public string FileName { get; private init; }
 
     /// <summary>
-    /// Style specifies the desired map style for the Sprites APIs. Possible values: o Standard o Monochrome o Hybrid o Satellite
+    /// Style specifies the desired map style for the Sprites APIs. Possible values: • Standard • Monochrome • Hybrid • Satellite
     /// </summary>
     [CliOption("--style")]
     public AwsGeoMapsGetSpritesStyle Style { get; private init; }
 
     /// <summary>
-    /// Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: o Light o Dark
+    /// Sets the color tone for the map sprites, such as dark and light. Example: Light Default value: Light NOTE: Valid values for ColorScheme are case sensitive. Possible values: • Light • Dark
     /// </summary>
     [CliOption("--color-scheme")]
     public AwsGeoMapsGetSpritesColorScheme ColorScheme { get; private init; }
 
     /// <summary>
-    /// Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default NOTE: Valid values for Variant are case sensitive. Possible values: o Default outfile (string) [required] Filename where the content will be saved
+    /// Optimizes map styles for specific use case or industry. You can choose allowed variant only with Standard map style. Example: Default NOTE: Valid values for Variant are case sensitive. Possible values: • Default outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--variant")]
     public string Variant { get; private init; }
@@ -86,5 +86,14 @@ public record AwsGeoMapsGetSpritesOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

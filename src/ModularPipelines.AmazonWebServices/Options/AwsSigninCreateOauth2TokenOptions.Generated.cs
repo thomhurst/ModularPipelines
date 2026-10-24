@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, sup- porting both: o Authorization code redemption (grant_type=authorization_code) - NOT idempotent o Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempote...
+/// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both: • Authorization code redemption (grant_type=authorization_code) - NOT idempotent • Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempotent...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSigninCreateOauth2TokenOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, sup- porting both: o Authorization code redemption (grant_type=authorization_code) - NOT idempotent o Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempote...
+    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both: • Authorization code redemption (grant_type=authorization_code) - NOT idempotent • Token refresh (grant_type=refresh_token) - Idempotent within token validity window The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempotent...
     /// </summary>
-    /// <param name="TokenInput">Flattened token operation inputs The specific operation is deter- mined by grant_type in the request body clientId -&gt; (string) [required] The client identifier (ARN) used during Sign-In onboarding Re- quired for both authorization code and refresh token flows Constraints: o pattern: arn:aws:signin:::devtools/(cross-device|same-device) grantType -&gt; (string) [required] OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token" Constraints: o pattern: (authorization_code|refresh_token) code -&gt; (string) The authorization code received from /v1/authorize Required only when grant_type=authorization_code Constraints: o min: 1 o max: 512 redirectUri -&gt; (string) The redirect URI that must match the original authorization re- quest Required only when grant_type=authorization_code Constraints: o min: 1 o max: 2048 codeVerifier -&gt; (string) PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code Constraints: o min: 43 o max: 128 o pattern: [A-Za-z0-9\-._~]+ refreshToken -&gt; (string) The refresh token returned from auth_code redemption Required only when grant_type=refresh_token Constraints: o min: 1 o max: 2048 Shorthand Syntax: clientId=string,grantType=string,code=string,redirectUri=string,codeVerifier=string,refreshToken=string JSON Syntax: { "clientId": "string", "grantType": "string", "code": "string", "redirectUri": "string", "codeVerifier": "string", "refreshToken": "string" }</param>
+    /// <param name="TokenInput">Flattened token operation inputs The specific operation is determined by grant_type in the request body clientId -&gt; (string) [required] The client identifier (ARN) used during Sign-In onboarding Required for both authorization code and refresh token flows Constraints: • pattern: arn:aws:signin:::devtools/(cross-device|same-device) grantType -&gt; (string) [required] OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token" Constraints: • pattern: (authorization_code|refresh_token) code -&gt; (string) The authorization code received from /v1/authorize Required only when grant_type=authorization_code Constraints: • min: 1 • max: 512 redirectUri -&gt; (string) The redirect URI that must match the original authorization request Required only when grant_type=authorization_code Constraints: • min: 1 • max: 2048 codeVerifier -&gt; (string) PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code Constraints: • min: 43 • max: 128 • pattern: [A-Za-z0-9\-._~]+ refreshToken -&gt; (string) The refresh token returned from auth_code redemption Required only when grant_type=refresh_token Constraints: • min: 1 • max: 2048 Shorthand Syntax: clientId=string,grantType=string,code=string,redirectUri=string,codeVerifier=string,refreshToken=string JSON Syntax: { "clientId": "string", "grantType": "string", "code": "string", "redirectUri": "string", "codeVerifier": "string", "refreshToken": "string" }</param>
     public AwsSigninCreateOauth2TokenOptions(
         string TokenInput
     )
@@ -57,7 +58,7 @@ public record AwsSigninCreateOauth2TokenOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Flattened token operation inputs The specific operation is deter- mined by grant_type in the request body clientId -&gt; (string) [required] The client identifier (ARN) used during Sign-In onboarding Re- quired for both authorization code and refresh token flows Constraints: o pattern: arn:aws:signin:::devtools/(cross-device|same-device) grantType -&gt; (string) [required] OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token" Constraints: o pattern: (authorization_code|refresh_token) code -&gt; (string) The authorization code received from /v1/authorize Required only when grant_type=authorization_code Constraints: o min: 1 o max: 512 redirectUri -&gt; (string) The redirect URI that must match the original authorization re- quest Required only when grant_type=authorization_code Constraints: o min: 1 o max: 2048 codeVerifier -&gt; (string) PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code Constraints: o min: 43 o max: 128 o pattern: [A-Za-z0-9\-._~]+ refreshToken -&gt; (string) The refresh token returned from auth_code redemption Required only when grant_type=refresh_token Constraints: o min: 1 o max: 2048 Shorthand Syntax: clientId=string,grantType=string,code=string,redirectUri=string,codeVerifier=string,refreshToken=string JSON Syntax: { "clientId": "string", "grantType": "string", "code": "string", "redirectUri": "string", "codeVerifier": "string", "refreshToken": "string" }
+    /// Flattened token operation inputs The specific operation is determined by grant_type in the request body clientId -&gt; (string) [required] The client identifier (ARN) used during Sign-In onboarding Required for both authorization code and refresh token flows Constraints: • pattern: arn:aws:signin:::devtools/(cross-device|same-device) grantType -&gt; (string) [required] OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token" Constraints: • pattern: (authorization_code|refresh_token) code -&gt; (string) The authorization code received from /v1/authorize Required only when grant_type=authorization_code Constraints: • min: 1 • max: 512 redirectUri -&gt; (string) The redirect URI that must match the original authorization request Required only when grant_type=authorization_code Constraints: • min: 1 • max: 2048 codeVerifier -&gt; (string) PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code Constraints: • min: 43 • max: 128 • pattern: [A-Za-z0-9\-._~]+ refreshToken -&gt; (string) The refresh token returned from auth_code redemption Required only when grant_type=refresh_token Constraints: • min: 1 • max: 2048 Shorthand Syntax: clientId=string,grantType=string,code=string,redirectUri=string,codeVerifier=string,refreshToken=string JSON Syntax: { "clientId": "string", "grantType": "string", "code": "string", "redirectUri": "string", "codeVerifier": "string", "refreshToken": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--token-input")]
@@ -84,6 +85,15 @@ public record AwsSigninCreateOauth2TokenOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

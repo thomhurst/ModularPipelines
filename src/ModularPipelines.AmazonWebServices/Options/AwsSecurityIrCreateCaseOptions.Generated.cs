@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,13 +30,13 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new case. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverType">Required element used in combination with CreateCase to identify the resolver type. Possible values: o AWS o Self</param>
-    /// <param name="Title">Required element used in combination with CreateCase to provide a title for the new case. Constraints: o min: 1 o max: 300</param>
-    /// <param name="Description">Required element used in combination with CreateCase to provide a description for the new case. Constraints: o min: 1 o max: 8000</param>
-    /// <param name="EngagementType">Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types in- clude Security Incident | Investigation Possible values: o Security Incident o Investigation</param>
+    /// <param name="ResolverType">Required element used in combination with CreateCase to identify the resolver type. Possible values: • AWS • Self</param>
+    /// <param name="Title">Required element used in combination with CreateCase to provide a title for the new case. Constraints: • min: 1 • max: 300</param>
+    /// <param name="Description">Required element used in combination with CreateCase to provide a description for the new case. Constraints: • min: 1 • max: 8000</param>
+    /// <param name="EngagementType">Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types include Security Incident | Investigation Possible values: • Security Incident • Investigation</param>
     /// <param name="ReportedIncidentStartDate">Required element used in combination with CreateCase to provide an initial start date for the unauthorized activity.</param>
-    /// <param name="ImpactedAccounts">Required element used in combination with CreateCase to provide a list of impacted accounts. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...</param>
-    /// <param name="Watchers">Required element used in combination with CreateCase to provide a list of entities to receive notifications for case updates. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]</param>
+    /// <param name="ImpactedAccounts">Required element used in combination with CreateCase to provide a list of impacted accounts. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...</param>
+    /// <param name="Watchers">Required element used in combination with CreateCase to provide a list of entities to receive notifications for case updates. Constraints: • min: 0 • max: 30 (structure) email -&gt; (string) [required] Constraints: • min: 6 • max: 254 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: • min: 1 • max: 50 jobTitle -&gt; (string) Constraints: • min: 1 • max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]</param>
     public AwsSecurityIrCreateCaseOptions(
         AwsSecurityIrCreateCaseResolverType ResolverType,
         string Title,
@@ -104,25 +104,25 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element used in combination with CreateCase to identify the resolver type. Possible values: o AWS o Self
+    /// Required element used in combination with CreateCase to identify the resolver type. Possible values: • AWS • Self
     /// </summary>
     [CliOption("--resolver-type")]
     public AwsSecurityIrCreateCaseResolverType? ResolverType { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateCase to provide a title for the new case. Constraints: o min: 1 o max: 300
+    /// Required element used in combination with CreateCase to provide a title for the new case. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateCase to provide a description for the new case. Constraints: o min: 1 o max: 8000
+    /// Required element used in combination with CreateCase to provide a description for the new case. Constraints: • min: 1 • max: 8000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types in- clude Security Incident | Investigation Possible values: o Security Incident o Investigation
+    /// Required element used in combination with CreateCase to provide an engagement type for the new cases. Available engagement types include Security Incident | Investigation Possible values: • Security Incident • Investigation
     /// </summary>
     [CliOption("--engagement-type")]
     public string? EngagementType { get; private init; }
@@ -134,44 +134,44 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
     public string? ReportedIncidentStartDate { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateCase to provide a list of impacted accounts. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: o min: 0 o max: 200 (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// Required element used in combination with CreateCase to provide a list of impacted accounts. NOTE: AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123 . Not zero-prepending to 12 digits could result in errors. Constraints: • min: 0 • max: 200 (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--impacted-accounts", GroupValues = true)]
     public IEnumerable<string>? ImpactedAccounts { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateCase to provide a list of entities to receive notifications for case updates. Constraints: o min: 0 o max: 30 (structure) email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: o min: 1 o max: 50 jobTitle -&gt; (string) Constraints: o min: 1 o max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]
+    /// Required element used in combination with CreateCase to provide a list of entities to receive notifications for case updates. Constraints: • min: 0 • max: 30 (structure) email -&gt; (string) [required] Constraints: • min: 6 • max: 254 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* name -&gt; (string) Constraints: • min: 1 • max: 50 jobTitle -&gt; (string) Constraints: • min: 1 • max: 50 Shorthand Syntax: email=string,name=string,jobTitle=string ... JSON Syntax: [ { "email": "string", "name": "string", "jobTitle": "string" } ... ]
     /// </summary>
     [CliOption("--watchers", GroupValues = true)]
     public IEnumerable<string>? Watchers { get; private init; }
 
     /// <summary>
-    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
+    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: • min: 1 • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional element used in combination with CreateCase to provide a list of suspicious internet protocol addresses associated with unau- thorized activity. Constraints: o min: 0 o max: 200 (structure) ipAddress -&gt; (string) [required] Constraints: o pattern: (?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4})|(?:(?:[A-F0-9]{1,4}:){6}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)) userAgent -&gt; (string) Constraints: o min: 1 o max: 500 Shorthand Syntax: ipAddress=string,userAgent=string ... JSON Syntax: [ { "ipAddress": "string", "userAgent": "string" } ... ]
+    /// An optional element used in combination with CreateCase to provide a list of suspicious internet protocol addresses associated with unauthorized activity. Constraints: • min: 0 • max: 200 (structure) ipAddress -&gt; (string) [required] Constraints: • pattern: (?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4})|(?:(?:[A-F0-9]{1,4}:){6}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)) userAgent -&gt; (string) Constraints: • min: 1 • max: 500 Shorthand Syntax: ipAddress=string,userAgent=string ... JSON Syntax: [ { "ipAddress": "string", "userAgent": "string" } ... ]
     /// </summary>
     [CliOption("--threat-actor-ip-addresses", GroupValues = true)]
     public IEnumerable<string>? ThreatActorIpAddresses { get; set; }
 
     /// <summary>
-    /// An optional element used in combination with CreateCase to provide a list of services impacted. Constraints: o min: 0 o max: 600 (string) Constraints: o min: 2 o max: 50 o pattern: [a-zA-Z0-9 -.():]+ Syntax: "string" "string" ...
+    /// An optional element used in combination with CreateCase to provide a list of services impacted. Constraints: • min: 0 • max: 600 (string) Constraints: • min: 2 • max: 50 • pattern: [a-zA-Z0-9 -.():]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--impacted-services", GroupValues = true)]
     public IEnumerable<string>? ImpactedServices { get; set; }
 
     /// <summary>
-    /// An optional element used in combination with CreateCase to provide a list of impacted regions. Constraints: o min: 0 o max: 50 (structure) region -&gt; (string) [required] Possible values: o af-south-1 o ap-east-1 o ap-east-2 o ap-northeast-1 o ap-northeast-2 o ap-northeast-3 o ap-south-1 o ap-south-2 o ap-southeast-1 o ap-southeast-2 o ap-southeast-3 o ap-southeast-4 o ap-southeast-5 o ap-southeast-6 o ap-southeast-7 o ca-central-1 o ca-west-1 o cn-north-1 o cn-northwest-1 o eu-central-1 o eu-central-2 o eu-north-1 o eu-south-1 o eu-south-2 o eu-west-1 o eu-west-2 o eu-west-3 o il-central-1 o me-central-1 o me-south-1 o mx-central-1 o sa-east-1 o us-east-1 o us-east-2 o us-west-1 o us-west-2 Shorthand Syntax: region=string ... JSON Syntax: [ { "region": "af-south-1"|"ap-east-1"|"ap-east-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"ap-south-1"|"ap-south-2"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-southeast-4"|"ap-southeast-5"|"ap-southeast-6"|"ap-southeast-7"|"ca-central-1"|"ca-west-1"|"cn-north-1"|"cn-northwest-1"|"eu-central-1"|"eu-central-2"|"eu-north-1"|"eu-south-1"|"eu-south-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"il-central-1"|"me-central-1"|"me-south-1"|"mx-central-1"|"sa-east-1"|"us-east-1"|"us-east-2"|"us-west-1"|"us-west-2" } ... ]
+    /// An optional element used in combination with CreateCase to provide a list of impacted regions. Constraints: • min: 0 • max: 50 (structure) region -&gt; (string) [required] Possible values: • af-south-1 • ap-east-1 • ap-east-2 • ap-northeast-1 • ap-northeast-2 • ap-northeast-3 • ap-south-1 • ap-south-2 • ap-southeast-1 • ap-southeast-2 • ap-southeast-3 • ap-southeast-4 • ap-southeast-5 • ap-southeast-6 • ap-southeast-7 • ca-central-1 • ca-west-1 • cn-north-1 • cn-northwest-1 • eu-central-1 • eu-central-2 • eu-north-1 • eu-south-1 • eu-south-2 • eu-west-1 • eu-west-2 • eu-west-3 • il-central-1 • me-central-1 • me-south-1 • mx-central-1 • sa-east-1 • us-east-1 • us-east-2 • us-west-1 • us-west-2 Shorthand Syntax: region=string ... JSON Syntax: [ { "region": "af-south-1"|"ap-east-1"|"ap-east-2"|"ap-northeast-1"|"ap-northeast-2"|"ap-northeast-3"|"ap-south-1"|"ap-south-2"|"ap-southeast-1"|"ap-southeast-2"|"ap-southeast-3"|"ap-southeast-4"|"ap-southeast-5"|"ap-southeast-6"|"ap-southeast-7"|"ca-central-1"|"ca-west-1"|"cn-north-1"|"cn-northwest-1"|"eu-central-1"|"eu-central-2"|"eu-north-1"|"eu-south-1"|"eu-south-2"|"eu-west-1"|"eu-west-2"|"eu-west-3"|"il-central-1"|"me-central-1"|"me-south-1"|"mx-central-1"|"sa-east-1"|"us-east-1"|"us-east-2"|"us-west-1"|"us-west-2" } ... ]
     /// </summary>
     [CliOption("--impacted-aws-regions", GroupValues = true)]
     public IEnumerable<string>? ImpactedAwsRegions { get; set; }
 
     /// <summary>
-    /// An optional element used in combination with CreateCase to add cus- tomer specified tags to a case. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional element used in combination with CreateCase to add customer specified tags to a case. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -197,6 +197,15 @@ public record AwsSecurityIrCreateCaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

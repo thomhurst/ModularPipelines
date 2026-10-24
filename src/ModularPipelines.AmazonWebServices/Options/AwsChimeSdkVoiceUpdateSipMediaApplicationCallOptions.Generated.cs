@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Invokes the AWS Lambda function associated with the SIP media applica- tion and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
+/// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Invokes the AWS Lambda function associated with the SIP media applica- tion and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
+    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipMediaApplicationId">The ID of the SIP media application handling the call. Constraints: o pattern: .*\S.*</param>
-    /// <param name="TransactionId">The ID of the call transaction. Constraints: o pattern: .*\S.*</param>
-    /// <param name="ChimeSdkVoiceArguments">Arguments made available to the Lambda function as part of the CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs. Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="SipMediaApplicationId">The ID of the SIP media application handling the call. Constraints: • pattern: .*\S.*</param>
+    /// <param name="TransactionId">The ID of the call transaction. Constraints: • pattern: .*\S.*</param>
+    /// <param name="ChimeSdkVoiceArguments">Arguments made available to the Lambda function as part of the CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs. Constraints: • min: 0 • max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions(
         string SipMediaApplicationId,
         string TransactionId,
@@ -76,19 +76,19 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the SIP media application handling the call. Constraints: o pattern: .*\S.*
+    /// The ID of the SIP media application handling the call. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-media-application-id")]
     public string? SipMediaApplicationId { get; private init; }
 
     /// <summary>
-    /// The ID of the call transaction. Constraints: o pattern: .*\S.*
+    /// The ID of the call transaction. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; private init; }
 
     /// <summary>
-    /// Arguments made available to the Lambda function as part of the CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs. Constraints: o min: 0 o max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Arguments made available to the Lambda function as part of the CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs. Constraints: • min: 0 • max: 20 key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--arguments", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ChimeSdkVoiceArguments { get; private init; }
@@ -114,6 +114,15 @@ public record AwsChimeSdkVoiceUpdateSipMediaApplicationCallOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

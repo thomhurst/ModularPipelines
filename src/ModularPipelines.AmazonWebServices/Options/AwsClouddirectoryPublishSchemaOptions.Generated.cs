@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsClouddirectoryPublishSchemaOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Publishes a development schema with a major version and a recommended minor version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DevelopmentSchemaArn">The Amazon Resource Name (ARN) that is associated with the develop- ment schema. For more information, see arns .</param>
-    /// <param name="SchemaVersion">The major version under which the schema will be published. Schemas have both a major and minor version associated with them. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="DevelopmentSchemaArn">The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns .</param>
+    /// <param name="SchemaVersion">The major version under which the schema will be published. Schemas have both a major and minor version associated with them. Constraints: • min: 1 • max: 10 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryPublishSchemaOptions(
         string DevelopmentSchemaArn,
         string SchemaVersion
@@ -60,25 +61,25 @@ public record AwsClouddirectoryPublishSchemaOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that is associated with the develop- ment schema. For more information, see arns .
+    /// The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns .
     /// </summary>
     [CliOption("--development-schema-arn")]
     public string? DevelopmentSchemaArn { get; private init; }
 
     /// <summary>
-    /// The major version under which the schema will be published. Schemas have both a major and minor version associated with them. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The major version under which the schema will be published. Schemas have both a major and minor version associated with them. Constraints: • min: 1 • max: 10 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--schema-version")]
     public string? SchemaVersion { get; private init; }
 
     /// <summary>
-    /// The minor version under which the schema will be published. This pa- rameter is recommended. Schemas have both a major and minor version associated with them. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The minor version under which the schema will be published. This parameter is recommended. Schemas have both a major and minor version associated with them. Constraints: • min: 1 • max: 10 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--minor-version")]
     public string? MinorVersion { get; set; }
 
     /// <summary>
-    /// The new name under which the schema will be published. If this is not provided, the development schema is considered. Constraints: o min: 1 o max: 32 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The new name under which the schema will be published. If this is not provided, the development schema is considered. Constraints: • min: 1 • max: 32 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -104,6 +105,15 @@ public record AwsClouddirectoryPublishSchemaOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor ver- sion of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
+/// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor ver- sion of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
+    /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
-    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
-    /// <param name="MajorVersionNumber">The major version number. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$</param>
+    /// <param name="ModelId">The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="MajorVersionNumber">The major version number. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$</param>
     public AwsFrauddetectorUpdateModelVersionOptions(
         string ModelId,
         AwsFrauddetectorUpdateModelVersionModelType ModelType,
@@ -64,37 +65,37 @@ public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorUpdateModelVersionModelType? ModelType { get; private init; }
 
     /// <summary>
-    /// The major version number. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The major version number. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--major-version-number")]
     public string? MajorVersionNumber { get; private init; }
 
     /// <summary>
-    /// The details of the external events data used for training the model version. Required if trainingDataSource is EXTERNAL_EVENTS . dataLocation -&gt; (string) [required] The Amazon S3 bucket location for the data. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$ dataAccessRoleArn -&gt; (string) [required] The ARN of the role that provides Amazon Fraud Detector access to the data location. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$ Shorthand Syntax: dataLocation=string,dataAccessRoleArn=string JSON Syntax: { "dataLocation": "string", "dataAccessRoleArn": "string" }
+    /// The details of the external events data used for training the model version. Required if trainingDataSource is EXTERNAL_EVENTS . dataLocation -&gt; (string) [required] The Amazon S3 bucket location for the data. Constraints: • min: 1 • max: 512 • pattern: ^s3:\/\/(.+)$ dataAccessRoleArn -&gt; (string) [required] The ARN of the role that provides Amazon Fraud Detector access to the data location. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$ Shorthand Syntax: dataLocation=string,dataAccessRoleArn=string JSON Syntax: { "dataLocation": "string", "dataAccessRoleArn": "string" }
     /// </summary>
     [CliOption("--external-events-detail")]
     public string? ExternalEventsDetail { get; set; }
 
     /// <summary>
-    /// The details of the ingested event used for training the model ver- sion. Required if your trainingDataSource is INGESTED_EVENTS . ingestedEventsTimeWindow -&gt; (structure) [required] The start and stop time of the ingested events. startTime -&gt; (string) [required] Timestamp of the first ingensted event. Constraints: o min: 11 o max: 30 endTime -&gt; (string) [required] Timestamp of the final ingested event. Constraints: o min: 11 o max: 30 Shorthand Syntax: ingestedEventsTimeWindow={startTime=string,endTime=string} JSON Syntax: { "ingestedEventsTimeWindow": { "startTime": "string", "endTime": "string" } }
+    /// The details of the ingested event used for training the model version. Required if your trainingDataSource is INGESTED_EVENTS . ingestedEventsTimeWindow -&gt; (structure) [required] The start and stop time of the ingested events. startTime -&gt; (string) [required] Timestamp of the first ingensted event. Constraints: • min: 11 • max: 30 endTime -&gt; (string) [required] Timestamp of the final ingested event. Constraints: • min: 11 • max: 30 Shorthand Syntax: ingestedEventsTimeWindow={startTime=string,endTime=string} JSON Syntax: { "ingestedEventsTimeWindow": { "startTime": "string", "endTime": "string" } }
     /// </summary>
     [CliOption("--ingested-events-detail")]
     public string? IngestedEventsDetail { get; set; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -120,6 +121,15 @@ public record AwsFrauddetectorUpdateModelVersionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The RejectAssignment operation rejects the results of a completed as- signment. You can include an optional feedback message with the rejection, which the Worker can see in the Status section of the web site. When you in- clude a feedback message with the rejection, it helps the Worker under- stand why the assignment was rejected, and can improve the quality of the results the Worker submits in the future. Only the Requester who created the HIT can reject an assignment for the HIT. See also: AWS...
+/// The RejectAssignment operation rejects the results of a completed assignment. You can include an optional feedback message with the rejection, which the Worker can see in the Status section of the web site. When you include a feedback message with the rejection, it helps the Worker understand why the assignment was rejected, and can improve the quality of the results the Worker submits in the future. Only the Requester who created the HIT can reject an assignment for the HIT. See also: AWS API D...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMturkRejectAssignmentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The RejectAssignment operation rejects the results of a completed as- signment. You can include an optional feedback message with the rejection, which the Worker can see in the Status section of the web site. When you in- clude a feedback message with the rejection, it helps the Worker under- stand why the assignment was rejected, and can improve the quality of the results the Worker submits in the future. Only the Requester who created the HIT can reject an assignment for the HIT. See also: AWS...
+    /// The RejectAssignment operation rejects the results of a completed assignment. You can include an optional feedback message with the rejection, which the Worker can see in the Status section of the web site. When you include a feedback message with the rejection, it helps the Worker understand why the assignment was rejected, and can improve the quality of the results the Worker submits in the future. Only the Requester who created the HIT can reject an assignment for the HIT. See also: AWS API D...
     /// </summary>
-    /// <param name="AssignmentId">The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
+    /// <param name="AssignmentId">The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
     /// <param name="RequesterFeedback">A message for the Worker, which the Worker can see in the Status section of the web site.</param>
     public AwsMturkRejectAssignmentOptions(
         string AssignmentId,
@@ -60,7 +61,7 @@ public record AwsMturkRejectAssignmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the assignment. The assignment must correspond to a HIT created by the Requester. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--assignment-id")]
     public string? AssignmentId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMturkRejectAssignmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

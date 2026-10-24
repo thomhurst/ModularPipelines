@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsRoute53resolverAssociateResolverRuleOptions : AwsOptions, IVali
     /// <summary>
     /// Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see CreateResolverRule . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules . Constraints: o min: 1 o max: 64</param>
-    /// <param name="VpcId">The ID of the VPC that you want to associate the Resolver rule with. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ResolverRuleId">The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules . Constraints: • min: 1 • max: 64</param>
+    /// <param name="VpcId">The ID of the VPC that you want to associate the Resolver rule with. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverAssociateResolverRuleOptions(
         string ResolverRuleId,
         string VpcId
@@ -60,19 +61,19 @@ public record AwsRoute53resolverAssociateResolverRuleOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules . Constraints: o min: 1 o max: 64
+    /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resolver-rule-id")]
     public string? ResolverRuleId { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC that you want to associate the Resolver rule with. Constraints: o min: 1 o max: 64
+    /// The ID of the VPC that you want to associate the Resolver rule with. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// A name for the association that you're creating between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// A name for the association that you're creating between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -98,6 +99,15 @@ public record AwsRoute53resolverAssociateResolverRuleOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

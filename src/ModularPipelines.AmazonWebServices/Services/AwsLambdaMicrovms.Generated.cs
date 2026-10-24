@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws lambdamicrovms commands.
+/// aws lambda-microvms commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLambdaMicrovms : IAwsLambdaMicrovms
@@ -47,7 +47,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Creates a MicroVM image from the specified code artifact and base im- age. The build is asynchronous the image transitions from CREATING to CREATED on success, or CREATE_FAILED on failure. Use GetMicrovmImage to poll for completion. See also: AWS API Documentation
+    /// Creates a MicroVM image from the specified code artifact and base image. The build is asynchronous the image transitions from CREATING to CREATED on success, or CREATE_FAILED on failure. Use GetMicrovmImage to poll for completion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Deletes a MicroVM image. This operation is idempotent; deleting an im- age that has already been deleted succeeds without error. See also: AWS API Documentation
+    /// Deletes a MicroVM image. This operation is idempotent; deleting an image that has already been deleted succeeds without error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Deletes a specific version of a MicroVM image. This operation is idem- potent; deleting a version that has already been deleted succeeds with- out error. See also: AWS API Documentation
+    /// Deletes a specific version of a MicroVM image. This operation is idempotent; deleting a version that has already been deleted succeeds without error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Retrieves the details of a MicroVM image, including its state, ver- sions, and configuration. See also: AWS API Documentation
+    /// Retrieves the details of a MicroVM image, including its state, versions, and configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Retrieves the details of a specific version of a MicroVM image, includ- ing its configuration, state, and build information. See also: AWS API Documentation
+    /// Retrieves the details of a specific version of a MicroVM image, including its configuration, state, and build information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Retrieves the details of a specific MicroVM, including its state, end- point, image information, and configuration. The state field is eventu- ally consistent determine readiness by connecting to the endpoint. See also: AWS API Documentation
+    /// Retrieves the details of a specific MicroVM, including its state, endpoint, image information, and configuration. The state field is eventually consistent determine readiness by connecting to the endpoint. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,22 +167,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListManagedMicrovmImagesAsync(
-        AwsLambdaMicrovmsListManagedMicrovmImagesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists versions of a managed MicroVM image. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// Lists versions of a managed MicroVM image. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +182,22 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Lists builds for a MicroVM image version with optional filtering by ar- chitecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
+    /// Lists AWS managed MicroVM images available for use as base images. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-managed-microvm-images is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListManagedMicrovmImagesAsync(
+        AwsLambdaMicrovmsListManagedMicrovmImagesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLambdaMicrovmsListManagedMicrovmImagesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists builds for a MicroVM image version with optional filtering by architecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -205,6 +205,21 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMicrovmImageBuildsAsync(
         AwsLambdaMicrovmsListMicrovmImageBuildsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists versions of a MicroVM image. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results o...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListMicrovmImageVersionsAsync(
+        AwsLambdaMicrovmsListMicrovmImageVersionsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -227,22 +242,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Lists versions of a MicroVM image. We recommend using pagination to en- sure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListMicrovmImageVersionsAsync(
-        AwsLambdaMicrovmsListMicrovmImageVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists MicroVMs in the account with optional filtering by image and ver- sion. We recommend using pagination to ensure that the operation re- turns quickly and successfully. See also: AWS API Documentation list-microvms is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument m...
+    /// Lists MicroVMs in the account with optional filtering by image and version. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvms is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthTo- ken. See also: AWS API Documentation
+    /// Runs a new MicroVM from the specified image. The MicroVM starts in PENDING state and transitions to RUNNING once provisioning completes. To connect, generate an authentication token using CreateMicrovmAuthToken. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsLambdaMicrovms : IAwsLambdaMicrovms
     }
 
     /// <summary>
-    /// Terminates a MicroVM. This operation is idempotent; terminating a Mi- croVM that has already been terminated succeeds without error. See also: AWS API Documentation
+    /// Terminates a MicroVM. This operation is idempotent; terminating a MicroVM that has already been terminated succeeds without error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

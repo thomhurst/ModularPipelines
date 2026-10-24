@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the token balance for a batch of tokens by using the BatchGetTo- kenBalance action for every token in the request. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
+/// Gets the token balance for a batch of tokens by using the BatchGetTokenBalance action for every token in the request. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsManagedblockchainQueryBatchGetTokenBalanceOptions : AwsOptions
 {
     /// <summary>
-    /// An array of BatchGetTokenBalanceInputItem objects whose balance is being requested. Constraints: o min: 1 o max: 10 (structure) The container for the input for getting a token balance. tokenIdentifier -&gt; (structure) [required] The container for the identifier for the token including the unique token ID and its blockchain network. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexa- decimal tokenid format. Constraints: o pattern: [a-zA-Z0-9]{1,66} ownerIdentifier -&gt; (structure) [required] The container for the owner identifier. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: o pattern: [-A-Za-z0-9]{13,74} atBlockchainInstant -&gt; (structure) The container for time. time -&gt; (timestamp) The container of the Timestamp of the blockchain instant. NOTE: This timestamp will only be recorded up to the second. Shorthand Syntax: tokenIdentifier={network=string,contractAddress=string,tokenId=string},ownerIdentifier={address=string},atBlockchainInstant={time=timestamp} ... JSON Syntax: [ { "tokenIdentifier": { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }, "ownerIdentifier": { "address": "string" }, "atBlockchainInstant": { "time": timestamp } } ... ]
+    /// An array of BatchGetTokenBalanceInputItem objects whose balance is being requested. Constraints: • min: 1 • max: 10 (structure) The container for the input for getting a token balance. tokenIdentifier -&gt; (structure) [required] The container for the identifier for the token including the unique token ID and its blockchain network. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. network -&gt; (string) [required] The blockchain network of the token. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: • pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: • pattern: [a-zA-Z0-9]{1,66} ownerIdentifier -&gt; (structure) [required] The container for the owner identifier. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: • pattern: [-A-Za-z0-9]{13,74} atBlockchainInstant -&gt; (structure) The container for time. time -&gt; (timestamp) The container of the Timestamp of the blockchain instant. NOTE: This timestamp will only be recorded up to the second. Shorthand Syntax: tokenIdentifier={network=string,contractAddress=string,tokenId=string},ownerIdentifier={address=string},atBlockchainInstant={time=timestamp} ... JSON Syntax: [ { "tokenIdentifier": { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }, "ownerIdentifier": { "address": "string" }, "atBlockchainInstant": { "time": timestamp } } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--get-token-balance-inputs", GroupValues = true)]
@@ -34,5 +34,14 @@ public record AwsManagedblockchainQueryBatchGetTokenBalanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

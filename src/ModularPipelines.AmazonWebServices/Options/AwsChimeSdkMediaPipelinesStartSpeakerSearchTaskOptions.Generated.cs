@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+/// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all no- tices and obtain all consents from the speaker as required under ap- plicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
+    /// Starts a speaker search task. WARNING: Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the AWS service terms for the Amazon Chime SDK. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*</param>
-    /// <param name="VoiceProfileDomainArn">The ARN of the voice profile domain that will store the voice pro- file. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
+    /// <param name="Identifier">The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*</param>
+    /// <param name="VoiceProfileDomainArn">The ARN of the voice profile domain that will store the voice profile. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$</param>
     public AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions(
         string Identifier,
         string VoiceProfileDomainArn
@@ -61,25 +62,25 @@ public record AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the voice profile domain that will store the voice pro- file. Constraints: o min: 1 o max: 1024 o pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
+    /// The ARN of the voice profile domain that will store the voice profile. Constraints: • min: 1 • max: 1024 • pattern: ^arn[\/\:\-\_\.a-zA-Z0-9]+$
     /// </summary>
     [CliOption("--voice-profile-domain-arn")]
     public string? VoiceProfileDomainArn { get; private init; }
 
     /// <summary>
-    /// The task configuration for the Kinesis video stream source of the media insights pipeline. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: o min: 1 o max: 1024 o pattern: arn:[a-z\d-]+:kine- sisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ ChannelId -&gt; (integer) [required] The channel ID. Constraints: o min: 0 o max: 1 FragmentNumber -&gt; (string) The unique identifier of the fragment to begin processing. Constraints: o min: 1 o max: 128 o pattern: ^[0-9]+$ Shorthand Syntax: StreamArn=string,ChannelId=integer,FragmentNumber=string JSON Syntax: { "StreamArn": "string", "ChannelId": integer, "FragmentNumber": "string" }
+    /// The task configuration for the Kinesis video stream source of the media insights pipeline. StreamArn -&gt; (string) [required] The ARN of the stream. Constraints: • min: 1 • max: 1024 • pattern: arn:[a-z\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+ ChannelId -&gt; (integer) [required] The channel ID. Constraints: • min: 0 • max: 1 FragmentNumber -&gt; (string) The unique identifier of the fragment to begin processing. Constraints: • min: 1 • max: 128 • pattern: ^[0-9]+$ Shorthand Syntax: StreamArn=string,ChannelId=integer,FragmentNumber=string JSON Syntax: { "StreamArn": "string", "ChannelId": integer, "FragmentNumber": "string" }
     /// </summary>
     [CliOption("--kinesis-video-stream-source-task-configuration")]
     public string? KinesisVideoStreamSourceTaskConfiguration { get; set; }
 
     /// <summary>
-    /// The unique identifier for the client request. Use a different token for different speaker search tasks. Constraints: o min: 2 o max: 64 o pattern: [-_a-zA-Z0-9]*
+    /// The unique identifier for the client request. Use a different token for different speaker search tasks. Constraints: • min: 2 • max: 64 • pattern: [-_a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -106,6 +107,15 @@ public record AwsChimeSdkMediaPipelinesStartSpeakerSearchTaskOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

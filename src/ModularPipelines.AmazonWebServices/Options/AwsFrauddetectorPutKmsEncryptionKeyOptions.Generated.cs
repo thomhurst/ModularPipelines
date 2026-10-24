@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Specifies the KMS key to be used to encrypt content in Amazon Fraud De- tector. See also: AWS API Documentation
+/// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsFrauddetectorPutKmsEncryptionKeyOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Specifies the KMS key to be used to encrypt content in Amazon Fraud De- tector. See also: AWS API Documentation
+    /// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="KmsEncryptionKeyArn">The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key. Constraints: o min: 7 o max: 90 o pattern: ^DE- FAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$</param>
+    /// <param name="KmsEncryptionKeyArn">The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key. Constraints: • min: 7 • max: 90 • pattern: ^DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$</param>
     public AwsFrauddetectorPutKmsEncryptionKeyOptions(
         string KmsEncryptionKeyArn
     )
@@ -56,7 +57,7 @@ public record AwsFrauddetectorPutKmsEncryptionKeyOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key. Constraints: o min: 7 o max: 90 o pattern: ^DE- FAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$
+    /// The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key. Constraints: • min: 7 • max: 90 • pattern: ^DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$
     /// </summary>
     [CliOption("--kms-encryption-key-arn")]
     public string? KmsEncryptionKeyArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFrauddetectorPutKmsEncryptionKeyOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudtrailGetEventConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the trail for which you want to retrieve event configu- ration settings.
+    /// The name of the trail for which you want to retrieve event configuration settings.
     /// </summary>
     [CliOption("--trail-name")]
     public string? TrailName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration set- tings.
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
@@ -38,5 +38,14 @@ public record AwsCloudtrailGetEventConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

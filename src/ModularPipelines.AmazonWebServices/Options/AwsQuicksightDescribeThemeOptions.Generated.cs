@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightDescribeThemeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Describes a theme. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme that you're describing. Constraints: o pattern: ^(aws|[0-9]{12})$</param>
-    /// <param name="ThemeId">The ID for the theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the theme that you're describing. Constraints: • pattern: ^(aws|[0-9]{12})$</param>
+    /// <param name="ThemeId">The ID for the theme. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightDescribeThemeOptions(
         string AwsAccountId,
         string ThemeId
@@ -60,25 +61,25 @@ public record AwsQuicksightDescribeThemeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the theme that you're describing. Constraints: o pattern: ^(aws|[0-9]{12})$
+    /// The ID of the Amazon Web Services account that contains the theme that you're describing. Constraints: • pattern: ^(aws|[0-9]{12})$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID for the theme. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID for the theme. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--theme-id")]
     public string? ThemeId { get; private init; }
 
     /// <summary>
-    /// The version number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the theme is described. Constraints: o min: 1
+    /// The version number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the theme is described. Constraints: • min: 1
     /// </summary>
     [CliOption("--version-number")]
-    public int? VersionNumber { get; set; }
+    public long? VersionNumber { get; set; }
 
     /// <summary>
-    /// The alias of the theme that you want to describe. If you name a spe- cific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to themes. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The alias of the theme that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword $LATEST in the AliasName parameter. The keyword $PUBLISHED doesn't apply to themes. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; set; }
@@ -104,6 +105,15 @@ public record AwsQuicksightDescribeThemeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

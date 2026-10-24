@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDmsBatchStartRecommendationsOptions : AwsOptions
 {
     /// <summary>
-    /// Provides information about source databases to analyze. After this analysis, Fleet Advisor recommends target engines for each source database. (structure) Provides information about the source database to analyze and provide target recommendations according to the specified re- quirements. DatabaseId -&gt; (string) [required] The identifier of the source database. Settings -&gt; (structure) [required] The required target engine settings. InstanceSizingType -&gt; (string) [required] The size of your target instance. Fleet Advisor calcu- lates this value based on your data collection type, such as total capacity and resource utilization. Valid values include "total-capacity" and "utilization" . WorkloadType -&gt; (string) [required] The deployment option for your target engine. For produc- tion databases, Fleet Advisor chooses Multi-AZ deploy- ment. For development or test databases, Fleet Advisor chooses Single-AZ deployment. Valid values include "de- velopment" and "production" . Shorthand Syntax: DatabaseId=string,Settings={InstanceSizingType=string,WorkloadType=string} ... JSON Syntax: [ { "DatabaseId": "string", "Settings": { "InstanceSizingType": "string", "WorkloadType": "string" } } ... ]
+    /// Provides information about source databases to analyze. After this analysis, Fleet Advisor recommends target engines for each source database. (structure) Provides information about the source database to analyze and provide target recommendations according to the specified requirements. DatabaseId -&gt; (string) [required] The identifier of the source database. Settings -&gt; (structure) [required] The required target engine settings. InstanceSizingType -&gt; (string) [required] The size of your target instance. Fleet Advisor calculates this value based on your data collection type, such as total capacity and resource utilization. Valid values include "total-capacity" and "utilization" . WorkloadType -&gt; (string) [required] The deployment option for your target engine. For production databases, Fleet Advisor chooses Multi-AZ deployment. For development or test databases, Fleet Advisor chooses Single-AZ deployment. Valid values include "development" and "production" . Shorthand Syntax: DatabaseId=string,Settings={InstanceSizingType=string,WorkloadType=string} ... JSON Syntax: [ { "DatabaseId": "string", "Settings": { "InstanceSizingType": "string", "WorkloadType": "string" } } ... ]
     /// </summary>
     [CliOption("--data", GroupValues = true)]
     public IEnumerable<string>? Data { get; set; }
@@ -32,5 +32,14 @@ public record AwsDmsBatchStartRecommendationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

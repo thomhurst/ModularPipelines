@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAppflowListConnectorsOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: o min: 1 o max: 100
+    /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token for the next page of data. Constraints: o max: 2048 o pattern: \S+
+    /// The pagination token for the next page of data. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -40,5 +40,14 @@ public record AwsAppflowListConnectorsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

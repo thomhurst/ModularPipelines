@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
+/// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are com- mitted automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
+    /// Runs a SQL statement against a database. NOTE: If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570</param>
-    /// <param name="SecretArn">The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclama- tion mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: o min: 11 o max: 570</param>
-    /// <param name="Sql">The SQL statement to run. Constraints: o min: 0 o max: 65536</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570</param>
+    /// <param name="SecretArn">The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclamation mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: • min: 11 • max: 570</param>
+    /// <param name="Sql">The SQL statement to run. Constraints: • min: 0 • max: 65536</param>
     public AwsRdsDataExecuteStatementOptions(
         string ResourceArn,
         string SecretArn,
@@ -65,43 +66,43 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: o min: 11 o max: 570
+    /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the se- cret. For information about creating the secret, see Create a database se- cret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclama- tion mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: o min: 11 o max: 570
+    /// The ARN of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see Create a database secret . NOTE: When you use the CLI on Linux to reference a secret created in the RDS console, the ARN might include special characters like rds!cluster . If you enclose the ARN in double quotes, the ! character might trigger a shell expansion error, such as -bash: !cluster: event not found . To avoid this, escape the exclamation mark (!) in the ARN or enclose the entire ARN in single quotes (') instead of double quotes. Alternatively, disable shell history expansion by running set +H before you execute the command. Constraints: • min: 11 • max: 570
     /// </summary>
     [CliOption("--secret-arn")]
     public string? SecretArn { get; private init; }
 
     /// <summary>
-    /// The SQL statement to run. Constraints: o min: 0 o max: 65536
+    /// The SQL statement to run. Constraints: • min: 0 • max: 65536
     /// </summary>
     [CliOption("--sql")]
     public string? Sql { get; private init; }
 
     /// <summary>
-    /// The name of the database. Constraints: o min: 0 o max: 64
+    /// The name of the database. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--database")]
     public string? Database { get; set; }
 
     /// <summary>
-    /// The name of the database schema. NOTE: Currently, the schema parameter isn't supported. Constraints: o min: 0 o max: 64
+    /// The name of the database schema. NOTE: Currently, the schema parameter isn't supported. Constraints: • min: 0 • max: 64
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; set; }
 
     /// <summary>
-    /// The parameters for the SQL statement. NOTE: Array parameters are not supported. (structure) A parameter used in a SQL statement. name -&gt; (string) The name of the parameter. value -&gt; (tagged union structure) The value of the parameter. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: isNull, booleanValue, longValue, doubleValue, stringValue, blobValue, array- Value. isNull -&gt; (boolean) A NULL value. booleanValue -&gt; (boolean) A value of Boolean data type. longValue -&gt; (long) A value of long data type. doubleValue -&gt; (double) A value of double data type. stringValue -&gt; (string) A value of string data type. blobValue -&gt; (blob) A value of BLOB data type. arrayValue -&gt; (tagged union structure) An array of values. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: booleanValues, long- Values, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. (tagged union structure) Contains an array. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanValues, longValues, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. ( ... recursive ... ) typeHint -&gt; (string) A hint that specifies the correct object type for data type mapping. Possible values are as follows: o DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD . o DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database. o JSON - The corresponding String parameter value is sent as an object of JSON type to the database. o TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF] . o TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF] . o UUID - The corresponding String parameter value is sent as an object of UUID type to the database. Possible values: o JSON o UUID o TIMESTAMP o DATE o TIME o DECIMAL JSON Syntax: [ { "name": "string", "value": { "isNull": true|false, "booleanValue": true|false, "longValue": long, "doubleValue": double, "stringValue": "string", "blobValue": blob, "arrayValue": { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { ... recursive ... } ... ] } ... ] } }, "typeHint": "JSON"|"UUID"|"TIMESTAMP"|"DATE"|"TIME"|"DECIMAL" } ... ]
+    /// The parameters for the SQL statement. NOTE: Array parameters are not supported. (structure) A parameter used in a SQL statement. name -&gt; (string) The name of the parameter. value -&gt; (tagged union structure) The value of the parameter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: isNull, booleanValue, longValue, doubleValue, stringValue, blobValue, arrayValue. isNull -&gt; (boolean) A NULL value. booleanValue -&gt; (boolean) A value of Boolean data type. longValue -&gt; (long) A value of long data type. doubleValue -&gt; (double) A value of double data type. stringValue -&gt; (string) A value of string data type. blobValue -&gt; (blob) A value of BLOB data type. arrayValue -&gt; (tagged union structure) An array of values. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanValues, longValues, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. (tagged union structure) Contains an array. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: booleanValues, longValues, doubleValues, stringValues, arrayValues. booleanValues -&gt; (list) An array of Boolean values. Can contain null values. (boolean) longValues -&gt; (list) An array of integers. Can contain null values. (long) doubleValues -&gt; (list) An array of floating-point numbers. Can contain null values. (double) stringValues -&gt; (list) An array of strings. Can contain null values. (string) arrayValues -&gt; (list) An array of arrays. Can contain null values. ( ... recursive ... ) typeHint -&gt; (string) A hint that specifies the correct object type for data type mapping. Possible values are as follows: • DATE - The corresponding String parameter value is sent as an object of DATE type to the database. The accepted format is YYYY-MM-DD . • DECIMAL - The corresponding String parameter value is sent as an object of DECIMAL type to the database. • JSON - The corresponding String parameter value is sent as an object of JSON type to the database. • TIME - The corresponding String parameter value is sent as an object of TIME type to the database. The accepted format is HH:MM:SS[.FFF] . • TIMESTAMP - The corresponding String parameter value is sent as an object of TIMESTAMP type to the database. The accepted format is YYYY-MM-DD HH:MM:SS[.FFF] . • UUID - The corresponding String parameter value is sent as an object of UUID type to the database. Possible values: • JSON • UUID • TIMESTAMP • DATE • TIME • DECIMAL JSON Syntax: [ { "name": "string", "value": { "isNull": true|false, "booleanValue": true|false, "longValue": long, "doubleValue": double, "stringValue": "string", "blobValue": blob, "arrayValue": { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { "booleanValues": [true|false, ...], "longValues": [long, ...], "doubleValues": [double, ...], "stringValues": ["string", ...], "arrayValues": [ { ... recursive ... } ... ] } ... ] } }, "typeHint": "JSON"|"UUID"|"TIMESTAMP"|"DATE"|"TIME"|"DECIMAL" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
 
     /// <summary>
-    /// The identifier of a transaction that was started by using the Begin- Transaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter. Constraints: o min: 0 o max: 192
+    /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter. Constraints: • min: 0 • max: 192
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -113,19 +114,19 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions, IValidatableObject
     public bool? IncludeResultMetadata { get; set; }
 
     /// <summary>
-    /// A value that indicates whether to continue running the statement af- ter the call times out. By default, the statement stops running when the call times out. NOTE: For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
+    /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out. NOTE: For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
     /// </summary>
     [CliFlag("--continue-after-timeout", NegatedName = "--no-continue-after-timeout")]
     public bool? ContinueAfterTimeout { get; set; }
 
     /// <summary>
-    /// Options that control how the result set is returned. decimalReturnType -&gt; (string) A value that indicates how a field of DECIMAL type is repre- sented in the response. The value of STRING , the default, spec- ifies that it is converted to a String value. The value of DOU- BLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise. NOTE: Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, es- pecially when working with currency values. Possible values: o STRING o DOUBLE_OR_LONG longReturnType -&gt; (string) A value that indicates how a field of LONG type is represented. Allowed values are LONG and STRING . The default is LONG . Spec- ify STRING if the length or precision of numeric values might cause truncation or rounding errors. Possible values: o STRING o LONG Shorthand Syntax: decimalReturnType=string,longReturnType=string JSON Syntax: { "decimalReturnType": "STRING"|"DOUBLE_OR_LONG", "longReturnType": "STRING"|"LONG" }
+    /// Options that control how the result set is returned. decimalReturnType -&gt; (string) A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING , the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise. NOTE: Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values. Possible values: • STRING • DOUBLE_OR_LONG longReturnType -&gt; (string) A value that indicates how a field of LONG type is represented. Allowed values are LONG and STRING . The default is LONG . Specify STRING if the length or precision of numeric values might cause truncation or rounding errors. Possible values: • STRING • LONG Shorthand Syntax: decimalReturnType=string,longReturnType=string JSON Syntax: { "decimalReturnType": "STRING"|"DOUBLE_OR_LONG", "longReturnType": "STRING"|"LONG" }
     /// </summary>
     [CliOption("--result-set-options")]
     public string? ResultSetOptions { get; set; }
 
     /// <summary>
-    /// A value that indicates whether to format the result set as a single JSON string. This parameter only applies to SELECT statements and is ignored for other types of statements. Allowed values are NONE and JSON . The default value is NONE . The result is returned in the formattedRecords field. For usage information about the JSON format for result sets, see Using the Data API in the Amazon Aurora User Guide . Possible values: o NONE o JSON
+    /// A value that indicates whether to format the result set as a single JSON string. This parameter only applies to SELECT statements and is ignored for other types of statements. Allowed values are NONE and JSON . The default value is NONE . The result is returned in the formattedRecords field. For usage information about the JSON format for result sets, see Using the Data API in the Amazon Aurora User Guide . Possible values: • NONE • JSON
     /// </summary>
     [CliOption("--format-records-as")]
     public AwsRdsDataExecuteStatementFormatRecordsAs? FormatRecordsAs { get; set; }
@@ -151,6 +152,15 @@ public record AwsRdsDataExecuteStatementOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDmsDescribeFleetAdvisorSchemasOptions : AwsOptions
 {
     /// <summary>
-    /// If you specify any of the following filters, the output includes in- formation for only those schemas that meet the filter criteria: o complexity The schema's complexity, for example Simple . o database-id The ID of the schema's database. o database-ip-address The IP address of the schema's database. o database-name The name of the schema's database. o database-engine The name of the schema database's engine. o original-schema-name The name of the schema's database's main schema. o schema-id The ID of the schema, for example 15 . o schema-name The name of the schema. o server-ip-address The IP address of the schema database's server. An example is: describe-fleet-advisor-schemas --filter Name="schema-id",Values="50" (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are re- turned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API opera- tions. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or simi- lar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// If you specify any of the following filters, the output includes information for only those schemas that meet the filter criteria: • complexity The schema's complexity, for example Simple . • database-id The ID of the schema's database. • database-ip-address The IP address of the schema's database. • database-name The name of the schema's database. • database-engine The name of the schema database's engine. • original-schema-name The name of the schema's database's main schema. • schema-id The ID of the schema, for example 15 . • schema-name The name of the schema. • server-ip-address The IP address of the schema database's server. An example is: describe-fleet-advisor-schemas --filter Name="schema-id",Values="50" (structure) Identifies the name and value of a filter object. This filter is used to limit the number and type of DMS objects that are returned for a particular Describe* call or similar operation. Filters are used as an optional parameter for certain API operations. Name -&gt; (string) [required] The name of the filter as specified for a Describe* or similar operation. Values -&gt; (list) [required] The filter value, which can specify one or more values used to narrow the returned results. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -35,7 +35,7 @@ public record AwsDmsDescribeFleetAdvisorSchemasOptions : AwsOptions
     public int? MaxRecords { get; set; }
 
     /// <summary>
-    /// If NextToken is returned by a previous response, there are more re- sults available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to re- trieve the next page. Keep all other arguments unchanged.
+    /// If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -46,5 +46,14 @@ public record AwsDmsDescribeFleetAdvisorSchemasOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

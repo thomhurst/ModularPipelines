@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommen- dations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
+/// Enables or disables integration with a service that can be integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive recommendations which can be stored and viewed in DevOps Guru. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevopsGuruUpdateEventSourcesConfigOptions : AwsOptions
 {
     /// <summary>
-    /// Configuration information about the integration of DevOps Guru as the Consumer via EventBridge with another AWS Service. AmazonCodeGuruProfiler -&gt; (structure) Information about whether DevOps Guru is configured to consume recommendations which are generated from AWS CodeGuru Profiler. Status -&gt; (string) The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is enabled to consume recommendations that are generated from Amazon CodeGuru Profiler. Possible values: o ENABLED o DISABLED Shorthand Syntax: AmazonCodeGuruProfiler={Status=string} JSON Syntax: { "AmazonCodeGuruProfiler": { "Status": "ENABLED"|"DISABLED" } }
+    /// Configuration information about the integration of DevOps Guru as the Consumer via EventBridge with another AWS Service. AmazonCodeGuruProfiler -&gt; (structure) Information about whether DevOps Guru is configured to consume recommendations which are generated from AWS CodeGuru Profiler. Status -&gt; (string) The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is enabled to consume recommendations that are generated from Amazon CodeGuru Profiler. Possible values: • ENABLED • DISABLED Shorthand Syntax: AmazonCodeGuruProfiler={Status=string} JSON Syntax: { "AmazonCodeGuruProfiler": { "Status": "ENABLED"|"DISABLED" } }
     /// </summary>
     [CliOption("--event-sources")]
     public string? EventSources { get; set; }
@@ -32,5 +32,14 @@ public record AwsDevopsGuruUpdateEventSourcesConfigOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

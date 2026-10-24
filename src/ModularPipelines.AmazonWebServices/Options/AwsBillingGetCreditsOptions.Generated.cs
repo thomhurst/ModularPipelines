@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of Amazon Web Services account credits for the speci- fied account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS ...
+/// Returns the list of Amazon Web Services account credits for the specified account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS AP...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsBillingGetCreditsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the list of Amazon Web Services account credits for the speci- fied account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS ...
+    /// Returns the list of Amazon Web Services account credits for the specified account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true , the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId . See also: AWS AP...
     /// </summary>
     /// <param name="AccountId">The Amazon Web Services account ID. Must be a 12-digit numeric string.</param>
     /// <param name="StartDate">The start date for the credit period as Unix epoch seconds. Must be a past date that is not more than one year before the current date.</param>
@@ -78,7 +79,7 @@ public record AwsBillingGetCreditsOptions : AwsOptions, IValidatableObject
     public string? EndDate { get; set; }
 
     /// <summary>
-    /// When true and the caller is the management account, the response ag- gregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId .
+    /// When true and the caller is the management account, the response aggregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId .
     /// </summary>
     [CliFlag("--payer-account-flag", NegatedName = "--no-payer-account-flag")]
     public bool? PayerAccountFlag { get; set; }
@@ -104,6 +105,15 @@ public record AwsBillingGetCreditsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

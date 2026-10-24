@@ -29,7 +29,7 @@ public record AwsRdsModifyActivityStreamOptions : AwsOptions
     public string? ResourceArn { get; set; }
 
     /// <summary>
-    /// The audit policy state. When a policy is unlocked, it is read/write. When it is locked, it is read-only. You can edit your audit policy only when the activity stream is unlocked or stopped. Possible values: o locked o unlocked
+    /// The audit policy state. When a policy is unlocked, it is read/write. When it is locked, it is read-only. You can edit your audit policy only when the activity stream is unlocked or stopped. Possible values: • locked • unlocked
     /// </summary>
     [CliOption("--audit-policy-state")]
     public AwsRdsModifyActivityStreamAuditPolicyState? AuditPolicyState { get; set; }
@@ -39,5 +39,14 @@ public record AwsRdsModifyActivityStreamOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

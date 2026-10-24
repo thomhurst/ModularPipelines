@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws pcaconnectorscep commands.
+/// aws pca-connector-scep commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPcaConnectorScep : IAwsPcaConnectorScep
@@ -32,7 +32,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     #region Commands
 
     /// <summary>
-    /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to au- thenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call ListConnectors . To create additional challenge passwords for the con...
+    /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call ListConnectors . To create additional challenge passwords for the conne...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     }
 
     /// <summary>
-    /// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mo- bile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a pri- vate certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites . See also: AWS API Documentation
+    /// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     }
 
     /// <summary>
-    /// Deletes the specified Connector . This operation also deletes any chal- lenges associated with the connector. See also: AWS API Documentation
+    /// Deletes the specified Connector . This operation also deletes any challenges associated with the connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     }
 
     /// <summary>
-    /// Retrieves the challenge metadata for the specified ARN. See also: AWS API Documentation list-challenge-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: Challenges
+    /// Retrieves the challenge metadata for the specified ARN. See also: AWS API Documentation list-challenge-metadata is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Challenges
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     }
 
     /// <summary>
-    /// Lists the connectors belonging to your Amazon Web Services account. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connectors
+    /// Lists the connectors belonging to your Amazon Web Services account. See also: AWS API Documentation list-connectors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Connectors
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsPcaConnectorScep : IAwsPcaConnectorScep
     }
 
     /// <summary>
-    /// Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your re- sources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. See also: AWS API Documentation
+    /// Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

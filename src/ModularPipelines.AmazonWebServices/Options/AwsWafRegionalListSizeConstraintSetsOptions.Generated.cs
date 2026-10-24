@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWafRegionalListSizeConstraintSetsOptions : AwsOptions
 {
     /// <summary>
-    /// If you specify a value for Limit and you have more SizeCon- straintSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of Size- ConstraintSets . For the second and subsequent ListSizeCon- straintSets requests, specify the value of NextMarker from the pre- vious response to get information about another batch of SizeCon- straintSets . Constraints: o min: 1 o max: 1224 o pattern: .*\S.*
+    /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets . For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets . Constraints: • min: 1 • max: 1224 • pattern: .*\S.*
     /// </summary>
     [CliOption("--next-marker")]
     public string? NextMarker { get; set; }
 
     /// <summary>
-    /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit , the response in- cludes a NextMarker value that you can use to get another batch of SizeConstraintSet objects. Constraints: o min: 0 o max: 100
+    /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
@@ -38,5 +38,14 @@ public record AwsWafRegionalListSizeConstraintSetsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

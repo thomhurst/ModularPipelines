@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the settings of a run group and returns a response with no body if the operation is successful. You can update the following settings with UpdateRunGroup : o Maximum number of CPUs o Run time (measured in minutes) o Number of GPUs o Number of concurrent runs o Group name To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made. See also: AWS API Documentation
+/// Updates the settings of a run group and returns a response with no body if the operation is successful. You can update the following settings with UpdateRunGroup : • Maximum number of CPUs • Run time (measured in minutes) • Number of GPUs • Number of concurrent runs • Group name To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOmicsUpdateRunGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the settings of a run group and returns a response with no body if the operation is successful. You can update the following settings with UpdateRunGroup : o Maximum number of CPUs o Run time (measured in minutes) o Number of GPUs o Number of concurrent runs o Group name To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made. See also: AWS API Documentation
+    /// Updates the settings of a run group and returns a response with no body if the operation is successful. You can update the following settings with UpdateRunGroup : • Maximum number of CPUs • Run time (measured in minutes) • Number of GPUs • Number of concurrent runs • Group name To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The group's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The group's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsUpdateRunGroupOptions(
         string Id
     )
@@ -56,37 +57,37 @@ public record AwsOmicsUpdateRunGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The group's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The group's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A name for the group. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the group. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The maximum number of CPUs to use. Constraints: o min: 1 o max: 100000
+    /// The maximum number of CPUs to use. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-cpus")]
     public int? MaxCpus { get; set; }
 
     /// <summary>
-    /// The maximum number of concurrent runs for the group. Constraints: o min: 1 o max: 100000
+    /// The maximum number of concurrent runs for the group. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-runs")]
     public int? MaxRuns { get; set; }
 
     /// <summary>
-    /// A maximum run time for the group in minutes. Constraints: o min: 1 o max: 100000
+    /// A maximum run time for the group in minutes. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-duration")]
     public int? MaxDuration { get; set; }
 
     /// <summary>
-    /// The maximum GPUs that can be used by a run group. Constraints: o min: 1 o max: 100000
+    /// The maximum GPUs that can be used by a run group. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--max-gpus")]
     public int? MaxGpus { get; set; }
@@ -112,6 +113,15 @@ public record AwsOmicsUpdateRunGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName , Pa- rameterValue , and ApplyMethod . A maximum of 20 parameters can be mod- ified in a single request. NOTE: Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB clus- ter associated with the parameter group before the change can take effect. WARNING: After you create a DB cluster par...
+/// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName , ParameterValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request. NOTE: Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect. WARNING: After you create a DB cluster parameter...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsNeptuneModifyDbClusterParameterGroupOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName , Pa- rameterValue , and ApplyMethod . A maximum of 20 parameters can be mod- ified in a single request. NOTE: Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB clus- ter associated with the parameter group before the change can take effect. WARNING: After you create a DB cluster par...
+    /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName , ParameterValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request. NOTE: Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect. WARNING: After you create a DB cluster parameter...
     /// </summary>
     /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group to modify.</param>
-    /// <param name="Parameters">A list of parameters in the DB cluster parameter group to modify. (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational im- plications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: o immediate o pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]</param>
+    /// <param name="Parameters">A list of parameters in the DB cluster parameter group to modify. (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: • immediate • pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]</param>
     public AwsNeptuneModifyDbClusterParameterGroupOptions(
         string DbClusterParameterGroupName,
         IEnumerable<string> Parameters
@@ -77,7 +78,7 @@ public record AwsNeptuneModifyDbClusterParameterGroupOptions : AwsOptions, IVali
     public string? DbClusterParameterGroupName { get; private init; }
 
     /// <summary>
-    /// A list of parameters in the DB cluster parameter group to modify. (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational im- plications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: o immediate o pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
+    /// A list of parameters in the DB cluster parameter group to modify. (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: • immediate • pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; private init; }
@@ -103,6 +104,15 @@ public record AwsNeptuneModifyDbClusterParameterGroupOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

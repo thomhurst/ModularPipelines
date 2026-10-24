@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Ama- zon Web Services account. See also: AWS API Documentation
+/// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSocialmessagingSendWhatsappCallEventOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Ama- zon Web Services account. See also: AWS API Documentation
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OriginationPhoneNumberId">The unique identifier of the origination phone number for the call. The phone number identifiers are formatted as phone-num- ber-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusi- nessAccount to find a phone number's ID. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the origination phone number for the call. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's ID. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     /// <param name="MetaApiVersion">The version of the Meta Graph API to use for the request.</param>
-    /// <param name="CallEvent">The call event payload to send, as a JSON blob in the format defined by the Meta calling API. Constraints: o min: 1 o max: 2048000</param>
+    /// <param name="CallEvent">The call event payload to send, as a JSON blob in the format defined by the Meta calling API. Constraints: • min: 1 • max: 2048000</param>
     public AwsSocialmessagingSendWhatsappCallEventOptions(
         string OriginationPhoneNumberId,
         string MetaApiVersion,
@@ -64,7 +65,7 @@ public record AwsSocialmessagingSendWhatsappCallEventOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the origination phone number for the call. The phone number identifiers are formatted as phone-num- ber-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusi- nessAccount to find a phone number's ID. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the origination phone number for the call. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's ID. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }
@@ -76,7 +77,7 @@ public record AwsSocialmessagingSendWhatsappCallEventOptions : AwsOptions, IVali
     public string? MetaApiVersion { get; private init; }
 
     /// <summary>
-    /// The call event payload to send, as a JSON blob in the format defined by the Meta calling API. Constraints: o min: 1 o max: 2048000
+    /// The call event payload to send, as a JSON blob in the format defined by the Meta calling API. Constraints: • min: 1 • max: 2048000
     /// </summary>
     [CliOption("--call-event")]
     public string? CallEvent { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSocialmessagingSendWhatsappCallEventOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, includ- ing the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . If the source-ref field in the JSON line refere...
+/// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . If the source-ref field in the JSON line referenc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRekognitionUpdateDataSetEntriesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, includ- ing the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . If the source-ref field in the JSON line refere...
+    /// NOTE: This operation applies only to Amazon Rekognition Custom Labels. Adds or updates one or more entries (images) in a dataset. An entry is a JSON Line which contains the information for a single image, including the image location, assigned labels, and object location bounding boxes. For more information, see Image-Level labels in manifest files and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . If the source-ref field in the JSON line referenc...
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset that you want to up- date. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)</param>
-    /// <param name="Changes">The changes that you want to make to the dataset. GroundTruth -&gt; (blob) [required] A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset. You change a dataset by calling UpdateDatasetEntries . If you are using an AWS SDK to call UpdateDatasetEntries , you don't need to encode Changes as the SDK encodes the data for you. For example JSON lines, see Image-Level labels in manifest files and and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . Constraints: o min: 1 o max: 5242880 Shorthand Syntax: GroundTruth=blob JSON Syntax: { "GroundTruth": blob }</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the dataset that you want to update. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)</param>
+    /// <param name="Changes">The changes that you want to make to the dataset. GroundTruth -&gt; (blob) [required] A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset. You change a dataset by calling UpdateDatasetEntries . If you are using an AWS SDK to call UpdateDatasetEntries , you don't need to encode Changes as the SDK encodes the data for you. For example JSON lines, see Image-Level labels in manifest files and and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . Constraints: • min: 1 • max: 5242880 Shorthand Syntax: GroundTruth=blob JSON Syntax: { "GroundTruth": blob }</param>
     public AwsRekognitionUpdateDataSetEntriesOptions(
         string DataSetArn,
         string Changes
@@ -60,13 +61,13 @@ public record AwsRekognitionUpdateDataSetEntriesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the dataset that you want to up- date. Constraints: o min: 20 o max: 2048 o pattern: (^arn:[a-z\d-]+:rekogni- tion:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)
+    /// The Amazon Resource Name (ARN) of the dataset that you want to update. Constraints: • min: 20 • max: 2048 • pattern: (^arn:[a-z\d-]+:rekognition:[a-z\d-]+:\d{12}:project\/[a-zA-Z0-9_.\-]{1,255}\/dataset\/(train|test)\/[0-9]+$)
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// The changes that you want to make to the dataset. GroundTruth -&gt; (blob) [required] A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset. You change a dataset by calling UpdateDatasetEntries . If you are using an AWS SDK to call UpdateDatasetEntries , you don't need to encode Changes as the SDK encodes the data for you. For example JSON lines, see Image-Level labels in manifest files and and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . Constraints: o min: 1 o max: 5242880 Shorthand Syntax: GroundTruth=blob JSON Syntax: { "GroundTruth": blob }
+    /// The changes that you want to make to the dataset. GroundTruth -&gt; (blob) [required] A Base64-encoded binary data object containing one or JSON lines that either update the dataset or are additions to the dataset. You change a dataset by calling UpdateDatasetEntries . If you are using an AWS SDK to call UpdateDatasetEntries , you don't need to encode Changes as the SDK encodes the data for you. For example JSON lines, see Image-Level labels in manifest files and and Object localization in manifest files in the Amazon Rekognition Custom Labels Developer Guide . Constraints: • min: 1 • max: 5242880 Shorthand Syntax: GroundTruth=blob JSON Syntax: { "GroundTruth": blob }
     /// </summary>
     [CliOption("--changes")]
     public string? Changes { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRekognitionUpdateDataSetEntriesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

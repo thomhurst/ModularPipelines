@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
+/// Creates a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +26,11 @@ public record AwsRedshiftCreateIntegrationOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a zero-ETL integration or S3 event integration with Amazon Red- shift. See also: AWS API Documentation
+    /// Creates a zero-ETL integration or S3 event integration with Amazon Redshift. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceArn">The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws[a-z\-]*:(s3|dynamodb):.*:.*:[a-zA-Z0-9._\-\/]+$</param>
-    /// <param name="TargetArn">The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z\-]*:redshift(-server- less)?:[a-z0-9\-]+:[0-9]{12}:(namespace\/|namespace:)[a-z0-9\-]+$</param>
-    /// <param name="IntegrationName">The name of the integration. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$</param>
+    /// <param name="SourceArn">The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws[a-z\-]*:(s3|dynamodb):.*:.*:[a-zA-Z0-9._\-\/]+$</param>
+    /// <param name="TargetArn">The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws[a-z\-]*:redshift(-serverless)?:[a-z0-9\-]+:[0-9]{12}:(namespace\/|namespace:)[a-z0-9\-]+$</param>
+    /// <param name="IntegrationName">The name of the integration. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$</param>
     public AwsRedshiftCreateIntegrationOptions(
         string SourceArn,
         string TargetArn,
@@ -65,43 +65,43 @@ public record AwsRedshiftCreateIntegrationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: o min: 1 o max: 255 o pattern: ^arn:aws[a-z\-]*:(s3|dynamodb):.*:.*:[a-zA-Z0-9._\-\/]+$
+    /// The Amazon Resource Name (ARN) of the database to use as the source for replication. Constraints: • min: 1 • max: 255 • pattern: ^arn:aws[a-z\-]*:(s3|dynamodb):.*:.*:[a-zA-Z0-9._\-\/]+$
     /// </summary>
     [CliOption("--source-arn")]
     public string? SourceArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws[a-z\-]*:redshift(-server- less)?:[a-z0-9\-]+:[0-9]{12}:(namespace\/|namespace:)[a-z0-9\-]+$
+    /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use as the target for replication. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws[a-z\-]*:redshift(-serverless)?:[a-z0-9\-]+:[0-9]{12}:(namespace\/|namespace:)[a-z0-9\-]+$
     /// </summary>
     [CliOption("--target-arn")]
     public string? TargetArn { get; private init; }
 
     /// <summary>
-    /// The name of the integration. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$
+    /// The name of the integration. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; private init; }
 
     /// <summary>
-    /// An Key Management Service (KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, the default Amazon Web Services owned key is used. Constraints: o max: 2147483647
+    /// An Key Management Service (KMS) key identifier for the key to use to encrypt the integration. If you don't specify an encryption key, the default Amazon Web Services owned key is used. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of tags. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: o max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: o max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags. (structure) A tag consisting of a name/value pair for a resource. Key -&gt; (string) The key, or name, for the resource tag. Constraints: • max: 2147483647 Value -&gt; (string) The value for the resource tag. Constraints: • max: 2147483647 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tag-list", GroupValues = true)]
     public IEnumerable<string>? TagList { get; set; }
 
     /// <summary>
-    /// An optional set of non-secret keyvalue pairs that contains addi- tional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide . You can only include this parameter if you specify the KMSKeyId pa- rameter. key -&gt; (string) Constraints: o max: 2147483647 value -&gt; (string) Constraints: o max: 2147483647 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional set of non-secret keyvalue pairs that contains additional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide . You can only include this parameter if you specify the KMSKeyId parameter. key -&gt; (string) Constraints: • max: 2147483647 value -&gt; (string) Constraints: • max: 2147483647 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--additional-encryption-context", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdditionalEncryptionContext { get; set; }
 
     /// <summary>
-    /// A description of the integration. Constraints: o min: 0 o max: 1000 o pattern: ^.*$
+    /// A description of the integration. Constraints: • min: 0 • max: 1000 • pattern: ^.*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -127,6 +127,15 @@ public record AwsRedshiftCreateIntegrationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

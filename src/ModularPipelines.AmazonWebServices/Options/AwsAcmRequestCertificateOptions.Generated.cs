@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Requests an ACM certificate for use with other Amazon Web Services ser- vices. To request an ACM certificate, you must specify a fully quali- fied domain name (FQDN) in the DomainName parameter. You can also spec- ify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. Y...
+/// Requests an ACM certificate for use with other Amazon Web Services services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsAcmRequestCertificateOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Requests an ACM certificate for use with other Amazon Web Services ser- vices. To request an ACM certificate, you must specify a fully quali- fied domain name (FQDN) in the DomainName parameter. You can also spec- ify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. Y...
+    /// Requests an ACM certificate for use with other Amazon Web Services services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can...
     /// </summary>
-    /// <param name="DomainName">Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, * .example.com protects www.example.com, site.example.com, and im- ages.example.com. System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline emphasis start-string without end-string. In compliance with RFC 5280 , the length of the domain name (technically, the Common Name) that you provide cannot exceed 64 octets (characters), including periods. To add a longer domain name, specify it in the Subject Alternative Name field, which supports names up to 253 octets in length. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
+    /// <param name="DomainName">Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, * .example.com protects www.example.com, site.example.com, and images.example.com. System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline emphasis start-string without end-string. In compliance with RFC 5280 , the length of the domain name (technically, the Common Name) that you provide cannot exceed 64 octets (characters), including periods. To add a longer domain name, specify it in the Subject Alternative Name field, which supports names up to 253 octets in length. Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])</param>
     public AwsAcmRequestCertificateOptions(
         string DomainName
     )
@@ -58,62 +59,62 @@ public record AwsAcmRequestCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, * .example.com protects www.example.com, site.example.com, and im- ages.example.com. System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline emphasis start-string without end-string. In compliance with RFC 5280 , the length of the domain name (technically, the Common Name) that you provide cannot exceed 64 octets (characters), including periods. To add a longer domain name, specify it in the Subject Alternative Name field, which supports names up to 253 octets in length. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
+    /// Fully qualified domain name (FQDN), such as www.example.com, that you want to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, * .example.com protects www.example.com, site.example.com, and images.example.com. System Message: WARNING/2 (&lt;string&gt;:, line 95) Inline emphasis start-string without end-string. In compliance with RFC 5280 , the length of the domain name (technically, the Common Name) that you provide cannot exceed 64 octets (characters), including periods. To add a longer domain name, specify it in the Subject Alternative Name field, which supports names up to 253 octets in length. Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The method you want to use if you are requesting a public certifi- cate to validate that you own or control domain. You can validate with DNS or validate with email . We recommend that you use DNS val- idation. Possible values: o EMAIL o DNS o HTTP
+    /// The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email . We recommend that you use DNS validation. Possible values: • EMAIL • DNS • HTTP
     /// </summary>
     [CliOption("--validation-method")]
     public AwsAcmRequestCertificateValidationMethod? ValidationMethod { get; set; }
 
     /// <summary>
-    /// Additional FQDNs to be included in the Subject Alternative Name ex- tension of the ACM certificate. For example, add the name www.exam- ple.net to a certificate for which the DomainName field is www.exam- ple.com if users can reach your site by using either name. The maxi- mum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more informa- tion, see Quotas . The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples: o (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets. o (64 octets).(63 octets).(63 octets).(61 octets) is not legal be- cause the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets. o (63 octets).(63 octets).(63 octets).(62 octets) is not legal be- cause the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) Syntax: "string" "string" ...
+    /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas . The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples: • (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets. • (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets. • (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subject-alternative-names", GroupValues = true)]
     public IEnumerable<string>? SubjectAlternativeNames { get; set; }
 
     /// <summary>
-    /// Customer chosen string that can be used to distinguish between calls to RequestCertificate . Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates. Constraints: o min: 1 o max: 32 o pattern: \w+
+    /// Customer chosen string that can be used to distinguish between calls to RequestCertificate . Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates. Constraints: • min: 1 • max: 32 • pattern: \w+
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
     public string? IdempotencyToken { get; set; }
 
     /// <summary>
-    /// The domain name that you want ACM to use to send you emails so that you can validate domain ownership. Constraints: o min: 1 o max: 100 (structure) Contains information about the domain names that you want ACM to use to send you emails that enable you to validate domain owner- ship. DomainName -&gt; (string) [required] A fully qualified domain name (FQDN) in the certificate re- quest. Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) ValidationDomain -&gt; (string) [required] The domain name that you want ACM to use to send you valida- tion emails. This domain name is the suffix of the email ad- dresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for test- ing.example.com , you can specify example.com for this value. In that case, ACM sends domain validation emails to the fol- lowing five addresses: o admin@example.com o administrator@example.com o hostmaster@example.com o postmaster@example.com o webmaster@example.com Constraints: o min: 1 o max: 253 o pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) Shorthand Syntax: DomainName=string,ValidationDomain=string ... JSON Syntax: [ { "DomainName": "string", "ValidationDomain": "string" } ... ]
+    /// The domain name that you want ACM to use to send you emails so that you can validate domain ownership. Constraints: • min: 1 • max: 100 (structure) Contains information about the domain names that you want ACM to use to send you emails that enable you to validate domain ownership. DomainName -&gt; (string) [required] A fully qualified domain name (FQDN) in the certificate request. Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) ValidationDomain -&gt; (string) [required] The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com , you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses: • admin@example.com • administrator@example.com • hostmaster@example.com • postmaster@example.com • webmaster@example.com Constraints: • min: 1 • max: 253 • pattern: (\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9]) Shorthand Syntax: DomainName=string,ValidationDomain=string ... JSON Syntax: [ { "DomainName": "string", "ValidationDomain": "string" } ... ]
     /// </summary>
     [CliOption("--domain-validation-options", GroupValues = true)]
     public IEnumerable<string>? DomainValidationOptions { get; set; }
 
     /// <summary>
-    /// You can use this parameter to specify whether to export your cer- tificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging . You can export public ACM certificates to use with Amazon Web Ser- vices services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certifi- cate . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: o ENABLED o DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by spec- ifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: o ENABLED o DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: o EMAIL o DNS o HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }
+    /// You can use this parameter to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging . You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see Certificate Manager exportable public certificate . CertificateTransparencyLoggingPreference -&gt; (string) This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. Possible values: • ENABLED • DISABLED Export -&gt; (string) You can opt in to allow the export of your certificates by specifying ENABLED . You cannot update the value of Export after the the certificate is created. Possible values: • ENABLED • DISABLED ValidationMethod -&gt; (string) The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS . Possible values: • EMAIL • DNS • HTTP Shorthand Syntax: CertificateTransparencyLoggingPreference=string,Export=string,ValidationMethod=string JSON Syntax: { "CertificateTransparencyLoggingPreference": "ENABLED"|"DISABLED", "Export": "ENABLED"|"DISABLED", "ValidationMethod": "EMAIL"|"DNS"|"HTTP" }
     /// </summary>
     [CliOption("--options")]
     public string? Options { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not pro- vide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the Amazon Web Services Private Certificate Authority user guide. The ARN must have the following form: arn:aws:acm-pca:region:account:certificate-author- ity/12345678-1234-1234-1234-123456789012 Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
+    /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that will be used to issue the certificate. If you do not provide an ARN and you are trying to request a private certificate, ACM will attempt to issue a public certificate. For more information about private CAs, see the Amazon Web Services Private Certificate Authority user guide. The ARN must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:acm-pca:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; set; }
 
     /// <summary>
-    /// One or more resource tags to associate with the certificate. Constraints: o min: 1 o max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// One or more resource tags to associate with the certificate. Constraints: • min: 1 • max: 50 (structure) A key-value pair that identifies or specifies metadata about an ACM resource. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not sup- ported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certifi- cate. For more information about selecting an algorithm, see Key al- gorithms . NOTE: Algorithms supported for an ACM certificate request include: o RSA_2048 o EC_prime256v1 o EC_secp384r1 Other listed algorithms are for imported certificates only. NOTE: When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key. Default: RSA_2048 Possible values: o RSA_1024 o RSA_2048 o RSA_3072 o RSA_4096 o EC_prime256v1 o EC_secp384r1 o EC_secp521r1
+    /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see Key algorithms . NOTE: Algorithms supported for an ACM certificate request include: • RSA_2048 • EC_prime256v1 • EC_secp384r1 Other listed algorithms are for imported certificates only. NOTE: When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key. Default: RSA_2048 Possible values: • RSA_1024 • RSA_2048 • RSA_3072 • RSA_4096 • EC_prime256v1 • EC_secp384r1 • EC_secp521r1
     /// </summary>
     [CliOption("--key-algorithm")]
     public AwsAcmRequestCertificateKeyAlgorithm? KeyAlgorithm { get; set; }
 
     /// <summary>
-    /// Identifies the Amazon Web Services service that manages the certifi- cate issued by ACM. Possible values: o CLOUDFRONT
+    /// Identifies the Amazon Web Services service that manages the certificate issued by ACM. Possible values: • CLOUDFRONT
     /// </summary>
     [CliOption("--managed-by")]
     public string? ManagedBy { get; set; }
@@ -139,6 +140,15 @@ public record AwsAcmRequestCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

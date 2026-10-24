@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesGetAccountLinkOptions : AwsOptions
 {
     /// <summary>
-    /// The identifier of the account to link. Constraints: o pattern: ^link-.{8,24}$
+    /// The identifier of the account to link. Constraints: • pattern: ^link-.{8,24}$
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; set; }
 
     /// <summary>
-    /// The identifier of the account link Constraints: o pattern: ^\d{12}$
+    /// The identifier of the account link Constraints: • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--linked-account-id")]
     public string? LinkedAccountId { get; set; }
@@ -38,5 +38,14 @@ public record AwsWorkspacesGetAccountLinkOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

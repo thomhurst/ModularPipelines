@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the code signing configuration. Changes to the code signing con- figuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
+/// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaUpdateCodeSigningConfigOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the code signing configuration. Changes to the code signing con- figuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
+    /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}</param>
+    /// <param name="CodeSigningConfigArn">The The Amazon Resource Name (ARN) of the code signing configuration. Constraints: • min: 0 • max: 200 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}</param>
     public AwsLambdaUpdateCodeSigningConfigOptions(
         string CodeSigningConfigArn
     )
@@ -56,25 +57,25 @@ public record AwsLambdaUpdateCodeSigningConfigOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The The Amazon Resource Name (ARN) of the code signing configura- tion. Constraints: o min: 0 o max: 200 o pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-sign- ing-config:csc-[a-z0-9]{17}
+    /// The The Amazon Resource Name (ARN) of the code signing configuration. Constraints: • min: 0 • max: 200 • pattern: arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}
     /// </summary>
     [CliOption("--code-signing-config-arn")]
     public string? CodeSigningConfigArn { get; private init; }
 
     /// <summary>
-    /// Descriptive name for this code signing configuration. Constraints: o min: 0 o max: 256
+    /// Descriptive name for this code signing configuration. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Signing profiles for this code signing configuration. SigningProfileVersionArns -&gt; (list) [required] The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 0 o max: 10000 o pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) Shorthand Syntax: SigningProfileVersionArns=string,string JSON Syntax: { "SigningProfileVersionArns": ["string", ...] }
+    /// Signing profiles for this code signing configuration. SigningProfileVersionArns -&gt; (list) [required] The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 0 • max: 10000 • pattern: arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1})?:(\d{12})?:(.*) Shorthand Syntax: SigningProfileVersionArns=string,string JSON Syntax: { "SigningProfileVersionArns": ["string", ...] }
     /// </summary>
     [CliOption("--allowed-publishers")]
     public string? AllowedPublishers { get; set; }
 
     /// <summary>
-    /// The code signing policy. UntrustedArtifactOnDeployment -&gt; (string) Code signing configuration policy for deployment validation failure. If you set the policy to Enforce , Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn , Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors ) and also stores the warning in the CloudTrail log. Default value: Warn Possible values: o Warn o Enforce Shorthand Syntax: UntrustedArtifactOnDeployment=string JSON Syntax: { "UntrustedArtifactOnDeployment": "Warn"|"Enforce" }
+    /// The code signing policy. UntrustedArtifactOnDeployment -&gt; (string) Code signing configuration policy for deployment validation failure. If you set the policy to Enforce , Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn , Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors ) and also stores the warning in the CloudTrail log. Default value: Warn Possible values: • Warn • Enforce Shorthand Syntax: UntrustedArtifactOnDeployment=string JSON Syntax: { "UntrustedArtifactOnDeployment": "Warn"|"Enforce" }
     /// </summary>
     [CliOption("--code-signing-policies")]
     public string? CodeSigningPolicies { get; set; }
@@ -100,6 +101,15 @@ public record AwsLambdaUpdateCodeSigningConfigOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

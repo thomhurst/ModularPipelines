@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Executes the specified policy. This can be useful for testing the de- sign of your scaling policy. See also: AWS API Documentation
+/// Executes the specified policy. This can be useful for testing the design of your scaling policy. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAutoscalingExecutePolicyOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Executes the specified policy. This can be useful for testing the de- sign of your scaling policy. See also: AWS API Documentation
+    /// Executes the specified policy. This can be useful for testing the design of your scaling policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyName">The name or ARN of the policy. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="PolicyName">The name or ARN of the policy. Constraints: • min: 1 • max: 1600 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsAutoscalingExecutePolicyOptions(
         string PolicyName
     )
@@ -56,34 +57,34 @@ public record AwsAutoscalingExecutePolicyOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the policy. Constraints: o min: 1 o max: 1600 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name or ARN of the policy. Constraints: • min: 1 • max: 1600 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--policy-name")]
     public string? PolicyName { get; private init; }
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; set; }
 
     /// <summary>
-    /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown pe- riod to complete before executing the policy. Valid only if the policy type is SimpleScaling . For more informa- tion, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Ama- zon EC2 Auto Scaling User Guide .
+    /// Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period to complete before executing the policy. Valid only if the policy type is SimpleScaling . For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide .
     /// </summary>
     [CliFlag("--honor-cooldown", NegatedName = "--no-honor-cooldown")]
     public bool? HonorCooldown { get; set; }
 
     /// <summary>
-    /// The metric value to compare to BreachThreshold . This enables you to execute a policy of type StepScaling and determine which step ad- justment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step ad- justment for the policy, the call returns an error. Required if the policy type is StepScaling and not supported other- wise.
+    /// The metric value to compare to BreachThreshold . This enables you to execute a policy of type StepScaling and determine which step adjustment to use. For example, if the breach threshold is 50 and you want to use a step adjustment with a lower bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a metric value that doesn't correspond to a step adjustment for the policy, the call returns an error. Required if the policy type is StepScaling and not supported otherwise.
     /// </summary>
     [CliOption("--metric-value")]
-    public int? MetricValue { get; set; }
+    public double? MetricValue { get; set; }
 
     /// <summary>
-    /// The breach threshold for the alarm. Required if the policy type is StepScaling and not supported other- wise.
+    /// The breach threshold for the alarm. Required if the policy type is StepScaling and not supported otherwise.
     /// </summary>
     [CliOption("--breach-threshold")]
-    public int? BreachThreshold { get; set; }
+    public double? BreachThreshold { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -106,6 +107,15 @@ public record AwsAutoscalingExecutePolicyOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

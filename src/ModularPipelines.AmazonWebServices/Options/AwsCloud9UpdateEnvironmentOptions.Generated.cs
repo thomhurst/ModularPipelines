@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsCloud9UpdateEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Changes the settings of an existing Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The ID of the environment to change settings. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$</param>
+    /// <param name="EnvironmentId">The ID of the environment to change settings. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$</param>
     public AwsCloud9UpdateEnvironmentOptions(
         string EnvironmentId
     )
@@ -57,25 +58,25 @@ public record AwsCloud9UpdateEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment to change settings. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$
+    /// The ID of the environment to change settings. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A replacement name for the environment. Constraints: o min: 1 o max: 60
+    /// A replacement name for the environment. Constraints: • min: 1 • max: 60
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Any new or replacement description for the environment. Constraints: o max: 200
+    /// Any new or replacement description for the environment. Constraints: • max: 200
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Allows the environment owner to turn on or turn off the Amazon Web Services managed temporary credentials for an Cloud9 environment by using one of the following values: o ENABLE o DISABLE NOTE: Only the environment owner can change the status of managed tem- porary credentials. An AccessDeniedException is thrown if an at- tempt to turn on or turn off managed temporary credentials is made by an account that's not the environment owner. Possible values: o ENABLE o DISABLE
+    /// Allows the environment owner to turn on or turn off the Amazon Web Services managed temporary credentials for an Cloud9 environment by using one of the following values: • ENABLE • DISABLE NOTE: Only the environment owner can change the status of managed temporary credentials. An AccessDeniedException is thrown if an attempt to turn on or turn off managed temporary credentials is made by an account that's not the environment owner. Possible values: • ENABLE • DISABLE
     /// </summary>
     [CliOption("--managed-credentials-action")]
     public AwsCloud9UpdateEnvironmentManagedCredentialsAction? ManagedCredentialsAction { get; set; }
@@ -101,6 +102,15 @@ public record AwsCloud9UpdateEnvironmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

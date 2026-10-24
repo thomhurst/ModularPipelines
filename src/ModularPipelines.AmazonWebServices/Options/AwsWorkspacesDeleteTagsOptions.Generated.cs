@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkspacesDeleteTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified tags from the specified WorkSpaces resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bun- dles, IP access control groups, and connection aliases. Constraints: o min: 1</param>
-    /// <param name="TagKeys">The tag keys. (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceId">The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases. Constraints: • min: 1</param>
+    /// <param name="TagKeys">The tag keys. (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsWorkspacesDeleteTagsOptions(
         string ResourceId,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsWorkspacesDeleteTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bun- dles, IP access control groups, and connection aliases. Constraints: o min: 1
+    /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The tag keys. (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The tag keys. (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesDeleteTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

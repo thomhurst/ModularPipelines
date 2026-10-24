@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services ac- counts, specify restore as the AttributeName , and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Servi...
+/// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName , and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Service...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDocdbModifyDbClusterSnapshotAttributeOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services ac- counts, specify restore as the AttributeName , and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Servi...
+    /// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName , and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Service...
     /// </summary>
     /// <param name="DbClusterSnapshotIdentifier">The identifier for the cluster snapshot to modify the attributes for.</param>
     /// <param name="AttributeName">The name of the cluster snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this value to restore .</param>
@@ -72,13 +73,13 @@ public record AwsDocdbModifyDbClusterSnapshotAttributeOptions : AwsOptions, IVal
     public string? AttributeName { get; private init; }
 
     /// <summary>
-    /// A list of cluster snapshot attributes to add to the attribute speci- fied by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account IDs. To make the manual cluster snapshot re- storable by any Amazon Web Services account, set it to all . Do not add the all value for any manual cluster snapshots that contain pri- vate information that you don't want to be available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
+    /// A list of cluster snapshot attributes to add to the attribute specified by AttributeName . To authorize other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account IDs. To make the manual cluster snapshot restorable by any Amazon Web Services account, set it to all . Do not add the all value for any manual cluster snapshots that contain private information that you don't want to be available to all Amazon Web Services accounts. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values-to-add", GroupValues = true)]
     public IEnumerable<string>? ValuesToAdd { get; set; }
 
     /// <summary>
-    /// A list of cluster snapshot attributes to remove from the attribute specified by AttributeName . To remove authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account identifiers. To remove au- thorization for any Amazon Web Services account to copy or restore the cluster snapshot, set it to all . If you specify all , an Amazon Web Services account whose account ID is explicitly added to the re- store attribute can still copy or restore a manual cluster snapshot. (string) Syntax: "string" "string" ...
+    /// A list of cluster snapshot attributes to remove from the attribute specified by AttributeName . To remove authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this list to include one or more Amazon Web Services account identifiers. To remove authorization for any Amazon Web Services account to copy or restore the cluster snapshot, set it to all . If you specify all , an Amazon Web Services account whose account ID is explicitly added to the restore attribute can still copy or restore a manual cluster snapshot. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values-to-remove", GroupValues = true)]
     public IEnumerable<string>? ValuesToRemove { get; set; }
@@ -104,6 +105,15 @@ public record AwsDocdbModifyDbClusterSnapshotAttributeOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

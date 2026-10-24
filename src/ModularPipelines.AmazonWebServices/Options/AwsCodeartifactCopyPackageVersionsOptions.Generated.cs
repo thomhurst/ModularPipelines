@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +29,11 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Copies package versions from one repository to another repository in the same domain. NOTE: You must specify versions or versionRevisions . You cannot specify both. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain that contains the source and destination repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="SourceRepository">The name of the repository that contains the package versions to be copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="DestinationRepository">The name of the repository into which package versions are copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
-    /// <param name="Format">The format of the package versions to be copied. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo</param>
-    /// <param name="Package">The name of the package that contains the versions to be copied. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+</param>
+    /// <param name="Domain">The name of the domain that contains the source and destination repositories. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="SourceRepository">The name of the repository that contains the package versions to be copied. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="DestinationRepository">The name of the repository into which package versions are copied. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}</param>
+    /// <param name="Format">The format of the package versions to be copied. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo</param>
+    /// <param name="Package">The name of the package that contains the versions to be copied. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+</param>
     public AwsCodeartifactCopyPackageVersionsOptions(
         string Domain,
         string SourceRepository,
@@ -73,67 +73,67 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that contains the source and destination repositories. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain that contains the source and destination repositories. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The name of the repository that contains the package versions to be copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The name of the repository that contains the package versions to be copied. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--source-repository")]
     public string? SourceRepository { get; private init; }
 
     /// <summary>
-    /// The name of the repository into which package versions are copied. Constraints: o min: 2 o max: 100 o pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
+    /// The name of the repository into which package versions are copied. Constraints: • min: 2 • max: 100 • pattern: [A-Za-z0-9][A-Za-z0-9._\-]{1,99}
     /// </summary>
     [CliOption("--destination-repository")]
     public string? DestinationRepository { get; private init; }
 
     /// <summary>
-    /// The format of the package versions to be copied. Possible values: o npm o pypi o maven o nuget o generic o ruby o swift o cargo
+    /// The format of the package versions to be copied. Possible values: • npm • pypi • maven • nuget • generic • ruby • swift • cargo
     /// </summary>
     [CliOption("--format")]
     public AwsCodeartifactCopyPackageVersionsFormat? Format { get; private init; }
 
     /// <summary>
-    /// The name of the package that contains the versions to be copied. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The name of the package that contains the versions to be copied. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--package")]
     public string? Package { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The namespace of the package versions to be copied. The package com- ponent that specifies its namespace depends on its type. For exam- ple: NOTE: The namespace is required when copying package versions of the following formats: o Maven o Swift o generic o The namespace of a Maven package version is its groupId . o The namespace of an npm or Swift package version is its scope . o The namespace of a generic package is its namespace . o Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+
+    /// The namespace of the package versions to be copied. The package component that specifies its namespace depends on its type. For example: NOTE: The namespace is required when copying package versions of the following formats: • Maven • Swift • generic • The namespace of a Maven package version is its groupId . • The namespace of an npm or Swift package version is its scope . • The namespace of a generic package is its namespace . • Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace. Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
 
     /// <summary>
-    /// The versions of the package to be copied. NOTE: You must specify versions or versionRevisions . You cannot spec- ify both. Constraints: o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ Syntax: "string" "string" ...
+    /// The versions of the package to be copied. NOTE: You must specify versions or versionRevisions . You cannot specify both. Constraints: • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--versions", GroupValues = true)]
     public IEnumerable<string>? Versions { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision. NOTE: You must specify versions or versionRevisions . You cannot spec- ify both. key -&gt; (string) Constraints: o min: 1 o max: 255 o pattern: [^#/\s]+ value -&gt; (string) Constraints: o min: 1 o max: 50 o pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision. NOTE: You must specify versions or versionRevisions . You cannot specify both. key -&gt; (string) Constraints: • min: 1 • max: 255 • pattern: [^#/\s]+ value -&gt; (string) Constraints: • min: 1 • max: 50 • pattern: \S+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--version-revisions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? VersionRevisions { get; set; }
 
     /// <summary>
-    /// Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an AL- READY_EXISTS error code.
+    /// Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an ALREADY_EXISTS error code.
     /// </summary>
     [CliFlag("--allow-overwrite", NegatedName = "--no-allow-overwrite")]
     public bool? AllowOverwrite { get; set; }
 
     /// <summary>
-    /// Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The de- fault setting is false. For more information, see Working with up- stream repositories .
+    /// Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories .
     /// </summary>
     [CliFlag("--include-from-upstream", NegatedName = "--no-include-from-upstream")]
     public bool? IncludeFromUpstream { get; set; }
@@ -159,6 +159,15 @@ public record AwsCodeartifactCopyPackageVersionsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

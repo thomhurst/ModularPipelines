@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53GetHealthCheckLastFailureReasonOptions : AwsOptions, IVa
     /// <summary>
     /// Gets the reason that a specified health check failed most recently. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HealthCheckId">The ID for the health check for which you want the last failure rea- son. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureRea- son for a calculated health check. Constraints: o max: 64</param>
+    /// <param name="HealthCheckId">The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check. Constraints: • max: 64</param>
     public AwsRoute53GetHealthCheckLastFailureReasonOptions(
         string HealthCheckId
     )
@@ -56,7 +57,7 @@ public record AwsRoute53GetHealthCheckLastFailureReasonOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the health check for which you want the last failure rea- son. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureRea- son for a calculated health check. Constraints: o max: 64
+    /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. NOTE: If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check. Constraints: • max: 64
     /// </summary>
     [CliOption("--health-check-id")]
     public string? HealthCheckId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53GetHealthCheckLastFailureReasonOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail in- stances in the same Amazon Web Services Region. See also: AWS API Documentation
+/// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail instances in the same Amazon Web Services Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsLightsailSetResourceAccessForBucketOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail in- stances in the same Amazon Web Services Region. See also: AWS API Documentation
+    /// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail instances in the same Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="BucketName">The name of the bucket for which to set access to another Lightsail resource. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
-    /// <param name="Access">The access setting. The following access settings are available: o allow - Allows access to the bucket and its objects. o deny - Denies access to the bucket and its objects. Use this set- ting to remove access for a resource previously set to allow . Possible values: o allow o deny</param>
+    /// <param name="ResourceName">The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="BucketName">The name of the bucket for which to set access to another Lightsail resource. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$</param>
+    /// <param name="Access">The access setting. The following access settings are available: • allow - Allows access to the bucket and its objects. • deny - Denies access to the bucket and its objects. Use this setting to remove access for a resource previously set to allow . Possible values: • allow • deny</param>
     public AwsLightsailSetResourceAccessForBucketOptions(
         string ResourceName,
         string BucketName,
@@ -64,19 +65,19 @@ public record AwsLightsailSetResourceAccessForBucketOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the Lightsail instance for which to set bucket access. The instance must be in a running or stopped state. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The name of the bucket for which to set access to another Lightsail resource. Constraints: o min: 3 o max: 54 o pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
+    /// The name of the bucket for which to set access to another Lightsail resource. Constraints: • min: 3 • max: 54 • pattern: ^[a-z0-9][a-z0-9-]{1,52}[a-z0-9]$
     /// </summary>
     [CliOption("--bucket-name")]
     public string? BucketName { get; private init; }
 
     /// <summary>
-    /// The access setting. The following access settings are available: o allow - Allows access to the bucket and its objects. o deny - Denies access to the bucket and its objects. Use this set- ting to remove access for a resource previously set to allow . Possible values: o allow o deny
+    /// The access setting. The following access settings are available: • allow - Allows access to the bucket and its objects. • deny - Denies access to the bucket and its objects. Use this setting to remove access for a resource previously set to allow . Possible values: • allow • deny
     /// </summary>
     [CliOption("--access")]
     public AwsLightsailSetResourceAccessForBucketAccess? Access { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLightsailSetResourceAccessForBucketOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

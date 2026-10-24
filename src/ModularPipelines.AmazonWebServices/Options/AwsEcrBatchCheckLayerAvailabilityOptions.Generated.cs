@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEcrBatchCheckLayerAvailabilityOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Checks the availability of one or more image layers in a repository. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository that is associated with the image layers to check. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="LayerDigests">The digests of the image layers to check. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 0 o max: 1000 Syntax: "string" "string" ...</param>
+    /// <param name="RepositoryName">The name of the repository that is associated with the image layers to check. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="LayerDigests">The digests of the image layers to check. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 0 • max: 1000 Syntax: "string" "string" ...</param>
     public AwsEcrBatchCheckLayerAvailabilityOptions(
         string RepositoryName,
         IEnumerable<string> LayerDigests
@@ -71,19 +72,19 @@ public record AwsEcrBatchCheckLayerAvailabilityOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository that is associated with the image layers to check. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository that is associated with the image layers to check. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The digests of the image layers to check. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 0 o max: 1000 Syntax: "string" "string" ...
+    /// The digests of the image layers to check. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 0 • max: 1000 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--layer-digests", GroupValues = true)]
     public IEnumerable<string>? LayerDigests { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the image layers to check. If you do not specify a reg- istry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -109,6 +110,15 @@ public record AwsEcrBatchCheckLayerAvailabilityOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

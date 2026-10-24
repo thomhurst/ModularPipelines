@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the replication configuration for a table bucket. After dele- tion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation. See also: AWS API Documentation
+/// Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsS3tablesDeleteTableBucketReplicationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the replication configuration for a table bucket. After dele- tion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation. See also: AWS API Documentation
+    /// Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets. Permissions You must have the s3tables:DeleteTableBucketReplication permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
     public AwsS3tablesDeleteTableBucketReplicationOptions(
         string TableBucketArn
     )
@@ -57,13 +58,13 @@ public record AwsS3tablesDeleteTableBucketReplicationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're deleting the expected version of the configuration. Constraints: o min: 1 o max: 2048
+    /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're deleting the expected version of the configuration. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--version-token")]
@@ -90,6 +91,15 @@ public record AwsS3tablesDeleteTableBucketReplicationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

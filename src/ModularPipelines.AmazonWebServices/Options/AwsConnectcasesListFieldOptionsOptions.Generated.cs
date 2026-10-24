@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsConnectcasesListFieldOptionsOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Lists all of the field options for a field identifier in the domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="FieldId">The unique identifier of a field. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="FieldId">The unique identifier of a field. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesListFieldOptionsOptions(
         string DomainId,
         string FieldId
@@ -61,32 +62,32 @@ public record AwsConnectcasesListFieldOptionsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of a field. Constraints: o min: 1 o max: 500
+    /// The unique identifier of a field. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--field-id")]
     public string? FieldId { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 0 o max: 9000
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 0 • max: 9000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A list of FieldOption values to filter on for ListFieldOptions . Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
+    /// A list of FieldOption values to filter on for ListFieldOptions . Constraints: • min: 0 • max: 1 (string) Constraints: • min: 0 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--values", GroupValues = true)]
     public IEnumerable<string>? Values { get; set; }
@@ -112,6 +113,15 @@ public record AwsConnectcasesListFieldOptionsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

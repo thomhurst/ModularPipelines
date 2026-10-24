@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated adminis- trator account. See also: AWS API Documentation
+/// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions : A
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated adminis- trator account. See also: AWS API Documentation
+    /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RuleIdentifier">The identifier (name or ARN) of the organization telemetry rule to delete. Constraints: o min: 1 o max: 1011</param>
+    /// <param name="RuleIdentifier">The identifier (name or ARN) of the organization telemetry rule to delete. Constraints: • min: 1 • max: 1011</param>
     public AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions(
         string RuleIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions : A
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier (name or ARN) of the organization telemetry rule to delete. Constraints: o min: 1 o max: 1011
+    /// The identifier (name or ARN) of the organization telemetry rule to delete. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--rule-identifier")]
     public string? RuleIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsObservabilityadminDeleteTelemetryRuleForOrganizationOptions : A
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

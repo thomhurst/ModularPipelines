@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a predefined attribute for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: o Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifica- tions). For more information, see Create predefined attributes for routing contacts to agents ...
+/// Updates a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: • Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectUpdatePredefinedAttributeOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a predefined attribute for the specified Connect Customer in- stance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: o Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifica- tions). For more information, see Create predefined attributes for routing contacts to agents ...
+    /// Updates a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas . Use cases Following are common uses cases for this API: • Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents . • ...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name of the predefined attribute. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name of the predefined attribute. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdatePredefinedAttributeOptions(
         string InstanceId,
         string Name
@@ -60,31 +61,31 @@ public record AwsConnectUpdatePredefinedAttributeOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the predefined attribute. Constraints: o min: 1 o max: 100
+    /// The name of the predefined attribute. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The values of the predefined attribute. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringList. StringList -&gt; (list) Predefined attribute values of type string list. Constraints: o min: 0 o max: 500 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: StringList=string,string JSON Syntax: { "StringList": ["string", ...] }
+    /// The values of the predefined attribute. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StringList. StringList -&gt; (list) Predefined attribute values of type string list. Constraints: • min: 0 • max: 500 (string) Constraints: • min: 1 • max: 100 Shorthand Syntax: StringList=string,string JSON Syntax: { "StringList": ["string", ...] }
     /// </summary>
     [CliOption("--values")]
     public string? Values { get; set; }
 
     /// <summary>
-    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--purposes", GroupValues = true)]
     public IEnumerable<string>? Purposes { get; set; }
 
     /// <summary>
-    /// Custom metadata that is associated to predefined attributes to con- trol behavior in upstream services, such as controlling how a prede- fined attribute should be displayed in the Connect Customer admin website. EnableValueValidationOnAssociation -&gt; (boolean) When this parameter is set to true, Connect Customer enforces strict validation on the specific values, if the values are pre- defined in attributes. The contact will store only valid and predefined values for the predefined attribute key. Shorthand Syntax: EnableValueValidationOnAssociation=boolean JSON Syntax: { "EnableValueValidationOnAssociation": true|false }
+    /// Custom metadata that is associated to predefined attributes to control behavior in upstream services, such as controlling how a predefined attribute should be displayed in the Connect Customer admin website. EnableValueValidationOnAssociation -&gt; (boolean) When this parameter is set to true, Connect Customer enforces strict validation on the specific values, if the values are predefined in attributes. The contact will store only valid and predefined values for the predefined attribute key. Shorthand Syntax: EnableValueValidationOnAssociation=boolean JSON Syntax: { "EnableValueValidationOnAssociation": true|false }
     /// </summary>
     [CliOption("--attribute-configuration")]
     public string? AttributeConfiguration { get; set; }
@@ -110,6 +111,15 @@ public record AwsConnectUpdatePredefinedAttributeOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

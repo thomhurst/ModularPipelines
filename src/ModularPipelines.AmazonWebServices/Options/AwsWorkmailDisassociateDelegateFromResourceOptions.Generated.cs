@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsWorkmailDisassociateDelegateFromResourceOptions : AwsOptions, I
     /// <summary>
     /// Removes a member from the resource's set of delegates. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier for the organization under which the resource exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="ResourceId">The identifier of the resource from which delegates' set members are removed. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Email address: resource@domain.tld o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
-    /// <param name="EntityId">The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID , Username or Groupname , or email . o Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="OrganizationId">The identifier for the organization under which the resource exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="ResourceId">The identifier of the resource from which delegates' set members are removed. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: • Resource ID: r-0123456789a0123456789b0123456789 • Email address: resource@domain.tld • Resource name: resource Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="EntityId">The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID , Username or Groupname , or email . • Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: entity@domain.tld • Entity: entity Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
     public AwsWorkmailDisassociateDelegateFromResourceOptions(
         string OrganizationId,
         string ResourceId,
@@ -64,19 +65,19 @@ public record AwsWorkmailDisassociateDelegateFromResourceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the organization under which the resource exists. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier for the organization under which the resource exists. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the resource from which delegates' set members are removed. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: o Resource ID: r-0123456789a0123456789b0123456789 o Email address: resource@domain.tld o Resource name: resource Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier of the resource from which delegates' set members are removed. The identifier can accept ResourceId , Resourcename , or email . The following identity formats are available: • Resource ID: r-0123456789a0123456789b0123456789 • Email address: resource@domain.tld • Resource name: resource Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID , Username or Groupname , or email . o Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: entity@domain.tld o Entity: entity Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID , Username or Groupname , or email . • Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: entity@domain.tld • Entity: entity Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--entity-id")]
     public string? EntityId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsWorkmailDisassociateDelegateFromResourceOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

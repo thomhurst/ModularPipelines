@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSecurityIrUpdateCaseCommentOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates an existing case comment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Required element for UpdateCaseComment to identify the case ID con- taining the comment to be updated. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
-    /// <param name="CommentId">Required element for UpdateCaseComment to identify the case ID to be updated. Constraints: o min: 6 o max: 6 o pattern: \d{6}</param>
-    /// <param name="Body">Required element for UpdateCaseComment to identify the content for the comment to be updated. Constraints: o min: 1 o max: 12000</param>
+    /// <param name="CaseId">Required element for UpdateCaseComment to identify the case ID containing the comment to be updated. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
+    /// <param name="CommentId">Required element for UpdateCaseComment to identify the case ID to be updated. Constraints: • min: 6 • max: 6 • pattern: \d{6}</param>
+    /// <param name="Body">Required element for UpdateCaseComment to identify the content for the comment to be updated. Constraints: • min: 1 • max: 12000</param>
     public AwsSecurityIrUpdateCaseCommentOptions(
         string CaseId,
         string CommentId,
@@ -64,19 +65,19 @@ public record AwsSecurityIrUpdateCaseCommentOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for UpdateCaseComment to identify the case ID con- taining the comment to be updated. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element for UpdateCaseComment to identify the case ID containing the comment to be updated. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
 
     /// <summary>
-    /// Required element for UpdateCaseComment to identify the case ID to be updated. Constraints: o min: 6 o max: 6 o pattern: \d{6}
+    /// Required element for UpdateCaseComment to identify the case ID to be updated. Constraints: • min: 6 • max: 6 • pattern: \d{6}
     /// </summary>
     [CliOption("--comment-id")]
     public string? CommentId { get; private init; }
 
     /// <summary>
-    /// Required element for UpdateCaseComment to identify the content for the comment to be updated. Constraints: o min: 1 o max: 12000
+    /// Required element for UpdateCaseComment to identify the content for the comment to be updated. Constraints: • min: 1 • max: 12000
     /// </summary>
     [CliOption("--body")]
     public string? Body { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSecurityIrUpdateCaseCommentOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsClouddirectoryGetTypedLinkFacetInformationOptions : AwsOptions,
     /// Returns the identity attribute order for a specific TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation
     /// </summary>
     /// <param name="SchemaArn">The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns .</param>
-    /// <param name="Name">The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="Name">The unique name of the typed link facet. Constraints: • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryGetTypedLinkFacetInformationOptions(
         string SchemaArn,
         string Name
@@ -66,7 +67,7 @@ public record AwsClouddirectoryGetTypedLinkFacetInformationOptions : AwsOptions,
     public string? SchemaArn { get; private init; }
 
     /// <summary>
-    /// The unique name of the typed link facet. Constraints: o pattern: ^[a-zA-Z0-9._-]*$
+    /// The unique name of the typed link facet. Constraints: • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsClouddirectoryGetTypedLinkFacetInformationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

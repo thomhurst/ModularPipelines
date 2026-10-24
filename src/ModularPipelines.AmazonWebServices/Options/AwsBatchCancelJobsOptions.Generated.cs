@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob . Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is cancelled when all child...
+/// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob . Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch attempts to cancel all child jobs. The array parent job is cancelled when all child j...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBatchCancelJobsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob . Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch at- tempts to cancel all child jobs. The array parent job is cancelled when all child...
+    /// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob . Jobs that are in a SUBMITTED , PENDING , or RUNNABLE state are cancelled and the job status is updated to FAILED . NOTE: A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING , Batch attempts to cancel all child jobs. The array parent job is cancelled when all child j...
     /// </summary>
     /// <param name="Jobs">An array of up to 50 Batch job IDs of the jobs to cancel. (string) Syntax: "string" "string" ...</param>
-    /// <param name="Reason">A message to attach to the job that explains the reason for can- celling it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
+    /// <param name="Reason">A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
     public AwsBatchCancelJobsOptions(
         IEnumerable<string> Jobs,
         string Reason
@@ -77,7 +78,7 @@ public record AwsBatchCancelJobsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Jobs { get; private init; }
 
     /// <summary>
-    /// A message to attach to the job that explains the reason for can- celling it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBatchCancelJobsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

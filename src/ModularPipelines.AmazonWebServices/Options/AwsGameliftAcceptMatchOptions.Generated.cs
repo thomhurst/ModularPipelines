@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed un- less all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is ...
+/// This API works with the following fleet types: EC2, Anywhere, Container Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed unless all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is a tr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsGameliftAcceptMatchOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed un- less all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is ...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Registers a player's acceptance or rejection of a proposed FlexMatch match. A matchmaking configuration may require player acceptance; if so, then matches built with that configuration cannot be completed unless all players accept the proposed match within a specified time limit. When FlexMatch builds a match, all the matchmaking tickets involved in the proposed match are placed into status REQUIRES_ACCEPTANCE . This is a tr...
     /// </summary>
-    /// <param name="TicketId">A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE ; otherwise this request will fail. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$</param>
-    /// <param name="PlayerIds">A unique identifier for a player delivering the response. This para- meter can include one or multiple player IDs. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
-    /// <param name="AcceptanceType">Player response to the proposed match. Possible values: o ACCEPT o REJECT</param>
+    /// <param name="TicketId">A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE ; otherwise this request will fail. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$</param>
+    /// <param name="PlayerIds">A unique identifier for a player delivering the response. This parameter can include one or multiple player IDs. (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="AcceptanceType">Player response to the proposed match. Possible values: • ACCEPT • REJECT</param>
     public AwsGameliftAcceptMatchOptions(
         string TicketId,
         IEnumerable<string> PlayerIds,
@@ -75,19 +76,19 @@ public record AwsGameliftAcceptMatchOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE ; otherwise this request will fail. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$
+    /// A unique identifier for a matchmaking ticket. The ticket must be in status REQUIRES_ACCEPTANCE ; otherwise this request will fail. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$
     /// </summary>
     [CliOption("--ticket-id")]
     public string? TicketId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a player delivering the response. This para- meter can include one or multiple player IDs. (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// A unique identifier for a player delivering the response. This parameter can include one or multiple player IDs. (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--player-ids", GroupValues = true)]
     public IEnumerable<string>? PlayerIds { get; private init; }
 
     /// <summary>
-    /// Player response to the proposed match. Possible values: o ACCEPT o REJECT
+    /// Player response to the proposed match. Possible values: • ACCEPT • REJECT
     /// </summary>
     [CliOption("--acceptance-type")]
     public AwsGameliftAcceptMatchAcceptanceType? AcceptanceType { get; private init; }
@@ -113,6 +114,15 @@ public record AwsGameliftAcceptMatchOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

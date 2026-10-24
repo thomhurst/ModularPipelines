@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPcaConnectorScepGetChallengeMetadataOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves the metadata for the specified Challenge . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChallengeArn">The Amazon Resource Name (ARN) of the challenge. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/chal- lenge\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
+    /// <param name="ChallengeArn">The Amazon Resource Name (ARN) of the challenge. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:pca-connector-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/challenge\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}</param>
     public AwsPcaConnectorScepGetChallengeMetadataOptions(
         string ChallengeArn
     )
@@ -56,7 +57,7 @@ public record AwsPcaConnectorScepGetChallengeMetadataOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the challenge. Constraints: o min: 5 o max: 200 o pattern: arn:aws(-[a-z]+)*:pca-connec- tor-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/chal- lenge\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the challenge. Constraints: • min: 5 • max: 200 • pattern: arn:aws(-[a-z]+)*:pca-connector-scep:[a-z]+(-[a-z]+)+-[1-9]\d*:\d{12}:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/challenge\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--challenge-arn")]
     public string? ChallengeArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPcaConnectorScepGetChallengeMetadataOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deactivates a public third-party extension, such as a resource or mod- ule, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporarily disable a CloudFormation Hook in- stead, you can use SetTypeConfiguration . Once deactivated, an extension can't be used in any CloudFormation op- eration. This includes stack update operations where the stack template includes the extension, even if no updates are be...
+/// Deactivates a public third-party extension, such as a resource or module, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporarily disable a CloudFormation Hook instead, you can use SetTypeConfiguration . Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being ma...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationDeactivateTypeOptions : AwsOptions
 {
     /// <summary>
-    /// The type name of the extension in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn , or TypeName and Type . Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The type name of the extension in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn , or TypeName and Type . Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
     /// <summary>
-    /// The extension type. Conditional: You must specify either Arn , or TypeName and Type . Possible values: o RESOURCE o MODULE o HOOK
+    /// The extension type. Conditional: You must specify either Arn , or TypeName and Type . Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationDeactivateTypeType? Type { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the extension in this account and Region. Conditional: You must specify either Arn , or TypeName and Type . Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+
+    /// The Amazon Resource Name (ARN) for the extension in this account and Region. Conditional: You must specify either Arn , or TypeName and Type . Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:[0-9]{12}:type/.+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; set; }
@@ -45,5 +45,14 @@ public record AwsCloudformationDeactivateTypeOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

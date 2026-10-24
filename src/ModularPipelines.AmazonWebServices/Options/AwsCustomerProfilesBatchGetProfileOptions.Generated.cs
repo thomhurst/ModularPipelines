@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCustomerProfilesBatchGetProfileOptions : AwsOptions, IValidatab
     /// <summary>
     /// Get a batch of profiles. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileIds">List of unique identifiers for customer profiles to retrieve. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileIds">List of unique identifiers for customer profiles to retrieve. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
     public AwsCustomerProfilesBatchGetProfileOptions(
         string DomainName,
         IEnumerable<string> ProfileIds
@@ -71,13 +72,13 @@ public record AwsCustomerProfilesBatchGetProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// List of unique identifiers for customer profiles to retrieve. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...
+    /// List of unique identifiers for customer profiles to retrieve. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--profile-ids", GroupValues = true)]
     public IEnumerable<string>? ProfileIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCustomerProfilesBatchGetProfileOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

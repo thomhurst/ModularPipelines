@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +30,7 @@ public record AwsSecurityagentCreateTargetDomainOptions : AwsOptions, IValidatab
     /// Creates a new target domain for penetration testing. A target domain is a web domain that must be registered and verified before it can be tested. See also: AWS API Documentation
     /// </summary>
     /// <param name="TargetDomainName">The domain name to register as a target domain.</param>
-    /// <param name="VerificationMethod">The method to use for verifying domain ownership. Valid values are DNS_TXT, HTTP_ROUTE, and PRIVATE_VPC. Possible values: o DNS_TXT o HTTP_ROUTE o PRIVATE_VPC</param>
+    /// <param name="VerificationMethod">The method to use for verifying domain ownership. Valid values are DNS_TXT, HTTP_ROUTE, and PRIVATE_VPC. Possible values: • DNS_TXT • HTTP_ROUTE • PRIVATE_VPC</param>
     public AwsSecurityagentCreateTargetDomainOptions(
         string TargetDomainName,
         AwsSecurityagentCreateTargetDomainVerificationMethod VerificationMethod
@@ -67,7 +67,7 @@ public record AwsSecurityagentCreateTargetDomainOptions : AwsOptions, IValidatab
     public string? TargetDomainName { get; private init; }
 
     /// <summary>
-    /// The method to use for verifying domain ownership. Valid values are DNS_TXT, HTTP_ROUTE, and PRIVATE_VPC. Possible values: o DNS_TXT o HTTP_ROUTE o PRIVATE_VPC
+    /// The method to use for verifying domain ownership. Valid values are DNS_TXT, HTTP_ROUTE, and PRIVATE_VPC. Possible values: • DNS_TXT • HTTP_ROUTE • PRIVATE_VPC
     /// </summary>
     [CliOption("--verification-method")]
     public AwsSecurityagentCreateTargetDomainVerificationMethod? VerificationMethod { get; private init; }
@@ -99,6 +99,15 @@ public record AwsSecurityagentCreateTargetDomainOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

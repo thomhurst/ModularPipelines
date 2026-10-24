@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsComprehendmedicalListIcd10CmInferenceJobsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time. JobName -&gt; (string) Filters on the name of the job. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$ JobStatus -&gt; (string) Filters the list of jobs based on job status. Returns only jobs with the specified status. Possible values: o SUBMITTED o IN_PROGRESS o COMPLETED o PARTIAL_SUCCESS o FAILED o STOP_REQUESTED o STOPPED SubmitTimeBefore -&gt; (timestamp) Filters the list of jobs based on the time that the job was sub- mitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest. SubmitTimeAfter -&gt; (timestamp) Filters the list of jobs based on the time that the job was sub- mitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest. Shorthand Syntax: JobName=string,JobStatus=string,SubmitTimeBefore=timestamp,SubmitTimeAfter=timestamp JSON Syntax: { "JobName": "string", "JobStatus": "SUBMITTED"|"IN_PROGRESS"|"COMPLETED"|"PARTIAL_SUCCESS"|"FAILED"|"STOP_REQUESTED"|"STOPPED", "SubmitTimeBefore": timestamp, "SubmitTimeAfter": timestamp }
+    /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time. JobName -&gt; (string) Filters on the name of the job. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$ JobStatus -&gt; (string) Filters the list of jobs based on job status. Returns only jobs with the specified status. Possible values: • SUBMITTED • IN_PROGRESS • COMPLETED • PARTIAL_SUCCESS • FAILED • STOP_REQUESTED • STOPPED SubmitTimeBefore -&gt; (timestamp) Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest. SubmitTimeAfter -&gt; (timestamp) Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest. Shorthand Syntax: JobName=string,JobStatus=string,SubmitTimeBefore=timestamp,SubmitTimeAfter=timestamp JSON Syntax: { "JobName": "string", "JobStatus": "SUBMITTED"|"IN_PROGRESS"|"COMPLETED"|"PARTIAL_SUCCESS"|"FAILED"|"STOP_REQUESTED"|"STOPPED", "SubmitTimeBefore": timestamp, "SubmitTimeAfter": timestamp }
     /// </summary>
     [CliOption("--filter")]
     public string? Filter { get; set; }
 
     /// <summary>
-    /// Identifies the next page of results to return. Constraints: o min: 1
+    /// Identifies the next page of results to return. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in each page. The default is 100. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in each page. The default is 100. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsComprehendmedicalListIcd10CmInferenceJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

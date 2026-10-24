@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws sagemakera2iruntime commands.
+/// aws sagemaker-a2i-runtime commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -22,24 +22,22 @@ namespace ModularPipelines.AmazonWebServices.Services;
 public interface IAwsSagemakerA2IRuntime
 {
     /// <summary>
-    /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a Re- sourceNotFoundException . See also: AWS API Documentation
+    /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteHumanLoopAsync(AwsSagemakerA2iRuntimeDeleteHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteHumanLoopAsync(AwsSagemakerA2iRuntimeDeleteHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException er- ror. See also: AWS API Documentation
+    /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeHumanLoopAsync(AwsSagemakerA2iRuntimeDescribeHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeHumanLoopAsync(AwsSagemakerA2iRuntimeDescribeHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included. See also: AWS API Documentation list-human-loops is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
@@ -48,8 +46,7 @@ public interface IAwsSagemakerA2IRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListHumanLoopsAsync(AwsSagemakerA2iRuntimeListHumanLoopsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListHumanLoopsAsync(AwsSagemakerA2iRuntimeListHumanLoopsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a human loop, provided that at least one activation condition is met. See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsSagemakerA2IRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartHumanLoopAsync(AwsSagemakerA2iRuntimeStartHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartHumanLoopAsync(AwsSagemakerA2iRuntimeStartHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the specified human loop. See also: AWS API Documentation
@@ -68,7 +64,6 @@ public interface IAwsSagemakerA2IRuntime
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StopHumanLoopAsync(AwsSagemakerA2iRuntimeStopHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StopHumanLoopAsync(AwsSagemakerA2iRuntimeStopHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

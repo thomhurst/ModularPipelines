@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsOutpostsCreateRenewalOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a renewal contract for the specified Outpost. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentOption">The payment option. Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT</param>
-    /// <param name="PaymentTerm">The payment term. Possible values: o THREE_YEARS o ONE_YEAR o FIVE_YEARS</param>
-    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$</param>
+    /// <param name="PaymentOption">The payment option. Possible values: • ALL_UPFRONT • NO_UPFRONT • PARTIAL_UPFRONT</param>
+    /// <param name="PaymentTerm">The payment term. Possible values: • THREE_YEARS • ONE_YEAR • FIVE_YEARS</param>
+    /// <param name="OutpostIdentifier">The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$</param>
     public AwsOutpostsCreateRenewalOptions(
         AwsOutpostsCreateRenewalPaymentOption PaymentOption,
         AwsOutpostsCreateRenewalPaymentTerm PaymentTerm,
@@ -64,25 +65,25 @@ public record AwsOutpostsCreateRenewalOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The payment option. Possible values: o ALL_UPFRONT o NO_UPFRONT o PARTIAL_UPFRONT
+    /// The payment option. Possible values: • ALL_UPFRONT • NO_UPFRONT • PARTIAL_UPFRONT
     /// </summary>
     [CliOption("--payment-option")]
     public AwsOutpostsCreateRenewalPaymentOption? PaymentOption { get; private init; }
 
     /// <summary>
-    /// The payment term. Possible values: o THREE_YEARS o ONE_YEAR o FIVE_YEARS
+    /// The payment term. Possible values: • THREE_YEARS • ONE_YEAR • FIVE_YEARS
     /// </summary>
     [CliOption("--payment-term")]
     public AwsOutpostsCreateRenewalPaymentTerm? PaymentTerm { get; private init; }
 
     /// <summary>
-    /// The ID or ARN of the Outpost. Constraints: o min: 1 o max: 180 o pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:out- post/)?op-[a-f0-9]{17}$
+    /// The ID or ARN of the Outpost. Constraints: • min: 1 • max: 180 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--outpost-identifier")]
     public string? OutpostIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: ^.*$
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -109,6 +110,15 @@ public record AwsOutpostsCreateRenewalOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

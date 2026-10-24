@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Creates a profile that can be applied to one or more private fleet de- vice instances. See also: AWS API Documentation
+    /// Creates a profile that can be applied to one or more private fleet device instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Creates a Selenium testing project. Projects are used to track Test- GridSession instances. See also: AWS API Documentation
+    /// Creates a Selenium testing project. Projects are used to track TestGridSession instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Creates a signed, short-term URL that can be passed to a Selenium Re- moteWebDriver constructor. See also: AWS API Documentation
+    /// Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDriver constructor. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Deletes a profile that can be applied to one or more private device in- stances. See also: AWS API Documentation
+    /// Deletes a profile that can be applied to one or more private device instances. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to in- voke the operation. If you must be able to invoke this operation, con- tact aws-devicefarm-support@amazon.com . See also: AWS API Documentation get-offering-status is a paginated operation. Multiple API calls may ...
+    /// Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation get-offering-status is a paginated operation. Multiple API calls may be i...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -512,7 +512,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult . You can use the following to look up sessions: o The session ARN. o The project ARN and a session ID. See also: AWS API Documentation
+    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult . You can use the following to look up sessions: • The session ARN. • The project ARN and a session ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applica- tions, the file must be in .ipa format. See also: AWS API Documentation
+    /// Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about artifacts. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: artifacts
+    /// Gets information about artifacts. See also: AWS API Documentation list-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: artifacts
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about unique device types. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: devices
+    /// Gets information about unique device types. See also: AWS API Documentation list-devices is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: devices
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about jobs for a given test run. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: jobs
+    /// Gets information about jobs for a given test run. See also: AWS API Documentation list-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the opera- tion. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation. See also: AWS API Documentation list-offering-promotions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
+    /// Returns a list of offering promotions. Each offering promotion record contains the ID and description of the promotion. The API returns a NotEligible error if the caller is not permitted to invoke the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation. See also: AWS API Documentation list-offering-promotions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,22 +707,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire d...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListOfferingsAsync(
-        AwsDevicefarmListOfferingsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevicefarmListOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a list of all historical purchases, renewals, and system re- newal transactions for an AWS account. The list is paginated and or- dered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to in- voke the operation. If you must be able to invoke this operation, con- tact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offering-transactions is a paginated operation. Multiple API calls may ...
+    /// Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offering-transactions is a paginated operation. Multiple API calls may be issue...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +722,22 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
+    /// Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire dat...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListOfferingsAsync(
+        AwsDevicefarmListOfferingsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDevicefarmListOfferingsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets information about projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Returns a list of all currently running remote access sessions. See also: AWS API Documentation list-remote-access-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: remoteAccessSessions
+    /// Returns a list of all currently running remote access sessions. See also: AWS API Documentation list-remote-access-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: remoteAccessSessions
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about runs, given an AWS Device Farm project ARN. See also: AWS API Documentation list-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi- nation by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar- gument must extract data from the results of the following query ex- pressions: runs
+    /// Gets information about runs, given an AWS Device Farm project ARN. See also: AWS API Documentation list-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: runs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about samples, given an AWS Device Farm job ARN. WARNING: Device Farm does not support performance data samples during test executions. See also: AWS API Documentation list-samples is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from t...
+    /// Gets information about samples, given an AWS Device Farm job ARN. WARNING: Device Farm does not support performance data samples during test executions. See also: AWS API Documentation list-samples is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about test suites for a given job. See also: AWS API Documentation list-suites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: suites
+    /// Gets information about test suites for a given job. See also: AWS API Documentation list-suites is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: suites
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about tests in a given test suite. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: tests
+    /// Gets information about tests in a given test suite. See also: AWS API Documentation list-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: tests
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consis- tently raises an exception (OutOfBoundsException in MyActivity.java:386 ), ListUniqueProblems returns a single entry instead of many individual entries for that exception. See also: AWS API Documentation list-unique-problems is a paginated operation. Multiple API calls may be issued in o...
+    /// Gets information about unique problems, such as exceptions or crashes. Unique problems are defined as a single instance of an error across a run, job, or suite. For example, if a call in your application consistently raises an exception (OutOfBoundsException in MyActivity.java:386 ), ListUniqueProblems returns a single entry instead of many individual entries for that exception. See also: AWS API Documentation list-unique-problems is a paginated operation. Multiple API calls may be issued in ord...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: uploads
+    /// Gets information about uploads, given an AWS Device Farm project ARN. See also: AWS API Documentation list-uploads is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: uploads
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Returns information about all Amazon Virtual Private Cloud (VPC) end- point configurations in the AWS account. See also: AWS API Documentation list-vpce-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing qu...
+    /// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint configurations in the AWS account. See also: AWS API Documentation list-vpce-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Initiates a stop request for the current job. AWS Device Farm immedi- ately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
+    /// Initiates a stop request for the current job. AWS Device Farm immediately stops the job on the device where tests have not started. You are not billed for this device. On the device where tests have started, setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Initiates a stop request for the current test run. AWS Device Farm im- mediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
+    /// Initiates a stop request for the current test run. AWS Device Farm immediately stops the run on devices where tests have not started. You are not billed for these devices. On devices where tests have started executing, setup suite and teardown suite tests run to completion on those devices. You are billed for setup, teardown, and any tests that were in progress or already completed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn . If existing tags on a resource are not specified in the re- quest parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn . If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsDevicefarm : IAwsDevicefarm
     }
 
     /// <summary>
-    /// Updates information about an Amazon Virtual Private Cloud (VPC) end- point configuration. See also: AWS API Documentation
+    /// Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

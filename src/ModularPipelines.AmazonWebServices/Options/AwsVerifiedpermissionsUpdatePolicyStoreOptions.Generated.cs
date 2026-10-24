@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsVerifiedpermissionsUpdatePolicyStoreOptions : AwsOptions, IVali
     /// <summary>
     /// Modifies the validation setting for a policy store. NOTE: Verified Permissions is * eventually consistent * . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyStoreId">Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*</param>
-    /// <param name="ValidationSettings">A structure that defines the validation settings that want to enable for the policy store. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }</param>
+    /// <param name="PolicyStoreId">Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*</param>
+    /// <param name="ValidationSettings">A structure that defines the validation settings that want to enable for the policy store. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: • OFF Neither Verified Permissions nor Cedar perform any validation on policies. No validation errors are reported by either service. • STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated static policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: • OFF • STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }</param>
     public AwsVerifiedpermissionsUpdatePolicyStoreOptions(
         string PolicyStoreId,
         string ValidationSettings
@@ -61,25 +62,25 @@ public record AwsVerifiedpermissionsUpdatePolicyStoreOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: o ID: PSEXAMPLEabcdefg111111 o Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: o min: 1 o max: 200 o pattern: [a-zA-Z0-9-/_]*
+    /// Specifies the ID of the policy store that you want to update To specify a policy store, use its ID or alias name. When using an alias name, prefix it with policy-store-alias/ . For example: • ID: PSEXAMPLEabcdefg111111 • Alias name: policy-store-alias/example-policy-store To view aliases, use ListPolicyStoreAliases . Constraints: • min: 1 • max: 200 • pattern: [a-zA-Z0-9-/_]*
     /// </summary>
     [CliOption("--policy-store-id")]
     public string? PolicyStoreId { get; private init; }
 
     /// <summary>
-    /// A structure that defines the validation settings that want to enable for the policy store. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: o OFF Neither Verified Permissions nor Cedar perform any vali- dation on policies. No validation errors are reported by ei- ther service. o STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated sta- tic policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: o OFF o STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }
+    /// A structure that defines the validation settings that want to enable for the policy store. mode -&gt; (string) [required] The validation mode currently configured for this policy store. The valid values are: • OFF Neither Verified Permissions nor Cedar perform any validation on policies. No validation errors are reported by either service. • STRICT Requires a schema to be present in the policy store. Cedar performs validation on all submitted new or updated static policies and policy templates. Any that fail validation are rejected and Cedar doesn't store them in the policy store. WARNING: If Mode=STRICT and the policy store doesn't contain a schema, Verified Permissions rejects all static policies and policy templates because there is no schema to validate against. To submit a static policy or policy template without a schema, you must turn off validation. Possible values: • OFF • STRICT Shorthand Syntax: mode=string JSON Syntax: { "mode": "OFF"|"STRICT" }
     /// </summary>
     [CliOption("--validation-settings")]
     public string? ValidationSettings { get; private init; }
 
     /// <summary>
-    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore , this parameter is unchanged unless explicitly included in the call. Possible values: o ENABLED o DISABLED
+    /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore , this parameter is unchanged unless explicitly included in the call. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--deletion-protection")]
     public AwsVerifiedpermissionsUpdatePolicyStoreDeletionProtection? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Descriptive text that you can provide to help with identification of the current policy store. Constraints: o min: 0 o max: 150
+    /// Descriptive text that you can provide to help with identification of the current policy store. Constraints: • min: 0 • max: 150
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -105,6 +106,15 @@ public record AwsVerifiedpermissionsUpdatePolicyStoreOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

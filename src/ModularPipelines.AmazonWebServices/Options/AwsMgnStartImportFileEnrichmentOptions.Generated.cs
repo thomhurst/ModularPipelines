@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an import file enrichment job to process and enrich network mi- gration import files with additional metadata and IP assignment strate- gies. See also: AWS API Documentation
+/// Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsMgnStartImportFileEnrichmentOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an import file enrichment job to process and enrich network mi- gration import files with additional metadata and IP assignment strate- gies. See also: AWS API Documentation
+    /// Starts an import file enrichment job to process and enrich network migration import files with additional metadata and IP assignment strategies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="S3BucketSource">The S3 configuration specifying the source location of the import file to be enriched. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing the source import file. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source import file. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }</param>
-    /// <param name="S3BucketTarget">The S3 configuration specifying the target location where the en- riched import file will be stored. s3Bucket -&gt; (string) [required] The name of the S3 bucket where the enriched import file will be stored. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the target S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) where the enriched import file will be stored. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }</param>
+    /// <param name="S3BucketSource">The S3 configuration specifying the source location of the import file to be enriched. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing the source import file. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source import file. Constraints: • pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }</param>
+    /// <param name="S3BucketTarget">The S3 configuration specifying the target location where the enriched import file will be stored. s3Bucket -&gt; (string) [required] The name of the S3 bucket where the enriched import file will be stored. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the target S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) where the enriched import file will be stored. Constraints: • pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }</param>
     public AwsMgnStartImportFileEnrichmentOptions(
         string S3BucketSource,
         string S3BucketTarget
@@ -62,26 +63,26 @@ public record AwsMgnStartImportFileEnrichmentOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The S3 configuration specifying the source location of the import file to be enriched. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing the source import file. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source import file. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }
+    /// The S3 configuration specifying the source location of the import file to be enriched. s3Bucket -&gt; (string) [required] The name of the S3 bucket containing the source import file. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) for the source import file. Constraints: • pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }
     /// </summary>
     [CliOption("--s3-bucket-source")]
     public string? S3BucketSource { get; private init; }
 
     /// <summary>
-    /// The S3 configuration specifying the target location where the en- riched import file will be stored. s3Bucket -&gt; (string) [required] The name of the S3 bucket where the enriched import file will be stored. Constraints: o pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the target S3 bucket owner. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) where the enriched import file will be stored. Constraints: o pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }
+    /// The S3 configuration specifying the target location where the enriched import file will be stored. s3Bucket -&gt; (string) [required] The name of the S3 bucket where the enriched import file will be stored. Constraints: • pattern: [a-zA-Z0-9.\-_]{1,255} s3BucketOwner -&gt; (string) [required] The AWS account ID of the target S3 bucket owner. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.* s3Key -&gt; (string) [required] The S3 key (path) where the enriched import file will be stored. Constraints: • pattern: [^\x00]{1,1024} Shorthand Syntax: s3Bucket=string,s3BucketOwner=string,s3Key=string JSON Syntax: { "s3Bucket": "string", "s3BucketOwner": "string", "s3Key": "string" }
     /// </summary>
     [CliOption("--s3-bucket-target")]
     public string? S3BucketTarget { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 0 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The IP assignment strategy to use when enriching the import file. Can be STATIC or DYNAMIC. Possible values: o STATIC o DYNAMIC
+    /// The IP assignment strategy to use when enriching the import file. Can be STATIC or DYNAMIC. Possible values: • STATIC • DYNAMIC
     /// </summary>
     [CliOption("--ip-assignment-strategy")]
     public AwsMgnStartImportFileEnrichmentIpAssignmentStrategy? IpAssignmentStrategy { get; set; }
@@ -107,6 +108,15 @@ public record AwsMgnStartImportFileEnrichmentOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

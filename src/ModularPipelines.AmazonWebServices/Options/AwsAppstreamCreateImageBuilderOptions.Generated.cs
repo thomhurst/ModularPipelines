@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsAppstreamCreateImageBuilderOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING . When it is ready, the state is RUNNING . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique name for the image builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="InstanceType">The instance type to use when launching the image builder. The fol- lowing instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.compute.large o stream.compute.xlarge o stream.compute.2xlarge o stream.compute.4xlarge o stream.compute.8xlarge o stream.memory.large o stream.memory.xlarge o stream.memory.2xlarge o stream.memory.4xlarge o stream.memory.8xlarge o stream.memory.z1d.large o stream.memory.z1d.xlarge o stream.memory.z1d.2xlarge o stream.memory.z1d.3xlarge o stream.memory.z1d.6xlarge o stream.memory.z1d.12xlarge o stream.graphics.g4dn.xlarge o stream.graphics.g4dn.2xlarge o stream.graphics.g4dn.4xlarge o stream.graphics.g4dn.8xlarge o stream.graphics.g4dn.12xlarge o stream.graphics.g4dn.16xlarge o stream.graphics.g5.xlarge o stream.graphics.g5.2xlarge o stream.graphics.g5.4xlarge o stream.graphics.g5.8xlarge o stream.graphics.g5.16xlarge o stream.graphics.g5.12xlarge o stream.graphics.g5.24xlarge o stream.graphics.g6.xlarge o stream.graphics.g6.2xlarge o stream.graphics.g6.4xlarge o stream.graphics.g6.8xlarge o stream.graphics.g6.16xlarge o stream.graphics.g6.12xlarge o stream.graphics.g6.24xlarge o stream.graphics.gr6.4xlarge o stream.graphics.gr6.8xlarge o stream.graphics.g6f.large o stream.graphics.g6f.xlarge o stream.graphics.g6f.2xlarge o stream.graphics.g6f.4xlarge o stream.graphics.gr6f.4xlarge Constraints: o min: 1</param>
+    /// <param name="Name">A unique name for the image builder. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="InstanceType">The instance type to use when launching the image builder. The following instance types are available: • stream.standard.small • stream.standard.medium • stream.standard.large • stream.compute.large • stream.compute.xlarge • stream.compute.2xlarge • stream.compute.4xlarge • stream.compute.8xlarge • stream.memory.large • stream.memory.xlarge • stream.memory.2xlarge • stream.memory.4xlarge • stream.memory.8xlarge • stream.memory.z1d.large • stream.memory.z1d.xlarge • stream.memory.z1d.2xlarge • stream.memory.z1d.3xlarge • stream.memory.z1d.6xlarge • stream.memory.z1d.12xlarge • stream.graphics.g4dn.xlarge • stream.graphics.g4dn.2xlarge • stream.graphics.g4dn.4xlarge • stream.graphics.g4dn.8xlarge • stream.graphics.g4dn.12xlarge • stream.graphics.g4dn.16xlarge • stream.graphics.g5.xlarge • stream.graphics.g5.2xlarge • stream.graphics.g5.4xlarge • stream.graphics.g5.8xlarge • stream.graphics.g5.16xlarge • stream.graphics.g5.12xlarge • stream.graphics.g5.24xlarge • stream.graphics.g6.xlarge • stream.graphics.g6.2xlarge • stream.graphics.g6.4xlarge • stream.graphics.g6.8xlarge • stream.graphics.g6.16xlarge • stream.graphics.g6.12xlarge • stream.graphics.g6.24xlarge • stream.graphics.gr6.4xlarge • stream.graphics.gr6.8xlarge • stream.graphics.g6f.large • stream.graphics.g6f.xlarge • stream.graphics.g6f.2xlarge • stream.graphics.g6f.4xlarge • stream.graphics.gr6f.4xlarge Constraints: • min: 1</param>
     public AwsAppstreamCreateImageBuilderOptions(
         string Name,
         string InstanceType
@@ -61,49 +61,49 @@ public record AwsAppstreamCreateImageBuilderOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the image builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// A unique name for the image builder. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The instance type to use when launching the image builder. The fol- lowing instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.compute.large o stream.compute.xlarge o stream.compute.2xlarge o stream.compute.4xlarge o stream.compute.8xlarge o stream.memory.large o stream.memory.xlarge o stream.memory.2xlarge o stream.memory.4xlarge o stream.memory.8xlarge o stream.memory.z1d.large o stream.memory.z1d.xlarge o stream.memory.z1d.2xlarge o stream.memory.z1d.3xlarge o stream.memory.z1d.6xlarge o stream.memory.z1d.12xlarge o stream.graphics.g4dn.xlarge o stream.graphics.g4dn.2xlarge o stream.graphics.g4dn.4xlarge o stream.graphics.g4dn.8xlarge o stream.graphics.g4dn.12xlarge o stream.graphics.g4dn.16xlarge o stream.graphics.g5.xlarge o stream.graphics.g5.2xlarge o stream.graphics.g5.4xlarge o stream.graphics.g5.8xlarge o stream.graphics.g5.16xlarge o stream.graphics.g5.12xlarge o stream.graphics.g5.24xlarge o stream.graphics.g6.xlarge o stream.graphics.g6.2xlarge o stream.graphics.g6.4xlarge o stream.graphics.g6.8xlarge o stream.graphics.g6.16xlarge o stream.graphics.g6.12xlarge o stream.graphics.g6.24xlarge o stream.graphics.gr6.4xlarge o stream.graphics.gr6.8xlarge o stream.graphics.g6f.large o stream.graphics.g6f.xlarge o stream.graphics.g6f.2xlarge o stream.graphics.g6f.4xlarge o stream.graphics.gr6f.4xlarge Constraints: o min: 1
+    /// The instance type to use when launching the image builder. The following instance types are available: • stream.standard.small • stream.standard.medium • stream.standard.large • stream.compute.large • stream.compute.xlarge • stream.compute.2xlarge • stream.compute.4xlarge • stream.compute.8xlarge • stream.memory.large • stream.memory.xlarge • stream.memory.2xlarge • stream.memory.4xlarge • stream.memory.8xlarge • stream.memory.z1d.large • stream.memory.z1d.xlarge • stream.memory.z1d.2xlarge • stream.memory.z1d.3xlarge • stream.memory.z1d.6xlarge • stream.memory.z1d.12xlarge • stream.graphics.g4dn.xlarge • stream.graphics.g4dn.2xlarge • stream.graphics.g4dn.4xlarge • stream.graphics.g4dn.8xlarge • stream.graphics.g4dn.12xlarge • stream.graphics.g4dn.16xlarge • stream.graphics.g5.xlarge • stream.graphics.g5.2xlarge • stream.graphics.g5.4xlarge • stream.graphics.g5.8xlarge • stream.graphics.g5.16xlarge • stream.graphics.g5.12xlarge • stream.graphics.g5.24xlarge • stream.graphics.g6.xlarge • stream.graphics.g6.2xlarge • stream.graphics.g6.4xlarge • stream.graphics.g6.8xlarge • stream.graphics.g6.16xlarge • stream.graphics.g6.12xlarge • stream.graphics.g6.24xlarge • stream.graphics.gr6.4xlarge • stream.graphics.gr6.8xlarge • stream.graphics.g6f.large • stream.graphics.g6f.xlarge • stream.graphics.g6f.2xlarge • stream.graphics.g6f.4xlarge • stream.graphics.gr6f.4xlarge Constraints: • min: 1
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; private init; }
 
     /// <summary>
-    /// The name of the image used to create the image builder. Constraints: o min: 1
+    /// The name of the image used to create the image builder. Constraints: • min: 1
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; set; }
 
     /// <summary>
-    /// The ARN of the public, private, or shared image to use. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The ARN of the public, private, or shared image to use. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--image-arn")]
     public string? ImageArn { get; set; }
 
     /// <summary>
-    /// The description to display. Constraints: o max: 256
+    /// The description to display. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The image builder name to display. Constraints: o max: 100
+    /// The image builder name to display. Constraints: • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The VPC configuration for the image builder. You can specify only one subnet. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// The VPC configuration for the image builder. You can specify only one subnet. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: • min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: • max: 5 (string) Constraints: • min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary creden- tials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Stream- ing Instances in the Amazon WorkSpaces Applications Administration Guide . Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide . Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
@@ -115,25 +115,25 @@ public record AwsAppstreamCreateImageBuilderOptions : AwsOptions, IValidatableOb
     public bool? EnableDefaultInternetAccess { get; set; }
 
     /// <summary>
-    /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain. DirectoryName -&gt; (string) The fully qualified name of the directory (for example, corp.ex- ample.com). OrganizationalUnitDistinguishedName -&gt; (string) The distinguished name of the organizational unit for computer accounts. Constraints: o max: 2000 Shorthand Syntax: DirectoryName=string,OrganizationalUnitDistinguishedName=string JSON Syntax: { "DirectoryName": "string", "OrganizationalUnitDistinguishedName": "string" }
+    /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain. DirectoryName -&gt; (string) The fully qualified name of the directory (for example, corp.example.com). OrganizationalUnitDistinguishedName -&gt; (string) The distinguished name of the organizational unit for computer accounts. Constraints: • max: 2000 Shorthand Syntax: DirectoryName=string,OrganizationalUnitDistinguishedName=string JSON Syntax: { "DirectoryName": "string", "OrganizationalUnitDistinguishedName": "string" }
     /// </summary>
     [CliOption("--domain-join-info")]
     public string? DomainJoinInfo { get; set; }
 
     /// <summary>
-    /// The version of the WorkSpaces Applications agent to use for this im- age builder. To use the latest version of the WorkSpaces Applica- tions agent, specify [LATEST]. Constraints: o min: 1 o max: 100
+    /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST]. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--appstream-agent-version")]
     public string? AppstreamAgentVersion { get; set; }
 
     /// <summary>
-    /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces rep- resentable in UTF-8, and the following special characters: _ . : / = + - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The list of interface VPC endpoint (interface endpoint) objects. Ad- ministrators can connect to the image builder only through the spec- ified endpoints. Constraints: o min: 1 o max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: o STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface end- point is used. Constraints: o min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
+    /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints. Constraints: • min: 1 • max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: • STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface endpoint is used. Constraints: • min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
     /// </summary>
     [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
@@ -145,19 +145,19 @@ public record AwsAppstreamCreateImageBuilderOptions : AwsOptions, IValidatableOb
     public string? RootVolumeConfig { get; set; }
 
     /// <summary>
-    /// The list of license included applications to install on the image builder during creation. Possible values include the following: o Microsoft_Office_2021_LTSC_Professional_Plus_32Bit o Microsoft_Office_2021_LTSC_Professional_Plus_64Bit o Microsoft_Office_2024_LTSC_Professional_Plus_32Bit o Microsoft_Office_2024_LTSC_Professional_Plus_64Bit o Microsoft_Visio_2021_LTSC_Professional_32Bit o Microsoft_Visio_2021_LTSC_Professional_64Bit o Microsoft_Visio_2024_LTSC_Professional_32Bit o Microsoft_Visio_2024_LTSC_Professional_64Bit o Microsoft_Project_2021_Professional_32Bit o Microsoft_Project_2021_Professional_64Bit o Microsoft_Project_2024_Professional_32Bit o Microsoft_Project_2024_Professional_64Bit o Microsoft_Office_2021_LTSC_Standard_32Bit o Microsoft_Office_2021_LTSC_Standard_64Bit o Microsoft_Office_2024_LTSC_Standard_32Bit o Microsoft_Office_2024_LTSC_Standard_64Bit o Microsoft_Visio_2021_LTSC_Standard_32Bit o Microsoft_Visio_2021_LTSC_Standard_64Bit o Microsoft_Visio_2024_LTSC_Standard_32Bit o Microsoft_Visio_2024_LTSC_Standard_64Bit o Microsoft_Project_2021_Standard_32Bit o Microsoft_Project_2021_Standard_64Bit o Microsoft_Project_2024_Standard_32Bit o Microsoft_Project_2024_Standard_64Bit (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The list of license included applications to install on the image builder during creation. Possible values include the following: • Microsoft_Office_2021_LTSC_Professional_Plus_32Bit • Microsoft_Office_2021_LTSC_Professional_Plus_64Bit • Microsoft_Office_2024_LTSC_Professional_Plus_32Bit • Microsoft_Office_2024_LTSC_Professional_Plus_64Bit • Microsoft_Visio_2021_LTSC_Professional_32Bit • Microsoft_Visio_2021_LTSC_Professional_64Bit • Microsoft_Visio_2024_LTSC_Professional_32Bit • Microsoft_Visio_2024_LTSC_Professional_64Bit • Microsoft_Project_2021_Professional_32Bit • Microsoft_Project_2021_Professional_64Bit • Microsoft_Project_2024_Professional_32Bit • Microsoft_Project_2024_Professional_64Bit • Microsoft_Office_2021_LTSC_Standard_32Bit • Microsoft_Office_2021_LTSC_Standard_64Bit • Microsoft_Office_2024_LTSC_Standard_32Bit • Microsoft_Office_2024_LTSC_Standard_64Bit • Microsoft_Visio_2021_LTSC_Standard_32Bit • Microsoft_Visio_2021_LTSC_Standard_64Bit • Microsoft_Visio_2024_LTSC_Standard_32Bit • Microsoft_Visio_2024_LTSC_Standard_64Bit • Microsoft_Project_2021_Standard_32Bit • Microsoft_Project_2021_Standard_64Bit • Microsoft_Project_2024_Standard_32Bit • Microsoft_Project_2024_Standard_64Bit (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--softwares-to-install", GroupValues = true)]
     public IEnumerable<string>? SoftwaresToInstall { get; set; }
 
     /// <summary>
-    /// The list of license included applications to uninstall from the im- age builder during creation. Possible values include the following: o Microsoft_Office_2021_LTSC_Professional_Plus_32Bit o Microsoft_Office_2021_LTSC_Professional_Plus_64Bit o Microsoft_Office_2024_LTSC_Professional_Plus_32Bit o Microsoft_Office_2024_LTSC_Professional_Plus_64Bit o Microsoft_Visio_2021_LTSC_Professional_32Bit o Microsoft_Visio_2021_LTSC_Professional_64Bit o Microsoft_Visio_2024_LTSC_Professional_32Bit o Microsoft_Visio_2024_LTSC_Professional_64Bit o Microsoft_Project_2021_Professional_32Bit o Microsoft_Project_2021_Professional_64Bit o Microsoft_Project_2024_Professional_32Bit o Microsoft_Project_2024_Professional_64Bit o Microsoft_Office_2021_LTSC_Standard_32Bit o Microsoft_Office_2021_LTSC_Standard_64Bit o Microsoft_Office_2024_LTSC_Standard_32Bit o Microsoft_Office_2024_LTSC_Standard_64Bit o Microsoft_Visio_2021_LTSC_Standard_32Bit o Microsoft_Visio_2021_LTSC_Standard_64Bit o Microsoft_Visio_2024_LTSC_Standard_32Bit o Microsoft_Visio_2024_LTSC_Standard_64Bit o Microsoft_Project_2021_Standard_32Bit o Microsoft_Project_2021_Standard_64Bit o Microsoft_Project_2024_Standard_32Bit o Microsoft_Project_2024_Standard_64Bit (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The list of license included applications to uninstall from the image builder during creation. Possible values include the following: • Microsoft_Office_2021_LTSC_Professional_Plus_32Bit • Microsoft_Office_2021_LTSC_Professional_Plus_64Bit • Microsoft_Office_2024_LTSC_Professional_Plus_32Bit • Microsoft_Office_2024_LTSC_Professional_Plus_64Bit • Microsoft_Visio_2021_LTSC_Professional_32Bit • Microsoft_Visio_2021_LTSC_Professional_64Bit • Microsoft_Visio_2024_LTSC_Professional_32Bit • Microsoft_Visio_2024_LTSC_Professional_64Bit • Microsoft_Project_2021_Professional_32Bit • Microsoft_Project_2021_Professional_64Bit • Microsoft_Project_2024_Professional_32Bit • Microsoft_Project_2024_Professional_64Bit • Microsoft_Office_2021_LTSC_Standard_32Bit • Microsoft_Office_2021_LTSC_Standard_64Bit • Microsoft_Office_2024_LTSC_Standard_32Bit • Microsoft_Office_2024_LTSC_Standard_64Bit • Microsoft_Visio_2021_LTSC_Standard_32Bit • Microsoft_Visio_2021_LTSC_Standard_64Bit • Microsoft_Visio_2024_LTSC_Standard_32Bit • Microsoft_Visio_2024_LTSC_Standard_64Bit • Microsoft_Project_2021_Standard_32Bit • Microsoft_Project_2021_Standard_64Bit • Microsoft_Project_2024_Standard_32Bit • Microsoft_Project_2024_Standard_64Bit (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--softwares-to-uninstall", GroupValues = true)]
     public IEnumerable<string>? SoftwaresToUninstall { get; set; }
 
     /// <summary>
-    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. NOTE: Before disabling IMDSv1, ensure your WorkSpaces Applications im- ages are running the agent version or managed image update re- leased on or after January 16, 2024 to support IMDSv2 enforce- ment.
+    /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2. NOTE: Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
     /// </summary>
     [CliFlag("--disable-imdsv1", NegatedName = "--no-disable-imdsv1")]
     public bool? DisableImdsv1 { get; set; }
@@ -183,6 +183,15 @@ public record AwsAppstreamCreateImageBuilderOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

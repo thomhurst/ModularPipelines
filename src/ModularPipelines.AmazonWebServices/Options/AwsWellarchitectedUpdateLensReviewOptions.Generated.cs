@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsWellarchitectedUpdateLensReviewOptions : AwsOptions, IValidatab
     /// <summary>
     /// Update lens review for a particular workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128</param>
     public AwsWellarchitectedUpdateLensReviewOptions(
         string WorkloadId,
         string LensAlias
@@ -61,31 +61,31 @@ public record AwsWellarchitectedUpdateLensReviewOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--lens-alias")]
     public string? LensAlias { get; private init; }
 
     /// <summary>
-    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084
     /// </summary>
     [CliOption("--lens-notes")]
     public string? LensNotes { get; set; }
 
     /// <summary>
-    /// List of pillar notes of a lens review in a workload. For a review template, these are the notes that will be associated with the workload when the template is applied. key -&gt; (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64 value -&gt; (string) The notes associated with the workload. For a review template, these are the notes that will be associ- ated with the workload when the template is applied. Constraints: o min: 0 o max: 2084 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// List of pillar notes of a lens review in a workload. For a review template, these are the notes that will be associated with the workload when the template is applied. key -&gt; (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: • min: 1 • max: 64 value -&gt; (string) The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--pillar-notes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PillarNotes { get; set; }
 
     /// <summary>
-    /// Configuration of the Jira integration. SelectedPillars -&gt; (list) Selected pillars in the workload. (structure) The selected pillar. PillarId -&gt; (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$Pil- larId . Constraints: o min: 1 o max: 64 SelectedQuestionIds -&gt; (list) Selected question IDs in the selected pillar. (string) JSON Syntax: { "SelectedPillars": [ { "PillarId": "string", "SelectedQuestionIds": ["string", ...] } ... ] }
+    /// Configuration of the Jira integration. SelectedPillars -&gt; (list) Selected pillars in the workload. (structure) The selected pillar. PillarId -&gt; (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: • min: 1 • max: 64 SelectedQuestionIds -&gt; (list) Selected question IDs in the selected pillar. (string) JSON Syntax: { "SelectedPillars": [ { "PillarId": "string", "SelectedQuestionIds": ["string", ...] } ... ] }
     /// </summary>
     [CliOption("--jira-configuration")]
     public string? JiraConfiguration { get; set; }
@@ -111,6 +111,15 @@ public record AwsWellarchitectedUpdateLensReviewOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Ama- zon SNS. See also: AWS API Documentation
+/// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPinpointSmsVoiceV2UpdateEventDestinationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Ama- zon SNS. See also: AWS API Documentation
+    /// Updates an existing event destination in a configuration set. You can update the IAM role ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination. You may want to update an event destination to change its matching event types or updating the destination resource ARN. You can't change an event destination's type between CloudWatch Logs, Firehose, and Amazon SNS. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSetName">The configuration set to update with the new event destination. Valid values for this can be the ConfigurationSetName or Configura- tionSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="EventDestinationName">The name to use for the event destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ConfigurationSetName">The configuration set to update with the new event destination. Valid values for this can be the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="EventDestinationName">The name to use for the event destination. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_-]+</param>
     public AwsPinpointSmsVoiceV2UpdateEventDestinationOptions(
         string ConfigurationSetName,
         string EventDestinationName
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2UpdateEventDestinationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The configuration set to update with the new event destination. Valid values for this can be the ConfigurationSetName or Configura- tionSetArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The configuration set to update with the new event destination. Valid values for this can be the ConfigurationSetName or ConfigurationSetArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }
 
     /// <summary>
-    /// The name to use for the event destination. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_-]+
+    /// The name to use for the event destination. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--event-destination-name")]
     public string? EventDestinationName { get; private init; }
@@ -78,25 +79,25 @@ public record AwsPinpointSmsVoiceV2UpdateEventDestinationOptions : AwsOptions, I
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// An array of event types that determine which events to log. NOTE: The TEXT_SENT event type is not supported. Constraints: o min: 1 o max: 52 (string) Possible values: o ALL o TEXT_ALL o TEXT_SENT o TEXT_PENDING o TEXT_QUEUED o TEXT_SUCCESSFUL o TEXT_DELIVERED o TEXT_INVALID o TEXT_INVALID_MESSAGE o TEXT_UNREACHABLE o TEXT_CARRIER_UNREACHABLE o TEXT_BLOCKED o TEXT_CARRIER_BLOCKED o TEXT_SPAM o TEXT_UNKNOWN o TEXT_TTL_EXPIRED o TEXT_PROTECT_BLOCKED o VOICE_ALL o VOICE_INITIATED o VOICE_RINGING o VOICE_ANSWERED o VOICE_COMPLETED o VOICE_BUSY o VOICE_NO_ANSWER o VOICE_FAILED o VOICE_TTL_EXPIRED o MEDIA_ALL o MEDIA_PENDING o MEDIA_QUEUED o MEDIA_SUCCESSFUL o MEDIA_DELIVERED o MEDIA_INVALID o MEDIA_INVALID_MESSAGE o MEDIA_UNREACHABLE o MEDIA_CARRIER_UNREACHABLE o MEDIA_BLOCKED o MEDIA_CARRIER_BLOCKED o MEDIA_SPAM o MEDIA_UNKNOWN o MEDIA_TTL_EXPIRED o MEDIA_FILE_INACCESSIBLE o MEDIA_FILE_TYPE_UNSUPPORTED o MEDIA_FILE_SIZE_EXCEEDED o RCS_ALL o RCS_QUEUED o RCS_SENT o RCS_DELIVERED o RCS_READ o RCS_FAILED o RCS_TTL_EXPIRED o RCS_PROTECT_BLOCKED o RCS_FALLEN_BACK_TO_SMS Syntax: "string" "string" ...
+    /// An array of event types that determine which events to log. NOTE: The TEXT_SENT event type is not supported. Constraints: • min: 1 • max: 52 (string) Possible values: • ALL • TEXT_ALL • TEXT_SENT • TEXT_PENDING • TEXT_QUEUED • TEXT_SUCCESSFUL • TEXT_DELIVERED • TEXT_INVALID • TEXT_INVALID_MESSAGE • TEXT_UNREACHABLE • TEXT_CARRIER_UNREACHABLE • TEXT_BLOCKED • TEXT_CARRIER_BLOCKED • TEXT_SPAM • TEXT_UNKNOWN • TEXT_TTL_EXPIRED • TEXT_PROTECT_BLOCKED • VOICE_ALL • VOICE_INITIATED • VOICE_RINGING • VOICE_ANSWERED • VOICE_COMPLETED • VOICE_BUSY • VOICE_NO_ANSWER • VOICE_FAILED • VOICE_TTL_EXPIRED • MEDIA_ALL • MEDIA_PENDING • MEDIA_QUEUED • MEDIA_SUCCESSFUL • MEDIA_DELIVERED • MEDIA_INVALID • MEDIA_INVALID_MESSAGE • MEDIA_UNREACHABLE • MEDIA_CARRIER_UNREACHABLE • MEDIA_BLOCKED • MEDIA_CARRIER_BLOCKED • MEDIA_SPAM • MEDIA_UNKNOWN • MEDIA_TTL_EXPIRED • MEDIA_FILE_INACCESSIBLE • MEDIA_FILE_TYPE_UNSUPPORTED • MEDIA_FILE_SIZE_EXCEEDED • RCS_ALL • RCS_QUEUED • RCS_SENT • RCS_DELIVERED • RCS_READ • RCS_FAILED • RCS_TTL_EXPIRED • RCS_PROTECT_BLOCKED • RCS_FALLEN_BACK_TO_SMS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--matching-event-types", GroupValues = true)]
     public IEnumerable<string>? MatchingEventTypes { get; set; }
 
     /// <summary>
-    /// An object that contains information about an event destination that sends data to CloudWatch Logs. IamRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Manage- ment role that is able to write event data to an Amazon Cloud- Watch destination. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ LogGroupArn -&gt; (string) [required] The name of the Amazon CloudWatch log group that you want to record events in. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ Shorthand Syntax: IamRoleArn=string,LogGroupArn=string JSON Syntax: { "IamRoleArn": "string", "LogGroupArn": "string" }
+    /// An object that contains information about an event destination that sends data to CloudWatch Logs. IamRoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to write event data to an Amazon CloudWatch destination. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+ LogGroupArn -&gt; (string) [required] The name of the Amazon CloudWatch log group that you want to record events in. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+ Shorthand Syntax: IamRoleArn=string,LogGroupArn=string JSON Syntax: { "IamRoleArn": "string", "LogGroupArn": "string" }
     /// </summary>
     [CliOption("--cloud-watch-logs-destination")]
     public string? CloudWatchLogsDestination { get; set; }
 
     /// <summary>
-    /// An object that contains information about an event destination for logging to Firehose. IamRoleArn -&gt; (string) [required] The ARN of an Identity and Access Management role that is able to write event data to an Amazon Data Firehose destination. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ DeliveryStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the delivery stream. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ Shorthand Syntax: IamRoleArn=string,DeliveryStreamArn=string JSON Syntax: { "IamRoleArn": "string", "DeliveryStreamArn": "string" }
+    /// An object that contains information about an event destination for logging to Firehose. IamRoleArn -&gt; (string) [required] The ARN of an Identity and Access Management role that is able to write event data to an Amazon Data Firehose destination. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+ DeliveryStreamArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the delivery stream. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+ Shorthand Syntax: IamRoleArn=string,DeliveryStreamArn=string JSON Syntax: { "IamRoleArn": "string", "DeliveryStreamArn": "string" }
     /// </summary>
     [CliOption("--kinesis-firehose-destination")]
     public string? KinesisFirehoseDestination { get; set; }
 
     /// <summary>
-    /// An object that contains information about an event destination that sends data to Amazon SNS. TopicArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to. Constraints: o min: 20 o max: 2048 o pattern: arn:\S+ Shorthand Syntax: TopicArn=string JSON Syntax: { "TopicArn": "string" }
+    /// An object that contains information about an event destination that sends data to Amazon SNS. TopicArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to. Constraints: • min: 20 • max: 2048 • pattern: arn:\S+ Shorthand Syntax: TopicArn=string JSON Syntax: { "TopicArn": "string" }
     /// </summary>
     [CliOption("--sns-destination")]
     public string? SnsDestination { get; set; }
@@ -122,6 +123,15 @@ public record AwsPinpointSmsVoiceV2UpdateEventDestinationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

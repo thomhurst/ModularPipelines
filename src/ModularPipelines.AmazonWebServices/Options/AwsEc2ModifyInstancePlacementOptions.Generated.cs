@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the placement attributes for a specified instance. You can do the following: o Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the in- stance is restarted or rebooted, this relationship persists. o Change the Dedicated Host with which an instance is associated. o Change the...
+/// Modifies the placement attributes for a specified instance. You can do the following: • Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists. • Change the Dedicated Host with which an instance is associated. • Change the i...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2ModifyInstancePlacementOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the placement attributes for a specified instance. You can do the following: o Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the in- stance is restarted or rebooted, this relationship persists. o Change the Dedicated Host with which an instance is associated. o Change the...
+    /// Modifies the placement attributes for a specified instance. You can do the following: • Modify the affinity between an instance and a Dedicated Host . When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists. • Change the Dedicated Host with which an instance is associated. • Change the i...
     /// </summary>
     /// <param name="InstanceId">The ID of the instance that you are modifying.</param>
     public AwsEc2ModifyInstancePlacementOptions(
@@ -87,13 +88,13 @@ public record AwsEc2ModifyInstancePlacementOptions : AwsOptions, IValidatableObj
     public string? GroupId { get; set; }
 
     /// <summary>
-    /// The tenancy for the instance. NOTE: For T3 instances, you must launch the instance on a Dedicated Host to use a tenancy of host . You can't change the tenancy from host to dedicated or default . Attempting to make one of these unsupported tenancy changes results in an InvalidRequest error code. Possible values: o default o dedicated o host
+    /// The tenancy for the instance. NOTE: For T3 instances, you must launch the instance on a Dedicated Host to use a tenancy of host . You can't change the tenancy from host to dedicated or default . Attempting to make one of these unsupported tenancy changes results in an InvalidRequest error code. Possible values: • default • dedicated • host
     /// </summary>
     [CliOption("--tenancy")]
     public AwsEc2ModifyInstancePlacementTenancy? Tenancy { get; set; }
 
     /// <summary>
-    /// The affinity setting for the instance. For more information, see Host affinity in the Amazon EC2 User Guide . Possible values: o default o host
+    /// The affinity setting for the instance. For more information, see Host affinity in the Amazon EC2 User Guide . Possible values: • default • host
     /// </summary>
     [CliOption("--affinity")]
     public AwsEc2ModifyInstancePlacementAffinity? Affinity { get; set; }
@@ -125,6 +126,15 @@ public record AwsEc2ModifyInstancePlacementOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

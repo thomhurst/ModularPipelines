@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGreengrassv2DescribeComponentOptions : AwsOptions, IValidatable
     /// <summary>
     /// Retrieves metadata for a version of a component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+</param>
+    /// <param name="Arn">The ARN of the component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+</param>
     public AwsGreengrassv2DescribeComponentOptions(
         string Arn
     )
@@ -56,7 +57,7 @@ public record AwsGreengrassv2DescribeComponentOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the component version. Constraints: o pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):compo- nents:[^:]+:versions:[^:]+
+    /// The ARN of the component version. Constraints: • pattern: arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGreengrassv2DescribeComponentOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

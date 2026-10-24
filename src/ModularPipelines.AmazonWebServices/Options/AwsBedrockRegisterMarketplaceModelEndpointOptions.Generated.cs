@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockRegisterMarketplaceModelEndpointOptions : AwsOptions, IV
     /// <summary>
     /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointIdentifier">The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace. Constraints: o min: 0 o max: 2048</param>
-    /// <param name="ModelSourceIdentifier">The ARN of the model from Amazon Bedrock Marketplace that is de- ployed on the endpoint. Constraints: o min: 0 o max: 2048 o pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPub- licHub/Model/.*</param>
+    /// <param name="EndpointIdentifier">The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace. Constraints: • min: 0 • max: 2048</param>
+    /// <param name="ModelSourceIdentifier">The ARN of the model from Amazon Bedrock Marketplace that is deployed on the endpoint. Constraints: • min: 0 • max: 2048 • pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPublicHub/Model/.*</param>
     public AwsBedrockRegisterMarketplaceModelEndpointOptions(
         string EndpointIdentifier,
         string ModelSourceIdentifier
@@ -60,13 +61,13 @@ public record AwsBedrockRegisterMarketplaceModelEndpointOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace. Constraints: o min: 0 o max: 2048
+    /// The ARN of the Amazon SageMaker endpoint you want to register with Amazon Bedrock Marketplace. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--endpoint-identifier")]
     public string? EndpointIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the model from Amazon Bedrock Marketplace that is de- ployed on the endpoint. Constraints: o min: 0 o max: 2048 o pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPub- licHub/Model/.*
+    /// The ARN of the model from Amazon Bedrock Marketplace that is deployed on the endpoint. Constraints: • min: 0 • max: 2048 • pattern: .*arn:aws:sagemaker:.*:hub-content/SageMakerPublicHub/Model/.*
     /// </summary>
     [CliOption("--model-source-identifier")]
     public string? ModelSourceIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockRegisterMarketplaceModelEndpointOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsTaxsettings : IAwsTaxsettings
     }
 
     /// <summary>
-    /// Get the active tax exemptions for a given list of accounts. The IAM ac- tion is tax:GetExemptions . See also: AWS API Documentation
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsTaxsettings : IAwsTaxsettings
     }
 
     /// <summary>
-    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh o You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil o ...
+    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh • You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil • ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsTaxsettings : IAwsTaxsettings
     }
 
     /// <summary>
-    /// Retrieves supplemental tax registrations for a single account. See also: AWS API Documentation list-supplemental-tax-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: taxRegistrations
+    /// Retrieves supplemental tax registrations for a single account. See also: AWS API Documentation list-supplemental-tax-registrations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: taxRegistrations
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsTaxsettings : IAwsTaxsettings
     }
 
     /// <summary>
-    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh o You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil o You must complete the tax registration process in the Payment prefer- ences page in the Billing and ...
+    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh • You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object. Brazil • You must complete the tax registration process in the Payment preferences page in the Billing and Co...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

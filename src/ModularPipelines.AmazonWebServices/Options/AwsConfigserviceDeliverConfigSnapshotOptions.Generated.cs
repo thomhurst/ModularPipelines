@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Con- fig sends the following notifications using an Amazon SNS topic that you have specified. o Notification of the start of the delivery. o Notification of the completion of the delivery, if the delivery was successfully completed. o Notification of delivery failure, if the delivery failed. See also: AWS API Documentation
+/// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Config sends the following notifications using an Amazon SNS topic that you have specified. • Notification of the start of the delivery. • Notification of the completion of the delivery, if the delivery was successfully completed. • Notification of delivery failure, if the delivery failed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConfigserviceDeliverConfigSnapshotOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Con- fig sends the following notifications using an Amazon SNS topic that you have specified. o Notification of the start of the delivery. o Notification of the completion of the delivery, if the delivery was successfully completed. o Notification of delivery failure, if the delivery failed. See also: AWS API Documentation
+    /// Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, Config sends the following notifications using an Amazon SNS topic that you have specified. • Notification of the start of the delivery. • Notification of the completion of the delivery, if the delivery was successfully completed. • Notification of delivery failure, if the delivery failed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeliveryChannelName">The name of the delivery channel through which the snapshot is de- livered. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DeliveryChannelName">The name of the delivery channel through which the snapshot is delivered. Constraints: • min: 1 • max: 256</param>
     public AwsConfigserviceDeliverConfigSnapshotOptions(
         string DeliveryChannelName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeliverConfigSnapshotOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the delivery channel through which the snapshot is de- livered. Constraints: o min: 1 o max: 256
+    /// The name of the delivery channel through which the snapshot is delivered. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--delivery-channel-name")]
     public string? DeliveryChannelName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeliverConfigSnapshotOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

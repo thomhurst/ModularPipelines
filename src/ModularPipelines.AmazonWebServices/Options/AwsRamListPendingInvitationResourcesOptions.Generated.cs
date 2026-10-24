@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't ac- cepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no...
+/// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't accepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsRamListPendingInvitationResourcesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't ac- cepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when there are no...
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING . That means that you haven't accepted or rejected the invitation and the invitation hasn't expired. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more ...
     /// </summary>
     /// <param name="ResourceShareInvitationArn">Specifies the Amazon Resource Name (ARN) of the invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.</param>
     public AwsRamListPendingInvitationResourcesOptions(
@@ -64,20 +65,20 @@ public record AwsRamListPendingInvitationResourcesOptions : AwsOptions, IValidat
     public string? ResourceShareInvitationArn { get; private init; }
 
     /// <summary>
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it de- faults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the op- eration to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: o min: 1 o max: 500
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Specifies that you want the results to include only resources that have the specified scope. o ALL the results include both global and regional resources or re- source types. o GLOBAL the results include only global resources or resource types. o REGIONAL the results include only regional resources or resource types. The default value is ALL . Possible values: o ALL o REGIONAL o GLOBAL
+    /// Specifies that you want the results to include only resources that have the specified scope. • ALL the results include both global and regional resources or resource types. • GLOBAL the results include only global resources or resource types. • REGIONAL the results include only regional resources or resource types. The default value is ALL . Possible values: • ALL • REGIONAL • GLOBAL
     /// </summary>
     [CliOption("--resource-region-scope")]
     public AwsRamListPendingInvitationResourcesResourceRegionScope? ResourceRegionScope { get; set; }
@@ -103,6 +104,15 @@ public record AwsRamListPendingInvitationResourcesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

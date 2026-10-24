@@ -24,20 +24,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRamListResourceTypesOptions : AwsOptions
 {
     /// <summary>
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it de- faults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the op- eration to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: o min: 1 o max: 500
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Specifies that you want the results to include only resources that have the specified scope. o ALL the results include both global and regional resources or re- source types. o GLOBAL the results include only global resources or resource types. o REGIONAL the results include only regional resources or resource types. The default value is ALL . Possible values: o ALL o REGIONAL o GLOBAL
+    /// Specifies that you want the results to include only resources that have the specified scope. • ALL the results include both global and regional resources or resource types. • GLOBAL the results include only global resources or resource types. • REGIONAL the results include only regional resources or resource types. The default value is ALL . Possible values: • ALL • REGIONAL • GLOBAL
     /// </summary>
     [CliOption("--resource-region-scope")]
     public AwsRamListResourceTypesResourceRegionScope? ResourceRegionScope { get; set; }
@@ -47,5 +47,14 @@ public record AwsRamListResourceTypesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

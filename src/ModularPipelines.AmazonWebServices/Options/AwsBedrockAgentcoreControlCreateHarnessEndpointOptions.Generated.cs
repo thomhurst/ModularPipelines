@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsBedrockAgentcoreControlCreateHarnessEndpointOptions : AwsOption
     /// <summary>
     /// Operation to create a harness endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HarnessId">The ID of the harness to create an endpoint for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
-    /// <param name="EndpointName">The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="HarnessId">The ID of the harness to create an endpoint for. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}</param>
+    /// <param name="EndpointName">The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}</param>
     public AwsBedrockAgentcoreControlCreateHarnessEndpointOptions(
         string HarnessId,
         string EndpointName
@@ -62,38 +62,38 @@ public record AwsBedrockAgentcoreControlCreateHarnessEndpointOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the harness to create an endpoint for. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
+    /// The ID of the harness to create an endpoint for. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,39}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--harness-id")]
     public string? HarnessId { get; private init; }
 
     /// <summary>
-    /// The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
+    /// The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--endpoint-name")]
     public string? EndpointName { get; private init; }
 
     /// <summary>
-    /// The harness version that the endpoint points to and serves invoca- tions from. Constraints: o min: 1 o max: 5 o pattern: ([1-9][0-9]{0,4})
+    /// The harness version that the endpoint points to and serves invocations from. Constraints: • min: 1 • max: 5 • pattern: ([1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--target-version")]
     public string? TargetVersion { get; set; }
 
     /// <summary>
-    /// A description of the endpoint. Constraints: o min: 1 o max: 256
+    /// A description of the endpoint. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Tags to apply to the endpoint resource. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to apply to the endpoint resource. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -119,6 +119,15 @@ public record AwsBedrockAgentcoreControlCreateHarnessEndpointOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

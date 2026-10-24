@@ -24,64 +24,61 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListOptimizationJobsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the results to only those optimization jobs that were cre- ated after the specified time.
+    /// Filters the results to only those optimization jobs that were created after the specified time.
     /// </summary>
     [CliOption("--creation-time-after")]
     public string? CreationTimeAfter { get; set; }
 
     /// <summary>
-    /// Filters the results to only those optimization jobs that were cre- ated before the specified time.
+    /// Filters the results to only those optimization jobs that were created before the specified time.
     /// </summary>
     [CliOption("--creation-time-before")]
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// Filters the results to only those optimization jobs that were up- dated after the specified time.
+    /// Filters the results to only those optimization jobs that were updated after the specified time.
     /// </summary>
     [CliOption("--last-modified-time-after")]
     public string? LastModifiedTimeAfter { get; set; }
 
     /// <summary>
-    /// Filters the results to only those optimization jobs that were up- dated before the specified time.
+    /// Filters the results to only those optimization jobs that were updated before the specified time.
     /// </summary>
     [CliOption("--last-modified-time-before")]
     public string? LastModifiedTimeBefore { get; set; }
 
     /// <summary>
-    /// Filters the results to only those optimization jobs that apply the specified optimization techniques. You can specify either Quantiza- tion or Compilation . Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Filters the results to only those optimization jobs that apply the specified optimization techniques. You can specify either Quantization or Compilation . Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--optimization-contains")]
     public string? OptimizationContains { get; set; }
 
     /// <summary>
-    /// Filters the results to only those optimization jobs with a name that contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Filters the results to only those optimization jobs with a name that contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// Filters the results to only those optimization jobs with the speci- fied status. Possible values: o INPROGRESS o COMPLETED o FAILED o STARTING o STOPPING o STOPPED
+    /// Filters the results to only those optimization jobs with the specified status. Possible values: • INPROGRESS • COMPLETED • FAILED • STARTING • STOPPING • STOPPED
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListOptimizationJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// The field by which to sort the optimization jobs in the response. The default is CreationTime Possible values: o Name o CreationTime o Status
+    /// The field by which to sort the optimization jobs in the response. The default is CreationTime Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListOptimizationJobsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Ascending Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Ascending Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListOptimizationJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -91,15 +88,27 @@ public record AwsSagemakerListOptimizationJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

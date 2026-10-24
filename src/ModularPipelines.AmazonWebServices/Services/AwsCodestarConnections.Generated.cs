@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws codestarconnections commands.
+/// aws codestar-connections commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCodestarConnections : IAwsCodestarConnections
@@ -32,7 +32,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     #region Commands
 
     /// <summary>
-    /// Creates a connection that can then be given to other Amazon Web Ser- vices services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
+    /// Creates a connection that can then be given to other Amazon Web Services services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a speci- fied Git repository. See also: AWS API Documentation
+    /// Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// The host to be deleted. Before you delete a host, all connections asso- ciated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
+    /// The host to be deleted. Before you delete a host, all connections associated to the host must be deleted. NOTE: A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Deletes the association between your connection and a specified exter- nal Git repository. See also: AWS API Documentation
+    /// Deletes the association between your connection and a specified external Git repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Deletes the sync configuration for a specified repository and connec- tion. See also: AWS API Documentation
+    /// Deletes the sync configuration for a specified repository and connection. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Returns the host ARN and details such as status, provider type, end- point, and, if applicable, the VPC configuration. See also: AWS API Documentation
+    /// Returns the host ARN and details such as status, provider type, endpoint, and, if applicable, the VPC configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git reposi- tory. See also: AWS API Documentation
+    /// Returns details about a repository link. A repository link allows Git sync to monitor and sync changes from files in a specified Git repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote reposi- tory. See also: AWS API Documentation
+    /// Returns details about the sync status for a repository. A repository sync uses Git sync to push and pull changes from your remote repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Lists the repository sync definitions for repository links in your ac- count. See also: AWS API Documentation
+    /// Lists the repository sync definitions for repository links in your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Updates the association between your connection and a specified exter- nal Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
+    /// Updates the association between your connection and a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsCodestarConnections : IAwsCodestarConnections
     }
 
     /// <summary>
-    /// Updates the sync configuration for your connection and a specified ex- ternal Git repository. See also: AWS API Documentation
+    /// Updates the sync configuration for your connection and a specified external Git repository. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPersonalizeStopRecommenderOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to stop. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RecommenderArn">The Amazon Resource Name (ARN) of the recommender to stop. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeStopRecommenderOptions(
         string RecommenderArn
     )
@@ -56,7 +57,7 @@ public record AwsPersonalizeStopRecommenderOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommender to stop. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the recommender to stop. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--recommender-arn")]
     public string? RecommenderArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPersonalizeStopRecommenderOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

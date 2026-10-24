@@ -22,6 +22,9 @@ public enum AwsDynamodbstreamsGetShardIteratorShardIteratorType
     [EnumValue("AT_SEQUENCE_NUMBER")]
     AtSequenceNumber,
 
+    [EnumValue("AT_TIMESTAMP")]
+    AtTimestamp,
+
     [EnumValue("LATEST")]
     Latest,
 

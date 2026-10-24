@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+/// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activ- ity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the Amazon Aurora User Guide or Monitoring Amazon RDS with Database Activity Streams in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the DB cluster, for example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster .</param>
-    /// <param name="Mode">Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. Possible values: o sync o async</param>
+    /// <param name="Mode">Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. Possible values: • sync • async</param>
     /// <param name="KmsKeyId">The Amazon Web Services KMS key identifier for encrypting messages in the database activity stream. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.</param>
     public AwsRdsStartActivityStreamOptions(
         string ResourceArn,
@@ -70,7 +71,7 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. Possible values: o sync o async
+    /// Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. Possible values: • sync • async
     /// </summary>
     [CliOption("--mode")]
     public AwsRdsStartActivityStreamMode? Mode { get; private init; }
@@ -82,13 +83,13 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions, IValidatableObject
     public string? KmsKeyId { get; private init; }
 
     /// <summary>
-    /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the data- base.
+    /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the database.
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// dit-fields-included (boolean) Specifies whether the database activity stream includes engine-na- tive audit fields. This option applies to an Oracle or Microsoft SQL Server DB instance. By default, no engine-native audit fields are included.
+    /// Specifies whether the database activity stream includes engine-native audit fields. This option applies to an Oracle or Microsoft SQL Server DB instance. By default, no engine-native audit fields are included.
     /// </summary>
     [CliFlag("--engine-native-audit-fields-included", NegatedName = "--no-engine-native-audit-fields-included")]
     public bool? EngineNativeAuditFieldsIncluded { get; set; }
@@ -114,6 +115,15 @@ public record AwsRdsStartActivityStreamOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

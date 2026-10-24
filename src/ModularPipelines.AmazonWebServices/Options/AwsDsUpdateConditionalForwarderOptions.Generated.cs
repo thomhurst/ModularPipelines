@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsUpdateConditionalForwarderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates a conditional forwarder that has been set up for your Amazon Web Services directory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The directory ID of the Amazon Web Services directory for which to update the conditional forwarder. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="RemoteDomainName">The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
+    /// <param name="DirectoryId">The directory ID of the Amazon Web Services directory for which to update the conditional forwarder. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="RemoteDomainName">The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$</param>
     public AwsDsUpdateConditionalForwarderOptions(
         string DirectoryId,
         string RemoteDomainName
@@ -60,25 +61,25 @@ public record AwsDsUpdateConditionalForwarderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The directory ID of the Amazon Web Services directory for which to update the conditional forwarder. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The directory ID of the Amazon Web Services directory for which to update the conditional forwarder. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship. Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
+    /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship. Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+[.]?$
     /// </summary>
     [CliOption("--remote-domain-name")]
     public string? RemoteDomainName { get; private init; }
 
     /// <summary>
-    /// The updated IP addresses of the remote DNS server associated with the conditional forwarder. (string) Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Syntax: "string" "string" ...
+    /// The updated IP addresses of the remote DNS server associated with the conditional forwarder. (string) Constraints: • pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dns-ip-addrs", GroupValues = true)]
     public IEnumerable<string>? DnsIpAddrs { get; set; }
 
     /// <summary>
-    /// The updated IPv6 addresses of the remote DNS server associated with the conditional forwarder. (string) Constraints: o pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ Syntax: "string" "string" ...
+    /// The updated IPv6 addresses of the remote DNS server associated with the conditional forwarder. (string) Constraints: • pattern: ^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--dns-ipv6-addrs", GroupValues = true)]
     public IEnumerable<string>? DnsIpv6Addrs { get; set; }
@@ -104,6 +105,15 @@ public record AwsDsUpdateConditionalForwarderOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a custom inventory type or the data associated with a custom In- ventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
+/// Delete a custom inventory type or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a custom inventory type or the data associated with a custom In- ventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
+    /// Delete a custom inventory type or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TypeName">The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$</param>
+    /// <param name="TypeName">The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$</param>
     public AwsSsmDeleteInventoryOptions(
         string TypeName
     )
@@ -58,13 +59,13 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. Constraints: o min: 1 o max: 100 o pattern: ^(AWS|Custom):.*$
+    /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself. Constraints: • min: 1 • max: 100 • pattern: ^(AWS|Custom):.*$
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
 
     /// <summary>
-    /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all in- ventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory operation for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want. Possible values: o DisableSchema o DeleteSchema
+    /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory operation for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want. Possible values: • DisableSchema • DeleteSchema
     /// </summary>
     [CliOption("--schema-delete-option")]
     public AwsSsmDeleteInventorySchemaDeleteOption? SchemaDeleteOption { get; set; }
@@ -76,7 +77,7 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions, IValidatableObject
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// User-provided idempotency token. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// User-provided idempotency token. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -103,6 +104,15 @@ public record AwsSsmDeleteInventoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

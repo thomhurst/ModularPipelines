@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 char- acter (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs . NOTE: Starting in October, 2021, you will receive an ...
+/// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs . NOTE: Starting in October, 2021, you will receive an er...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEfsPutAccountPreferencesOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 char- acter (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs . NOTE: Starting in October, 2021, you will receive an ...
+    /// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see Managing Amazon EFS resource IDs . NOTE: Starting in October, 2021, you will receive an er...
     /// </summary>
-    /// <param name="ResourceIdType">Specifies the EFS resource ID preference to set for the user's Ama- zon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). NOTE: Starting in October, 2021, you will receive an error when set- ting the account preference to SHORT_ID . Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources. Possible values: o LONG_ID o SHORT_ID</param>
+    /// <param name="ResourceIdType">Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). NOTE: Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID . Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources. Possible values: • LONG_ID • SHORT_ID</param>
     public AwsEfsPutAccountPreferencesOptions(
         AwsEfsPutAccountPreferencesResourceIdType ResourceIdType
     )
@@ -56,7 +57,7 @@ public record AwsEfsPutAccountPreferencesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the EFS resource ID preference to set for the user's Ama- zon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). NOTE: Starting in October, 2021, you will receive an error when set- ting the account preference to SHORT_ID . Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources. Possible values: o LONG_ID o SHORT_ID
+    /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). NOTE: Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID . Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources. Possible values: • LONG_ID • SHORT_ID
     /// </summary>
     [CliOption("--resource-id-type")]
     public AwsEfsPutAccountPreferencesResourceIdType? ResourceIdType { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEfsPutAccountPreferencesOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

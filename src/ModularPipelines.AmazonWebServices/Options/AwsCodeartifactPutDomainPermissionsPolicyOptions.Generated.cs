@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodeartifactPutDomainPermissionsPolicyOptions : AwsOptions, IVa
     /// <summary>
     /// Sets a resource policy on a domain that specifies permissions to access it. When you call PutDomainPermissionsPolicy , the resource policy on the domain is ignored when evaluting permissions. This ensures that the owner of a domain cannot lock themselves out of the domain, which would prevent them from being able to update the resource policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Domain">The name of the domain on which to set the resource policy. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
-    /// <param name="PolicyDocument">A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. Constraints: o min: 1 o max: 7168 o pattern: [\P{C}\s]+</param>
+    /// <param name="Domain">The name of the domain on which to set the resource policy. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]</param>
+    /// <param name="PolicyDocument">A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. Constraints: • min: 1 • max: 7168 • pattern: [\P{C}\s]+</param>
     public AwsCodeartifactPutDomainPermissionsPolicyOptions(
         string Domain,
         string PolicyDocument
@@ -60,25 +61,25 @@ public record AwsCodeartifactPutDomainPermissionsPolicyOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain on which to set the resource policy. Constraints: o min: 2 o max: 50 o pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
+    /// The name of the domain on which to set the resource policy. Constraints: • min: 2 • max: 50 • pattern: [a-z][a-z0-9\-]{0,48}[a-z0-9]
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. Constraints: o min: 1 o max: 7168 o pattern: [\P{C}\s]+
+    /// A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. Constraints: • min: 1 • max: 7168 • pattern: [\P{C}\s]+
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--domain-owner")]
     public string? DomainOwner { get; set; }
 
     /// <summary>
-    /// The current revision of the resource policy to be set. This revision is used for optimistic locking, which prevents others from overwrit- ing your changes to the domain's resource policy. Constraints: o min: 1 o max: 100 o pattern: \S+
+    /// The current revision of the resource policy to be set. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy. Constraints: • min: 1 • max: 100 • pattern: \S+
     /// </summary>
     [CliOption("--policy-revision")]
     public string? PolicyRevision { get; set; }
@@ -104,6 +105,15 @@ public record AwsCodeartifactPutDomainPermissionsPolicyOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

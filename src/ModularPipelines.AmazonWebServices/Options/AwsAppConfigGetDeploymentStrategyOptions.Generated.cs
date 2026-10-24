@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a deployment strategy. A deployment strat- egy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall du- ration required, a percentage of targets to receive the deployment dur- ing each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
+/// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAppConfigGetDeploymentStrategyOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a deployment strategy. A deployment strat- egy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall du- ration required, a percentage of targets to receive the deployment dur- ing each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
+    /// Retrieves information about a deployment strategy. A deployment strategy defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeploymentStrategyId">The ID of the deployment strategy to get. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
+    /// <param name="DeploymentStrategyId">The ID of the deployment strategy to get. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)</param>
     public AwsAppConfigGetDeploymentStrategyOptions(
         string DeploymentStrategyId
     )
@@ -56,7 +57,7 @@ public record AwsAppConfigGetDeploymentStrategyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the deployment strategy to get. Constraints: o pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
+    /// The ID of the deployment strategy to get. Constraints: • pattern: (^[a-z0-9]{4,7}$|^AppConfig\.[A-Za-z0-9]{9,40}$)
     /// </summary>
     [CliOption("--deployment-strategy-id")]
     public string? DeploymentStrategyId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAppConfigGetDeploymentStrategyOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

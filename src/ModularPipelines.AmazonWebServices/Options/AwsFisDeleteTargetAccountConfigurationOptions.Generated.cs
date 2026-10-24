@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFisDeleteTargetAccountConfigurationOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes the specified target account configuration of the experiment template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExperimentTemplateId">The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+</param>
-    /// <param name="AccountId">The Amazon Web Services account ID of the target account. Constraints: o min: 12 o max: 48 o pattern: [\S]+</param>
+    /// <param name="ExperimentTemplateId">The ID of the experiment template. Constraints: • max: 64 • pattern: [\S]+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the target account. Constraints: • min: 12 • max: 48 • pattern: [\S]+</param>
     public AwsFisDeleteTargetAccountConfigurationOptions(
         string ExperimentTemplateId,
         string AccountId
@@ -60,13 +61,13 @@ public record AwsFisDeleteTargetAccountConfigurationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+
+    /// The ID of the experiment template. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--experiment-template-id")]
     public string? ExperimentTemplateId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the target account. Constraints: o min: 12 o max: 48 o pattern: [\S]+
+    /// The Amazon Web Services account ID of the target account. Constraints: • min: 12 • max: 48 • pattern: [\S]+
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFisDeleteTargetAccountConfigurationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

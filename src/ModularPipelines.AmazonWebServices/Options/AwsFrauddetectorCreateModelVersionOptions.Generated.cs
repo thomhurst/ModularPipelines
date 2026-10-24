@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsFrauddetectorCreateModelVersionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a version of the model using the specified model type and model id. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelId">The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$</param>
-    /// <param name="ModelType">The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS</param>
-    /// <param name="TrainingDataSource">The training data source location in Amazon S3. Possible values: o EXTERNAL_EVENTS o INGESTED_EVENTS</param>
-    /// <param name="TrainingDataSchema">The training data schema. modelVariables -&gt; (list) [required] The training data schema variables. (string) labelSchema -&gt; (structure) The label schema. labelMapper -&gt; (map) The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD , LEGIT ) to the appropri- ate event type labels. For example, if "FRAUD " and "LEGIT " are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"] , "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"] , "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"] , "LEGIT" =&gt; ["legit", "safe"]} . The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud De- tector label. key -&gt; (string) value -&gt; (list) (string) unlabeledEventsTreatment -&gt; (string) The action to take for unlabeled events. o Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled. o Use FRAUD if you want to categorize all unlabeled events as Fraud. This is recommended when most of the events in your dataset are fraudulent. o Use LEGIT if you want to categorize all unlabeled events as Legit. This is recommended when most of the events in your dataset are legitimate. o Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset. By default, Amazon Fraud Detector ignores the unlabeled data. Possible values: o IGNORE o FRAUD o LEGIT o AUTO JSON Syntax: { "modelVariables": ["string", ...], "labelSchema": { "labelMapper": {"string": ["string", ...] ...}, "unlabeledEventsTreatment": "IGNORE"|"FRAUD"|"LEGIT"|"AUTO" } }</param>
+    /// <param name="ModelId">The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$</param>
+    /// <param name="ModelType">The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS</param>
+    /// <param name="TrainingDataSource">The training data source location in Amazon S3. Possible values: • EXTERNAL_EVENTS • INGESTED_EVENTS</param>
+    /// <param name="TrainingDataSchema">The training data schema. modelVariables -&gt; (list) [required] The training data schema variables. (string) labelSchema -&gt; (structure) The label schema. labelMapper -&gt; (map) The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD , LEGIT ) to the appropriate event type labels. For example, if "FRAUD " and "LEGIT " are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"] , "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"] , "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"] , "LEGIT" =&gt; ["legit", "safe"]} . The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label. key -&gt; (string) value -&gt; (list) (string) unlabeledEventsTreatment -&gt; (string) The action to take for unlabeled events. • Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled. • Use FRAUD if you want to categorize all unlabeled events as Fraud. This is recommended when most of the events in your dataset are fraudulent. • Use LEGIT if you want to categorize all unlabeled events as Legit. This is recommended when most of the events in your dataset are legitimate. • Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset. By default, Amazon Fraud Detector ignores the unlabeled data. Possible values: • IGNORE • FRAUD • LEGIT • AUTO JSON Syntax: { "modelVariables": ["string", ...], "labelSchema": { "labelMapper": {"string": ["string", ...] ...}, "unlabeledEventsTreatment": "IGNORE"|"FRAUD"|"LEGIT"|"AUTO" } }</param>
     public AwsFrauddetectorCreateModelVersionOptions(
         string ModelId,
         AwsFrauddetectorCreateModelVersionModelType ModelType,
@@ -67,43 +68,43 @@ public record AwsFrauddetectorCreateModelVersionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The model ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_]+$
+    /// The model ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_]+$
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
 
     /// <summary>
-    /// The model type. Possible values: o ONLINE_FRAUD_INSIGHTS o TRANSACTION_FRAUD_INSIGHTS o ACCOUNT_TAKEOVER_INSIGHTS
+    /// The model type. Possible values: • ONLINE_FRAUD_INSIGHTS • TRANSACTION_FRAUD_INSIGHTS • ACCOUNT_TAKEOVER_INSIGHTS
     /// </summary>
     [CliOption("--model-type")]
     public AwsFrauddetectorCreateModelVersionModelType? ModelType { get; private init; }
 
     /// <summary>
-    /// The training data source location in Amazon S3. Possible values: o EXTERNAL_EVENTS o INGESTED_EVENTS
+    /// The training data source location in Amazon S3. Possible values: • EXTERNAL_EVENTS • INGESTED_EVENTS
     /// </summary>
     [CliOption("--training-data-source")]
     public AwsFrauddetectorCreateModelVersionTrainingDataSource? TrainingDataSource { get; private init; }
 
     /// <summary>
-    /// The training data schema. modelVariables -&gt; (list) [required] The training data schema variables. (string) labelSchema -&gt; (structure) The label schema. labelMapper -&gt; (map) The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD , LEGIT ) to the appropri- ate event type labels. For example, if "FRAUD " and "LEGIT " are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"] , "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"] , "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"] , "LEGIT" =&gt; ["legit", "safe"]} . The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud De- tector label. key -&gt; (string) value -&gt; (list) (string) unlabeledEventsTreatment -&gt; (string) The action to take for unlabeled events. o Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled. o Use FRAUD if you want to categorize all unlabeled events as Fraud. This is recommended when most of the events in your dataset are fraudulent. o Use LEGIT if you want to categorize all unlabeled events as Legit. This is recommended when most of the events in your dataset are legitimate. o Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset. By default, Amazon Fraud Detector ignores the unlabeled data. Possible values: o IGNORE o FRAUD o LEGIT o AUTO JSON Syntax: { "modelVariables": ["string", ...], "labelSchema": { "labelMapper": {"string": ["string", ...] ...}, "unlabeledEventsTreatment": "IGNORE"|"FRAUD"|"LEGIT"|"AUTO" } }
+    /// The training data schema. modelVariables -&gt; (list) [required] The training data schema variables. (string) labelSchema -&gt; (structure) The label schema. labelMapper -&gt; (map) The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD , LEGIT ) to the appropriate event type labels. For example, if "FRAUD " and "LEGIT " are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" =&gt; ["0"] , "LEGIT" =&gt; ["1"]} or {"FRAUD" =&gt; ["false"] , "LEGIT" =&gt; ["true"]} or {"FRAUD" =&gt; ["fraud", "abuse"] , "LEGIT" =&gt; ["legit", "safe"]} . The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label. key -&gt; (string) value -&gt; (list) (string) unlabeledEventsTreatment -&gt; (string) The action to take for unlabeled events. • Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled. • Use FRAUD if you want to categorize all unlabeled events as Fraud. This is recommended when most of the events in your dataset are fraudulent. • Use LEGIT if you want to categorize all unlabeled events as Legit. This is recommended when most of the events in your dataset are legitimate. • Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset. By default, Amazon Fraud Detector ignores the unlabeled data. Possible values: • IGNORE • FRAUD • LEGIT • AUTO JSON Syntax: { "modelVariables": ["string", ...], "labelSchema": { "labelMapper": {"string": ["string", ...] ...}, "unlabeledEventsTreatment": "IGNORE"|"FRAUD"|"LEGIT"|"AUTO" } }
     /// </summary>
     [CliOption("--training-data-schema")]
     public string? TrainingDataSchema { get; private init; }
 
     /// <summary>
-    /// Details of the external events data used for model version training. Required if trainingDataSource is EXTERNAL_EVENTS . dataLocation -&gt; (string) [required] The Amazon S3 bucket location for the data. Constraints: o min: 1 o max: 512 o pattern: ^s3:\/\/(.+)$ dataAccessRoleArn -&gt; (string) [required] The ARN of the role that provides Amazon Fraud Detector access to the data location. Constraints: o min: 1 o max: 256 o pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$ Shorthand Syntax: dataLocation=string,dataAccessRoleArn=string JSON Syntax: { "dataLocation": "string", "dataAccessRoleArn": "string" }
+    /// Details of the external events data used for model version training. Required if trainingDataSource is EXTERNAL_EVENTS . dataLocation -&gt; (string) [required] The Amazon S3 bucket location for the data. Constraints: • min: 1 • max: 512 • pattern: ^s3:\/\/(.+)$ dataAccessRoleArn -&gt; (string) [required] The ARN of the role that provides Amazon Fraud Detector access to the data location. Constraints: • min: 1 • max: 256 • pattern: ^arn\:aws[a-z-]{0,15}\:iam\:\:[0-9]{12}\:role\/[^\s]{2,64}$ Shorthand Syntax: dataLocation=string,dataAccessRoleArn=string JSON Syntax: { "dataLocation": "string", "dataAccessRoleArn": "string" }
     /// </summary>
     [CliOption("--external-events-detail")]
     public string? ExternalEventsDetail { get; set; }
 
     /// <summary>
-    /// Details of the ingested events data used for model version training. Required if trainingDataSource is INGESTED_EVENTS . ingestedEventsTimeWindow -&gt; (structure) [required] The start and stop time of the ingested events. startTime -&gt; (string) [required] Timestamp of the first ingensted event. Constraints: o min: 11 o max: 30 endTime -&gt; (string) [required] Timestamp of the final ingested event. Constraints: o min: 11 o max: 30 Shorthand Syntax: ingestedEventsTimeWindow={startTime=string,endTime=string} JSON Syntax: { "ingestedEventsTimeWindow": { "startTime": "string", "endTime": "string" } }
+    /// Details of the ingested events data used for model version training. Required if trainingDataSource is INGESTED_EVENTS . ingestedEventsTimeWindow -&gt; (structure) [required] The start and stop time of the ingested events. startTime -&gt; (string) [required] Timestamp of the first ingensted event. Constraints: • min: 11 • max: 30 endTime -&gt; (string) [required] Timestamp of the final ingested event. Constraints: • min: 11 • max: 30 Shorthand Syntax: ingestedEventsTimeWindow={startTime=string,endTime=string} JSON Syntax: { "ingestedEventsTimeWindow": { "startTime": "string", "endTime": "string" } }
     /// </summary>
     [CliOption("--ingested-events-detail")]
     public string? IngestedEventsDetail { get; set; }
 
     /// <summary>
-    /// A collection of key and value pairs. Constraints: o min: 0 o max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A collection of key and value pairs. Constraints: • min: 0 • max: 200 (structure) A key and value pair. key -&gt; (string) [required] A tag key. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) [required] A value assigned to a tag key. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -129,6 +130,15 @@ public record AwsFrauddetectorCreateModelVersionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

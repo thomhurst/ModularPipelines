@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data. Currently, CloudTrail Event Data Store is the only supported data source. The import task must satisfy the following constraints: o The specified source must be in an ACTIVE state. o The API caller must have permissions to access the data in the pro- vided source and to perform iam:PassRole on the provided import role which has the same permissions, as described below. ...
+/// Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data. Currently, CloudTrail Event Data Store is the only supported data source. The import task must satisfy the following constraints: • The specified source must be in an ACTIVE state. • The API caller must have permissions to access the data in the provided source and to perform iam:PassRole on the provided import role which has the same permissions, as described below. • ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsLogsCreateImportTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data. Currently, CloudTrail Event Data Store is the only supported data source. The import task must satisfy the following constraints: o The specified source must be in an ACTIVE state. o The API caller must have permissions to access the data in the pro- vided source and to perform iam:PassRole on the provided import role which has the same permissions, as described below. ...
+    /// Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data. Currently, CloudTrail Event Data Store is the only supported data source. The import task must satisfy the following constraints: • The specified source must be in an ACTIVE state. • The API caller must have permissions to access the data in the provided source and to perform iam:PassRole on the provided import role which has the same permissions, as described below. • ...
     /// </summary>
     /// <param name="ImportSourceArn">The ARN of the source to import from.</param>
-    /// <param name="ImportRoleArn">The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store. Constraints: o min: 1</param>
+    /// <param name="ImportRoleArn">The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store. Constraints: • min: 1</param>
     public AwsLogsCreateImportTaskOptions(
         string ImportSourceArn,
         string ImportRoleArn
@@ -66,13 +67,13 @@ public record AwsLogsCreateImportTaskOptions : AwsOptions, IValidatableObject
     public string? ImportSourceArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store. Constraints: o min: 1
+    /// The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store. Constraints: • min: 1
     /// </summary>
     [CliOption("--import-role-arn")]
     public string? ImportRoleArn { get; private init; }
 
     /// <summary>
-    /// Optional filters to constrain the import by CloudTrail event time. Times are specified in Unix timestamp milliseconds. The range of data being imported must be within the specified source's retention period. startEventTime -&gt; (long) The start of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Constraints: o min: 0 endEventTime -&gt; (long) The end of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Constraints: o min: 0 Shorthand Syntax: startEventTime=long,endEventTime=long JSON Syntax: { "startEventTime": long, "endEventTime": long }
+    /// Optional filters to constrain the import by CloudTrail event time. Times are specified in Unix timestamp milliseconds. The range of data being imported must be within the specified source's retention period. startEventTime -&gt; (long) The start of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Constraints: • min: 0 endEventTime -&gt; (long) The end of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Constraints: • min: 0 Shorthand Syntax: startEventTime=long,endEventTime=long JSON Syntax: { "startEventTime": long, "endEventTime": long }
     /// </summary>
     [CliOption("--import-filter")]
     public string? ImportFilter { get; set; }
@@ -98,6 +99,15 @@ public record AwsLogsCreateImportTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

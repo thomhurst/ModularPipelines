@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCustomerProfilesListTagsForResourceOptions : AwsOptions, IValid
     /// <summary>
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource for which you want to view tags. Constraints: o max: 256 o pattern: ^arn:[a-z0-9]{1,10}:profile</param>
+    /// <param name="ResourceArn">The ARN of the resource for which you want to view tags. Constraints: • max: 256 • pattern: ^arn:[a-z0-9]{1,10}:profile</param>
     public AwsCustomerProfilesListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsCustomerProfilesListTagsForResourceOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource for which you want to view tags. Constraints: o max: 256 o pattern: ^arn:[a-z0-9]{1,10}:profile
+    /// The ARN of the resource for which you want to view tags. Constraints: • max: 256 • pattern: ^arn:[a-z0-9]{1,10}:profile
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCustomerProfilesListTagsForResourceOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

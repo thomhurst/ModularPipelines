@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsAppflowDescribeFlowExecutionRecordsOptions : AwsOptions, IValid
     /// <summary>
     /// Fetches the execution history of the flow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+</param>
+    /// <param name="FlowName">The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+</param>
     public AwsAppflowDescribeFlowExecutionRecordsOptions(
         string FlowName
     )
@@ -57,19 +58,19 @@ public record AwsAppflowDescribeFlowExecutionRecordsOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The specified name of the flow. Spaces are not allowed. Use under- scores (_) or hyphens (-) only. Constraints: o max: 256 o pattern: [a-zA-Z0-9][\w!@#.-]+
+    /// The specified name of the flow. Spaces are not allowed. Use underscores (_) or hyphens (-) only. Constraints: • max: 256 • pattern: [a-zA-Z0-9][\w!@#.-]+
     /// </summary>
     [CliOption("--flow-name")]
     public string? FlowName { get; private init; }
 
     /// <summary>
-    /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: o min: 1 o max: 100
+    /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations). Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token for the next page of data. Constraints: o max: 2048 o pattern: \S+
+    /// The pagination token for the next page of data. Constraints: • max: 2048 • pattern: \S+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsAppflowDescribeFlowExecutionRecordsOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions, IVali
     /// <summary>
     /// Lists the metadata transfer jobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceType">The metadata transfer job's source type. Possible values: o s3 o iotsitewise o iottwinmaker</param>
-    /// <param name="DestinationType">The metadata transfer job's destination type. Possible values: o s3 o iotsitewise o iottwinmaker</param>
+    /// <param name="SourceType">The metadata transfer job's source type. Possible values: • s3 • iotsitewise • iottwinmaker</param>
+    /// <param name="DestinationType">The metadata transfer job's destination type. Possible values: • s3 • iotsitewise • iottwinmaker</param>
     public AwsIottwinmakerListMetadataTransferJobsOptions(
         AwsIottwinmakerListMetadataTransferJobsSourceType SourceType,
         AwsIottwinmakerListMetadataTransferJobsDestinationType DestinationType
@@ -60,32 +61,32 @@ public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The metadata transfer job's source type. Possible values: o s3 o iotsitewise o iottwinmaker
+    /// The metadata transfer job's source type. Possible values: • s3 • iotsitewise • iottwinmaker
     /// </summary>
     [CliOption("--source-type")]
     public AwsIottwinmakerListMetadataTransferJobsSourceType? SourceType { get; private init; }
 
     /// <summary>
-    /// The metadata transfer job's destination type. Possible values: o s3 o iotsitewise o iottwinmaker
+    /// The metadata transfer job's destination type. Possible values: • s3 • iotsitewise • iottwinmaker
     /// </summary>
     [CliOption("--destination-type")]
     public AwsIottwinmakerListMetadataTransferJobsDestinationType? DestinationType { get; private init; }
 
     /// <summary>
-    /// An object that filters metadata transfer jobs. (tagged union structure) The ListMetadataTransferJobs filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workspaceId, state. workspaceId -&gt; (string) The workspace Id. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ state -&gt; (string) The filter state. Possible values: o VALIDATING o PENDING o RUNNING o CANCELLING o ERROR o COMPLETED o CANCELLED Shorthand Syntax: workspaceId=string,state=string ... JSON Syntax: [ { "workspaceId": "string", "state": "VALIDATING"|"PENDING"|"RUNNING"|"CANCELLING"|"ERROR"|"COMPLETED"|"CANCELLED" } ... ]
+    /// An object that filters metadata transfer jobs. (tagged union structure) The ListMetadataTransferJobs filter. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workspaceId, state. workspaceId -&gt; (string) The workspace Id. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z_0-9][a-zA-Z_\-0-9]*[a-zA-Z0-9]+ state -&gt; (string) The filter state. Possible values: • VALIDATING • PENDING • RUNNING • CANCELLING • ERROR • COMPLETED • CANCELLED Shorthand Syntax: workspaceId=string,state=string ... JSON Syntax: [ { "workspaceId": "string", "state": "VALIDATING"|"PENDING"|"RUNNING"|"CANCELLING"|"ERROR"|"COMPLETED"|"CANCELLED" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The string that specifies the next page of results. Constraints: o min: 0 o max: 17880 o pattern: .*
+    /// The string that specifies the next page of results. Constraints: • min: 0 • max: 17880 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return at one time. Constraints: o min: 0 o max: 200
+    /// The maximum number of results to return at one time. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -111,6 +112,15 @@ public record AwsIottwinmakerListMetadataTransferJobsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

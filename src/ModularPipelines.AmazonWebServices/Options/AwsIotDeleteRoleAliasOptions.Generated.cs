@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotDeleteRoleAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a role alias Requires permission to access the DeleteRoleAlias action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleAlias">The role alias to delete. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="RoleAlias">The role alias to delete. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotDeleteRoleAliasOptions(
         string RoleAlias
     )
@@ -56,7 +57,7 @@ public record AwsIotDeleteRoleAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The role alias to delete. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The role alias to delete. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--role-alias")]
     public string? RoleAlias { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotDeleteRoleAliasOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

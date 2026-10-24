@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws licensemanagerlinuxsubscriptions commands.
+/// aws license-manager-linux-subscriptions commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscriptions
@@ -32,7 +32,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     #region Commands
 
     /// <summary>
-    /// Remove a third-party subscription provider from the Bring Your Own Li- cense (BYOL) subscriptions registered to your account. See also: AWS API Documentation
+    /// Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions registered to your account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     }
 
     /// <summary>
-    /// Lists the running Amazon EC2 instances that were discovered with com- mercial Linux subscriptions. See also: AWS API Documentation list-linux-subscription-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following que...
+    /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions. See also: AWS API Documentation list-linux-subscription-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     }
 
     /// <summary>
-    /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggre- gated across your accounts in Organizations. See also: AWS API Documentation list-linux-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, th...
+    /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations. See also: AWS API Documentation list-linux-subscriptions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsLicenseManagerLinuxSubscriptions : IAwsLicenseManagerLinuxSubscr
     }
 
     /// <summary>
-    /// List Bring Your Own License (BYOL) subscription registration resources for your account. See also: AWS API Documentation list-registered-subscription-providers is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query ...
+    /// List Bring Your Own License (BYOL) subscription registration resources for your account. See also: AWS API Documentation list-registered-subscription-providers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLightsailGetInstanceStateOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns the state of a specific instance. Works on one instance at a time. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceName">The name of the instance to get state information about. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="InstanceName">The name of the instance to get state information about. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetInstanceStateOptions(
         string InstanceName
     )
@@ -56,7 +57,7 @@ public record AwsLightsailGetInstanceStateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the instance to get state information about. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the instance to get state information about. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailGetInstanceStateOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

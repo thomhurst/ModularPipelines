@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLexv2ModelsDescribeBotReplicaOptions : AwsOptions, IValidatable
     /// <summary>
     /// Monitors the bot replication status through the UI console. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The request for the unique bot ID of the replicated bot being moni- tored. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="ReplicaRegion">The request for the region of the replicated bot being monitored. Constraints: o min: 2 o max: 25</param>
+    /// <param name="BotId">The request for the unique bot ID of the replicated bot being monitored. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="ReplicaRegion">The request for the region of the replicated bot being monitored. Constraints: • min: 2 • max: 25</param>
     public AwsLexv2ModelsDescribeBotReplicaOptions(
         string BotId,
         string ReplicaRegion
@@ -60,13 +61,13 @@ public record AwsLexv2ModelsDescribeBotReplicaOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The request for the unique bot ID of the replicated bot being moni- tored. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The request for the unique bot ID of the replicated bot being monitored. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The request for the region of the replicated bot being monitored. Constraints: o min: 2 o max: 25
+    /// The request for the region of the replicated bot being monitored. Constraints: • min: 2 • max: 25
     /// </summary>
     [CliOption("--replica-region")]
     public string? ReplicaRegion { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLexv2ModelsDescribeBotReplicaOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

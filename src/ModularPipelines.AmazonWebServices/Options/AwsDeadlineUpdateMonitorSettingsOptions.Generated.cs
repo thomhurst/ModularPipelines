@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsDeadlineUpdateMonitorSettingsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MonitorId">The unique identifier of the monitor to update settings for. Constraints: o pattern: monitor-[0-9a-f]{32}</param>
-    /// <param name="Settings">The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. Constraints: o min: 0 o max: 64 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_.:-]* value -&gt; (string) Constraints: o min: 0 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="MonitorId">The unique identifier of the monitor to update settings for. Constraints: • pattern: monitor-[0-9a-f]{32}</param>
+    /// <param name="Settings">The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. Constraints: • min: 0 • max: 64 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9_.:-]* value -&gt; (string) Constraints: • min: 0 • max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsDeadlineUpdateMonitorSettingsOptions(
         string MonitorId,
         IReadOnlyList<KeyValue> Settings
@@ -72,13 +72,13 @@ public record AwsDeadlineUpdateMonitorSettingsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the monitor to update settings for. Constraints: o pattern: monitor-[0-9a-f]{32}
+    /// The unique identifier of the monitor to update settings for. Constraints: • pattern: monitor-[0-9a-f]{32}
     /// </summary>
     [CliOption("--monitor-id")]
     public string? MonitorId { get; private init; }
 
     /// <summary>
-    /// The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. Constraints: o min: 0 o max: 64 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_.:-]* value -&gt; (string) Constraints: o min: 0 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key. Constraints: • min: 0 • max: 64 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9_.:-]* value -&gt; (string) Constraints: • min: 0 • max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Settings { get; private init; }
@@ -104,6 +104,15 @@ public record AwsDeadlineUpdateMonitorSettingsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

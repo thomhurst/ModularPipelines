@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsLightsailGetOperationsForResourceOptions : AwsOptions, IValidat
     /// <summary>
     /// Gets operations for a specific resource (an instance or a static IP). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the resource for which you are requesting information. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="ResourceName">The name of the resource for which you are requesting information. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetOperationsForResourceOptions(
         string ResourceName
     )
@@ -57,13 +58,13 @@ public record AwsLightsailGetOperationsForResourceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource for which you are requesting information. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the resource for which you are requesting information. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperationsForResource re- quest. If your results are paginated, the response will return a next page token that you can specify as the page token in a subse- quent request.
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetOperationsForResource request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
@@ -90,6 +91,15 @@ public record AwsLightsailGetOperationsForResourceOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

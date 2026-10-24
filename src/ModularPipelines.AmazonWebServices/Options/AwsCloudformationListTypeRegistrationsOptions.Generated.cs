@@ -24,37 +24,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationListTypeRegistrationsOptions : AwsOptions
 {
     /// <summary>
-    /// The kind of extension. Conditional: You must specify either TypeName and Type , or Arn . Possible values: o RESOURCE o MODULE o HOOK
+    /// The kind of extension. Conditional: You must specify either TypeName and Type , or Arn . Possible values: • RESOURCE • MODULE • HOOK
     /// </summary>
     [CliOption("--type")]
     public AwsCloudformationListTypeRegistrationsType? Type { get; set; }
 
     /// <summary>
-    /// The name of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: o min: 10 o max: 204 o pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MOD- ULE){0,1}
+    /// The name of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: • min: 10 • max: 204 • pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: o max: 1024 o pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudforma- tion:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
+    /// The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type , or Arn . Constraints: • max: 1024 • pattern: arn:aws[A-Za-z0-9-]{0,64}:cloudformation:[A-Za-z0-9-]{1,64}:([0-9]{12})?:type/.+
     /// </summary>
     [CliOption("--type-arn")]
     public string? TypeArn { get; set; }
 
     /// <summary>
-    /// The current status of the extension registration request. The default is IN_PROGRESS . Possible values: o COMPLETE o IN_PROGRESS o FAILED
+    /// The current status of the extension registration request. The default is IN_PROGRESS . Possible values: • COMPLETE • IN_PROGRESS • FAILED
     /// </summary>
     [CliOption("--registration-status-filter")]
     public AwsCloudformationListTypeRegistrationsRegistrationStatusFilter? RegistrationStatusFilter { get; set; }
 
     /// <summary>
-    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken re- quest parameter to get the next set of results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: o min: 1 o max: 1024
+    /// The token for the next set of items to return. (You received this token from a previous call.) Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -65,5 +65,14 @@ public record AwsCloudformationListTypeRegistrationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

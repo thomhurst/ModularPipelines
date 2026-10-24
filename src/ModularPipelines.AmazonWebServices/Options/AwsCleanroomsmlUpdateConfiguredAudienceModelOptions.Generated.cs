@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCleanroomsmlUpdateConfiguredAudienceModelOptions : AwsOptions, 
     /// <summary>
     /// Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model that you want to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model that you want to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+</param>
     public AwsCleanroomsmlUpdateConfiguredAudienceModelOptions(
         string ConfiguredAudienceModelArn
     )
@@ -56,43 +57,43 @@ public record AwsCleanroomsmlUpdateConfiguredAudienceModelOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configured audience model that you want to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the configured audience model that you want to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--configured-audience-model-arn")]
     public string? ConfiguredAudienceModelArn { get; private init; }
 
     /// <summary>
-    /// The new output configuration. destination -&gt; (structure) [required] Defines the Amazon S3 bucket where the configured audience is stored. s3Destination -&gt; (structure) [required] The Amazon S3 bucket and path for the configured audience. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: o min: 1 o max: 1285 o pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can write the Amazon S3 bucket. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }
+    /// The new output configuration. destination -&gt; (structure) [required] Defines the Amazon S3 bucket where the configured audience is stored. s3Destination -&gt; (structure) [required] The Amazon S3 bucket and path for the configured audience. s3Uri -&gt; (string) [required] The Amazon S3 location URI. Constraints: • min: 1 • max: 1285 • pattern: s3://.+ roleArn -&gt; (string) [required] The ARN of the IAM role that can write the Amazon S3 bucket. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:iam::[0-9]{12}:role/.+ Shorthand Syntax: destination={s3Destination={s3Uri=string}},roleArn=string JSON Syntax: { "destination": { "s3Destination": { "s3Uri": "string" } }, "roleArn": "string" }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the new audience model that you want to use. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audi- ence-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the new audience model that you want to use. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:audience-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--audience-model-arn")]
     public string? AudienceModelArn { get; set; }
 
     /// <summary>
-    /// The new value for whether to share audience metrics. Constraints: o min: 1 o max: 1 (string) Possible values: o ALL o NONE Syntax: "string" "string" ...
+    /// The new value for whether to share audience metrics. Constraints: • min: 1 • max: 1 (string) Possible values: • ALL • NONE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--shared-audience-metrics", GroupValues = true)]
     public IEnumerable<string>? SharedAudienceMetrics { get; set; }
 
     /// <summary>
-    /// The minimum number of users from the seed audience that must match with users in the training data of the audience model. Constraints: o min: 25 o max: 500000
+    /// The minimum number of users from the seed audience that must match with users in the training data of the audience model. Constraints: • min: 25 • max: 500000
     /// </summary>
     [CliOption("--min-matching-seed-size")]
     public int? MinMatchingSeedSize { get; set; }
 
     /// <summary>
-    /// The new audience size configuration. audienceSizeType -&gt; (string) [required] Whether the audience output sizes are defined as an absolute number or a percentage. Possible values: o ABSOLUTE o PERCENTAGE audienceSizeBins -&gt; (list) [required] An array of the different audience output sizes. Constraints: o min: 1 o max: 25 (integer) Constraints: o min: 1 o max: 20000000 Shorthand Syntax: audienceSizeType=string,audienceSizeBins=integer,integer JSON Syntax: { "audienceSizeType": "ABSOLUTE"|"PERCENTAGE", "audienceSizeBins": [integer, ...] }
+    /// The new audience size configuration. audienceSizeType -&gt; (string) [required] Whether the audience output sizes are defined as an absolute number or a percentage. Possible values: • ABSOLUTE • PERCENTAGE audienceSizeBins -&gt; (list) [required] An array of the different audience output sizes. Constraints: • min: 1 • max: 25 (integer) Constraints: • min: 1 • max: 20000000 Shorthand Syntax: audienceSizeType=string,audienceSizeBins=integer,integer JSON Syntax: { "audienceSizeType": "ABSOLUTE"|"PERCENTAGE", "audienceSizeBins": [integer, ...] }
     /// </summary>
     [CliOption("--audience-size-config")]
     public string? AudienceSizeConfig { get; set; }
 
     /// <summary>
-    /// The new description of the configured audience model. Constraints: o min: 0 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// The new description of the configured audience model. Constraints: • min: 0 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -118,6 +119,15 @@ public record AwsCleanroomsmlUpdateConfiguredAudienceModelOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

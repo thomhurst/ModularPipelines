@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsEcrDeleteRepositoryCreationTemplateOptions : AwsOptions, IValid
     /// <summary>
     /// Deletes a repository creation template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Prefix">The repository namespace prefix associated with the repository cre- ation template. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
+    /// <param name="Prefix">The repository namespace prefix associated with the repository creation template. Constraints: • min: 1 • max: 256 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$</param>
     public AwsEcrDeleteRepositoryCreationTemplateOptions(
         string Prefix
     )
@@ -56,7 +57,7 @@ public record AwsEcrDeleteRepositoryCreationTemplateOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The repository namespace prefix associated with the repository cre- ation template. Constraints: o min: 1 o max: 256 o pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
+    /// The repository namespace prefix associated with the repository creation template. Constraints: • min: 1 • max: 256 • pattern: ^([a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*\/?|ROOT)$
     /// </summary>
     [CliOption("--prefix")]
     public string? Prefix { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEcrDeleteRepositoryCreationTemplateOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

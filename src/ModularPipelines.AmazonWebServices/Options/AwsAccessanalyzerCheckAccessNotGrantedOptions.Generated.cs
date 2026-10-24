@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions, IValid
     /// Checks whether the specified access isn't allowed by a policy. See also: AWS API Documentation
     /// </summary>
     /// <param name="PolicyDocument">The JSON policy document to use as the content for the policy.</param>
-    /// <param name="Access">An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the ac- tions on any resource in the policy. If only resources are speci- fied, then IAM Access Analyzer checks for access to perform any ac- tion on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources. Constraints: o min: 0 o max: 1 (structure) Contains information about actions and resources that define permissions to check against a policy. actions -&gt; (list) A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check. Constraints: o min: 0 o max: 100 (string) resources -&gt; (list) A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: actions=string,string,resources=string,string ... JSON Syntax: [ { "actions": ["string", ...], "resources": ["string", ...] } ... ]</param>
-    /// <param name="PolicyType">The type of policy. Identity policies grant permissions to IAM prin- cipals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY</param>
+    /// <param name="Access">An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the actions on any resource in the policy. If only resources are specified, then IAM Access Analyzer checks for access to perform any action on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources. Constraints: • min: 0 • max: 1 (structure) Contains information about actions and resources that define permissions to check against a policy. actions -&gt; (list) A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check. Constraints: • min: 0 • max: 100 (string) resources -&gt; (list) A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 2048 Shorthand Syntax: actions=string,string,resources=string,string ... JSON Syntax: [ { "actions": ["string", ...], "resources": ["string", ...] } ... ]</param>
+    /// <param name="PolicyType">The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. Possible values: • IDENTITY_POLICY • RESOURCE_POLICY</param>
     public AwsAccessanalyzerCheckAccessNotGrantedOptions(
         string PolicyDocument,
         IEnumerable<string> Access,
@@ -81,13 +82,13 @@ public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions, IValid
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the ac- tions on any resource in the policy. If only resources are speci- fied, then IAM Access Analyzer checks for access to perform any ac- tion on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources. Constraints: o min: 0 o max: 1 (structure) Contains information about actions and resources that define permissions to check against a policy. actions -&gt; (list) A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check. Constraints: o min: 0 o max: 100 (string) resources -&gt; (list) A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 0 o max: 2048 Shorthand Syntax: actions=string,string,resources=string,string ... JSON Syntax: [ { "actions": ["string", ...], "resources": ["string", ...] } ... ]
+    /// An access object containing the permissions that shouldn't be granted by the specified policy. If only actions are specified, IAM Access Analyzer checks for access to peform at least one of the actions on any resource in the policy. If only resources are specified, then IAM Access Analyzer checks for access to perform any action on at least one of the resources. If both actions and resources are specified, IAM Access Analyzer checks for access to perform at least one of the specified actions on at least one of the specified resources. Constraints: • min: 0 • max: 1 (structure) Contains information about actions and resources that define permissions to check against a policy. actions -&gt; (list) A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check. Constraints: • min: 0 • max: 100 (string) resources -&gt; (list) A list of resources for the access permissions. Any strings that can be used as an Amazon Resource Name (ARN) in an IAM policy can be used in the list of resources to check. You can only use a wildcard in the portion of the ARN that specifies the resource ID. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 0 • max: 2048 Shorthand Syntax: actions=string,string,resources=string,string ... JSON Syntax: [ { "actions": ["string", ...], "resources": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--access", GroupValues = true)]
     public IEnumerable<string>? Access { get; private init; }
 
     /// <summary>
-    /// The type of policy. Identity policies grant permissions to IAM prin- cipals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services re- sources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. Possible values: o IDENTITY_POLICY o RESOURCE_POLICY
+    /// The type of policy. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. Possible values: • IDENTITY_POLICY • RESOURCE_POLICY
     /// </summary>
     [CliOption("--policy-type")]
     public AwsAccessanalyzerCheckAccessNotGrantedPolicyType? PolicyType { get; private init; }
@@ -113,6 +114,15 @@ public record AwsAccessanalyzerCheckAccessNotGrantedOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

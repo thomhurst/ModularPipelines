@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Container Retrieves the port mappings for a container group running on a con- tainer fleet. Port mappings show how container ports are mapped to con- nection ports on the fleet instance. Use this operation to find the connection port for a specific container on a fleet instance. Request options o Get port mappings for a game server container group. Provide the fleet ID, set ContainerGroupType to GAME_SERVER , and specify the ComputeName for the game...
+/// This API works with the following fleet types: Container Retrieves the port mappings for a container group running on a container fleet. Port mappings show how container ports are mapped to connection ports on the fleet instance. Use this operation to find the connection port for a specific container on a fleet instance. Request options • Get port mappings for a game server container group. Provide the fleet ID, set ContainerGroupType to GAME_SERVER , and specify the ComputeName for the game ser...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsGameliftDescribeContainerGroupPortMappingsOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves the port mappings for a container group running on a con- tainer fleet. Port mappings show how container ports are mapped to con- nection ports on the fleet instance. Use this operation to find the connection port for a specific container on a fleet instance. Request options o Get port mappings for a game server container group. Provide the fleet ID, set ContainerGroupType to GAME_SERVER , and specify the ComputeName for the game...
+    /// This API works with the following fleet types: Container Retrieves the port mappings for a container group running on a container fleet. Port mappings show how container ports are mapped to connection ports on the fleet instance. Use this operation to find the connection port for a specific container on a fleet instance. Request options • Get port mappings for a game server container group. Provide the fleet ID, set ContainerGroupType to GAME_SERVER , and specify the ComputeName for the game ser...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="ContainerGroupType">The type of container group to retrieve port mappings for. o GAME_SERVER -- Get port mappings for a game server container group. o PER_INSTANCE -- Get port mappings for a per-instance container group. Possible values: o GAME_SERVER o PER_INSTANCE</param>
+    /// <param name="FleetId">A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="ContainerGroupType">The type of container group to retrieve port mappings for. • GAME_SERVER -- Get port mappings for a game server container group. • PER_INSTANCE -- Get port mappings for a per-instance container group. Possible values: • GAME_SERVER • PER_INSTANCE</param>
     public AwsGameliftDescribeContainerGroupPortMappingsOptions(
         string FleetId,
         AwsGameliftDescribeContainerGroupPortMappingsContainerGroupType ContainerGroupType
@@ -60,31 +61,31 @@ public record AwsGameliftDescribeContainerGroupPortMappingsOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the container fleet. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// The type of container group to retrieve port mappings for. o GAME_SERVER -- Get port mappings for a game server container group. o PER_INSTANCE -- Get port mappings for a per-instance container group. Possible values: o GAME_SERVER o PER_INSTANCE
+    /// The type of container group to retrieve port mappings for. • GAME_SERVER -- Get port mappings for a game server container group. • PER_INSTANCE -- Get port mappings for a per-instance container group. Possible values: • GAME_SERVER • PER_INSTANCE
     /// </summary>
     [CliOption("--container-group-type")]
     public AwsGameliftDescribeContainerGroupPortMappingsContainerGroupType? ContainerGroupType { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the compute resource for which to retrieve port mappings. For a container fleet, a compute represents a game server container group running on a fleet instance. You can use ei- ther the compute name or ARN value. When ContainerGroupType is GAME_SERVER , this parameter is required. When ContainerGroupType is PER_INSTANCE , do not provide this para- meter. If you provide a compute name with PER_INSTANCE , the request fails with an InvalidRequestException . Constraints: o max: 1024 o pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:com- pute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
+    /// A unique identifier for the compute resource for which to retrieve port mappings. For a container fleet, a compute represents a game server container group running on a fleet instance. You can use either the compute name or ARN value. When ContainerGroupType is GAME_SERVER , this parameter is required. When ContainerGroupType is PER_INSTANCE , do not provide this parameter. If you provide a compute name with PER_INSTANCE , the request fails with an InvalidRequestException . Constraints: • max: 1024 • pattern: ^([a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?|arn:.*:compute\/[a-zA-Z0-9\-]+(\/[a-zA-Z0-9\-]+)?)$
     /// </summary>
     [CliOption("--compute-name")]
     public string? ComputeName { get; set; }
 
     /// <summary>
-    /// A unique identifier for the fleet instance to retrieve port mappings for. When ContainerGroupType is PER_INSTANCE , this parameter is re- quired. When ContainerGroupType is GAME_SERVER , this parameter is optional. If you provide an instance ID, it must match the instance that's running the specified compute. If the instance ID doesn't match, the request fails with an InvalidRequestException . Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\.-]+$
+    /// A unique identifier for the fleet instance to retrieve port mappings for. When ContainerGroupType is PER_INSTANCE , this parameter is required. When ContainerGroupType is GAME_SERVER , this parameter is optional. If you provide an instance ID, it must match the instance that's running the specified compute. If the instance ID doesn't match, the request fails with an InvalidRequestException . Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\.-]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// A container name to filter the results. When provided, the operation returns port mappings for the specified container only. If no con- tainer with the specified name exists in the container group, the request fails with a NotFoundException . If not provided, the operation returns port mappings for all con- tainers in the container group. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9\-_]+$
+    /// A container name to filter the results. When provided, the operation returns port mappings for the specified container only. If no container with the specified name exists in the container group, the request fails with a NotFoundException . If not provided, the operation returns port mappings for all containers in the container group. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9\-_]+$
     /// </summary>
     [CliOption("--container-name")]
     public string? ContainerName { get; set; }
@@ -110,6 +111,15 @@ public record AwsGameliftDescribeContainerGroupPortMappingsOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

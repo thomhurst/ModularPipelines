@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. In- stead it does a full update of template content. See also: AWS API Documentation
+/// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. Instead it does a full update of template content. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectUpdateTaskTemplateOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. In- stead it does a full update of template content. See also: AWS API Documentation
+    /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. Instead it does a full update of template content. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaskTemplateId">A unique identifier for the task template. Constraints: o min: 1 o max: 500</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TaskTemplateId">A unique identifier for the task template. Constraints: • min: 1 • max: 500</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdateTaskTemplateOptions(
         string TaskTemplateId,
         string InstanceId
@@ -61,61 +62,61 @@ public record AwsConnectUpdateTaskTemplateOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the task template. Constraints: o min: 1 o max: 500
+    /// A unique identifier for the task template. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--task-template-id")]
     public string? TaskTemplateId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the task template. Constraints: o min: 1 o max: 100
+    /// The name of the task template. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the task template. Constraints: o min: 1 o max: 255
+    /// The description of the task template. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The identifier of the flow that runs by default when a task is cre- ated by referencing this template. Although this parameter is marked as optional, the request must con- tain either a ContactFlowId or a field of type QUICK_CONNECT . Constraints: o max: 500
+    /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT . Constraints: • max: 500
     /// </summary>
     [CliOption("--contact-flow-id")]
     public string? ContactFlowId { get; set; }
 
     /// <summary>
-    /// The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task. Constraints: o max: 500
+    /// The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task. Constraints: • max: 500
     /// </summary>
     [CliOption("--self-assign-flow-id")]
     public string? SelfAssignFlowId { get; set; }
 
     /// <summary>
-    /// Constraints that are applicable to the fields listed. Although this parameter is marked as optional in the API model, the service re- quires it when calling CreateTaskTemplate or UpdateTaskTemplate . The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields . RequiredFields -&gt; (list) Lists the fields that are required to be filled by agents. (structure) Information about a required field. Id -&gt; (structure) The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 ReadOnlyFields -&gt; (list) Lists the fields that are read-only to agents, and cannot be edited. (structure) Indicates a field that is read-only to an agent. Id -&gt; (structure) Identifier of the read-only field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 InvisibleFields -&gt; (list) Lists the fields that are invisible to agents. (structure) A field that is invisible to an agent. Id -&gt; (structure) Identifier of the invisible field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 JSON Syntax: { "RequiredFields": [ { "Id": { "Name": "string" } } ... ], "ReadOnlyFields": [ { "Id": { "Name": "string" } } ... ], "InvisibleFields": [ { "Id": { "Name": "string" } } ... ] }
+    /// Constraints that are applicable to the fields listed. Although this parameter is marked as optional in the API model, the service requires it when calling CreateTaskTemplate or UpdateTaskTemplate . The RequiredFields array must contain at least one element, and the field of type NAME must be included in RequiredFields . RequiredFields -&gt; (list) Lists the fields that are required to be filled by agents. (structure) Information about a required field. Id -&gt; (structure) The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: • min: 1 • max: 100 ReadOnlyFields -&gt; (list) Lists the fields that are read-only to agents, and cannot be edited. (structure) Indicates a field that is read-only to an agent. Id -&gt; (structure) Identifier of the read-only field. Name -&gt; (string) The name of the task template field. Constraints: • min: 1 • max: 100 InvisibleFields -&gt; (list) Lists the fields that are invisible to agents. (structure) A field that is invisible to an agent. Id -&gt; (structure) Identifier of the invisible field. Name -&gt; (string) The name of the task template field. Constraints: • min: 1 • max: 100 JSON Syntax: { "RequiredFields": [ { "Id": { "Name": "string" } } ... ], "ReadOnlyFields": [ { "Id": { "Name": "string" } } ... ], "InvisibleFields": [ { "Id": { "Name": "string" } } ... ] }
     /// </summary>
     [CliOption("--constraints")]
     public string? Constraints { get; set; }
 
     /// <summary>
-    /// The default values for fields when a task is created by referencing this template. DefaultFieldValues -&gt; (list) Default value for the field. (structure) Describes a default field and its corresponding value. Id -&gt; (structure) Identifier of a field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 DefaultValue -&gt; (string) Default value for the field. Constraints: o min: 0 o max: 4096 JSON Syntax: { "DefaultFieldValues": [ { "Id": { "Name": "string" }, "DefaultValue": "string" } ... ] }
+    /// The default values for fields when a task is created by referencing this template. DefaultFieldValues -&gt; (list) Default value for the field. (structure) Describes a default field and its corresponding value. Id -&gt; (structure) Identifier of a field. Name -&gt; (string) The name of the task template field. Constraints: • min: 1 • max: 100 DefaultValue -&gt; (string) Default value for the field. Constraints: • min: 0 • max: 4096 JSON Syntax: { "DefaultFieldValues": [ { "Id": { "Name": "string" }, "DefaultValue": "string" } ... ] }
     /// </summary>
     [CliOption("--defaults")]
     public string? Defaults { get; set; }
 
     /// <summary>
-    /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE , then a task that refers to this template cannot be created. Although this parameter is marked as optional, the service requires it when calling UpdateTaskTemplate . Possible values: o ACTIVE o INACTIVE
+    /// Marks a template as ACTIVE or INACTIVE for a task to refer to it. Tasks can only be created from ACTIVE templates. If a template is marked as INACTIVE , then a task that refers to this template cannot be created. Although this parameter is marked as optional, the service requires it when calling UpdateTaskTemplate . Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsConnectUpdateTaskTemplateStatus? Status { get; set; }
 
     /// <summary>
-    /// Fields that are part of the template. The request must contain exactly one field of type NAME . This field must also be listed in the RequiredFields array within the Con- straints parameter. (structure) Describes a single task template field. Id -&gt; (structure) [required] The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: o min: 1 o max: 100 Description -&gt; (string) The description of the field. Constraints: o min: 1 o max: 255 Type -&gt; (string) Indicates the type of field. Possible values: o NAME o DESCRIPTION o SCHEDULED_TIME o QUICK_CONNECT o URL o NUMBER o TEXT o TEXT_AREA o DATE_TIME o BOOLEAN o SINGLE_SELECT o EMAIL o SELF_ASSIGN o EXPIRY_DURATION SingleSelectOptions -&gt; (list) A list of options for a single select field. (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: Id={Name=string},Description=string,Type=string,SingleSelectOptions=string,string ... JSON Syntax: [ { "Id": { "Name": "string" }, "Description": "string", "Type": "NAME"|"DESCRIPTION"|"SCHEDULED_TIME"|"QUICK_CONNECT"|"URL"|"NUMBER"|"TEXT"|"TEXT_AREA"|"DATE_TIME"|"BOOLEAN"|"SINGLE_SELECT"|"EMAIL"|"SELF_ASSIGN"|"EXPIRY_DURATION", "SingleSelectOptions": ["string", ...] } ... ]
+    /// Fields that are part of the template. The request must contain exactly one field of type NAME . This field must also be listed in the RequiredFields array within the Constraints parameter. (structure) Describes a single task template field. Id -&gt; (structure) [required] The unique identifier for the field. Name -&gt; (string) The name of the task template field. Constraints: • min: 1 • max: 100 Description -&gt; (string) The description of the field. Constraints: • min: 1 • max: 255 Type -&gt; (string) Indicates the type of field. Possible values: • NAME • DESCRIPTION • SCHEDULED_TIME • QUICK_CONNECT • URL • NUMBER • TEXT • TEXT_AREA • DATE_TIME • BOOLEAN • SINGLE_SELECT • EMAIL • SELF_ASSIGN • EXPIRY_DURATION SingleSelectOptions -&gt; (list) A list of options for a single select field. (string) Constraints: • min: 1 • max: 100 Shorthand Syntax: Id={Name=string},Description=string,Type=string,SingleSelectOptions=string,string ... JSON Syntax: [ { "Id": { "Name": "string" }, "Description": "string", "Type": "NAME"|"DESCRIPTION"|"SCHEDULED_TIME"|"QUICK_CONNECT"|"URL"|"NUMBER"|"TEXT"|"TEXT_AREA"|"DATE_TIME"|"BOOLEAN"|"SINGLE_SELECT"|"EMAIL"|"SELF_ASSIGN"|"EXPIRY_DURATION", "SingleSelectOptions": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--fields", GroupValues = true)]
     public IEnumerable<string>? Fields { get; set; }
@@ -141,6 +142,15 @@ public record AwsConnectUpdateTaskTemplateOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

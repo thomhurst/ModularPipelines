@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsConnectcasesListCasesForContactOptions : AwsOptions, IValidatab
     /// <summary>
     /// Lists cases for a given contact. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="ContactArn">A unique identifier of a contact in Amazon Connect. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="ContactArn">A unique identifier of a contact in Amazon Connect. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesListCasesForContactOptions(
         string DomainId,
         string ContactArn
@@ -61,25 +62,25 @@ public record AwsConnectcasesListCasesForContactOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// A unique identifier of a contact in Amazon Connect. Constraints: o min: 1 o max: 500
+    /// A unique identifier of a contact in Amazon Connect. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--contact-arn")]
     public string? ContactArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return per page. Constraints: o min: 1 o max: 10
+    /// The maximum number of results to return per page. Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: o min: 0 o max: 9000
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. Constraints: • min: 0 • max: 9000
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -106,6 +107,15 @@ public record AwsConnectcasesListCasesForContactOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove a third-party subscription provider from the Bring Your Own Li- cense (BYOL) subscriptions registered to your account. See also: AWS API Documentation
+/// Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions registered to your account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Remove a third-party subscription provider from the Bring Your Own Li- cense (BYOL) subscriptions registered to your account. See also: AWS API Documentation
+    /// Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions registered to your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SubscriptionProviderArn">The Amazon Resource Name (ARN) of the subscription provider resource to deregister. Constraints: o pattern: ^arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,510}/[a-z0-9-\.]{1,510}$</param>
+    /// <param name="SubscriptionProviderArn">The Amazon Resource Name (ARN) of the subscription provider resource to deregister. Constraints: • pattern: ^arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,510}/[a-z0-9-\.]{1,510}$</param>
     public AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderOptions(
         string SubscriptionProviderArn
     )
@@ -56,7 +57,7 @@ public record AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the subscription provider resource to deregister. Constraints: o pattern: ^arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,510}/[a-z0-9-\.]{1,510}$
+    /// The Amazon Resource Name (ARN) of the subscription provider resource to deregister. Constraints: • pattern: ^arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{1,510}/[a-z0-9-\.]{1,510}$
     /// </summary>
     [CliOption("--subscription-provider-arn")]
     public string? SubscriptionProviderArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLicenseManagerLinuxSubscriptionsDeregisterSubscriptionProviderO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

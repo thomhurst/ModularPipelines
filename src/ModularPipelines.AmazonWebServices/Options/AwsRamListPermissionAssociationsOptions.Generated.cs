@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed per- mission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally re- turn an empty set of results even when there are more results avail- able. The NextToken response parameter value is null only when th...
+/// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission. NOTE: Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there ar...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -30,25 +30,25 @@ public record AwsRamListPermissionAssociationsOptions : AwsOptions
     public string? PermissionArn { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only those associations with re- source shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation re- turns information about associations with resource shares that use any version of the managed permission.
+    /// Specifies that you want to list only those associations with resource shares that use this version of the managed permission. If you don't provide a value for this parameter, then the operation returns information about associations with resource shares that use any version of the managed permission.
     /// </summary>
     [CliOption("--permission-version")]
     public int? PermissionVersion { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only those associations with re- source shares that match this status. Possible values: o ASSOCIATING o ASSOCIATED o FAILED o DISASSOCIATING o DISASSOCIATED o SUSPENDED o SUSPENDING o RESTORING
+    /// Specifies that you want to list only those associations with resource shares that match this status. Possible values: • ASSOCIATING • ASSOCIATED • FAILED • DISASSOCIATING • DISASSOCIATED • SUSPENDED • SUSPENDING • RESTORING
     /// </summary>
     [CliOption("--association-status")]
     public AwsRamListPermissionAssociationsAssociationStatus? AssociationStatus { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only those associations with re- source shares that include at least one resource of this resource type.
+    /// Specifies that you want to list only those associations with resource shares that include at least one resource of this resource type.
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; set; }
 
     /// <summary>
-    /// Specifies that you want to list only those associations with re- source shares that have a featureSet with this value. Possible values: o CREATED_FROM_POLICY o PROMOTING_TO_STANDARD o STANDARD
+    /// Specifies that you want to list only those associations with resource shares that have a featureSet with this value. Possible values: • CREATED_FROM_POLICY • PROMOTING_TO_STANDARD • STANDARD
     /// </summary>
     [CliOption("--feature-set")]
     public AwsRamListPermissionAssociationsFeatureSet? FeatureSet { get; set; }
@@ -60,14 +60,14 @@ public record AwsRamListPermissionAssociationsOptions : AwsOptions
     public bool? DefaultVersion { get; set; }
 
     /// <summary>
-    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this pa- rameter to the value provided by the previous call's NextToken re- sponse to request the next page of results.
+    /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it de- faults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the op- eration to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: o min: 1 o max: 500
+    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -77,5 +77,14 @@ public record AwsRamListPermissionAssociationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

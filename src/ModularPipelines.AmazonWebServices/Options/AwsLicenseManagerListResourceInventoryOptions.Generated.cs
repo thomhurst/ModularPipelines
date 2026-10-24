@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists resources managed using Systems Manager inventory. See also: AWS API Documentation list-resource-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ResourceInventoryList
+/// Lists resources managed using Systems Manager inventory. See also: AWS API Documentation list-resource-inventory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ResourceInventoryList
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLicenseManagerListResourceInventoryOptions : AwsOptions
 {
     /// <summary>
-    /// Filters to scope the results. The following filters and logical op- erators are supported: o account_id - The ID of the Amazon Web Services account that owns the resource. Logical operators are EQUALS | NOT_EQUALS . o application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH . o license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS . Possible values are sql-server-enter- prise | sql-server-standard | sql-server-web | windows-server-dat- acenter . o platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH . o resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS . o tag:&lt;key&gt; - The key/value combination of a tag assigned to the re- source. Logical operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account). (structure) An inventory filter. Name -&gt; (string) [required] Name of the filter. Condition -&gt; (string) [required] Condition of the filter. Possible values: o EQUALS o NOT_EQUALS o BEGINS_WITH o CONTAINS Value -&gt; (string) Value of the filter. Shorthand Syntax: Name=string,Condition=string,Value=string ... JSON Syntax: [ { "Name": "string", "Condition": "EQUALS"|"NOT_EQUALS"|"BEGINS_WITH"|"CONTAINS", "Value": "string" } ... ]
+    /// Filters to scope the results. The following filters and logical operators are supported: • account_id - The ID of the Amazon Web Services account that owns the resource. Logical operators are EQUALS | NOT_EQUALS . • application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH . • license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS . Possible values are sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter . • platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH . • resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS . • tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account). (structure) An inventory filter. Name -&gt; (string) [required] Name of the filter. Condition -&gt; (string) [required] Condition of the filter. Possible values: • EQUALS • NOT_EQUALS • BEGINS_WITH • CONTAINS Value -&gt; (string) Value of the filter. Shorthand Syntax: Name=string,Condition=string,Value=string ... JSON Syntax: [ { "Name": "string", "Condition": "EQUALS"|"NOT_EQUALS"|"BEGINS_WITH"|"CONTAINS", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,27 @@ public record AwsLicenseManagerListResourceInventoryOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNeptuneCopyDbClusterSnapshotOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceDbClusterSnapshotIdentifier">The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a dif- ferent region or owned by another account, specify the snapshot ARN. Constraints: o Must specify a valid system snapshot in the "available" state. o Specify a valid DB snapshot identifier. Example: my-cluster-snapshot1</param>
-    /// <param name="TargetDbClusterSnapshotIdentifier">The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2</param>
+    /// <param name="SourceDbClusterSnapshotIdentifier">The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or owned by another account, specify the snapshot ARN. Constraints: • Must specify a valid system snapshot in the "available" state. • Specify a valid DB snapshot identifier. Example: my-cluster-snapshot1</param>
+    /// <param name="TargetDbClusterSnapshotIdentifier">The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2</param>
     public AwsNeptuneCopyDbClusterSnapshotOptions(
         string SourceDbClusterSnapshotIdentifier,
         string TargetDbClusterSnapshotIdentifier
@@ -60,19 +61,19 @@ public record AwsNeptuneCopyDbClusterSnapshotOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a dif- ferent region or owned by another account, specify the snapshot ARN. Constraints: o Must specify a valid system snapshot in the "available" state. o Specify a valid DB snapshot identifier. Example: my-cluster-snapshot1
+    /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or owned by another account, specify the snapshot ARN. Constraints: • Must specify a valid system snapshot in the "available" state. • Specify a valid DB snapshot identifier. Example: my-cluster-snapshot1
     /// </summary>
     [CliOption("--source-db-cluster-snapshot-identifier")]
     public string? SourceDbClusterSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o First character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2
+    /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter is not case-sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • First character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-cluster-snapshot2
     /// </summary>
     [CliOption("--target-db-cluster-snapshot-identifier")]
     public string? TargetDbClusterSnapshotIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon ac- count, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from an- other Amazon account, then you must specify a value for KmsKeyId . KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and spec- ify a value for the KmsKeyId parameter, an error is returned.
+    /// The Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId . KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -122,6 +123,15 @@ public record AwsNeptuneCopyDbClusterSnapshotOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

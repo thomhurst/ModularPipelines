@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the trusted entity set associated with the specified trustedEn- titySetId . See also: AWS API Documentation
+/// Updates the trusted entity set associated with the specified trustedEntitySetId . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGuarddutyUpdateTrustedEntitySetOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the trusted entity set associated with the specified trustedEn- titySetId . See also: AWS API Documentation
+    /// Updates the trusted entity set associated with the specified trustedEntitySetId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     /// <param name="TrustedEntitySetId">The ID returned by GuardDuty after updating the trusted entity set resource.</param>
     public AwsGuarddutyUpdateTrustedEntitySetOptions(
         string DetectorId,
@@ -60,7 +61,7 @@ public record AwsGuarddutyUpdateTrustedEntitySetOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
@@ -72,19 +73,19 @@ public record AwsGuarddutyUpdateTrustedEntitySetOptions : AwsOptions, IValidatab
     public string? TrustedEntitySetId { get; private init; }
 
     /// <summary>
-    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase let- ters, numbers, dash (-), and underscore (_). Constraints: o min: 1 o max: 300
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_). Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The URI of the file that contains the trusted entity set. Constraints: o min: 1 o max: 300
+    /// The URI of the file that contains the trusted entity set. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: o min: 12 o max: 12 o pattern: [0-9]+
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. Constraints: • min: 12 • max: 12 • pattern: [0-9]+
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -116,6 +117,15 @@ public record AwsGuarddutyUpdateTrustedEntitySetOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

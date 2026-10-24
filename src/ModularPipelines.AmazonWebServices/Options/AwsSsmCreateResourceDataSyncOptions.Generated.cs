@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestina- tion type to synchronize Inventory data from multiple Amazon Web Ser- vices Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for In- ventory in the Amazo...
+/// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for Inventory in the Amazon Web ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsmCreateResourceDataSyncOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestina- tion type to synchronize Inventory data from multiple Amazon Web Ser- vices Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for In- ventory in the Amazo...
+    /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource . You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Creating a resource data sync for Inventory in the Amazon Web ...
     /// </summary>
-    /// <param name="SyncName">A name for the configuration. Constraints: o min: 1 o max: 64</param>
+    /// <param name="SyncName">A name for the configuration. Constraints: • min: 1 • max: 64</param>
     public AwsSsmCreateResourceDataSyncOptions(
         string SyncName
     )
@@ -56,25 +57,25 @@ public record AwsSsmCreateResourceDataSyncOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the configuration. Constraints: o min: 1 o max: 64
+    /// A name for the configuration. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--sync-name")]
     public string? SyncName { get; private init; }
 
     /// <summary>
-    /// Amazon S3 configuration details for the sync. This parameter is re- quired if the SyncType value is SyncToDestination. BucketName -&gt; (string) [required] The name of the S3 bucket where the aggregated data is stored. Constraints: o min: 1 o max: 2048 Prefix -&gt; (string) An Amazon S3 prefix for the bucket. Constraints: o min: 1 o max: 256 SyncFormat -&gt; (string) [required] A supported sync format. The following format is currently sup- ported: JsonSerDe Possible values: o JsonSerDe Region -&gt; (string) [required] The Amazon Web Services Region with the S3 bucket targeted by the resource data sync. Constraints: o min: 1 o max: 64 AWSKMSKeyARN -&gt; (string) The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination S3 bucket. Constraints: o min: 1 o max: 512 o pattern: arn:.* DestinationDataSharing -&gt; (structure) Enables destination data sharing. By default, this field is null . DestinationDataSharingType -&gt; (string) The sharing data type. Only Organization is supported. Constraints: o min: 1 o max: 64 Shorthand Syntax: BucketName=string,Prefix=string,SyncFormat=string,Region=string,AWSKMSKeyARN=string,DestinationDataSharing={DestinationDataSharingType=string} JSON Syntax: { "BucketName": "string", "Prefix": "string", "SyncFormat": "JsonSerDe", "Region": "string", "AWSKMSKeyARN": "string", "DestinationDataSharing": { "DestinationDataSharingType": "string" } }
+    /// Amazon S3 configuration details for the sync. This parameter is required if the SyncType value is SyncToDestination. BucketName -&gt; (string) [required] The name of the S3 bucket where the aggregated data is stored. Constraints: • min: 1 • max: 2048 Prefix -&gt; (string) An Amazon S3 prefix for the bucket. Constraints: • min: 1 • max: 256 SyncFormat -&gt; (string) [required] A supported sync format. The following format is currently supported: JsonSerDe Possible values: • JsonSerDe Region -&gt; (string) [required] The Amazon Web Services Region with the S3 bucket targeted by the resource data sync. Constraints: • min: 1 • max: 64 AWSKMSKeyARN -&gt; (string) The ARN of an encryption key for a destination in Amazon S3. Must belong to the same Region as the destination S3 bucket. Constraints: • min: 1 • max: 512 • pattern: arn:.* DestinationDataSharing -&gt; (structure) Enables destination data sharing. By default, this field is null . DestinationDataSharingType -&gt; (string) The sharing data type. Only Organization is supported. Constraints: • min: 1 • max: 64 Shorthand Syntax: BucketName=string,Prefix=string,SyncFormat=string,Region=string,AWSKMSKeyARN=string,DestinationDataSharing={DestinationDataSharingType=string} JSON Syntax: { "BucketName": "string", "Prefix": "string", "SyncFormat": "JsonSerDe", "Region": "string", "AWSKMSKeyARN": "string", "DestinationDataSharing": { "DestinationDataSharingType": "string" } }
     /// </summary>
     [CliOption("--s3-destination")]
     public string? S3Destination { get; set; }
 
     /// <summary>
-    /// Specify SyncToDestination to create a resource data sync that syn- chronizes data to an S3 bucket for Inventory. If you specify Sync- ToDestination , you must provide a value for S3Destination . Specify SyncFromSource to synchronize data from a single account and multi- ple Regions, or multiple Amazon Web Services accounts and Amazon Web Services Regions, as listed in Organizations for Explorer. If you specify SyncFromSource , you must provide a value for SyncSource . The default value is SyncToDestination . Constraints: o min: 1 o max: 64
+    /// Specify SyncToDestination to create a resource data sync that synchronizes data to an S3 bucket for Inventory. If you specify SyncToDestination , you must provide a value for S3Destination . Specify SyncFromSource to synchronize data from a single account and multiple Regions, or multiple Amazon Web Services accounts and Amazon Web Services Regions, as listed in Organizations for Explorer. If you specify SyncFromSource , you must provide a value for SyncSource . The default value is SyncToDestination . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; set; }
 
     /// <summary>
-    /// Specify information about the data sources to synchronize. This pa- rameter is required if the SyncType value is SyncFromSource. SourceType -&gt; (string) [required] The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Or- ganizations) or SingleAccountMultiRegions . Constraints: o min: 1 o max: 64 AwsOrganizationsSource -&gt; (structure) Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Or- ganizations. OrganizationSourceType -&gt; (string) [required] If an Amazon Web Services organization is present, this is either OrganizationalUnits or EntireOrganization . For Orga- nizationalUnits , the data is aggregated from a set of orga- nization units. For EntireOrganization , the data is aggre- gated from the entire Amazon Web Services organization. Constraints: o min: 1 o max: 64 OrganizationalUnits -&gt; (list) The Organizations organization units included in the sync. Constraints: o min: 1 o max: 1000 (structure) The Organizations organizational unit data source for the sync. OrganizationalUnitId -&gt; (string) The Organizations unit ID data source for the sync. Constraints: o min: 1 o max: 128 o pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ SourceRegions -&gt; (list) [required] The SyncSource Amazon Web Services Regions included in the re- source data sync. (string) Constraints: o min: 1 o max: 64 IncludeFutureRegions -&gt; (boolean) Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online. EnableAllOpsDataSources -&gt; (boolean) When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically en- ables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organiza- tion (or in the selected organization units). For more informa- tion, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide . JSON Syntax: { "SourceType": "string", "AwsOrganizationsSource": { "OrganizationSourceType": "string", "OrganizationalUnits": [ { "OrganizationalUnitId": "string" } ... ] }, "SourceRegions": ["string", ...], "IncludeFutureRegions": true|false, "EnableAllOpsDataSources": true|false }
+    /// Specify information about the data sources to synchronize. This parameter is required if the SyncType value is SyncFromSource. SourceType -&gt; (string) [required] The type of data source for the resource data sync. SourceType is either AwsOrganizations (if an organization is present in Organizations) or SingleAccountMultiRegions . Constraints: • min: 1 • max: 64 AwsOrganizationsSource -&gt; (structure) Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations. OrganizationSourceType -&gt; (string) [required] If an Amazon Web Services organization is present, this is either OrganizationalUnits or EntireOrganization . For OrganizationalUnits , the data is aggregated from a set of organization units. For EntireOrganization , the data is aggregated from the entire Amazon Web Services organization. Constraints: • min: 1 • max: 64 OrganizationalUnits -&gt; (list) The Organizations organization units included in the sync. Constraints: • min: 1 • max: 1000 (structure) The Organizations organizational unit data source for the sync. OrganizationalUnitId -&gt; (string) The Organizations unit ID data source for the sync. Constraints: • min: 1 • max: 128 • pattern: ^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$ SourceRegions -&gt; (list) [required] The SyncSource Amazon Web Services Regions included in the resource data sync. (string) Constraints: • min: 1 • max: 64 IncludeFutureRegions -&gt; (boolean) Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online. EnableAllOpsDataSources -&gt; (boolean) When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the Amazon Web Services Systems Manager User Guide . JSON Syntax: { "SourceType": "string", "AwsOrganizationsSource": { "OrganizationSourceType": "string", "OrganizationalUnits": [ { "OrganizationalUnitId": "string" } ... ] }, "SourceRegions": ["string", ...], "IncludeFutureRegions": true|false, "EnableAllOpsDataSources": true|false }
     /// </summary>
     [CliOption("--sync-source")]
     public string? SyncSource { get; set; }
@@ -100,6 +101,15 @@ public record AwsSsmCreateResourceDataSyncOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

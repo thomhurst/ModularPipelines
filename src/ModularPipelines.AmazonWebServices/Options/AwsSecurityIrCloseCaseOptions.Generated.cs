@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityIrCloseCaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Closes an existing case. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CaseId">Required element used in combination with CloseCase to identify the case ID to close. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*</param>
+    /// <param name="CaseId">Required element used in combination with CloseCase to identify the case ID to close. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*</param>
     public AwsSecurityIrCloseCaseOptions(
         string CaseId
     )
@@ -56,7 +57,7 @@ public record AwsSecurityIrCloseCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element used in combination with CloseCase to identify the case ID to close. Constraints: o min: 10 o max: 32 o pattern: \d{10,32}.*
+    /// Required element used in combination with CloseCase to identify the case ID to close. Constraints: • min: 10 • max: 32 • pattern: \d{10,32}.*
     /// </summary>
     [CliOption("--case-id")]
     public string? CaseId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityIrCloseCaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

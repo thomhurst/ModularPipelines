@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a space. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+/// Updates a space. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchomniUpdateSpaceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a space. Only the provided fields are changed; omitted fields are left un- changed. See also: AWS API Documentation
+    /// Updates a space. Only the provided fields are changed; omitted fields are left unchanged. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpaceId">The unique ID of the space to update. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="SpaceId">The unique ID of the space to update. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCloudwatchomniUpdateSpaceOptions(
         string SpaceId
     )
@@ -56,19 +57,25 @@ public record AwsCloudwatchomniUpdateSpaceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the space to update. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique ID of the space to update. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// A new name for the space. Omit to leave unchanged. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hy- phens. Constraints: o min: 3 o max: 64 o pattern: [a-z0-9]+(-[a-z0-9]+)*
+    /// A new name for the space. Omit to leave unchanged. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens. Constraints: • min: 3 • max: 64 • pattern: [a-z0-9]+(-[a-z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// How to encrypt the space's data at rest. Omit to leave encryption unchanged. Pass encryptionStrategy AWS_OWNED to stop using a cus- tomer managed key and revert to service owned encryption. encryptionStrategy -&gt; (string) [required] Which kind of key to use. Required. Possible values: o AWS_OWNED o CUSTOMER_MANAGED kmsKeyArn -&gt; (string) Customer managed KMS key ARN. Required when encryptionStrategy is CUSTOMER_MANAGED, and must be omitted when it is AWS_OWNED. Must be a symmetric ENCRYPT_DECRYPT key in the caller's account and region. Constraints: o pattern: arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/(mrk-)?[a-f0-9-]+ Shorthand Syntax: encryptionStrategy=string,kmsKeyArn=string JSON Syntax: { "encryptionStrategy": "AWS_OWNED"|"CUSTOMER_MANAGED", "kmsKeyArn": "string" }
+    /// The ARN of the IAM role used by AgentCore online evaluation. Must be in the caller's account. Omit if the space does not use AgentCore online evaluation. Constraints: • min: 1 • max: 2048 • pattern: arn:.+
+    /// </summary>
+    [CliOption("--agent-core-evaluation-role-arn")]
+    public string? AgentCoreEvaluationRoleArn { get; set; }
+
+    /// <summary>
+    /// How to encrypt the space's data at rest. Omit to leave encryption unchanged. Pass encryptionStrategy AWS_OWNED to stop using a customer managed key and revert to service owned encryption. encryptionStrategy -&gt; (string) [required] Which kind of key to use. Required. Possible values: • AWS_OWNED • CUSTOMER_MANAGED kmsKeyArn -&gt; (string) Customer managed KMS key ARN. Required when encryptionStrategy is CUSTOMER_MANAGED, and must be omitted when it is AWS_OWNED. Must be a symmetric ENCRYPT_DECRYPT key in the caller's account and region. Constraints: • pattern: arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/(mrk-)?[a-f0-9-]+ Shorthand Syntax: encryptionStrategy=string,kmsKeyArn=string JSON Syntax: { "encryptionStrategy": "AWS_OWNED"|"CUSTOMER_MANAGED", "kmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -94,6 +101,15 @@ public record AwsCloudwatchomniUpdateSpaceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and un- limited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and unlimited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and un- limited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
+    /// Modifies the credit option for CPU usage on a running or stopped burstable performance instance. The credit options are standard and unlimited . For more information, see Burstable performance instances in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceCreditSpecifications">Information about the credit option for CPU usage. (structure) Describes the credit option for CPU usage of a burstable perfor- mance instance. InstanceId -&gt; (string) [required] The ID of the instance. CpuCredits -&gt; (string) The credit option for CPU usage of the instance. Valid values: standard | unlimited T3 instances with host tenancy do not support the unlimited CPU credit option. Shorthand Syntax: InstanceId=string,CpuCredits=string ... JSON Syntax: [ { "InstanceId": "string", "CpuCredits": "string" } ... ]</param>
+    /// <param name="InstanceCreditSpecifications">Information about the credit option for CPU usage. (structure) Describes the credit option for CPU usage of a burstable performance instance. InstanceId -&gt; (string) [required] The ID of the instance. CpuCredits -&gt; (string) The credit option for CPU usage of the instance. Valid values: standard | unlimited T3 instances with host tenancy do not support the unlimited CPU credit option. Shorthand Syntax: InstanceId=string,CpuCredits=string ... JSON Syntax: [ { "InstanceId": "string", "CpuCredits": "string" } ... ]</param>
     public AwsEc2ModifyInstanceCreditSpecificationOptions(
         IEnumerable<string> InstanceCreditSpecifications
     )
@@ -68,19 +69,19 @@ public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Information about the credit option for CPU usage. (structure) Describes the credit option for CPU usage of a burstable perfor- mance instance. InstanceId -&gt; (string) [required] The ID of the instance. CpuCredits -&gt; (string) The credit option for CPU usage of the instance. Valid values: standard | unlimited T3 instances with host tenancy do not support the unlimited CPU credit option. Shorthand Syntax: InstanceId=string,CpuCredits=string ... JSON Syntax: [ { "InstanceId": "string", "CpuCredits": "string" } ... ]
+    /// Information about the credit option for CPU usage. (structure) Describes the credit option for CPU usage of a burstable performance instance. InstanceId -&gt; (string) [required] The ID of the instance. CpuCredits -&gt; (string) The credit option for CPU usage of the instance. Valid values: standard | unlimited T3 instances with host tenancy do not support the unlimited CPU credit option. Shorthand Syntax: InstanceId=string,CpuCredits=string ... JSON Syntax: [ { "InstanceId": "string", "CpuCredits": "string" } ... ]
     /// </summary>
     [CliOption("--instance-credit-specifications", GroupValues = true)]
     public IEnumerable<string>? InstanceCreditSpecifications { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure idempo- tency of your modification request. For more information, see Ensuring Idempotency .
+    /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -107,6 +108,15 @@ public record AwsEc2ModifyInstanceCreditSpecificationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

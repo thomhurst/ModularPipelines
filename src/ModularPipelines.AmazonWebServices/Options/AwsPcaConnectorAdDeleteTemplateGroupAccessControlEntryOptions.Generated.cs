@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions : Aw
     /// <summary>
     /// Deletes a group access control entry. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupSecurityIdentifier">Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: o min: 7 o max: 256 o pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$</param>
-    /// <param name="TemplateArn">The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/tem- plate\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="GroupSecurityIdentifier">Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: • min: 7 • max: 256 • pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$</param>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/template\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
     public AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions(
         string GroupSecurityIdentifier,
         string TemplateArn
@@ -60,13 +61,13 @@ public record AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions : Aw
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: o min: 7 o max: 256 o pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$
+    /// Security identifier (SID) of the group object from Active Directory. The SID starts with "S-". Constraints: • min: 7 • max: 256 • pattern: ^S-[0-9]-([0-9]+-){1,14}[0-9]+$
     /// </summary>
     [CliOption("--group-security-identifier")]
     public string? GroupSecurityIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/tem- plate\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) that was returned when you called CreateTemplate . Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}\/template\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPcaConnectorAdDeleteTemplateGroupAccessControlEntryOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

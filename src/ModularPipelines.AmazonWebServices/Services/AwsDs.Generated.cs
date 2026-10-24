@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsDs : IAwsDs
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws ds wait sub-commands.
     /// </summary>
     public AwsDsWait Wait => _wait ??= new AwsDsWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// If the DNS server for your self-managed domain uses a publicly address- able IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. Ad- dIpRoutes adds this address block. You can also use AddIpRoutes to fa- cilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes , ensure that all of the required permis- sions have been explicitly granted thr...
+    /// If the DNS server for your self-managed domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes , ensure that all of the required permissions have been explicitly granted through a p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain con- trollers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , Creat- ingSnapshot , and UpdatingSchema . See also: AWS API Documentation
+    /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , CreatingSnapshot , and UpdatingSchema . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates an alias for a directory and assigns the alias to the direc- tory. The alias is used to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com . WARNING: After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary. See also: AWS API Documentation
+    /// Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com . WARNING: After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates a conditional forwarder associated with your Amazon Web Ser- vices directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain. See also: AWS API Documentation
+    /// Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates a hybrid directory that connects your self-managed Active Di- rectory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using StartADAssess- ment to validate your environment compatibility before you use this op- eration. Updates are applied asynchronously. Use DescribeDirectories to monitor the progress of directory creation. See also: AWS API Documentation
+    /// Creates a hybrid directory that connects your self-managed Active Directory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using StartADAssessment to validate your environment compatibility before you use this operation. Updates are applied asynchronously. Use DescribeDirectories to monitor the progress of directory creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see Managed Microsoft AD in the Directory Service Ad- min Guide . Before you call CreateMicrosoftAD , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see Managed Microsoft AD in the Directory Service Admin Guide . Before you call CreateMicrosoftAD , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Ama- zon Web Services cloud. NOTE: You cannot take snapshots of AD Connector directories. See also: AWS API Documentation
+    /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. NOTE: You cannot take snapshots of AD Connector directories. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Directory Service for Microsoft Active Directory allows you to config- ure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Mi- crosoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of cre- dentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and...
+    /// Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete cus- tomer-created assessments even if they are in progress. See also: AWS API Documentation
+    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Deletes an Directory Service directory. Before you call DeleteDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// Deletes an Directory Service directory. Before you call DeleteDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Retrieves detailed information about the certificate authority (CA) en- rollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Ama- zon Web Services Private Certificate Authority. See also: AWS API Documentation
+    /// Retrieves detailed information about the certificate authority (CA) enrollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Amazon Web Services Private Certificate Authority. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -432,7 +432,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported. See also: AWS API Documentation describe-client-authentication-settings is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagin...
+    /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported. See also: AWS API Documentation describe-client-authentication-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all di- rectories that belong to the current account are returned. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the De- scribeDirectoriesResult.NextToken member contains a token that you pass in the next call...
+    /// Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to De...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Obtains status of directory data access enablement through the Direc- tory Service Data API for the specified directory. See also: AWS API Documentation
+    /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Provides information about any domain controllers in your directory. See also: AWS API Documentation describe-domain-controllers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DomainControllers
+    /// Provides information about any domain controllers in your directory. See also: AWS API Documentation describe-domain-controllers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: DomainControllers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -507,7 +507,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Obtains information about which Amazon SNS topics receive status mes- sages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account. See also: AWS API Documentation
+    /// Obtains information about which Amazon SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, adminis- trator account updates, and self-managed instance settings (IDs and DNS IPs). See also: AWS API Documentation
+    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,7 +537,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Describes the status of LDAP security for the specified directory. See also: AWS API Documentation describe-ldaps-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: LDAPSSettingsInfo
+    /// Describes the status of LDAP security for the specified directory. See also: AWS API Documentation describe-ldaps-settings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: LDAPSSettingsInfo
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Returns the shared directories in your account. See also: AWS API Documentation describe-shared-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SharedDirectories
+    /// Returns the shared directories in your account. See also: AWS API Documentation describe-shared-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SharedDirectories
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the De- scribeSnapshots.NextToken member contains a token that you pass in the next call to DescribeSnapshots to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter. See also: AWS API Documentation describe-snapshots is a paginat...
+    /// Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to DescribeSnapshots to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter. See also: AWS API Documentation describe-snapshots is a paginated o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the ac- count. See also: AWS API Documentation describe-trusts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument o...
+    /// Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account. See also: AWS API Documentation describe-trusts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Describes the updates of a directory for a particular update type. See also: AWS API Documentation describe-update-directory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: UpdateActivities
+    /// Describes the updates of a directory for a particular update type. See also: AWS API Documentation describe-update-directory is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: UpdateActivities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Disables the certificate authority (CA) enrollment policy for the spec- ified directory. This stops automatic certificate enrollment and man- agement for domain-joined clients, but does not affect existing cer- tificates. WARNING: Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire. See also: AWS API Documentation
+    /// Disables the certificate authority (CA) enrollment policy for the specified directory. This stops automatic certificate enrollment and management for domain-joined clients, but does not affect existing certificates. WARNING: Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Deactivates access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Ser- vice Data API Reference . See also: AWS API Documentation
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Service Data API Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Disables multi-factor authentication (MFA) with the Remote Authentica- tion Dial In User Service (RADIUS) server for an AD Connector or Mi- crosoft AD directory. See also: AWS API Documentation
+    /// Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Enables alternative client authentication methods for the specified di- rectory. See also: AWS API Documentation
+    /// Enables alternative client authentication methods for the specified directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Activates the switch for the specific directory to always use LDAP se- cure calls. See also: AWS API Documentation
+    /// Activates the switch for the specific directory to always use LDAP secure calls. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Enables multi-factor authentication (MFA) with the Remote Authentica- tion Dial In User Service (RADIUS) server for an AD Connector or Mi- crosoft AD directory. See also: AWS API Documentation
+    /// Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their creden- tials separately. See also: AWS API Documentation
+    /// Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their credentials separately. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Retrieves a list of directory assessments for the specified directory or all assessments in your account. Use this operation to monitor as- sessment status and manage multiple assessments. See also: AWS API Documentation list-ad-assessments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the ...
+    /// Retrieves a list of directory assessments for the specified directory or all assessments in your account. Use this operation to monitor assessment status and manage multiple assessments. See also: AWS API Documentation list-ad-assessments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Lists the address blocks that you have added to a directory. See also: AWS API Documentation list-ip-routes is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpRoutesInfo
+    /// Lists the address blocks that you have added to a directory. See also: AWS API Documentation list-ip-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IpRoutesInfo
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Registers a certificate for a secure LDAP or client certificate authen- tication. See also: AWS API Documentation
+    /// Registers a certificate for a secure LDAP or client certificate authentication. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your di- rectory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notifi- cation when the directory returns to an Active status. See also: AWS API Documentation
+    /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1002,7 +1002,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Stops all replication and removes the domain controllers from the spec- ified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API. See also: AWS API Documentation
+    /// Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenti- cated following the API call. You can reset the password for any user in your directory with the fol- lowing exceptions: o For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. o For Managed Microsoft AD, you can only reset the password for a user...
+    /// Resets the password for any user in your Managed Microsoft AD or Simple AD directory. Disabled users will become enabled and can be authenticated following the API call. You can reset the password for any user in your directory with the following exceptions: • For Simple AD, you cannot reset the password for any user that is a member of either the Domain Admins or Enterprise Admins group except for the administrator user. • For Managed Microsoft AD, you can only reset the password for a user tha...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the De- scribeDirectories operation with the directory identifier. When the Di- rectoryDescription.Stage value changes to Active , the restore opera- tion is complete. See also: AWS API Do...
+    /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the DescribeDirectories operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active , the restore operation is complete. See also: AWS API Document...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Shares a specified directory (DirectoryId ) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (di- rectory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Ama- zon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide ac...
+    /// Shares a specified directory (DirectoryId ) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1077,7 +1077,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Initiates a directory assessment to validate your self-managed AD envi- ronment for hybrid domain join. The assessment checks compatibility and connectivity of the self-managed AD environment. A directory assessment is automatically created when you create a hy- brid directory. There are two types of assessments: CUSTOMER and SYSTEM . Your Amazon Web Services account has a limit of 100 CUSTOMER direc- tory assessments. The assessment process typically takes 30 minutes or more to complete. The as...
+    /// Initiates a directory assessment to validate your self-managed AD environment for hybrid domain join. The assessment checks compatibility and connectivity of the self-managed AD environment. A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM . Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. The assessment process typically takes 30 minutes or more to complete. The assessme...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1152,7 +1152,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Updates the configuration of an existing hybrid directory. You can re- cover hybrid directory administrator account or modify self-managed in- stance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to mon- itor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with Cus- tomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input a...
+    /// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use DescribeHybridADUpdate to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps , meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays mu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1167,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. Dur- ing this time, you cannot make another update request. See also: AWS API Documentation
+    /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsDs : IAwsDs
     }
 
     /// <summary>
-    /// Directory Service for Microsoft Active Directory allows you to config- ure and verify trust relationships. This action verifies a trust relationship between your Managed Mi- crosoft AD directory and an external domain. See also: AWS API Documentation
+    /// Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

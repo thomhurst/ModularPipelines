@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsFrauddetectorUpdateRuleMetadataOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates a rule's metadata. The description attribute can be updated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Rule">The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
-    /// <param name="Description">The rule description. Constraints: o min: 1 o max: 128</param>
+    /// <param name="Rule">The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }</param>
+    /// <param name="Description">The rule description. Constraints: • min: 1 • max: 128</param>
     public AwsFrauddetectorUpdateRuleMetadataOptions(
         string Rule,
         string Description
@@ -60,13 +61,13 @@ public record AwsFrauddetectorUpdateRuleMetadataOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
+    /// The rule to update. detectorId -&gt; (string) [required] The detector for which the rule is associated. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleId -&gt; (string) [required] The rule ID. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$ ruleVersion -&gt; (string) [required] The rule version. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$ Shorthand Syntax: detectorId=string,ruleId=string,ruleVersion=string JSON Syntax: { "detectorId": "string", "ruleId": "string", "ruleVersion": "string" }
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; private init; }
 
     /// <summary>
-    /// The rule description. Constraints: o min: 1 o max: 128
+    /// The rule description. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
@@ -92,6 +93,15 @@ public record AwsFrauddetectorUpdateRuleMetadataOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

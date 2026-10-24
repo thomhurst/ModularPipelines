@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new attribute group as a container for user-defined attrib- utes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
+/// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsServicecatalogAppregistryCreateAttributeGroupOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new attribute group as a container for user-defined attrib- utes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
+    /// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the attribute group. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+</param>
-    /// <param name="Attributes">A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: o min: 1 o max: 8000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
+    /// <param name="Name">The name of the attribute group. Constraints: • min: 1 • max: 256 • pattern: [-.\w]+</param>
+    /// <param name="Attributes">A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: • min: 1 • max: 8000 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+</param>
     public AwsServicecatalogAppregistryCreateAttributeGroupOptions(
         string Name,
         string Attributes
@@ -62,31 +62,31 @@ public record AwsServicecatalogAppregistryCreateAttributeGroupOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the attribute group. Constraints: o min: 1 o max: 256 o pattern: [-.\w]+
+    /// The name of the attribute group. Constraints: • min: 1 • max: 256 • pattern: [-.\w]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: o min: 1 o max: 8000 o pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
+    /// A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components. Constraints: • min: 1 • max: 8000 • pattern: [\u0009\u000A\u000D\u0020-\u00FF]+
     /// </summary>
     [CliOption("--attributes")]
     public string? Attributes { get; private init; }
 
     /// <summary>
-    /// The description of the attribute group that the user provides. Constraints: o max: 1024
+    /// The description of the attribute group that the user provides. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key-value pairs you can use to associate with the attribute group. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: o max: 256 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Key-value pairs you can use to associate with the attribute group. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$ value -&gt; (string) Constraints: • max: 256 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -113,6 +113,15 @@ public record AwsServicecatalogAppregistryCreateAttributeGroupOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

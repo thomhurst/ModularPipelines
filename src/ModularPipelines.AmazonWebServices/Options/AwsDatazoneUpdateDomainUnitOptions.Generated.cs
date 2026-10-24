@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDatazoneUpdateDomainUnitOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates the domain unit. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the domain where you want to update a domain unit. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the domain unit that you want to update. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+</param>
+    /// <param name="DomainIdentifier">The ID of the domain where you want to update a domain unit. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the domain unit that you want to update. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+</param>
     public AwsDatazoneUpdateDomainUnitOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,25 +61,25 @@ public record AwsDatazoneUpdateDomainUnitOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain where you want to update a domain unit. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the domain where you want to update a domain unit. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the domain unit that you want to update. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+
+    /// The ID of the domain unit that you want to update. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The description of the domain unit that you want to update. Constraints: o min: 0 o max: 2048
+    /// The description of the domain unit that you want to update. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name of the domain unit that you want to update. Constraints: o min: 1 o max: 128 o pattern: [\w -]+
+    /// The name of the domain unit that you want to update. Constraints: • min: 1 • max: 128 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -104,6 +105,15 @@ public record AwsDatazoneUpdateDomainUnitOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

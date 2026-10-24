@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete a hub content reference in order to remove a model from a pri- vate hub. See also: AWS API Documentation
+/// Delete a hub content reference in order to remove a model from a private hub. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsSagemakerDeleteHubContentReferenceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete a hub content reference in order to remove a model from a pri- vate hub. See also: AWS API Documentation
+    /// Delete a hub content reference in order to remove a model from a private hub. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HubName">The name of the hub to delete the hub content reference from. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="HubContentType">The type of hub content reference to delete. The only supported type of hub content reference to delete is ModelReference . Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc</param>
-    /// <param name="HubContentName">The name of the hub content to delete. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubName">The name of the hub to delete the hub content reference from. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="HubContentType">The type of hub content reference to delete. The only supported type of hub content reference to delete is ModelReference . Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc</param>
+    /// <param name="HubContentName">The name of the hub content to delete. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDeleteHubContentReferenceOptions(
         string HubName,
         AwsSagemakerDeleteHubContentReferenceHubContentType HubContentType,
@@ -64,19 +65,19 @@ public record AwsSagemakerDeleteHubContentReferenceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hub to delete the hub content reference from. Constraints: o pattern: (arn:[a-z0-9-\.]{1,63}:sage- maker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub to delete the hub content reference from. Constraints: • pattern: (arn:[a-z0-9-\.]{1,63}:sagemaker:\w+(?:-\w+)+:(\d{12}|aws):hub\/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-name")]
     public string? HubName { get; private init; }
 
     /// <summary>
-    /// The type of hub content reference to delete. The only supported type of hub content reference to delete is ModelReference . Possible values: o Model o Notebook o ModelReference o DataSet o JsonDoc
+    /// The type of hub content reference to delete. The only supported type of hub content reference to delete is ModelReference . Possible values: • Model • Notebook • ModelReference • DataSet • JsonDoc
     /// </summary>
     [CliOption("--hub-content-type")]
     public AwsSagemakerDeleteHubContentReferenceHubContentType? HubContentType { get; private init; }
 
     /// <summary>
-    /// The name of the hub content to delete. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the hub content to delete. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--hub-content-name")]
     public string? HubContentName { get; private init; }
@@ -102,6 +103,15 @@ public record AwsSagemakerDeleteHubContentReferenceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

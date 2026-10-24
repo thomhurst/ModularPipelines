@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Changes the settings for an existing DB proxy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbProxyName">The identifier for the DBProxy to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="DbProxyName">The identifier for the DBProxy to modify. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
     public AwsRdsModifyDbProxyOptions(
         string DbProxyName
     )
@@ -57,31 +58,31 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the DBProxy to modify. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The identifier for the DBProxy to modify. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-name")]
     public string? DbProxyName { get; private init; }
 
     /// <summary>
-    /// The new identifier for the DBProxy . An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The new identifier for the DBProxy . An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--new-db-proxy-name")]
     public string? NewDbProxyName { get; set; }
 
     /// <summary>
-    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the un- derlying database. Valid values are NONE and IAM_AUTH . When set to IAM_AUTH , the proxy uses end-to-end IAM authentication to connect to the database. Possible values: o IAM_AUTH o NONE
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH . When set to IAM_AUTH , the proxy uses end-to-end IAM authentication to connect to the database. Possible values: • IAM_AUTH • NONE
     /// </summary>
     [CliOption("--default-auth-scheme")]
     public AwsRdsModifyDbProxyDefaultAuthScheme? DefaultAuthScheme { get; set; }
 
     /// <summary>
-    /// The new authentication settings for the DBProxy . Constraints: o min: 0 o max: 200 (structure) Specifies the details of authentication used by a proxy to log in as a specific database user. Description -&gt; (string) A user-specified description about the authentication used by a proxy to log in as a specific database user. Constraints: o min: 1 o max: 1000 o pattern: .* UserName -&gt; (string) The name of the database user to which the proxy connects. Constraints: o min: 1 o max: 128 AuthScheme -&gt; (string) The type of authentication that the proxy uses for connec- tions from the proxy to the underlying database. Possible values: o SECRETS SecretArn -&gt; (string) The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Au- rora DB cluster. These secrets are stored within Amazon Se- crets Manager. Constraints: o min: 20 o max: 2048 IAMAuth -&gt; (string) A value that indicates whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentica- tion for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server. Possible values: o DISABLED o REQUIRED o ENABLED ClientPasswordAuthType -&gt; (string) The type of authentication the proxy uses for connections from clients. The following values are defaults for the cor- responding engines: o RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD o RDS for SQL Server: SQL_SERVER_AUTHENTICATION o RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256 Possible values: o MYSQL_NATIVE_PASSWORD o MYSQL_CACHING_SHA2_PASSWORD o POSTGRES_SCRAM_SHA_256 o POSTGRES_MD5 o SQL_SERVER_AUTHENTICATION Shorthand Syntax: Description=string,UserName=string,AuthScheme=string,SecretArn=string,IAMAuth=string,ClientPasswordAuthType=string ... JSON Syntax: [ { "Description": "string", "UserName": "string", "AuthScheme": "SECRETS", "SecretArn": "string", "IAMAuth": "DISABLED"|"REQUIRED"|"ENABLED", "ClientPasswordAuthType": "MYSQL_NATIVE_PASSWORD"|"MYSQL_CACHING_SHA2_PASSWORD"|"POSTGRES_SCRAM_SHA_256"|"POSTGRES_MD5"|"SQL_SERVER_AUTHENTICATION" } ... ]
+    /// The new authentication settings for the DBProxy . Constraints: • min: 0 • max: 200 (structure) Specifies the details of authentication used by a proxy to log in as a specific database user. Description -&gt; (string) A user-specified description about the authentication used by a proxy to log in as a specific database user. Constraints: • min: 1 • max: 1000 • pattern: .* UserName -&gt; (string) The name of the database user to which the proxy connects. Constraints: • min: 1 • max: 128 AuthScheme -&gt; (string) The type of authentication that the proxy uses for connections from the proxy to the underlying database. Possible values: • SECRETS SecretArn -&gt; (string) The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Aurora DB cluster. These secrets are stored within Amazon Secrets Manager. Constraints: • min: 20 • max: 2048 IAMAuth -&gt; (string) A value that indicates whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentication for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server. Possible values: • DISABLED • REQUIRED • ENABLED ClientPasswordAuthType -&gt; (string) The type of authentication the proxy uses for connections from clients. The following values are defaults for the corresponding engines: • RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD • RDS for SQL Server: SQL_SERVER_AUTHENTICATION • RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256 Possible values: • MYSQL_NATIVE_PASSWORD • MYSQL_CACHING_SHA2_PASSWORD • POSTGRES_SCRAM_SHA_256 • POSTGRES_MD5 • SQL_SERVER_AUTHENTICATION Shorthand Syntax: Description=string,UserName=string,AuthScheme=string,SecretArn=string,IAMAuth=string,ClientPasswordAuthType=string ... JSON Syntax: [ { "Description": "string", "UserName": "string", "AuthScheme": "SECRETS", "SecretArn": "string", "IAMAuth": "DISABLED"|"REQUIRED"|"ENABLED", "ClientPasswordAuthType": "MYSQL_NATIVE_PASSWORD"|"MYSQL_CACHING_SHA2_PASSWORD"|"POSTGRES_SCRAM_SHA_256"|"POSTGRES_MD5"|"SQL_SERVER_AUTHENTICATION" } ... ]
     /// </summary>
     [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
 
     /// <summary>
-    /// Whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy, even if the associated data- base doesn't use TLS.
+    /// Whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy, even if the associated database doesn't use TLS.
     /// </summary>
     [CliFlag("--require-tls", NegatedName = "--no-require-tls")]
     public bool? RequireTls { get; set; }
@@ -93,13 +94,13 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions, IValidatableObject
     public int? IdleClientTimeout { get; set; }
 
     /// <summary>
-    /// Specifies whether the proxy logs detailed connection and query in- formation. When you enable DebugLogging , the proxy captures connec- tion details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
+    /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging , the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     /// </summary>
     [CliFlag("--debug-logging", NegatedName = "--no-debug-logging")]
     public bool? DebugLogging { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -131,6 +132,15 @@ public record AwsRdsModifyDbProxyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new Neptune ML model training job. See Model training using the ``modeltraining` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
+/// Creates a new Neptune ML model training job. See Model training using the ``modeltraining` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new Neptune ML model training job. See Model training using the ``modeltraining` command &lt;- https://docs.aws.amazon.com/neptune/latest/userguide/machine-learn- ing-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authen- tication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
+    /// Creates a new Neptune ML model training job. See Model training using the ``modeltraining` command &lt;https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html&gt;`__ . When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster. See also: AWS API Documentation
     /// </summary>
     /// <param name="DataProcessingJobId">The job ID of the completed data-processing job that has created the data that the training will work with.</param>
     /// <param name="TrainModelS3Location">The location in Amazon S3 where the model artifacts are to be stored.</param>
@@ -90,25 +91,25 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions, IValida
     public string? SagemakerIamRoleArn { get; set; }
 
     /// <summary>
-    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parame- ter group or an error will occur.
+    /// The ARN of an IAM role that provides Neptune access to SageMaker and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error will occur.
     /// </summary>
     [CliOption("--neptune-iam-role-arn")]
     public string? NeptuneIamRoleArn { get; set; }
 
     /// <summary>
-    /// The type of ML instance used in preparing and managing training of ML models. This is a CPU instance chosen based on memory require- ments for processing the training data and model.
+    /// The type of ML instance used in preparing and managing training of ML models. This is a CPU instance chosen based on memory requirements for processing the training data and model.
     /// </summary>
     [CliOption("--base-processing-instance-type")]
     public string? BaseProcessingInstanceType { get; set; }
 
     /// <summary>
-    /// The type of ML instance used for model training. All Neptune ML mod- els support CPU, GPU, and multiGPU training. The default is ml.p3.2xlarge . Choosing the right instance type for training de- pends on the task type, graph size, and your budget.
+    /// The type of ML instance used for model training. All Neptune ML models support CPU, GPU, and multiGPU training. The default is ml.p3.2xlarge . Choosing the right instance type for training depends on the task type, graph size, and your budget.
     /// </summary>
     [CliOption("--training-instance-type")]
     public string? TrainingInstanceType { get; set; }
 
     /// <summary>
-    /// The disk volume size of the training instance. Both input data and the output model are stored on disk, so the volume size must be large enough to hold both data sets. The default is 0. If not speci- fied or 0, Neptune ML selects a disk volume size based on the recom- mendation generated in the data processing step.
+    /// The disk volume size of the training instance. Both input data and the output model are stored on disk, so the volume size must be large enough to hold both data sets. The default is 0. If not specified or 0, Neptune ML selects a disk volume size based on the recommendation generated in the data processing step.
     /// </summary>
     [CliOption("--training-instance-volume-size-in-gb")]
     public int? TrainingInstanceVolumeSizeInGb { get; set; }
@@ -120,13 +121,13 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions, IValida
     public int? TrainingTimeOutInSeconds { get; set; }
 
     /// <summary>
-    /// Maximum total number of training jobs to start for the hyperparame- ter tuning job. The default is 2. Neptune ML automatically tunes the hyperparameters of the machine learning model. To obtain a model that performs well, use at least 10 jobs (in other words, set maxH- PONumberOfTrainingJobs to 10). In general, the more tuning runs, the better the results.
+    /// Maximum total number of training jobs to start for the hyperparameter tuning job. The default is 2. Neptune ML automatically tunes the hyperparameters of the machine learning model. To obtain a model that performs well, use at least 10 jobs (in other words, set maxHPONumberOfTrainingJobs to 10). In general, the more tuning runs, the better the results.
     /// </summary>
     [CliOption("--max-hpo-number-of-training-jobs")]
     public int? MaxHpoNumberOfTrainingJobs { get; set; }
 
     /// <summary>
-    /// Maximum number of parallel training jobs to start for the hyperpara- meter tuning job. The default is 2. The number of parallel jobs you can run is limited by the available resources on your training in- stance.
+    /// Maximum number of parallel training jobs to start for the hyperparameter tuning job. The default is 2. The number of parallel jobs you can run is limited by the available resources on your training instance.
     /// </summary>
     [CliOption("--max-hpo-parallel-training-jobs")]
     public int? MaxHpoParallelTrainingJobs { get; set; }
@@ -144,7 +145,7 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions, IValida
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// The Amazon Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute in- stances that run the training job. The default is None.
+    /// The Amazon Key Management Service (KMS) key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instances that run the training job. The default is None.
     /// </summary>
     [CliOption("--volume-encryption-kms-key")]
     public string? VolumeEncryptionKmsKey { get; set; }
@@ -156,13 +157,13 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions, IValida
     public string? S3OutputEncryptionKmsKey { get; set; }
 
     /// <summary>
-    /// Optimizes the cost of training machine-learning models by using Ama- zon Elastic Compute Cloud spot instances. The default is False .
+    /// Optimizes the cost of training machine-learning models by using Amazon Elastic Compute Cloud spot instances. The default is False .
     /// </summary>
     [CliFlag("--enable-managed-spot-training", NegatedName = "--no-enable-managed-spot-training")]
     public bool? EnableManagedSpotTraining { get; set; }
 
     /// <summary>
-    /// The configuration for custom model training. This is a JSON object. sourceS3DirectoryPath -&gt; (string) [required] The path to the Amazon S3 location where the Python module im- plementing your model is located. This must point to a valid ex- isting Amazon S3 location that contains, at a minimum, a train- ing script, a transform script, and a model-hpo-configura- tion.json file. trainingEntryPointScript -&gt; (string) The name of the entry point in your module of a script that per- forms model training and takes hyperparameters as command-line arguments, including fixed hyperparameters. The default is training.py . transformEntryPointScript -&gt; (string) The name of the entry point in your module of a script that should be run after the best model from the hyperparameter search has been identified, to compute the model artifacts nec- essary for model deployment. It should be able to run with no command-line arguments.The default is transform.py . Shorthand Syntax: sourceS3DirectoryPath=string,trainingEntryPointScript=string,transformEntryPointScript=string JSON Syntax: { "sourceS3DirectoryPath": "string", "trainingEntryPointScript": "string", "transformEntryPointScript": "string" }
+    /// The configuration for custom model training. This is a JSON object. sourceS3DirectoryPath -&gt; (string) [required] The path to the Amazon S3 location where the Python module implementing your model is located. This must point to a valid existing Amazon S3 location that contains, at a minimum, a training script, a transform script, and a model-hpo-configuration.json file. trainingEntryPointScript -&gt; (string) The name of the entry point in your module of a script that performs model training and takes hyperparameters as command-line arguments, including fixed hyperparameters. The default is training.py . transformEntryPointScript -&gt; (string) The name of the entry point in your module of a script that should be run after the best model from the hyperparameter search has been identified, to compute the model artifacts necessary for model deployment. It should be able to run with no command-line arguments.The default is transform.py . Shorthand Syntax: sourceS3DirectoryPath=string,trainingEntryPointScript=string,transformEntryPointScript=string JSON Syntax: { "sourceS3DirectoryPath": "string", "trainingEntryPointScript": "string", "transformEntryPointScript": "string" }
     /// </summary>
     [CliOption("--custom-model-training-parameters")]
     public string? CustomModelTrainingParameters { get; set; }
@@ -188,6 +189,15 @@ public record AwsNeptunedataStartMlModelTrainingJobOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsPinpointEmailPutEmailIdentityDkimAttributesOptions : AwsOptions
     public string? EmailIdentity { get; private init; }
 
     /// <summary>
-    /// Sets the DKIM signing configuration for the identity. When you set this value true , then the messages that Amazon Pin- point sends from the identity are DKIM-signed. When you set this value to false , then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
+    /// Sets the DKIM signing configuration for the identity. When you set this value true , then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false , then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
     /// </summary>
     [CliFlag("--signing-enabled", NegatedName = "--no-signing-enabled")]
     public bool? SigningEnabled { get; set; }
@@ -88,6 +89,15 @@ public record AwsPinpointEmailPutEmailIdentityDkimAttributesOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

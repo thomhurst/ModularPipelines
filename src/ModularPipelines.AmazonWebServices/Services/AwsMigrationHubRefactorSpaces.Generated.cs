@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws migrationhubrefactorspaces commands.
+/// aws migration-hub-refactor-spaces commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
@@ -32,7 +32,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     #region Commands
 
     /// <summary>
-    /// Creates an Amazon Web Services Migration Hub Refactor Spaces applica- tion. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity betwe...
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces application. The account that owns the environment also owns the applications created inside the environment, regardless of the account that creates the application. Refactor Spaces provisions an Amazon API Gateway, API Gateway VPC link, and Network Load Balancer for the application proxy inside your account. In environments created with a CreateEnvironment:NetworkFabricType of NONE you need to configure VPC to VPC connectivity between...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Creates an Amazon Web Services Migration Hub Refactor Spaces environ- ment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkF...
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces environment. The caller owns the environment resource, and all Refactor Spaces applications, services, and routes created within the environment. They are referred to as the environment owner . The environment owner has cross-account visibility and control of Refactor Spaces resources that are added to the environment by other accounts that the environment is shared with. When creating an environment with a CreateEnvironment:NetworkFab...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, re- gardless of which account in the environment creates the service. Ser- vices have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSec...
+    /// Creates an Amazon Web Services Migration Hub Refactor Spaces service. The account owner of the service is always the environment owner, regardless of which account in the environment creates the service. Services have either a URL endpoint in a virtual private cloud (VPC), or a Lambda function endpoint. WARNING: If an Amazon Web Services resource is launched in a service VPC, and you want it to be accessible to all of an environments services with VPCs and routes, apply the RefactorSpacesSecurit...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Deletes an Amazon Web Services Migration Hub Refactor Spaces applica- tion. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
+    /// Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first delete any services or routes within the application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Deletes an Amazon Web Services Migration Hub Refactor Spaces environ- ment. Before you can delete an environment, you must first delete any applications and services within the environment. See also: AWS API Documentation
+    /// Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first delete any applications and services within the environment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Gets the resource-based permission policy that is set for the given en- vironment. See also: AWS API Documentation
+    /// Gets the resource-based permission policy that is set for the given environment. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Lists all the Amazon Web Services Migration Hub Refactor Spaces appli- cations within an environment. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: A...
+    /// Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment. See also: AWS API Documentation list-applications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: App...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -250,6 +250,21 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListApplicationsAsync(
         AwsMigrationHubRefactorSpacesListApplicationsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the environment. See also: AWS API Documentation list-environment-vpcs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListEnvironmentVpcsAsync(
+        AwsMigrationHubRefactorSpacesListEnvironmentVpcsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -272,22 +287,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the environment. See also: AWS API Documentation list-environment-vpcs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListEnvironmentVpcsAsync(
-        AwsMigrationHubRefactorSpacesListEnvironmentVpcsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application. See also: AWS API Documentation list-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: RouteSummar...
+    /// Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application. See also: AWS API Documentation list-routes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouteSummaryLis...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Lists all the Amazon Web Services Migration Hub Refactor Spaces ser- vices within an application. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Servi...
+    /// Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ServiceSumm...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsMigrationHubRefactorSpaces : IAwsMigrationHubRefactorSpaces
     }
 
     /// <summary>
-    /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permis- sion/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Re- source Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
+    /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Resource Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

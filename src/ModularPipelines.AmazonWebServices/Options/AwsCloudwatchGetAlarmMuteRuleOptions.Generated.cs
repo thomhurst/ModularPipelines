@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, in- cluding its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: o SCHEDULED : The mute rule is configured and will become active in the future o ACTIVE : The mute rule is currently muting alarm actions o EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrie...
+/// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: • SCHEDULED : The mute rule is configured and will become active in the future • ACTIVE : The mute rule is currently muting alarm actions • EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrieve...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchGetAlarmMuteRuleOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, in- cluding its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: o SCHEDULED : The mute rule is configured and will become active in the future o ACTIVE : The mute rule is currently muting alarm actions o EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrie...
+    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule: • SCHEDULED : The mute rule is configured and will become active in the future • ACTIVE : The mute rule is currently muting alarm actions • EXPIRED : The mute rule has passed its expiration date and will no longer become active Permissions To retrieve...
     /// </summary>
-    /// <param name="AlarmMuteRuleName">The name of the alarm mute rule to retrieve. Constraints: o min: 1 o max: 255</param>
+    /// <param name="AlarmMuteRuleName">The name of the alarm mute rule to retrieve. Constraints: • min: 1 • max: 255</param>
     public AwsCloudwatchGetAlarmMuteRuleOptions(
         string AlarmMuteRuleName
     )
@@ -56,7 +57,7 @@ public record AwsCloudwatchGetAlarmMuteRuleOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the alarm mute rule to retrieve. Constraints: o min: 1 o max: 255
+    /// The name of the alarm mute rule to retrieve. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--alarm-mute-rule-name")]
     public string? AlarmMuteRuleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudwatchGetAlarmMuteRuleOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

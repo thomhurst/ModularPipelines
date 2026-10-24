@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNote- bookExecutions calls. See also: AWS API Documentation list-notebook-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
+/// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecutions calls. See also: AWS API Documentation list-notebook-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsEmrListNotebookExecutionsOptions : AwsOptions
 {
     /// <summary>
-    /// The unique ID of the editor associated with the notebook execution. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The unique ID of the editor associated with the notebook execution. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--editor-id")]
     public string? EditorId { get; set; }
 
     /// <summary>
-    /// The status filter for listing notebook executions. o START_PENDING indicates that the cluster has received the execu- tion request but execution has not begun. o STARTING indicates that the execution is starting on the cluster. o RUNNING indicates that the execution is being processed by the cluster. o FINISHING indicates that execution processing is in the final stages. o FINISHED indicates that the execution has completed without error. o FAILING indicates that the execution is failing and will not fin- ish successfully. o FAILED indicates that the execution failed. o STOP_PENDING indicates that the cluster has received a StopNote- bookExecution request and the stop is pending. o STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request. o STOPPED indicates that the execution stopped because of a Stop- NotebookExecution request. Possible values: o START_PENDING o STARTING o RUNNING o FINISHING o FINISHED o FAILING o FAILED o STOP_PENDING o STOPPING o STOPPED
+    /// The status filter for listing notebook executions. • START_PENDING indicates that the cluster has received the execution request but execution has not begun. • STARTING indicates that the execution is starting on the cluster. • RUNNING indicates that the execution is being processed by the cluster. • FINISHING indicates that execution processing is in the final stages. • FINISHED indicates that the execution has completed without error. • FAILING indicates that the execution is failing and will not finish successfully. • FAILED indicates that the execution failed. • STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending. • STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request. • STOPPED indicates that the execution stopped because of a StopNotebookExecution request. Possible values: • START_PENDING • STARTING • RUNNING • FINISHING • FINISHED • FAILING • FAILED • STOP_PENDING • STOPPING • STOPPED
     /// </summary>
     [CliOption("--status")]
     public AwsEmrListNotebookExecutionsStatus? Status { get; set; }
@@ -48,16 +48,13 @@ public record AwsEmrListNotebookExecutionsOptions : AwsOptions
     public string? To { get; set; }
 
     /// <summary>
-    /// The unique ID of the execution engine. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The unique ID of the execution engine. Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--execution-engine-id")]
     public string? ExecutionEngineId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -67,9 +64,21 @@ public record AwsEmrListNotebookExecutionsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

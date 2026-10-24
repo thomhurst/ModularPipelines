@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsM2UpdateApplicationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an application and creates a new version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier of the application you want to update. Constraints: o pattern: ^\S{1,80}$</param>
-    /// <param name="CurrentApplicationVersion">The current version of the application to update. Constraints: o min: 1</param>
+    /// <param name="ApplicationId">The unique identifier of the application you want to update. Constraints: • pattern: ^\S{1,80}$</param>
+    /// <param name="CurrentApplicationVersion">The current version of the application to update. Constraints: • min: 1</param>
     public AwsM2UpdateApplicationOptions(
         string ApplicationId,
         int CurrentApplicationVersion
@@ -59,25 +60,25 @@ public record AwsM2UpdateApplicationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the application you want to update. Constraints: o pattern: ^\S{1,80}$
+    /// The unique identifier of the application you want to update. Constraints: • pattern: ^\S{1,80}$
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The current version of the application to update. Constraints: o min: 1
+    /// The current version of the application to update. Constraints: • min: 1
     /// </summary>
     [CliOption("--current-application-version")]
     public int? CurrentApplicationVersion { get; private init; }
 
     /// <summary>
-    /// The application definition for this application. You can specify ei- ther inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that iden- tify an application. Constraints: o min: 1 o max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: o pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }
+    /// The application definition for this application. You can specify either inline JSON or an S3 bucket location. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: content, s3Location. content -&gt; (string) The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application. Constraints: • min: 1 • max: 65000 s3Location -&gt; (string) The S3 bucket that contains the application definition. Constraints: • pattern: ^\S{1,2000}$ Shorthand Syntax: content=string,s3Location=string JSON Syntax: { "content": "string", "s3Location": "string" }
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; set; }
 
     /// <summary>
-    /// The description of the application to update. Constraints: o min: 0 o max: 500
+    /// The description of the application to update. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -103,6 +104,15 @@ public record AwsM2UpdateApplicationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

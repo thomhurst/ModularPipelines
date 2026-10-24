@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRoute53WaitResourceRecordSetsChangedOptions : AwsOptions, IVali
     /// <summary>
     /// Wait until JMESPath query ChangeInfo.Status returns INSYNC when polling with get-change. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id ele- ment when you submitted the request. Constraints: o min: 1 o max: 6500</param>
+    /// <param name="Id">The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request. Constraints: • min: 1 • max: 6500</param>
     public AwsRoute53WaitResourceRecordSetsChangedOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsRoute53WaitResourceRecordSetsChangedOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id ele- ment when you submitted the request. Constraints: o min: 1 o max: 6500
+    /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request. Constraints: • min: 1 • max: 6500
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53WaitResourceRecordSetsChangedOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

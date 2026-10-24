@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Creates a new membership. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipName">Required element used in combination with CreateMembership to create a name for the membership. Constraints: o min: 3 o max: 50</param>
-    /// <param name="IncidentResponseTeam">Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership. Constraints: o min: 2 o max: 10 (structure) name -&gt; (string) [required] Constraints: o min: 3 o max: 50 jobTitle -&gt; (string) [required] Constraints: o min: 1 o max: 50 email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: o Case Created o Case Updated o Case Acknowledged o Case Closed o Case Updated To Service Managed o Case Status Updated o Case Pending Customer Action Reminder o Case Attachment Url Uploaded o Case Comment Added o Case Comment Updated o Membership Created o Membership Updated o Membership Cancelled o Register Delegated Administrator o Deregister Delegated Administrator o Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]</param>
+    /// <param name="MembershipName">Required element used in combination with CreateMembership to create a name for the membership. Constraints: • min: 3 • max: 50</param>
+    /// <param name="IncidentResponseTeam">Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership. Constraints: • min: 2 • max: 10 (structure) name -&gt; (string) [required] Constraints: • min: 3 • max: 50 jobTitle -&gt; (string) [required] Constraints: • min: 1 • max: 50 email -&gt; (string) [required] Constraints: • min: 6 • max: 254 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: • Case Created • Case Updated • Case Acknowledged • Case Closed • Case Updated To Service Managed • Case Status Updated • Case Pending Customer Action Reminder • Case Attachment Url Uploaded • Case Comment Added • Case Comment Updated • Membership Created • Membership Updated • Membership Cancelled • Register Delegated Administrator • Deregister Delegated Administrator • Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]</param>
     public AwsSecurityIrCreateMembershipOptions(
         string MembershipName,
         IEnumerable<string> IncidentResponseTeam
@@ -73,38 +73,38 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element used in combination with CreateMembership to create a name for the membership. Constraints: o min: 3 o max: 50
+    /// Required element used in combination with CreateMembership to create a name for the membership. Constraints: • min: 3 • max: 50
     /// </summary>
     [CliOption("--membership-name")]
     public string? MembershipName { get; private init; }
 
     /// <summary>
-    /// Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership. Constraints: o min: 2 o max: 10 (structure) name -&gt; (string) [required] Constraints: o min: 3 o max: 50 jobTitle -&gt; (string) [required] Constraints: o min: 1 o max: 50 email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: o Case Created o Case Updated o Case Acknowledged o Case Closed o Case Updated To Service Managed o Case Status Updated o Case Pending Customer Action Reminder o Case Attachment Url Uploaded o Case Comment Added o Case Comment Updated o Membership Created o Membership Updated o Membership Cancelled o Register Delegated Administrator o Deregister Delegated Administrator o Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]
+    /// Required element used in combination with CreateMembership to add customer incident response team members and trusted partners to the membership. Constraints: • min: 2 • max: 10 (structure) name -&gt; (string) [required] Constraints: • min: 3 • max: 50 jobTitle -&gt; (string) [required] Constraints: • min: 1 • max: 50 email -&gt; (string) [required] Constraints: • min: 6 • max: 254 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: • Case Created • Case Updated • Case Acknowledged • Case Closed • Case Updated To Service Managed • Case Status Updated • Case Pending Customer Action Reminder • Case Attachment Url Uploaded • Case Comment Added • Case Comment Updated • Membership Created • Membership Updated • Membership Cancelled • Register Delegated Administrator • Deregister Delegated Administrator • Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]
     /// </summary>
     [CliOption("--incident-response-team", GroupValues = true)]
     public IEnumerable<string>? IncidentResponseTeam { get; private init; }
 
     /// <summary>
-    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: o min: 1 o max: 255
+    /// NOTE: The clientToken field is an idempotency key used to ensure that repeated attempts for a single action will be ignored by the server during retries. A caller supplied unique ID (typically a UUID) should be provided. Constraints: • min: 1 • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Optional element to enable the monitoring and investigation opt-in features for the service. Constraints: o min: 1 o max: 2 (structure) featureName -&gt; (string) [required] Possible values: o Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
+    /// Optional element to enable the monitoring and investigation opt-in features for the service. Constraints: • min: 1 • max: 2 (structure) featureName -&gt; (string) [required] Possible values: • Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
     /// </summary>
     [CliOption("--opt-in-features", GroupValues = true)]
     public IEnumerable<string>? OptInFeatures { get; set; }
 
     /// <summary>
-    /// Optional element for customer configured tags. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Optional element for customer configured tags. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The coverEntireOrganization parameter is a boolean flag that deter- mines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts. This parameter is optional. If not specified, the default value is false. o If set to true : The membership will automatically include all ex- isting and future accounts in the Amazon Web Services Organiza- tion. o If set to false : The membership will only apply to explicitly specified accounts.
+    /// The coverEntireOrganization parameter is a boolean flag that determines whether the membership should be applied to the entire Amazon Web Services Organization. When set to true, the membership will be created for all accounts within the organization. When set to false, the membership will only be created for specified accounts. This parameter is optional. If not specified, the default value is false. • If set to true : The membership will automatically include all existing and future accounts in the Amazon Web Services Organization. • If set to false : The membership will only apply to explicitly specified accounts.
     /// </summary>
     [CliFlag("--cover-entire-organization", NegatedName = "--no-cover-entire-organization")]
     public bool? CoverEntireOrganization { get; set; }
@@ -130,6 +130,15 @@ public record AwsSecurityIrCreateMembershipOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

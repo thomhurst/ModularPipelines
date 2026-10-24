@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsPersonalizeCreateRecommenderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a recommender with the recipe (a Domain dataset group use case) you specify. You create recommenders for a Domain dataset group and specify the recommender's Amazon Resource Name (ARN) when you make a GetRecommendations request. Minimum recommendation requests per second WARNING: A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increas...
     /// </summary>
-    /// <param name="Name">The name of the recommender. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
-    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="RecipeArn">The Amazon Resource Name (ARN) of the recipe that the recommender will use. For a recommender, a recipe is a Domain dataset group use case. Only Domain dataset group use cases can be used to create a recommender. For information about use cases see Choosing recom- mender use cases . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Name">The name of the recommender. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*</param>
+    /// <param name="DataSetGroupArn">The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="RecipeArn">The Amazon Resource Name (ARN) of the recipe that the recommender will use. For a recommender, a recipe is a Domain dataset group use case. Only Domain dataset group use cases can be used to create a recommender. For information about use cases see Choosing recommender use cases . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeCreateRecommenderOptions(
         string Name,
         string DataSetGroupArn,
@@ -64,31 +65,31 @@ public record AwsPersonalizeCreateRecommenderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the recommender. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
+    /// The name of the recommender. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-group-arn")]
     public string? DataSetGroupArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recipe that the recommender will use. For a recommender, a recipe is a Domain dataset group use case. Only Domain dataset group use cases can be used to create a recommender. For information about use cases see Choosing recom- mender use cases . Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the recipe that the recommender will use. For a recommender, a recipe is a Domain dataset group use case. Only Domain dataset group use cases can be used to create a recommender. For information about use cases see Choosing recommender use cases . Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--recipe-arn")]
     public string? RecipeArn { get; private init; }
 
     /// <summary>
-    /// The configuration details of the recommender. itemExplorationConfig -&gt; (map) Specifies the exploration configuration hyperparameters, includ- ing explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personal- ize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommenda- tions for a user (not popular items or similar items). Constraints: o max: 100 key -&gt; (string) Constraints: o max: 256 value -&gt; (string) Constraints: o max: 1000 minRecommendationRequestsPerSecond -&gt; (integer) Specifies the requested minimum provisioned recommendation re- quests per second that Amazon Personalize will support. A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as neces- sary. Constraints: o min: 1 trainingDataConfig -&gt; (structure) Specifies the training data configuration to use when creating a domain recommender. excludedDatasetColumns -&gt; (map) Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to gen- erate recommendations. For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering. Constraints: o max: 3 key -&gt; (string) Constraints: o max: 256 o pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: o max: 50 (string) Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* includedDatasetColumns -&gt; (map) A map that specifies which columns to include from each dataset during training. The map can contain up to 3 entries, where each key is a dataset name (maximum length of 256 char- acters, must contain only letters and underscores) and each value is an array of up to 50 column names. Column names can be up to 150 characters long, must start with a letter or un- derscore, and can contain only letters, numbers, and under- scores. Constraints: o max: 3 key -&gt; (string) Constraints: o max: 256 o pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: o max: 50 (string) Constraints: o max: 150 o pattern: [A-Za-z_][A-Za-z\d_]* enableMetadataWithRecommendations -&gt; (boolean) Whether metadata with recommendations is enabled for the recom- mender. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a recommender, see Enabling metadata in recommendations for a recommender . If you enable metadata in recommendations, you will incur addi- tional costs. For more information, see Amazon Personalize pric- ing . JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "minRecommendationRequestsPerSecond": integer, "trainingDataConfig": { "excludedDatasetColumns": {"string": ["string", ...] ...}, "includedDatasetColumns": {"string": ["string", ...] ...} }, "enableMetadataWithRecommendations": true|false }
+    /// The configuration details of the recommender. itemExplorationConfig -&gt; (map) Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff , you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommendations for a user (not popular items or similar items). Constraints: • max: 100 key -&gt; (string) Constraints: • max: 256 value -&gt; (string) Constraints: • max: 1000 minRecommendationRequestsPerSecond -&gt; (integer) Specifies the requested minimum provisioned recommendation requests per second that Amazon Personalize will support. A high minRecommendationRequestsPerSecond will increase your bill. We recommend starting with 1 for minRecommendationRequestsPerSecond (the default). Track your usage using Amazon CloudWatch metrics, and increase the minRecommendationRequestsPerSecond as necessary. Constraints: • min: 1 trainingDataConfig -&gt; (structure) Specifies the training data configuration to use when creating a domain recommender. excludedDatasetColumns -&gt; (map) Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations. For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering. Constraints: • max: 3 key -&gt; (string) Constraints: • max: 256 • pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: • max: 50 (string) Constraints: • max: 150 • pattern: [A-Za-z_][A-Za-z\d_]* includedDatasetColumns -&gt; (map) A map that specifies which columns to include from each dataset during training. The map can contain up to 3 entries, where each key is a dataset name (maximum length of 256 characters, must contain only letters and underscores) and each value is an array of up to 50 column names. Column names can be up to 150 characters long, must start with a letter or underscore, and can contain only letters, numbers, and underscores. Constraints: • max: 3 key -&gt; (string) Constraints: • max: 256 • pattern: ^[A-Za-z_]+$ value -&gt; (list) Constraints: • max: 50 (string) Constraints: • max: 150 • pattern: [A-Za-z_][A-Za-z\d_]* enableMetadataWithRecommendations -&gt; (boolean) Whether metadata with recommendations is enabled for the recommender. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a recommender, see Enabling metadata in recommendations for a recommender . If you enable metadata in recommendations, you will incur additional costs. For more information, see Amazon Personalize pricing . JSON Syntax: { "itemExplorationConfig": {"string": "string" ...}, "minRecommendationRequestsPerSecond": integer, "trainingDataConfig": { "excludedDatasetColumns": {"string": ["string", ...] ...}, "includedDatasetColumns": {"string": ["string", ...] ...} }, "enableMetadataWithRecommendations": true|false }
     /// </summary>
     [CliOption("--recommender-config")]
     public string? RecommenderConfig { get; set; }
 
     /// <summary>
-    /// A list of tags to apply to the recommender. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
+    /// A list of tags to apply to the recommender. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see Tagging Amazon Personalize resources . tagKey -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ tagValue -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: tagKey=string,tagValue=string ... JSON Syntax: [ { "tagKey": "string", "tagValue": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -114,6 +115,15 @@ public record AwsPersonalizeCreateRecommenderOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

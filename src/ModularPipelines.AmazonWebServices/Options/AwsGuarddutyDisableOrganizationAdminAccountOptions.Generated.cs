@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the existing GuardDuty delegated administrator of the organiza- tion. Only the organization's management account can run this API oper- ation. See also: AWS API Documentation
+/// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsGuarddutyDisableOrganizationAdminAccountOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the existing GuardDuty delegated administrator of the organiza- tion. Only the organization's management account can run this API oper- ation. See also: AWS API Documentation
+    /// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="AdminAccountId">The Amazon Web Services Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.</param>
     public AwsGuarddutyDisableOrganizationAdminAccountOptions(
@@ -82,6 +83,15 @@ public record AwsGuarddutyDisableOrganizationAdminAccountOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

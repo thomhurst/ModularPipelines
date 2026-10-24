@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Cur- rently the only supported feature type is QUERIES . You can also pro- vide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED. See also: AWS API Documentation
+/// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES . You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +28,10 @@ public record AwsTextractCreateAdapterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Cur- rently the only supported feature type is QUERIES . You can also pro- vide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED. See also: AWS API Documentation
+    /// Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents. Takes an AdapterName and FeatureType. Currently the only supported feature type is QUERIES . You can also provide a Description, Tags, and a ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with the AutoUpdate argument. By default, AutoUpdate is set to DISABLED. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterName">The name to be assigned to the adapter being created. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
-    /// <param name="FeatureTypes">The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...</param>
+    /// <param name="AdapterName">The name to be assigned to the adapter being created. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="FeatureTypes">The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES (string) Possible values: • TABLES • FORMS • QUERIES • SIGNATURES • LAYOUT Syntax: "string" "string" ...</param>
     public AwsTextractCreateAdapterOptions(
         string AdapterName,
         IEnumerable<string> FeatureTypes
@@ -74,38 +74,38 @@ public record AwsTextractCreateAdapterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name to be assigned to the adapter being created. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name to be assigned to the adapter being created. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--adapter-name")]
     public string? AdapterName { get; private init; }
 
     /// <summary>
-    /// The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES (string) Possible values: o TABLES o FORMS o QUERIES o SIGNATURES o LAYOUT Syntax: "string" "string" ...
+    /// The type of feature that the adapter is being trained on. Currrenly, supported feature types are: QUERIES (string) Possible values: • TABLES • FORMS • QUERIES • SIGNATURES • LAYOUT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--feature-types", GroupValues = true)]
     public IEnumerable<string>? FeatureTypes { get; private init; }
 
     /// <summary>
-    /// Idempotent token is used to recognize the request. If the same token is used with multiple CreateAdapter requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token is used to recognize the request. If the same token is used with multiple CreateAdapter requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The description to be assigned to the adapter being created. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$
+    /// The description to be assigned to the adapter being created. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Controls whether or not the adapter should automatically update. Possible values: o ENABLED o DISABLED
+    /// Controls whether or not the adapter should automatically update. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--auto-update")]
     public AwsTextractCreateAdapterAutoUpdate? AutoUpdate { get; set; }
 
     /// <summary>
-    /// A list of tags to be added to the adapter. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to be added to the adapter. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -131,6 +131,15 @@ public record AwsTextractCreateAdapterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsSagemakerUpdateTrialComponentOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates one or more properties of a trial component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrialComponentName">The name of the component to update. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="TrialComponentName">The name of the component to update. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
     public AwsSagemakerUpdateTrialComponentOptions(
         string TrialComponentName
     )
@@ -57,19 +57,19 @@ public record AwsSagemakerUpdateTrialComponentOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component to update. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the component to update. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--trial-component-name")]
     public string? TrialComponentName { get; private init; }
 
     /// <summary>
-    /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is dis- played. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The new status of the component. PrimaryStatus -&gt; (string) The status of the trial component. Possible values: o InProgress o Completed o Failed o Stopping o Stopped Message -&gt; (string) If the component failed, a message describing why. Constraints: o min: 0 o max: 1024 o pattern: .* Shorthand Syntax: PrimaryStatus=string,Message=string JSON Syntax: { "PrimaryStatus": "InProgress"|"Completed"|"Failed"|"Stopping"|"Stopped", "Message": "string" }
+    /// The new status of the component. PrimaryStatus -&gt; (string) The status of the trial component. Possible values: • InProgress • Completed • Failed • Stopping • Stopped Message -&gt; (string) If the component failed, a message describing why. Constraints: • min: 0 • max: 1024 • pattern: .* Shorthand Syntax: PrimaryStatus=string,Message=string JSON Syntax: { "PrimaryStatus": "InProgress"|"Completed"|"Failed"|"Stopping"|"Stopped", "Message": "string" }
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
@@ -87,37 +87,37 @@ public record AwsSagemakerUpdateTrialComponentOptions : AwsOptions, IValidatable
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// Replaces all of the component's hyperparameters with the specified hyperparameters or add new hyperparameters. Existing hyperparameters are replaced if the trial component is updated with an identical hy- perparameter key. Constraints: o min: 0 o max: 300 key -&gt; (string) Constraints: o min: 0 o max: 320 o pattern: .* value -&gt; (structure) The value of a hyperparameter. Only one of NumberValue or StringValue can be specified. This object is specified in the CreateTrialComponent request. StringValue -&gt; (string) The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter. Constraints: o min: 0 o max: 2500 o pattern: .* NumberValue -&gt; (double) The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter. Shorthand Syntax: KeyName1={StringValue=string,NumberValue=double},KeyName2={StringValue=string,NumberValue=double} JSON Syntax: {"string": { "StringValue": "string", "NumberValue": double } ...}
+    /// Replaces all of the component's hyperparameters with the specified hyperparameters or add new hyperparameters. Existing hyperparameters are replaced if the trial component is updated with an identical hyperparameter key. Constraints: • min: 0 • max: 300 key -&gt; (string) Constraints: • min: 0 • max: 320 • pattern: .* value -&gt; (structure) The value of a hyperparameter. Only one of NumberValue or StringValue can be specified. This object is specified in the CreateTrialComponent request. StringValue -&gt; (string) The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter. Constraints: • min: 0 • max: 2500 • pattern: .* NumberValue -&gt; (double) The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter. Shorthand Syntax: KeyName1={StringValue=string,NumberValue=double},KeyName2={StringValue=string,NumberValue=double} JSON Syntax: {"string": { "StringValue": "string", "NumberValue": double } ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The hyperparameters to remove from the component. (string) Constraints: o min: 0 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// The hyperparameters to remove from the component. (string) Constraints: • min: 0 • max: 256 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--parameters-to-remove", GroupValues = true)]
     public IEnumerable<string>? ParametersToRemove { get; set; }
 
     /// <summary>
-    /// Replaces all of the component's input artifacts with the specified artifacts or adds new input artifacts. Existing input artifacts are replaced if the trial component is updated with an identical input artifact key. Constraints: o min: 0 o max: 60 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperpara- meters, source code, and instance types. Examples of output ar- tifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: o min: 0 o max: 64 o pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
+    /// Replaces all of the component's input artifacts with the specified artifacts or adds new input artifacts. Existing input artifacts are replaced if the trial component is updated with an identical input artifact key. Constraints: • min: 0 • max: 60 key -&gt; (string) Constraints: • min: 0 • max: 128 • pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Examples of output artifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: • min: 0 • max: 64 • pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: • min: 0 • max: 2048 • pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
     /// </summary>
     [CliOption("--input-artifacts", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputArtifacts { get; set; }
 
     /// <summary>
-    /// The input artifacts to remove from the component. (string) Constraints: o min: 0 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// The input artifacts to remove from the component. (string) Constraints: • min: 0 • max: 256 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--input-artifacts-to-remove", GroupValues = true)]
     public IEnumerable<string>? InputArtifactsToRemove { get; set; }
 
     /// <summary>
-    /// Replaces all of the component's output artifacts with the specified artifacts or adds new output artifacts. Existing output artifacts are replaced if the trial component is updated with an identical output artifact key. Constraints: o min: 0 o max: 60 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperpara- meters, source code, and instance types. Examples of output ar- tifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: o min: 0 o max: 64 o pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
+    /// Replaces all of the component's output artifacts with the specified artifacts or adds new output artifacts. Existing output artifacts are replaced if the trial component is updated with an identical output artifact key. Constraints: • min: 0 • max: 60 key -&gt; (string) Constraints: • min: 0 • max: 128 • pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Examples of output artifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: • min: 0 • max: 64 • pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: • min: 0 • max: 2048 • pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
     /// </summary>
     [CliOption("--output-artifacts", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OutputArtifacts { get; set; }
 
     /// <summary>
-    /// The output artifacts to remove from the component. (string) Constraints: o min: 0 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// The output artifacts to remove from the component. (string) Constraints: • min: 0 • max: 256 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--output-artifacts-to-remove", GroupValues = true)]
     public IEnumerable<string>? OutputArtifactsToRemove { get; set; }
@@ -143,6 +143,15 @@ public record AwsSagemakerUpdateTrialComponentOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

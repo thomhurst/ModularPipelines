@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockAgentcoreControlGetConsentPortalOptions : AwsOptions, IV
     /// <summary>
     /// Retrieves information about a consent portal. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConsentPortalIdentifier">The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: o pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}</param>
+    /// <param name="ConsentPortalIdentifier">The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: • pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}</param>
     public AwsBedrockAgentcoreControlGetConsentPortalOptions(
         string ConsentPortalIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsBedrockAgentcoreControlGetConsentPortalOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: o pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}
+    /// The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN). Constraints: • pattern: [a-zA-Z0-9\-_]{1,50}-[A-Za-z0-9]{10}
     /// </summary>
     [CliOption("--consent-portal-identifier")]
     public string? ConsentPortalIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockAgentcoreControlGetConsentPortalOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

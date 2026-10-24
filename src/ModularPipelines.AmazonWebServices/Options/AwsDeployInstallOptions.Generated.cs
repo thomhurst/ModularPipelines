@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
+/// Configures and installs the AWS CodeDeploy Agent on the on-premises instance.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDeployInstallOptions : AwsOptions
 {
     /// <summary>
-    /// Configures and installs the AWS CodeDeploy Agent on the on-premises in- stance.
+    /// Configures and installs the AWS CodeDeploy Agent on the on-premises instance.
     /// </summary>
     /// <param name="ConfigFile"></param>
     public AwsDeployInstallOptions(
@@ -46,5 +46,14 @@ public record AwsDeployInstallOptions : AwsOptions
 
     [CliOption("--agent-installer")]
     public string? AgentInstaller { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

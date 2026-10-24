@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSagemakerUpdateDevicesOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates one or more devices in a fleet. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DeviceFleetName">The name of the fleet the devices belong to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="Devices">List of devices to register with Edge Manager agent. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: o min: 1 o max: 40 o pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]</param>
+    /// <param name="DeviceFleetName">The name of the fleet the devices belong to. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Devices">List of devices to register with Edge Manager agent. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: • min: 1 • max: 40 • pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]</param>
     public AwsSagemakerUpdateDevicesOptions(
         string DeviceFleetName,
         IEnumerable<string> Devices
@@ -71,13 +72,13 @@ public record AwsSagemakerUpdateDevicesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the fleet the devices belong to. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the fleet the devices belong to. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--device-fleet-name")]
     public string? DeviceFleetName { get; private init; }
 
     /// <summary>
-    /// List of devices to register with Edge Manager agent. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: o min: 1 o max: 40 o pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]
+    /// List of devices to register with Edge Manager agent. (structure) Information of a particular device. DeviceName -&gt; (string) [required] The name of the device. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} Description -&gt; (string) Description of the device. Constraints: • min: 1 • max: 40 • pattern: [-a-zA-Z0-9_.,;:! ]* IotThingName -&gt; (string) Amazon Web Services Internet of Things (IoT) object name. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Shorthand Syntax: DeviceName=string,Description=string,IotThingName=string ... JSON Syntax: [ { "DeviceName": "string", "Description": "string", "IotThingName": "string" } ... ]
     /// </summary>
     [CliOption("--devices", GroupValues = true)]
     public IEnumerable<string>? Devices { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSagemakerUpdateDevicesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

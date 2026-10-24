@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified conformance pack and all the Config rules, reme- diation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the dele- tion is complete. You cannot update a conformance pack while it is in this state. NOTE: Recommendation: Consider excluding the ``AWS::Config::Resource- Compliance`` resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Con- fig::...
+/// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state. NOTE: Recommendation: Consider excluding the ``AWS::Config::ResourceCompliance`` resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Config::Resource...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConfigserviceDeleteConformancePackOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified conformance pack and all the Config rules, reme- diation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the dele- tion is complete. You cannot update a conformance pack while it is in this state. NOTE: Recommendation: Consider excluding the ``AWS::Config::Resource- Compliance`` resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Con- fig::...
+    /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state. NOTE: Recommendation: Consider excluding the ``AWS::Config::ResourceCompliance`` resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Config::Resource...
     /// </summary>
-    /// <param name="ConformancePackName">Name of the conformance pack you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
+    /// <param name="ConformancePackName">Name of the conformance pack you want to delete. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]*</param>
     public AwsConfigserviceDeleteConformancePackOptions(
         string ConformancePackName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeleteConformancePackOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the conformance pack you want to delete. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][-a-zA-Z0-9]*
+    /// Name of the conformance pack you want to delete. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][-a-zA-Z0-9]*
     /// </summary>
     [CliOption("--conformance-pack-name")]
     public string? ConformancePackName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeleteConformancePackOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

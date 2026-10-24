@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMigrationhubstrategyGetServerStrategiesOptions : AwsOptions, IV
     /// <summary>
     /// Retrieves recommended strategies and tools for the specified server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">The ID of the server. Constraints: o min: 1 o max: 27 o pattern: .*\S.*</param>
+    /// <param name="ServerId">The ID of the server. Constraints: • min: 1 • max: 27 • pattern: .*\S.*</param>
     public AwsMigrationhubstrategyGetServerStrategiesOptions(
         string ServerId
     )
@@ -56,7 +57,7 @@ public record AwsMigrationhubstrategyGetServerStrategiesOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the server. Constraints: o min: 1 o max: 27 o pattern: .*\S.*
+    /// The ID of the server. Constraints: • min: 1 • max: 27 • pattern: .*\S.*
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMigrationhubstrategyGetServerStrategiesOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

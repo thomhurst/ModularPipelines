@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: o All customizations are removed including themes, branding, and vi- sual settings o This action cannot be undone through the API o Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all...
+/// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: • All customizations are removed including themes, branding, and visual settings • This action cannot be undone through the API • Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsQuicksightDeleteAccountCustomizationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: o All customizations are removed including themes, branding, and vi- sual settings o This action cannot be undone through the API o Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all...
+    /// WARNING: This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations: • All customizations are removed including themes, branding, and visual settings • This action cannot be undone through the API • Users will see default Quick Sight styling after customizations are deleted Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all A...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightDeleteAccountCustomizationOptions(
         string AwsAccountId
     )
@@ -56,13 +57,13 @@ public record AwsQuicksightDeleteAccountCustomizationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The Quick Sight namespace that you're deleting the customizations from. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The Quick Sight namespace that you're deleting the customizations from. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
@@ -88,6 +89,15 @@ public record AwsQuicksightDeleteAccountCustomizationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions : AwsOp
     /// <summary>
     /// Takes in a list of profile outbound requests to be placed as part of an outbound campaign. This API is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+</param>
-    /// <param name="ProfileOutboundRequests">List of profile outbound requests Constraints: o min: 1 o max: 20 (structure) Information about a profile outbound request clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9_\-.]* profileId -&gt; (string) [required] Identifier of the customer profile Constraints: o pattern: [a-f0-9]{32} expirationTime -&gt; (timestamp) Timestamp with no UTC offset or timezone eventTriggerContext -&gt; (structure) Event trigger context data sourceEvent -&gt; (string) Source event object for event triggers Constraints: o min: 1 channelContext -&gt; (structure) Additional metadata related to the event trigger context webNotificationContext -&gt; (structure) Context metadata for the web notification type channel sessionId -&gt; (string) Session Id for web notification event trigger Constraints: o min: 1 o max: 36 browserId -&gt; (string) Browser Id for web notification event trigger Constraints: o min: 1 o max: 36 JSON Syntax: [ { "clientToken": "string", "profileId": "string", "expirationTime": timestamp, "eventTriggerContext": { "sourceEvent": "string", "channelContext": { "webNotificationContext": { "sessionId": "string", "browserId": "string" } } } } ... ]</param>
+    /// <param name="Id">Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+</param>
+    /// <param name="ProfileOutboundRequests">List of profile outbound requests Constraints: • min: 1 • max: 20 (structure) Information about a profile outbound request clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: • min: 0 • max: 200 • pattern: [a-zA-Z0-9_\-.]* profileId -&gt; (string) [required] Identifier of the customer profile Constraints: • pattern: [a-f0-9]{32} expirationTime -&gt; (timestamp) Timestamp with no UTC offset or timezone eventTriggerContext -&gt; (structure) Event trigger context data sourceEvent -&gt; (string) Source event object for event triggers Constraints: • min: 1 channelContext -&gt; (structure) Additional metadata related to the event trigger context webNotificationContext -&gt; (structure) Context metadata for the web notification type channel sessionId -&gt; (string) Session Id for web notification event trigger Constraints: • min: 1 • max: 36 browserId -&gt; (string) Browser Id for web notification event trigger Constraints: • min: 1 • max: 36 JSON Syntax: [ { "clientToken": "string", "profileId": "string", "expirationTime": timestamp, "eventTriggerContext": { "sourceEvent": "string", "channelContext": { "webNotificationContext": { "sessionId": "string", "browserId": "string" } } } } ... ]</param>
     public AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions(
         string Id,
         IEnumerable<string> ProfileOutboundRequests
@@ -71,13 +72,13 @@ public record AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier representing a Campaign Constraints: o min: 1 o max: 256 o pattern: [-:/a-zA-Z0-9]+
+    /// Identifier representing a Campaign Constraints: • min: 1 • max: 256 • pattern: [-:/a-zA-Z0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// List of profile outbound requests Constraints: o min: 1 o max: 20 (structure) Information about a profile outbound request clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: o min: 0 o max: 200 o pattern: [a-zA-Z0-9_\-.]* profileId -&gt; (string) [required] Identifier of the customer profile Constraints: o pattern: [a-f0-9]{32} expirationTime -&gt; (timestamp) Timestamp with no UTC offset or timezone eventTriggerContext -&gt; (structure) Event trigger context data sourceEvent -&gt; (string) Source event object for event triggers Constraints: o min: 1 channelContext -&gt; (structure) Additional metadata related to the event trigger context webNotificationContext -&gt; (structure) Context metadata for the web notification type channel sessionId -&gt; (string) Session Id for web notification event trigger Constraints: o min: 1 o max: 36 browserId -&gt; (string) Browser Id for web notification event trigger Constraints: o min: 1 o max: 36 JSON Syntax: [ { "clientToken": "string", "profileId": "string", "expirationTime": timestamp, "eventTriggerContext": { "sourceEvent": "string", "channelContext": { "webNotificationContext": { "sessionId": "string", "browserId": "string" } } } } ... ]
+    /// List of profile outbound requests Constraints: • min: 1 • max: 20 (structure) Information about a profile outbound request clientToken -&gt; (string) [required] Client provided parameter used for idempotency. Its value must be unique for each request. Constraints: • min: 0 • max: 200 • pattern: [a-zA-Z0-9_\-.]* profileId -&gt; (string) [required] Identifier of the customer profile Constraints: • pattern: [a-f0-9]{32} expirationTime -&gt; (timestamp) Timestamp with no UTC offset or timezone eventTriggerContext -&gt; (structure) Event trigger context data sourceEvent -&gt; (string) Source event object for event triggers Constraints: • min: 1 channelContext -&gt; (structure) Additional metadata related to the event trigger context webNotificationContext -&gt; (structure) Context metadata for the web notification type channel sessionId -&gt; (string) Session Id for web notification event trigger Constraints: • min: 1 • max: 36 browserId -&gt; (string) Browser Id for web notification event trigger Constraints: • min: 1 • max: 36 JSON Syntax: [ { "clientToken": "string", "profileId": "string", "expirationTime": timestamp, "eventTriggerContext": { "sourceEvent": "string", "channelContext": { "webNotificationContext": { "sessionId": "string", "browserId": "string" } } } } ... ]
     /// </summary>
     [CliOption("--profile-outbound-requests", GroupValues = true)]
     public IEnumerable<string>? ProfileOutboundRequests { get; private init; }
@@ -103,6 +104,15 @@ public record AwsConnectcampaignsv2PutProfileOutboundRequestBatchOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

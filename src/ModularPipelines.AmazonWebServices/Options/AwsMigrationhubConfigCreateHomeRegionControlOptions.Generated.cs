@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions, 
     /// <summary>
     /// This API sets up the home region for the calling account only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HomeRegion">The name of the home region of the calling account. Constraints: o min: 1 o max: 50 o pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$</param>
-    /// <param name="Target">The account for which this command sets up a home region control. The Target is always of type ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: o ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current ac- count.) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }</param>
+    /// <param name="HomeRegion">The name of the home region of the calling account. Constraints: • min: 1 • max: 50 • pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$</param>
+    /// <param name="Target">The account for which this command sets up a home region control. The Target is always of type ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: • ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }</param>
     public AwsMigrationhubConfigCreateHomeRegionControlOptions(
         string HomeRegion,
         string Target
@@ -60,13 +61,13 @@ public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the home region of the calling account. Constraints: o min: 1 o max: 50 o pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$
+    /// The name of the home region of the calling account. Constraints: • min: 1 • max: 50 • pattern: ^([a-z]+)-([a-z]+)-([0-9]+)$
     /// </summary>
     [CliOption("--home-region")]
     public string? HomeRegion { get; private init; }
 
     /// <summary>
-    /// The account for which this command sets up a home region control. The Target is always of type ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: o ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current ac- count.) Constraints: o min: 12 o max: 12 o pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }
+    /// The account for which this command sets up a home region control. The Target is always of type ACCOUNT . Type -&gt; (string) [required] The target type is always an ACCOUNT . Possible values: • ACCOUNT Id -&gt; (string) The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.) Constraints: • min: 12 • max: 12 • pattern: ^\d{12}$ Shorthand Syntax: Type=string,Id=string JSON Syntax: { "Type": "ACCOUNT", "Id": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; private init; }
@@ -98,6 +99,15 @@ public record AwsMigrationhubConfigCreateHomeRegionControlOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

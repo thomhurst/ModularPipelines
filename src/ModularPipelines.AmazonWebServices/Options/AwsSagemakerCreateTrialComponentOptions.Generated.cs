@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experi- ments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the log...
+/// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the loggi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsSagemakerCreateTrialComponentOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experi- ments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the log...
+    /// Creates a trial component , which is a stage of a machine learning trial . A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the loggi...
     /// </summary>
-    /// <param name="TrialComponentName">The name of the component. The name must be unique in your Amazon Web Services account and is not case-sensitive. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
+    /// <param name="TrialComponentName">The name of the component. The name must be unique in your Amazon Web Services account and is not case-sensitive. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}</param>
     public AwsSagemakerCreateTrialComponentOptions(
         string TrialComponentName
     )
@@ -57,19 +57,19 @@ public record AwsSagemakerCreateTrialComponentOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the component. The name must be unique in your Amazon Web Services account and is not case-sensitive. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the component. The name must be unique in your Amazon Web Services account and is not case-sensitive. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--trial-component-name")]
     public string? TrialComponentName { get; private init; }
 
     /// <summary>
-    /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is dis- played. Constraints: o min: 1 o max: 120 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
+    /// The name of the component as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialComponentName is displayed. Constraints: • min: 1 • max: 120 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,119}
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The status of the component. States include: o InProgress o Completed o Failed PrimaryStatus -&gt; (string) The status of the trial component. Possible values: o InProgress o Completed o Failed o Stopping o Stopped Message -&gt; (string) If the component failed, a message describing why. Constraints: o min: 0 o max: 1024 o pattern: .* Shorthand Syntax: PrimaryStatus=string,Message=string JSON Syntax: { "PrimaryStatus": "InProgress"|"Completed"|"Failed"|"Stopping"|"Stopped", "Message": "string" }
+    /// The status of the component. States include: • InProgress • Completed • Failed PrimaryStatus -&gt; (string) The status of the trial component. Possible values: • InProgress • Completed • Failed • Stopping • Stopped Message -&gt; (string) If the component failed, a message describing why. Constraints: • min: 0 • max: 1024 • pattern: .* Shorthand Syntax: PrimaryStatus=string,Message=string JSON Syntax: { "PrimaryStatus": "InProgress"|"Completed"|"Failed"|"Stopping"|"Stopped", "Message": "string" }
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; set; }
@@ -87,31 +87,31 @@ public record AwsSagemakerCreateTrialComponentOptions : AwsOptions, IValidatable
     public string? EndTime { get; set; }
 
     /// <summary>
-    /// The hyperparameters for the component. Constraints: o min: 0 o max: 300 key -&gt; (string) Constraints: o min: 0 o max: 320 o pattern: .* value -&gt; (structure) The value of a hyperparameter. Only one of NumberValue or StringValue can be specified. This object is specified in the CreateTrialComponent request. StringValue -&gt; (string) The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter. Constraints: o min: 0 o max: 2500 o pattern: .* NumberValue -&gt; (double) The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter. Shorthand Syntax: KeyName1={StringValue=string,NumberValue=double},KeyName2={StringValue=string,NumberValue=double} JSON Syntax: {"string": { "StringValue": "string", "NumberValue": double } ...}
+    /// The hyperparameters for the component. Constraints: • min: 0 • max: 300 key -&gt; (string) Constraints: • min: 0 • max: 320 • pattern: .* value -&gt; (structure) The value of a hyperparameter. Only one of NumberValue or StringValue can be specified. This object is specified in the CreateTrialComponent request. StringValue -&gt; (string) The string value of a categorical hyperparameter. If you specify a value for this parameter, you can't specify the NumberValue parameter. Constraints: • min: 0 • max: 2500 • pattern: .* NumberValue -&gt; (double) The numeric value of a numeric hyperparameter. If you specify a value for this parameter, you can't specify the StringValue parameter. Shorthand Syntax: KeyName1={StringValue=string,NumberValue=double},KeyName2={StringValue=string,NumberValue=double} JSON Syntax: {"string": { "StringValue": "string", "NumberValue": double } ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Constraints: o min: 0 o max: 60 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperpara- meters, source code, and instance types. Examples of output ar- tifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: o min: 0 o max: 64 o pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
+    /// The input artifacts for the component. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Constraints: • min: 0 • max: 60 key -&gt; (string) Constraints: • min: 0 • max: 128 • pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Examples of output artifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: • min: 0 • max: 64 • pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: • min: 0 • max: 2048 • pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
     /// </summary>
     [CliOption("--input-artifacts", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? InputArtifacts { get; set; }
 
     /// <summary>
-    /// The output artifacts for the component. Examples of output artifacts are metrics, snapshots, logs, and images. Constraints: o min: 0 o max: 60 key -&gt; (string) Constraints: o min: 0 o max: 128 o pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperpara- meters, source code, and instance types. Examples of output ar- tifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: o min: 0 o max: 64 o pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: o min: 0 o max: 2048 o pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
+    /// The output artifacts for the component. Examples of output artifacts are metrics, snapshots, logs, and images. Constraints: • min: 0 • max: 60 key -&gt; (string) Constraints: • min: 0 • max: 128 • pattern: .* value -&gt; (structure) Represents an input or output artifact of a trial component. You specify TrialComponentArtifact as part of the InputArtifacts and OutputArtifacts parameters in the CreateTrialComponent request. Examples of input artifacts are datasets, algorithms, hyperparameters, source code, and instance types. Examples of output artifacts are metrics, snapshots, logs, and images. MediaType -&gt; (string) The media type of the artifact, which indicates the type of data in the artifact file. The media type consists of a type and a subtype concatenated with a slash (/) character, for example, text/csv, image/jpeg, and s3/uri. The type specifies the category of the media. The subtype specifies the kind of data. Constraints: • min: 0 • max: 64 • pattern: [-\w]+\/[-\w+]+ Value -&gt; (string) [required] The location of the artifact. Constraints: • min: 0 • max: 2048 • pattern: .* Shorthand Syntax: KeyName1={MediaType=string,Value=string},KeyName2={MediaType=string,Value=string} JSON Syntax: {"string": { "MediaType": "string", "Value": "string" } ...}
     /// </summary>
     [CliOption("--output-artifacts", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? OutputArtifacts { get; set; }
 
     /// <summary>
-    /// Metadata properties of the tracking entity, trial, or trial compo- nent. CommitId -&gt; (string) The commit ID. Constraints: o min: 0 o max: 1024 o pattern: .* Repository -&gt; (string) The repository. Constraints: o min: 0 o max: 1024 o pattern: .* GeneratedBy -&gt; (string) The entity this entity was generated by. Constraints: o min: 0 o max: 1024 o pattern: .* ProjectId -&gt; (string) The project ID. Constraints: o min: 0 o max: 1024 o pattern: .* Shorthand Syntax: CommitId=string,Repository=string,GeneratedBy=string,ProjectId=string JSON Syntax: { "CommitId": "string", "Repository": "string", "GeneratedBy": "string", "ProjectId": "string" }
+    /// Metadata properties of the tracking entity, trial, or trial component. CommitId -&gt; (string) The commit ID. Constraints: • min: 0 • max: 1024 • pattern: .* Repository -&gt; (string) The repository. Constraints: • min: 0 • max: 1024 • pattern: .* GeneratedBy -&gt; (string) The entity this entity was generated by. Constraints: • min: 0 • max: 1024 • pattern: .* ProjectId -&gt; (string) The project ID. Constraints: • min: 0 • max: 1024 • pattern: .* Shorthand Syntax: CommitId=string,Repository=string,GeneratedBy=string,ProjectId=string JSON Syntax: { "CommitId": "string", "Repository": "string", "GeneratedBy": "string", "ProjectId": "string" }
     /// </summary>
     [CliOption("--metadata-properties")]
     public string? MetadataProperties { get; set; }
 
     /// <summary>
-    /// A list of tags to associate with the component. You can use Search API to search on the tags. Constraints: o min: 0 o max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperpa- rameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Ser- vices resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Im- plement an Effective Amazon Web Services Resource Tagging Strat- egy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to associate with the component. You can use Search API to search on the tags. Constraints: • min: 0 • max: 50 (structure) A tag object that consists of a key and an optional value, used to manage metadata for SageMaker Amazon Web Services resources. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. For more information on adding tags to SageMaker resources, see AddTags . For more information on adding metadata to your Amazon Web Services resources with tagging, see Tagging Amazon Web Services resources . For advice on best practices for managing Amazon Web Services resources with tagging, see Tagging Best Practices: Implement an Effective Amazon Web Services Resource Tagging Strategy . Key -&gt; (string) [required] The tag key. Tag keys must be unique per resource. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The tag value. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -137,6 +137,15 @@ public record AwsSagemakerCreateTrialComponentOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

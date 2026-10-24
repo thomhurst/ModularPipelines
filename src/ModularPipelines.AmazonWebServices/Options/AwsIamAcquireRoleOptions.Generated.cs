@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more in- formation about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. S...
+/// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more information about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. See...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsIamAcquireRoleOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more in- formation about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. S...
+    /// Creates an IAM role from the specified role template. The new role takes its configurationincluding its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session durationfrom the role template version that you specify. For more information about roles, see IAM roles in the IAM User Guide . If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation. See...
     /// </summary>
-    /// <param name="TemplateArn">The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048</param>
+    /// <param name="TemplateArn">The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048</param>
     public AwsIamAcquireRoleOptions(
         string TemplateArn
     )
@@ -57,19 +57,19 @@ public record AwsIamAcquireRoleOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--template-arn")]
     public string? TemplateArn { get; private init; }
 
     /// <summary>
-    /// The minor version of the role template to use. If you do not specify a minor version, the service uses the template's default minor ver- sion.
+    /// The minor version of the role template to use. If you do not specify a minor version, the service uses the template's default minor version.
     /// </summary>
     [CliOption("--template-minor-version")]
     public int? TemplateMinorVersion { get; set; }
 
     /// <summary>
-    /// A map of values to substitute for the parameters that are defined in the role template version. Each key is a parameter name from the template, and each value is a structure that contains the replace- ment values for that parameter. Constraints: o max: 30 key -&gt; (string) value -&gt; (structure) Contains the list of replacement values for a single template parameter used when creating a role from a role template. Values -&gt; (list) [required] The list of replacement values for the template parameter. Constraints: o min: 1 o max: 20 (string) Shorthand Syntax: KeyName1={Values=[string,string]},KeyName2={Values=[string,string]} JSON Syntax: {"string": { "Values": ["string", ...] } ...}
+    /// A map of values to substitute for the parameters that are defined in the role template version. Each key is a parameter name from the template, and each value is a structure that contains the replacement values for that parameter. Constraints: • max: 30 key -&gt; (string) value -&gt; (structure) Contains the list of replacement values for a single template parameter used when creating a role from a role template. Values -&gt; (list) [required] The list of replacement values for the template parameter. Constraints: • min: 1 • max: 20 (string) Shorthand Syntax: KeyName1={Values=[string,string]},KeyName2={Values=[string,string]} JSON Syntax: {"string": { "Values": ["string", ...] } ...}
     /// </summary>
     [CliOption("--replacement-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ReplacementValues { get; set; }
@@ -95,6 +95,15 @@ public record AwsIamAcquireRoleOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

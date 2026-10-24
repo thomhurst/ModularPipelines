@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws route53recoverycontrolconfig commands.
+/// aws route53-recovery-control-config commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
@@ -33,7 +33,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws route53-recovery-control-config wait sub-commands.
     /// </summary>
     public AwsRoute53RecoveryControlConfigWait Wait => _wait ??= new AwsRoute53RecoveryControlConfigWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     #region Commands
 
     /// <summary>
-    /// Create a new cluster. A cluster is a set of redundant Regional end- points against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Ama- zon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane. See also: AWS API Documentation
+    /// Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     }
 
     /// <summary>
-    /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Con- troller. See also: AWS API Documentation
+    /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     }
 
     /// <summary>
-    /// Displays details about a routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Con- troller. See also: AWS API Documentation
+    /// Displays details about a routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -237,7 +237,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     }
 
     /// <summary>
-    /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control. See also: AWS API Documentation list-associated-route53-health-checks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the followin...
+    /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control. See also: AWS API Documentation list-associated-route53-health-checks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     }
 
     /// <summary>
-    /// Returns an array of all the clusters in an account. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Clusters
+    /// Returns an array of all the clusters in an account. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Clusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsRoute53RecoveryControlConfig : IAwsRoute53RecoveryControlConfig
     }
 
     /// <summary>
-    /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recov- ery Controller. See also: AWS API Documentation
+    /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodebuildBatchGetReportsOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns an array of reports. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportArns">An array of ARNs that identify the Report objects to return. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="ReportArns">An array of ARNs that identify the Report objects to return. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsCodebuildBatchGetReportsOptions(
         IEnumerable<string> ReportArns
     )
@@ -67,7 +68,7 @@ public record AwsCodebuildBatchGetReportsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of ARNs that identify the Report objects to return. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// An array of ARNs that identify the Report objects to return. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--report-arns", GroupValues = true)]
     public IEnumerable<string>? ReportArns { get; private init; }
@@ -93,6 +94,15 @@ public record AwsCodebuildBatchGetReportsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

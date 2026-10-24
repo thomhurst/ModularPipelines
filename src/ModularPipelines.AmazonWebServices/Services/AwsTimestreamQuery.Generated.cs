@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws timestreamquery commands.
+/// aws timestream-query commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsTimestreamQuery : IAwsTimestreamQuery
@@ -47,7 +47,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// Create a scheduled query that will be run on your behalf at the config- ured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notifica- tion for your scheduled query operations. See also: AWS API Documentation
+    /// Create a scheduled query that will be run on your behalf at the configured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notification for your scheduled query operations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the ser- vice endpoints, it is not recommended that you use this API unless : o You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream o Your application uses a programming language that does not ...
+    /// DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because the Timestream SDKs are designed to transparently work with the services architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless : • You are using VPC endpoints (Amazon Web Services PrivateLink) with Timestream • Your application uses a programming language that does not ye...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and met- rics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query in- sights to optimize queries in Amazon Timestream . See also: AWS API Documentation
+    /// You can use this API to run a scheduled query manually. If you enabled QueryInsights , this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query insights to optimize queries in Amazon Timestream . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// A synchronous operation that allows you to submit a query with parame- ters to be stored by Timestream for later running. Timestream only sup- ports using this operation with ValidateOnly set to true . See also: AWS API Documentation
+    /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. If you enabled QueryInsights , this API also returns insights and met- rics related to the query that you executed. QueryInsights helps with performance tuning of your query. For more information about QueryIn- sights , see Using query insights to optimize queries in Amazon Timestream . NOTE: The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query pe...
+    /// Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. If you enabled QueryInsights , this API also returns insights and metrics related to the query that you executed. QueryInsights helps with performance tuning of your query. For more information about QueryInsights , see Using query insights to optimize queries in Amazon Timestream . NOTE: The maximum number of Query API requests you're allowed to make with QueryInsights enabled is 1 query per se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// Associate a set of tags with a Timestream resource. You can then acti- vate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. See also: AWS API Documentation
+    /// Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsTimestreamQuery : IAwsTimestreamQuery
     }
 
     /// <summary>
-    /// Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired configuration, the new value can take up to 24 hours to be effective. NOTE: After you've transitioned your account to use TCUs for query pric- ing, you can't transition to using bytes scanned for query pricing. See also: AWS API Documentation
+    /// Transitions your account to use TCUs for query pricing and modifies the maximum query compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired configuration, the new value can take up to 24 hours to be effective. NOTE: After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

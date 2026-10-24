@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+/// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConnectCreateContactFlowVersionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is dif- ferent from the FlowContentSha256 of the $LATEST published flow con- tent, then an error is returned. This API only supports creating ver- sions for flows of type Campaign . See also: AWS API Documentation
+    /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="ContactFlowId">The identifier of the flow.</param>
     public AwsConnectCreateContactFlowVersionOptions(
         string InstanceId,
@@ -60,7 +61,7 @@ public record AwsConnectCreateContactFlowVersionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -78,25 +79,25 @@ public record AwsConnectCreateContactFlowVersionOptions : AwsOptions, IValidatab
     public string? Description { get; set; }
 
     /// <summary>
-    /// Indicates the checksum value of the flow content. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]{64}$
+    /// Indicates the checksum value of the flow content. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9]{64}$
     /// </summary>
     [CliOption("--flow-content-sha256")]
     public string? FlowContentSha256 { get; set; }
 
     /// <summary>
-    /// The identifier of the flow version. Constraints: o min: 1
+    /// The identifier of the flow version. Constraints: • min: 1
     /// </summary>
     [CliOption("--contact-flow-version")]
-    public int? ContactFlowVersion { get; set; }
+    public long? ContactFlowVersion { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Region where this resource was last modi- fied.
+    /// The Amazon Web Services Region where this resource was last modified.
     /// </summary>
     [CliOption("--last-modified-time")]
     public string? LastModifiedTime { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Region where this resource was last modi- fied. Constraints: o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
+    /// The Amazon Web Services Region where this resource was last modified. Constraints: • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
     /// </summary>
     [CliOption("--last-modified-region")]
     public string? LastModifiedRegion { get; set; }
@@ -122,6 +123,15 @@ public record AwsConnectCreateContactFlowVersionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

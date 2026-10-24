@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing marketplace revenue share allocation. Supports mod- ifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
+/// Updates an existing marketplace revenue share allocation. Supports modifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing marketplace revenue share allocation. Supports mod- ifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
+    /// Updates an existing marketplace revenue share allocation. Supports modifying effective dates, revenue share percentage, and status with time-based mutability rules. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog containing the allocation. Possible values: o AWS o Sandbox</param>
-    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}</param>
-    /// <param name="MarketplaceRevenueShareAllocationId">The identifier of the allocation to update. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}</param>
-    /// <param name="MarketplaceRevenueShareRevision">The current revision of the parent share. Must match for optimistic concurrency control. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*</param>
+    /// <param name="Catalog">The catalog containing the allocation. Possible values: • AWS • Sandbox</param>
+    /// <param name="ProductId">The AWS Marketplace product identifier for the parent revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}</param>
+    /// <param name="MarketplaceRevenueShareAllocationId">The identifier of the allocation to update. Constraints: • min: 18 • max: 18 • pattern: mrsa-[A-Za-z0-9]{13}</param>
+    /// <param name="MarketplaceRevenueShareRevision">The current revision of the parent share. Must match for optimistic concurrency control. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*</param>
     public AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationOptions(
         AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationCatalog Catalog,
         string ProductId,
@@ -69,56 +70,56 @@ public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog containing the allocation. Possible values: o AWS o Sandbox
+    /// The catalog containing the allocation. Possible values: • AWS • Sandbox
     /// </summary>
     [CliOption("--catalog")]
     public AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationCatalog? Catalog { get; private init; }
 
     /// <summary>
-    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: o min: 18 o max: 18 o pattern: prod-[a-z0-9]{13}
+    /// The AWS Marketplace product identifier for the parent revenue share. Constraints: • min: 18 • max: 18 • pattern: prod-[a-z0-9]{13}
     /// </summary>
     [CliOption("--product-id")]
     public string? ProductId { get; private init; }
 
     /// <summary>
-    /// The identifier of the allocation to update. Constraints: o min: 18 o max: 18 o pattern: mrsa-[A-Za-z0-9]{13}
+    /// The identifier of the allocation to update. Constraints: • min: 18 • max: 18 • pattern: mrsa-[A-Za-z0-9]{13}
     /// </summary>
     [CliOption("--marketplace-revenue-share-allocation-id")]
     public string? MarketplaceRevenueShareAllocationId { get; private init; }
 
     /// <summary>
-    /// The current revision of the parent share. Must match for optimistic concurrency control. Constraints: o min: 1 o max: 19 o pattern: [1-9][0-9]*
+    /// The current revision of the parent share. Must match for optimistic concurrency control. Constraints: • min: 1 • max: 19 • pattern: [1-9][0-9]*
     /// </summary>
     [CliOption("--marketplace-revenue-share-revision")]
     public string? MarketplaceRevenueShareRevision { get; private init; }
 
     /// <summary>
-    /// A unique token to ensure idempotency of the update request. Constraints: o min: 1 o max: 64 o pattern: [!-~]{1,64}
+    /// A unique token to ensure idempotency of the update request. Constraints: • min: 1 • max: 64 • pattern: [!-~]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The new effective start date. Must be the first day of a month. Only modifiable on future-dated allocations. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// The new effective start date. Must be the first day of a month. Only modifiable on future-dated allocations. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--effective-from")]
     public string? EffectiveFrom { get; set; }
 
     /// <summary>
-    /// The new effective end date. Must be the last day of a month and on or after today. Constraints: o min: 10 o max: 10 o pattern: \d{4}-\d{2}-\d{2}
+    /// The new effective end date. Must be the last day of a month and on or after today. Constraints: • min: 10 • max: 10 • pattern: \d{4}-\d{2}-\d{2}
     /// </summary>
     [CliOption("--effective-until")]
     public string? EffectiveUntil { get; set; }
 
     /// <summary>
-    /// The new revenue share percentage. Only modifiable on future-dated allocations. Constraints: o min: 1 o max: 6 o pattern: \d{1,3}(\.\d{1,2})?
+    /// The new revenue share percentage. Only modifiable on future-dated allocations. Constraints: • min: 1 • max: 6 • pattern: \d{1,3}(\.\d{1,2})?
     /// </summary>
     [CliOption("--revenue-share-percent")]
     public string? RevenueSharePercent { get; set; }
 
     /// <summary>
-    /// The new status. Set to INACTIVE for soft-delete. Only modifiable on future-dated allocations. Possible values: o ACTIVE o INACTIVE
+    /// The new status. Set to INACTIVE for soft-delete. Only modifiable on future-dated allocations. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--status")]
     public AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAllocationStatus? Status { get; set; }
@@ -144,6 +145,15 @@ public record AwsPartnercentralRevenueMeasurementUpdateMarketplaceRevenueShareAl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions : AwsOption
     /// <summary>
     /// Create or update the resource policy for a configured audience model. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+</param>
-    /// <param name="ConfiguredAudienceModelPolicy">The IAM resource policy. Constraints: o min: 1 o max: 20480</param>
+    /// <param name="ConfiguredAudienceModelArn">The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+</param>
+    /// <param name="ConfiguredAudienceModelPolicy">The IAM resource policy. Constraints: • min: 1 • max: 20480</param>
     public AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions(
         string ConfiguredAudienceModelArn,
         string ConfiguredAudienceModelPolicy
@@ -61,25 +62,25 @@ public record AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:config- ured-audience-model/[-a-zA-Z0-9_/.]+
+    /// The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:[0-9]{12}:configured-audience-model/[-a-zA-Z0-9_/.]+
     /// </summary>
     [CliOption("--configured-audience-model-arn")]
     public string? ConfiguredAudienceModelArn { get; private init; }
 
     /// <summary>
-    /// The IAM resource policy. Constraints: o min: 1 o max: 20480
+    /// The IAM resource policy. Constraints: • min: 1 • max: 20480
     /// </summary>
     [CliOption("--configured-audience-model-policy")]
     public string? ConfiguredAudienceModelPolicy { get; private init; }
 
     /// <summary>
-    /// A cryptographic hash of the contents of the policy used to prevent unexpected concurrent modification of the policy. Constraints: o min: 64 o max: 128 o pattern: [0-9a-f]+
+    /// A cryptographic hash of the contents of the policy used to prevent unexpected concurrent modification of the policy. Constraints: • min: 64 • max: 128 • pattern: [0-9a-f]+
     /// </summary>
     [CliOption("--previous-policy-hash")]
     public string? PreviousPolicyHash { get; set; }
 
     /// <summary>
-    /// Use this to prevent unexpected concurrent modification of the pol- icy. Possible values: o POLICY_MUST_EXIST o POLICY_MUST_NOT_EXIST
+    /// Use this to prevent unexpected concurrent modification of the policy. Possible values: • POLICY_MUST_EXIST • POLICY_MUST_NOT_EXIST
     /// </summary>
     [CliOption("--policy-existence-condition")]
     public AwsCleanroomsmlPutConfiguredAudienceModelPolicyPolicyExistenceCondition? PolicyExistenceCondition { get; set; }
@@ -105,6 +106,15 @@ public record AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a policy to a root, an organizational unit (OU), or an indi- vidual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_P...
+/// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POL...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsOrganizationsAttachPolicyOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a policy to a root, an organizational unit (OU), or an indi- vidual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type: o SERVICE_CONTROL_POLICY o RESOURCE_CONTROL_POLICY o DECLARATIVE_POLICY_EC2 o BACKUP_POLICY o TAG_POLICY o CHATBOT_POLICY o AISERVICES_OPT_OUT_POLICY o SECURITYHUB_POLICY o UPGRADE_ROLLOUT_POLICY o INSPECTOR_POLICY o BEDROCK_POLICY o S3_POLICY o NETWORK_SECURITY_DIRECTOR_P...
+    /// Attaches a policy to a root, an organizational unit (OU), or an individual account. How the policy affects accounts depends on the type of policy. Refer to the Organizations User Guide for information about each policy type: • SERVICE_CONTROL_POLICY • RESOURCE_CONTROL_POLICY • DECLARATIVE_POLICY_EC2 • BACKUP_POLICY • TAG_POLICY • CHATBOT_POLICY • AISERVICES_OPT_OUT_POLICY • SECURITYHUB_POLICY • UPGRADE_ROLLOUT_POLICY • INSPECTOR_POLICY • BEDROCK_POLICY • S3_POLICY • NETWORK_SECURITY_DIRECTOR_POL...
     /// </summary>
-    /// <param name="PolicyId">ID for the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
-    /// <param name="TargetId">ID for the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots , ListOrganiza- tionalUnitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
+    /// <param name="PolicyId">ID for the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$</param>
+    /// <param name="TargetId">ID for the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots , ListOrganizationalUnitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the following: • Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. • Account - A string that consists of exactly 12 digits. • Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 100 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$</param>
     public AwsOrganizationsAttachPolicyOptions(
         string PolicyId,
         string TargetId
@@ -60,13 +61,13 @@ public record AwsOrganizationsAttachPolicyOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the under- score character (_). Constraints: o max: 130 o pattern: ^p-[0-9a-zA-Z_]{8,128}$
+    /// ID for the policy that you want to attach to the target. You can get the ID for the policy by calling the ListPolicies operation. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_). Constraints: • max: 130 • pattern: ^p-[0-9a-zA-Z_]{8,128}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// ID for the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots , ListOrganiza- tionalUnitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the follow- ing: o Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. o Account - A string that consists of exactly 12 digits. o Organizational unit (OU) - A string that begins with "ou-" fol- lowed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: o max: 100 o pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
+    /// ID for the root, OU, or account that you want to attach the policy to. You can get the ID by calling the ListRoots , ListOrganizationalUnitsForParent , or ListAccounts operations. The regex pattern for a target ID string requires one of the following: • Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits. • Account - A string that consists of exactly 12 digits. • Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits. Constraints: • max: 100 • pattern: ^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsOrganizationsAttachPolicyOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

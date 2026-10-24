@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +29,11 @@ public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions, IValida
     /// <summary>
     /// Adds a policy statement object. To retrieve a list of existing policy statements, use the GetPolicy API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource that will be accessed by the principal. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
-    /// <param name="StatementId">A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z]+</param>
-    /// <param name="Effect">Determines whether the permissions specified in the policy are to be allowed (Allow ) or denied (Deny ). WARNING: If you set the value of the effect parameter to Deny for the Ad- dPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy opera- tion. Possible values: o Allow o Deny</param>
-    /// <param name="Action">The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob , entityresolu- tion:GetMatchingJob . Constraints: o min: 1 (string) Constraints: o min: 3 o max: 64 o pattern: (entityresolution:[a-zA-Z0-9]+) Syntax: "string" "string" ...</param>
-    /// <param name="Principal">The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN. Constraints: o min: 1 (string) Constraints: o min: 12 o max: 64 o pattern: ((\d{12})|([a-z0-9\.]+)) Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the resource that will be accessed by the principal. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="StatementId">A statement identifier that differentiates the statement from others in the same policy. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z]+</param>
+    /// <param name="Effect">Determines whether the permissions specified in the policy are to be allowed (Allow ) or denied (Deny ). WARNING: If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation. Possible values: • Allow • Deny</param>
+    /// <param name="Action">The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob , entityresolution:GetMatchingJob . Constraints: • min: 1 (string) Constraints: • min: 3 • max: 64 • pattern: (entityresolution:[a-zA-Z0-9]+) Syntax: "string" "string" ...</param>
+    /// <param name="Principal">The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN. Constraints: • min: 1 (string) Constraints: • min: 12 • max: 64 • pattern: ((\d{12})|([a-z0-9\.]+)) Syntax: "string" "string" ...</param>
     public AwsEntityresolutionAddPolicyStatementOptions(
         string Arn,
         string StatementId,
@@ -94,37 +95,37 @@ public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource that will be accessed by the principal. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn):entityresolu- tion:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|match- ingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
+    /// The Amazon Resource Name (ARN) of the resource that will be accessed by the principal. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:((schemamapping|matchingworkflow|idmappingworkflow|idnamespace)/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A statement identifier that differentiates the statement from others in the same policy. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z]+
+    /// A statement identifier that differentiates the statement from others in the same policy. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z]+
     /// </summary>
     [CliOption("--statement-id")]
     public string? StatementId { get; private init; }
 
     /// <summary>
-    /// Determines whether the permissions specified in the policy are to be allowed (Allow ) or denied (Deny ). WARNING: If you set the value of the effect parameter to Deny for the Ad- dPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy opera- tion. Possible values: o Allow o Deny
+    /// Determines whether the permissions specified in the policy are to be allowed (Allow ) or denied (Deny ). WARNING: If you set the value of the effect parameter to Deny for the AddPolicyStatement operation, you must also set the value of the effect parameter in the policy to Deny for the PutPolicy operation. Possible values: • Allow • Deny
     /// </summary>
     [CliOption("--effect")]
     public AwsEntityresolutionAddPolicyStatementEffect? Effect { get; private init; }
 
     /// <summary>
-    /// The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob , entityresolu- tion:GetMatchingJob . Constraints: o min: 1 (string) Constraints: o min: 3 o max: 64 o pattern: (entityresolution:[a-zA-Z0-9]+) Syntax: "string" "string" ...
+    /// The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob , entityresolution:GetMatchingJob . Constraints: • min: 1 (string) Constraints: • min: 3 • max: 64 • pattern: (entityresolution:[a-zA-Z0-9]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--action", GroupValues = true)]
     public IEnumerable<string>? Action { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN. Constraints: o min: 1 (string) Constraints: o min: 12 o max: 64 o pattern: ((\d{12})|([a-z0-9\.]+)) Syntax: "string" "string" ...
+    /// The Amazon Web Services service or Amazon Web Services account that can access the resource defined as ARN. Constraints: • min: 1 (string) Constraints: • min: 12 • max: 64 • pattern: ((\d{12})|([a-z0-9\.]+)) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--principal", GroupValues = true)]
     public IEnumerable<string>? Principal { get; private init; }
 
     /// <summary>
-    /// A set of condition keys that you can use in key policies. Constraints: o min: 1 o max: 40960
+    /// A set of condition keys that you can use in key policies. Constraints: • min: 1 • max: 40960
     /// </summary>
     [CliOption("--condition")]
     public string? Condition { get; set; }
@@ -150,6 +151,15 @@ public record AwsEntityresolutionAddPolicyStatementOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

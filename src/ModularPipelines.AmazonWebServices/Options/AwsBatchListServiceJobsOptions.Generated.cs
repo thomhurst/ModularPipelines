@@ -30,22 +30,19 @@ public record AwsBatchListServiceJobsOptions : AwsOptions
     public string? JobQueue { get; set; }
 
     /// <summary>
-    /// The job status used to filter service jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exceptions are the SHARE_IDENTIFIER filter and QUOTA_SHARE_NAME filter, which can be used with jobStatus . If you don't specify a status, only RUNNING jobs are returned. NOTE: The SHARE_IDENTIFIER filter or QUOTA_SHARE_NAME filter can be used with the jobStatus field to filter results. Possible values: o SUBMITTED o PENDING o RUNNABLE o SCHEDULED o STARTING o RUNNING o SUCCEEDED o FAILED
+    /// The job status used to filter service jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exceptions are the SHARE_IDENTIFIER filter and QUOTA_SHARE_NAME filter, which can be used with jobStatus . If you don't specify a status, only RUNNING jobs are returned. NOTE: The SHARE_IDENTIFIER filter or QUOTA_SHARE_NAME filter can be used with the jobStatus field to filter results. Possible values: • SUBMITTED • PENDING • RUNNABLE • SCHEDULED • STARTING • RUNNING • SUCCEEDED • FAILED
     /// </summary>
     [CliOption("--job-status")]
     public AwsBatchListServiceJobsJobStatus? JobStatus { get; set; }
 
     /// <summary>
-    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the excep- tion that SHARE_IDENTIFIER or QUOTA_SHARE_NAME and jobStatus can be used together. The results are sorted by the createdAt field, with the most recent jobs being first. NOTE: The SHARE_IDENTIFIER or QUOTA_SHARE_NAME filter and the jobSta- tus field can be used together to filter results. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corre- sponds to the jobName value. For example, test1 matches both Test1 and test1 , and test1* matches both test1 and Test10 . When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was cre- ated. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was cre- ated. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. SHARE_IDENTIFIER The value for the filter is the fairshare scheduling share identi- fier. QUOTA_SHARE_NAME The value for the filter is the quota management share name. (structure) A filter name and value pair that's used to return a more spe- cific list of results from a ListJobs or ListJobsByConsumableRe- source API operation. name -&gt; (string) The name of the filter. Filter names are case sensitive. values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
+    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER or QUOTA_SHARE_NAME and jobStatus can be used together. The results are sorted by the createdAt field, with the most recent jobs being first. NOTE: The SHARE_IDENTIFIER or QUOTA_SHARE_NAME filter and the jobStatus field can be used together to filter results. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1 , and test1* matches both test1 and Test10 . When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. SHARE_IDENTIFIER The value for the filter is the fairshare scheduling share identifier. QUOTA_SHARE_NAME The value for the filter is the quota management share name. (structure) A filter name and value pair that's used to return a more specific list of results from a ListJobs or ListJobsByConsumableResource API operation. name -&gt; (string) The name of the filter. Filter names are case sensitive. values -&gt; (list) The filter values. (string) Shorthand Syntax: name=string,values=string,string ... JSON Syntax: [ { "name": "string", "values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -55,15 +52,27 @@ public record AwsBatchListServiceJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

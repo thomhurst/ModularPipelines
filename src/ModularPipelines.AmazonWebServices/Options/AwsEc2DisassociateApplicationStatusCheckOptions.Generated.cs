@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an application status check from instances or tags . Af- ter disassociation, health monitoring stops for the affected instances. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o The application status check must already exist and belong to your account. o Tag keys must not be blank. See also: AWS API Documentation
+/// Disassociates an application status check from instances or tags . After disassociation, health monitoring stops for the affected instances. The following rules apply: • You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. • The application status check must already exist and belong to your account. • Tag keys must not be blank. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an application status check from instances or tags . Af- ter disassociation, health monitoring stops for the affected instances. The following rules apply: o You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. o The application status check must already exist and belong to your account. o Tag keys must not be blank. See also: AWS API Documentation
+    /// Disassociates an application status check from instances or tags . After disassociation, health monitoring stops for the affected instances. The following rules apply: • You must specify either TargetTagAssociations or InstanceIds , but not both. Specifying both results in an InvalidParameterCombination error. • The application status check must already exist and belong to your account. • Tag keys must not be blank. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApplicationStatusCheckId">The ID of the application status check to disassociate.</param>
     public AwsEc2DisassociateApplicationStatusCheckOptions(
@@ -75,14 +76,14 @@ public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions, IVal
     public IEnumerable<string>? InstanceIds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a re- quest with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -108,6 +109,15 @@ public record AwsEc2DisassociateApplicationStatusCheckOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

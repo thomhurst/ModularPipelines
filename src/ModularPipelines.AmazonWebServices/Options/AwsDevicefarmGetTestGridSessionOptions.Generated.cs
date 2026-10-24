@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult . You can use the following to look up sessions: o The session ARN. o The project ARN and a session ID. See also: AWS API Documentation
+/// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult . You can use the following to look up sessions: • The session ARN. • The project ARN and a session ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDevicefarmGetTestGridSessionOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN for the project that this session belongs to. See Cre- ateTestGridProject and ListTestGridProjects . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The ARN for the project that this session belongs to. See CreateTestGridProject and ListTestGridProjects . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; set; }
 
     /// <summary>
-    /// An ID associated with this session. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// An ID associated with this session. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// An ARN that uniquely identifies a TestGridSession . Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// An ARN that uniquely identifies a TestGridSession . Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--session-arn")]
     public string? SessionArn { get; set; }
@@ -44,5 +44,14 @@ public record AwsDevicefarmGetTestGridSessionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

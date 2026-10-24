@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBcmDataExportsGetExecutionOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Exports data based on the source data update. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExportArn">The Amazon Resource Name (ARN) of the Export object that generated this specific execution. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
-    /// <param name="ExecutionId">The ID for this specific execution. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*</param>
+    /// <param name="ExportArn">The Amazon Resource Name (ARN) of the Export object that generated this specific execution. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+</param>
+    /// <param name="ExecutionId">The ID for this specific execution. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*</param>
     public AwsBcmDataExportsGetExecutionOptions(
         string ExportArn,
         string ExecutionId
@@ -60,13 +61,13 @@ public record AwsBcmDataExportsGetExecutionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Export object that generated this specific execution. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:(bcm-data-ex- ports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
+    /// The Amazon Resource Name (ARN) of the Export object that generated this specific execution. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:(bcm-data-exports):[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+
     /// </summary>
     [CliOption("--export-arn")]
     public string? ExportArn { get; private init; }
 
     /// <summary>
-    /// The ID for this specific execution. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]*
+    /// The ID for this specific execution. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBcmDataExportsGetExecutionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

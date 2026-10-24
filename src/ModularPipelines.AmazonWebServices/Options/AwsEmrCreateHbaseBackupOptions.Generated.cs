@@ -24,8 +24,8 @@ public record AwsEmrCreateHbaseBackupOptions : AwsOptions
     /// <summary>
     /// Creates a HBase backup in S3. This command is only available when using Amazon EMR versionsearlier than 4.0.
     /// </summary>
-    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
-    /// <param name="Dir">The Amazon S3 location of the Hbase backup. Example: s3://my- bucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.</param>
+    /// <param name="ClusterId">A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.</param>
+    /// <param name="Dir">The Amazon S3 location of the Hbase backup. Example: s3://mybucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.</param>
     public AwsEmrCreateHbaseBackupOptions(
         string ClusterId,
         string Dir
@@ -44,13 +44,13 @@ public record AwsEmrCreateHbaseBackupOptions : AwsOptions
     }
 
     /// <summary>
-    /// A unique string that identifies a cluster. The create-cluster com- mand returns this identifier. You can use the list-clusters command to get cluster IDs.
+    /// A unique string that identifies a cluster. The create-cluster command returns this identifier. You can use the list-clusters command to get cluster IDs.
     /// </summary>
     [CliOption("--cluster-id")]
     public string ClusterId { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location of the Hbase backup. Example: s3://my- bucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.
+    /// The Amazon S3 location of the Hbase backup. Example: s3://mybucket/mybackup , where mybucket is the specified Amazon S3 bucket and mybackup is the specified backup location. The path argument must begin with s3://, which refers to an Amazon S3 bucket.
     /// </summary>
     [CliOption("--dir")]
     public string Dir { get; private init; }
@@ -60,5 +60,14 @@ public record AwsEmrCreateHbaseBackupOptions : AwsOptions
     /// </summary>
     [CliFlag("--consistent")]
     public bool? Consistent { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

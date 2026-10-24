@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a batch of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+/// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a batch of custom vocabulary items for a given bot locale's cus- tom vocabulary. See also: AWS API Documentation
+    /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot associated with this custom vocabulary. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The identifier of the version of the bot associated with this custom vocabulary. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
-    /// <param name="LocaleId">The identifier of the language and locale where this custom vocabu- lary is used. The string must match one of the supported locales. For more information, see Supported Languages .</param>
-    /// <param name="CustomVocabularyItemList">A list of new custom vocabulary items. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight. Constraints: o min: 1 o max: 10 (structure) The new custom vocabulary item from the custom vocabulary list. phrase -&gt; (string) [required] The unique phrase for the new custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 weight -&gt; (integer) The weight assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: o min: 0 o max: 3 displayAs -&gt; (string) The display as value assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 Shorthand Syntax: phrase=string,weight=integer,displayAs=string ... JSON Syntax: [ { "phrase": "string", "weight": integer, "displayAs": "string" } ... ]</param>
+    /// <param name="BotId">The identifier of the bot associated with this custom vocabulary. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The identifier of the version of the bot associated with this custom vocabulary. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see Supported Languages .</param>
+    /// <param name="CustomVocabularyItemList">A list of new custom vocabulary items. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight. Constraints: • min: 1 • max: 10 (structure) The new custom vocabulary item from the custom vocabulary list. phrase -&gt; (string) [required] The unique phrase for the new custom vocabulary item from the custom vocabulary list. Constraints: • min: 1 • max: 100 weight -&gt; (integer) The weight assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: • min: 0 • max: 3 displayAs -&gt; (string) The display as value assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: • min: 1 • max: 100 Shorthand Syntax: phrase=string,weight=integer,displayAs=string ... JSON Syntax: [ { "phrase": "string", "weight": integer, "displayAs": "string" } ... ]</param>
     public AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions(
         string BotId,
         string BotVersion,
@@ -79,25 +80,25 @@ public record AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot associated with this custom vocabulary. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot associated with this custom vocabulary. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The identifier of the version of the bot associated with this custom vocabulary. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The identifier of the version of the bot associated with this custom vocabulary. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the language and locale where this custom vocabu- lary is used. The string must match one of the supported locales. For more information, see Supported Languages .
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see Supported Languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// A list of new custom vocabulary items. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight. Constraints: o min: 1 o max: 10 (structure) The new custom vocabulary item from the custom vocabulary list. phrase -&gt; (string) [required] The unique phrase for the new custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 weight -&gt; (integer) The weight assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: o min: 0 o max: 3 displayAs -&gt; (string) The display as value assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: o min: 1 o max: 100 Shorthand Syntax: phrase=string,weight=integer,displayAs=string ... JSON Syntax: [ { "phrase": "string", "weight": integer, "displayAs": "string" } ... ]
+    /// A list of new custom vocabulary items. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight. Constraints: • min: 1 • max: 10 (structure) The new custom vocabulary item from the custom vocabulary list. phrase -&gt; (string) [required] The unique phrase for the new custom vocabulary item from the custom vocabulary list. Constraints: • min: 1 • max: 100 weight -&gt; (integer) The weight assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: • min: 0 • max: 3 displayAs -&gt; (string) The display as value assigned to the new custom vocabulary item from the custom vocabulary list. Constraints: • min: 1 • max: 100 Shorthand Syntax: phrase=string,weight=integer,displayAs=string ... JSON Syntax: [ { "phrase": "string", "weight": integer, "displayAs": "string" } ... ]
     /// </summary>
     [CliOption("--custom-vocabulary-item-list", GroupValues = true)]
     public IEnumerable<string>? CustomVocabularyItemList { get; private init; }
@@ -123,6 +124,15 @@ public record AwsLexv2ModelsBatchCreateCustomVocabularyItemOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

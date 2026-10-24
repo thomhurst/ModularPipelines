@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftRotateEncryptionKeyOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Rotates the encryption keys for a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The unique identifier of the cluster that you want to rotate the en- cryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled. Constraints: • max: 2147483647</param>
     public AwsRedshiftRotateEncryptionKeyOptions(
         string ClusterIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftRotateEncryptionKeyOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the cluster that you want to rotate the en- cryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled. Constraints: o max: 2147483647
+    /// The unique identifier of the cluster that you want to rotate the encryption keys for. Constraints: Must be the name of valid cluster that has encryption enabled. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftRotateEncryptionKeyOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

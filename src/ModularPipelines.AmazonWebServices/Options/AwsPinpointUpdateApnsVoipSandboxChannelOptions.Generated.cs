@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an applica- tion. See also: AWS API Documentation
+/// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPinpointUpdateApnsVoipSandboxChannelOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an applica- tion. See also: AWS API Documentation
+    /// Enables the APNs VoIP sandbox channel for an application or updates the status and settings of the APNs VoIP sandbox channel for an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApnsVoipSandboxChannelRequest">Specifies the status and settings of the APNs (Apple Push Notifica- tion service) VoIP sandbox channel for an application. BundleId -&gt; (string) The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens. Certificate -&gt; (string) The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox envi- ronment by using an APNs certificate. DefaultAuthenticationMethod -&gt; (string) The default authentication method that you want Amazon Pinpoint to use when authenticating with the APNs sandbox environment for this channel, key or certificate. Enabled -&gt; (boolean) Specifies whether the APNs VoIP sandbox channel is enabled for the application. PrivateKey -&gt; (string) The private key for the APNs client certificate that you want Amazon Pinpoint to use to communicate with the APNs sandbox en- vironment. TeamId -&gt; (string) The identifier that's assigned to your Apple developer account team. This identifier is used for APNs tokens. TokenKey -&gt; (string) The authentication key to use for APNs tokens. TokenKeyId -&gt; (string) The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using APNs tokens. Shorthand Syntax: BundleId=string,Certificate=string,DefaultAuthenticationMethod=string,Enabled=boolean,PrivateKey=string,TeamId=string,TokenKey=string,TokenKeyId=string JSON Syntax: { "BundleId": "string", "Certificate": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "PrivateKey": "string", "TeamId": "string", "TokenKey": "string", "TokenKeyId": "string" }</param>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ApnsVoipSandboxChannelRequest">Specifies the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application. BundleId -&gt; (string) The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens. Certificate -&gt; (string) The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate. DefaultAuthenticationMethod -&gt; (string) The default authentication method that you want Amazon Pinpoint to use when authenticating with the APNs sandbox environment for this channel, key or certificate. Enabled -&gt; (boolean) Specifies whether the APNs VoIP sandbox channel is enabled for the application. PrivateKey -&gt; (string) The private key for the APNs client certificate that you want Amazon Pinpoint to use to communicate with the APNs sandbox environment. TeamId -&gt; (string) The identifier that's assigned to your Apple developer account team. This identifier is used for APNs tokens. TokenKey -&gt; (string) The authentication key to use for APNs tokens. TokenKeyId -&gt; (string) The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using APNs tokens. Shorthand Syntax: BundleId=string,Certificate=string,DefaultAuthenticationMethod=string,Enabled=boolean,PrivateKey=string,TeamId=string,TokenKey=string,TokenKeyId=string JSON Syntax: { "BundleId": "string", "Certificate": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "PrivateKey": "string", "TeamId": "string", "TokenKey": "string", "TokenKeyId": "string" }</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
     public AwsPinpointUpdateApnsVoipSandboxChannelOptions(
         string ApnsVoipSandboxChannelRequest,
         string ApplicationId
@@ -60,13 +61,13 @@ public record AwsPinpointUpdateApnsVoipSandboxChannelOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the status and settings of the APNs (Apple Push Notifica- tion service) VoIP sandbox channel for an application. BundleId -&gt; (string) The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens. Certificate -&gt; (string) The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox envi- ronment by using an APNs certificate. DefaultAuthenticationMethod -&gt; (string) The default authentication method that you want Amazon Pinpoint to use when authenticating with the APNs sandbox environment for this channel, key or certificate. Enabled -&gt; (boolean) Specifies whether the APNs VoIP sandbox channel is enabled for the application. PrivateKey -&gt; (string) The private key for the APNs client certificate that you want Amazon Pinpoint to use to communicate with the APNs sandbox en- vironment. TeamId -&gt; (string) The identifier that's assigned to your Apple developer account team. This identifier is used for APNs tokens. TokenKey -&gt; (string) The authentication key to use for APNs tokens. TokenKeyId -&gt; (string) The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using APNs tokens. Shorthand Syntax: BundleId=string,Certificate=string,DefaultAuthenticationMethod=string,Enabled=boolean,PrivateKey=string,TeamId=string,TokenKey=string,TokenKeyId=string JSON Syntax: { "BundleId": "string", "Certificate": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "PrivateKey": "string", "TeamId": "string", "TokenKey": "string", "TokenKeyId": "string" }
+    /// Specifies the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application. BundleId -&gt; (string) The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens. Certificate -&gt; (string) The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate. DefaultAuthenticationMethod -&gt; (string) The default authentication method that you want Amazon Pinpoint to use when authenticating with the APNs sandbox environment for this channel, key or certificate. Enabled -&gt; (boolean) Specifies whether the APNs VoIP sandbox channel is enabled for the application. PrivateKey -&gt; (string) The private key for the APNs client certificate that you want Amazon Pinpoint to use to communicate with the APNs sandbox environment. TeamId -&gt; (string) The identifier that's assigned to your Apple developer account team. This identifier is used for APNs tokens. TokenKey -&gt; (string) The authentication key to use for APNs tokens. TokenKeyId -&gt; (string) The key identifier that's assigned to your APNs signing key, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using APNs tokens. Shorthand Syntax: BundleId=string,Certificate=string,DefaultAuthenticationMethod=string,Enabled=boolean,PrivateKey=string,TeamId=string,TokenKey=string,TokenKeyId=string JSON Syntax: { "BundleId": "string", "Certificate": "string", "DefaultAuthenticationMethod": "string", "Enabled": true|false, "PrivateKey": "string", "TeamId": "string", "TokenKey": "string", "TokenKeyId": "string" }
     /// </summary>
     [CliOption("--apns-voip-sandbox-channel-request")]
     public string? ApnsVoipSandboxChannelRequest { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointUpdateApnsVoipSandboxChannelOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

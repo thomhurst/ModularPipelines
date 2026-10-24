@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchDeleteVpcEndpointOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcEndpointId">The unique identifier of the endpoint. Constraints: o min: 5 o max: 256 o pattern: ^aos-[a-zA-Z0-9]*$</param>
+    /// <param name="VpcEndpointId">The unique identifier of the endpoint. Constraints: • min: 5 • max: 256 • pattern: ^aos-[a-zA-Z0-9]*$</param>
     public AwsOpensearchDeleteVpcEndpointOptions(
         string VpcEndpointId
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchDeleteVpcEndpointOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the endpoint. Constraints: o min: 5 o max: 256 o pattern: ^aos-[a-zA-Z0-9]*$
+    /// The unique identifier of the endpoint. Constraints: • min: 5 • max: 256 • pattern: ^aos-[a-zA-Z0-9]*$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchDeleteVpcEndpointOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes, or disassociates, a vehicle from a fleet. Disassociating a ve- hicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
+/// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsIotfleetwiseDisassociateVehicleFleetOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a ve- hicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
+    /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VehicleName">The unique ID of the vehicle to disassociate from the fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
-    /// <param name="FleetId">The unique ID of a fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="VehicleName">The unique ID of the vehicle to disassociate from the fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="FleetId">The unique ID of a fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+</param>
     public AwsIotfleetwiseDisassociateVehicleFleetOptions(
         string VehicleName,
         string FleetId
@@ -60,13 +61,13 @@ public record AwsIotfleetwiseDisassociateVehicleFleetOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the vehicle to disassociate from the fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The unique ID of the vehicle to disassociate from the fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--vehicle-name")]
     public string? VehicleName { get; private init; }
 
     /// <summary>
-    /// The unique ID of a fleet. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// The unique ID of a fleet. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotfleetwiseDisassociateVehicleFleetOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

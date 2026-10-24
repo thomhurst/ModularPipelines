@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsBedrockAgentcoreControlGetMemoryOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieve an existing Amazon Bedrock AgentCore Memory resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemoryId">The unique identifier of the memory to retrieve. Constraints: o min: 12 o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="MemoryId">The unique identifier of the memory to retrieve. Constraints: • min: 12 • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
     public AwsBedrockAgentcoreControlGetMemoryOptions(
         string MemoryId
     )
@@ -57,13 +58,13 @@ public record AwsBedrockAgentcoreControlGetMemoryOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the memory to retrieve. Constraints: o min: 12 o pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique identifier of the memory to retrieve. Constraints: • min: 12 • pattern: [a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The level of detail to return for the memory. Possible values: o full o without_decryption
+    /// The level of detail to return for the memory. Possible values: • full • without_decryption
     /// </summary>
     [CliOption("--view")]
     public AwsBedrockAgentcoreControlGetMemoryView? View { get; set; }
@@ -89,6 +90,15 @@ public record AwsBedrockAgentcoreControlGetMemoryOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -25,7 +25,7 @@ public record AwsS3apiGetObjectTorrentOptions : AwsOptions
     /// NOTE: This operation is not supported for directory buckets. Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're distributing large files. NOTE: You can get torrent only for objects that are less than 5 GB in size, and that are not encrypted using server-side encryption with a customer-provided encryption key. To use GET, you must have READ access to the object. This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObj...
     /// </summary>
     /// <param name="Bucket">The name of the bucket containing the object for which to get the torrent files.</param>
-    /// <param name="Key">The object key for which to get the information. Constraints: o min: 1</param>
+    /// <param name="Key">The object key for which to get the information. Constraints: • min: 1</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsS3apiGetObjectTorrentOptions(
         string Bucket,
@@ -55,19 +55,19 @@ public record AwsS3apiGetObjectTorrentOptions : AwsOptions
     public string Bucket { get; private init; }
 
     /// <summary>
-    /// The object key for which to get the information. Constraints: o min: 1
+    /// The object key for which to get the information. Constraints: • min: 1
     /// </summary>
     [CliOption("--key")]
     public string Key { get; private init; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied). outfile (string) [required] Filename where the content will be saved
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -77,5 +77,14 @@ public record AwsS3apiGetObjectTorrentOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

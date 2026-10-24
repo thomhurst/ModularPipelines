@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until a run is running. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+/// Wait until a run is running. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOmicsWaitRunRunningOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until a run is running. It will poll every 30 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until a run is running. It will poll every 30 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The run's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The run's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsWaitRunRunningOptions(
         string Id
     )
@@ -56,13 +57,13 @@ public record AwsOmicsWaitRunRunningOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The run's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The run's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The run's export format. Constraints: o min: 0 o max: 32 (string) Possible values: o DEFINITION Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The run's export format. Constraints: • min: 0 • max: 32 (string) Possible values: • DEFINITION Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--export", GroupValues = true)]
     public IEnumerable<string>? Export { get; set; }
@@ -88,6 +89,15 @@ public record AwsOmicsWaitRunRunningOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

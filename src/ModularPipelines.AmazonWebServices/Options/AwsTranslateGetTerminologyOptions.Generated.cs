@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsTranslateGetTerminologyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves a custom terminology. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the custom terminology being retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$</param>
+    /// <param name="Name">The name of the custom terminology being retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$</param>
     public AwsTranslateGetTerminologyOptions(
         string Name
     )
@@ -57,13 +58,13 @@ public record AwsTranslateGetTerminologyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom terminology being retrieved. Constraints: o min: 1 o max: 256 o pattern: ^([A-Za-z0-9-]_?)+$
+    /// The name of the custom terminology being retrieved. Constraints: • min: 1 • max: 256 • pattern: ^([A-Za-z0-9-]_?)+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The data format of the custom terminology being retrieved. If you don't specify this parameter, Amazon Translate returns a file with the same format as the file that was imported to create the terminology. If you specify this parameter when you retrieve a multi-directional terminology resource, you must specify the same format as the input file that was imported to create it. Otherwise, Amazon Translate throws an error. Possible values: o CSV o TMX o TSV
+    /// The data format of the custom terminology being retrieved. If you don't specify this parameter, Amazon Translate returns a file with the same format as the file that was imported to create the terminology. If you specify this parameter when you retrieve a multi-directional terminology resource, you must specify the same format as the input file that was imported to create it. Otherwise, Amazon Translate throws an error. Possible values: • CSV • TMX • TSV
     /// </summary>
     [CliOption("--terminology-data-format")]
     public AwsTranslateGetTerminologyTerminologyDataFormat? TerminologyDataFormat { get; set; }
@@ -89,6 +90,15 @@ public record AwsTranslateGetTerminologyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

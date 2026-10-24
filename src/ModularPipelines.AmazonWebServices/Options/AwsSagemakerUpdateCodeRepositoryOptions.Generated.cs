@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerUpdateCodeRepositoryOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the specified Git repository with the specified values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CodeRepositoryName">The name of the Git repository to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="CodeRepositoryName">The name of the Git repository to update. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerUpdateCodeRepositoryOptions(
         string CodeRepositoryName
     )
@@ -56,13 +57,13 @@ public record AwsSagemakerUpdateCodeRepositoryOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Git repository to update. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the Git repository to update. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--code-repository-name")]
     public string? CodeRepositoryName { get; private init; }
 
     /// <summary>
-    /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Man- ager secret that contains the credentials used to access the reposi- tory. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Se- crets Manager secret that contains the credentials used to ac- cess the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: o min: 1 o max: 2048 o pattern: arn:aws[a-z\-]*:secretsman- ager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: SecretArn=string JSON Syntax: { "SecretArn": "string" }
+    /// The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } SecretArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials used to access the git repository. The secret must have a staging label of AWSCURRENT and must be in the following format: {"username": *UserName* , "password": *Password* } Constraints: • min: 1 • max: 2048 • pattern: arn:aws[a-z\-]*:secretsmanager:[a-z0-9\-]*:[0-9]{12}:secret:.* Shorthand Syntax: SecretArn=string JSON Syntax: { "SecretArn": "string" }
     /// </summary>
     [CliOption("--git-config")]
     public string? GitConfig { get; set; }
@@ -88,6 +89,15 @@ public record AwsSagemakerUpdateCodeRepositoryOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

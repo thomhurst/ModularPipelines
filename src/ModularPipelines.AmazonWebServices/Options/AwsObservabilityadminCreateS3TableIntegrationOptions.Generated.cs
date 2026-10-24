@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using ana- lytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
+/// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsObservabilityadminCreateS3TableIntegrationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using ana- lytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
+    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Encryption">The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings. SseAlgorithm -&gt; (string) [required] The server-side encryption algorithm used for encrypting data in the S3 Table integration. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used for encryp- tion when using customer-managed keys. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+) Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that grants permis- sions for the S3 Table integration to access necessary resources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
+    /// <param name="Encryption">The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings. SseAlgorithm -&gt; (string) [required] The server-side encryption algorithm used for encrypting data in the S3 Table integration. Possible values: • aws:kms • AES256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used for encryption when using customer-managed keys. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+) Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that grants permissions for the S3 Table integration to access necessary resources. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)</param>
     public AwsObservabilityadminCreateS3TableIntegrationOptions(
         string Encryption,
         string RoleArn
@@ -61,19 +61,19 @@ public record AwsObservabilityadminCreateS3TableIntegrationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings. SseAlgorithm -&gt; (string) [required] The server-side encryption algorithm used for encrypting data in the S3 Table integration. Possible values: o aws:kms o AES256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used for encryp- tion when using customer-managed keys. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+) Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }
+    /// The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings. SseAlgorithm -&gt; (string) [required] The server-side encryption algorithm used for encrypting data in the S3 Table integration. Possible values: • aws:kms • AES256 KmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of the KMS key used for encryption when using customer-managed keys. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+) Shorthand Syntax: SseAlgorithm=string,KmsKeyArn=string JSON Syntax: { "SseAlgorithm": "aws:kms"|"AES256", "KmsKeyArn": "string" }
     /// </summary>
     [CliOption("--encryption")]
     public string? Encryption { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that grants permis- sions for the S3 Table integration to access necessary resources. Constraints: o min: 1 o max: 1011 o pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
+    /// The Amazon Resource Name (ARN) of the IAM role that grants permissions for the S3 Table integration to access necessary resources. Constraints: • min: 1 • max: 1011 • pattern: arn:aws([a-z0-9\-]+)?:([a-zA-Z0-9\-]+):([a-z0-9\-]+)?:([0-9]{12})?:(.+)
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The key-value pairs to associate with the S3 Table integration re- source for categorization and management purposes. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The key-value pairs to associate with the S3 Table integration resource for categorization and management purposes. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -99,6 +99,15 @@ public record AwsObservabilityadminCreateS3TableIntegrationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

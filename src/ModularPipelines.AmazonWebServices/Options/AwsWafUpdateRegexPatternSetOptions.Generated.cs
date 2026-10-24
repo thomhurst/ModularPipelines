@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexPatternString objects in a RegexPatternSet . For each RegexPatternString object, you specify the following values: o Whether to insert or delete the RegexPatternString . o The r...
+/// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexPatternString objects in a RegexPatternSet . For each RegexPatternString object, you specify the following values: • Whether to insert or delete the RegexPatternString . • The r...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsWafUpdateRegexPatternSetOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexPatternString objects in a RegexPatternSet . For each RegexPatternString object, you specify the following values: o Whether to insert or delete the RegexPatternString . o The r...
+    /// NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Inserts or deletes RegexPatternString objects in a RegexPatternSet . For each RegexPatternString object, you specify the following values: • Whether to insert or delete the RegexPatternString . • The r...
     /// </summary>
-    /// <param name="RegexPatternSetId">The RegexPatternSetId of the RegexPatternSet that you want to up- date. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="Updates">An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. In an UpdateRegexPatternSet request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexPatternString . Possible values: o INSERT o DELETE RegexPatternString -&gt; (string) [required] Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: Action=string,RegexPatternString=string ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexPatternString": "string" } ... ]</param>
-    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="RegexPatternSetId">The RegexPatternSetId of the RegexPatternSet that you want to update. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="Updates">An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet . Constraints: • min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. In an UpdateRegexPatternSet request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexPatternString . Possible values: • INSERT • DELETE RegexPatternString -&gt; (string) [required] Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t . Constraints: • min: 1 • max: 512 • pattern: .* Shorthand Syntax: Action=string,RegexPatternString=string ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexPatternString": "string" } ... ]</param>
+    /// <param name="ChangeToken">The value returned by the most recent call to GetChangeToken . Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsWafUpdateRegexPatternSetOptions(
         string RegexPatternSetId,
         IEnumerable<string> Updates,
@@ -76,19 +77,19 @@ public record AwsWafUpdateRegexPatternSetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The RegexPatternSetId of the RegexPatternSet that you want to up- date. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The RegexPatternSetId of the RegexPatternSet that you want to update. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--regex-pattern-set-id")]
     public string? RegexPatternSetId { get; private init; }
 
     /// <summary>
-    /// An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet . Constraints: o min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for re- gional and global use. In an UpdateRegexPatternSet request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexPatternString . Possible values: o INSERT o DELETE RegexPatternString -&gt; (string) [required] Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t . Constraints: o min: 1 o max: 512 o pattern: .* Shorthand Syntax: Action=string,RegexPatternString=string ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexPatternString": "string" } ... ]
+    /// An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet . Constraints: • min: 1 (structure) NOTE: This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. In an UpdateRegexPatternSet request, RegexPatternSetUpdate specifies whether to insert or delete a RegexPatternString and includes the settings for the RegexPatternString . Action -&gt; (string) [required] Specifies whether to insert or delete a RegexPatternString . Possible values: • INSERT • DELETE RegexPatternString -&gt; (string) [required] Specifies the regular expression (regex) pattern that you want AWS WAF to search for, such as B[a@]dB[o0]t . Constraints: • min: 1 • max: 512 • pattern: .* Shorthand Syntax: Action=string,RegexPatternString=string ... JSON Syntax: [ { "Action": "INSERT"|"DELETE", "RegexPatternString": "string" } ... ]
     /// </summary>
     [CliOption("--updates", GroupValues = true)]
     public IEnumerable<string>? Updates { get; private init; }
 
     /// <summary>
-    /// The value returned by the most recent call to GetChangeToken . Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The value returned by the most recent call to GetChangeToken . Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--change-token")]
@@ -115,6 +116,15 @@ public record AwsWafUpdateRegexPatternSetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

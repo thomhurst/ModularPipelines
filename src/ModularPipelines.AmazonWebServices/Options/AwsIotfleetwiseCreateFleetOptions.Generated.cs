@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT Fleet- Wise Developer Guide . See also: AWS API Documentation
+/// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotfleetwiseCreateFleetOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT Fleet- Wise Developer Guide . See also: AWS API Documentation
+    /// Creates a fleet that represents a group of vehicles. NOTE: You must create both a signal catalog and vehicles before you can create a fleet. For more information, see Fleets in the Amazon Web Services IoT FleetWise Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="FleetId">The unique ID of the fleet to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+</param>
+    /// <param name="FleetId">The unique ID of the fleet to create. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+</param>
     /// <param name="SignalCatalogArn">The Amazon Resource Name (ARN) of a signal catalog.</param>
     public AwsIotfleetwiseCreateFleetOptions(
         string FleetId,
@@ -60,7 +61,7 @@ public record AwsIotfleetwiseCreateFleetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the fleet to create. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9:_-]+
+    /// The unique ID of the fleet to create. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
@@ -72,13 +73,13 @@ public record AwsIotfleetwiseCreateFleetOptions : AwsOptions, IValidatableObject
     public string? SignalCatalogArn { get; private init; }
 
     /// <summary>
-    /// A brief description of the fleet to create. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A brief description of the fleet to create. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Metadata that can be used to manage the fleet. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata that can be used to manage the fleet. Constraints: • min: 0 • max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsIotfleetwiseCreateFleetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

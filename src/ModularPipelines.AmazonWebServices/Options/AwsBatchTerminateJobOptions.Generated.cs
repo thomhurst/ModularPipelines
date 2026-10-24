@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Terminates a job in a job queue. Jobs that are in the STARTING or RUN- NING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
+/// Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBatchTerminateJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Terminates a job in a job queue. Jobs that are in the STARTING or RUN- NING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
+    /// Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobId">The Batch job ID of the job to terminate.</param>
-    /// <param name="Reason">A message to attach to the job that explains the reason for termi- nating it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
+    /// <param name="Reason">A message to attach to the job that explains the reason for terminating it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.</param>
     public AwsBatchTerminateJobOptions(
         string JobId,
         string Reason
@@ -66,7 +67,7 @@ public record AwsBatchTerminateJobOptions : AwsOptions, IValidatableObject
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// A message to attach to the job that explains the reason for termi- nating it. This message is returned by future DescribeJobs opera- tions on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    /// A message to attach to the job that explains the reason for terminating it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBatchTerminateJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a Slack channel configuration from your Amazon Web Services ac- count. This operation doesn't delete your Slack channel. See also: AWS API Documentation
+/// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSupportAppDeleteSlackChannelConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a Slack channel configuration from your Amazon Web Services ac- count. This operation doesn't delete your Slack channel. See also: AWS API Documentation
+    /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
-    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$</param>
+    /// <param name="ChannelId">The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
+    /// <param name="TeamId">The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$</param>
     public AwsSupportAppDeleteSlackChannelConfigurationOptions(
         string ChannelId,
         string TeamId
@@ -60,13 +61,13 @@ public record AwsSupportAppDeleteSlackChannelConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The channel ID in Slack. This ID identifies a channel within a Slack workspace. Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: o min: 1 o max: 256 o pattern: ^\S+$
+    /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as T012ABCDEFG . Constraints: • min: 1 • max: 256 • pattern: ^\S+$
     /// </summary>
     [CliOption("--team-id")]
     public string? TeamId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSupportAppDeleteSlackChannelConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

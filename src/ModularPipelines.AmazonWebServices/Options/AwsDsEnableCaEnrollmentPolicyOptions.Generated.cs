@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDsEnableCaEnrollmentPolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Enables certificate authority (CA) enrollment policy for the specified directory. This allows domain-joined clients to automatically request and receive certificates from the specified Amazon Web Services Private Certificate Authority. NOTE: Before enabling CA enrollment, ensure that the PCA connector is properly configured and accessible from the directory. The connector must be in an active state and have the necessary permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the directory for which to enable the CA enroll- ment policy. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="PcaConnectorArn">The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the direc- tory. The ARN format is: `` arn:aws:pca-connector-ad:region :account-id :connector/connector-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. Constraints: o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="DirectoryId">The identifier of the directory for which to enable the CA enrollment policy. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="PcaConnectorArn">The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the directory. The ARN format is: `` arn:aws:pca-connector-ad:region :account-id :connector/connector-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. Constraints: • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
     public AwsDsEnableCaEnrollmentPolicyOptions(
         string DirectoryId,
         string PcaConnectorArn
@@ -60,13 +61,13 @@ public record AwsDsEnableCaEnrollmentPolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the directory for which to enable the CA enroll- ment policy. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the directory for which to enable the CA enrollment policy. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the direc- tory. The ARN format is: `` arn:aws:pca-connector-ad:region :account-id :connector/connector-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. Constraints: o pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connec- tor\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the directory. The ARN format is: `` arn:aws:pca-connector-ad:region :account-id :connector/connector-id `` System Message: WARNING/2 (&lt;string&gt;:, line 99) Inline literal start-string without end-string. Constraints: • pattern: ^arn:[\w-]+:pca-connector-ad:[\w-]+:[0-9]+:connector\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--pca-connector-arn")]
     public string? PcaConnectorArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDsEnableCaEnrollmentPolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

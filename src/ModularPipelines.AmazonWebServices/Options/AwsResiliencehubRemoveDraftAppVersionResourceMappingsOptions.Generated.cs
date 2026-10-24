@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions : Aws
     /// <summary>
     /// Removes resource mappings from a draft application version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
     public AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions(
         string AppArn
     )
@@ -56,43 +57,43 @@ public record AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// The names of the registered applications you want to remove from the resource mappings. (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
+    /// The names of the registered applications you want to remove from the resource mappings. (string) Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--app-registry-app-names", GroupValues = true)]
     public IEnumerable<string>? AppRegistryAppNames { get; set; }
 
     /// <summary>
-    /// The names of the Amazon Elastic Kubernetes Service clusters and namespaces you want to remove from the resource mappings. NOTE: This parameter accepts values in "eks-cluster/namespace" format. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The names of the Amazon Elastic Kubernetes Service clusters and namespaces you want to remove from the resource mappings. NOTE: This parameter accepts values in "eks-cluster/namespace" format. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--eks-source-names", GroupValues = true)]
     public IEnumerable<string>? EksSourceNames { get; set; }
 
     /// <summary>
-    /// The names of the CloudFormation stacks you want to remove from the resource mappings. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The names of the CloudFormation stacks you want to remove from the resource mappings. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--logical-stack-names", GroupValues = true)]
     public IEnumerable<string>? LogicalStackNames { get; set; }
 
     /// <summary>
-    /// The names of the resource groups you want to remove from the re- source mappings. (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
+    /// The names of the resource groups you want to remove from the resource mappings. (string) Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-group-names", GroupValues = true)]
     public IEnumerable<string>? ResourceGroupNames { get; set; }
 
     /// <summary>
-    /// The names of the resources you want to remove from the resource map- pings. (string) Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
+    /// The names of the resources you want to remove from the resource mappings. (string) Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-names", GroupValues = true)]
     public IEnumerable<string>? ResourceNames { get; set; }
 
     /// <summary>
-    /// The names of the Terraform sources you want to remove from the re- source mappings. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// The names of the Terraform sources you want to remove from the resource mappings. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--terraform-source-names", GroupValues = true)]
     public IEnumerable<string>? TerraformSourceNames { get; set; }
@@ -118,6 +119,15 @@ public record AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

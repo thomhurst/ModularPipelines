@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves (queries) sensitive data discovery statistics and the sensi- tivity score for an S3 bucket. See also: AWS API Documentation
+/// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMacie2GetResourceProfileOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves (queries) sensitive data discovery statistics and the sensi- tivity score for an S3 bucket. See also: AWS API Documentation
+    /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 bucket that the request ap- plies to.</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.</param>
     public AwsMacie2GetResourceProfileOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsMacie2GetResourceProfileOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the S3 bucket that the request ap- plies to.
+    /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMacie2GetResourceProfileOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

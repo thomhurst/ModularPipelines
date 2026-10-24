@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identi- fier for each FeatureGroup , and more. See also: AWS API Documentation
+/// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identifier for each FeatureGroup , and more. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSagemakerDescribeFeatureGroupOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identi- fier for each FeatureGroup , and more. See also: AWS API Documentation
+    /// Use this operation to describe a FeatureGroup . The response includes information on the creation time, FeatureGroup name, the unique identifier for each FeatureGroup , and more. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the FeatureGroup you want described. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="FeatureGroupName">The name or Amazon Resource Name (ARN) of the FeatureGroup you want described. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})</param>
     public AwsSagemakerDescribeFeatureGroupOptions(
         string FeatureGroupName
     )
@@ -57,13 +58,13 @@ public record AwsSagemakerDescribeFeatureGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the FeatureGroup you want described. Constraints: o min: 1 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
+    /// The name or Amazon Resource Name (ARN) of the FeatureGroup you want described. Constraints: • min: 1 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group\/)?([a-zA-Z0-9]([_-]*[a-zA-Z0-9]){0,63})
     /// </summary>
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; private init; }
 
     /// <summary>
-    /// A token to resume pagination of the list of Features (FeatureDefini- tions ). 2,500 Features are returned by default. Constraints: o min: 0 o max: 8192 o pattern: .*
+    /// A token to resume pagination of the list of Features (FeatureDefinitions ). 2,500 Features are returned by default. Constraints: • min: 0 • max: 8192 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -90,6 +91,15 @@ public record AwsSagemakerDescribeFeatureGroupOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

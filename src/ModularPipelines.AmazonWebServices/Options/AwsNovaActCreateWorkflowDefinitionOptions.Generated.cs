@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsNovaActCreateWorkflowDefinitionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a new workflow definition template that can be used to execute multiple workflow runs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the workflow definition. Must be unique within your ac- count and region. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}</param>
+    /// <param name="Name">The name of the workflow definition. Must be unique within your account and region. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}</param>
     public AwsNovaActCreateWorkflowDefinitionOptions(
         string Name
     )
@@ -57,25 +58,25 @@ public record AwsNovaActCreateWorkflowDefinitionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow definition. Must be unique within your ac- count and region. Constraints: o min: 1 o max: 40 o pattern: [a-zA-Z0-9_-]{1,40}
+    /// The name of the workflow definition. Must be unique within your account and region. Constraints: • min: 1 • max: 40 • pattern: [a-zA-Z0-9_-]{1,40}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An optional description of the workflow definition's purpose and functionality. Constraints: o min: 1 o max: 4000
+    /// An optional description of the workflow definition's purpose and functionality. Constraints: • min: 1 • max: 4000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Configuration for exporting workflow execution data to Amazon Simple Storage Service. s3BucketName -&gt; (string) [required] The name of your Amazon S3 bucket, that Nova Act uses to export your workflow data. Note that the IAM role used to access Nova Act must also have write permissions to this bucket. Constraints: o min: 3 o max: 63 o pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] s3KeyPrefix -&gt; (string) An optional prefix for Amazon S3 object keys to organize ex- ported data. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9!\-_.*'()]+(?:/[a-zA-Z0-9!\-_.*'()]+)* Shorthand Syntax: s3BucketName=string,s3KeyPrefix=string JSON Syntax: { "s3BucketName": "string", "s3KeyPrefix": "string" }
+    /// Configuration for exporting workflow execution data to Amazon Simple Storage Service. s3BucketName -&gt; (string) [required] The name of your Amazon S3 bucket, that Nova Act uses to export your workflow data. Note that the IAM role used to access Nova Act must also have write permissions to this bucket. Constraints: • min: 3 • max: 63 • pattern: [a-z0-9][a-z0-9.-]*[a-z0-9] s3KeyPrefix -&gt; (string) An optional prefix for Amazon S3 object keys to organize exported data. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9!\-_.*'()]+(?:/[a-zA-Z0-9!\-_.*'()]+)* Shorthand Syntax: s3BucketName=string,s3KeyPrefix=string JSON Syntax: { "s3BucketName": "string", "s3KeyPrefix": "string" }
     /// </summary>
     [CliOption("--export-config")]
     public string? ExportConfig { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -102,6 +103,15 @@ public record AwsNovaActCreateWorkflowDefinitionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

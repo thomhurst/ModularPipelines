@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes an anomaly detector from a workspace. This operation is idempo- tent. See also: AWS API Documentation
+/// Removes an anomaly detector from a workspace. This operation is idempotent. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsAmpDeleteAnomalyDetectorOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes an anomaly detector from a workspace. This operation is idempo- tent. See also: AWS API Documentation
+    /// Removes an anomaly detector from a workspace. This operation is idempotent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the workspace containing the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="AnomalyDetectorId">The identifier of the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="WorkspaceId">The identifier of the workspace containing the anomaly detector to delete. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="AnomalyDetectorId">The identifier of the anomaly detector to delete. Constraints: • min: 1 • max: 64 • pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*</param>
     public AwsAmpDeleteAnomalyDetectorOptions(
         string WorkspaceId,
         string AnomalyDetectorId
@@ -61,19 +62,19 @@ public record AwsAmpDeleteAnomalyDetectorOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the workspace containing the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The identifier of the workspace containing the anomaly detector to delete. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the anomaly detector to delete. Constraints: o min: 1 o max: 64 o pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// The identifier of the anomaly detector to delete. Constraints: • min: 1 • max: 64 • pattern: ad-[0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--anomaly-detector-id")]
     public string? AnomalyDetectorId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsAmpDeleteAnomalyDetectorOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

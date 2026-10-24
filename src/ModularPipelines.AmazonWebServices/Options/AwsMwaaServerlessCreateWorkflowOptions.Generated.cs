@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services opera- tors. Amazon Managed Workflows for Apache Airflow Serverless automati- cally create...
+/// Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsMwaaServerlessCreateWorkflowOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services opera- tors. Amazon Managed Workflows for Apache Airflow Serverless automati- cally create...
+    /// Creates a new workflow in Amazon Managed Workflows for Apache Airflow Serverless. This operation initializes a workflow with the specified configuration including the workflow definition, execution role, and optional settings for encryption, logging, and networking. You must provide the workflow definition as a YAML file stored in Amazon S3 that defines the DAG structure using supported Amazon Web Services operators. Amazon Managed Workflows for Apache Airflow Serverless automatically creates th...
     /// </summary>
-    /// <param name="Name">The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
-    /// <param name="DefinitionS3Location">The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snap- shot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compat- ible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket that contains the workflow def- inition file. ObjectKey -&gt; (string) [required] The key (name) of the workflow definition file within the S3 bucket. VersionId -&gt; (string) Optional. The version ID of the workflow definition file in Ama- zon S3. If not specified, the latest version is used. Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when executing the workflow. This role must have the necessary permissions to access the required Amazon Web Services services and resources that your workflow tasks will interact with. The role is used for task execu- tion in the isolated, multi-tenant environment and should follow the principle of least privilege. Amazon Managed Workflows for Apache Airflow Serverless validates role access during workflow creation but runtime permission checks are performed by the target services. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_\-]{1,512})*?/[a-zA-Z0-9+=,.@_\-]{1,64}</param>
+    /// <param name="Name">The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*</param>
+    /// <param name="DefinitionS3Location">The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snapshot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compatible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket that contains the workflow definition file. ObjectKey -&gt; (string) [required] The key (name) of the workflow definition file within the S3 bucket. VersionId -&gt; (string) Optional. The version ID of the workflow definition file in Amazon S3. If not specified, the latest version is used. Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when executing the workflow. This role must have the necessary permissions to access the required Amazon Web Services services and resources that your workflow tasks will interact with. The role is used for task execution in the isolated, multi-tenant environment and should follow the principle of least privilege. Amazon Managed Workflows for Apache Airflow Serverless validates role access during workflow creation but runtime permission checks are performed by the target services. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_\-]{1,512})*?/[a-zA-Z0-9+=,.@_\-]{1,64}</param>
     public AwsMwaaServerlessCreateWorkflowOptions(
         string Name,
         string DefinitionS3Location,
@@ -66,74 +66,74 @@ public record AwsMwaaServerlessCreateWorkflowOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
+    /// The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snap- shot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compat- ible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket that contains the workflow def- inition file. ObjectKey -&gt; (string) [required] The key (name) of the workflow definition file within the S3 bucket. VersionId -&gt; (string) Optional. The version ID of the workflow definition file in Ama- zon S3. If not specified, the latest version is used. Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }
+    /// The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snapshot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compatible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket that contains the workflow definition file. ObjectKey -&gt; (string) [required] The key (name) of the workflow definition file within the S3 bucket. VersionId -&gt; (string) Optional. The version ID of the workflow definition file in Amazon S3. If not specified, the latest version is used. Shorthand Syntax: Bucket=string,ObjectKey=string,VersionId=string JSON Syntax: { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" }
     /// </summary>
     [CliOption("--definition-s3-location")]
     public string? DefinitionS3Location { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when executing the workflow. This role must have the necessary permissions to access the required Amazon Web Services services and resources that your workflow tasks will interact with. The role is used for task execu- tion in the isolated, multi-tenant environment and should follow the principle of least privilege. Amazon Managed Workflows for Apache Airflow Serverless validates role access during workflow creation but runtime permission checks are performed by the target services. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_\-]{1,512})*?/[a-zA-Z0-9+=,.@_\-]{1,64}
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon Managed Workflows for Apache Airflow Serverless assumes when executing the workflow. This role must have the necessary permissions to access the required Amazon Web Services services and resources that your workflow tasks will interact with. The role is used for task execution in the isolated, multi-tenant environment and should follow the principle of least privilege. Amazon Managed Workflows for Apache Airflow Serverless validates role access during workflow creation but runtime permission checks are performed by the target services. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(?:-(?:cn|us-gov|iso|iso-b|iso-e|iso-f))?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_\-]{1,512})*?/[a-zA-Z0-9+=,.@_\-]{1,64}
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token prevents duplicate workflow creation requests. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token prevents duplicate workflow creation requests. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The location of code artifacts in Amazon S3 for the workflow. The service copies the code from this location at the time of the re- quest. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Location. S3Location -&gt; (structure) The Amazon S3 location of the code artifacts that your workflow tasks use during execution. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 ObjectKey -&gt; (string) [required] The key of the code artifact within the Amazon S3 bucket. Constraints: o min: 1 o max: 1024 VersionId -&gt; (string) The version ID of the object in Amazon S3. If not specified, the latest version is used. Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Location={Bucket=string,ObjectKey=string,VersionId=string} JSON Syntax: { "S3Location": { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" } }
+    /// The location of code artifacts in Amazon S3 for the workflow. The service copies the code from this location at the time of the request. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: S3Location. S3Location -&gt; (structure) The Amazon S3 location of the code artifacts that your workflow tasks use during execution. Bucket -&gt; (string) [required] The name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 ObjectKey -&gt; (string) [required] The key of the code artifact within the Amazon S3 bucket. Constraints: • min: 1 • max: 1024 VersionId -&gt; (string) The version ID of the object in Amazon S3. If not specified, the latest version is used. Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Location={Bucket=string,ObjectKey=string,VersionId=string} JSON Syntax: { "S3Location": { "Bucket": "string", "ObjectKey": "string", "VersionId": "string" } }
     /// </summary>
     [CliOption("--code")]
     public string? Code { get; set; }
 
     /// <summary>
-    /// An optional description of the workflow that you can use to provide additional context about the workflow's purpose and functionality. Constraints: o min: 1 o max: 1024 o pattern: .+
+    /// An optional description of the workflow that you can use to provide additional context about the workflow's purpose and functionality. Constraints: • min: 1 • max: 1024 • pattern: .+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration for encrypting workflow data at rest and in tran- sit. Specifies the encryption type and optional KMS key for cus- tomer-managed encryption. Type -&gt; (string) [required] The type of encryption to use. Values are AWS_MANAGED_KEY (Ama- zon Web Services manages the encryption key) or CUSTOMER_MAN- AGED_KEY (you provide a KMS key). Possible values: o AWS_MANAGED_KEY o CUSTOMER_MANAGED_KEY KmsKeyId -&gt; (string) The ID or ARN of the Amazon Web Services KMS key to use for en- cryption. Required when Type is CUSTOMER_MANAGED_KEY . Shorthand Syntax: Type=string,KmsKeyId=string JSON Syntax: { "Type": "AWS_MANAGED_KEY"|"CUSTOMER_MANAGED_KEY", "KmsKeyId": "string" }
+    /// The configuration for encrypting workflow data at rest and in transit. Specifies the encryption type and optional KMS key for customer-managed encryption. Type -&gt; (string) [required] The type of encryption to use. Values are AWS_MANAGED_KEY (Amazon Web Services manages the encryption key) or CUSTOMER_MANAGED_KEY (you provide a KMS key). Possible values: • AWS_MANAGED_KEY • CUSTOMER_MANAGED_KEY KmsKeyId -&gt; (string) The ID or ARN of the Amazon Web Services KMS key to use for encryption. Required when Type is CUSTOMER_MANAGED_KEY . Shorthand Syntax: Type=string,KmsKeyId=string JSON Syntax: { "Type": "AWS_MANAGED_KEY"|"CUSTOMER_MANAGED_KEY", "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// The configuration for workflow logging. Specifies the CloudWatch log group where workflow execution logs are stored. Amazon Managed Work- flows for Apache Airflow Serverless automatically exports worker logs and task-level information to the specified log group in your account using remote logging functionality. This provides comprehen- sive observability for debugging and monitoring workflow execution across the distributed, serverless environment. LogGroupName -&gt; (string) [required] The name of the CloudWatch log group where workflow execution logs are stored. Shorthand Syntax: LogGroupName=string JSON Syntax: { "LogGroupName": "string" }
+    /// The configuration for workflow logging. Specifies the CloudWatch log group where workflow execution logs are stored. Amazon Managed Workflows for Apache Airflow Serverless automatically exports worker logs and task-level information to the specified log group in your account using remote logging functionality. This provides comprehensive observability for debugging and monitoring workflow execution across the distributed, serverless environment. LogGroupName -&gt; (string) [required] The name of the CloudWatch log group where workflow execution logs are stored. Shorthand Syntax: LogGroupName=string JSON Syntax: { "LogGroupName": "string" }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for this workflow. This de- termines the feature set, supported operators, and execution envi- ronment capabilities available to your workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains backward compati- bility across versions while introducing new features and improve- ments. Currently supports version 1 with plans for additional ver- sions as the service evolves.
+    /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for this workflow. This determines the feature set, supported operators, and execution environment capabilities available to your workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains backward compatibility across versions while introducing new features and improvements. Currently supports version 1 with plans for additional versions as the service evolves.
     /// </summary>
     [CliOption("--engine-version")]
     public int? EngineVersion { get; set; }
 
     /// <summary>
-    /// Network configuration for the workflow execution environment, in- cluding VPC security groups and subnets for secure network access. When specified, Amazon Managed Workflows for Apache Airflow Server- less deploys ECS worker tasks in your customer VPC to provide secure connectivity to your resources. If not specified, tasks run in the service's default worker VPC with network isolation from other cus- tomers. This configuration enables secure access to VPC-only re- sources like RDS databases or private endpoints. SecurityGroupIds -&gt; (list) A list of VPC security group IDs to associate with the workflow execution environment. (string) Constraints: o min: 1 o max: 255 o pattern: sg-[a-z0-9]* SubnetIds -&gt; (list) A list of VPC subnet IDs where the workflow execution environ- ment is deployed. (string) Constraints: o min: 1 o max: 255 o pattern: subnet-[a-z0-9]* Shorthand Syntax: SecurityGroupIds=string,string,SubnetIds=string,string JSON Syntax: { "SecurityGroupIds": ["string", ...], "SubnetIds": ["string", ...] }
+    /// Network configuration for the workflow execution environment, including VPC security groups and subnets for secure network access. When specified, Amazon Managed Workflows for Apache Airflow Serverless deploys ECS worker tasks in your customer VPC to provide secure connectivity to your resources. If not specified, tasks run in the service's default worker VPC with network isolation from other customers. This configuration enables secure access to VPC-only resources like RDS databases or private endpoints. SecurityGroupIds -&gt; (list) A list of VPC security group IDs to associate with the workflow execution environment. (string) Constraints: • min: 1 • max: 255 • pattern: sg-[a-z0-9]* SubnetIds -&gt; (list) A list of VPC subnet IDs where the workflow execution environment is deployed. (string) Constraints: • min: 1 • max: 255 • pattern: subnet-[a-z0-9]* Shorthand Syntax: SecurityGroupIds=string,string,SubnetIds=string,string JSON Syntax: { "SecurityGroupIds": ["string", ...], "SubnetIds": ["string", ...] }
     /// </summary>
     [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; set; }
 
     /// <summary>
-    /// A map of tags to assign to the workflow resource. Tags are key-value pairs that are used for resource organization and cost allocation. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: .* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tags to assign to the workflow resource. Tags are key-value pairs that are used for resource organization and cost allocation. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: .* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The trigger mode for the workflow execution. Constraints: o min: 1 o max: 255 o pattern: .*
+    /// The trigger mode for the workflow execution. Constraints: • min: 1 • max: 255 • pattern: .*
     /// </summary>
     [CliOption("--trigger-mode")]
     public string? TriggerMode { get; set; }
@@ -159,6 +159,15 @@ public record AwsMwaaServerlessCreateWorkflowOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

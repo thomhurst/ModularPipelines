@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBackupDeleteTieringConfigurationOptions : AwsOptions, IValidata
     /// <summary>
     /// Deletes the tiering configuration specified by a tiering configuration name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TieringConfigurationName">The unique name of a tiering configuration. Constraints: o pattern: ^[a-zA-Z0-9_]{1,200}$</param>
+    /// <param name="TieringConfigurationName">The unique name of a tiering configuration. Constraints: • pattern: ^[a-zA-Z0-9_]{1,200}$</param>
     public AwsBackupDeleteTieringConfigurationOptions(
         string TieringConfigurationName
     )
@@ -56,7 +57,7 @@ public record AwsBackupDeleteTieringConfigurationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of a tiering configuration. Constraints: o pattern: ^[a-zA-Z0-9_]{1,200}$
+    /// The unique name of a tiering configuration. Constraints: • pattern: ^[a-zA-Z0-9_]{1,200}$
     /// </summary>
     [CliOption("--tiering-configuration-name")]
     public string? TieringConfigurationName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBackupDeleteTieringConfigurationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Takes a set of configuration settings and either a configuration tem- plate or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warn- ings associated with the selection of option values. See also: AWS API Documentation
+/// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Takes a set of configuration settings and either a configuration tem- plate or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warn- ings associated with the selection of option values. See also: AWS API Documentation
+    /// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of the application that the configuration template or envi- ronment belongs to. Constraints: o min: 1 o max: 100</param>
-    /// <param name="OptionSettings">A list of the options and desired values to evaluate. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]</param>
+    /// <param name="ApplicationName">The name of the application that the configuration template or environment belongs to. Constraints: • min: 1 • max: 100</param>
+    /// <param name="OptionSettings">A list of the options and desired values to evaluate. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: • min: 1 • max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]</param>
     public AwsElasticbeanstalkValidateConfigurationSettingsOptions(
         string ApplicationName,
         IEnumerable<string> OptionSettings
@@ -71,25 +72,25 @@ public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application that the configuration template or envi- ronment belongs to. Constraints: o min: 1 o max: 100
+    /// The name of the application that the configuration template or environment belongs to. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// A list of the options and desired values to evaluate. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
+    /// A list of the options and desired values to evaluate. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: • min: 1 • max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; private init; }
 
     /// <summary>
-    /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name. Constraints: o min: 1 o max: 100
+    /// The name of the configuration template to validate the settings against. Condition: You cannot specify both this and an environment name. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name. Constraints: o min: 4 o max: 40
+    /// The name of the environment to validate the settings against. Condition: You cannot specify both this and a configuration template name. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -115,6 +116,15 @@ public record AwsElasticbeanstalkValidateConfigurationSettingsOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

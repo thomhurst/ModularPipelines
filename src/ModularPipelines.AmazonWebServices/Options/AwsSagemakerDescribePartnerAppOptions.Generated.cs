@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribePartnerAppOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets information about a SageMaker Partner AI App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the SageMaker Partner AI App to describe. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:part- ner-app\/app-[A-Z0-9]{12}</param>
+    /// <param name="Arn">The ARN of the SageMaker Partner AI App to describe. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:partner-app\/app-[A-Z0-9]{12}</param>
     public AwsSagemakerDescribePartnerAppOptions(
         string Arn
     )
@@ -56,13 +57,13 @@ public record AwsSagemakerDescribePartnerAppOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the SageMaker Partner AI App to describe. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:part- ner-app\/app-[A-Z0-9]{12}
+    /// The ARN of the SageMaker Partner AI App to describe. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:partner-app\/app-[A-Z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// When set to TRUE , the response includes available upgrade informa- tion for the SageMaker Partner AI App. Default is FALSE .
+    /// When set to TRUE , the response includes available upgrade information for the SageMaker Partner AI App. Default is FALSE .
     /// </summary>
     [CliFlag("--include-available-upgrade", NegatedName = "--no-include-available-upgrade")]
     public bool? IncludeAvailableUpgrade { get; set; }
@@ -88,6 +89,15 @@ public record AwsSagemakerDescribePartnerAppOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

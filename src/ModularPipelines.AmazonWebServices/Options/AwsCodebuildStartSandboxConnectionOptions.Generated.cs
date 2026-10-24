@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCodebuildStartSandboxConnectionOptions : AwsOptions, IValidatab
     /// <summary>
     /// Starts a sandbox connection. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SandboxId">A sandboxId or sandboxArn . Constraints: o min: 1</param>
+    /// <param name="SandboxId">A sandboxId or sandboxArn . Constraints: • min: 1</param>
     public AwsCodebuildStartSandboxConnectionOptions(
         string SandboxId
     )
@@ -56,7 +57,7 @@ public record AwsCodebuildStartSandboxConnectionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A sandboxId or sandboxArn . Constraints: o min: 1
+    /// A sandboxId or sandboxArn . Constraints: • min: 1
     /// </summary>
     [CliOption("--sandbox-id")]
     public string? SandboxId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCodebuildStartSandboxConnectionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

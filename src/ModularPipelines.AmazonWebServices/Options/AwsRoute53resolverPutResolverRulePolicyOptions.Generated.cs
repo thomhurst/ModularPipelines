@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Specifies an Amazon Web Services rule that you want to share with an- other account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
+/// Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53resolverPutResolverRulePolicyOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Specifies an Amazon Web Services rule that you want to share with an- other account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
+    /// Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the rule that you want to share with another account. Constraints: o min: 1 o max: 255</param>
-    /// <param name="ResolverRulePolicy">An Identity and Access Management policy statement that lists the rules that you want to share with another Amazon Web Services ac- count and the operations that you want the account to be able to perform. You can specify the following operations in the Action sec- tion of the statement: o route53resolver:GetResolverRule o route53resolver:AssociateResolverRule o route53resolver:DisassociateResolverRule o route53resolver:ListResolverRules o route53resolver:ListResolverRuleAssociations In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn . Constraints: o max: 30000</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the rule that you want to share with another account. Constraints: • min: 1 • max: 255</param>
+    /// <param name="ResolverRulePolicy">An Identity and Access Management policy statement that lists the rules that you want to share with another Amazon Web Services account and the operations that you want the account to be able to perform. You can specify the following operations in the Action section of the statement: • route53resolver:GetResolverRule • route53resolver:AssociateResolverRule • route53resolver:DisassociateResolverRule • route53resolver:ListResolverRules • route53resolver:ListResolverRuleAssociations In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn . Constraints: • max: 30000</param>
     public AwsRoute53resolverPutResolverRulePolicyOptions(
         string Arn,
         string ResolverRulePolicy
@@ -60,13 +61,13 @@ public record AwsRoute53resolverPutResolverRulePolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the rule that you want to share with another account. Constraints: o min: 1 o max: 255
+    /// The Amazon Resource Name (ARN) of the rule that you want to share with another account. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// An Identity and Access Management policy statement that lists the rules that you want to share with another Amazon Web Services ac- count and the operations that you want the account to be able to perform. You can specify the following operations in the Action sec- tion of the statement: o route53resolver:GetResolverRule o route53resolver:AssociateResolverRule o route53resolver:DisassociateResolverRule o route53resolver:ListResolverRules o route53resolver:ListResolverRuleAssociations In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn . Constraints: o max: 30000
+    /// An Identity and Access Management policy statement that lists the rules that you want to share with another Amazon Web Services account and the operations that you want the account to be able to perform. You can specify the following operations in the Action section of the statement: • route53resolver:GetResolverRule • route53resolver:AssociateResolverRule • route53resolver:DisassociateResolverRule • route53resolver:ListResolverRules • route53resolver:ListResolverRuleAssociations In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn . Constraints: • max: 30000
     /// </summary>
     [CliOption("--resolver-rule-policy")]
     public string? ResolverRulePolicy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53resolverPutResolverRulePolicyOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

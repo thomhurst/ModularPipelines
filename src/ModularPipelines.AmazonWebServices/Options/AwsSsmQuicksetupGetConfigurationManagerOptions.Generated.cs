@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmQuicksetupGetConfigurationManagerOptions : AwsOptions, IVali
     /// <summary>
     /// Returns a configuration manager. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagerArn">The ARN of the configuration manager. Constraints: o min: 1 o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
+    /// <param name="ManagerArn">The ARN of the configuration manager. Constraints: • min: 1 • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$</param>
     public AwsSsmQuicksetupGetConfigurationManagerOptions(
         string ManagerArn
     )
@@ -56,7 +57,7 @@ public record AwsSsmQuicksetupGetConfigurationManagerOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the configuration manager. Constraints: o min: 1 o pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configura- tion-man- ager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
+    /// The ARN of the configuration manager. Constraints: • min: 1 • pattern: ^arn:aws:ssm-quicksetup:([^:]+):(\d{12}):configuration-manager/[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--manager-arn")]
     public string? ManagerArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmQuicksetupGetConfigurationManagerOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

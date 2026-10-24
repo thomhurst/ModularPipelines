@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation retrieves the following attributes from the lock-policy subresource set on the specified vault: o The vault lock policy set on the vault. o The state of the vault lock, which is either InProgess or Locked . o When the lock ID expires. The lock ID is used to complete the vault locking process. o When the vault lock was initiated and put into the InProgress state. A vault lock is put into the InProgress state by calling Initiate- VaultLock . A vault lock is put into the Locked state...
+/// This operation retrieves the following attributes from the lock-policy subresource set on the specified vault: • The vault lock policy set on the vault. • The state of the vault lock, which is either InProgess or Locked . • When the lock ID expires. The lock ID is used to complete the vault locking process. • When the vault lock was initiated and put into the InProgress state. A vault lock is put into the InProgress state by calling InitiateVaultLock . A vault lock is put into the Locked state b...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlacierGetVaultLockOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation retrieves the following attributes from the lock-policy subresource set on the specified vault: o The vault lock policy set on the vault. o The state of the vault lock, which is either InProgess or Locked . o When the lock ID expires. The lock ID is used to complete the vault locking process. o When the vault lock was initiated and put into the InProgress state. A vault lock is put into the InProgress state by calling Initiate- VaultLock . A vault lock is put into the Locked state...
+    /// This operation retrieves the following attributes from the lock-policy subresource set on the specified vault: • The vault lock policy set on the vault. • The state of the vault lock, which is either InProgess or Locked . • When the lock ID expires. The lock ID is used to complete the vault locking process. • When the vault lock was initiated and put into the InProgress state. A vault lock is put into the InProgress state by calling InitiateVaultLock . A vault lock is put into the Locked state b...
     /// </summary>
-    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="AccountId">The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.</param>
     /// <param name="VaultName">The name of the vault.</param>
     public AwsGlacierGetVaultLockOptions(
         string AccountId,
@@ -60,7 +61,7 @@ public record AwsGlacierGetVaultLockOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS ac- count ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGlacierGetVaultLockOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

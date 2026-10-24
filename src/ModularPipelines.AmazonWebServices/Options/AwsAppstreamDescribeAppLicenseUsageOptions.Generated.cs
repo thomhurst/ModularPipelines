@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves license included application usage information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BillingPeriod">Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08 . Constraints: o min: 1</param>
+    /// <param name="BillingPeriod">Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08 . Constraints: • min: 1</param>
     public AwsAppstreamDescribeAppLicenseUsageOptions(
         string BillingPeriod
     )
@@ -57,7 +58,7 @@ public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08 . Constraints: o min: 1
+    /// Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08 . Constraints: • min: 1
     /// </summary>
     [CliOption("--billing-period")]
     public string? BillingPeriod { get; private init; }
@@ -69,7 +70,7 @@ public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions, IValidata
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Token for pagination of results. Constraints: o min: 1
+    /// Token for pagination of results. Constraints: • min: 1
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -96,6 +97,15 @@ public record AwsAppstreamDescribeAppLicenseUsageOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

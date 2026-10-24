@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -47,7 +47,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Gets the properties associated with an InferICD10CM job. Use this oper- ation to get the status of an inference job. See also: AWS API Documentation
+    /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detec- tion job. See also: AWS API Documentation
+    /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Gets the properties associated with an InferRxNorm job. Use this opera- tion to get the status of an inference job. See also: AWS API Documentation
+    /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Gets the properties associated with an InferSNOMEDCT job. Use this op- eration to get the status of an inference job. See also: AWS API Documentation
+    /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Inspects the clinical text for a variety of medical entities and re- turns specific information about them such as entity category, loca- tion, and confidence score on that information. Amazon Comprehend Med- ical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You...
+    /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You shoul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Inspects the clinical text for protected health information (PHI) enti- ties and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
+    /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Ama- zon Comprehend Medical only detects medical entities in English lan- guage texts. See also: AWS API Documentation
+    /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsComprehendmedical : IAwsComprehendmedical
     }
 
     /// <summary>
-    /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob opera- tion to track the status of a job. See also: AWS API Documentation
+    /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

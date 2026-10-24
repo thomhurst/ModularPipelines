@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new metric definition for the specified Connect Customer in- stance. You can create custom metrics that use formulas referencing ex- isting Amazon Web Services-managed metrics, optionally with filters ap- plied. See also: AWS API Documentation
+/// Creates a new metric definition for the specified Connect Customer instance. You can create custom metrics that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +28,12 @@ public record AwsConnectCreateMetricOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new metric definition for the specified Connect Customer in- stance. You can create custom metrics that use formulas referencing ex- isting Amazon Web Services-managed metrics, optionally with filters ap- plied. See also: AWS API Documentation
+    /// Creates a new metric definition for the specified Connect Customer instance. You can create custom metrics that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name of the metric. Constraints: o min: 1 o max: 128</param>
-    /// <param name="MetricCalculation">The calculation definition for the metric, including the formula ex- pression and the component metrics it references. CalculationComponents -&gt; (list) [required] The list of component metrics referenced in the calculation for- mula. Each component has an alias used in the formula expres- sion. Constraints: o min: 1 o max: 5 (structure) Represents a component metric referenced in a custom metric calculation formula. Alias -&gt; (string) [required] The alias used to reference this component in the calcu- lation expression. Constraints: o min: 1 o max: 128 MetricName -&gt; (string) The name of an AWS-managed metric used in this calcula- tion component (for example, CONTACTS_HANDLED ). Mutually exclusive with MetricId . Constraints: o min: 1 o max: 128 MetricId -&gt; (string) The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName . Constraints: o min: 1 o max: 150 MetricFilters -&gt; (list) The filters applied to the calculation component. Constraints: o min: 0 o max: 5 (structure) A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation. MetricFilterKey -&gt; (string) [required] The key identifying the field to filter on. Constraints: o min: 1 o max: 100 Negate -&gt; (boolean) Specifies whether the filter condition is negated. When set to true , the filter excludes matching data instead of including it. NumberCondition -&gt; (structure) A numeric comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to). Possible values: o LESSER o LESSER_OR_EQUAL o GREATER o GREATER_OR_EQUAL Values -&gt; (list) [required] The numeric values to compare against. Constraints: o min: 1 o max: 10 (double) StringCondition -&gt; (structure) A string comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: MATCHES_ANY (matches any of the specified val- ues) | MATCHES_NONE (matches none of the speci- fied values). Possible values: o MATCHES_ANY o MATCHES_NONE Values -&gt; (list) [required] The string values to compare against. Constraints: o min: 1 o max: 10 (string) BooleanCondition -&gt; (structure) A boolean comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false). Possible values: o IS_TRUE o IS_FALSE Calculation -&gt; (string) [required] The formula expression that defines how the metric is calcu- lated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2) ). Constraints: o min: 1 o max: 1024 JSON Syntax: { "CalculationComponents": [ { "Alias": "string", "MetricName": "string", "MetricId": "string", "MetricFilters": [ { "MetricFilterKey": "string", "Negate": true|false, "NumberCondition": { "Comparison": "LESSER"|"LESSER_OR_EQUAL"|"GREATER"|"GREATER_OR_EQUAL", "Values": [double, ...] }, "StringCondition": { "Comparison": "MATCHES_ANY"|"MATCHES_NONE", "Values": ["string", ...] }, "BooleanCondition": { "Comparison": "IS_TRUE"|"IS_FALSE" } } ... ] } ... ], "Calculation": "string" }</param>
-    /// <param name="Unit">The display unit for the metric's data. Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name of the metric. Constraints: • min: 1 • max: 128</param>
+    /// <param name="MetricCalculation">The calculation definition for the metric, including the formula expression and the component metrics it references. CalculationComponents -&gt; (list) [required] The list of component metrics referenced in the calculation formula. Each component has an alias used in the formula expression. Constraints: • min: 1 • max: 5 (structure) Represents a component metric referenced in a custom metric calculation formula. Alias -&gt; (string) [required] The alias used to reference this component in the calculation expression. Constraints: • min: 1 • max: 128 MetricName -&gt; (string) The name of an AWS-managed metric used in this calculation component (for example, CONTACTS_HANDLED ). Mutually exclusive with MetricId . Constraints: • min: 1 • max: 128 MetricId -&gt; (string) The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName . Constraints: • min: 1 • max: 150 MetricFilters -&gt; (list) The filters applied to the calculation component. Constraints: • min: 0 • max: 5 (structure) A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation. MetricFilterKey -&gt; (string) [required] The key identifying the field to filter on. Constraints: • min: 1 • max: 100 Negate -&gt; (boolean) Specifies whether the filter condition is negated. When set to true , the filter excludes matching data instead of including it. NumberCondition -&gt; (structure) A numeric comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to). Possible values: • LESSER • LESSER_OR_EQUAL • GREATER • GREATER_OR_EQUAL Values -&gt; (list) [required] The numeric values to compare against. Constraints: • min: 1 • max: 10 (double) StringCondition -&gt; (structure) A string comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: MATCHES_ANY (matches any of the specified values) | MATCHES_NONE (matches none of the specified values). Possible values: • MATCHES_ANY • MATCHES_NONE Values -&gt; (list) [required] The string values to compare against. Constraints: • min: 1 • max: 10 (string) BooleanCondition -&gt; (structure) A boolean comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false). Possible values: • IS_TRUE • IS_FALSE Calculation -&gt; (string) [required] The formula expression that defines how the metric is calculated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2) ). Constraints: • min: 1 • max: 1024 JSON Syntax: { "CalculationComponents": [ { "Alias": "string", "MetricName": "string", "MetricId": "string", "MetricFilters": [ { "MetricFilterKey": "string", "Negate": true|false, "NumberCondition": { "Comparison": "LESSER"|"LESSER_OR_EQUAL"|"GREATER"|"GREATER_OR_EQUAL", "Values": [double, ...] }, "StringCondition": { "Comparison": "MATCHES_ANY"|"MATCHES_NONE", "Values": ["string", ...] }, "BooleanCondition": { "Comparison": "IS_TRUE"|"IS_FALSE" } } ... ] } ... ], "Calculation": "string" }</param>
+    /// <param name="Unit">The display unit for the metric's data. Possible values: • INTEGER • DOUBLE • PERCENT • SECONDS</param>
     public AwsConnectCreateMetricOptions(
         string InstanceId,
         string Name,
@@ -70,56 +70,56 @@ public record AwsConnectCreateMetricOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the metric. Constraints: o min: 1 o max: 128
+    /// The name of the metric. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The calculation definition for the metric, including the formula ex- pression and the component metrics it references. CalculationComponents -&gt; (list) [required] The list of component metrics referenced in the calculation for- mula. Each component has an alias used in the formula expres- sion. Constraints: o min: 1 o max: 5 (structure) Represents a component metric referenced in a custom metric calculation formula. Alias -&gt; (string) [required] The alias used to reference this component in the calcu- lation expression. Constraints: o min: 1 o max: 128 MetricName -&gt; (string) The name of an AWS-managed metric used in this calcula- tion component (for example, CONTACTS_HANDLED ). Mutually exclusive with MetricId . Constraints: o min: 1 o max: 128 MetricId -&gt; (string) The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName . Constraints: o min: 1 o max: 150 MetricFilters -&gt; (list) The filters applied to the calculation component. Constraints: o min: 0 o max: 5 (structure) A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation. MetricFilterKey -&gt; (string) [required] The key identifying the field to filter on. Constraints: o min: 1 o max: 100 Negate -&gt; (boolean) Specifies whether the filter condition is negated. When set to true , the filter excludes matching data instead of including it. NumberCondition -&gt; (structure) A numeric comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to). Possible values: o LESSER o LESSER_OR_EQUAL o GREATER o GREATER_OR_EQUAL Values -&gt; (list) [required] The numeric values to compare against. Constraints: o min: 1 o max: 10 (double) StringCondition -&gt; (structure) A string comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: MATCHES_ANY (matches any of the specified val- ues) | MATCHES_NONE (matches none of the speci- fied values). Possible values: o MATCHES_ANY o MATCHES_NONE Values -&gt; (list) [required] The string values to compare against. Constraints: o min: 1 o max: 10 (string) BooleanCondition -&gt; (structure) A boolean comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false). Possible values: o IS_TRUE o IS_FALSE Calculation -&gt; (string) [required] The formula expression that defines how the metric is calcu- lated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2) ). Constraints: o min: 1 o max: 1024 JSON Syntax: { "CalculationComponents": [ { "Alias": "string", "MetricName": "string", "MetricId": "string", "MetricFilters": [ { "MetricFilterKey": "string", "Negate": true|false, "NumberCondition": { "Comparison": "LESSER"|"LESSER_OR_EQUAL"|"GREATER"|"GREATER_OR_EQUAL", "Values": [double, ...] }, "StringCondition": { "Comparison": "MATCHES_ANY"|"MATCHES_NONE", "Values": ["string", ...] }, "BooleanCondition": { "Comparison": "IS_TRUE"|"IS_FALSE" } } ... ] } ... ], "Calculation": "string" }
+    /// The calculation definition for the metric, including the formula expression and the component metrics it references. CalculationComponents -&gt; (list) [required] The list of component metrics referenced in the calculation formula. Each component has an alias used in the formula expression. Constraints: • min: 1 • max: 5 (structure) Represents a component metric referenced in a custom metric calculation formula. Alias -&gt; (string) [required] The alias used to reference this component in the calculation expression. Constraints: • min: 1 • max: 128 MetricName -&gt; (string) The name of an AWS-managed metric used in this calculation component (for example, CONTACTS_HANDLED ). Mutually exclusive with MetricId . Constraints: • min: 1 • max: 128 MetricId -&gt; (string) The ARN of an AWS-managed metric used in this calculation component. Mutually exclusive with MetricName . Constraints: • min: 1 • max: 150 MetricFilters -&gt; (list) The filters applied to the calculation component. Constraints: • min: 0 • max: 5 (structure) A filter condition applied to a metric component in a calculation. Filters restrict the data included in the metric computation. MetricFilterKey -&gt; (string) [required] The key identifying the field to filter on. Constraints: • min: 1 • max: 100 Negate -&gt; (boolean) Specifies whether the filter condition is negated. When set to true , the filter excludes matching data instead of including it. NumberCondition -&gt; (structure) A numeric comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: LESSER (less than) | LESSER_OR_EQUAL (less than or equal to) | GREATER (greater than) | GREATER_OR_EQUAL (greater than or equal to). Possible values: • LESSER • LESSER_OR_EQUAL • GREATER • GREATER_OR_EQUAL Values -&gt; (list) [required] The numeric values to compare against. Constraints: • min: 1 • max: 10 (double) StringCondition -&gt; (structure) A string comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: MATCHES_ANY (matches any of the specified values) | MATCHES_NONE (matches none of the specified values). Possible values: • MATCHES_ANY • MATCHES_NONE Values -&gt; (list) [required] The string values to compare against. Constraints: • min: 1 • max: 10 (string) BooleanCondition -&gt; (structure) A boolean comparison condition. Comparison -&gt; (string) [required] The comparison operator. Valid values: IS_TRUE (matches when the field is true) | IS_FALSE (matches when the field is false). Possible values: • IS_TRUE • IS_FALSE Calculation -&gt; (string) [required] The formula expression that defines how the metric is calculated. Uses component aliases (for example, 100 * SUM(M1) / SUM(M2) ). Constraints: • min: 1 • max: 1024 JSON Syntax: { "CalculationComponents": [ { "Alias": "string", "MetricName": "string", "MetricId": "string", "MetricFilters": [ { "MetricFilterKey": "string", "Negate": true|false, "NumberCondition": { "Comparison": "LESSER"|"LESSER_OR_EQUAL"|"GREATER"|"GREATER_OR_EQUAL", "Values": [double, ...] }, "StringCondition": { "Comparison": "MATCHES_ANY"|"MATCHES_NONE", "Values": ["string", ...] }, "BooleanCondition": { "Comparison": "IS_TRUE"|"IS_FALSE" } } ... ] } ... ], "Calculation": "string" }
     /// </summary>
     [CliOption("--metric-calculation")]
     public string? MetricCalculation { get; private init; }
 
     /// <summary>
-    /// The display unit for the metric's data. Possible values: o INTEGER o DOUBLE o PERCENT o SECONDS
+    /// The display unit for the metric's data. Possible values: • INTEGER • DOUBLE • PERCENT • SECONDS
     /// </summary>
     [CliOption("--unit")]
     public AwsConnectCreateMetricUnit? Unit { get; private init; }
 
     /// <summary>
-    /// The publish status of the metric. Set to PUBLISHED to make the met- ric available for use in dashboards and reports, or SAVED to keep it in draft state. Possible values: o PUBLISHED o SAVED
+    /// The publish status of the metric. Set to PUBLISHED to make the metric available for use in dashboards and reports, or SAVED to keep it in draft state. Possible values: • PUBLISHED • SAVED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectCreateMetricStatus? Status { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the metric. Constraints: o min: 0 o max: 500
+    /// The description of the metric. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// How an increase in the metric value should be interpreted. Valid values: POSITIVE , NEUTRAL , NEGATIVE . Possible values: o POSITIVE o NEGATIVE o NEUTRAL
+    /// How an increase in the metric value should be interpreted. Valid values: POSITIVE , NEUTRAL , NEGATIVE . Possible values: • POSITIVE • NEGATIVE • NEUTRAL
     /// </summary>
     [CliOption("--positive-trend-indicator")]
     public AwsConnectCreateMetricPositiveTrendIndicator? PositiveTrendIndicator { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -145,6 +145,15 @@ public record AwsConnectCreateMetricOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

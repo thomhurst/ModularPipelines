@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Changes the opt-in status of the specified zone group for your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupName">The name of the Availability Zone group, Local Zone group, or Wave- length Zone group.</param>
-    /// <param name="OptInStatus">Indicates whether to opt in to the zone group. The only valid value is opted-in . You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group. Possible values: o opted-in o not-opted-in</param>
+    /// <param name="GroupName">The name of the Availability Zone group, Local Zone group, or Wavelength Zone group.</param>
+    /// <param name="OptInStatus">Indicates whether to opt in to the zone group. The only valid value is opted-in . You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group. Possible values: • opted-in • not-opted-in</param>
     public AwsEc2ModifyAvailabilityZoneGroupOptions(
         string GroupName,
         AwsEc2ModifyAvailabilityZoneGroupOptInStatus OptInStatus
@@ -60,19 +61,19 @@ public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Availability Zone group, Local Zone group, or Wave- length Zone group.
+    /// The name of the Availability Zone group, Local Zone group, or Wavelength Zone group.
     /// </summary>
     [CliOption("--group-name")]
     public string? GroupName { get; private init; }
 
     /// <summary>
-    /// Indicates whether to opt in to the zone group. The only valid value is opted-in . You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group. Possible values: o opted-in o not-opted-in
+    /// Indicates whether to opt in to the zone group. The only valid value is opted-in . You must contact Amazon Web Services Support to opt out of a Local Zone or Wavelength Zone group. Possible values: • opted-in • not-opted-in
     /// </summary>
     [CliOption("--opt-in-status")]
     public AwsEc2ModifyAvailabilityZoneGroupOptInStatus? OptInStatus { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2ModifyAvailabilityZoneGroupOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

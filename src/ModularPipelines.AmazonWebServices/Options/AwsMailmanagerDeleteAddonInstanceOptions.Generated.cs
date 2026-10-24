@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMailmanagerDeleteAddonInstanceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes an Add On instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddonInstanceId">The Add On instance ID to delete. Constraints: o min: 4 o max: 67 o pattern: ai-[a-zA-Z0-9]{1,64}</param>
+    /// <param name="AddonInstanceId">The Add On instance ID to delete. Constraints: • min: 4 • max: 67 • pattern: ai-[a-zA-Z0-9]{1,64}</param>
     public AwsMailmanagerDeleteAddonInstanceOptions(
         string AddonInstanceId
     )
@@ -56,7 +57,7 @@ public record AwsMailmanagerDeleteAddonInstanceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Add On instance ID to delete. Constraints: o min: 4 o max: 67 o pattern: ai-[a-zA-Z0-9]{1,64}
+    /// The Add On instance ID to delete. Constraints: • min: 4 • max: 67 • pattern: ai-[a-zA-Z0-9]{1,64}
     /// </summary>
     [CliOption("--addon-instance-id")]
     public string? AddonInstanceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMailmanagerDeleteAddonInstanceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

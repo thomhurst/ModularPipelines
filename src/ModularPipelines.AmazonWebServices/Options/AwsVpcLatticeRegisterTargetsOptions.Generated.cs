@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsVpcLatticeRegisterTargetsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
-    /// <param name="Targets">The targets. Constraints: o min: 1 o max: 100 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: o min: 1 o max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Constraints: o min: 1 o max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]</param>
+    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
+    /// <param name="Targets">The targets. Constraints: • min: 1 • max: 100 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: • min: 1 • max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443. Constraints: • min: 1 • max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]</param>
     public AwsVpcLatticeRegisterTargetsOptions(
         string TargetGroupIdentifier,
         IEnumerable<string> Targets
@@ -71,13 +72,13 @@ public record AwsVpcLatticeRegisterTargetsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
+    /// The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--target-group-identifier")]
     public string? TargetGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The targets. Constraints: o min: 1 o max: 100 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: o min: 1 o max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Constraints: o min: 1 o max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]
+    /// The targets. Constraints: • min: 1 • max: 100 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: • min: 1 • max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443. Constraints: • min: 1 • max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; private init; }
@@ -103,6 +104,15 @@ public record AwsVpcLatticeRegisterTargetsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

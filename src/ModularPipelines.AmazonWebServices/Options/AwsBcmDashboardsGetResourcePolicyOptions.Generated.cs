@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBcmDashboardsGetResourcePolicyOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves the resource-based policy attached to a dashboard, showing sharing configurations and permissions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the dashboard whose resource-based policy you want to re- trieve. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)</param>
+    /// <param name="ResourceArn">The ARN of the dashboard whose resource-based policy you want to retrieve. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)</param>
     public AwsBcmDashboardsGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsBcmDashboardsGetResourcePolicyOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the dashboard whose resource-based policy you want to re- trieve. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dash- board/(\*|[-a-z0-9]+)
+    /// The ARN of the dashboard whose resource-based policy you want to retrieve. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\*|[-a-z0-9]+)
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBcmDashboardsGetResourcePolicyOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

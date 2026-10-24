@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. NOTE: You can call DescribeStream at a maximum rate of 10 times per sec- ond. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no End- ingSequenceNumber , then the shard is still open (able to receive more stream records). If both Starti...
+/// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. NOTE: You can call DescribeStream at a maximum rate of 10 times per second. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber , then the shard is still open (able to receive more stream records). If both StartingSe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDynamodbstreamsDescribeStreamOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. NOTE: You can call DescribeStream at a maximum rate of 10 times per sec- ond. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no End- ingSequenceNumber , then the shard is still open (able to receive more stream records). If both Starti...
+    /// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. NOTE: You can call DescribeStream at a maximum rate of 10 times per second. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber , then the shard is still open (able to receive more stream records). If both StartingSe...
     /// </summary>
-    /// <param name="StreamArn">The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024</param>
+    /// <param name="StreamArn">The Amazon Resource Name (ARN) for the stream. Constraints: • min: 37 • max: 1024</param>
     public AwsDynamodbstreamsDescribeStreamOptions(
         string StreamArn
     )
@@ -56,25 +57,25 @@ public record AwsDynamodbstreamsDescribeStreamOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the stream. Constraints: o min: 37 o max: 1024
+    /// The Amazon Resource Name (ARN) for the stream. Constraints: • min: 37 • max: 1024
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; private init; }
 
     /// <summary>
-    /// The maximum number of shard objects to return. The upper limit is 100. Constraints: o min: 1
+    /// The maximum number of shard objects to return. The upper limit is 100. Constraints: • min: 1
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the pre- vious operation. Constraints: o min: 28 o max: 65
+    /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation. Constraints: • min: 28 • max: 65
     /// </summary>
     [CliOption("--exclusive-start-shard-id")]
     public string? ExclusiveStartShardId { get; set; }
 
     /// <summary>
-    /// This optional field contains the filter definition for the Describe- Stream API. Type -&gt; (string) Contains the type of filter to be applied on the DescribeStream API. Currently, the only value this parameter accepts is CHILD_SHARDS . Possible values: o CHILD_SHARDS ShardId -&gt; (string) Contains the shardId of the parent shard for which you are re- questing child shards. Sample request: Constraints: o min: 28 o max: 65 Shorthand Syntax: Type=string,ShardId=string JSON Syntax: { "Type": "CHILD_SHARDS", "ShardId": "string" }
+    /// This optional field contains the filter definition for the DescribeStream API. Type -&gt; (string) Contains the type of filter to be applied on the DescribeStream API. Currently, the only value this parameter accepts is CHILD_SHARDS . Possible values: • CHILD_SHARDS ShardId -&gt; (string) Contains the shardId of the parent shard for which you are requesting child shards. Sample request: Constraints: • min: 28 • max: 65 Shorthand Syntax: Type=string,ShardId=string JSON Syntax: { "Type": "CHILD_SHARDS", "ShardId": "string" }
     /// </summary>
     [CliOption("--shard-filter")]
     public string? ShardFilter { get; set; }
@@ -100,6 +101,15 @@ public record AwsDynamodbstreamsDescribeStreamOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

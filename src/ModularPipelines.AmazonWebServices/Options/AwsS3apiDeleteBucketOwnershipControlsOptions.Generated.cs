@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Removes OwnershipControls for an Amazon S3 bucket. To use this opera- tion, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying Permis- sions in a Policy . For information about Amazon S3 Object Ownership, see Using Object Own- ership . The following operations are related to DeleteBucketOwnershipControls : o GetBucketOwnershipControls o PutBucketOwnershipControls...
+/// NOTE: This operation is not supported for directory buckets. Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For information about Amazon S3 Object Ownership, see Using Object Ownership . The following operations are related to DeleteBucketOwnershipControls : • GetBucketOwnershipControls • PutBucketOwnershipControls WARNI...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsS3apiDeleteBucketOwnershipControlsOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Removes OwnershipControls for an Amazon S3 bucket. To use this opera- tion, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying Permis- sions in a Policy . For information about Amazon S3 Object Ownership, see Using Object Own- ership . The following operations are related to DeleteBucketOwnershipControls : o GetBucketOwnershipControls o PutBucketOwnershipControls...
+    /// NOTE: This operation is not supported for directory buckets. Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions, see Specifying Permissions in a Policy . For information about Amazon S3 Object Ownership, see Using Object Ownership . The following operations are related to DeleteBucketOwnershipControls : • GetBucketOwnershipControls • PutBucketOwnershipControls WARNI...
     /// </summary>
     /// <param name="Bucket">The Amazon S3 bucket whose OwnershipControls you want to delete.</param>
     public AwsS3apiDeleteBucketOwnershipControlsOptions(
@@ -62,7 +63,7 @@ public record AwsS3apiDeleteBucketOwnershipControlsOptions : AwsOptions, IValida
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiDeleteBucketOwnershipControlsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

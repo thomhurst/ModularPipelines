@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not ap- ply. Controls that have the value REGIONAL in the Scope field retu...
+/// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not apply. Controls that have the value REGIONAL in the Scope field return...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsControlcatalogGetControlOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not ap- ply. Controls that have the value REGIONAL in the Scope field retu...
+    /// Returns details about a specific control, most notably a list of Amazon Web Services Regions where this control is supported. Input a value for the ControlArn parameter, in ARN form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the Scope field do not show the DeployableRegions field, because it does not apply. Controls that have the value REGIONAL in the Scope field return...
     /// </summary>
-    /// <param name="ControlArn">The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATA- LOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CON- TROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Con- trol Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$ Constraints: o min: 34 o max: 2048 o pattern: arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\-]+</param>
+    /// <param name="ControlArn">The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$ Constraints: • min: 34 • max: 2048 • pattern: arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\-]+</param>
     public AwsControlcatalogGetControlOptions(
         string ControlArn
     )
@@ -56,7 +57,7 @@ public record AwsControlcatalogGetControlOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATA- LOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CON- TROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Con- trol Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$ Constraints: o min: 34 o max: 2048 o pattern: arn:(aws(?:[-a-z]*)?):(controlcatalog|con- troltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\-]+
+    /// The Amazon Resource Name (ARN) of the control. It has one of the following formats: Global format arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID} Or Regional format arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID} Here is a more general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs: ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+$ Constraints: • min: 34 • max: 2048 • pattern: arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\-]+
     /// </summary>
     [CliOption("--control-arn")]
     public string? ControlArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsControlcatalogGetControlOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the as- sociated container instances. Amazon ECS drains existing container in- stances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS ser- vices. NOTE: ECS Managed Daemons is only supported for Amazon ECS Managed In- stances Capacity Providers. See also: AWS API Documentation
+/// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the associated container instances. Amazon ECS drains existing container instances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS services. NOTE: ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEcsDeleteDaemonOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the as- sociated container instances. Amazon ECS drains existing container in- stances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS ser- vices. NOTE: ECS Managed Daemons is only supported for Amazon ECS Managed In- stances Capacity Providers. See also: AWS API Documentation
+    /// Deletes the specified daemon. The daemon must be in an ACTIVE state to be deleted. Deleting a daemon stops all running daemon tasks on the associated container instances. Amazon ECS drains existing container instances and provisions new instances without the deleted daemon. Amazon ECS automatically launches replacement tasks for your Amazon ECS services. NOTE: ECS Managed Daemons is only supported for Amazon ECS Managed Instances Capacity Providers. See also: AWS API Documentation
     /// </summary>
     /// <param name="DaemonArn">The Amazon Resource Name (ARN) of the daemon to delete.</param>
     public AwsEcsDeleteDaemonOptions(
@@ -82,6 +83,15 @@ public record AwsEcsDeleteDaemonOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

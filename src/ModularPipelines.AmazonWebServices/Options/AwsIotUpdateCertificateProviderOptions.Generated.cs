@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotUpdateCertificateProviderOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates a certificate provider. Requires permission to access the UpdateCertificateProvider action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateProviderName">The name of the certificate provider. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="CertificateProviderName">The name of the certificate provider. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotUpdateCertificateProviderOptions(
         string CertificateProviderName
     )
@@ -56,19 +57,19 @@ public record AwsIotUpdateCertificateProviderOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the certificate provider. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The name of the certificate provider. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--certificate-provider-name")]
     public string? CertificateProviderName { get; private init; }
 
     /// <summary>
-    /// The Lambda function ARN that's associated with the certificate provider. Constraints: o max: 2048 o pattern: [\s\S]*
+    /// The Lambda function ARN that's associated with the certificate provider. Constraints: • max: 2048 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--lambda-function-arn")]
     public string? LambdaFunctionArn { get; set; }
 
     /// <summary>
-    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: o min: 1 o max: 1 (string) Possible values: o CreateCertificateFromCsr Syntax: "string" "string" ...
+    /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr . Constraints: • min: 1 • max: 1 (string) Possible values: • CreateCertificateFromCsr Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-default-for-operations", GroupValues = true)]
     public IEnumerable<string>? AccountDefaultForOperations { get; set; }
@@ -94,6 +95,15 @@ public record AwsIotUpdateCertificateProviderOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

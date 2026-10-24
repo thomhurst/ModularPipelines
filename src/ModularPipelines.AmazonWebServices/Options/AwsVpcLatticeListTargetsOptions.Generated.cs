@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the targets for the target group. By default, all targets are in- cluded. You can use this API to check the health status of targets. You can also lter the results by target. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+/// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also lter the results by target. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsVpcLatticeListTargetsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the targets for the target group. By default, all targets are in- cluded. You can use this API to check the health status of targets. You can also lter the results by target. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argum...
+    /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also lter the results by target. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument ...
     /// </summary>
-    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
+    /// <param name="TargetGroupIdentifier">The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))</param>
     public AwsVpcLatticeListTargetsOptions(
         string TargetGroupIdentifier
     )
@@ -57,22 +58,19 @@ public record AwsVpcLatticeListTargetsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the target group. Constraints: o min: 17 o max: 2048 o pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
+    /// The ID or ARN of the target group. Constraints: • min: 17 • max: 2048 • pattern: ((tg-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:targetgroup/tg-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--target-group-identifier")]
     public string? TargetGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The targets. Constraints: o min: 0 o max: 20 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: o min: 1 o max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the de- fault is 80. For HTTPS, the default is 443. Constraints: o min: 1 o max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]
+    /// The targets. Constraints: • min: 0 • max: 20 (structure) Describes a target. id -&gt; (string) [required] The ID of the target. If the target group type is INSTANCE , this is an instance ID. If the target group type is IP , this is an IP address. If the target group type is LAMBDA , this is the ARN of a Lambda function. If the target group type is ALB , this is the ARN of an Application Load Balancer. Constraints: • min: 1 • max: 200 port -&gt; (integer) The port on which the target is listening. For HTTP, the default is 80. For HTTPS, the default is 443. Constraints: • min: 1 • max: 65535 Shorthand Syntax: id=string,port=integer ... JSON Syntax: [ { "id": "string", "port": integer } ... ]
     /// </summary>
     [CliOption("--targets", GroupValues = true)]
     public IEnumerable<string>? Targets { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -82,16 +80,19 @@ public record AwsVpcLatticeListTargetsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -108,6 +109,15 @@ public record AwsVpcLatticeListTargetsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

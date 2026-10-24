@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubStartConfigurationPolicyDisassociationOptions : AwsO
     /// <summary>
     /// Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If theres no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Regio...
     /// </summary>
-    /// <param name="ConfigurationPolicyIdentifier">The Amazon Resource Name (ARN) of a configuration policy, the uni- versally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ConfigurationPolicyIdentifier">The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubStartConfigurationPolicyDisassociationOptions(
         string ConfigurationPolicyIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsSecurityhubStartConfigurationPolicyDisassociationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a configuration policy, the uni- versally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--configuration-policy-identifier")]
     public string? ConfigurationPolicyIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the target account, organizational unit, or the root to disassociate from the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: o pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: o pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: o pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
+    /// The identifier of the target account, organizational unit, or the root to disassociate from the specified configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: AccountId, OrganizationalUnitId, RootId. AccountId -&gt; (string) The Amazon Web Services account ID of the target account. Constraints: • pattern: .*\S.* OrganizationalUnitId -&gt; (string) The organizational unit ID of the target organizational unit. Constraints: • pattern: .*\S.* RootId -&gt; (string) The ID of the organization root. Constraints: • pattern: .*\S.* Shorthand Syntax: AccountId=string,OrganizationalUnitId=string,RootId=string JSON Syntax: { "AccountId": "string", "OrganizationalUnitId": "string", "RootId": "string" }
     /// </summary>
     [CliOption("--target")]
     public string? Target { get; set; }
@@ -88,6 +89,15 @@ public record AwsSecurityhubStartConfigurationPolicyDisassociationOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

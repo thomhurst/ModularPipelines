@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to bar- codes used on deleted tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
+/// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +26,14 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to bar- codes used on deleted tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
+    /// Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type. NOTE: Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500</param>
+    /// <param name="GatewayArn">The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500</param>
     /// <param name="TapeSizeInBytes">The size, in bytes, of the virtual tape that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).</param>
-    /// <param name="TapeBarcode">The barcode that you want to assign to the tape. NOTE: Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. Constraints: o min: 5 o max: 16 o pattern: ^[A-Z0-9]*$</param>
+    /// <param name="TapeBarcode">The barcode that you want to assign to the tape. NOTE: Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. Constraints: • min: 5 • max: 16 • pattern: ^[A-Z0-9]*$</param>
     public AwsStoragegatewayCreateTapeWithBarcodeOptions(
         string GatewayArn,
-        int TapeSizeInBytes,
+        long TapeSizeInBytes,
         string TapeBarcode
     )
     {
@@ -63,7 +64,7 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: o min: 50 o max: 500
+    /// The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
@@ -72,10 +73,10 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValid
     /// The size, in bytes, of the virtual tape that you want to create. NOTE: The size must be aligned by gigabyte (1024*1024*1024 bytes).
     /// </summary>
     [CliOption("--tape-size-in-bytes")]
-    public int? TapeSizeInBytes { get; private init; }
+    public long? TapeSizeInBytes { get; private init; }
 
     /// <summary>
-    /// The barcode that you want to assign to the tape. NOTE: Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. Constraints: o min: 5 o max: 16 o pattern: ^[A-Z0-9]*$
+    /// The barcode that you want to assign to the tape. NOTE: Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted. Constraints: • min: 5 • max: 16 • pattern: ^[A-Z0-9]*$
     /// </summary>
     [CliOption("--tape-barcode")]
     public string? TapeBarcode { get; private init; }
@@ -87,13 +88,13 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValid
     public bool? KmsEncrypted { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: o min: 7 o max: 2048 o pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
+    /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true . Optional. Constraints: • min: 7 • max: 2048 • pattern: (^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool. Constraints: o min: 1 o max: 100
+    /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
@@ -105,7 +106,7 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValid
     public bool? Worm { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that can be assigned to a virtual tape that has a barcode. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that can be assigned to a virtual tape that has a barcode. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -131,6 +132,15 @@ public record AwsStoragegatewayCreateTapeWithBarcodeOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

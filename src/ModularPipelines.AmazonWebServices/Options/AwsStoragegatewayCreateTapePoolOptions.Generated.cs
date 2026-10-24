@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a new custom tape pool. You can use custom tape pool to enable tape retention lock on tapes that are archived in the custom pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PoolName">The name of the new custom tape pool. Constraints: o min: 1 o max: 100 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$</param>
-    /// <param name="StorageClass">The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Possible values: o DEEP_ARCHIVE o GLACIER</param>
+    /// <param name="PoolName">The name of the new custom tape pool. Constraints: • min: 1 • max: 100 • pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$</param>
+    /// <param name="StorageClass">The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Possible values: • DEEP_ARCHIVE • GLACIER</param>
     public AwsStoragegatewayCreateTapePoolOptions(
         string PoolName,
         AwsStoragegatewayCreateTapePoolStorageClass StorageClass
@@ -60,31 +61,31 @@ public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new custom tape pool. Constraints: o min: 1 o max: 100 o pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
+    /// The name of the new custom tape pool. Constraints: • min: 1 • max: 100 • pattern: ^[ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*$
     /// </summary>
     [CliOption("--pool-name")]
     public string? PoolName { get; private init; }
 
     /// <summary>
-    /// The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Possible values: o DEEP_ARCHIVE o GLACIER
+    /// The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Possible values: • DEEP_ARCHIVE • GLACIER
     /// </summary>
     [CliOption("--storage-class")]
     public AwsStoragegatewayCreateTapePoolStorageClass? StorageClass { get; private init; }
 
     /// <summary>
-    /// Tape retention lock can be configured in two modes. When configured in governance mode, Amazon Web Services accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root Amazon Web Services account. Possible values: o COMPLIANCE o GOVERNANCE o NONE
+    /// Tape retention lock can be configured in two modes. When configured in governance mode, Amazon Web Services accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root Amazon Web Services account. Possible values: • COMPLIANCE • GOVERNANCE • NONE
     /// </summary>
     [CliOption("--retention-lock-type")]
     public AwsStoragegatewayCreateTapePoolRetentionLockType? RetentionLockType { get; set; }
 
     /// <summary>
-    /// Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days). Constraints: o min: 0 o max: 36500
+    /// Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days). Constraints: • min: 0 • max: 36500
     /// </summary>
     [CliOption("--retention-lock-time-in-days")]
     public int? RetentionLockTimeInDays { get; set; }
 
     /// <summary>
-    /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and num- bers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-value pair. NOTE: Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -110,6 +111,15 @@ public record AwsStoragegatewayCreateTapePoolOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

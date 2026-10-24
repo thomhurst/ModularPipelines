@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimiza- tion Hub and to view its recommendations. When you opt in, Cost Opti- mization Hub automatically creates a service-linked role in your ac- count to access its data. See also: AWS API Documenta...
+/// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimiza- tion Hub and to view its recommendations. When you opt in, Cost Opti- mization Hub automatically creates a service-linked role in your ac- count to access its data. See also: AWS API Documenta...
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Status">Sets the account status. Possible values: o Active o Inactive</param>
+    /// <param name="Status">Sets the account status. Possible values: • Active • Inactive</param>
     public AwsCostOptimizationHubUpdateEnrollmentStatusOptions(
         AwsCostOptimizationHubUpdateEnrollmentStatusStatus Status
     )
@@ -56,7 +57,7 @@ public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Sets the account status. Possible values: o Active o Inactive
+    /// Sets the account status. Possible values: • Active • Inactive
     /// </summary>
     [CliOption("--status")]
     public AwsCostOptimizationHubUpdateEnrollmentStatusStatus? Status { get; private init; }
@@ -88,6 +89,15 @@ public record AwsCostOptimizationHubUpdateEnrollmentStatusOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

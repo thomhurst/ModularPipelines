@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsGlueCreateDataQualityRulesetOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A unique name for the data quality ruleset. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="Ruleset">A Data Quality Definition Language (DQDL) ruleset. For more informa- tion, see the Glue developer guide. Constraints: o min: 1 o max: 65536</param>
+    /// <param name="Name">A unique name for the data quality ruleset. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="Ruleset">A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide. Constraints: • min: 1 • max: 65536</param>
     public AwsGlueCreateDataQualityRulesetOptions(
         string Name,
         string Ruleset
@@ -62,43 +62,43 @@ public record AwsGlueCreateDataQualityRulesetOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique name for the data quality ruleset. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique name for the data quality ruleset. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A Data Quality Definition Language (DQDL) ruleset. For more informa- tion, see the Glue developer guide. Constraints: o min: 1 o max: 65536
+    /// A Data Quality Definition Language (DQDL) ruleset. For more information, see the Glue developer guide. Constraints: • min: 1 • max: 65536
     /// </summary>
     [CliOption("--ruleset")]
     public string? Ruleset { get; private init; }
 
     /// <summary>
-    /// A description of the data quality ruleset. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// A description of the data quality ruleset. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of tags applied to the data quality ruleset. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags applied to the data quality ruleset. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A target table associated with the data quality ruleset. TableName -&gt; (string) [required] The name of the Glue table. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] The name of the database where the Glue table exists. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) The catalog id where the Glue table exists. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: TableName=string,DatabaseName=string,CatalogId=string JSON Syntax: { "TableName": "string", "DatabaseName": "string", "CatalogId": "string" }
+    /// A target table associated with the data quality ruleset. TableName -&gt; (string) [required] The name of the Glue table. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* DatabaseName -&gt; (string) [required] The name of the database where the Glue table exists. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* CatalogId -&gt; (string) The catalog id where the Glue table exists. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: TableName=string,DatabaseName=string,CatalogId=string JSON Syntax: { "TableName": "string", "DatabaseName": "string", "CatalogId": "string" }
     /// </summary>
     [CliOption("--target-table")]
     public string? TargetTable { get; set; }
 
     /// <summary>
-    /// The name of the security configuration created with the data quality encryption option. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the security configuration created with the data quality encryption option. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--data-quality-security-configuration")]
     public string? DataQualitySecurityConfiguration { get; set; }
 
     /// <summary>
-    /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// Used for idempotency and is recommended to be set to a random ID (such as a UUID) to avoid creating or starting multiple instances of the same resource. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -125,6 +125,15 @@ public record AwsGlueCreateDataQualityRulesetOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

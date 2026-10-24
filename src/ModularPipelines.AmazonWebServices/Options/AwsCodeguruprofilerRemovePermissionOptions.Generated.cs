@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based poli- cies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon...
+/// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based policies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon.c...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based poli- cies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon...
+    /// Removes permissions from a profiling group's resource-based policy that are provided using an action group. The one supported action group that can be removed is agentPermission which grants ConfigureAgent and PostAgent permissions. For more information, see Resource-based policies in CodeGuru Profiler in the Amazon CodeGuru Profiler User Guide , ` ConfigureAgent https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html`__ , and ` PostAgentProfile https://docs.aws.amazon.c...
     /// </summary>
-    /// <param name="ActionGroup">Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostA- gentProfile permissions. Possible values: o agentPermissions</param>
-    /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$</param>
-    /// <param name="RevisionId">A universally unique identifier (UUID) for the revision of the re- source-based policy from which you want to remove permissions. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="ActionGroup">Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostAgentProfile permissions. Possible values: • agentPermissions</param>
+    /// <param name="ProfilingGroupName">The name of the profiling group. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$</param>
+    /// <param name="RevisionId">A universally unique identifier (UUID) for the revision of the resource-based policy from which you want to remove permissions. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsCodeguruprofilerRemovePermissionOptions(
         string ActionGroup,
         string ProfilingGroupName,
@@ -64,19 +65,19 @@ public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostA- gentProfile permissions. Possible values: o agentPermissions
+    /// Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy. One action group is supported, agentPermissions , which grants ConfigureAgent and PostAgentProfile permissions. Possible values: • agentPermissions
     /// </summary>
     [CliOption("--action-group")]
     public string? ActionGroup { get; private init; }
 
     /// <summary>
-    /// The name of the profiling group. Constraints: o min: 1 o max: 255 o pattern: ^[\w-]+$
+    /// The name of the profiling group. Constraints: • min: 1 • max: 255 • pattern: ^[\w-]+$
     /// </summary>
     [CliOption("--profiling-group-name")]
     public string? ProfilingGroupName { get; private init; }
 
     /// <summary>
-    /// A universally unique identifier (UUID) for the revision of the re- source-based policy from which you want to remove permissions. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// A universally unique identifier (UUID) for the revision of the resource-based policy from which you want to remove permissions. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCodeguruprofilerRemovePermissionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

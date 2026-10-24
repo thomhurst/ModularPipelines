@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,25 +64,25 @@ public record AwsBatchUpdateQuotaShareOptions : AwsOptions, IValidatableObject
     public string? QuotaShareArn { get; private init; }
 
     /// <summary>
-    /// A list that specifies the quantity and type of compute capacity al- located to the quota share. (structure) Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing. maxCapacity -&gt; (integer) [required] The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing. capacityUnit -&gt; (string) [required] The unit of compute capacity for the capacityLimit. For exam- ple, ml.m5.large . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
+    /// A list that specifies the quantity and type of compute capacity allocated to the quota share. (structure) Defines the capacity limit for a quota share, or the type and maximum quantity of a particular resource that can be allocated to jobs in the quota share without borrowing. maxCapacity -&gt; (integer) [required] The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing. capacityUnit -&gt; (string) [required] The unit of compute capacity for the capacityLimit. For example, ml.m5.large . Shorthand Syntax: maxCapacity=integer,capacityUnit=string ... JSON Syntax: [ { "maxCapacity": integer, "capacityUnit": "string" } ... ]
     /// </summary>
     [CliOption("--capacity-limits", GroupValues = true)]
     public IEnumerable<string>? CapacityLimits { get; set; }
 
     /// <summary>
-    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity. strategy -&gt; (string) [required] The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for it- self. LEND configures the share to lend its idle capacity to an- other share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underuti- lized share, as well as lend to another share. Possible values: o RESERVE o LEND o LEND_AND_BORROW borrowLimit -&gt; (integer) The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be ap- plied to quota shares with a strategy of LEND_AND_BORROW . This value is expressed as a percentage of the quota share's config- ured CapacityLimits . The borrowLimit is applied uniformly across all capacity units. For example, if the borrowLimit is 200, the quota share can bor- row up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing. Shorthand Syntax: strategy=string,borrowLimit=integer JSON Syntax: { "strategy": "RESERVE"|"LEND"|"LEND_AND_BORROW", "borrowLimit": integer }
+    /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity. strategy -&gt; (string) [required] The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for itself. LEND configures the share to lend its idle capacity to another share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underutilized share, as well as lend to another share. Possible values: • RESERVE • LEND • LEND_AND_BORROW borrowLimit -&gt; (integer) The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be applied to quota shares with a strategy of LEND_AND_BORROW . This value is expressed as a percentage of the quota share's configured CapacityLimits . The borrowLimit is applied uniformly across all capacity units. For example, if the borrowLimit is 200, the quota share can borrow up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing. Shorthand Syntax: strategy=string,borrowLimit=integer JSON Syntax: { "strategy": "RESERVE"|"LEND"|"LEND_AND_BORROW", "borrowLimit": integer }
     /// </summary>
     [CliOption("--resource-sharing-configuration")]
     public string? ResourceSharingConfiguration { get; set; }
 
     /// <summary>
-    /// Specifies the preemption behavior for jobs in a quota share. inSharePreemption -&gt; (string) [required] Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share. Possible values: o ENABLED o DISABLED Shorthand Syntax: inSharePreemption=string JSON Syntax: { "inSharePreemption": "ENABLED"|"DISABLED" }
+    /// Specifies the preemption behavior for jobs in a quota share. inSharePreemption -&gt; (string) [required] Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share. Possible values: • ENABLED • DISABLED Shorthand Syntax: inSharePreemption=string JSON Syntax: { "inSharePreemption": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--preemption-configuration")]
     public string? PreemptionConfiguration { get; set; }
 
     /// <summary>
-    /// The state of the quota share. If the quota share is ENABLED , it is able to accept jobs. If the quota share is DISABLED , new jobs won't be accepted but jobs already submitted can finish. Possible values: o ENABLED o DISABLED
+    /// The state of the quota share. If the quota share is ENABLED , it is able to accept jobs. If the quota share is DISABLED , new jobs won't be accepted but jobs already submitted can finish. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--state")]
     public AwsBatchUpdateQuotaShareState? State { get; set; }
@@ -107,6 +108,15 @@ public record AwsBatchUpdateQuotaShareOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Ama- zon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API f...
+/// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API for...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsConnectClaimPhoneNumberOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Ama- zon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API f...
+    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide . WARNING: You can call the SearchAvailablePhoneNumbers API for...
     /// </summary>
-    /// <param name="PhoneNumber">The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code] . Constraints: o pattern: \\+[1-9]\\d{1,14}$</param>
+    /// <param name="PhoneNumber">The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code] . Constraints: • pattern: \\+[1-9]\\d{1,14}$</param>
     public AwsConnectClaimPhoneNumberOptions(
         string PhoneNumber
     )
@@ -58,7 +58,7 @@ public record AwsConnectClaimPhoneNumberOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code] . Constraints: o pattern: \\+[1-9]\\d{1,14}$
+    /// The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code] . Constraints: • pattern: \\+[1-9]\\d{1,14}$
     /// </summary>
     [CliOption("--phone-number")]
     public string? PhoneNumber { get; private init; }
@@ -70,25 +70,25 @@ public record AwsConnectClaimPhoneNumberOptions : AwsOptions, IValidatableObject
     public string? TargetArn { get; set; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn . Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// The description of the phone number. Constraints: o min: 0 o max: 500 o pattern: ^[\W\S_]*
+    /// The description of the phone number. Constraints: • min: 0 • max: 500 • pattern: ^[\W\S_]*
     /// </summary>
     [CliOption("--phone-number-description")]
     public string? PhoneNumberDescription { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$ Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -115,6 +115,15 @@ public record AwsConnectClaimPhoneNumberOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

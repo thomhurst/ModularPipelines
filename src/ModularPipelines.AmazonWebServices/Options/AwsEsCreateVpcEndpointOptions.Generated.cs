@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEsCreateVpcEndpointOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainArn">The Amazon Resource Name (ARN) of the domain to grant access to. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:do- main\/[a-z0-9\-]+</param>
+    /// <param name="DomainArn">The Amazon Resource Name (ARN) of the domain to grant access to. Constraints: • min: 1 • max: 512 • pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:domain\/[a-z0-9\-]+</param>
     /// <param name="VpcOptions">Options to specify the subnets and security groups for the endpoint. SubnetIds -&gt; (list) Specifies the subnets for VPC endpoint. (string) SecurityGroupIds -&gt; (list) Specifies the security groups for VPC endpoint. (string) Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
     public AwsEsCreateVpcEndpointOptions(
         string DomainArn,
@@ -61,7 +62,7 @@ public record AwsEsCreateVpcEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the domain to grant access to. Constraints: o min: 1 o max: 512 o pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:do- main\/[a-z0-9\-]+
+    /// The Amazon Resource Name (ARN) of the domain to grant access to. Constraints: • min: 1 • max: 512 • pattern: arn:aws[a-z\-]*:[a-z]+:[a-z0-9\-]+:[0-9]+:domain\/[a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-arn")]
     public string? DomainArn { get; private init; }
@@ -73,7 +74,7 @@ public record AwsEsCreateVpcEndpointOptions : AwsOptions, IValidatableObject
     public string? VpcOptions { get; private init; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier to ensure idempotency of the re- quest. Constraints: o min: 1 o max: 64
+    /// Unique, case-sensitive identifier to ensure idempotency of the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsEsCreateVpcEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

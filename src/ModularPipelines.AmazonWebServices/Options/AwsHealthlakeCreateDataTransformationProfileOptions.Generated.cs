@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile con- tent, or a sample data file as the source. See also: AWS API Documentation
+/// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsHealthlakeCreateDataTransformationProfileOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile con- tent, or a sample data file as the source. See also: AWS API Documentation
+    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceFormat">The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)). Possible values: o CCDA o CSV</param>
-    /// <param name="Source">The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StarterProfile, ExistingVersionedPro- fileId, ProfileMapping, SampleData. StarterProfile -&gt; (structure) Creates the profile from a built-in starter profile. Valid only when the source format is Consolidated Clinical Document Archi- tecture (C-CDA). StarterProfileName -&gt; (string) [required] The name of the built-in starter profile. ExistingVersionedProfileId -&gt; (structure) Creates the profile by cloning an existing profile at a specific version. ProfileId -&gt; (string) [required] The unique identifier of the existing profile to clone from. Version -&gt; (integer) [required] The version number of the existing profile to clone from. ProfileMapping -&gt; (structure) Creates the profile from raw profile content that you provide directly. Use this variant for continuous integration and con- tinuous delivery (CI/CD) workflows. ProfileMapping -&gt; (map) [required] The content as a map of file paths to profile strings. key -&gt; (string) value -&gt; (string) SampleData -&gt; (structure) Creates the profile from a sample data file stored in Amazon S3. Valid only when the source format is Comma-separated values (CSV). S3Uri -&gt; (string) [required] The Amazon S3 URI of the sample data file. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.*)? Shorthand Syntax: StarterProfile={StarterProfileName=string},ExistingVersionedProfileId={ProfileId=string,Version=integer},ProfileMapping={ProfileMapping={KeyName1=string,KeyName2=string}},SampleData={S3Uri=string} JSON Syntax: { "StarterProfile": { "StarterProfileName": "string" }, "ExistingVersionedProfileId": { "ProfileId": "string", "Version": integer }, "ProfileMapping": { "ProfileMapping": {"string": "string" ...} }, "SampleData": { "S3Uri": "string" } }</param>
-    /// <param name="ProfileName">A name for the data transformation profile. Constraints: o min: 1 o max: 256</param>
+    /// <param name="SourceFormat">The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)). Possible values: • CCDA • CSV</param>
+    /// <param name="Source">The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StarterProfile, ExistingVersionedProfileId, ProfileMapping, SampleData. StarterProfile -&gt; (structure) Creates the profile from a built-in starter profile. Valid only when the source format is Consolidated Clinical Document Architecture (C-CDA). StarterProfileName -&gt; (string) [required] The name of the built-in starter profile. ExistingVersionedProfileId -&gt; (structure) Creates the profile by cloning an existing profile at a specific version. ProfileId -&gt; (string) [required] The unique identifier of the existing profile to clone from. Version -&gt; (integer) [required] The version number of the existing profile to clone from. ProfileMapping -&gt; (structure) Creates the profile from raw profile content that you provide directly. Use this variant for continuous integration and continuous delivery (CI/CD) workflows. ProfileMapping -&gt; (map) [required] The content as a map of file paths to profile strings. key -&gt; (string) value -&gt; (string) SampleData -&gt; (structure) Creates the profile from a sample data file stored in Amazon S3. Valid only when the source format is Comma-separated values (CSV). S3Uri -&gt; (string) [required] The Amazon S3 URI of the sample data file. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.*)? Shorthand Syntax: StarterProfile={StarterProfileName=string},ExistingVersionedProfileId={ProfileId=string,Version=integer},ProfileMapping={ProfileMapping={KeyName1=string,KeyName2=string}},SampleData={S3Uri=string} JSON Syntax: { "StarterProfile": { "StarterProfileName": "string" }, "ExistingVersionedProfileId": { "ProfileId": "string", "Version": integer }, "ProfileMapping": { "ProfileMapping": {"string": "string" ...} }, "SampleData": { "S3Uri": "string" } }</param>
+    /// <param name="ProfileName">A name for the data transformation profile. Constraints: • min: 1 • max: 256</param>
     public AwsHealthlakeCreateDataTransformationProfileOptions(
         AwsHealthlakeCreateDataTransformationProfileSourceFormat SourceFormat,
         string Source,
@@ -66,43 +66,43 @@ public record AwsHealthlakeCreateDataTransformationProfileOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)). Possible values: o CCDA o CSV
+    /// The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)). Possible values: • CCDA • CSV
     /// </summary>
     [CliOption("--source-format")]
     public AwsHealthlakeCreateDataTransformationProfileSourceFormat? SourceFormat { get; private init; }
 
     /// <summary>
-    /// The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StarterProfile, ExistingVersionedPro- fileId, ProfileMapping, SampleData. StarterProfile -&gt; (structure) Creates the profile from a built-in starter profile. Valid only when the source format is Consolidated Clinical Document Archi- tecture (C-CDA). StarterProfileName -&gt; (string) [required] The name of the built-in starter profile. ExistingVersionedProfileId -&gt; (structure) Creates the profile by cloning an existing profile at a specific version. ProfileId -&gt; (string) [required] The unique identifier of the existing profile to clone from. Version -&gt; (integer) [required] The version number of the existing profile to clone from. ProfileMapping -&gt; (structure) Creates the profile from raw profile content that you provide directly. Use this variant for continuous integration and con- tinuous delivery (CI/CD) workflows. ProfileMapping -&gt; (map) [required] The content as a map of file paths to profile strings. key -&gt; (string) value -&gt; (string) SampleData -&gt; (structure) Creates the profile from a sample data file stored in Amazon S3. Valid only when the source format is Comma-separated values (CSV). S3Uri -&gt; (string) [required] The Amazon S3 URI of the sample data file. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.*)? Shorthand Syntax: StarterProfile={StarterProfileName=string},ExistingVersionedProfileId={ProfileId=string,Version=integer},ProfileMapping={ProfileMapping={KeyName1=string,KeyName2=string}},SampleData={S3Uri=string} JSON Syntax: { "StarterProfile": { "StarterProfileName": "string" }, "ExistingVersionedProfileId": { "ProfileId": "string", "Version": integer }, "ProfileMapping": { "ProfileMapping": {"string": "string" ...} }, "SampleData": { "S3Uri": "string" } }
+    /// The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: StarterProfile, ExistingVersionedProfileId, ProfileMapping, SampleData. StarterProfile -&gt; (structure) Creates the profile from a built-in starter profile. Valid only when the source format is Consolidated Clinical Document Architecture (C-CDA). StarterProfileName -&gt; (string) [required] The name of the built-in starter profile. ExistingVersionedProfileId -&gt; (structure) Creates the profile by cloning an existing profile at a specific version. ProfileId -&gt; (string) [required] The unique identifier of the existing profile to clone from. Version -&gt; (integer) [required] The version number of the existing profile to clone from. ProfileMapping -&gt; (structure) Creates the profile from raw profile content that you provide directly. Use this variant for continuous integration and continuous delivery (CI/CD) workflows. ProfileMapping -&gt; (map) [required] The content as a map of file paths to profile strings. key -&gt; (string) value -&gt; (string) SampleData -&gt; (structure) Creates the profile from a sample data file stored in Amazon S3. Valid only when the source format is Comma-separated values (CSV). S3Uri -&gt; (string) [required] The Amazon S3 URI of the sample data file. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9](/.*)? Shorthand Syntax: StarterProfile={StarterProfileName=string},ExistingVersionedProfileId={ProfileId=string,Version=integer},ProfileMapping={ProfileMapping={KeyName1=string,KeyName2=string}},SampleData={S3Uri=string} JSON Syntax: { "StarterProfile": { "StarterProfileName": "string" }, "ExistingVersionedProfileId": { "ProfileId": "string", "Version": integer }, "ProfileMapping": { "ProfileMapping": {"string": "string" ...} }, "SampleData": { "S3Uri": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; private init; }
 
     /// <summary>
-    /// A name for the data transformation profile. Constraints: o min: 1 o max: 256
+    /// A name for the data transformation profile. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the profile content at rest. Constraints: o min: 1 o max: 2048
+    /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the profile content at rest. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A human-readable description of the profile's purpose. Constraints: o min: 0 o max: 1000
+    /// A human-readable description of the profile's purpose. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--profile-description")]
     public string? ProfileDescription { get; set; }
 
     /// <summary>
-    /// The tags to associate with the profile at creation time. Constraints: o min: 0 o max: 50 key -&gt; (string) The key of the tag. Tag keys are case-sensitive and must be unique per resource. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be empty strings. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the profile at creation time. Constraints: • min: 0 • max: 50 key -&gt; (string) The key of the tag. Tag keys are case-sensitive and must be unique per resource. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be empty strings. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an er- ror. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -129,6 +129,15 @@ public record AwsHealthlakeCreateDataTransformationProfileOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

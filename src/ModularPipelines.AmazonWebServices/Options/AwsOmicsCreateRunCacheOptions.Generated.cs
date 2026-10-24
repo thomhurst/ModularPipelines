@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately acces- sible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the work- flow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: A...
+/// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the workflow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: AWS A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +27,9 @@ public record AwsOmicsCreateRunCacheOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately acces- sible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the work- flow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: A...
+    /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the workflow definition file. For more information, see Call caching and Creating a run cache in the Amazon Web Services HealthOmics User Guide . See also: AWS A...
     /// </summary>
-    /// <param name="CacheS3Location">Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state). Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])(/(.{0,1024}))?</param>
+    /// <param name="CacheS3Location">Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state). Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])(/(.{0,1024}))?</param>
     public AwsOmicsCreateRunCacheOptions(
         string CacheS3Location
     )
@@ -58,43 +58,43 @@ public record AwsOmicsCreateRunCacheOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state). Constraints: o pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])(/(.{0,1024}))?
+    /// Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state). Constraints: • pattern: s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])(/(.{0,1024}))?
     /// </summary>
     [CliOption("--cache-s3-location")]
     public string? CacheS3Location { get; private init; }
 
     /// <summary>
-    /// Default cache behavior for runs that use this cache. Supported val- ues are: CACHE_ON_FAILURE : Caches task outputs from completed tasks for runs that fail. This setting is useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-com- pleted tasks if the task definition, inputs, and container in ECR are identical to the prior run. CACHE_ALWAYS : Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAIL- URE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the Amazon Web Ser- vices HealthOmics User Guide . Possible values: o CACHE_ON_FAILURE o CACHE_ALWAYS Constraints: o min: 1 o max: 64
+    /// Default cache behavior for runs that use this cache. Supported values are: CACHE_ON_FAILURE : Caches task outputs from completed tasks for runs that fail. This setting is useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run. CACHE_ALWAYS : Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide . Possible values: • CACHE_ON_FAILURE • CACHE_ALWAYS Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--cache-behavior")]
     public AwsOmicsCreateRunCacheCacheBehavior? CacheBehavior { get; set; }
 
     /// <summary>
-    /// Enter a description of the run cache. Constraints: o min: 1 o max: 256 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Enter a description of the run cache. Constraints: • min: 1 • max: 256 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Enter a user-friendly name for the run cache. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Enter a user-friendly name for the run cache. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A unique request token, to ensure idempotency. If you don't specify a token, Amazon Web Services HealthOmics automatically generates a universally unique identifier (UUID) for the request. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A unique request token, to ensure idempotency. If you don't specify a token, Amazon Web Services HealthOmics automatically generates a universally unique identifier (UUID) for the request. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--request-id")]
     public string? RequestId { get; set; }
 
     /// <summary>
-    /// Specify one or more tags to associate with this run cache. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Specify one or more tags to associate with this run cache. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket. Constraints: o min: 12 o max: 12 o pattern: [0-9]+
+    /// The Amazon Web Services account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket. Constraints: • min: 12 • max: 12 • pattern: [0-9]+
     /// </summary>
     [CliOption("--cache-bucket-owner-id")]
     public string? CacheBucketOwnerId { get; set; }
@@ -120,6 +120,15 @@ public record AwsOmicsCreateRunCacheOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

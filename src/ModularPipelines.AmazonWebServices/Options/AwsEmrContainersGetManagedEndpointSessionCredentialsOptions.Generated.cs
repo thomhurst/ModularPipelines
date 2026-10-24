@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsO
     /// <summary>
     /// Generate a session token to connect to a managed endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EndpointIdentifier">The ARN of the managed endpoint for which the request is submitted. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*</param>
-    /// <param name="VirtualClusterIdentifier">The ARN of the Virtual Cluster which the Managed Endpoint belongs to. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*</param>
-    /// <param name="ExecutionRoleArn">The IAM Execution Role ARN that will be used by the job run. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$</param>
-    /// <param name="CredentialType">Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: o min: 1 o max: 64 o pattern: ^.*\S.*$</param>
+    /// <param name="EndpointIdentifier">The ARN of the managed endpoint for which the request is submitted. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*</param>
+    /// <param name="VirtualClusterIdentifier">The ARN of the Virtual Cluster which the Managed Endpoint belongs to. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*</param>
+    /// <param name="ExecutionRoleArn">The IAM Execution Role ARN that will be used by the job run. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$</param>
+    /// <param name="CredentialType">Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: • min: 1 • max: 64 • pattern: ^.*\S.*$</param>
     public AwsEmrContainersGetManagedEndpointSessionCredentialsOptions(
         string EndpointIdentifier,
         string VirtualClusterIdentifier,
@@ -69,43 +70,43 @@ public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the managed endpoint for which the request is submitted. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// The ARN of the managed endpoint for which the request is submitted. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--endpoint-identifier")]
     public string? EndpointIdentifier { get; private init; }
 
     /// <summary>
-    /// The ARN of the Virtual Cluster which the Managed Endpoint belongs to. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// The ARN of the Virtual Cluster which the Managed Endpoint belongs to. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--virtual-cluster-identifier")]
     public string? VirtualClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The IAM Execution Role ARN that will be used by the job run. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$
+    /// The IAM Execution Role ARN that will be used by the job run. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: o min: 1 o max: 64 o pattern: ^.*\S.*$
+    /// Type of the token requested. Currently supported and default value of this field is TOKEN. Constraints: • min: 1 • max: 64 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--credential-type")]
     public string? CredentialType { get; private init; }
 
     /// <summary>
-    /// Duration in seconds for which the session token is valid. The de- fault duration is 15 minutes and the maximum is 12 hours.
+    /// Duration in seconds for which the session token is valid. The default duration is 15 minutes and the maximum is 12 hours.
     /// </summary>
     [CliOption("--duration-in-seconds")]
     public int? DurationInSeconds { get; set; }
 
     /// <summary>
-    /// String identifier used to separate sections of the execution logs uploaded to S3. Constraints: o min: 3 o max: 63 o pattern: ^((?!.*-s3alias)(?!xn--.*)[a-z0-9][-a-z0-9.]*)?[a-z0-9]$
+    /// String identifier used to separate sections of the execution logs uploaded to S3. Constraints: • min: 3 • max: 63 • pattern: ^((?!.*-s3alias)(?!xn--.*)[a-z0-9][-a-z0-9.]*)?[a-z0-9]$
     /// </summary>
     [CliOption("--log-context")]
     public string? LogContext { get; set; }
 
     /// <summary>
-    /// The client idempotency token of the job run request. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// The client idempotency token of the job run request. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -132,6 +133,15 @@ public record AwsEmrContainersGetManagedEndpointSessionCredentialsOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

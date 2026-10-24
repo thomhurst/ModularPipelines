@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Cancels a query if the query is not in a terminated state, such as CAN- CELLED , FAILED , TIMED_OUT , or FINISHED . You must specify an ARN value for EventDataStore . The ID of the query that you want to cancel is al...
+/// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Cancels a query if the query is not in a terminated state, such as CANCELLED , FAILED , TIMED_OUT , or FINISHED . You must specify an ARN value for EventDataStore . The ID of the query that you want to cancel is also...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudtrailCancelQueryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Cancels a query if the query is not in a terminated state, such as CAN- CELLED , FAILED , TIMED_OUT , or FINISHED . You must specify an ARN value for EventDataStore . The ID of the query that you want to cancel is al...
+    /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Cancels a query if the query is not in a terminated state, such as CANCELLED , FAILED , TIMED_OUT , or FINISHED . You must specify an ARN value for EventDataStore . The ID of the query that you want to cancel is also...
     /// </summary>
-    /// <param name="QueryId">The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$</param>
+    /// <param name="QueryId">The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9\-]+$</param>
     public AwsCloudtrailCancelQueryOptions(
         string QueryId
     )
@@ -56,19 +57,19 @@ public record AwsCloudtrailCancelQueryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation. Constraints: o min: 36 o max: 36 o pattern: ^[a-f0-9\-]+$
+    /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation. Constraints: • min: 36 • max: 36 • pattern: ^[a-f0-9\-]+$
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
 
     /// <summary>
-    /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; set; }
 
     /// <summary>
-    /// The account ID of the event data store owner. Constraints: o min: 12 o max: 16 o pattern: \d+
+    /// The account ID of the event data store owner. Constraints: • min: 12 • max: 16 • pattern: \d+
     /// </summary>
     [CliOption("--event-data-store-owner-account-id")]
     public string? EventDataStoreOwnerAccountId { get; set; }
@@ -94,6 +95,15 @@ public record AwsCloudtrailCancelQueryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

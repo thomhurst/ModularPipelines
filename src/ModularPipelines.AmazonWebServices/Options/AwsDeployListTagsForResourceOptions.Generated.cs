@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of tags for the resource identified by a specified Ama- zon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
+/// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDeployListTagsForResourceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of tags for the resource identified by a specified Ama- zon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
+    /// Returns a list of tags for the resource identified by a specified Amazon Resource Name (ARN). Tags are used to organize and categorize your CodeDeploy resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of a CodeDeploy resource. ListTagsForResource returns all the tags associated with the resource that is identified by the Re- sourceArn . Constraints: o min: 1 o max: 1011</param>
+    /// <param name="ResourceArn">The ARN of a CodeDeploy resource. ListTagsForResource returns all the tags associated with the resource that is identified by the ResourceArn . Constraints: • min: 1 • max: 1011</param>
     public AwsDeployListTagsForResourceOptions(
         string ResourceArn
     )
@@ -57,7 +58,7 @@ public record AwsDeployListTagsForResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of a CodeDeploy resource. ListTagsForResource returns all the tags associated with the resource that is identified by the Re- sourceArn . Constraints: o min: 1 o max: 1011
+    /// The ARN of a CodeDeploy resource. ListTagsForResource returns all the tags associated with the resource that is identified by the ResourceArn . Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -90,6 +91,15 @@ public record AwsDeployListTagsForResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

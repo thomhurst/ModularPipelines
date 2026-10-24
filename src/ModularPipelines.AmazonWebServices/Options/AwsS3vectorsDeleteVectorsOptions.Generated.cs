@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this opera- tion. See also: AWS API Documentation
+/// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3vectorsDeleteVectorsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this opera- tion. See also: AWS API Documentation
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Keys">The keys of the vectors to delete. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...</param>
+    /// <param name="Keys">The keys of the vectors to delete. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...</param>
     public AwsS3vectorsDeleteVectorsOptions(
         IEnumerable<string> Keys
     )
@@ -67,25 +68,25 @@ public record AwsS3vectorsDeleteVectorsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The keys of the vectors to delete. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 1024 Syntax: "string" "string" ...
+    /// The keys of the vectors to delete. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--keys", GroupValues = true)]
     public IEnumerable<string>? Keys { get; private init; }
 
     /// <summary>
-    /// The name of the vector bucket that contains the vector index. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket that contains the vector index. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The name of the vector index that contains a vector you want to delete. Constraints: o min: 3 o max: 63
+    /// The name of the vector index that contains a vector you want to delete. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The ARN of the vector index that contains a vector you want to delete. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/in- dex/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The ARN of the vector index that contains a vector you want to delete. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
@@ -111,6 +112,15 @@ public record AwsS3vectorsDeleteVectorsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

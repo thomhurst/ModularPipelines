@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsDeadlineDisassociateMemberFromQueueOptions : AwsOptions, IValid
     /// <summary>
     /// Disassociates a member from a queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the queue to disassociate from a member. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID of the queue in which you're disassociating from a mem- ber. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="PrincipalId">A member's principal ID to disassociate from a queue. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
+    /// <param name="FarmId">The farm ID for the queue to disassociate from a member. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID of the queue in which you're disassociating from a member. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="PrincipalId">A member's principal ID to disassociate from a queue. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}</param>
     public AwsDeadlineDisassociateMemberFromQueueOptions(
         string FarmId,
         string QueueId,
@@ -64,19 +65,19 @@ public record AwsDeadlineDisassociateMemberFromQueueOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the queue to disassociate from a member. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the queue to disassociate from a member. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID of the queue in which you're disassociating from a mem- ber. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID of the queue in which you're disassociating from a member. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// A member's principal ID to disassociate from a queue. Constraints: o min: 1 o max: 47 o pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
+    /// A member's principal ID to disassociate from a queue. Constraints: • min: 1 • max: 47 • pattern: ([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}
     /// </summary>
     [CliOption("--principal-id")]
     public string? PrincipalId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsDeadlineDisassociateMemberFromQueueOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     #region Commands
 
     /// <summary>
-    /// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the ac- count linking invitation. See also: AWS API Documentation
+    /// Accepts the account link invitation. WARNING: There's currently no unlinking capability after you accept the account linking invitation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Associates the specified IP access control group with the specified di- rectory. See also: AWS API Documentation
+    /// Associates the specified IP access control group with the specified directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Copies the specified image from the specified Region to the current Re- gion. For more information about copying images, see Copy a Custom WorkSpaces Image . In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. WARNING: Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if a...
+    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see Copy a Custom WorkSpaces Image . In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. WARNING: Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Creates the specified connection alias for use with cross-Region redi- rection. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// Creates the specified connection alias for use with cross-Region redirection. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules . There is a default IP access control group associated with your direc- tory. If you don't associate an IP acce...
+    /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules . There is a default IP access control group associated with your directory. If you don't associate an IP access...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Creates a new updated WorkSpace image based on the specified source im- age. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use DescribeWorkspaceImages . NOTE: o Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time. o Microsoft Windows updates and other ...
+    /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use DescribeWorkspaceImages . NOTE: • Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time. • Microsoft Windows updates and other ap...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Creates the specified WorkSpace bundle. For more information about cre- ating WorkSpace bundles, see Create a Custom WorkSpaces Image and Bun- dle . See also: AWS API Documentation
+    /// Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see Create a Custom WorkSpaces Image and Bundle . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created. NOTE: o The MANUAL running mode value is only supported by Amazon Work- Spaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core . o You don't need to specify the PCOIP protocol for Linux bundles be- cause DCV (formerly WSP) is the default protocol for those bun- dles. o User-decoupled WorkSpaces are only supported by A...
+    /// Creates one or more WorkSpaces. This operation is asynchronous and returns before the WorkSpaces are created. NOTE: • The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see Amazon WorkSpaces Core . • You don't need to specify the PCOIP protocol for Linux bundles because DCV (formerly WSP) is the default protocol for those bundles. • User-decoupled WorkSpaces are only supported by Amazon ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Deletes customized client branding. Client branding allows you to cus- tomize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal re- verts to the default client branding. See also: AWS API Documentation
+    /// Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal reverts to the default client branding. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Deletes the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . WARNING: If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see Security Considerations if You Stop Using Cross-Re- gion Redirection . NOTE: To delete a connection alias that has been shared, the shared ac- count must firs...
+    /// Deletes the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . WARNING: If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see Security Considerations if You Stop Using Cross-Region Redirection . NOTE: To delete a connection alias that has been shared, the shared account must first di...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any Work- Spaces are registered to this directory, you must remove them before you can deregister the directory. NOTE: Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered...
+    /// Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory. NOTE: Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account. See also: AWS API Documentation describe-account-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+    /// Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account. See also: AWS API Documentation describe-account-modifications is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Retrieves a list that describes the configuration of Bring Your Own Li- cense (BYOL) for the specified account. See also: AWS API Documentation
+    /// Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Describes the specified applications by filtering based on their com- pute types, license availability, operating systems, and owners. See also: AWS API Documentation
+    /// Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Retrieves a list of Connect Customer client add-ins that have been cre- ated. See also: AWS API Documentation
+    /// Retrieves a list of Connect Customer client add-ins that have been created. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,22 +557,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeConnectionAliasesAsync(
-        AwsWorkspacesDescribeConnectionAliasesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeConnectionAliasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified con- nection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -584,6 +569,21 @@ public class AwsWorkspaces : IAwsWorkspaces
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeConnectionAliasesAsync(
+        AwsWorkspacesDescribeConnectionAliasesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeConnectionAliasesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -677,7 +677,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Describes the available directories that are registered with Amazon WorkSpaces. See also: AWS API Documentation describe-workspace-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Direct...
+    /// Describes the available directories that are registered with Amazon WorkSpaces. See also: AWS API Documentation describe-workspace-directories is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Directorie...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,21 +722,6 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Describes the connection status of the specified WorkSpaces. See also: AWS API Documentation describe-workspaces-connection-status is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: WorkspacesConnec...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DescribeWorkspacesConnectionStatusAsync(
-        AwsWorkspacesDescribeWorkspacesConnectionStatusOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeWorkspacesConnectionStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Describes the snapshots for the specified WorkSpace. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -749,6 +734,21 @@ public class AwsWorkspaces : IAwsWorkspaces
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Describes the connection status of the specified WorkSpaces. See also: AWS API Documentation describe-workspaces-connection-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: WorkspacesConnectionSt...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DescribeWorkspacesConnectionStatusAsync(
+        AwsWorkspacesDescribeWorkspacesConnectionStatusOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsWorkspacesDescribeWorkspacesConnectionStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -767,7 +767,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Retrieves a list that describes the streaming sessions for a specified pool. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Retrieves a list that describes the streaming sessions for a specified pool. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Describes the specified WorkSpaces Pools. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Describes the specified WorkSpaces Pools. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directo- ries in different Regions. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
+    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: Before performing this operation, call DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal com- pany logo, the support email address, support link, link to reset pass- word, and a custom message for users trying to sign in. After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience NOTE: o You must specify at least one platform type when importing client branding. o You ca...
+    /// Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience NOTE: • You must specify at least one platform type when importing client branding. • You can im...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL). This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll re- ceive an AccessDeniedException error. The management network interface is connected to a secure Amazon Work- Spaces management network. It is used for interactive streaming of the WorkSpac...
+    /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL). This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace de...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Migrates a WorkSpace from one operating system or bundle type to an- other, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root vol- ume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated . A new D:\Users\%USER- NAME%\ folder is generated by the new OS...
+    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated . A new D:\Users\%USERNAME%\ folder is generated by the new OS. Cert...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Modifies multiple properties related to SAML 2.0 authentication, in- cluding the enablement status, user access URL, and relay state parame- ter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
+    /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Modifies the self-service WorkSpace management capabilities for your users. For more information, see Enable Self-Service WorkSpace Manage- ment Capabilities for Your Users . See also: AWS API Documentation
+    /// Modifies the self-service WorkSpace management capabilities for your users. For more information, see Enable Self-Service WorkSpace Management Capabilities for Your Users . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE . WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop Work- Space in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state. See also: AWS API Documentation
+    /// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE . WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , STOPPED , or REBOOTING . Rebuilding a WorkSpace is a potentially destructive action that can re- sult in the loss of data. For more information, see Rebuild a WorkSpace . This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt. See also: AWS API Documentation
+    /// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , STOPPED , or REBOOTING . Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace . This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , or STOPPED . Restoring a WorkSpace is a potentially destructive action that can re- sult in the loss of data. For more information, see Restore a WorkSpace . This operation is asynchronous and returns before the WorkSpace is com- pletely restored. See also: AWS API Documentation
+    /// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , or STOPPED . Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Restore a WorkSpace . This operation is asynchronous and returns before the WorkSpace is completely restored. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1217,7 +1217,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop and a state of STOPPED . See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop and a state of STOPPED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1247,7 +1247,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of Au- toStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS A...
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR . See also: AWS API D...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the Work- Space. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMI- NATED state is returned only brief...
+    /// Terminates the specified WorkSpaces. WARNING: Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED . This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1277,7 +1277,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Terminates the specified pool. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Terminates the specified pool. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Terminates the pool session. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Terminates the pool session. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1322,7 +1322,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connec- tion alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: o Before performing this operation, call DescribeConnectionAliases to make ...
+    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see Cross-Region Redirection for Amazon WorkSpaces . NOTE: • Before performing this operation, call DescribeConnectionAliases to make su...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the im- age to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In ...
+    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Am...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1382,7 +1382,7 @@ public class AwsWorkspaces : IAwsWorkspaces
     }
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Updates the specified pool. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Updates the specified pool. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

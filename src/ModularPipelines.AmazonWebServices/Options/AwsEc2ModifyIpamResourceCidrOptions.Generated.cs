@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -31,7 +32,7 @@ public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions, IValidatableObje
     /// <param name="ResourceCidr">The CIDR of the resource you want to modify.</param>
     /// <param name="ResourceRegion">The Amazon Web Services Region of the resource you want to modify.</param>
     /// <param name="CurrentIpamScopeId">The ID of the current scope that the resource CIDR is in.</param>
-    /// <param name="Monitored">Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view de- tails about the resources CIDR.</param>
+    /// <param name="Monitored">Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view details about the resources CIDR.</param>
     public AwsEc2ModifyIpamResourceCidrOptions(
         string ResourceId,
         string ResourceCidr,
@@ -95,13 +96,13 @@ public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions, IValidatableObje
     public string? CurrentIpamScopeId { get; private init; }
 
     /// <summary>
-    /// Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view de- tails about the resources CIDR.
+    /// Determines if the resource is monitored by IPAM. If a resource is monitored, the resource is discovered by IPAM and you can view details about the resources CIDR.
     /// </summary>
     [CliFlag("--monitored", NegatedName = "--no-monitored")]
     public bool? Monitored { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -133,6 +134,15 @@ public record AwsEc2ModifyIpamResourceCidrOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

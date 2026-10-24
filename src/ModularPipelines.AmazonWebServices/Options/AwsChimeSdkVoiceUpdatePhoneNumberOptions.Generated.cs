@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Me- dia Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend- ing updates to outbound calling names must b...
+/// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be co...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Me- dia Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pend- ing updates to outbound calling names must b...
+    /// Updates phone number details, such as product type, calling name, or phone number name for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type, calling name, or phone number name in one action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be co...
     /// </summary>
-    /// <param name="PhoneNumberId">The phone number ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="PhoneNumberId">The phone number ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceUpdatePhoneNumberOptions(
         string PhoneNumberId
     )
@@ -57,25 +58,25 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number ID. Constraints: o pattern: .*\S.*
+    /// The phone number ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; private init; }
 
     /// <summary>
-    /// The product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn
+    /// The product type. Possible values: • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeSdkVoiceUpdatePhoneNumberProductType? ProductType { get; set; }
 
     /// <summary>
-    /// The outbound calling name associated with the phone number. Constraints: o pattern: ^$|^[a-zA-Z0-9 ]{2,15}$
+    /// The outbound calling name associated with the phone number. Constraints: • pattern: ^$|^[a-zA-Z0-9 ]{2,15}$
     /// </summary>
     [CliOption("--calling-name")]
     public string? CallingName { get; set; }
 
     /// <summary>
-    /// Specifies the updated name assigned to one or more phone numbers. Constraints: o min: 0 o max: 256 o pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$
+    /// Specifies the updated name assigned to one or more phone numbers. Constraints: • min: 0 • max: 256 • pattern: ^$|^[a-zA-Z0-9\,\.\_\-]+(\s+[a-zA-Z0-9\,\.\_\-]+)*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -101,6 +102,15 @@ public record AwsChimeSdkVoiceUpdatePhoneNumberOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

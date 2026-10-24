@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +63,13 @@ public record AwsCloudformationSetStackPolicyOptions : AwsOptions, IValidatableO
     public string? StackName { get; private init; }
 
     /// <summary>
-    /// Structure that contains the stack policy body. For more information, see Prevent updates to stack resources in the CloudFormation User Guide . You can specify either the StackPolicyBody or the StackPoli- cyURL parameter, but not both. Constraints: o min: 1 o max: 16384
+    /// Structure that contains the stack policy body. For more information, see Prevent updates to stack resources in the CloudFormation User Guide . You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. Constraints: • min: 1 • max: 16384
     /// </summary>
     [CliOption("--stack-policy-body")]
     public string? StackPolicyBody { get; set; }
 
     /// <summary>
-    /// Location of a file that contains the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The lo- cation for an Amazon S3 bucket must start with https:// . URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL pa- rameter, but not both. Constraints: o min: 1 o max: 5120
+    /// Location of a file that contains the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https:// . URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. Constraints: • min: 1 • max: 5120
     /// </summary>
     [CliOption("--stack-policy-url")]
     public string? StackPolicyUrl { get; set; }
@@ -94,6 +95,15 @@ public record AwsCloudformationSetStackPolicyOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

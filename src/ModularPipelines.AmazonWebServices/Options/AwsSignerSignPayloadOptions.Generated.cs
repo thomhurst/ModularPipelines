@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsSignerSignPayloadOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Signs a binary payload and returns a signature envelope. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileName">The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}</param>
-    /// <param name="Payload">Specifies the object digest (hash) to sign. Constraints: o min: 1 o max: 4096</param>
-    /// <param name="PayloadFormat">Payload content type. The single valid type is applica- tion/vnd.cncf.notary.payload.v1+json .</param>
+    /// <param name="ProfileName">The name of the signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}</param>
+    /// <param name="Payload">Specifies the object digest (hash) to sign. Constraints: • min: 1 • max: 4096</param>
+    /// <param name="PayloadFormat">Payload content type. The single valid type is application/vnd.cncf.notary.payload.v1+json .</param>
     public AwsSignerSignPayloadOptions(
         string ProfileName,
         string Payload,
@@ -64,25 +65,25 @@ public record AwsSignerSignPayloadOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the signing profile. Constraints: o min: 2 o max: 64 o pattern: ^[a-zA-Z0-9_]{2,}
+    /// The name of the signing profile. Constraints: • min: 2 • max: 64 • pattern: ^[a-zA-Z0-9_]{2,}
     /// </summary>
     [CliOption("--profile-name")]
     public string? ProfileName { get; private init; }
 
     /// <summary>
-    /// Specifies the object digest (hash) to sign. Constraints: o min: 1 o max: 4096
+    /// Specifies the object digest (hash) to sign. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--payload")]
     public string? Payload { get; private init; }
 
     /// <summary>
-    /// Payload content type. The single valid type is applica- tion/vnd.cncf.notary.payload.v1+json .
+    /// Payload content type. The single valid type is application/vnd.cncf.notary.payload.v1+json .
     /// </summary>
     [CliOption("--payload-format")]
     public string? PayloadFormat { get; private init; }
 
     /// <summary>
-    /// The AWS account ID of the profile owner. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The AWS account ID of the profile owner. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--profile-owner")]
     public string? ProfileOwner { get; set; }
@@ -108,6 +109,15 @@ public record AwsSignerSignPayloadOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

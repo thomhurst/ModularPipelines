@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsWorkspacesCreateWorkspaceImageOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a new WorkSpace image from an existing WorkSpace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the new WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
-    /// <param name="Description">The description of the new WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
-    /// <param name="WorkspaceId">The identifier of the source WorkSpace Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="Name">The name of the new WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$</param>
+    /// <param name="Description">The description of the new WorkSpace image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="WorkspaceId">The identifier of the source WorkSpace Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesCreateWorkspaceImageOptions(
         string Name,
         string Description,
@@ -64,25 +65,25 @@ public record AwsWorkspacesCreateWorkspaceImageOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new WorkSpace image. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_./()\\-]+$
+    /// The name of the new WorkSpace image. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_./()\\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the new WorkSpace image. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// The description of the new WorkSpace image. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_./() -]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The identifier of the source WorkSpace Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the source WorkSpace Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The tags that you want to add to the new WorkSpace image. To add tags when you're creating the image, you must create an IAM policy that grants your IAM user permission to use workspaces:CreateTags . (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags that you want to add to the new WorkSpace image. To add tags when you're creating the image, you must create an IAM policy that grants your IAM user permission to use workspaces:CreateTags . (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsWorkspacesCreateWorkspaceImageOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

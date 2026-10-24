@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific user in a Wickr net- work, including their profile, status, and activity history. See also: AWS API Documentation
+/// Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsWickrGetUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific user in a Wickr net- work, including their profile, status, and activity history. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the user. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="UserId">The unique identifier of the user to retrieve. Constraints: o min: 1 o max: 10 o pattern: [0-9]+</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the user. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="UserId">The unique identifier of the user to retrieve. Constraints: • min: 1 • max: 10 • pattern: [0-9]+</param>
     public AwsWickrGetUserOptions(
         string NetworkId,
         string UserId
@@ -60,13 +61,13 @@ public record AwsWickrGetUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the user. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the user. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the user to retrieve. Constraints: o min: 1 o max: 10 o pattern: [0-9]+
+    /// The unique identifier of the user to retrieve. Constraints: • min: 1 • max: 10 • pattern: [0-9]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
@@ -104,6 +105,15 @@ public record AwsWickrGetUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsS3filesCreateMountTargetOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a mount target resource as an endpoint for mounting the S3 File System from compute resources in a specific Availability Zone and VPC. Mount targets provide network access to the file system. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to create the mount target for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
-    /// <param name="SubnetId">The ID of the subnet where the mount target will be created. The subnet must be in the same Amazon Web Services Region as the file system. For file systems with regional availability, you can create mount targets in any subnet within the Region. The subnet determines the Availability Zone where the mount target will be located. Constraints: o min: 15 o max: 47 o pattern: subnet-[0-9a-f]{8,40}</param>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to create the mount target for. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    /// <param name="SubnetId">The ID of the subnet where the mount target will be created. The subnet must be in the same Amazon Web Services Region as the file system. For file systems with regional availability, you can create mount targets in any subnet within the Region. The subnet determines the Availability Zone where the mount target will be located. Constraints: • min: 15 • max: 47 • pattern: subnet-[0-9a-f]{8,40}</param>
     public AwsS3filesCreateMountTargetOptions(
         string FileSystemId,
         string SubnetId
@@ -61,37 +62,37 @@ public record AwsS3filesCreateMountTargetOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the S3 File System to create the mount target for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System to create the mount target for. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// The ID of the subnet where the mount target will be created. The subnet must be in the same Amazon Web Services Region as the file system. For file systems with regional availability, you can create mount targets in any subnet within the Region. The subnet determines the Availability Zone where the mount target will be located. Constraints: o min: 15 o max: 47 o pattern: subnet-[0-9a-f]{8,40}
+    /// The ID of the subnet where the mount target will be created. The subnet must be in the same Amazon Web Services Region as the file system. For file systems with regional availability, you can create mount targets in any subnet within the Region. The subnet determines the Availability Zone where the mount target will be located. Constraints: • min: 15 • max: 47 • pattern: subnet-[0-9a-f]{8,40}
     /// </summary>
     [CliOption("--subnet-id")]
     public string? SubnetId { get; private init; }
 
     /// <summary>
-    /// A specific IPv4 address to assign to the mount target. If not speci- fied and the IP address type supports IPv4, an address is automati- cally assigned from the subnet's available IPv4 address range. The address must be within the subnet's CIDR block and not already in use. Constraints: o min: 7 o max: 15 o pattern: [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}
+    /// A specific IPv4 address to assign to the mount target. If not specified and the IP address type supports IPv4, an address is automatically assigned from the subnet's available IPv4 address range. The address must be within the subnet's CIDR block and not already in use. Constraints: • min: 7 • max: 15 • pattern: [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}
     /// </summary>
     [CliOption("--ipv4-address")]
     public string? Ipv4Address { get; set; }
 
     /// <summary>
-    /// A specific IPv6 address to assign to the mount target. If not speci- fied and the IP address type supports IPv6, an address is automati- cally assigned from the subnet's available IPv6 address range. The address must be within the subnet's IPv6 CIDR block and not already in use. Constraints: o min: 3 o max: 39
+    /// A specific IPv6 address to assign to the mount target. If not specified and the IP address type supports IPv6, an address is automatically assigned from the subnet's available IPv6 address range. The address must be within the subnet's IPv6 CIDR block and not already in use. Constraints: • min: 3 • max: 39
     /// </summary>
     [CliOption("--ipv6-address")]
     public string? Ipv6Address { get; set; }
 
     /// <summary>
-    /// The IP address type for the mount target. If not specified, IPV4_ONLY is used. The IP address type must match the IP configura- tion of the specified subnet. Possible values: o IPV4_ONLY o IPV6_ONLY o DUAL_STACK
+    /// The IP address type for the mount target. If not specified, IPV4_ONLY is used. The IP address type must match the IP configuration of the specified subnet. Possible values: • IPV4_ONLY • IPV6_ONLY • DUAL_STACK
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsS3filesCreateMountTargetIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// An array of VPC security group IDs to associate with the mount tar- get's network interface. These security groups control network ac- cess to the mount target. If not specified, the default security group for the subnet's VPC is used. All security groups must belong to the same VPC as the subnet. Constraints: o min: 0 o max: 100 (string) Constraints: o min: 11 o max: 43 o pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...
+    /// An array of VPC security group IDs to associate with the mount target's network interface. These security groups control network access to the mount target. If not specified, the default security group for the subnet's VPC is used. All security groups must belong to the same VPC as the subnet. Constraints: • min: 0 • max: 100 (string) Constraints: • min: 11 • max: 43 • pattern: (sg-[0-9a-f]{8,40}) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-groups", GroupValues = true)]
     public IEnumerable<string>? SecurityGroups { get; set; }
@@ -117,6 +118,15 @@ public record AwsS3filesCreateMountTargetOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

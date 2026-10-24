@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsLogin : IAwsLogin
     #region Commands
 
     /// <summary>
-    /// Login for local development using AWS Management Console credentials. Each time the login command is called, the CLI will acquire temporary credentials and a refresh token that correspond to your selected con- sole session. The CLI will refresh the temporary credentials automati- cally as long as the refresh token is valid. You can override the directory where the CLI will store the temporary credentials with the AWS_LOGIN_CACHE_DIRECTORY environment variable.
+    /// Login for local development using AWS Management Console credentials. Each time the login command is called, the CLI will acquire temporary credentials and a refresh token that correspond to your selected console session. The CLI will refresh the temporary credentials automatically as long as the refresh token is valid. You can override the directory where the CLI will store the temporary credentials with the AWS_LOGIN_CACHE_DIRECTORY environment variable.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

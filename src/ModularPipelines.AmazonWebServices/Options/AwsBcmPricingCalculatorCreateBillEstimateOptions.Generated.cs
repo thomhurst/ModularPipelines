@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill esti- mate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing us- age and commitme...
+/// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill esti- mate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing us- age and commitme...
+    /// Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments ...
     /// </summary>
-    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to create a Bill es- timate. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Name">The name of the Bill estimate that will be created. Names must be unique for an account. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="BillScenarioId">The ID of the Bill Scenario for which you want to create a Bill estimate. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">The name of the Bill estimate that will be created. Names must be unique for an account. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
     public AwsBcmPricingCalculatorCreateBillEstimateOptions(
         string BillScenarioId,
         string Name
@@ -62,26 +62,26 @@ public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Bill Scenario for which you want to create a Bill es- timate. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The ID of the Bill Scenario for which you want to create a Bill estimate. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--bill-scenario-id")]
     public string? BillScenarioId { get; private init; }
 
     /// <summary>
-    /// The name of the Bill estimate that will be created. Names must be unique for an account. Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The name of the Bill estimate that will be created. Names must be unique for an account. Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [\u0021-\u007E]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [\u0021-\u007E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional list of tags to associate with the specified BillEsti- mate. You can use resource tags to control access to your BillEsti- mate using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags: o Although the maximum number of array members is 200, you can as- sign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services. o The maximum length of a key is 128 characters. o The maximum length of a value is 256 characters. o Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@- . o Keys and values are case sensitive. o Keys and values are trimmed for any leading or trailing white- spaces. o Don't use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// An optional list of tags to associate with the specified BillEstimate. You can use resource tags to control access to your BillEstimate using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags: • Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services. • The maximum length of a key is 128 characters. • The maximum length of a value is 256 characters. • Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@- . • Keys and values are case sensitive. • Keys and values are trimmed for any leading or trailing whitespaces. • Don't use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w\s:+=@/-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w\s:+=@/-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -107,6 +107,15 @@ public record AwsBcmPricingCalculatorCreateBillEstimateOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

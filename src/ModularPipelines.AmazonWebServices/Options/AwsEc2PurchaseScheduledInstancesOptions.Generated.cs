@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions, IValidatable
     /// <summary>
     /// NOTE: You can no longer purchase Scheduled Instances. Purchases the Scheduled Instances with the specified schedule. Scheduled Instances enable you to purchase Amazon EC2 compute capacity by the hour for a one-year term. Before you can purchase a Scheduled Instance, you must call DescribeScheduledInstanceAvailability to check for available schedules and obtain a purchase token. After you purchase a Scheduled Instance, you must call RunScheduledInstances during each scheduled time period. After y...
     /// </summary>
-    /// <param name="PurchaseRequests">The purchase requests. Constraints: o min: 1 (structure) Describes a request to purchase Scheduled Instances. InstanceCount -&gt; (integer) [required] The number of instances. PurchaseToken -&gt; (string) [required] The purchase token. Shorthand Syntax: InstanceCount=integer,PurchaseToken=string ... JSON Syntax: [ { "InstanceCount": integer, "PurchaseToken": "string" } ... ]</param>
+    /// <param name="PurchaseRequests">The purchase requests. Constraints: • min: 1 (structure) Describes a request to purchase Scheduled Instances. InstanceCount -&gt; (integer) [required] The number of instances. PurchaseToken -&gt; (string) [required] The purchase token. Shorthand Syntax: InstanceCount=integer,PurchaseToken=string ... JSON Syntax: [ { "InstanceCount": integer, "PurchaseToken": "string" } ... ]</param>
     public AwsEc2PurchaseScheduledInstancesOptions(
         IEnumerable<string> PurchaseRequests
     )
@@ -68,7 +69,7 @@ public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The purchase requests. Constraints: o min: 1 (structure) Describes a request to purchase Scheduled Instances. InstanceCount -&gt; (integer) [required] The number of instances. PurchaseToken -&gt; (string) [required] The purchase token. Shorthand Syntax: InstanceCount=integer,PurchaseToken=string ... JSON Syntax: [ { "InstanceCount": integer, "PurchaseToken": "string" } ... ]
+    /// The purchase requests. Constraints: • min: 1 (structure) Describes a request to purchase Scheduled Instances. InstanceCount -&gt; (integer) [required] The number of instances. PurchaseToken -&gt; (string) [required] The purchase token. Shorthand Syntax: InstanceCount=integer,PurchaseToken=string ... JSON Syntax: [ { "InstanceCount": integer, "PurchaseToken": "string" } ... ]
     /// </summary>
     [CliOption("--purchase-requests", GroupValues = true)]
     public IEnumerable<string>? PurchaseRequests { get; private init; }
@@ -81,7 +82,7 @@ public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions, IValidatable
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -107,6 +108,15 @@ public record AwsEc2PurchaseScheduledInstancesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

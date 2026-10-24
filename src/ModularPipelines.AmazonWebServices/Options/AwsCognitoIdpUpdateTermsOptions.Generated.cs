@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies existing terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are sup- ported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to de- fault if no document exists for the language. Each request...
+/// Modifies existing terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are supported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to default if no document exists for the language. Each request acc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsCognitoIdpUpdateTermsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies existing terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are sup- ported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to de- fault if no document exists for the language. Each request...
+    /// Modifies existing terms documents for the requested app client. When Terms and conditions and Privacy policy documents are configured, the app client displays links to them in the sign-up page of managed login for the app client. You can provide URLs for terms documents in the languages that are supported by managed login localization . Amazon Cognito directs users to the terms documents for their current language, with fallback to default if no document exists for the language. Each request acc...
     /// </summary>
-    /// <param name="TermsId">The ID of the terms document that you want to update. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</param>
-    /// <param name="UserPoolId">The ID of the user pool that contains the terms that you want to up- date. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="TermsId">The ID of the terms document that you want to update. Constraints: • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$</param>
+    /// <param name="UserPoolId">The ID of the user pool that contains the terms that you want to update. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpUpdateTermsOptions(
         string TermsId,
         string UserPoolId
@@ -61,37 +61,37 @@ public record AwsCognitoIdpUpdateTermsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the terms document that you want to update. Constraints: o pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+    /// The ID of the terms document that you want to update. Constraints: • pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--terms-id")]
     public string? TermsId { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool that contains the terms that you want to up- date. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that contains the terms that you want to update. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The new name that you want to apply to the requested terms docu- ments. Constraints: o pattern: ^(terms-of-use|privacy-policy)$
+    /// The new name that you want to apply to the requested terms documents. Constraints: • pattern: ^(terms-of-use|privacy-policy)$
     /// </summary>
     [CliOption("--terms-name")]
     public string? TermsName { get; set; }
 
     /// <summary>
-    /// This parameter is reserved for future use and currently accepts only one value. Possible values: o LINK
+    /// This parameter is reserved for future use and currently accepts only one value. Possible values: • LINK
     /// </summary>
     [CliOption("--terms-source")]
     public string? TermsSource { get; set; }
 
     /// <summary>
-    /// This parameter is reserved for future use and currently accepts only one value. Possible values: o NONE
+    /// This parameter is reserved for future use and currently accepts only one value. Possible values: • NONE
     /// </summary>
     [CliOption("--enforcement")]
     public string? Enforcement { get; set; }
 
     /// <summary>
-    /// A map of URLs to languages. For each localized language that will view the requested TermsName , assign a URL. A selection of cog- nito:default displays for all languages that don't have a lan- guage-specific URL. For example, "cognito:default": "https://terms.example.com", "cog- nito:spanish": "https://terms.example.com/es" . Constraints: o min: 1 o max: 13 key -&gt; (string) Constraints: o pattern: ^cognito:(default|dutch|english|french|spanish|ger- man|bahasa-indonesia|italian|japanese|korean|por- tuguese-brazil|chinese-(simplified|traditional))$ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{M}\p{S}\p{N}\p{P}]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of URLs to languages. For each localized language that will view the requested TermsName , assign a URL. A selection of cognito:default displays for all languages that don't have a language-specific URL. For example, "cognito:default": "https://terms.example.com", "cognito:spanish": "https://terms.example.com/es" . Constraints: • min: 1 • max: 13 key -&gt; (string) Constraints: • pattern: ^cognito:(default|dutch|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$ value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: ^[\p{L}\p{M}\p{S}\p{N}\p{P}]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--links", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Links { get; set; }
@@ -117,6 +117,15 @@ public record AwsCognitoIdpUpdateTermsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

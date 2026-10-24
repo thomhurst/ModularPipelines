@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,19 +73,19 @@ public record AwsApigatewayTestInvokeAuthorizerOptions : AwsOptions, IValidatabl
     public string? AuthorizerId { get; private init; }
 
     /// <summary>
-    /// A key-value map of headers to simulate an incoming invocation re- quest. This is where the incoming authorization token, or identity source, should be specified. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Headers { get; set; }
 
     /// <summary>
-    /// The headers as a map from string to list of values to simulate an incoming invocation request. This is where the incoming authoriza- tion token, or identity source, may be specified. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// The headers as a map from string to list of values to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, may be specified. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--multi-value-headers", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? MultiValueHeaders { get; set; }
 
     /// <summary>
-    /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string para- meters.
+    /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
     /// </summary>
     [CliOption("--path-with-query-string")]
     public string? PathWithQueryString { get; set; }
@@ -129,6 +129,15 @@ public record AwsApigatewayTestInvokeAuthorizerOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

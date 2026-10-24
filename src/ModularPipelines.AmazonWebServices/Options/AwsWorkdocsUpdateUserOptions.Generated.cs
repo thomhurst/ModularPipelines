@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsWorkdocsUpdateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserId">The ID of the user. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="UserId">The ID of the user. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsUpdateUserOptions(
         string UserId
     )
@@ -58,56 +59,56 @@ public record AwsWorkdocsUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the user. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The given name of the user. Constraints: o min: 1 o max: 64
+    /// The given name of the user. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--given-name")]
     public string? GivenName { get; set; }
 
     /// <summary>
-    /// The surname of the user. Constraints: o min: 1 o max: 64
+    /// The surname of the user. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--surname")]
     public string? Surname { get; set; }
 
     /// <summary>
-    /// The type of the user. Possible values: o USER o ADMIN o POWERUSER o MINIMALUSER o WORKSPACESUSER
+    /// The type of the user. Possible values: • USER • ADMIN • POWERUSER • MINIMALUSER • WORKSPACESUSER
     /// </summary>
     [CliOption("--type")]
     public AwsWorkdocsUpdateUserType? Type { get; set; }
 
     /// <summary>
-    /// The amount of storage for the user. StorageAllocatedInBytes -&gt; (long) The amount of storage allocated, in bytes. Constraints: o min: 0 StorageType -&gt; (string) The type of storage. Possible values: o UNLIMITED o QUOTA Shorthand Syntax: StorageAllocatedInBytes=long,StorageType=string JSON Syntax: { "StorageAllocatedInBytes": long, "StorageType": "UNLIMITED"|"QUOTA" }
+    /// The amount of storage for the user. StorageAllocatedInBytes -&gt; (long) The amount of storage allocated, in bytes. Constraints: • min: 0 StorageType -&gt; (string) The type of storage. Possible values: • UNLIMITED • QUOTA Shorthand Syntax: StorageAllocatedInBytes=long,StorageType=string JSON Syntax: { "StorageAllocatedInBytes": long, "StorageType": "UNLIMITED"|"QUOTA" }
     /// </summary>
     [CliOption("--storage-rule")]
     public string? StorageRule { get; set; }
 
     /// <summary>
-    /// The time zone ID of the user. Constraints: o min: 1 o max: 256
+    /// The time zone ID of the user. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--time-zone-id")]
     public string? TimeZoneId { get; set; }
 
     /// <summary>
-    /// The locale of the user. Possible values: o en o fr o ko o de o es o ja o ru o zh_CN o zh_TW o pt_BR o default
+    /// The locale of the user. Possible values: • en • fr • ko • de • es • ja • ru • zh_CN • zh_TW • pt_BR • default
     /// </summary>
     [CliOption("--locale")]
     public AwsWorkdocsUpdateUserLocale? Locale { get; set; }
 
     /// <summary>
-    /// Boolean value to determine whether the user is granted Power user privileges. Possible values: o TRUE o FALSE
+    /// Boolean value to determine whether the user is granted Power user privileges. Possible values: • TRUE • FALSE
     /// </summary>
     [CliOption("--grant-poweruser-privileges")]
     public AwsWorkdocsUpdateUserGrantPoweruserPrivileges? GrantPoweruserPrivileges { get; set; }
@@ -133,6 +134,15 @@ public record AwsWorkdocsUpdateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

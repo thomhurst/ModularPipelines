@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsBedrockPutAccountDataRetentionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Sets the account-wide data retention mode for Amazon Bedrock. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Mode">The data retention mode to set for the account. Possible values: o default o none o aws_review o provider_data_share o inherit</param>
+    /// <param name="Mode">The data retention mode to set for the account. Possible values: • default • none • aws_review • provider_data_share • inherit</param>
     public AwsBedrockPutAccountDataRetentionOptions(
         AwsBedrockPutAccountDataRetentionMode Mode
     )
@@ -56,7 +57,7 @@ public record AwsBedrockPutAccountDataRetentionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The data retention mode to set for the account. Possible values: o default o none o aws_review o provider_data_share o inherit
+    /// The data retention mode to set for the account. Possible values: • default • none • aws_review • provider_data_share • inherit
     /// </summary>
     [CliOption("--mode")]
     public AwsBedrockPutAccountDataRetentionMode? Mode { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockPutAccountDataRetentionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

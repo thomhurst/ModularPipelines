@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the IdMappingJob of a workflow. The workflow must have previ- ously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
+/// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the IdMappingJob of a workflow. The workflow must have previ- ously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
+    /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowName">The name of the ID mapping job to be retrieved. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingwork- flow/[a-zA-Z_0-9-]{1,255})</param>
+    /// <param name="WorkflowName">The name of the ID mapping job to be retrieved. Constraints: • pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})</param>
     public AwsEntityresolutionStartIdMappingJobOptions(
         string WorkflowName
     )
@@ -57,19 +58,19 @@ public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ID mapping job to be retrieved. Constraints: o pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):enti- tyresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingwork- flow/[a-zA-Z_0-9-]{1,255})
+    /// The name of the ID mapping job to be retrieved. Constraints: • pattern: [a-zA-Z_0-9-=+/]*$|^arn:(aws|aws-us-gov|aws-cn):entityresolution:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(idmappingworkflow/[a-zA-Z_0-9-]{1,255})
     /// </summary>
     [CliOption("--workflow-name")]
     public string? WorkflowName { get; private init; }
 
     /// <summary>
-    /// A list of OutputSource objects. Constraints: o min: 1 o max: 1 (structure) An object containing KMSArn , outputS3Path , and roleARN . roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Entity Reso- lution assumes this role to access Amazon Web Services re- sources on your behalf as part of workflow execution. Constraints: o min: 32 o max: 512 o pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ outputS3Path -&gt; (string) [required] The S3 path to which Entity Resolution will write the output table. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: o pattern: arn:aws:kms:.*:[0-9]+:.* Shorthand Syntax: roleArn=string,outputS3Path=string,KMSArn=string ... JSON Syntax: [ { "roleArn": "string", "outputS3Path": "string", "KMSArn": "string" } ... ]
+    /// A list of OutputSource objects. Constraints: • min: 1 • max: 1 (structure) An object containing KMSArn , outputS3Path , and roleARN . roleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access Amazon Web Services resources on your behalf as part of workflow execution. Constraints: • min: 32 • max: 512 • pattern: arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+ outputS3Path -&gt; (string) [required] The S3 path to which Entity Resolution will write the output table. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/.*)? KMSArn -&gt; (string) Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key. Constraints: • pattern: arn:aws:kms:.*:[0-9]+:.* Shorthand Syntax: roleArn=string,outputS3Path=string,KMSArn=string ... JSON Syntax: [ { "roleArn": "string", "outputS3Path": "string", "KMSArn": "string" } ... ]
     /// </summary>
     [CliOption("--output-source-config", GroupValues = true)]
     public IEnumerable<string>? OutputSourceConfig { get; set; }
 
     /// <summary>
-    /// The job type for the ID mapping job. If the jobType value is set to INCREMENTAL , only new or changed data is processed since the last job run. This is the default value if the CreateIdMappingWorkflow API is configured with an incremen- talRunConfig . If the jobType value is set to BATCH , all data is processed from the input source, regardless of previous job runs. This is the de- fault value if the CreateIdMappingWorkflow API isn't configured with an incrementalRunConfig . If the jobType value is set to DELETE_ONLY , only deletion requests from BatchDeleteUniqueIds are processed. Possible values: o BATCH o INCREMENTAL o DELETE_ONLY
+    /// The job type for the ID mapping job. If the jobType value is set to INCREMENTAL , only new or changed data is processed since the last job run. This is the default value if the CreateIdMappingWorkflow API is configured with an incrementalRunConfig . If the jobType value is set to BATCH , all data is processed from the input source, regardless of previous job runs. This is the default value if the CreateIdMappingWorkflow API isn't configured with an incrementalRunConfig . If the jobType value is set to DELETE_ONLY , only deletion requests from BatchDeleteUniqueIds are processed. Possible values: • BATCH • INCREMENTAL • DELETE_ONLY
     /// </summary>
     [CliOption("--job-type")]
     public AwsEntityresolutionStartIdMappingJobJobType? JobType { get; set; }
@@ -95,6 +96,15 @@ public record AwsEntityresolutionStartIdMappingJobOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

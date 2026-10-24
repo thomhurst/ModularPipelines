@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the settings for sending SMS messages from your Amazon Web Ser- vices account. These settings are set with the SetSMSAttributes action. See also: AWS API Documentation
+/// Returns the settings for sending SMS messages from your Amazon Web Services account. These settings are set with the SetSMSAttributes action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSnsGetSmsAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// A list of the individual attribute names, such as MonthlySpendLimit , for which you want values. For all attribute names, see SetSMSAttributes . If you don't use this parameter, Amazon SNS returns all SMS attrib- utes. (string) Syntax: "string" "string" ...
+    /// A list of the individual attribute names, such as MonthlySpendLimit , for which you want values. For all attribute names, see SetSMSAttributes . If you don't use this parameter, Amazon SNS returns all SMS attributes. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attributes", GroupValues = true)]
     public IEnumerable<string>? Attributes { get; set; }
@@ -32,5 +32,14 @@ public record AwsSnsGetSmsAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

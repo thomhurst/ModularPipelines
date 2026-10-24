@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Uses the validators in a configuration profile to validate a configura- tion. See also: AWS API Documentation
+/// Uses the validators in a configuration profile to validate a configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsAppConfigValidateConfigurationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Uses the validators in a configuration profile to validate a configura- tion. See also: AWS API Documentation
+    /// Uses the validators in a configuration profile to validate a configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: o min: 1 o max: 128</param>
-    /// <param name="ConfigurationVersion">The version of the configuration to validate. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ConfigurationProfileId">The configuration profile ID. Constraints: • min: 1 • max: 128</param>
+    /// <param name="ConfigurationVersion">The version of the configuration to validate. Constraints: • min: 1 • max: 1024</param>
     public AwsAppConfigValidateConfigurationOptions(
         string ApplicationId,
         string ConfigurationProfileId,
@@ -64,19 +65,19 @@ public record AwsAppConfigValidateConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The configuration profile ID. Constraints: o min: 1 o max: 128
+    /// The configuration profile ID. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--configuration-profile-id")]
     public string? ConfigurationProfileId { get; private init; }
 
     /// <summary>
-    /// The version of the configuration to validate. Constraints: o min: 1 o max: 1024
+    /// The version of the configuration to validate. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--configuration-version")]
     public string? ConfigurationVersion { get; private init; }
@@ -102,6 +103,15 @@ public record AwsAppConfigValidateConfigurationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

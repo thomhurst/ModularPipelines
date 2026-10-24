@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +29,8 @@ public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOption
     /// <summary>
     /// Creates a new NotificationConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the NotificationConfiguration . Supports RFC 3986's un- reserved characters. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_\-]+</param>
-    /// <param name="Description">The description of the NotificationConfiguration . Constraints: o min: 0 o max: 256 o pattern: [^\u0001-\u001F\u007F-\u009F]*</param>
+    /// <param name="Name">The name of the NotificationConfiguration . Supports RFC 3986's unreserved characters. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_\-]+</param>
+    /// <param name="Description">The description of the NotificationConfiguration . Constraints: • min: 0 • max: 256 • pattern: [^\u0001-\u001F\u007F-\u009F]*</param>
     public AwsNotificationsCreateNotificationConfigurationOptions(
         string Name,
         string Description
@@ -62,25 +62,25 @@ public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the NotificationConfiguration . Supports RFC 3986's un- reserved characters. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_\-]+
+    /// The name of the NotificationConfiguration . Supports RFC 3986's unreserved characters. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_\-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the NotificationConfiguration . Constraints: o min: 0 o max: 256 o pattern: [^\u0001-\u001F\u007F-\u009F]*
+    /// The description of the NotificationConfiguration . Constraints: • min: 0 • max: 256 • pattern: [^\u0001-\u001F\u007F-\u009F]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The aggregation preference of the NotificationConfiguration . o Values: o LONG o Aggregate notifications for long periods of time (12 hours). o SHORT o Aggregate notifications for short periods of time (5 minutes). o NONE o Don't aggregate notifications. Possible values: o LONG o SHORT o NONE
+    /// The aggregation preference of the NotificationConfiguration . • Values: • LONG • Aggregate notifications for long periods of time (12 hours). • SHORT • Aggregate notifications for short periods of time (5 minutes). • NONE • Don't aggregate notifications. Possible values: • LONG • SHORT • NONE
     /// </summary>
     [CliOption("--aggregation-duration")]
     public AwsNotificationsCreateNotificationConfigurationAggregationDuration? AggregationDuration { get; set; }
 
     /// <summary>
-    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -106,6 +106,15 @@ public record AwsNotificationsCreateNotificationConfigurationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

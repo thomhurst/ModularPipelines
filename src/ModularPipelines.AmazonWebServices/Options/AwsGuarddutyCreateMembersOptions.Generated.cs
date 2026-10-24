@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by in- vitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a membe...
+/// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member....
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGuarddutyCreateMembersOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by in- vitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a membe...
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member....
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AccountDetails">A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account. Constraints: o min: 1 o max: 50 (structure) Contains information about the account. AccountId -&gt; (string) [required] The member account ID. Constraints: o min: 12 o max: 12 Email -&gt; (string) [required] The email address of the member account. The following list includes the rules for a valid email address: o The email address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following charac- ters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , | % &amp; o The local name can't begin with a dot (.). o The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.). o The domain name can't begin or end with a dot (.) or hyphen (-). o The domain name must contain at least one dot. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AccountDetails">A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account. Constraints: • min: 1 • max: 50 (structure) Contains information about the account. AccountId -&gt; (string) [required] The member account ID. Constraints: • min: 12 • max: 12 Email -&gt; (string) [required] The email address of the member account. The following list includes the rules for a valid email address: • The email address must be a minimum of 6 and a maximum of 64 characters long. • All characters must be 7-bit ASCII characters. • There must be one and only one @ symbol, which separates the local name from the domain name. • The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , | % &amp; • The local name can't begin with a dot (.). • The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.). • The domain name can't begin or end with a dot (.) or hyphen (-). • The domain name must contain at least one dot. Constraints: • min: 1 • max: 64 Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]</param>
     public AwsGuarddutyCreateMembersOptions(
         string DetectorId,
         IEnumerable<string> AccountDetails
@@ -71,13 +72,13 @@ public record AwsGuarddutyCreateMembersOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty account for which you want to associate member accounts. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account. Constraints: o min: 1 o max: 50 (structure) Contains information about the account. AccountId -&gt; (string) [required] The member account ID. Constraints: o min: 12 o max: 12 Email -&gt; (string) [required] The email address of the member account. The following list includes the rules for a valid email address: o The email address must be a minimum of 6 and a maximum of 64 characters long. o All characters must be 7-bit ASCII characters. o There must be one and only one @ symbol, which separates the local name from the domain name. o The local name can't contain any of the following charac- ters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , | % &amp; o The local name can't begin with a dot (.). o The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.). o The domain name can't begin or end with a dot (.) or hyphen (-). o The domain name must contain at least one dot. Constraints: o min: 1 o max: 64 Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]
+    /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account. Constraints: • min: 1 • max: 50 (structure) Contains information about the account. AccountId -&gt; (string) [required] The member account ID. Constraints: • min: 12 • max: 12 Email -&gt; (string) [required] The email address of the member account. The following list includes the rules for a valid email address: • The email address must be a minimum of 6 and a maximum of 64 characters long. • All characters must be 7-bit ASCII characters. • There must be one and only one @ symbol, which separates the local name from the domain name. • The local name can't contain any of the following characters: whitespace, " ' ( ) &lt; &gt; [ ] : ' , | % &amp; • The local name can't begin with a dot (.). • The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.). • The domain name can't begin or end with a dot (.) or hyphen (-). • The domain name must contain at least one dot. Constraints: • min: 1 • max: 64 Shorthand Syntax: AccountId=string,Email=string ... JSON Syntax: [ { "AccountId": "string", "Email": "string" } ... ]
     /// </summary>
     [CliOption("--account-details", GroupValues = true)]
     public IEnumerable<string>? AccountDetails { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGuarddutyCreateMembersOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

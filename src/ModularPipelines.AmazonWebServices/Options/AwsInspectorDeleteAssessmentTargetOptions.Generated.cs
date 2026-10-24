@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the assessment target that is specified by the ARN of the as- sessment target. See also: AWS API Documentation
+/// Deletes the assessment target that is specified by the ARN of the assessment target. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsInspectorDeleteAssessmentTargetOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the assessment target that is specified by the ARN of the as- sessment target. See also: AWS API Documentation
+    /// Deletes the assessment target that is specified by the ARN of the assessment target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssessmentTargetArn">The ARN that specifies the assessment target that you want to delete. Constraints: o min: 1 o max: 300</param>
+    /// <param name="AssessmentTargetArn">The ARN that specifies the assessment target that you want to delete. Constraints: • min: 1 • max: 300</param>
     public AwsInspectorDeleteAssessmentTargetOptions(
         string AssessmentTargetArn
     )
@@ -56,7 +57,7 @@ public record AwsInspectorDeleteAssessmentTargetOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the assessment target that you want to delete. Constraints: o min: 1 o max: 300
+    /// The ARN that specifies the assessment target that you want to delete. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--assessment-target-arn")]
     public string? AssessmentTargetArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInspectorDeleteAssessmentTargetOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

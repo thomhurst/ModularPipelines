@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the template body for a specified stack. You can get the tem- plate for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted. NOTE: If the template doesn't exist, a ValidationError is returned. See also: AWS API Documentation
+/// Returns the template body for a specified stack. You can get the template for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted. NOTE: If the template doesn't exist, a ValidationError is returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudformationGetTemplateOptions : AwsOptions
 {
     /// <summary>
-    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: o Running stacks: You can specify either the stack's name or its unique stack ID. o Deleted stacks: You must specify the unique stack ID.
+    /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable: • Running stacks: You can specify either the stack's name or its unique stack ID. • Deleted stacks: You must specify the unique stack ID.
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; set; }
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of a change set for which CloudFormation returns the associated template. If you specify a name, you must also specify the StackName . Constraints: o min: 1 o max: 1600 o pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
+    /// The name or Amazon Resource Name (ARN) of a change set for which CloudFormation returns the associated template. If you specify a name, you must also specify the StackName . Constraints: • min: 1 • max: 1600 • pattern: [a-zA-Z][-a-zA-Z0-9]*|arn:[-a-zA-Z0-9:/]*
     /// </summary>
     [CliOption("--change-set-name")]
     public string? ChangeSetName { get; set; }
 
     /// <summary>
-    /// For templates that include transforms, the stage of the template that CloudFormation returns. To get the user-submitted template, specify Original . To get the template after CloudFormation has processed all transforms, specify Processed . If the template doesn't include transforms, Original and Processed return the same template. By default, CloudFormation specifies Processed . Possible values: o Original o Processed
+    /// For templates that include transforms, the stage of the template that CloudFormation returns. To get the user-submitted template, specify Original . To get the template after CloudFormation has processed all transforms, specify Processed . If the template doesn't include transforms, Original and Processed return the same template. By default, CloudFormation specifies Processed . Possible values: • Original • Processed
     /// </summary>
     [CliOption("--template-stage")]
     public AwsCloudformationGetTemplateTemplateStage? TemplateStage { get; set; }
@@ -45,5 +45,14 @@ public record AwsCloudformationGetTemplateOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

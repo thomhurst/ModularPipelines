@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions : AwsOptions, I
     /// <summary>
     /// Update the physical and logistical details for a rack at a site. For more information about hardware requirements for racks, see Network readiness checklist in the Amazon Web Services Outposts User Guide. To update a rack at a site with an order of IN_PROGRESS , you must wait for the order to complete or cancel the order. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
+    /// <param name="SiteId">The ID or the Amazon Resource Name (ARN) of the site. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$</param>
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions(
         string SiteId
     )
@@ -57,61 +58,61 @@ public record AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: o min: 1 o max: 255 o pattern: ^(arn:aws([a-z-]+)?:out- posts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
+    /// The ID or the Amazon Resource Name (ARN) of the site. Constraints: • min: 1 • max: 255 • pattern: ^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:site/)?(os-[a-f0-9]{17})$
     /// </summary>
     [CliOption("--site-id")]
     public string? SiteId { get; private init; }
 
     /// <summary>
-    /// The power draw, in kVA, available at the hardware placement position for the rack. Possible values: o POWER_5_KVA o POWER_10_KVA o POWER_15_KVA o POWER_30_KVA
+    /// The power draw, in kVA, available at the hardware placement position for the rack. Possible values: • POWER_5_KVA • POWER_10_KVA • POWER_15_KVA • POWER_30_KVA
     /// </summary>
     [CliOption("--power-draw-kva")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerDrawKva? PowerDrawKva { get; set; }
 
     /// <summary>
-    /// The power option that you can provide for hardware. o Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz o Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz Possible values: o SINGLE_PHASE o THREE_PHASE
+    /// The power option that you can provide for hardware. • Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz • Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz Possible values: • SINGLE_PHASE • THREE_PHASE
     /// </summary>
     [CliOption("--power-phase")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerPhase? PowerPhase { get; set; }
 
     /// <summary>
-    /// The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between Power- Phase and PowerConnector . o Single-phase AC feed o L6-30P (common in US); 30A; single phase o IEC309 (blue) P+N+E, 6hr; 32 A; single phase o Three-phase AC feed o AH530P7W (red) 3P+N+E, 7hr; 30A; three phase o AH532P6W (red) 3P+N+E, 6hr; 32A; three phase o CS8365C (common in US); 3P+E, 50A; three phase Possible values: o L6_30P o IEC309 o AH530P7W o AH532P6W o CS8365C
+    /// The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector . • Single-phase AC feed • L6-30P (common in US); 30A; single phase • IEC309 (blue) P+N+E, 6hr; 32 A; single phase • Three-phase AC feed • AH530P7W (red) 3P+N+E, 7hr; 30A; three phase • AH532P6W (red) 3P+N+E, 6hr; 32A; three phase • CS8365C (common in US); 3P+E, 50A; three phase Possible values: • L6_30P • IEC309 • AH530P7W • AH532P6W • CS8365C
     /// </summary>
     [CliOption("--power-connector")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerConnector? PowerConnector { get; set; }
 
     /// <summary>
-    /// Indicates whether the power feed comes above or below the rack. Possible values: o ABOVE_RACK o BELOW_RACK
+    /// Indicates whether the power feed comes above or below the rack. Possible values: • ABOVE_RACK • BELOW_RACK
     /// </summary>
     [CliOption("--power-feed-drop")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesPowerFeedDrop? PowerFeedDrop { get; set; }
 
     /// <summary>
-    /// The uplink speed the rack should support for the connection to the Region. Possible values: o UPLINK_1G o UPLINK_10G o UPLINK_40G o UPLINK_100G
+    /// The uplink speed the rack should support for the connection to the Region. Possible values: • UPLINK_1G • UPLINK_10G • UPLINK_40G • UPLINK_100G
     /// </summary>
     [CliOption("--uplink-gbps")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesUplinkGbps? UplinkGbps { get; set; }
 
     /// <summary>
-    /// Racks come with two Outpost network devices. Depending on the sup- ported uplink speed at the site, the Outpost network devices provide a variable number of uplinks. Specify the number of uplinks for each Outpost network device that you intend to use to connect the rack to your network. Note the correlation between UplinkGbps and Up- linkCount . o 1Gbps - Uplinks available: 1, 2, 4, 6, 8 o 10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16 o 40 and 100 Gbps- Uplinks available: 1, 2, 4 Possible values: o UPLINK_COUNT_1 o UPLINK_COUNT_2 o UPLINK_COUNT_3 o UPLINK_COUNT_4 o UPLINK_COUNT_5 o UPLINK_COUNT_6 o UPLINK_COUNT_7 o UPLINK_COUNT_8 o UPLINK_COUNT_12 o UPLINK_COUNT_16
+    /// Racks come with two Outpost network devices. Depending on the supported uplink speed at the site, the Outpost network devices provide a variable number of uplinks. Specify the number of uplinks for each Outpost network device that you intend to use to connect the rack to your network. Note the correlation between UplinkGbps and UplinkCount . • 1Gbps - Uplinks available: 1, 2, 4, 6, 8 • 10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16 • 40 and 100 Gbps- Uplinks available: 1, 2, 4 Possible values: • UPLINK_COUNT_1 • UPLINK_COUNT_2 • UPLINK_COUNT_3 • UPLINK_COUNT_4 • UPLINK_COUNT_5 • UPLINK_COUNT_6 • UPLINK_COUNT_7 • UPLINK_COUNT_8 • UPLINK_COUNT_12 • UPLINK_COUNT_16
     /// </summary>
     [CliOption("--uplink-count")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesUplinkCount? UplinkCount { get; set; }
 
     /// <summary>
-    /// The type of fiber that you will use to attach the Outpost to your network. Possible values: o SINGLE_MODE o MULTI_MODE
+    /// The type of fiber that you will use to attach the Outpost to your network. Possible values: • SINGLE_MODE • MULTI_MODE
     /// </summary>
     [CliOption("--fiber-optic-cable-type")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesFiberOpticCableType? FiberOpticCableType { get; set; }
 
     /// <summary>
-    /// The type of optical standard that you will use to attach the Outpost to your network. This field is dependent on uplink speed, fiber type, and distance to the upstream device. For more information about networking requirements for racks, see Network in the Amazon Web Services Outposts User Guide. o OPTIC_10GBASE_SR : 10GBASE-SR o OPTIC_10GBASE_IR : 10GBASE-IR o OPTIC_10GBASE_LR : 10GBASE-LR o OPTIC_40GBASE_SR : 40GBASE-SR o OPTIC_40GBASE_ESR : 40GBASE-ESR o OPTIC_40GBASE_IR4_LR4L : 40GBASE-IR (LR4L) o OPTIC_40GBASE_LR4 : 40GBASE-LR4 o OPTIC_100GBASE_SR4 : 100GBASE-SR4 o OPTIC_100GBASE_CWDM4 : 100GBASE-CWDM4 o OPTIC_100GBASE_LR4 : 100GBASE-LR4 o OPTIC_100G_PSM4_MSA : 100G PSM4 MSA o OPTIC_1000BASE_LX : 1000Base-LX o OPTIC_1000BASE_SX : 1000Base-SX Possible values: o OPTIC_10GBASE_SR o OPTIC_10GBASE_IR o OPTIC_10GBASE_LR o OPTIC_40GBASE_SR o OPTIC_40GBASE_ESR o OPTIC_40GBASE_IR4_LR4L o OPTIC_40GBASE_LR4 o OPTIC_100GBASE_SR4 o OPTIC_100GBASE_CWDM4 o OPTIC_100GBASE_LR4 o OPTIC_100G_PSM4_MSA o OPTIC_1000BASE_LX o OPTIC_1000BASE_SX
+    /// The type of optical standard that you will use to attach the Outpost to your network. This field is dependent on uplink speed, fiber type, and distance to the upstream device. For more information about networking requirements for racks, see Network in the Amazon Web Services Outposts User Guide. • OPTIC_10GBASE_SR : 10GBASE-SR • OPTIC_10GBASE_IR : 10GBASE-IR • OPTIC_10GBASE_LR : 10GBASE-LR • OPTIC_40GBASE_SR : 40GBASE-SR • OPTIC_40GBASE_ESR : 40GBASE-ESR • OPTIC_40GBASE_IR4_LR4L : 40GBASE-IR (LR4L) • OPTIC_40GBASE_LR4 : 40GBASE-LR4 • OPTIC_100GBASE_SR4 : 100GBASE-SR4 • OPTIC_100GBASE_CWDM4 : 100GBASE-CWDM4 • OPTIC_100GBASE_LR4 : 100GBASE-LR4 • OPTIC_100G_PSM4_MSA : 100G PSM4 MSA • OPTIC_1000BASE_LX : 1000Base-LX • OPTIC_1000BASE_SX : 1000Base-SX Possible values: • OPTIC_10GBASE_SR • OPTIC_10GBASE_IR • OPTIC_10GBASE_LR • OPTIC_40GBASE_SR • OPTIC_40GBASE_ESR • OPTIC_40GBASE_IR4_LR4L • OPTIC_40GBASE_LR4 • OPTIC_100GBASE_SR4 • OPTIC_100GBASE_CWDM4 • OPTIC_100GBASE_LR4 • OPTIC_100G_PSM4_MSA • OPTIC_1000BASE_LX • OPTIC_1000BASE_SX
     /// </summary>
     [CliOption("--optical-standard")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesOpticalStandard? OpticalStandard { get; set; }
 
     /// <summary>
-    /// The maximum rack weight that this site can support. NO_LIMIT is over 2000lbs. Possible values: o NO_LIMIT o MAX_1400_LBS o MAX_1600_LBS o MAX_1800_LBS o MAX_2000_LBS
+    /// The maximum rack weight that this site can support. NO_LIMIT is over 2000lbs. Possible values: • NO_LIMIT • MAX_1400_LBS • MAX_1600_LBS • MAX_1800_LBS • MAX_2000_LBS
     /// </summary>
     [CliOption("--maximum-supported-weight-lbs")]
     public AwsOutpostsUpdateSiteRackPhysicalPropertiesMaximumSupportedWeightLbs? MaximumSupportedWeightLbs { get; set; }
@@ -137,6 +138,15 @@ public record AwsOutpostsUpdateSiteRackPhysicalPropertiesOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

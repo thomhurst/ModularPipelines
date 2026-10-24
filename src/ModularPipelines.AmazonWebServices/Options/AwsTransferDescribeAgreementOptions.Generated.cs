@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsTransferDescribeAgreementOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Describes the agreement that's identified by the AgreementId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgreementId">A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: o min: 19 o max: 19 o pattern: a-([0-9a-f]{17})</param>
-    /// <param name="ServerId">The server identifier that's associated with the agreement. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="AgreementId">A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: • min: 19 • max: 19 • pattern: a-([0-9a-f]{17})</param>
+    /// <param name="ServerId">The server identifier that's associated with the agreement. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
     public AwsTransferDescribeAgreementOptions(
         string AgreementId,
         string ServerId
@@ -60,13 +61,13 @@ public record AwsTransferDescribeAgreementOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: o min: 19 o max: 19 o pattern: a-([0-9a-f]{17})
+    /// A unique identifier for the agreement. This identifier is returned when you create an agreement. Constraints: • min: 19 • max: 19 • pattern: a-([0-9a-f]{17})
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The server identifier that's associated with the agreement. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// The server identifier that's associated with the agreement. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsTransferDescribeAgreementOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

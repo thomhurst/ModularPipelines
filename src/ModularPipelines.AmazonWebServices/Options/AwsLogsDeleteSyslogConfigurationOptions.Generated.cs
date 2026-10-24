@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLogsDeleteSyslogConfigurationOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a syslog configuration for a log group. After deletion, syslog data is no longer ingested through the specified VPC endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LogGroupIdentifier">The name or ARN of the log group to remove the syslog configuration from. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="LogGroupIdentifier">The name or ARN of the log group to remove the syslog configuration from. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*</param>
     public AwsLogsDeleteSyslogConfigurationOptions(
         string LogGroupIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsLogsDeleteSyslogConfigurationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the log group to remove the syslog configuration from. Constraints: o min: 1 o max: 2048 o pattern: [\w#+=/:,.@-]*
+    /// The name or ARN of the log group to remove the syslog configuration from. Constraints: • min: 1 • max: 2048 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--log-group-identifier")]
     public string? LogGroupIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC endpoint associated with the syslog configuration to delete. Constraints: o pattern: ^vpce-[0-9a-f]{1,64}$
+    /// The ID of the VPC endpoint associated with the syslog configuration to delete. Constraints: • pattern: ^vpce-[0-9a-f]{1,64}$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
@@ -88,6 +89,15 @@ public record AwsLogsDeleteSyslogConfigurationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsConnectAssociateLambdaFunctionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Lambda function. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="FunctionArn">The Amazon Resource Name (ARN) for the Lambda function being associ- ated. Maximum number of characters allowed is 140. Constraints: o min: 1 o max: 140</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="FunctionArn">The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140. Constraints: • min: 1 • max: 140</param>
     public AwsConnectAssociateLambdaFunctionOptions(
         string InstanceId,
         string FunctionArn
@@ -61,19 +62,19 @@ public record AwsConnectAssociateLambdaFunctionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the Lambda function being associ- ated. Maximum number of characters allowed is 140. Constraints: o min: 1 o max: 140
+    /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140. Constraints: • min: 1 • max: 140
     /// </summary>
     [CliOption("--function-arn")]
     public string? FunctionArn { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsConnectAssociateLambdaFunctionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

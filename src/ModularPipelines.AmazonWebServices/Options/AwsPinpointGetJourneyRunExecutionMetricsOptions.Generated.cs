@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsPinpointGetJourneyRunExecutionMetricsOptions : AwsOptions, IVal
     /// <summary>
     /// Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to a journey. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.</param>
+    /// <param name="ApplicationId">The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.</param>
     /// <param name="JourneyId">The unique identifier for the journey.</param>
     /// <param name="RunId">The unique identifier for the journey run.</param>
     public AwsPinpointGetJourneyRunExecutionMetricsOptions(
@@ -65,7 +66,7 @@ public record AwsPinpointGetJourneyRunExecutionMetricsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the application. This identifier is dis- played as the Project ID on the Amazon Pinpoint console.
+    /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
@@ -83,7 +84,7 @@ public record AwsPinpointGetJourneyRunExecutionMetricsOptions : AwsOptions, IVal
     public string? RunId { get; private init; }
 
     /// <summary>
-    /// The string that specifies which page of results to return in a pagi- nated response. This parameter is not supported for application, campaign, and journey metrics.
+    /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -116,6 +117,15 @@ public record AwsPinpointGetJourneyRunExecutionMetricsOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a profile that can be applied to one or more private fleet de- vice instances. See also: AWS API Documentation
+/// Creates a profile that can be applied to one or more private fleet device instances. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDevicefarmCreateInstanceProfileOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a profile that can be applied to one or more private fleet de- vice instances. See also: AWS API Documentation
+    /// Creates a profile that can be applied to one or more private fleet device instances. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of your instance profile. Constraints: o min: 0 o max: 256</param>
+    /// <param name="Name">The name of your instance profile. Constraints: • min: 0 • max: 256</param>
     public AwsDevicefarmCreateInstanceProfileOptions(
         string Name
     )
@@ -56,13 +57,13 @@ public record AwsDevicefarmCreateInstanceProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of your instance profile. Constraints: o min: 0 o max: 256
+    /// The name of your instance profile. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of your instance profile. Constraints: o min: 0 o max: 16384
+    /// The description of your instance profile. Constraints: • min: 0 • max: 16384
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -106,6 +107,15 @@ public record AwsDevicefarmCreateInstanceProfileOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -24,20 +24,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTranslateListLanguagesOptions : AwsOptions
 {
     /// <summary>
-    /// The language code for the language to use to display the language names in the response. The language code is en by default. Possible values: o de o en o es o fr o it o ja o ko o pt o zh o zh-TW
+    /// The language code for the language to use to display the language names in the response. The language code is en by default. Possible values: • de • en • es • fr • it • ja • ko • pt • zh • zh-TW
     /// </summary>
     [CliOption("--display-language-code")]
     public AwsTranslateListLanguagesDisplayLanguageCode? DisplayLanguageCode { get; set; }
 
     /// <summary>
-    /// Include the NextToken value to fetch the next group of supported languages. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// Include the NextToken value to fetch the next group of supported languages. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in each response. Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in each response. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -47,5 +47,14 @@ public record AwsTranslateListLanguagesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

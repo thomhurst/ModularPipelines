@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -63,25 +64,25 @@ public record AwsGlueUpdateGlossaryTermOptions : AwsOptions, IValidatableObject
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The updated name of the glossary term. Constraints: o min: 1 o max: 256
+    /// The updated name of the glossary term. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated short description of the glossary term. Constraints: o min: 1 o max: 1024
+    /// The updated short description of the glossary term. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--short-description")]
     public string? ShortDescription { get; set; }
 
     /// <summary>
-    /// The updated long description of the glossary term. Constraints: o min: 1 o max: 4096
+    /// The updated long description of the glossary term. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--long-description")]
     public string? LongDescription { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -108,6 +109,15 @@ public record AwsGlueUpdateGlossaryTermOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

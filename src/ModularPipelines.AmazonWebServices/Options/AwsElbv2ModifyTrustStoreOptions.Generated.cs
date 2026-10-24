@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -82,7 +83,7 @@ public record AwsElbv2ModifyTrustStoreOptions : AwsOptions, IValidatableObject
     public string? CaCertificatesBundleS3Key { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 object version for the ca certificates bundle. If un- defined the current version is used.
+    /// The Amazon S3 object version for the ca certificates bundle. If undefined the current version is used.
     /// </summary>
     [CliOption("--ca-certificates-bundle-s3-object-version")]
     public string? CaCertificatesBundleS3ObjectVersion { get; set; }
@@ -108,6 +109,15 @@ public record AwsElbv2ModifyTrustStoreOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

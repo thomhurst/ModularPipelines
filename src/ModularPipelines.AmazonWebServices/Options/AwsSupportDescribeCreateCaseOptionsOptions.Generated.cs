@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
+/// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the CreateCaseOptions. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,12 +26,12 @@ public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the Create- CaseOptions. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Ama...
+    /// Returns a list of CreateCaseOption types along with the corresponding supported hours and language availability. You can specify the language categoryCode , issueType and serviceCode used to retrieve the CreateCaseOptions. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon ...
     /// </summary>
     /// <param name="IssueType">The type of issue for the case. You can specify customer-service or technical . If you don't specify a value, the default is technical .</param>
-    /// <param name="ServiceCode">The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values.</param>
+    /// <param name="ServiceCode">The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.</param>
     /// <param name="Language">The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports Chinese (zh), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (ko), and Turkish ("tr"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.</param>
-    /// <param name="CategoryCode">The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.</param>
+    /// <param name="CategoryCode">The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.</param>
     public AwsSupportDescribeCreateCaseOptionsOptions(
         string IssueType,
         string ServiceCode,
@@ -74,7 +75,7 @@ public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions, IValidata
     public string? IssueType { get; private init; }
 
     /// <summary>
-    /// The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values.
+    /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
     /// </summary>
     [CliOption("--service-code")]
     public string? ServiceCode { get; private init; }
@@ -86,13 +87,13 @@ public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions, IValidata
     public string? Language { get; private init; }
 
     /// <summary>
-    /// The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
+    /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
     /// </summary>
     [CliOption("--category-code")]
     public string? CategoryCode { get; private init; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually returning case option data. When set to true , the request is validated but no options are returned, and the operation returns a DryRunOperationEx- ception . When omitted or set to false , the request runs normally.
+    /// Specifies whether to validate the request without actually returning case option data. When set to true , the request is validated but no options are returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -118,6 +119,15 @@ public record AwsSupportDescribeCreateCaseOptionsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

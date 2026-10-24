@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessUpdateMetricConfigurationOptions : AwsOptions
 {
     /// <summary>
-    /// The value to be used to set summary metric configuration. Status -&gt; (string) The status of the configuration of summary metrics. Possible values: o Enabled o Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }
+    /// The value to be used to set summary metric configuration. Status -&gt; (string) The status of the configuration of summary metrics. Possible values: • Enabled • Disabled Shorthand Syntax: Status=string JSON Syntax: { "Status": "Enabled"|"Disabled" }
     /// </summary>
     [CliOption("--summary-metric")]
     public string? SummaryMetric { get; set; }
@@ -32,5 +32,14 @@ public record AwsIotwirelessUpdateMetricConfigurationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

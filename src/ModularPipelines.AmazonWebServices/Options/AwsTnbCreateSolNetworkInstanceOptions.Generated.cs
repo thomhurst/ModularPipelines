@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Creating a network in- stance is the third step after creating a network package. For more in- formation about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instan- tiat...
+/// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instantiate a netw...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsTnbCreateSolNetworkInstanceOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like ter- minate, update, and delete) can be performed. Creating a network in- stance is the third step after creating a network package. For more in- formation about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instan- tiat...
+    /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, Network instances in the Amazon Web Services Telco Network Builder User Guide . Once you create a network instance, you can instantiate it. To instantiate a netw...
     /// </summary>
-    /// <param name="NsName">Network instance name. Constraints: o min: 1 o max: 100</param>
-    /// <param name="NsdInfoId">ID for network service descriptor. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    /// <param name="NsName">Network instance name. Constraints: • min: 1 • max: 100</param>
+    /// <param name="NsdInfoId">ID for network service descriptor. Constraints: • pattern: ^np-[a-f0-9]{17}$</param>
     public AwsTnbCreateSolNetworkInstanceOptions(
         string NsName,
         string NsdInfoId
@@ -61,25 +61,25 @@ public record AwsTnbCreateSolNetworkInstanceOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Network instance name. Constraints: o min: 1 o max: 100
+    /// Network instance name. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--ns-name")]
     public string? NsName { get; private init; }
 
     /// <summary>
-    /// ID for network service descriptor. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// ID for network service descriptor. Constraints: • pattern: ^np-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--nsd-info-id")]
     public string? NsdInfoId { get; private init; }
 
     /// <summary>
-    /// Network instance description. Constraints: o min: 0 o max: 255
+    /// Network instance description. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--ns-description")]
     public string? NsDescription { get; set; }
 
     /// <summary>
-    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Ser- vices costs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • pattern: ^(?!aws:).{1,128}$ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -105,6 +105,15 @@ public record AwsTnbCreateSolNetworkInstanceOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

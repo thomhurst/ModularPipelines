@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Informs Amazon ECR that the image layer upload is complete for a speci- fied public registry, repository name, and upload ID. You can option- ally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you shoul...
+/// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should us...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsEcrPublicCompleteLayerUploadOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Informs Amazon ECR that the image layer upload is complete for a speci- fied public registry, repository name, and upload ID. You can option- ally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you shoul...
+    /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. NOTE: This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should us...
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository in a public registry to associate with the image layer. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
-    /// <param name="UploadId">The upload ID from a previous InitiateLayerUpload operation to as- sociate with the image layer. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
-    /// <param name="LayerDigests">The sha256 digest of the image layer. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="RepositoryName">The name of the repository in a public registry to associate with the image layer. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*</param>
+    /// <param name="UploadId">The upload ID from a previous InitiateLayerUpload operation to associate with the image layer. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="LayerDigests">The sha256 digest of the image layer. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+ Syntax: "string" "string" ...</param>
     public AwsEcrPublicCompleteLayerUploadOptions(
         string RepositoryName,
         string UploadId,
@@ -75,25 +76,25 @@ public record AwsEcrPublicCompleteLayerUploadOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository in a public registry to associate with the image layer. Constraints: o min: 2 o max: 205 o pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
+    /// The name of the repository in a public registry to associate with the image layer. Constraints: • min: 2 • max: 205 • pattern: (?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The upload ID from a previous InitiateLayerUpload operation to as- sociate with the image layer. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The upload ID from a previous InitiateLayerUpload operation to associate with the image layer. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--upload-id")]
     public string? UploadId { get; private init; }
 
     /// <summary>
-    /// The sha256 digest of the image layer. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+ Syntax: "string" "string" ...
+    /// The sha256 digest of the image layer. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--layer-digests", GroupValues = true)]
     public IEnumerable<string>? LayerDigests { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID, or registry alias, associated with the registry where layers are uploaded. If you do not specify a registry, the default public registry is assumed. Constraints: o min: 2 o max: 50
+    /// The Amazon Web Services account ID, or registry alias, associated with the registry where layers are uploaded. If you do not specify a registry, the default public registry is assumed. Constraints: • min: 2 • max: 50
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -119,6 +120,15 @@ public record AwsEcrPublicCompleteLayerUploadOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

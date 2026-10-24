@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsQuicksightUpdateDashboardsQaConfigurationOptions : AwsOptions, 
     /// <summary>
     /// Updates a Dashboard QA configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dash- board QA configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="DashboardsQaStatus">The status of dashboards QA configuration that you want to update. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="DashboardsQaStatus">The status of dashboards QA configuration that you want to update. Possible values: • ENABLED • DISABLED</param>
     public AwsQuicksightUpdateDashboardsQaConfigurationOptions(
         string AwsAccountId,
         AwsQuicksightUpdateDashboardsQaConfigurationDashboardsQaStatus DashboardsQaStatus
@@ -60,13 +61,13 @@ public record AwsQuicksightUpdateDashboardsQaConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the dash- board QA configuration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the dashboard QA configuration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The status of dashboards QA configuration that you want to update. Possible values: o ENABLED o DISABLED
+    /// The status of dashboards QA configuration that you want to update. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--dashboards-qa-status")]
     public AwsQuicksightUpdateDashboardsQaConfigurationDashboardsQaStatus? DashboardsQaStatus { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQuicksightUpdateDashboardsQaConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

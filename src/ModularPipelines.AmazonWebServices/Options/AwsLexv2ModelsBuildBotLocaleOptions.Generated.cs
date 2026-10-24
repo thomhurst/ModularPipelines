@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLexv2ModelsBuildBotLocaleOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The identifier of the bot to build. The identifier is returned in the response from the CreateBot operation. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot to build. This can only be the draft version of the bot. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="BotId">The identifier of the bot to build. The identifier is returned in the response from the CreateBot operation. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot to build. This can only be the draft version of the bot. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages .</param>
     public AwsLexv2ModelsBuildBotLocaleOptions(
         string BotId,
@@ -64,13 +65,13 @@ public record AwsLexv2ModelsBuildBotLocaleOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot to build. The identifier is returned in the response from the CreateBot operation. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot to build. The identifier is returned in the response from the CreateBot operation. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot to build. This can only be the draft version of the bot. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot to build. This can only be the draft version of the bot. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLexv2ModelsBuildBotLocaleOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

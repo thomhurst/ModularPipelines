@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDeployBatchGetDeploymentGroupsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets information about one or more deployment groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the applicable user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*</param>
-    /// <param name="DeploymentGroupNames">The names of the deployment groups. (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationName">The name of an CodeDeploy application associated with the applicable user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*</param>
+    /// <param name="DeploymentGroupNames">The names of the deployment groups. (string) Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...</param>
     public AwsDeployBatchGetDeploymentGroupsOptions(
         string ApplicationName,
         IEnumerable<string> DeploymentGroupNames
@@ -71,13 +72,13 @@ public record AwsDeployBatchGetDeploymentGroupsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an CodeDeploy application associated with the applicable user or Amazon Web Services account. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]*
+    /// The name of an CodeDeploy application associated with the applicable user or Amazon Web Services account. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]*
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The names of the deployment groups. (string) Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...
+    /// The names of the deployment groups. (string) Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9+=,.@_-]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--deployment-group-names", GroupValues = true)]
     public IEnumerable<string>? DeploymentGroupNames { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDeployBatchGetDeploymentGroupsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

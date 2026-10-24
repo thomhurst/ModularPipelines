@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDeadlineGetLicenseEndpointOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Gets a licence endpoint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LicenseEndpointId">The license endpoint ID. Constraints: o pattern: le-[0-9a-f]{32}</param>
+    /// <param name="LicenseEndpointId">The license endpoint ID. Constraints: • pattern: le-[0-9a-f]{32}</param>
     public AwsDeadlineGetLicenseEndpointOptions(
         string LicenseEndpointId
     )
@@ -56,7 +57,7 @@ public record AwsDeadlineGetLicenseEndpointOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The license endpoint ID. Constraints: o pattern: le-[0-9a-f]{32}
+    /// The license endpoint ID. Constraints: • pattern: le-[0-9a-f]{32}
     /// </summary>
     [CliOption("--license-endpoint-id")]
     public string? LicenseEndpointId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDeadlineGetLicenseEndpointOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsComprehendUpdateFlywheelOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Update the configuration information for an existing flywheel. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FlywheelArn">The Amazon Resource Number (ARN) of the flywheel to update. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
+    /// <param name="FlywheelArn">The Amazon Resource Number (ARN) of the flywheel to update. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*</param>
     public AwsComprehendUpdateFlywheelOptions(
         string FlywheelArn
     )
@@ -56,25 +57,25 @@ public record AwsComprehendUpdateFlywheelOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the flywheel to update. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:fly- wheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
+    /// The Amazon Resource Number (ARN) of the flywheel to update. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:flywheel/[a-zA-Z0-9](-*[a-zA-Z0-9])*
     /// </summary>
     [CliOption("--flywheel-arn")]
     public string? FlywheelArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Number (ARN) of the active model version. Constraints: o max: 256 o pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(doc- ument-classifier|entity-recog- nizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/ver- sion/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
+    /// The Amazon Resource Number (ARN) of the active model version. Constraints: • max: 256 • pattern: arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?
     /// </summary>
     [CliOption("--active-model-arn")]
     public string? ActiveModelArn { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to access the flywheel data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon Comprehend permission to access the flywheel data. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; set; }
 
     /// <summary>
-    /// Flywheel data security configuration. ModelKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats: o KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" o Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ VolumeKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt the volume. Constraints: o max: 2048 o pattern: ^\p{ASCII}+$ VpcConfig -&gt; (structure) Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for the job. For more information, see Amazon VPC . SecurityGroupIds -&gt; (list) [required] The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that youll be accessing on the VPC. This ID number is preceded by "sg-", for in- stance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 32 o pattern: [-0-9a-zA-Z]+ Subnets -&gt; (list) [required] The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPCs Region. This ID number is preceded by "subnet-", for in- stance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets . Constraints: o min: 1 o max: 16 (string) Constraints: o min: 1 o max: 32 o pattern: [-0-9a-zA-Z]+ Shorthand Syntax: ModelKmsKeyId=string,VolumeKmsKeyId=string,VpcConfig={SecurityGroupIds=[string,string],Subnets=[string,string]} JSON Syntax: { "ModelKmsKeyId": "string", "VolumeKmsKeyId": "string", "VpcConfig": { "SecurityGroupIds": ["string", ...], "Subnets": ["string", ...] } }
+    /// Flywheel data security configuration. ModelKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats: • KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab" • Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab" Constraints: • max: 2048 • pattern: ^\p{ASCII}+$ VolumeKmsKeyId -&gt; (string) ID for the KMS key that Amazon Comprehend uses to encrypt the volume. Constraints: • max: 2048 • pattern: ^\p{ASCII}+$ VpcConfig -&gt; (structure) Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for the job. For more information, see Amazon VPC . SecurityGroupIds -&gt; (list) [required] The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that youll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC . Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 32 • pattern: [-0-9a-zA-Z]+ Subnets -&gt; (list) [required] The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPCs Region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets . Constraints: • min: 1 • max: 16 (string) Constraints: • min: 1 • max: 32 • pattern: [-0-9a-zA-Z]+ Shorthand Syntax: ModelKmsKeyId=string,VolumeKmsKeyId=string,VpcConfig={SecurityGroupIds=[string,string],Subnets=[string,string]} JSON Syntax: { "ModelKmsKeyId": "string", "VolumeKmsKeyId": "string", "VpcConfig": { "SecurityGroupIds": ["string", ...], "Subnets": ["string", ...] } }
     /// </summary>
     [CliOption("--data-security-config")]
     public string? DataSecurityConfig { get; set; }
@@ -100,6 +101,15 @@ public record AwsComprehendUpdateFlywheelOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

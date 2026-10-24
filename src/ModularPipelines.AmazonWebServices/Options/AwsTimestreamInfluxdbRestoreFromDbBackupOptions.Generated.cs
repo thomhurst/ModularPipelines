@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same re- source using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
+/// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same re- source using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
+    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the new resource to create from the restore. If restor- ing to an existing resource, the name must match the existing re- source name. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
-    /// <param name="DbBackupId">The identifier of the backup to restore from. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Name">The name of the new resource to create from the restore. If restoring to an existing resource, the name must match the existing resource name. Constraints: • min: 3 • max: 40 • pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    /// <param name="DbBackupId">The identifier of the backup to restore from. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbRestoreFromDbBackupOptions(
         string Name,
         string DbBackupId
@@ -62,13 +62,13 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new resource to create from the restore. If restor- ing to an existing resource, the name must match the existing re- source name. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// The name of the new resource to create from the restore. If restoring to an existing resource, the name must match the existing resource name. Constraints: • min: 3 • max: 40 • pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The identifier of the backup to restore from. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The identifier of the backup to restore from. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--db-backup-id")]
     public string? DbBackupId { get; private init; }
@@ -80,19 +80,19 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions, IVal
     public string? RestoreToTime { get; set; }
 
     /// <summary>
-    /// Specifies whether to restore to a new resource or replace the exist- ing resource. Valid values are NEW_RESOURCE (default) and RE- PLACE_EXISTING. Possible values: o NEW_RESOURCE o REPLACE_EXISTING
+    /// Specifies whether to restore to a new resource or replace the existing resource. Valid values are NEW_RESOURCE (default) and REPLACE_EXISTING. Possible values: • NEW_RESOURCE • REPLACE_EXISTING
     /// </summary>
     [CliOption("--restore-mode")]
     public AwsTimestreamInfluxdbRestoreFromDbBackupRestoreMode? RestoreMode { get; set; }
 
     /// <summary>
-    /// A list of VPC subnet IDs for the restored resource. If not speci- fied, the restored resource uses the same subnets as the backup. Constraints: o min: 1 o max: 6 (string) Constraints: o min: 0 o max: 64 o pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
+    /// A list of VPC subnet IDs for the restored resource. If not specified, the restored resource uses the same subnets as the backup. Constraints: • min: 1 • max: 6 (string) Constraints: • min: 0 • max: 64 • pattern: subnet-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-subnet-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSubnetIds { get; set; }
 
     /// <summary>
-    /// A list of VPC security group IDs for the restored resource. If not specified, the restored resource uses the same security groups as the backup. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 64 o pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
+    /// A list of VPC security group IDs for the restored resource. If not specified, the restored resource uses the same security groups as the backup. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 64 • pattern: sg-[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vpc-security-group-ids", GroupValues = true)]
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
@@ -104,49 +104,49 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions, IVal
     public bool? PubliclyAccessible { get; set; }
 
     /// <summary>
-    /// Configuration for sending InfluxDB engine logs to the specified S3 bucket for the restored resource. s3Configuration -&gt; (structure) [required] Configuration for S3 bucket log delivery. bucketName -&gt; (string) [required] The name of the S3 bucket to deliver logs to. Constraints: o min: 3 o max: 63 o pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+ enabled -&gt; (boolean) [required] Indicates whether log delivery to the S3 bucket is enabled. Shorthand Syntax: s3Configuration={bucketName=string,enabled=boolean} JSON Syntax: { "s3Configuration": { "bucketName": "string", "enabled": true|false } }
+    /// Configuration for sending InfluxDB engine logs to the specified S3 bucket for the restored resource. s3Configuration -&gt; (structure) [required] Configuration for S3 bucket log delivery. bucketName -&gt; (string) [required] The name of the S3 bucket to deliver logs to. Constraints: • min: 3 • max: 63 • pattern: [0-9a-z]+[0-9a-z\.\-]*[0-9a-z]+ enabled -&gt; (boolean) [required] Indicates whether log delivery to the S3 bucket is enabled. Shorthand Syntax: s3Configuration={bucketName=string,enabled=boolean} JSON Syntax: { "s3Configuration": { "bucketName": "string", "enabled": true|false } }
     /// </summary>
     [CliOption("--log-delivery-configuration")]
     public string? LogDeliveryConfiguration { get; set; }
 
     /// <summary>
-    /// The maintenance schedule for the restored resource. timezone -&gt; (string) [required] The IANA timezone identifier for the maintenance window. Format: Region/City or UTC. For example, America/New_York or UTC. Constraints: o min: 1 o max: 64 o pattern: (UTC|[A-Za-z_]+/[A-Za-z0-9_]+(/[A-Za-z0-9_]+)?) preferredMaintenanceWindow -&gt; (string) [required] The preferred maintenance window in the format ddd:HH:MM-ddd:HH:MM (UTC). Day must be one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun. For example, Sun:02:00-Sun:06:00. Provide an empty string to let the system choose a window. Constraints: o min: 0 o max: 19 o pattern: $|^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d Shorthand Syntax: timezone=string,preferredMaintenanceWindow=string JSON Syntax: { "timezone": "string", "preferredMaintenanceWindow": "string" }
+    /// The maintenance schedule for the restored resource. timezone -&gt; (string) [required] The IANA timezone identifier for the maintenance window. Format: Region/City or UTC. For example, America/New_York or UTC. Constraints: • min: 1 • max: 64 • pattern: (UTC|[A-Za-z_]+/[A-Za-z0-9_]+(/[A-Za-z0-9_]+)?) preferredMaintenanceWindow -&gt; (string) [required] The preferred maintenance window in the format ddd:HH:MM-ddd:HH:MM (UTC). Day must be one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun. For example, Sun:02:00-Sun:06:00. Provide an empty string to let the system choose a window. Constraints: • min: 0 • max: 19 • pattern: $|^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\d|2[0-3]):[0-5]\d Shorthand Syntax: timezone=string,preferredMaintenanceWindow=string JSON Syntax: { "timezone": "string", "preferredMaintenanceWindow": "string" }
     /// </summary>
     [CliOption("--maintenance-schedule")]
     public string? MaintenanceSchedule { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to associate with the restored resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to associate with the restored resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The port number on which the restored InfluxDB resource accepts con- nections. Constraints: o min: 1024 o max: 65535
+    /// The port number on which the restored InfluxDB resource accepts connections. Constraints: • min: 1024 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
 
     /// <summary>
-    /// Specifies the network type of the restored resource. Valid values are IPV4 and DUAL. Possible values: o IPV4 o DUAL
+    /// Specifies the network type of the restored resource. Valid values are IPV4 and DUAL. Possible values: • IPV4 • DUAL
     /// </summary>
     [CliOption("--network-type")]
     public AwsTimestreamInfluxdbRestoreFromDbBackupNetworkType? NetworkType { get; set; }
 
     /// <summary>
-    /// Specifies the deployment type of the restored resource. Valid values are SINGLE_AZ, WITH_MULTIAZ_STANDBY, and MULTI_NODE_READ_REPLICAS. Possible values: o SINGLE_AZ o WITH_MULTIAZ_STANDBY o MULTI_NODE_READ_REPLICAS
+    /// Specifies the deployment type of the restored resource. Valid values are SINGLE_AZ, WITH_MULTIAZ_STANDBY, and MULTI_NODE_READ_REPLICAS. Possible values: • SINGLE_AZ • WITH_MULTIAZ_STANDBY • MULTI_NODE_READ_REPLICAS
     /// </summary>
     [CliOption("--deployment-type")]
     public AwsTimestreamInfluxdbRestoreFromDbBackupDeploymentType? DeploymentType { get; set; }
 
     /// <summary>
-    /// A list of backup configurations to apply to the restored resource. Constraints: o min: 1 o max: 4 (structure) Specifies the configuration for an automated backup schedule. type -&gt; (string) [required] The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINU- OUS. Possible values: o HOURLY o DAILY o WEEKLY o MONTHLY o CUSTOM_SCHEDULE o CONTINUOUS retentionDays -&gt; (integer) [required] The number of days to retain automated backups. Valid values are 1 to 365. Constraints: o min: 1 o max: 365 enabled -&gt; (boolean) [required] Specifies whether this backup configuration is enabled. customSchedule -&gt; (string) A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE. Constraints: o min: 9 o max: 256 o pattern: cron\(\S+ \S+ \S+ \S+ \S+ \S+\) Shorthand Syntax: type=string,retentionDays=integer,enabled=boolean,customSchedule=string ... JSON Syntax: [ { "type": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"CUSTOM_SCHEDULE"|"CONTINUOUS", "retentionDays": integer, "enabled": true|false, "customSchedule": "string" } ... ]
+    /// A list of backup configurations to apply to the restored resource. Constraints: • min: 1 • max: 4 (structure) Specifies the configuration for an automated backup schedule. type -&gt; (string) [required] The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINUOUS. Possible values: • HOURLY • DAILY • WEEKLY • MONTHLY • CUSTOM_SCHEDULE • CONTINUOUS retentionDays -&gt; (integer) [required] The number of days to retain automated backups. Valid values are 1 to 365. Constraints: • min: 1 • max: 365 enabled -&gt; (boolean) [required] Specifies whether this backup configuration is enabled. customSchedule -&gt; (string) A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE. Constraints: • min: 9 • max: 256 • pattern: cron\(\S+ \S+ \S+ \S+ \S+ \S+\) Shorthand Syntax: type=string,retentionDays=integer,enabled=boolean,customSchedule=string ... JSON Syntax: [ { "type": "HOURLY"|"DAILY"|"WEEKLY"|"MONTHLY"|"CUSTOM_SCHEDULE"|"CONTINUOUS", "retentionDays": integer, "enabled": true|false, "customSchedule": "string" } ... ]
     /// </summary>
     [CliOption("--db-backup-configurations", GroupValues = true)]
     public IEnumerable<string>? DbBackupConfigurations { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to use for encryption of the restored resource. Can be a key ID, key ARN, alias name, or alias ARN. Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z0-9:/_\-]+
+    /// The Amazon Web Services KMS key identifier to use for encryption of the restored resource. Can be a key ID, key ARN, alias name, or alias ARN. Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z0-9:/_\-]+
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -172,6 +172,15 @@ public record AwsTimestreamInfluxdbRestoreFromDbBackupOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

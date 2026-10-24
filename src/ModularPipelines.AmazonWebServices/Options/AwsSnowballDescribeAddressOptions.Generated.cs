@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSnowballDescribeAddressOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Takes an AddressId and returns specific details about that address in the form of an Address object. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AddressId">The automatically generated ID for a specific address. Constraints: o min: 40 o max: 40 o pattern: ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AddressId">The automatically generated ID for a specific address. Constraints: • min: 40 • max: 40 • pattern: ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsSnowballDescribeAddressOptions(
         string AddressId
     )
@@ -56,7 +57,7 @@ public record AwsSnowballDescribeAddressOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The automatically generated ID for a specific address. Constraints: o min: 40 o max: 40 o pattern: ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The automatically generated ID for a specific address. Constraints: • min: 40 • max: 40 • pattern: ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--address-id")]
     public string? AddressId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSnowballDescribeAddressOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

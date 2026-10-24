@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query UpdateActivities.SelfManagedInstances[].Sta- tus returns Updated for all elements when polling with describe-hy- brid-ad-update. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query UpdateActivities.SelfManagedInstances[].Status returns Updated for all elements when polling with describe-hybrid-ad-update. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsDsWaitHybridAdUpdatedOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query UpdateActivities.SelfManagedInstances[].Sta- tus returns Updated for all elements when polling with describe-hy- brid-ad-update. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query UpdateActivities.SelfManagedInstances[].Status returns Updated for all elements when polling with describe-hybrid-ad-update. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">The identifier of the hybrid directory for which to retrieve update information. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DirectoryId">The identifier of the hybrid directory for which to retrieve update information. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
     public AwsDsWaitHybridAdUpdatedOptions(
         string DirectoryId
     )
@@ -58,19 +59,19 @@ public record AwsDsWaitHybridAdUpdatedOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the hybrid directory for which to retrieve update information. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the hybrid directory for which to retrieve update information. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount . Possible values: o SelfManagedInstances o HybridAdministratorAccount
+    /// The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount . Possible values: • SelfManagedInstances • HybridAdministratorAccount
     /// </summary>
     [CliOption("--update-type")]
     public AwsDsWaitHybridAdUpdatedUpdateType? UpdateType { get; set; }
 
     /// <summary>
-    /// The pagination token from a previous request to DescribeHybridADUp- date . Pass null if this is the first request.
+    /// The pagination token from a previous request to DescribeHybridADUpdate . Pass null if this is the first request.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -97,6 +98,15 @@ public record AwsDsWaitHybridAdUpdatedOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

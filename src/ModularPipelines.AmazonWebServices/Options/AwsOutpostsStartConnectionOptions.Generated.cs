@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also...
+/// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsOutpostsStartConnectionOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more informa- tion, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also...
+    /// NOTE: Amazon Web Services uses this action to install Outpost servers. Starts the connection required for Outpost server installation. Use CloudTrail to monitor this action or Amazon Web Services managed policy for Amazon Web Services Outposts to secure it. For more information, see Amazon Web Services managed policies for Amazon Web Services Outposts and Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the Amazon Web Services Outposts User Guide . See also: ...
     /// </summary>
-    /// <param name="AssetId">The ID of the Outpost server. Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$</param>
-    /// <param name="ClientPublicKey">The public key of the client. Constraints: o min: 44 o max: 44 o pattern: ^[a-zA-Z0-9/+]{43}=$</param>
-    /// <param name="NetworkInterfaceDeviceIndex">The device index of the network interface on the Outpost server. Constraints: o min: 0 o max: 1</param>
+    /// <param name="AssetId">The ID of the Outpost server. Constraints: • min: 1 • max: 100 • pattern: ^(\w+)$</param>
+    /// <param name="ClientPublicKey">The public key of the client. Constraints: • min: 44 • max: 44 • pattern: ^[a-zA-Z0-9/+]{43}=$</param>
+    /// <param name="NetworkInterfaceDeviceIndex">The device index of the network interface on the Outpost server. Constraints: • min: 0 • max: 1</param>
     public AwsOutpostsStartConnectionOptions(
         string AssetId,
         string ClientPublicKey,
@@ -63,25 +64,25 @@ public record AwsOutpostsStartConnectionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Outpost server. Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$
+    /// The ID of the Outpost server. Constraints: • min: 1 • max: 100 • pattern: ^(\w+)$
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
 
     /// <summary>
-    /// The public key of the client. Constraints: o min: 44 o max: 44 o pattern: ^[a-zA-Z0-9/+]{43}=$
+    /// The public key of the client. Constraints: • min: 44 • max: 44 • pattern: ^[a-zA-Z0-9/+]{43}=$
     /// </summary>
     [CliOption("--client-public-key")]
     public string? ClientPublicKey { get; private init; }
 
     /// <summary>
-    /// The device index of the network interface on the Outpost server. Constraints: o min: 0 o max: 1
+    /// The device index of the network interface on the Outpost server. Constraints: • min: 0 • max: 1
     /// </summary>
     [CliOption("--network-interface-device-index")]
     public int? NetworkInterfaceDeviceIndex { get; private init; }
 
     /// <summary>
-    /// The serial number of the dongle. Constraints: o min: 1 o max: 100 o pattern: ^(\w+)$
+    /// The serial number of the dongle. Constraints: • min: 1 • max: 100 • pattern: ^(\w+)$
     /// </summary>
     [CliOption("--device-serial-number")]
     public string? DeviceSerialNumber { get; set; }
@@ -107,6 +108,15 @@ public record AwsOutpostsStartConnectionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

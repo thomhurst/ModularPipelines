@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -81,19 +82,19 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions, IValidatableObject
     public string? ServiceAccessRoleArn { get; set; }
 
     /// <summary>
-    /// The new migration type for the data migration. Possible values: o full-load o cdc o full-load-and-cdc
+    /// The new migration type for the data migration. Possible values: • full-load • cdc • full-load-and-cdc
     /// </summary>
     [CliOption("--data-migration-type")]
     public AwsDmsModifyDataMigrationDataMigrationType? DataMigrationType { get; set; }
 
     /// <summary>
-    /// The new information about the source data provider for the data mi- gration. (structure) Defines settings for a source data provider for a data migra- tion. CDCStartPosition -&gt; (string) The change data capture (CDC) start position for the source data provider. CDCStartTime -&gt; (timestamp) The change data capture (CDC) start time for the source data provider. CDCStopTime -&gt; (timestamp) The change data capture (CDC) stop time for the source data provider. SlotName -&gt; (string) The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora Post- greSQL source. Shorthand Syntax: CDCStartPosition=string,CDCStartTime=timestamp,CDCStopTime=timestamp,SlotName=string ... JSON Syntax: [ { "CDCStartPosition": "string", "CDCStartTime": timestamp, "CDCStopTime": timestamp, "SlotName": "string" } ... ]
+    /// The new information about the source data provider for the data migration. (structure) Defines settings for a source data provider for a data migration. CDCStartPosition -&gt; (string) The change data capture (CDC) start position for the source data provider. CDCStartTime -&gt; (timestamp) The change data capture (CDC) start time for the source data provider. CDCStopTime -&gt; (timestamp) The change data capture (CDC) stop time for the source data provider. SlotName -&gt; (string) The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora PostgreSQL source. Shorthand Syntax: CDCStartPosition=string,CDCStartTime=timestamp,CDCStopTime=timestamp,SlotName=string ... JSON Syntax: [ { "CDCStartPosition": "string", "CDCStartTime": timestamp, "CDCStopTime": timestamp, "SlotName": "string" } ... ]
     /// </summary>
     [CliOption("--source-data-settings", GroupValues = true)]
     public IEnumerable<string>? SourceDataSettings { get; set; }
 
     /// <summary>
-    /// The new information about the target data provider for the data mi- gration. (structure) Defines settings for a target data provider for a data migra- tion. TablePreparationMode -&gt; (string) This setting determines how DMS handles the target tables be- fore starting a data migration, either by leaving them un- touched, dropping and recreating them, or truncating the ex- isting data in the target tables. Possible values: o drop-tables-on-target o truncate o do-nothing Shorthand Syntax: TablePreparationMode=string ... JSON Syntax: [ { "TablePreparationMode": "drop-tables-on-target"|"truncate"|"do-nothing" } ... ]
+    /// The new information about the target data provider for the data migration. (structure) Defines settings for a target data provider for a data migration. TablePreparationMode -&gt; (string) This setting determines how DMS handles the target tables before starting a data migration, either by leaving them untouched, dropping and recreating them, or truncating the existing data in the target tables. Possible values: • drop-tables-on-target • truncate • do-nothing Shorthand Syntax: TablePreparationMode=string ... JSON Syntax: [ { "TablePreparationMode": "drop-tables-on-target"|"truncate"|"do-nothing" } ... ]
     /// </summary>
     [CliOption("--target-data-settings", GroupValues = true)]
     public IEnumerable<string>? TargetDataSettings { get; set; }
@@ -105,7 +106,7 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions, IValidatableObject
     public int? NumberOfJobs { get; set; }
 
     /// <summary>
-    /// A JSON-formatted string that defines what objects to include and ex- clude from the migration.
+    /// A JSON-formatted string that defines what objects to include and exclude from the migration.
     /// </summary>
     [CliOption("--selection-rules")]
     public string? SelectionRules { get; set; }
@@ -131,6 +132,15 @@ public record AwsDmsModifyDataMigrationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

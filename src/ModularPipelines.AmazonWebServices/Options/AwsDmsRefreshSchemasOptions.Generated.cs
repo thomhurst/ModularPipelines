@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Populates the schema for the specified endpoint. This is an asynchro- nous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus opera- tion. See also: AWS API Documentation
+/// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsDmsRefreshSchemasOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Populates the schema for the specified endpoint. This is an asynchro- nous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus opera- tion. See also: AWS API Documentation
+    /// Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="EndpointArn">The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.</param>
     /// <param name="ReplicationInstanceArn">The Amazon Resource Name (ARN) of the replication instance.</param>
@@ -92,6 +93,15 @@ public record AwsDmsRefreshSchemasOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

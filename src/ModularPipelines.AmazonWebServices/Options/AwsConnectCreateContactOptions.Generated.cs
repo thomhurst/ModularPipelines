@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. o For VOICE: The supported initiation method is TRANSFER . The con- tacts created with this initiation method have a subtype con- nect:ExternalAudio . o For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . o For TASK: The supported initiation method is API . Contacts cre- ated with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is create...
+/// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. • For VOICE: The supported initiation method is TRANSFER . The contacts created with this initiation method have a subtype connect:ExternalAudio . • For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . • For TASK: The supported initiation method is API . Contacts created with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is created, you...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsConnectCreateContactOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. o For VOICE: The supported initiation method is TRANSFER . The con- tacts created with this initiation method have a subtype con- nect:ExternalAudio . o For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . o For TASK: The supported initiation method is API . Contacts cre- ated with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is create...
+    /// WARNING: Only the VOICE, EMAIL, and TASK channels are supported. • For VOICE: The supported initiation method is TRANSFER . The contacts created with this initiation method have a subtype connect:ExternalAudio . • For EMAIL: The supported initiation methods are OUTBOUND , AGENT_REPLY , and FLOW . • For TASK: The supported initiation method is API . Contacts created with this API have a sub-type of connect:ExternalTask . Creates a new VOICE, EMAIL, or TASK contact. After a contact is created, you...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Channel">The channel for the contact. WARNING: The CHAT channel is not supported. The following information is incorrect. We're working to correct it. Possible values: o VOICE o CHAT o TASK o EMAIL</param>
-    /// <param name="InitiationMethod">Indicates how the contact was initiated. WARNING: CreateContact only supports the following initiation methods. Valid values by channel are: o For VOICE: TRANSFER and the subtype connect:ExternalAudio o For EMAIL: OUTBOUND | AGENT_REPLY | FLOW o For TASK: API The other channels listed below are incorrect. We're working to correct this information. Possible values: o INBOUND o OUTBOUND o TRANSFER o QUEUE_TRANSFER o CALLBACK o API o DISCONNECT o MONITOR o EXTERNAL_OUTBOUND o WEBRTC_API o AGENT_REPLY o FLOW</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Channel">The channel for the contact. WARNING: The CHAT channel is not supported. The following information is incorrect. We're working to correct it. Possible values: • VOICE • CHAT • TASK • EMAIL</param>
+    /// <param name="InitiationMethod">Indicates how the contact was initiated. WARNING: CreateContact only supports the following initiation methods. Valid values by channel are: • For VOICE: TRANSFER and the subtype connect:ExternalAudio • For EMAIL: OUTBOUND | AGENT_REPLY | FLOW • For TASK: API The other channels listed below are incorrect. We're working to correct this information. Possible values: • INBOUND • OUTBOUND • TRANSFER • QUEUE_TRANSFER • CALLBACK • API • DISCONNECT • MONITOR • EXTERNAL_OUTBOUND • WEBRTC_API • AGENT_REPLY • FLOW</param>
     public AwsConnectCreateContactOptions(
         string InstanceId,
         AwsConnectCreateContactChannel Channel,
@@ -65,44 +65,44 @@ public record AwsConnectCreateContactOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The channel for the contact. WARNING: The CHAT channel is not supported. The following information is incorrect. We're working to correct it. Possible values: o VOICE o CHAT o TASK o EMAIL
+    /// The channel for the contact. WARNING: The CHAT channel is not supported. The following information is incorrect. We're working to correct it. Possible values: • VOICE • CHAT • TASK • EMAIL
     /// </summary>
     [CliOption("--channel")]
     public AwsConnectCreateContactChannel? Channel { get; private init; }
 
     /// <summary>
-    /// Indicates how the contact was initiated. WARNING: CreateContact only supports the following initiation methods. Valid values by channel are: o For VOICE: TRANSFER and the subtype connect:ExternalAudio o For EMAIL: OUTBOUND | AGENT_REPLY | FLOW o For TASK: API The other channels listed below are incorrect. We're working to correct this information. Possible values: o INBOUND o OUTBOUND o TRANSFER o QUEUE_TRANSFER o CALLBACK o API o DISCONNECT o MONITOR o EXTERNAL_OUTBOUND o WEBRTC_API o AGENT_REPLY o FLOW
+    /// Indicates how the contact was initiated. WARNING: CreateContact only supports the following initiation methods. Valid values by channel are: • For VOICE: TRANSFER and the subtype connect:ExternalAudio • For EMAIL: OUTBOUND | AGENT_REPLY | FLOW • For TASK: API The other channels listed below are incorrect. We're working to correct this information. Possible values: • INBOUND • OUTBOUND • TRANSFER • QUEUE_TRANSFER • CALLBACK • API • DISCONNECT • MONITOR • EXTERNAL_OUTBOUND • WEBRTC_API • AGENT_REPLY • FLOW
     /// </summary>
     [CliOption("--initiation-method")]
     public AwsConnectCreateContactInitiationMethod? InitiationMethod { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--related-contact-id")]
     public string? RelatedContactId { get; set; }
 
     /// <summary>
-    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and un- derscore characters. key -&gt; (string) Constraints: o min: 1 o max: 32767 value -&gt; (string) Constraints: o min: 0 o max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters. key -&gt; (string) Constraints: • min: 1 • max: 32767 value -&gt; (string) Constraints: • min: 0 • max: 32767 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Attributes { get; set; }
 
     /// <summary>
-    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT . key -&gt; (string) Constraints: o min: 1 o max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a con- tact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL ref- erence, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: o min: 0 o max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch time- stamp. Possible values: o URL o ATTACHMENT o CONTACT_ANALYSIS o NUMBER o STRING o DATE o EMAIL o EMAIL_MESSAGE o EMAIL_MESSAGE_PLAIN_TEXT o EMAIL_MESSAGE_PLAIN_TEXT_REDACTED o EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: o AVAILABLE o DELETED o APPROVED o REJECTED o PROCESSING o FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: o min: 20 o max: 256 o pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully cre- ated. Constraints: o min: 0 o max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
+    /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT . key -&gt; (string) Constraints: • min: 1 • max: 4096 value -&gt; (structure) Well-formed data on a contact, used by agents to complete a contact request. You can have up to 4,096 UTF-8 bytes across all references for a contact. Value -&gt; (string) A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP). Constraints: • min: 0 • max: 4096 Type -&gt; (string) [required] The type of the reference. DATE must be of type Epoch timestamp. Possible values: • URL • ATTACHMENT • CONTACT_ANALYSIS • NUMBER • STRING • DATE • EMAIL • EMAIL_MESSAGE • EMAIL_MESSAGE_PLAIN_TEXT • EMAIL_MESSAGE_PLAIN_TEXT_REDACTED • EMAIL_MESSAGE_REDACTED Status -&gt; (string) Status of the attachment reference type. Possible values: • AVAILABLE • DELETED • APPROVED • REJECTED • PROCESSING • FAILED Arn -&gt; (string) The Amazon Resource Name (ARN) of the reference Constraints: • min: 20 • max: 256 • pattern: ^[-:/A-Za-z0-9]+ StatusReason -&gt; (string) Relevant details why the reference was not successfully created. Constraints: • min: 0 • max: 100 Shorthand Syntax: KeyName1={Value=string,Type=string,Status=string,Arn=string,StatusReason=string},KeyName2={Value=string,Type=string,Status=string,Arn=string,StatusReason=string} JSON Syntax: {"string": { "Value": "string", "Type": "URL"|"ATTACHMENT"|"CONTACT_ANALYSIS"|"NUMBER"|"STRING"|"DATE"|"EMAIL"|"EMAIL_MESSAGE"|"EMAIL_MESSAGE_PLAIN_TEXT"|"EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"|"EMAIL_MESSAGE_REDACTED", "Status": "AVAILABLE"|"DELETED"|"APPROVED"|"REJECTED"|"PROCESSING"|"FAILED", "Arn": "string", "StatusReason": "string" } ...}
     /// </summary>
     [CliOption("--references", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? References { get; set; }
@@ -114,37 +114,37 @@ public record AwsConnectCreateContactOptions : AwsOptions, IValidatableObject
     public int? ExpiryDurationInMinutes { get; set; }
 
     /// <summary>
-    /// User details for the contact WARNING: UserInfo is required when creating an EMAIL contact with OUT- BOUND and AGENT_REPLY contact initiation methods. UserId -&gt; (string) The user identifier for the contact. Constraints: o min: 1 o max: 256 Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
+    /// User details for the contact WARNING: UserInfo is required when creating an EMAIL contact with OUTBOUND and AGENT_REPLY contact initiation methods. UserId -&gt; (string) The user identifier for the contact. Constraints: • min: 1 • max: 256 Shorthand Syntax: UserId=string JSON Syntax: { "UserId": "string" }
     /// </summary>
     [CliOption("--user-info")]
     public string? UserInfo { get; set; }
 
     /// <summary>
-    /// Initial state of the contact when it's created. Only TASK channel contacts can be initiated with COMPLETED state. Possible values: o CONNECTED_TO_USER o COMPLETED
+    /// Initial state of the contact when it's created. Only TASK channel contacts can be initiated with COMPLETED state. Possible values: • CONNECTED_TO_USER • COMPLETED
     /// </summary>
     [CliOption("--initiate-as")]
     public AwsConnectCreateContactInitiateAs? InitiateAs { get; set; }
 
     /// <summary>
-    /// The name of a the contact. Constraints: o min: 0 o max: 1024
+    /// The name of a the contact. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the contact. Constraints: o min: 0 o max: 4096
+    /// A description of the contact. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. NOTE: To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for be- fore expiring, with SegmentAttributes like { "connect:ContactEx- piry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}} . key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: o min: 0 o max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: o min: 1 o max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only sup- ported for system-defined attributes, not for user-de- fined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: o min: 0 o max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
+    /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes. NOTE: To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like { "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}} . key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. (structure) A value for a segment attribute. This is structured as a map where the key is valueString and the value is a string. ValueString -&gt; (string) The value of a segment attribute. Constraints: • min: 0 • max: 1024 ValueMap -&gt; (map) The value of a segment attribute. key -&gt; (string) Constraints: • min: 1 • max: 128 ( ... recursive ... ) ValueInteger -&gt; (integer) The value of a segment attribute. ValueList -&gt; (list) The value of a segment attribute. This is only supported for system-defined attributes, not for user-defined attributes. ( ... recursive ... ) ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 ValueArn -&gt; (string) The value of a segment attribute that has to be a valid ARN. This is only supported for system-defined attributes, not for user-defined attributes. Constraints: • min: 0 • max: 1024 JSON Syntax: {"string": { "ValueString": "string", "ValueMap": {"string": { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ...}, "ValueInteger": integer, "ValueList": [ { "ValueString": "string", "ValueMap": {"string": { ... recursive ... } ...}, "ValueInteger": integer, "ValueList": [ { ... recursive ... } ... ], "ValueArn": "string" } ... ], "ValueArn": "string" } ...}
     /// </summary>
     [CliOption("--segment-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? SegmentAttributes { get; set; }
 
     /// <summary>
-    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Connect Customer Contact Lens with external voice systems in the Connect Customer Administrator Guide . Constraints: o min: 1 o max: 256
+    /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Connect Customer Contact Lens with external voice systems in the Connect Customer Administrator Guide . Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--previous-contact-id")]
     public string? PreviousContactId { get; set; }
@@ -170,6 +170,15 @@ public record AwsConnectCreateContactOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

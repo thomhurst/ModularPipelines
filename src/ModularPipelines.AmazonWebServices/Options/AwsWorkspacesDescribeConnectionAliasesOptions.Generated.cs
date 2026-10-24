@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see Cross-Region Redi- rection for Amazon WorkSpaces . See also: AWS API Documentation
+/// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see Cross-Region Redirection for Amazon WorkSpaces . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,25 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWorkspacesDescribeConnectionAliasesOptions : AwsOptions
 {
     /// <summary>
-    /// The identifiers of the connection aliases to describe. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
+    /// The identifiers of the connection aliases to describe. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--alias-ids", GroupValues = true)]
     public IEnumerable<string>? AliasIds { get; set; }
 
     /// <summary>
-    /// The identifier of the directory associated with the connection alias. Constraints: o min: 1
+    /// The identifier of the directory associated with the connection alias. Constraints: • min: 1
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; set; }
 
     /// <summary>
-    /// The maximum number of connection aliases to return. Constraints: o min: 1 o max: 25
+    /// The maximum number of connection aliases to return. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -52,5 +52,14 @@ public record AwsWorkspacesDescribeConnectionAliasesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

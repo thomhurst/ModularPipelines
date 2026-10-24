@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws personalizeevents commands.
+/// aws personalize-events commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPersonalizeEvents : IAwsPersonalizeEvents
@@ -32,7 +32,7 @@ public class AwsPersonalizeEvents : IAwsPersonalizeEvents
     #region Commands
 
     /// <summary>
-    /// Records action interaction event data. An action interaction event is an interaction between a user and an action . For example, a user tak- ing an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see Recording action interaction events . For more information about actions in an Actions dataset, see Actions dataset . See also: AWS API Documentation
+    /// Records action interaction event data. An action interaction event is an interaction between a user and an action . For example, a user taking an action, such a enrolling in a membership program or downloading your app. For more information about recording action interactions, see Recording action interaction events . For more information about actions in an Actions dataset, see Actions dataset . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

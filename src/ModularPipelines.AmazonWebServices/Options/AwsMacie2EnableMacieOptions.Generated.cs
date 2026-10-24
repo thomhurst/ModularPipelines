@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Amazon Macie and specifies the configuration settings for a Ma- cie account. See also: AWS API Documentation
+/// Enables Amazon Macie and specifies the configuration settings for a Macie account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,20 +24,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsMacie2EnableMacieOptions : AwsOptions
 {
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events). Possible values: o FIFTEEN_MINUTES o ONE_HOUR o SIX_HOURS
+    /// Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events). Possible values: • FIFTEEN_MINUTES • ONE_HOUR • SIX_HOURS
     /// </summary>
     [CliOption("--finding-publishing-frequency")]
     public AwsMacie2EnableMacieFindingPublishingFrequency? FindingPublishingFrequency { get; set; }
 
     /// <summary>
-    /// Specifies the new status for the account. To enable Amazon Macie and start all Macie activities for the account, set this value to EN- ABLED. Possible values: o PAUSED o ENABLED
+    /// Specifies the new status for the account. To enable Amazon Macie and start all Macie activities for the account, set this value to ENABLED. Possible values: • PAUSED • ENABLED
     /// </summary>
     [CliOption("--status")]
     public AwsMacie2EnableMacieStatus? Status { get; set; }
@@ -47,5 +47,14 @@ public record AwsMacie2EnableMacieOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

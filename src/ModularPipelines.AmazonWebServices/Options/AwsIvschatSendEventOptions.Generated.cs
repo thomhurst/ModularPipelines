@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsIvschatSendEventOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Sends an event to a room. Use this within your applications business logic to send events to clients of a room; e.g., to notify clients to change the way the chat UI is rendered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoomIdentifier">Identifier of the room to which the event will be sent. Currently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
-    /// <param name="EventName">Application-defined name of the event to send to clients. Constraints: o min: 1 o max: 100</param>
+    /// <param name="RoomIdentifier">Identifier of the room to which the event will be sent. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+</param>
+    /// <param name="EventName">Application-defined name of the event to send to clients. Constraints: • min: 1 • max: 100</param>
     public AwsIvschatSendEventOptions(
         string RoomIdentifier,
         string EventName
@@ -61,13 +61,13 @@ public record AwsIvschatSendEventOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the room to which the event will be sent. Currently this must be an ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
+    /// Identifier of the room to which the event will be sent. Currently this must be an ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:room/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--room-identifier")]
     public string? RoomIdentifier { get; private init; }
 
     /// <summary>
-    /// Application-defined name of the event to send to clients. Constraints: o min: 1 o max: 100
+    /// Application-defined name of the event to send to clients. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--event-name")]
     public string? EventName { get; private init; }
@@ -99,6 +99,15 @@ public record AwsIvschatSendEventOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

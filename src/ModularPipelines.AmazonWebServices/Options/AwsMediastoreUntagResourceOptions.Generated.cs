@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMediastoreUntagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Removes tags from the specified container. You can specify one or more tags to remove. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Resource">The Amazon Resource Name (ARN) for the container. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:con- tainer/[\w-]{1,255}</param>
-    /// <param name="TagKeys">A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (cus- tomer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority). (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...</param>
+    /// <param name="Resource">The Amazon Resource Name (ARN) for the container. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}</param>
+    /// <param name="TagKeys">A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (customer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority). (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...</param>
     public AwsMediastoreUntagResourceOptions(
         string Resource,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsMediastoreUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the container. Constraints: o min: 1 o max: 1024 o pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:con- tainer/[\w-]{1,255}
+    /// The Amazon Resource Name (ARN) for the container. Constraints: • min: 1 • max: 1024 • pattern: arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (cus- tomer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority). (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...
+    /// A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (customer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority). (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{Z}\p{N}_.:/=+\-@]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsMediastoreUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

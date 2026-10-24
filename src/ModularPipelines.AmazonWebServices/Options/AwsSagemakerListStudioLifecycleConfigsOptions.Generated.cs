@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account. See also: AWS API Documentation list-studio-lifecycle-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query e...
+/// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account. See also: AWS API Documentation list-studio-lifecycle-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,13 +24,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListStudioLifecycleConfigsOptions : AwsOptions
 {
     /// <summary>
-    /// A string in the Lifecycle Configuration name. This filter returns only Lifecycle Configurations whose name contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// A string in the Lifecycle Configuration name. This filter returns only Lifecycle Configurations whose name contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// A parameter to search for the App Type to which the Lifecycle Con- figuration is attached. Possible values: o JupyterServer o KernelGateway o CodeEditor o JupyterLab
+    /// A parameter to search for the App Type to which the Lifecycle Configuration is attached. Possible values: • JupyterServer • KernelGateway • CodeEditor • JupyterLab
     /// </summary>
     [CliOption("--app-type-equals")]
     public AwsSagemakerListStudioLifecycleConfigsAppTypeEquals? AppTypeEquals { get; set; }
@@ -60,22 +60,19 @@ public record AwsSagemakerListStudioLifecycleConfigsOptions : AwsOptions
     public string? ModifiedTimeAfter { get; set; }
 
     /// <summary>
-    /// The property used to sort results. The default value is Creation- Time. Possible values: o CreationTime o LastModifiedTime o Name
+    /// The property used to sort results. The default value is CreationTime. Possible values: • CreationTime • LastModifiedTime • Name
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListStudioLifecycleConfigsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order. The default value is Descending. Possible values: o Ascending o Descending
+    /// The sort order. The default value is Descending. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListStudioLifecycleConfigsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -85,15 +82,27 @@ public record AwsSagemakerListStudioLifecycleConfigsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

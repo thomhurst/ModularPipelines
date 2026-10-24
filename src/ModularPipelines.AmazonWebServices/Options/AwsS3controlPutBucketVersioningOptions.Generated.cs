@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference . Sets the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. You can set the versioning state to one of the following: o Enabled - Enables versioning for the objects in the buck...
+/// NOTE: This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference . Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following: • Enabled - Enables versioning for the objects in the bucket. ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsS3controlPutBucketVersioningOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference . Sets the versioning state for an S3 on Outposts bucket. With S3 Ver- sioning, you can save multiple distinct copies of your objects and re- cover from unintended user actions and application failures. You can set the versioning state to one of the following: o Enabled - Enables versioning for the objects in the buck...
+    /// NOTE: This operation sets the versioning state for S3 on Outposts buckets only. To set the versioning state for an S3 bucket, see PutBucketVersioning in the Amazon S3 API Reference . Sets the versioning state for an S3 on Outposts bucket. With S3 Versioning, you can save multiple distinct copies of your objects and recover from unintended user actions and application failures. You can set the versioning state to one of the following: • Enabled - Enables versioning for the objects in the bucket. ...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Bucket">The S3 on Outposts bucket to set the versioning state for. Constraints: o min: 3 o max: 255</param>
-    /// <param name="VersioningConfiguration">The root-level tag for the VersioningConfiguration parameters. MFADelete -&gt; (string) Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket. Possible values: o Enabled o Disabled Status -&gt; (string) Sets the versioning state of the S3 on Outposts bucket. Possible values: o Enabled o Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Bucket">The S3 on Outposts bucket to set the versioning state for. Constraints: • min: 3 • max: 255</param>
+    /// <param name="VersioningConfiguration">The root-level tag for the VersioningConfiguration parameters. MFADelete -&gt; (string) Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket. Possible values: • Enabled • Disabled Status -&gt; (string) Sets the versioning state of the S3 on Outposts bucket. Possible values: • Enabled • Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }</param>
     public AwsS3controlPutBucketVersioningOptions(
         string AccountId,
         string Bucket,
@@ -64,25 +65,25 @@ public record AwsS3controlPutBucketVersioningOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 on Outposts bucket. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The S3 on Outposts bucket to set the versioning state for. Constraints: o min: 3 o max: 255
+    /// The S3 on Outposts bucket to set the versioning state for. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The root-level tag for the VersioningConfiguration parameters. MFADelete -&gt; (string) Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket. Possible values: o Enabled o Disabled Status -&gt; (string) Sets the versioning state of the S3 on Outposts bucket. Possible values: o Enabled o Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }
+    /// The root-level tag for the VersioningConfiguration parameters. MFADelete -&gt; (string) Specifies whether MFA delete is enabled or disabled in the bucket versioning configuration for the S3 on Outposts bucket. Possible values: • Enabled • Disabled Status -&gt; (string) Sets the versioning state of the S3 on Outposts bucket. Possible values: • Enabled • Suspended Shorthand Syntax: MFADelete=string,Status=string JSON Syntax: { "MFADelete": "Enabled"|"Disabled", "Status": "Enabled"|"Suspended" }
     /// </summary>
     [CliOption("--versioning-configuration")]
     public string? VersioningConfiguration { get; private init; }
 
     /// <summary>
-    /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication de- vice.
+    /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
     /// </summary>
     [CliOption("--mfa")]
     public string? Mfa { get; set; }
@@ -108,6 +109,15 @@ public record AwsS3controlPutBucketVersioningOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

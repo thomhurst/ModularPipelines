@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+/// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • AssociateMpaTeam • GetMpaTeamAssociation See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o AssociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+    /// Removes the association between a Multi-Party Approval (MPA) team and a protected operation. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • AssociateMpaTeam • GetMpaTeamAssociation See also: AWS API Documentation
     /// </summary>
-    /// <param name="Action">The protected operation to disassociate from the MPA team. Cur- rently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFI- CATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
+    /// <param name="Action">The protected operation to disassociate from the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: • IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
     public AwsPaymentCryptographyDisassociateMpaTeamOptions(
         string Action
     )
@@ -56,13 +57,13 @@ public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The protected operation to disassociate from the MPA team. Cur- rently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFI- CATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    /// The protected operation to disassociate from the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: • IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The comment from the requester explaining the reason for the disas- sociation. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 0 o max: 200
+    /// The comment from the requester explaining the reason for the disassociation. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--requester-comment")]
     public string? RequesterComment { get; set; }
@@ -88,6 +89,15 @@ public record AwsPaymentCryptographyDisassociateMpaTeamOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

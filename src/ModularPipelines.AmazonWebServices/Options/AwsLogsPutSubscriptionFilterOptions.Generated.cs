@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters: o An Amazon Kinesis data stream belonging to the same account as the s...
+/// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters: • An Amazon Kinesis data stream belonging to the same account as the s...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters: o An Amazon Kinesis data stream belonging to the same account as the s...
+    /// Creates or updates a subscription filter and associates it with the specified log group. With subscription filters, you can subscribe to a real-time stream of log events ingested through PutLogEvents and have them delivered to a specific destination. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters: • An Amazon Kinesis data stream belonging to the same account as the s...
     /// </summary>
-    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="FilterName">A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters . Constraints: o min: 1 o max: 512 o pattern: [^:*]*</param>
-    /// <param name="FilterPattern">A filter pattern for subscribing to a filtered stream of log events. Constraints: o min: 0 o max: 1024</param>
-    /// <param name="DestinationArn">The ARN of the destination to deliver matching log events to. Cur- rently, the supported destinations are: o An Amazon Kinesis stream belonging to the same account as the sub- scription filter, for same-account delivery. o A logical destination (specified using an ARN) belonging to a dif- ferent account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM pol- icy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy . o A Kinesis Data Firehose delivery stream belonging to the same ac- count as the subscription filter, for same-account delivery. o A Lambda function belonging to the same account as the subscrip- tion filter, for same-account delivery. Constraints: o min: 1</param>
+    /// <param name="LogGroupName">The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="FilterName">A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters . Constraints: • min: 1 • max: 512 • pattern: [^:*]*</param>
+    /// <param name="FilterPattern">A filter pattern for subscribing to a filtered stream of log events. Constraints: • min: 0 • max: 1024</param>
+    /// <param name="DestinationArn">The ARN of the destination to deliver matching log events to. Currently, the supported destinations are: • An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery. • A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM policy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy . • A Kinesis Data Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery. • A Lambda function belonging to the same account as the subscription filter, for same-account delivery. Constraints: • min: 1</param>
     public AwsLogsPutSubscriptionFilterOptions(
         string LogGroupName,
         string FilterName,
@@ -69,37 +70,37 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
 
     /// <summary>
-    /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters . Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters . Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--filter-name")]
     public string? FilterName { get; private init; }
 
     /// <summary>
-    /// A filter pattern for subscribing to a filtered stream of log events. Constraints: o min: 0 o max: 1024
+    /// A filter pattern for subscribing to a filtered stream of log events. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; private init; }
 
     /// <summary>
-    /// The ARN of the destination to deliver matching log events to. Cur- rently, the supported destinations are: o An Amazon Kinesis stream belonging to the same account as the sub- scription filter, for same-account delivery. o A logical destination (specified using an ARN) belonging to a dif- ferent account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM pol- icy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy . o A Kinesis Data Firehose delivery stream belonging to the same ac- count as the subscription filter, for same-account delivery. o A Lambda function belonging to the same account as the subscrip- tion filter, for same-account delivery. Constraints: o min: 1
+    /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are: • An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery. • A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM policy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy . • A Kinesis Data Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery. • A Lambda function belonging to the same account as the subscription filter, for same-account delivery. Constraints: • min: 1
     /// </summary>
     [CliOption("--destination-arn")]
     public string? DestinationArn { get; private init; }
 
     /// <summary>
-    /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destina- tion for cross-account delivery. Constraints: o min: 1
+    /// The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery. Constraints: • min: 1
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The method used to distribute log data to the destination. By de- fault, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream. Possible values: o Random o ByLogStream
+    /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream. Possible values: • Random • ByLogStream
     /// </summary>
     [CliOption("--distribution")]
     public AwsLogsPutSubscriptionFilterDistribution? Distribution { get; set; }
@@ -111,13 +112,13 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions, IValidatableObje
     public bool? ApplyOnTransformedLogs { get; set; }
 
     /// <summary>
-    /// A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like = , != , AND , OR , IN , NOT IN . Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1" . Maximum length: 2000 characters. Constraints: o min: 0 o max: 2000
+    /// A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like = , != , AND , OR , IN , NOT IN . Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1" . Maximum length: 2000 characters. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--field-selection-criteria")]
     public string? FieldSelectionCriteria { get; set; }
 
     /// <summary>
-    /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account , @aws.re- gion , and @source.log . These fields provide source information for centralized log data in the forwarded payload. (string) Syntax: "string" "string" ...
+    /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account , @aws.region , and @source.log . These fields provide source information for centralized log data in the forwarded payload. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--emit-system-fields", GroupValues = true)]
     public IEnumerable<string>? EmitSystemFields { get; set; }
@@ -143,6 +144,15 @@ public record AwsLogsPutSubscriptionFilterOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

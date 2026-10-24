@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,12 +29,12 @@ public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions, IVal
     /// <summary>
     /// Adds tags to the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the resource to tag. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+</param>
+    /// <param name="ResourceArn">The ARN of the resource to tag. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+</param>
     /// <param name="RuleRevision">The revision number of the automation rule to tag. This ensures you're tagging the correct version of the rule.</param>
-    /// <param name="Tags">The tags to add to the resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Ser- vices resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: o min: 1 o max: 128 o pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: o min: 0 o max: 256 o pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="Tags">The tags to add to the resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Services resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: • min: 1 • max: 128 • pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: • min: 0 • max: 256 • pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsComputeOptimizerAutomationTagResourceOptions(
         string ResourceArn,
-        int RuleRevision,
+        long RuleRevision,
         IEnumerable<string> Tags
     )
     {
@@ -75,7 +76,7 @@ public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the resource to tag. Constraints: o pattern: arn:aws:compute-optimizer::[0-9]{12}:automa- tion-rule/[a-zA-Z0-9_-]+
+    /// The ARN of the resource to tag. Constraints: • pattern: arn:aws:compute-optimizer::[0-9]{12}:automation-rule/[a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -84,16 +85,16 @@ public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions, IVal
     /// The revision number of the automation rule to tag. This ensures you're tagging the correct version of the rule.
     /// </summary>
     [CliOption("--rule-revision")]
-    public int? RuleRevision { get; private init; }
+    public long? RuleRevision { get; private init; }
 
     /// <summary>
-    /// The tags to add to the resource. Constraints: o min: 0 o max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Ser- vices resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: o min: 1 o max: 128 o pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: o min: 0 o max: 256 o pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags to add to the resource. Constraints: • min: 0 • max: 200 (structure) A key-value pair used to categorize and organize Amazon Web Services resources and automation rules. key -&gt; (string) [required] The tag key, which can be up to 128 characters long. Constraints: • min: 1 • max: 128 • pattern: [\w\s\.\-\:\/\=\+\@]+ value -&gt; (string) [required] The tag value, which can be up to 256 characters long. Constraints: • min: 0 • max: 256 • pattern: [\w\s\.\-\:\/\=\+\@]* Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: o pattern: [a-zA-Z0-9_-]{1,64}
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Must be 1-64 characters long and contain only alphanumeric characters, underscores, and hyphens. Constraints: • pattern: [a-zA-Z0-9_-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsComputeOptimizerAutomationTagResourceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a business glossary term. A glossary term represents an individual entry within the Amazon Data- Zone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage exam- ples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of d...
+/// Creates a business glossary term. A glossary term represents an individual entry within the Amazon DataZone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage examples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of data ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsDatazoneCreateGlossaryTermOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a business glossary term. A glossary term represents an individual entry within the Amazon Data- Zone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage exam- ples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of d...
+    /// Creates a business glossary term. A glossary term represents an individual entry within the Amazon DataZone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage examples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of data ...
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this business glossary term is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="GlossaryIdentifier">The ID of the business glossary in which this term is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Name">The name of this business glossary term. Constraints: o min: 1 o max: 256</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which this business glossary term is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="GlossaryIdentifier">The ID of the business glossary in which this term is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Name">The name of this business glossary term. Constraints: • min: 1 • max: 256</param>
     public AwsDatazoneCreateGlossaryTermOptions(
         string DomainIdentifier,
         string GlossaryIdentifier,
@@ -66,49 +67,49 @@ public record AwsDatazoneCreateGlossaryTermOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which this business glossary term is created. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which this business glossary term is created. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the business glossary in which this term is created. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the business glossary in which this term is created. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--glossary-identifier")]
     public string? GlossaryIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of this business glossary term. Constraints: o min: 1 o max: 256
+    /// The name of this business glossary term. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The status of this business glossary term. Possible values: o ENABLED o DISABLED
+    /// The status of this business glossary term. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsDatazoneCreateGlossaryTermStatus? Status { get; set; }
 
     /// <summary>
-    /// The short description of this business glossary term. Constraints: o min: 0 o max: 1024
+    /// The short description of this business glossary term. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--short-description")]
     public string? ShortDescription { get; set; }
 
     /// <summary>
-    /// The long description of this business glossary term. Constraints: o min: 0 o max: 4096
+    /// The long description of this business glossary term. Constraints: • min: 0 • max: 4096
     /// </summary>
     [CliOption("--long-description")]
     public string? LongDescription { get; set; }
 
     /// <summary>
-    /// The term relations of this business glossary term. isA -&gt; (list) The isA property of the term relations. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} classifies -&gt; (list) The classifies of the term relations. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: isA=string,string,classifies=string,string JSON Syntax: { "isA": ["string", ...], "classifies": ["string", ...] }
+    /// The term relations of this business glossary term. isA -&gt; (list) The isA property of the term relations. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} classifies -&gt; (list) The classifies of the term relations. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Shorthand Syntax: isA=string,string,classifies=string,string JSON Syntax: { "isA": ["string", ...], "classifies": ["string", ...] }
     /// </summary>
     [CliOption("--term-relations")]
     public string? TermRelations { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -135,6 +136,15 @@ public record AwsDatazoneCreateGlossaryTermOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

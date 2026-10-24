@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the authorization granted to the specified configuration aggre- gator account in a specified region. See also: AWS API Documentation
+/// Deletes the authorization granted to the specified configuration aggregator account in a specified region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConfigserviceDeleteAggregationAuthorizationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the authorization granted to the specified configuration aggre- gator account in a specified region. See also: AWS API Documentation
+    /// Deletes the authorization granted to the specified configuration aggregator account in a specified region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorizedAccountId">The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}</param>
-    /// <param name="AuthorizedAwsRegion">The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64</param>
+    /// <param name="AuthorizedAccountId">The 12-digit account ID of the account authorized to aggregate data. Constraints: • pattern: \d{12}</param>
+    /// <param name="AuthorizedAwsRegion">The region authorized to collect aggregated data. Constraints: • min: 1 • max: 64</param>
     public AwsConfigserviceDeleteAggregationAuthorizationOptions(
         string AuthorizedAccountId,
         string AuthorizedAwsRegion
@@ -60,13 +61,13 @@ public record AwsConfigserviceDeleteAggregationAuthorizationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The 12-digit account ID of the account authorized to aggregate data. Constraints: o pattern: \d{12}
+    /// The 12-digit account ID of the account authorized to aggregate data. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--authorized-account-id")]
     public string? AuthorizedAccountId { get; private init; }
 
     /// <summary>
-    /// The region authorized to collect aggregated data. Constraints: o min: 1 o max: 64
+    /// The region authorized to collect aggregated data. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--authorized-aws-region")]
     public string? AuthorizedAwsRegion { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConfigserviceDeleteAggregationAuthorizationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

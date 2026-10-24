@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about all of the versions for a specified traffic pol- icy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
+/// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53ListTrafficPolicyVersionsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about all of the versions for a specified traffic pol- icy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
+    /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by VersionNumber . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Specify the value of Id of the traffic policy for which you want to list all versions. Constraints: o min: 1 o max: 36</param>
+    /// <param name="Id">Specify the value of Id of the traffic policy for which you want to list all versions. Constraints: • min: 1 • max: 36</param>
     public AwsRoute53ListTrafficPolicyVersionsOptions(
         string Id
     )
@@ -56,19 +57,19 @@ public record AwsRoute53ListTrafficPolicyVersionsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify the value of Id of the traffic policy for which you want to list all versions. Constraints: o min: 1 o max: 36
+    /// Specify the value of Id of the traffic policy for which you want to list all versions. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// For your first request to ListTrafficPolicyVersions , don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems , ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get more traffic policy versions, submit another List- TrafficPolicyVersions request. For the value of TrafficPolicyVer- sionMarker , specify the value of TrafficPolicyVersionMarker in the previous response. Constraints: o max: 4
+    /// For your first request to ListTrafficPolicyVersions , don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems , ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get more traffic policy versions, submit another ListTrafficPolicyVersions request. For the value of TrafficPolicyVersionMarker , specify the value of TrafficPolicyVersionMarker in the previous response. Constraints: • max: 4
     /// </summary>
     [CliOption("--traffic-policy-version-marker")]
     public string? TrafficPolicyVersionMarker { get; set; }
 
     /// <summary>
-    /// The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of IsTruncated in the response is true , and the value of the Traf- ficPolicyVersionMarker element is the ID of the first version that Route 53 will return if you submit another request.
+    /// The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of IsTruncated in the response is true , and the value of the TrafficPolicyVersionMarker element is the ID of the first version that Route 53 will return if you submit another request.
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
@@ -94,6 +95,15 @@ public record AwsRoute53ListTrafficPolicyVersionsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

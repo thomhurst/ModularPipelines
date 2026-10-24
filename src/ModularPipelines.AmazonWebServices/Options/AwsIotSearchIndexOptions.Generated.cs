@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsIotSearchIndexOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Searches the specified index. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the connectivity object for this device in the response will have the connected field set to false with no additional session details. Requires permission to access the SearchIndex action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryString">The search query string. For more information about the search query syntax, see Query syntax . Constraints: o min: 1</param>
+    /// <param name="QueryString">The search query string. For more information about the search query syntax, see Query syntax . Constraints: • min: 1</param>
     public AwsIotSearchIndexOptions(
         string QueryString
     )
@@ -57,13 +58,13 @@ public record AwsIotSearchIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The search query string. For more information about the search query syntax, see Query syntax . Constraints: o min: 1
+    /// The search query string. For more information about the search query syntax, see Query syntax . Constraints: • min: 1
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The search index name. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The search index name. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
@@ -76,7 +77,7 @@ public record AwsIotSearchIndexOptions : AwsOptions, IValidatableObject
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return per page at one time. This maximum number cannot exceed 100. The response might contain fewer results but will never contain more. You can use ` nextToken https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken`__ to retrieve the next set of results until nextToken returns NULL . Constraints: o min: 1
+    /// The maximum number of results to return per page at one time. This maximum number cannot exceed 100. The response might contain fewer results but will never contain more. You can use ` nextToken https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken`__ to retrieve the next set of results until nextToken returns NULL . Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -108,6 +109,15 @@ public record AwsIotSearchIndexOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

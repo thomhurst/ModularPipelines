@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Cus- tomer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
+/// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Customer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsConnectReplicateInstanceOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Cus- tomer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
+    /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Customer resources across Amazon Web Services Regions. For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId , or the entire ARN. Constraints: o min: 1 o max: 250 o pattern: ^(arn:([a-zA-Z0-9-]+):con- nect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$</param>
-    /// <param name="ReplicaRegion">The Amazon Web Services Region where to replicate the Connect Cus- tomer instance. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId , or the entire ARN. Constraints: • min: 1 • max: 250 • pattern: ^(arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$</param>
+    /// <param name="ReplicaRegion">The Amazon Web Services Region where to replicate the Connect Customer instance. Constraints: • min: 8 • max: 31 • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?</param>
     public AwsConnectReplicateInstanceOptions(
         string InstanceId,
         string ReplicaRegion
@@ -61,26 +62,26 @@ public record AwsConnectReplicateInstanceOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId , or the entire ARN. Constraints: o min: 1 o max: 250 o pattern: ^(arn:([a-zA-Z0-9-]+):con- nect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId , or the entire ARN. Constraints: • min: 1 • max: 250 • pattern: ^(arn:([a-zA-Z0-9-]+):connect:[a-z]+-[a-z-]+-[0-9]+:[0-9]+:instance/)?[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region where to replicate the Connect Cus- tomer instance. Constraints: o min: 8 o max: 31 o pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
+    /// The Amazon Web Services Region where to replicate the Connect Customer instance. Constraints: • min: 8 • max: 31 • pattern: [a-z]{2}(-[a-z]+){1,2}(-[0-9])?
     /// </summary>
     [CliOption("--replica-region")]
     public string? ReplicaRegion { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The alias for the replicated instance. The ReplicaAlias must be unique. Constraints: o min: 1 o max: 45 o pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
+    /// The alias for the replicated instance. The ReplicaAlias must be unique. Constraints: • min: 1 • max: 45 • pattern: ^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$
     /// </summary>
     [CliOption("--replica-alias")]
     public string? ReplicaAlias { get; set; }
@@ -106,6 +107,15 @@ public record AwsConnectReplicateInstanceOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

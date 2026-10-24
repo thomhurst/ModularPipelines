@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified organization Config rule and all of its evalua- tion results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a dele- gated administrator, you must ensure Organizations ListDelegatedAdmin- istrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the dele- tion is complete. You cannot update a rule while it is in ...
+/// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this sta...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConfigserviceDeleteOrganizationConfigRuleOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified organization Config rule and all of its evalua- tion results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a dele- gated administrator, you must ensure Organizations ListDelegatedAdmin- istrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the dele- tion is complete. You cannot update a rule while it is in ...
+    /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this sta...
     /// </summary>
-    /// <param name="OrganizationConfigRuleName">The name of organization Config rule that you want to delete. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+</param>
+    /// <param name="OrganizationConfigRuleName">The name of organization Config rule that you want to delete. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+</param>
     public AwsConfigserviceDeleteOrganizationConfigRuleOptions(
         string OrganizationConfigRuleName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeleteOrganizationConfigRuleOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of organization Config rule that you want to delete. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// The name of organization Config rule that you want to delete. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [CliOption("--organization-config-rule-name")]
     public string? OrganizationConfigRuleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeleteOrganizationConfigRuleOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

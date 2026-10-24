@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation work- flows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not suppo...
+/// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation workflows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation work- flows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syntax does not suppo...
+    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation workflows. See also: AWS API Documentation create-configuration-bundle uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
     /// </summary>
-    /// <param name="BundleName">The name for the configuration bundle. Names must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}</param>
-    /// <param name="Components">A map of component identifiers to their configurations. Each compo- nent represents a configurable element within the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}</param>
+    /// <param name="BundleName">The name for the configuration bundle. Names must be unique within your account. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}</param>
+    /// <param name="Components">A map of component identifiers to their configurations. Each component represents a configurable element within the bundle. key -&gt; (string) Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}</param>
     public AwsBedrockAgentcoreControlCreateConfigurationBundleOptions(
         string BundleName,
         IReadOnlyList<KeyValue> Components
@@ -73,38 +73,38 @@ public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the configuration bundle. Names must be unique within your account. Constraints: o pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}
+    /// The name for the configuration bundle. Names must be unique within your account. Constraints: • pattern: [a-zA-Z][a-zA-Z0-9_]{0,99}
     /// </summary>
     [CliOption("--bundle-name")]
     public string? BundleName { get; private init; }
 
     /// <summary>
-    /// A map of component identifiers to their configurations. Each compo- nent represents a configurable element within the bundle. key -&gt; (string) Constraints: o min: 1 o max: 2048 o pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
+    /// A map of component identifiers to their configurations. Each component represents a configurable element within the bundle. key -&gt; (string) Constraints: • min: 1 • max: 2048 • pattern: [a-zA-Z][a-zA-Z0-9_:/.\-]{0,2047} value -&gt; (structure) The configuration for a component within a configuration bundle. The component type is inferred from the component identifier ARN. configuration -&gt; (document) [required] The configuration values as a flexible JSON document. Shorthand Syntax: KeyName1={},KeyName2={} JSON Syntax: {"string": { "configuration": {...} } ...}
     /// </summary>
     [CliOption("--components", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Components { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description for the configuration bundle. Constraints: o min: 1 o max: 500 o pattern: .+
+    /// The description for the configuration bundle. Constraints: • min: 1 • max: 500 • pattern: .+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The branch name for version tracking. Defaults to mainline if not specified. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127}
+    /// The branch name for version tracking. Defaults to mainline if not specified. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z][a-zA-Z0-9_/-]{0,127}
     /// </summary>
     [CliOption("--branch-name")]
     public string? BranchName { get; set; }
 
     /// <summary>
-    /// A commit message describing the initial version of the configuration bundle. Constraints: o min: 1 o max: 500
+    /// A commit message describing the initial version of the configuration bundle. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--commit-message")]
     public string? CommitMessage { get; set; }
@@ -116,13 +116,13 @@ public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOp
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// Optional KMS key ARN for encrypting component configurations. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
+    /// Optional KMS key ARN for encrypting component configurations. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// A map of tag keys and values to assign to the configuration bundle. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tag keys and values to assign to the configuration bundle. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -148,6 +148,15 @@ public record AwsBedrockAgentcoreControlCreateConfigurationBundleOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

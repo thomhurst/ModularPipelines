@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions, IValidatabl
     /// <summary>
     /// A user pool domain hosts managed login, an authorization server and web server for authentication in your application. This operation updates the branding version for user pool domains between 1 for hosted UI (classic) and 2 for managed login. It also updates the SSL certificate for user pool custom domains. Changes to the domain branding version take up to one minute to take effect for a prefix domain and up to five minutes for a custom domain. This operation doesn't change the name of your use...
     /// </summary>
-    /// <param name="Domain">The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.exam- ple.com . For prefix domains, this is the prefix alone, such as myprefix . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
-    /// <param name="UserPoolId">The ID of the user pool that is associated with the domain you're updating. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="Domain">The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.example.com . For prefix domains, this is the prefix alone, such as myprefix . Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$</param>
+    /// <param name="UserPoolId">The ID of the user pool that is associated with the domain you're updating. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpUpdateUserPoolDomainOptions(
         string Domain,
         string UserPoolId
@@ -60,13 +61,13 @@ public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.exam- ple.com . For prefix domains, this is the prefix alone, such as myprefix . Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
+    /// The name of the domain that you want to update. For custom domains, this is the fully-qualified domain name, for example auth.example.com . For prefix domains, this is the prefix alone, such as myprefix . Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9](?:[a-z0-9\-]{0,61}[a-z0-9])?$
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool that is associated with the domain you're updating. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool that is associated with the domain you're updating. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
@@ -78,13 +79,13 @@ public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions, IValidatabl
     public int? ManagedLoginVersion { get; set; }
 
     /// <summary>
-    /// The configuration for a custom domain that hosts managed login for your application. In an UpdateUserPoolDomain request, this parameter specifies an SSL certificate for the managed login hosted webserver. The certificate must be an ACM ARN in us-east-1 . When you create a custom domain, the passkey RP ID defaults to the custom domain. If you had a prefix domain active, this will cause passkey integration for your prefix domain to stop working due to a mismatch in RP ID. To keep the prefix domain passkey integration working, you can explicitly set RP ID to the prefix domain. CertificateArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain. Constraints: o min: 20 o max: 2048 o pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? SecurityPolicy -&gt; (string) The security policy for the custom domain. Defines the minimum TLS version and cipher suites that Amazon CloudFront supports when communicating with clients. For specific guidance, see Supported protocols and ciphers between viewers and CloudFront . Valid values are as follows: o TLS_V1_3_2025 (strictest): A post-quantum-ready policy requir- ing TLS 1.3. It provides the strongest security posture and is ideal for workloads where all clients and browsers are updated to the latest versions. Supported protocols and ciphers for TLSv1.3_2025 . o TLS_V1_2_2021 (recommended): A post-quantum-ready policy which prefers TLS 1.3 but allows fallback to TLS 1.2 to accommodate older clients. It is the recommended minimum for typical com- mercial-grade consumer applications. Supported protocols and ciphers for TLSv1.2_2021 . o TLS_V1 (strongly discouraged): Permits fallback to TLS 1.0. It offers the broadest compatibility, including support for legacy clients that are more than a decade old. This compati- bility comes at the expense of allowing TLS versions and cryp- tographic algorithms that are no longer considered safe for commercial use. Supported protocols and ciphers for TLSv1 . Possible values: o TLS_V1 o TLS_V1_2_2021 o TLS_V1_3_2025 Shorthand Syntax: CertificateArn=string,SecurityPolicy=string JSON Syntax: { "CertificateArn": "string", "SecurityPolicy": "TLS_V1"|"TLS_V1_2_2021"|"TLS_V1_3_2025" }
+    /// The configuration for a custom domain that hosts managed login for your application. In an UpdateUserPoolDomain request, this parameter specifies an SSL certificate for the managed login hosted webserver. The certificate must be an ACM ARN in us-east-1 . When you create a custom domain, the passkey RP ID defaults to the custom domain. If you had a prefix domain active, this will cause passkey integration for your prefix domain to stop working due to a mismatch in RP ID. To keep the prefix domain passkey integration working, you can explicitly set RP ID to the prefix domain. CertificateArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain. Constraints: • min: 20 • max: 2048 • pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)? SecurityPolicy -&gt; (string) The security policy for the custom domain. Defines the minimum TLS version and cipher suites that Amazon CloudFront supports when communicating with clients. For specific guidance, see Supported protocols and ciphers between viewers and CloudFront . Valid values are as follows: • TLS_V1_3_2025 (strictest): A post-quantum-ready policy requiring TLS 1.3. It provides the strongest security posture and is ideal for workloads where all clients and browsers are updated to the latest versions. Supported protocols and ciphers for TLSv1.3_2025 . • TLS_V1_2_2021 (recommended): A post-quantum-ready policy which prefers TLS 1.3 but allows fallback to TLS 1.2 to accommodate older clients. It is the recommended minimum for typical commercial-grade consumer applications. Supported protocols and ciphers for TLSv1.2_2021 . • TLS_V1 (strongly discouraged): Permits fallback to TLS 1.0. It offers the broadest compatibility, including support for legacy clients that are more than a decade old. This compatibility comes at the expense of allowing TLS versions and cryptographic algorithms that are no longer considered safe for commercial use. Supported protocols and ciphers for TLSv1 . Possible values: • TLS_V1 • TLS_V1_2_2021 • TLS_V1_3_2025 Shorthand Syntax: CertificateArn=string,SecurityPolicy=string JSON Syntax: { "CertificateArn": "string", "SecurityPolicy": "TLS_V1"|"TLS_V1_2_2021"|"TLS_V1_3_2025" }
     /// </summary>
     [CliOption("--custom-domain-config")]
     public string? CustomDomainConfig { get; set; }
 
     /// <summary>
-    /// The routing configuration for the user pool domain. Specifies failover settings for multi-region deployments. Failover -&gt; (structure) The failover configuration that specifies the secondary region and health check settings. SecondaryRegion -&gt; (string) [required] The secondary Amazon Web Services Region to use for failover when the primary region becomes unavailable. Constraints: o min: 5 o max: 32 PrimaryRoute53HealthCheckId -&gt; (string) [required] The ID of the Amazon Web Services Route53 healthcheck that controls routing. If the healthcheck is healthy, traffic will be routed to the primary replica, and if the healthcheck is unhealthy, traffic will be routed to the secondary region. Constraints: o max: 64 Shorthand Syntax: Failover={SecondaryRegion=string,PrimaryRoute53HealthCheckId=string} JSON Syntax: { "Failover": { "SecondaryRegion": "string", "PrimaryRoute53HealthCheckId": "string" } }
+    /// The routing configuration for the user pool domain. Specifies failover settings for multi-region deployments. Failover -&gt; (structure) The failover configuration that specifies the secondary region and health check settings. SecondaryRegion -&gt; (string) [required] The secondary Amazon Web Services Region to use for failover when the primary region becomes unavailable. Constraints: • min: 5 • max: 32 PrimaryRoute53HealthCheckId -&gt; (string) [required] The ID of the Amazon Web Services Route53 healthcheck that controls routing. If the healthcheck is healthy, traffic will be routed to the primary replica, and if the healthcheck is unhealthy, traffic will be routed to the secondary region. Constraints: • max: 64 Shorthand Syntax: Failover={SecondaryRegion=string,PrimaryRoute53HealthCheckId=string} JSON Syntax: { "Failover": { "SecondaryRegion": "string", "PrimaryRoute53HealthCheckId": "string" } }
     /// </summary>
     [CliOption("--routing")]
     public string? Routing { get; set; }
@@ -110,6 +111,15 @@ public record AwsCognitoIdpUpdateUserPoolDomainOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

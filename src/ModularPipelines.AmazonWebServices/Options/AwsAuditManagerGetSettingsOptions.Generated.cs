@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsAuditManagerGetSettingsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the settings for a specified Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attribute">The list of setting attribute enum values. Possible values: o ALL o IS_AWS_ORG_ENABLED o SNS_TOPIC o DEFAULT_ASSESSMENT_REPORTS_DESTINATION o DEFAULT_PROCESS_OWNERS o EVIDENCE_FINDER_ENABLEMENT o DEREGISTRATION_POLICY o DEFAULT_EXPORT_DESTINATION</param>
+    /// <param name="Attribute">The list of setting attribute enum values. Possible values: • ALL • IS_AWS_ORG_ENABLED • SNS_TOPIC • DEFAULT_ASSESSMENT_REPORTS_DESTINATION • DEFAULT_PROCESS_OWNERS • EVIDENCE_FINDER_ENABLEMENT • DEREGISTRATION_POLICY • DEFAULT_EXPORT_DESTINATION</param>
     public AwsAuditManagerGetSettingsOptions(
         AwsAuditManagerGetSettingsAttribute Attribute
     )
@@ -56,7 +57,7 @@ public record AwsAuditManagerGetSettingsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of setting attribute enum values. Possible values: o ALL o IS_AWS_ORG_ENABLED o SNS_TOPIC o DEFAULT_ASSESSMENT_REPORTS_DESTINATION o DEFAULT_PROCESS_OWNERS o EVIDENCE_FINDER_ENABLEMENT o DEREGISTRATION_POLICY o DEFAULT_EXPORT_DESTINATION
+    /// The list of setting attribute enum values. Possible values: • ALL • IS_AWS_ORG_ENABLED • SNS_TOPIC • DEFAULT_ASSESSMENT_REPORTS_DESTINATION • DEFAULT_PROCESS_OWNERS • EVIDENCE_FINDER_ENABLEMENT • DEREGISTRATION_POLICY • DEFAULT_EXPORT_DESTINATION
     /// </summary>
     [CliOption("--attribute")]
     public AwsAuditManagerGetSettingsAttribute? Attribute { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAuditManagerGetSettingsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

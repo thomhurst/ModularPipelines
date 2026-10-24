@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDatabrewStopJobRunOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Stops a particular run of a job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the job to be stopped. Constraints: o min: 1 o max: 240</param>
-    /// <param name="RunId">The ID of the job run to be stopped. Constraints: o min: 1 o max: 255</param>
+    /// <param name="Name">The name of the job to be stopped. Constraints: • min: 1 • max: 240</param>
+    /// <param name="RunId">The ID of the job run to be stopped. Constraints: • min: 1 • max: 255</param>
     public AwsDatabrewStopJobRunOptions(
         string Name,
         string RunId
@@ -60,13 +61,13 @@ public record AwsDatabrewStopJobRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the job to be stopped. Constraints: o min: 1 o max: 240
+    /// The name of the job to be stopped. Constraints: • min: 1 • max: 240
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The ID of the job run to be stopped. Constraints: o min: 1 o max: 255
+    /// The ID of the job run to be stopped. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--run-id")]
     public string? RunId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatabrewStopJobRunOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

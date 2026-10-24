@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages: o For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "Wh...
+/// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages: • For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "Wh...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +26,12 @@ public record AwsLexRuntimePostTextOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages: o For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "Wh...
+    /// Sends user input to Amazon Lex. Client applications can use this API to send requests to Amazon Lex at runtime. Amazon Lex then interprets the user input using the machine learning model it built for the bot. In response, Amazon Lex returns the next message to convey to the user an optional responseCard to display. Consider the following example messages: • For a user input "I would like a pizza", Amazon Lex might return a response with a message eliciting slot data (for example, PizzaSize): "Wh...
     /// </summary>
     /// <param name="BotName">The name of the Amazon Lex bot.</param>
     /// <param name="BotAlias">The alias of the Amazon Lex bot.</param>
-    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the fol- lowing factors. o The userID field must not contain any personally identifiable in- formation of the user, for example, name, personal identification numbers, or other end user personal information. o If you want a user to start a conversation on one device and con- tinue on another device, use a user-specific identifier. o If you want the same user to be able to have two independent con- versations on two different devices, choose a device-specific identifier. o A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conver- sation with the PROD and BETA versions of the same bot. If you an- ticipate that a user will need to have conversation with two dif- ferent versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+</param>
-    /// <param name="InputText">The text that the user entered (Amazon Lex interprets this text). Constraints: o min: 1 o max: 1024</param>
+    /// <param name="UserId">The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors. • The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information. • If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier. • If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier. • A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+</param>
+    /// <param name="InputText">The text that the user entered (Amazon Lex interprets this text). Constraints: • min: 1 • max: 1024</param>
     public AwsLexRuntimePostTextOptions(
         string BotName,
         string BotAlias,
@@ -81,13 +81,13 @@ public record AwsLexRuntimePostTextOptions : AwsOptions, IValidatableObject
     public string? BotAlias { get; private init; }
 
     /// <summary>
-    /// The ID of the client application user. Amazon Lex uses this to iden- tify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the fol- lowing factors. o The userID field must not contain any personally identifiable in- formation of the user, for example, name, personal identification numbers, or other end user personal information. o If you want a user to start a conversation on one device and con- tinue on another device, use a user-specific identifier. o If you want the same user to be able to have two independent con- versations on two different devices, choose a device-specific identifier. o A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conver- sation with the PROD and BETA versions of the same bot. If you an- ticipate that a user will need to have conversation with two dif- ferent versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: o min: 2 o max: 100 o pattern: [0-9a-zA-Z._:-]+
+    /// The ID of the client application user. Amazon Lex uses this to identify a user's conversation with your bot. At runtime, each request must contain the userID field. To decide the user ID to use for your application, consider the following factors. • The userID field must not contain any personally identifiable information of the user, for example, name, personal identification numbers, or other end user personal information. • If you want a user to start a conversation on one device and continue on another device, use a user-specific identifier. • If you want the same user to be able to have two independent conversations on two different devices, choose a device-specific identifier. • A user can't have two independent conversations with two different versions of the same bot. For example, a user can't have a conversation with the PROD and BETA versions of the same bot. If you anticipate that a user will need to have conversation with two different versions, for example, while testing, include the bot alias in the user ID to separate the two conversations. Constraints: • min: 2 • max: 100 • pattern: [0-9a-zA-Z._:-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The text that the user entered (Amazon Lex interprets this text). Constraints: o min: 1 o max: 1024
+    /// The text that the user entered (Amazon Lex interprets this text). Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--input-text")]
     public string? InputText { get; private init; }
@@ -105,7 +105,7 @@ public record AwsLexRuntimePostTextOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? RequestAttributes { get; set; }
 
     /// <summary>
-    /// A list of contexts active for the request. A context can be acti- vated when a previous intent is fulfilled, or by including the con- text in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared. Constraints: o min: 0 o max: 20 (structure) A context is a variable that contains information about the cur- rent state of the conversation between a user and Amazon Lex. Context can be set automatically by Amazon Lex when an intent is fulfilled, or it can be set at runtime using the PutContent , PutText , or PutSession operation. name -&gt; (string) [required] The name of the context. Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z]_?)+$ timeToLive -&gt; (structure) [required] The length of time or number of turns that a context remains active. timeToLiveInSeconds -&gt; (integer) The number of seconds that the context should be active after it is first sent in a PostContent or PostText re- sponse. You can set the value between 5 and 86,400 sec- onds (24 hours). Constraints: o min: 5 o max: 86400 turnsToLive -&gt; (integer) The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Ama- zon Lex. Constraints: o min: 1 o max: 20 parameters -&gt; (map) [required] State variables for the current context. You can use these values as default values for slots in subsequent events. Constraints: o min: 0 o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 100 value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: name=string,timeToLive={timeToLiveInSeconds=integer,turnsToLive=integer},parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "timeToLive": { "timeToLiveInSeconds": integer, "turnsToLive": integer }, "parameters": {"string": "string" ...} } ... ]
+    /// A list of contexts active for the request. A context can be activated when a previous intent is fulfilled, or by including the context in the request, If you don't specify a list of contexts, Amazon Lex will use the current list of contexts for the session. If you specify an empty list, all contexts for the session are cleared. Constraints: • min: 0 • max: 20 (structure) A context is a variable that contains information about the current state of the conversation between a user and Amazon Lex. Context can be set automatically by Amazon Lex when an intent is fulfilled, or it can be set at runtime using the PutContent , PutText , or PutSession operation. name -&gt; (string) [required] The name of the context. Constraints: • min: 1 • max: 100 • pattern: ^([A-Za-z]_?)+$ timeToLive -&gt; (structure) [required] The length of time or number of turns that a context remains active. timeToLiveInSeconds -&gt; (integer) The number of seconds that the context should be active after it is first sent in a PostContent or PostText response. You can set the value between 5 and 86,400 seconds (24 hours). Constraints: • min: 5 • max: 86400 turnsToLive -&gt; (integer) The number of conversation turns that the context should be active. A conversation turn is one PostContent or PostText request and the corresponding response from Amazon Lex. Constraints: • min: 1 • max: 20 parameters -&gt; (map) [required] State variables for the current context. You can use these values as default values for slots in subsequent events. Constraints: • min: 0 • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 100 value -&gt; (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: name=string,timeToLive={timeToLiveInSeconds=integer,turnsToLive=integer},parameters={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "name": "string", "timeToLive": { "timeToLiveInSeconds": integer, "turnsToLive": integer }, "parameters": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--active-contexts", GroupValues = true)]
     public IEnumerable<string>? ActiveContexts { get; set; }
@@ -131,6 +131,15 @@ public record AwsLexRuntimePostTextOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that deter- mine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping at- tributes can then be used to organize and filter services in the Appli- cation Signals console and APIs. See also: AWS API Documentation
+/// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApplicationSignalsPutGroupingConfigurationOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that deter- mine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping at- tributes can then be used to organize and filter services in the Appli- cation Signals console and APIs. See also: AWS API Documentation
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupingAttributeDefinitions">An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value. (structure) A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value. GroupingName -&gt; (string) [required] The friendly name for this grouping attribute, such as Busi- nessUnit or Environment . This name is used to identify the grouping in the console and APIs. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* GroupingSourceKeys -&gt; (list) An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* DefaultGroupingValue -&gt; (string) The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* Shorthand Syntax: GroupingName=string,GroupingSourceKeys=string,string,DefaultGroupingValue=string ... JSON Syntax: [ { "GroupingName": "string", "GroupingSourceKeys": ["string", ...], "DefaultGroupingValue": "string" } ... ]</param>
+    /// <param name="GroupingAttributeDefinitions">An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value. (structure) A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value. GroupingName -&gt; (string) [required] The friendly name for this grouping attribute, such as BusinessUnit or Environment . This name is used to identify the grouping in the console and APIs. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s+\-=\._:/@]* GroupingSourceKeys -&gt; (list) An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s+\-=\._:/@]* DefaultGroupingValue -&gt; (string) The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s+\-=\._:/@]* Shorthand Syntax: GroupingName=string,GroupingSourceKeys=string,string,DefaultGroupingValue=string ... JSON Syntax: [ { "GroupingName": "string", "GroupingSourceKeys": ["string", ...], "DefaultGroupingValue": "string" } ... ]</param>
     public AwsApplicationSignalsPutGroupingConfigurationOptions(
         IEnumerable<string> GroupingAttributeDefinitions
     )
@@ -67,7 +68,7 @@ public record AwsApplicationSignalsPutGroupingConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value. (structure) A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value. GroupingName -&gt; (string) [required] The friendly name for this grouping attribute, such as Busi- nessUnit or Environment . This name is used to identify the grouping in the console and APIs. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* GroupingSourceKeys -&gt; (list) An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* DefaultGroupingValue -&gt; (string) The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s+\-=\._:/@]* Shorthand Syntax: GroupingName=string,GroupingSourceKeys=string,string,DefaultGroupingValue=string ... JSON Syntax: [ { "GroupingName": "string", "GroupingSourceKeys": ["string", ...], "DefaultGroupingValue": "string" } ... ]
+    /// An array of grouping attribute definitions that specify how services should be grouped. Each definition includes a friendly name, source keys to derive the grouping value from, and an optional default value. (structure) A structure that defines how services should be grouped based on specific attributes. This includes the friendly name for the grouping, the source keys to derive values from, and an optional default value. GroupingName -&gt; (string) [required] The friendly name for this grouping attribute, such as BusinessUnit or Environment . This name is used to identify the grouping in the console and APIs. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s+\-=\._:/@]* GroupingSourceKeys -&gt; (list) An array of source keys used to derive the grouping attribute value from telemetry data, Amazon Web Services tags, or other sources. For example, ["business_unit", "team"] would look for values in those fields. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s+\-=\._:/@]* DefaultGroupingValue -&gt; (string) The default value to use for this grouping attribute when no value can be derived from the source keys. This ensures all services have a grouping value even if the source data is missing. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s+\-=\._:/@]* Shorthand Syntax: GroupingName=string,GroupingSourceKeys=string,string,DefaultGroupingValue=string ... JSON Syntax: [ { "GroupingName": "string", "GroupingSourceKeys": ["string", ...], "DefaultGroupingValue": "string" } ... ]
     /// </summary>
     [CliOption("--grouping-attribute-definitions", GroupValues = true)]
     public IEnumerable<string>? GroupingAttributeDefinitions { get; private init; }
@@ -93,6 +94,15 @@ public record AwsApplicationSignalsPutGroupingConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

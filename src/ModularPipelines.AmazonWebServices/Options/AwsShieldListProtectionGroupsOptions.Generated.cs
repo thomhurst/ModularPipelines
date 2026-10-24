@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide filtering criteria and re- trieve just the subset of protection groups that match the criteria. See also: AWS API Documentation
+/// Retrieves ProtectionGroup objects for the account. You can retrieve all protection groups or you can provide filtering criteria and retrieve just the subset of protection groups that match the criteria. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsShieldListProtectionGroupsOptions : AwsOptions
 {
     /// <summary>
-    /// When you request a list of objects from Shield Advanced, if the re- sponse does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your re- quest. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet re- turned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty. Constraints: o min: 1 o max: 4096 o pattern: ^.*$
+    /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects, Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and providing the token that was returned by the prior call in your request. You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available. Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value. On your first call to a list operation, leave this setting empty. Constraints: • min: 1 • max: 4096 • pattern: ^.*$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The greatest number of objects that you want Shield Advanced to re- turn to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are avail- able. If there are more objects remaining, Shield Advanced will al- ways also return a NextToken value in the response. The default setting is 20. Constraints: o min: 0 o max: 10000
+    /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value in the response. The default setting is 20. Constraints: • min: 0 • max: 10000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Narrows the set of protection groups that the call retrieves. You can retrieve a single protection group by its name and you can re- trieve all protection groups that are configured with specific pat- tern or aggregation settings. You can provide up to one criteria per filter type. Shield Advanced returns the protection groups that ex- actly match all of the search criteria that you provide. ProtectionGroupIds -&gt; (list) The ID of the protection group that you want to retrieve. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9\\-]* Patterns -&gt; (list) The pattern specification of the protection groups that you want to retrieve. Constraints: o min: 1 o max: 1 (string) Possible values: o ALL o ARBITRARY o BY_RESOURCE_TYPE ResourceTypes -&gt; (list) The resource type configuration of the protection groups that you want to retrieve. In the protection group configuration, you specify the resource type when you set the group's Pattern to BY_RESOURCE_TYPE . Constraints: o min: 1 o max: 1 (string) Possible values: o CLOUDFRONT_DISTRIBUTION o ROUTE_53_HOSTED_ZONE o ELASTIC_IP_ALLOCATION o CLASSIC_LOAD_BALANCER o APPLICATION_LOAD_BALANCER o GLOBAL_ACCELERATOR Aggregations -&gt; (list) The aggregation setting of the protection groups that you want to retrieve. Constraints: o min: 1 o max: 1 (string) Possible values: o SUM o MEAN o MAX Shorthand Syntax: ProtectionGroupIds=string,string,Patterns=string,string,ResourceTypes=string,string,Aggregations=string,string JSON Syntax: { "ProtectionGroupIds": ["string", ...], "Patterns": ["ALL"|"ARBITRARY"|"BY_RESOURCE_TYPE", ...], "ResourceTypes": ["CLOUDFRONT_DISTRIBUTION"|"ROUTE_53_HOSTED_ZONE"|"ELASTIC_IP_ALLOCATION"|"CLASSIC_LOAD_BALANCER"|"APPLICATION_LOAD_BALANCER"|"GLOBAL_ACCELERATOR", ...], "Aggregations": ["SUM"|"MEAN"|"MAX", ...] }
+    /// Narrows the set of protection groups that the call retrieves. You can retrieve a single protection group by its name and you can retrieve all protection groups that are configured with specific pattern or aggregation settings. You can provide up to one criteria per filter type. Shield Advanced returns the protection groups that exactly match all of the search criteria that you provide. ProtectionGroupIds -&gt; (list) The ID of the protection group that you want to retrieve. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9\\-]* Patterns -&gt; (list) The pattern specification of the protection groups that you want to retrieve. Constraints: • min: 1 • max: 1 (string) Possible values: • ALL • ARBITRARY • BY_RESOURCE_TYPE ResourceTypes -&gt; (list) The resource type configuration of the protection groups that you want to retrieve. In the protection group configuration, you specify the resource type when you set the group's Pattern to BY_RESOURCE_TYPE . Constraints: • min: 1 • max: 1 (string) Possible values: • CLOUDFRONT_DISTRIBUTION • ROUTE_53_HOSTED_ZONE • ELASTIC_IP_ALLOCATION • CLASSIC_LOAD_BALANCER • APPLICATION_LOAD_BALANCER • GLOBAL_ACCELERATOR Aggregations -&gt; (list) The aggregation setting of the protection groups that you want to retrieve. Constraints: • min: 1 • max: 1 (string) Possible values: • SUM • MEAN • MAX Shorthand Syntax: ProtectionGroupIds=string,string,Patterns=string,string,ResourceTypes=string,string,Aggregations=string,string JSON Syntax: { "ProtectionGroupIds": ["string", ...], "Patterns": ["ALL"|"ARBITRARY"|"BY_RESOURCE_TYPE", ...], "ResourceTypes": ["CLOUDFRONT_DISTRIBUTION"|"ROUTE_53_HOSTED_ZONE"|"ELASTIC_IP_ALLOCATION"|"CLASSIC_LOAD_BALANCER"|"APPLICATION_LOAD_BALANCER"|"GLOBAL_ACCELERATOR", ...], "Aggregations": ["SUM"|"MEAN"|"MAX", ...] }
     /// </summary>
     [CliOption("--inclusion-filters")]
     public string? InclusionFilters { get; set; }
@@ -46,5 +46,14 @@ public record AwsShieldListProtectionGroupsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

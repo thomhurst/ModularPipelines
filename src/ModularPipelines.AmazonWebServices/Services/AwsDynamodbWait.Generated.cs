@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws dynamodb wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDynamodbWait
@@ -47,7 +47,7 @@ public class AwsDynamodbWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ExportDescription.ExportStatus returns COM- PLETED when polling with describe-export. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ExportDescription.ExportStatus returns COMPLETED when polling with describe-export. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsDynamodbWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ImportTableDescription.ImportStatus returns COMPLETED when polling with describe-import. It will poll every 20 sec- onds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ImportTableDescription.ImportStatus returns COMPLETED when polling with describe-import. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 60 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsDynamodbWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query KinesisDataStreamDestinations[].Destination- Status returns ACTIVE for any element when polling with describe-kine- sis-streaming-destination. It will poll every 20 seconds until a suc- cessful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query KinesisDataStreamDestinations[].DestinationStatus returns ACTIVE for any element when polling with describe-kinesis-streaming-destination. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsDynamodbWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-table. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 25 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-table. It will poll every 20 seconds until a successful state has been reached. This will exit with a return code of 255 after 25 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

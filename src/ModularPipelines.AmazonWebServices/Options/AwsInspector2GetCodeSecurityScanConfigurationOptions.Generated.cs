@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspector2GetCodeSecurityScanConfigurationOptions : AwsOptions,
     /// <summary>
     /// Retrieves information about a code security scan configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanConfigurationArn">The Amazon Resource Name (ARN) of the scan configuration to re- trieve. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}</param>
+    /// <param name="ScanConfigurationArn">The Amazon Resource Name (ARN) of the scan configuration to retrieve. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}</param>
     public AwsInspector2GetCodeSecurityScanConfigurationOptions(
         string ScanConfigurationArn
     )
@@ -56,7 +57,7 @@ public record AwsInspector2GetCodeSecurityScanConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the scan configuration to re- trieve. Constraints: o pattern: arn:(aws[a-zA-Z-]*)?:inspec- tor2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codese- curity-configuration/[a-f0-9-]{36}
+    /// The Amazon Resource Name (ARN) of the scan configuration to retrieve. Constraints: • pattern: arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/codesecurity-configuration/[a-f0-9-]{36}
     /// </summary>
     [CliOption("--scan-configuration-arn")]
     public string? ScanConfigurationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInspector2GetCodeSecurityScanConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

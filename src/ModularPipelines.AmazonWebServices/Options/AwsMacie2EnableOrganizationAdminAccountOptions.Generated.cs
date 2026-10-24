@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates an account as the delegated Amazon Macie administrator ac- count for an organization in Organizations. See also: AWS API Documentation
+/// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsMacie2EnableOrganizationAdminAccountOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates an account as the delegated Amazon Macie administrator ac- count for an organization in Organizations. See also: AWS API Documentation
+    /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccountId">The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organiza- tion.</param>
+    /// <param name="AdminAccountId">The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organization.</param>
     public AwsMacie2EnableOrganizationAdminAccountOptions(
         string AdminAccountId
     )
@@ -57,13 +58,13 @@ public record AwsMacie2EnableOrganizationAdminAccountOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organiza- tion.
+    /// The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organization.
     /// </summary>
     [CliOption("--admin-account-id")]
     public string? AdminAccountId { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsMacie2EnableOrganizationAdminAccountOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

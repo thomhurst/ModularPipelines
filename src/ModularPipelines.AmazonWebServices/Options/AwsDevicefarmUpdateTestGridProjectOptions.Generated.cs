@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDevicefarmUpdateTestGridProjectOptions : AwsOptions, IValidatab
     /// <summary>
     /// Change details of a project. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">ARN of the project to update. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="ProjectArn">ARN of the project to update. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
     public AwsDevicefarmUpdateTestGridProjectOptions(
         string ProjectArn
     )
@@ -56,25 +57,25 @@ public record AwsDevicefarmUpdateTestGridProjectOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the project to update. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// ARN of the project to update. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// Human-readable name for the project. Constraints: o min: 1 o max: 64 o pattern: .*\S.*
+    /// Human-readable name for the project. Constraints: • min: 1 • max: 64 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Human-readable description for the project. Constraints: o min: 1 o max: 2048 o pattern: .*\S.*
+    /// Human-readable description for the project. Constraints: • min: 1 • max: 2048 • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The VPC security groups and subnets that are attached to a project. securityGroupIds -&gt; (list) [required] A list of VPC security group IDs in your Amazon VPC. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 4096 o pattern: .*\S.* subnetIds -&gt; (list) [required] A list of VPC subnet IDs in your Amazon VPC. Constraints: o min: 1 o max: 8 (string) Constraints: o min: 1 o max: 4096 o pattern: .*\S.* vpcId -&gt; (string) [required] The ID of the Amazon VPC. Constraints: o min: 1 o max: 4096 o pattern: .*\S.* Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string,vpcId=string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcId": "string" }
+    /// The VPC security groups and subnets that are attached to a project. securityGroupIds -&gt; (list) [required] A list of VPC security group IDs in your Amazon VPC. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 4096 • pattern: .*\S.* subnetIds -&gt; (list) [required] A list of VPC subnet IDs in your Amazon VPC. Constraints: • min: 1 • max: 8 (string) Constraints: • min: 1 • max: 4096 • pattern: .*\S.* vpcId -&gt; (string) [required] The ID of the Amazon VPC. Constraints: • min: 1 • max: 4096 • pattern: .*\S.* Shorthand Syntax: securityGroupIds=string,string,subnetIds=string,string,vpcId=string JSON Syntax: { "securityGroupIds": ["string", ...], "subnetIds": ["string", ...], "vpcId": "string" }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; set; }
@@ -100,6 +101,15 @@ public record AwsDevicefarmUpdateTestGridProjectOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the logging configuration for the specified Amazon Web Ser- vices Verified Access instance. See also: AWS API Documentation
+/// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions : Aw
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the logging configuration for the specified Amazon Web Ser- vices Verified Access instance. See also: AWS API Documentation
+    /// Modifies the logging configuration for the specified Amazon Web Services Verified Access instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="VerifiedAccessInstanceId">The ID of the Verified Access instance.</param>
-    /// <param name="AccessLogs">The configuration options for Verified Access instances. S3 -&gt; (structure) Sends Verified Access logs to Amazon S3. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. BucketName -&gt; (string) The bucket name. Prefix -&gt; (string) The bucket prefix. BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the Ama- zon S3 bucket. CloudWatchLogs -&gt; (structure) Sends Verified Access logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. LogGroup -&gt; (string) The ID of the CloudWatch Logs log group. KinesisDataFirehose -&gt; (structure) Sends Verified Access logs to Kinesis. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. DeliveryStream -&gt; (string) The ID of the delivery stream. LogVersion -&gt; (string) The logging version. Valid values: ocsf-0.1 | ocsf-1.0.0-rc.2 IncludeTrustContext -&gt; (boolean) Indicates whether to include trust data sent by trust providers in the logs. Shorthand Syntax: S3={Enabled=boolean,BucketName=string,Prefix=string,BucketOwner=string},CloudWatchLogs={Enabled=boolean,LogGroup=string},KinesisDataFirehose={Enabled=boolean,DeliveryStream=string},LogVersion=string,IncludeTrustContext=boolean JSON Syntax: { "S3": { "Enabled": true|false, "BucketName": "string", "Prefix": "string", "BucketOwner": "string" }, "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "KinesisDataFirehose": { "Enabled": true|false, "DeliveryStream": "string" }, "LogVersion": "string", "IncludeTrustContext": true|false }</param>
+    /// <param name="AccessLogs">The configuration options for Verified Access instances. S3 -&gt; (structure) Sends Verified Access logs to Amazon S3. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. BucketName -&gt; (string) The bucket name. Prefix -&gt; (string) The bucket prefix. BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the Amazon S3 bucket. CloudWatchLogs -&gt; (structure) Sends Verified Access logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. LogGroup -&gt; (string) The ID of the CloudWatch Logs log group. KinesisDataFirehose -&gt; (structure) Sends Verified Access logs to Kinesis. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. DeliveryStream -&gt; (string) The ID of the delivery stream. LogVersion -&gt; (string) The logging version. Valid values: ocsf-0.1 | ocsf-1.0.0-rc.2 IncludeTrustContext -&gt; (boolean) Indicates whether to include trust data sent by trust providers in the logs. Shorthand Syntax: S3={Enabled=boolean,BucketName=string,Prefix=string,BucketOwner=string},CloudWatchLogs={Enabled=boolean,LogGroup=string},KinesisDataFirehose={Enabled=boolean,DeliveryStream=string},LogVersion=string,IncludeTrustContext=boolean JSON Syntax: { "S3": { "Enabled": true|false, "BucketName": "string", "Prefix": "string", "BucketOwner": "string" }, "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "KinesisDataFirehose": { "Enabled": true|false, "DeliveryStream": "string" }, "LogVersion": "string", "IncludeTrustContext": true|false }</param>
     public AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions(
         string VerifiedAccessInstanceId,
         string AccessLogs
@@ -67,19 +68,19 @@ public record AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions : Aw
     public string? VerifiedAccessInstanceId { get; private init; }
 
     /// <summary>
-    /// The configuration options for Verified Access instances. S3 -&gt; (structure) Sends Verified Access logs to Amazon S3. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. BucketName -&gt; (string) The bucket name. Prefix -&gt; (string) The bucket prefix. BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the Ama- zon S3 bucket. CloudWatchLogs -&gt; (structure) Sends Verified Access logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. LogGroup -&gt; (string) The ID of the CloudWatch Logs log group. KinesisDataFirehose -&gt; (structure) Sends Verified Access logs to Kinesis. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. DeliveryStream -&gt; (string) The ID of the delivery stream. LogVersion -&gt; (string) The logging version. Valid values: ocsf-0.1 | ocsf-1.0.0-rc.2 IncludeTrustContext -&gt; (boolean) Indicates whether to include trust data sent by trust providers in the logs. Shorthand Syntax: S3={Enabled=boolean,BucketName=string,Prefix=string,BucketOwner=string},CloudWatchLogs={Enabled=boolean,LogGroup=string},KinesisDataFirehose={Enabled=boolean,DeliveryStream=string},LogVersion=string,IncludeTrustContext=boolean JSON Syntax: { "S3": { "Enabled": true|false, "BucketName": "string", "Prefix": "string", "BucketOwner": "string" }, "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "KinesisDataFirehose": { "Enabled": true|false, "DeliveryStream": "string" }, "LogVersion": "string", "IncludeTrustContext": true|false }
+    /// The configuration options for Verified Access instances. S3 -&gt; (structure) Sends Verified Access logs to Amazon S3. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. BucketName -&gt; (string) The bucket name. Prefix -&gt; (string) The bucket prefix. BucketOwner -&gt; (string) The ID of the Amazon Web Services account that owns the Amazon S3 bucket. CloudWatchLogs -&gt; (structure) Sends Verified Access logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. LogGroup -&gt; (string) The ID of the CloudWatch Logs log group. KinesisDataFirehose -&gt; (structure) Sends Verified Access logs to Kinesis. Enabled -&gt; (boolean) [required] Indicates whether logging is enabled. DeliveryStream -&gt; (string) The ID of the delivery stream. LogVersion -&gt; (string) The logging version. Valid values: ocsf-0.1 | ocsf-1.0.0-rc.2 IncludeTrustContext -&gt; (boolean) Indicates whether to include trust data sent by trust providers in the logs. Shorthand Syntax: S3={Enabled=boolean,BucketName=string,Prefix=string,BucketOwner=string},CloudWatchLogs={Enabled=boolean,LogGroup=string},KinesisDataFirehose={Enabled=boolean,DeliveryStream=string},LogVersion=string,IncludeTrustContext=boolean JSON Syntax: { "S3": { "Enabled": true|false, "BucketName": "string", "Prefix": "string", "BucketOwner": "string" }, "CloudWatchLogs": { "Enabled": true|false, "LogGroup": "string" }, "KinesisDataFirehose": { "Enabled": true|false, "DeliveryStream": "string" }, "LogVersion": "string", "IncludeTrustContext": true|false }
     /// </summary>
     [CliOption("--access-logs")]
     public string? AccessLogs { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure idempo- tency of your modification request. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive token that you provide to ensure idempotency of your modification request. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsEc2ModifyVerifiedAccessInstanceLoggingConfigurationOptions : Aw
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

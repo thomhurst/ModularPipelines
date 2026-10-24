@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAmplifyUpdateDomainAssociationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a new domain association for an Amplify app. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppId">The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+</param>
-    /// <param name="DomainName">The name of the domain. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
+    /// <param name="AppId">The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • max: 64 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$</param>
     public AwsAmplifyUpdateDomainAssociationOptions(
         string AppId,
         string DomainName
@@ -60,13 +61,13 @@ public record AwsAmplifyUpdateDomainAssociationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID for an Amplify app. Constraints: o min: 1 o max: 20 o pattern: d[a-z0-9]+
+    /// The unique ID for an Amplify app. Constraints: • min: 1 • max: 20 • pattern: d[a-z0-9]+
     /// </summary>
     [CliOption("--app-id")]
     public string? AppId { get; private init; }
 
     /// <summary>
-    /// The name of the domain. Constraints: o max: 64 o pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
+    /// The name of the domain. Constraints: • max: 64 • pattern: ^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\.)?$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -78,25 +79,25 @@ public record AwsAmplifyUpdateDomainAssociationOptions : AwsOptions, IValidatabl
     public bool? EnableAutoSubDomain { get; set; }
 
     /// <summary>
-    /// Describes the settings for the subdomain. Constraints: o max: 500 (structure) Describes the settings for the subdomain. prefix -&gt; (string) [required] The prefix setting for the subdomain. Constraints: o max: 255 o pattern: (?s).* branchName -&gt; (string) [required] The branch name setting for the subdomain. Constraints: o min: 1 o max: 255 o pattern: (?s).+ Shorthand Syntax: prefix=string,branchName=string ... JSON Syntax: [ { "prefix": "string", "branchName": "string" } ... ]
+    /// Describes the settings for the subdomain. Constraints: • max: 500 (structure) Describes the settings for the subdomain. prefix -&gt; (string) [required] The prefix setting for the subdomain. Constraints: • max: 255 • pattern: (?s).* branchName -&gt; (string) [required] The branch name setting for the subdomain. Constraints: • min: 1 • max: 255 • pattern: (?s).+ Shorthand Syntax: prefix=string,branchName=string ... JSON Syntax: [ { "prefix": "string", "branchName": "string" } ... ]
     /// </summary>
     [CliOption("--sub-domain-settings", GroupValues = true)]
     public IEnumerable<string>? SubDomainSettings { get; set; }
 
     /// <summary>
-    /// Sets the branch patterns for automatic subdomain creation. (string) Constraints: o min: 1 o max: 2048 o pattern: (?s).+ Syntax: "string" "string" ...
+    /// Sets the branch patterns for automatic subdomain creation. (string) Constraints: • min: 1 • max: 2048 • pattern: (?s).+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--auto-sub-domain-creation-patterns", GroupValues = true)]
     public IEnumerable<string>? AutoSubDomainCreationPatterns { get; set; }
 
     /// <summary>
-    /// The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdo- mains. Constraints: o max: 1000 o pattern: ^$|^arn:aws:iam::\d{12}:role.+
+    /// The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains. Constraints: • max: 1000 • pattern: ^$|^arn:aws:iam::\d{12}:role.+
     /// </summary>
     [CliOption("--auto-sub-domain-iam-role")]
     public string? AutoSubDomainIamRole { get; set; }
 
     /// <summary>
-    /// The type of SSL/TLS certificate to use for your custom domain. type -&gt; (string) [required] The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Am- plify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services ac- count. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide . Possible values: o AMPLIFY_MANAGED o CUSTOM customCertificateArn -&gt; (string) The Amazon resource name (ARN) for the custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM . Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws:acm:[a-z0-9-]+:\d{12}:certificate\/.+$ Shorthand Syntax: type=string,customCertificateArn=string JSON Syntax: { "type": "AMPLIFY_MANAGED"|"CUSTOM", "customCertificateArn": "string" }
+    /// The type of SSL/TLS certificate to use for your custom domain. type -&gt; (string) [required] The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see Importing certificates into Certificate Manager in the ACM User guide . Possible values: • AMPLIFY_MANAGED • CUSTOM customCertificateArn -&gt; (string) The Amazon resource name (ARN) for the custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM . Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws:acm:[a-z0-9-]+:\d{12}:certificate\/.+$ Shorthand Syntax: type=string,customCertificateArn=string JSON Syntax: { "type": "AMPLIFY_MANAGED"|"CUSTOM", "customCertificateArn": "string" }
     /// </summary>
     [CliOption("--certificate-settings")]
     public string? CertificateSettings { get; set; }
@@ -122,6 +123,15 @@ public record AwsAmplifyUpdateDomainAssociationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

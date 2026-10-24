@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replica- tion workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint us- ing the server resources that DMS has provisioned for the DMS Server- less replication. See also: AWS API Documentation
+/// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDmsStartReplicationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replica- tion workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint us- ing the server resources that DMS has provisioned for the DMS Server- less replication. See also: AWS API Documentation
+    /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication. See also: AWS API Documentation
     /// </summary>
     /// <param name="ReplicationConfigArn">The Amazon Resource Name of the replication for which to start replication.</param>
-    /// <param name="StartReplicationType">The replication type. When the replication type is full-load or full-load-and-cdc , the only valid value for the first run of the replication is start-replication . This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load repli- cation, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target . Otherwise use resume-processing , to replicate the changes from the last stop position.</param>
+    /// <param name="StartReplicationType">The replication type. When the replication type is full-load or full-load-and-cdc , the only valid value for the first run of the replication is start-replication . This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target . Otherwise use resume-processing , to replicate the changes from the last stop position.</param>
     public AwsDmsStartReplicationOptions(
         string ReplicationConfigArn,
         string StartReplicationType
@@ -66,19 +67,19 @@ public record AwsDmsStartReplicationOptions : AwsOptions, IValidatableObject
     public string? ReplicationConfigArn { get; private init; }
 
     /// <summary>
-    /// The replication type. When the replication type is full-load or full-load-and-cdc , the only valid value for the first run of the replication is start-replication . This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load repli- cation, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target . Otherwise use resume-processing , to replicate the changes from the last stop position.
+    /// The replication type. When the replication type is full-load or full-load-and-cdc , the only valid value for the first run of the replication is start-replication . This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target . Otherwise use resume-processing , to replicate the changes from the last stop position.
     /// </summary>
     [CliOption("--start-replication-type")]
     public string? StartReplicationType { get; private init; }
 
     /// <summary>
-    /// User-defined settings for the premigration assessment. The possible values are: o ResultLocationFolder : The folder within an Amazon S3 bucket where you want DMS to store the results of this assessment run. o ResultEncryptionMode : The supported values are SSE_KMS and SSE_S3 . If these values are not provided, then the files are not en- crypted at rest. For more information, see Creating Amazon Web Services KMS keys to encrypt Amazon S3 target objects . o ResultKmsKeyArn : The ARN of a customer KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS . o IncludeOnly : A space-separated list of names for specific indi- vidual assessments that you want to include. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration. o Exclude : A space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration. o FailOnAssessmentFailure : A configurable setting you can set to true (the default setting) or false . Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
+    /// User-defined settings for the premigration assessment. The possible values are: • ResultLocationFolder : The folder within an Amazon S3 bucket where you want DMS to store the results of this assessment run. • ResultEncryptionMode : The supported values are SSE_KMS and SSE_S3 . If these values are not provided, then the files are not encrypted at rest. For more information, see Creating Amazon Web Services KMS keys to encrypt Amazon S3 target objects . • ResultKmsKeyArn : The ARN of a customer KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS . • IncludeOnly : A space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration. • Exclude : A space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration. • FailOnAssessmentFailure : A configurable setting you can set to true (the default setting) or false . Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
     /// </summary>
     [CliOption("--premigration-assessment-settings")]
     public string? PremigrationAssessmentSettings { get; set; }
 
     /// <summary>
-    /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an er- ror.
+    /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
     /// </summary>
     [CliOption("--cdc-start-time")]
     public string? CdcStartTime { get; set; }
@@ -116,6 +117,15 @@ public record AwsDmsStartReplicationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

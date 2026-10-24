@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists events for a specified participant that occurred during a speci- fied stage session. See also: AWS API Documentation
+/// Lists events for a specified participant that occurred during a specified stage session. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsIvsRealtimeListParticipantEventsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists events for a specified participant that occurred during a speci- fied stage session. See also: AWS API Documentation
+    /// Lists events for a specified participant that occurred during a specified stage session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StageArn">Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
-    /// <param name="SessionId">ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+</param>
-    /// <param name="ParticipantId">Unique identifier for this participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*</param>
+    /// <param name="StageArn">Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+</param>
+    /// <param name="SessionId">ID of a session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+</param>
+    /// <param name="ParticipantId">Unique identifier for this participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*</param>
     public AwsIvsRealtimeListParticipantEventsOptions(
         string StageArn,
         string SessionId,
@@ -65,32 +66,32 @@ public record AwsIvsRealtimeListParticipantEventsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Stage ARN. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
+    /// Stage ARN. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--stage-arn")]
     public string? StageArn { get; private init; }
 
     /// <summary>
-    /// ID of a session within the stage. Constraints: o min: 16 o max: 16 o pattern: st-[a-zA-Z0-9]+
+    /// ID of a session within the stage. Constraints: • min: 16 • max: 16 • pattern: st-[a-zA-Z0-9]+
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// Unique identifier for this participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: o min: 0 o max: 64 o pattern: [a-zA-Z0-9-_]*
+    /// Unique identifier for this participant. This is assigned by IVS and returned by CreateParticipantToken . Constraints: • min: 0 • max: 64 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--participant-id")]
     public string? ParticipantId { get; private init; }
 
     /// <summary>
-    /// The first participant event to retrieve. This is used for pagina- tion; see the nextToken response field. Constraints: o min: 0 o max: 1024 o pattern: [a-zA-Z0-9+/=_-]*
+    /// The first participant event to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024 • pattern: [a-zA-Z0-9+/=_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of results to return. Default: 50. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to return. Default: 50. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -116,6 +117,15 @@ public record AwsIvsRealtimeListParticipantEventsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

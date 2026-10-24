@@ -24,25 +24,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListMlflowAppsOptions : AwsOptions
 {
     /// <summary>
-    /// Use the CreatedAfter filter to only list MLflow Apps created after a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The CreatedAfter parame- ter takes in a Unix timestamp.
+    /// Use the CreatedAfter filter to only list MLflow Apps created after a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The CreatedAfter parameter takes in a Unix timestamp.
     /// </summary>
     [CliOption("--created-after")]
     public string? CreatedAfter { get; set; }
 
     /// <summary>
-    /// Use the CreatedBefore filter to only list MLflow Apps created before a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The CreatedAfter pa- rameter takes in a Unix timestamp.
+    /// Use the CreatedBefore filter to only list MLflow Apps created before a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00" . The CreatedAfter parameter takes in a Unix timestamp.
     /// </summary>
     [CliOption("--created-before")]
     public string? CreatedBefore { get; set; }
 
     /// <summary>
-    /// Filter for Mlflow apps with a specific creation status. Possible values: o Creating o Created o CreateFailed o Updating o Updated o UpdateFailed o Deleting o DeleteFailed o Deleted
+    /// Filter for Mlflow apps with a specific creation status. Possible values: • Creating • Created • CreateFailed • Updating • Updated • UpdateFailed • Deleting • DeleteFailed • Deleted
     /// </summary>
     [CliOption("--status")]
     public AwsSagemakerListMlflowAppsStatus? Status { get; set; }
 
     /// <summary>
-    /// Filter for Mlflow Apps with the specified version. Constraints: o min: 0 o max: 16 o pattern: [0-9]*.[0-9]*.[0-9]*
+    /// Filter for Mlflow Apps with the specified version. Constraints: • min: 0 • max: 16 • pattern: [0-9]*.[0-9]*.[0-9]*
     /// </summary>
     [CliOption("--mlflow-version")]
     public string? MlflowVersion { get; set; }
@@ -54,28 +54,25 @@ public record AwsSagemakerListMlflowAppsOptions : AwsOptions
     public string? DefaultForDomainId { get; set; }
 
     /// <summary>
-    /// Filter for MLflow Apps with the specified AccountDefaultStatus . Possible values: o ENABLED o DISABLED
+    /// Filter for MLflow Apps with the specified AccountDefaultStatus . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--account-default-status")]
     public AwsSagemakerListMlflowAppsAccountDefaultStatus? AccountDefaultStatus { get; set; }
 
     /// <summary>
-    /// Filter for MLflow Apps sorting by name, creation time, or creation status. Possible values: o Name o CreationTime o Status
+    /// Filter for MLflow Apps sorting by name, creation time, or creation status. Possible values: • Name • CreationTime • Status
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListMlflowAppsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Change the order of the listed MLflow Apps. By default, MLflow Apps are listed in Descending order by creation time. To change the list order, specify SortOrder to be Ascending . Possible values: o Ascending o Descending
+    /// Change the order of the listed MLflow Apps. By default, MLflow Apps are listed in Descending order by creation time. To change the list order, specify SortOrder to be Ascending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListMlflowAppsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -85,15 +82,27 @@ public record AwsSagemakerListMlflowAppsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

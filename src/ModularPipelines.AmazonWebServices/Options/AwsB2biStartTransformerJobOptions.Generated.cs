@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Ser- vices B2B Data Interchange. If you only want to transform EDI (electronic data interchange) docu- ments, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTrans- formerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run...
+/// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run GetTr...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsB2biStartTransformerJobOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Ser- vices B2B Data Interchange. If you only want to transform EDI (electronic data interchange) docu- ments, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTrans- formerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run...
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run GetTr...
     /// </summary>
-    /// <param name="InputFile">Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
-    /// <param name="OutputLocation">Specifies the location of the output file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
-    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="InputFile">Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: • min: 0 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
+    /// <param name="OutputLocation">Specifies the location of the output file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: • min: 0 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }</param>
+    /// <param name="TransformerId">Specifies the system-assigned unique identifier for the transformer. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsB2biStartTransformerJobOptions(
         string InputFile,
         string OutputLocation,
@@ -65,19 +66,19 @@ public record AwsB2biStartTransformerJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// Specifies the location of the input file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: • min: 0 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
     /// </summary>
     [CliOption("--input-file")]
     public string? InputFile { get; private init; }
 
     /// <summary>
-    /// Specifies the location of the output file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: o min: 3 o max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: o min: 0 o max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
+    /// Specifies the location of the output file for the transformation. The location consists of an Amazon S3 bucket and prefix. bucketName -&gt; (string) Specifies the name of the Amazon S3 bucket. Constraints: • min: 3 • max: 63 key -&gt; (string) Specifies the Amazon S3 key for the file location. Constraints: • min: 0 • max: 1024 Shorthand Syntax: bucketName=string,key=string JSON Syntax: { "bucketName": "string", "key": "string" }
     /// </summary>
     [CliOption("--output-location")]
     public string? OutputLocation { get; private init; }
 
     /// <summary>
-    /// Specifies the system-assigned unique identifier for the transformer. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// Specifies the system-assigned unique identifier for the transformer. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--transformer-id")]
     public string? TransformerId { get; private init; }
@@ -110,6 +111,15 @@ public record AwsB2biStartTransformerJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

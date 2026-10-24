@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDeployBatchGetOnPremisesInstancesOptions : AwsOptions, IValidat
     /// <summary>
     /// Gets information about one or more on-premises instances. The maximum number of on-premises instances that can be returned is 25. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceNames">The names of the on-premises instances about which to get informa- tion. The maximum number of instance names you can specify is 25. (string) Syntax: "string" "string" ...</param>
+    /// <param name="InstanceNames">The names of the on-premises instances about which to get information. The maximum number of instance names you can specify is 25. (string) Syntax: "string" "string" ...</param>
     public AwsDeployBatchGetOnPremisesInstancesOptions(
         IEnumerable<string> InstanceNames
     )
@@ -67,7 +68,7 @@ public record AwsDeployBatchGetOnPremisesInstancesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The names of the on-premises instances about which to get informa- tion. The maximum number of instance names you can specify is 25. (string) Syntax: "string" "string" ...
+    /// The names of the on-premises instances about which to get information. The maximum number of instance names you can specify is 25. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-names", GroupValues = true)]
     public IEnumerable<string>? InstanceNames { get; private init; }
@@ -93,6 +94,15 @@ public record AwsDeployBatchGetOnPremisesInstancesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

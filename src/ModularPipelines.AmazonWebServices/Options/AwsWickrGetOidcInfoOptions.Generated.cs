@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsWickrGetOidcInfoOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network whose OIDC configuration will be re- trieved. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
+    /// <param name="NetworkId">The ID of the Wickr network whose OIDC configuration will be retrieved. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
     public AwsWickrGetOidcInfoOptions(
         string NetworkId
     )
@@ -57,56 +58,58 @@ public record AwsWickrGetOidcInfoOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network whose OIDC configuration will be re- trieved. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network whose OIDC configuration will be retrieved. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The OAuth client ID for retrieving access tokens (optional). Constraints: o pattern: [\S\s]*
+    /// The OAuth client ID for retrieving access tokens (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// The authorization code for retrieving access tokens (optional). Constraints: o pattern: [\S\s]*
+    /// The authorization code for retrieving access tokens (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
+    [SecretValue]
     [CliOption("--code")]
     public string? Code { get; set; }
 
     /// <summary>
-    /// The OAuth grant type for retrieving access tokens (optional). Constraints: o pattern: [\S\s]*
+    /// The OAuth grant type for retrieving access tokens (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--grant-type")]
     public string? GrantType { get; set; }
 
     /// <summary>
-    /// The redirect URI for the OAuth flow (optional). Constraints: o pattern: [\S\s]*
+    /// The redirect URI for the OAuth flow (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--redirect-uri")]
     public string? RedirectUri { get; set; }
 
     /// <summary>
-    /// The URL for the OIDC provider (optional). Constraints: o pattern: [\S\s]*
+    /// The URL for the OIDC provider (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--url")]
     public string? Url { get; set; }
 
     /// <summary>
-    /// The OAuth client secret for retrieving access tokens (optional). Constraints: o pattern: [\S\s]*
+    /// The OAuth client secret for retrieving access tokens (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-secret")]
     public string? ClientSecret { get; set; }
 
     /// <summary>
-    /// The PKCE code verifier for enhanced security in the OAuth flow (op- tional). Constraints: o pattern: [\S\s]*
+    /// The PKCE code verifier for enhanced security in the OAuth flow (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
+    [SecretValue]
     [CliOption("--code-verifier")]
     public string? CodeVerifier { get; set; }
 
     /// <summary>
-    /// The CA certificate for secure communication with the OIDC provider (optional). Constraints: o pattern: [\S\s]*
+    /// The CA certificate for secure communication with the OIDC provider (optional). Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--certificate")]
     public string? Certificate { get; set; }
@@ -132,6 +135,15 @@ public record AwsWickrGetOidcInfoOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

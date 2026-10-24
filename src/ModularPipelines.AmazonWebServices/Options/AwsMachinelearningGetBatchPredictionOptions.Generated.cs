@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMachinelearningGetBatchPredictionOptions : AwsOptions, IValidat
     /// <summary>
     /// Returns a BatchPrediction that includes detailed metadata, status, and data file information for a Batch Prediction request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BatchPredictionId">An ID assigned to the BatchPrediction at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="BatchPredictionId">An ID assigned to the BatchPrediction at creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningGetBatchPredictionOptions(
         string BatchPredictionId
     )
@@ -56,7 +57,7 @@ public record AwsMachinelearningGetBatchPredictionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An ID assigned to the BatchPrediction at creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// An ID assigned to the BatchPrediction at creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--batch-prediction-id")]
     public string? BatchPredictionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMachinelearningGetBatchPredictionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

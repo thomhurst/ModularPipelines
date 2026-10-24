@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -31,7 +31,7 @@ public record AwsApigatewayPutMethodOptions : AwsOptions, IValidatableObject
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="ResourceId">The Resource identifier for the new Method resource.</param>
     /// <param name="HttpMethod">Specifies the method request's HTTP method type.</param>
-    /// <param name="AuthorizationType">The method's authorization type. Valid values are NONE for open ac- cess, AWS_IAM for using AWS IAM permissions, CUSTOM for using a cus- tom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.</param>
+    /// <param name="AuthorizationType">The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.</param>
     public AwsApigatewayPutMethodOptions(
         string RestApiId,
         string ResourceId,
@@ -87,7 +87,7 @@ public record AwsApigatewayPutMethodOptions : AwsOptions, IValidatableObject
     public string? HttpMethod { get; private init; }
 
     /// <summary>
-    /// The method's authorization type. Valid values are NONE for open ac- cess, AWS_IAM for using AWS IAM permissions, CUSTOM for using a cus- tom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+    /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
     /// </summary>
     [CliOption("--authorization-type")]
     public string? AuthorizationType { get; private init; }
@@ -111,7 +111,7 @@ public record AwsApigatewayPutMethodOptions : AwsOptions, IValidatableObject
     public string? OperationName { get; set; }
 
     /// <summary>
-    /// A key-value map defining required or optional method request parame- ters that can be accepted by API Gateway. A key defines a method re- quest parameter name matching the pattern of method.request.{loca- tion}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is re- quired (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to in- tegration request parameters or body-mapping templates. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
+    /// A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates. key -&gt; (string) value -&gt; (boolean) Shorthand Syntax: KeyName1=boolean,KeyName2=boolean JSON Syntax: {"string": true|false ...}
     /// </summary>
     [CliOption("--request-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RequestParameters { get; set; }
@@ -123,13 +123,13 @@ public record AwsApigatewayPutMethodOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? RequestModels { get; set; }
 
     /// <summary>
-    /// The identifier of a RequestValidator for validating the method re- quest.
+    /// The identifier of a RequestValidator for validating the method request.
     /// </summary>
     [CliOption("--request-validator-id")]
     public string? RequestValidatorId { get; set; }
 
     /// <summary>
-    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incom- ing request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. (string) Syntax: "string" "string" ...
+    /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--authorization-scopes", GroupValues = true)]
     public IEnumerable<string>? AuthorizationScopes { get; set; }
@@ -155,6 +155,15 @@ public record AwsApigatewayPutMethodOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

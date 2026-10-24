@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
+/// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsChimeSdkVoiceGetPhoneNumberOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details for the specified phone number ID, such as associa- tions, capabilities, and product type. See also: AWS API Documentation
+    /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PhoneNumberId">The phone number ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="PhoneNumberId">The phone number ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetPhoneNumberOptions(
         string PhoneNumberId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceGetPhoneNumberOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number ID. Constraints: o pattern: .*\S.*
+    /// The phone number ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--phone-number-id")]
     public string? PhoneNumberId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceGetPhoneNumberOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

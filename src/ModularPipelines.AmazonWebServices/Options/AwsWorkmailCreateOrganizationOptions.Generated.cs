@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new WorkMail organization. Optionally, you can choose to as- sociate an existing AWS Directory Service directory with your organiza- tion. If an AWS Directory Service directory ID is specified, the orga- nization alias must match the directory alias. If you choose not to as- sociate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an or- ganization in the WorkMail Administrator Guide . You can associate mult...
+/// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an organization in the WorkMail Administrator Guide . You can associate multiple email...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new WorkMail organization. Optionally, you can choose to as- sociate an existing AWS Directory Service directory with your organiza- tion. If an AWS Directory Service directory ID is specified, the orga- nization alias must match the directory alias. If you choose not to as- sociate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an or- ganization in the WorkMail Administrator Guide . You can associate mult...
+    /// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see Adding an organization in the WorkMail Administrator Guide . You can associate multiple email...
     /// </summary>
-    /// <param name="Alias">The organization alias. Constraints: o min: 1 o max: 62 o pattern: ^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*</param>
+    /// <param name="Alias">The organization alias. Constraints: • min: 1 • max: 62 • pattern: ^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*</param>
     public AwsWorkmailCreateOrganizationOptions(
         string Alias
     )
@@ -57,32 +58,32 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The organization alias. Constraints: o min: 1 o max: 62 o pattern: ^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*
+    /// The organization alias. Constraints: • min: 1 • max: 62 • pattern: ^(?!d-)([\da-zA-Z]+)([-][\da-zA-Z]+)*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }
 
     /// <summary>
-    /// The AWS Directory Service directory ID. Constraints: o min: 12 o max: 12 o pattern: ^d-[0-9a-f]{10}$
+    /// The AWS Directory Service directory ID. Constraints: • min: 12 • max: 12 • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; set; }
 
     /// <summary>
-    /// The idempotency token associated with the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7e]+
+    /// The idempotency token associated with the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7e]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The email domains to associate with the organization. Constraints: o min: 0 o max: 5 (structure) The domain to associate with an WorkMail organization. When you configure a domain hosted in Amazon Route 53 (Route 53), all recommended DNS records are added to the organization when you create it. For more information, see Adding a domain in the WorkMail Administrator Guide . DomainName -&gt; (string) [required] The fully qualified domain name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9.-]+ HostedZoneId -&gt; (string) The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53. Constraints: o min: 1 o max: 32 o pattern: [^/\\]* Shorthand Syntax: DomainName=string,HostedZoneId=string ... JSON Syntax: [ { "DomainName": "string", "HostedZoneId": "string" } ... ]
+    /// The email domains to associate with the organization. Constraints: • min: 0 • max: 5 (structure) The domain to associate with an WorkMail organization. When you configure a domain hosted in Amazon Route 53 (Route 53), all recommended DNS records are added to the organization when you create it. For more information, see Adding a domain in the WorkMail Administrator Guide . DomainName -&gt; (string) [required] The fully qualified domain name. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9.-]+ HostedZoneId -&gt; (string) The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53. Constraints: • min: 1 • max: 32 • pattern: [^/\\]* Shorthand Syntax: DomainName=string,HostedZoneId=string ... JSON Syntax: [ { "DomainName": "string", "HostedZoneId": "string" } ... ]
     /// </summary>
     [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
+    /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
@@ -114,6 +115,15 @@ public record AwsWorkmailCreateOrganizationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

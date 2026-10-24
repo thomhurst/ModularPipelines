@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the firewall domain list from an array of domain specifica- tions. See also: AWS API Documentation
+/// Updates the firewall domain list from an array of domain specifications. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the firewall domain list from an array of domain specifica- tions. See also: AWS API Documentation
+    /// Updates the firewall domain list from an array of domain specifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallDomainListId">The ID of the domain list whose domains you want to update. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Operation">What you want DNS Firewall to do with the domains that you are pro- viding: o ADD - Add the domains to the ones that are already in the domain list. o REMOVE - Search the domain list for the domains and remove them from the list. o REPLACE - Update the domain list to exactly match the list that you are providing. Possible values: o ADD o REMOVE o REPLACE</param>
-    /// <param name="Domains">A list of domains to use in the update operation. WARNING: There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the fol- lowing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...</param>
+    /// <param name="FirewallDomainListId">The ID of the domain list whose domains you want to update. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Operation">What you want DNS Firewall to do with the domains that you are providing: • ADD - Add the domains to the ones that are already in the domain list. • REMOVE - Search the domain list for the domains and remove them from the list. • REPLACE - Update the domain list to exactly match the list that you are providing. Possible values: • ADD • REMOVE • REPLACE</param>
+    /// <param name="Domains">A list of domains to use in the update operation. WARNING: There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the following requirements: • It can optionally start with * (asterisk). • With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). • It must be from 1-255 characters in length. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...</param>
     public AwsRoute53resolverUpdateFirewallDomainsOptions(
         string FirewallDomainListId,
         AwsRoute53resolverUpdateFirewallDomainsOperation Operation,
@@ -75,19 +76,19 @@ public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain list whose domains you want to update. Constraints: o min: 1 o max: 64
+    /// The ID of the domain list whose domains you want to update. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; private init; }
 
     /// <summary>
-    /// What you want DNS Firewall to do with the domains that you are pro- viding: o ADD - Add the domains to the ones that are already in the domain list. o REMOVE - Search the domain list for the domains and remove them from the list. o REPLACE - Update the domain list to exactly match the list that you are providing. Possible values: o ADD o REMOVE o REPLACE
+    /// What you want DNS Firewall to do with the domains that you are providing: • ADD - Add the domains to the ones that are already in the domain list. • REMOVE - Search the domain list for the domains and remove them from the list. • REPLACE - Update the domain list to exactly match the list that you are providing. Possible values: • ADD • REMOVE • REPLACE
     /// </summary>
     [CliOption("--operation")]
     public AwsRoute53resolverUpdateFirewallDomainsOperation? Operation { get; private init; }
 
     /// <summary>
-    /// A list of domains to use in the update operation. WARNING: There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the fol- lowing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. (string) Constraints: o min: 1 o max: 255 Syntax: "string" "string" ...
+    /// A list of domains to use in the update operation. WARNING: There is a limit of 1000 domains per request. Each domain specification in your domain list must satisfy the following requirements: • It can optionally start with * (asterisk). • With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). • It must be from 1-255 characters in length. (string) Constraints: • min: 1 • max: 255 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--domains", GroupValues = true)]
     public IEnumerable<string>? Domains { get; private init; }
@@ -113,6 +114,15 @@ public record AwsRoute53resolverUpdateFirewallDomainsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

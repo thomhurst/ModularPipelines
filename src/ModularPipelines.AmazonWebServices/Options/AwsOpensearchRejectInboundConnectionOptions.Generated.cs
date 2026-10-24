@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchRejectInboundConnectionOptions : AwsOptions, IValidat
     /// <summary>
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectionId">The unique identifier of the inbound connection to reject. Constraints: o min: 10 o max: 256 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="ConnectionId">The unique identifier of the inbound connection to reject. Constraints: • min: 10 • max: 256 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchRejectInboundConnectionOptions(
         string ConnectionId
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchRejectInboundConnectionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the inbound connection to reject. Constraints: o min: 10 o max: 256 o pattern: [a-z][a-z0-9\-]+
+    /// The unique identifier of the inbound connection to reject. Constraints: • min: 10 • max: 256 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--connection-id")]
     public string? ConnectionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchRejectInboundConnectionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

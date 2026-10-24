@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Posts time series data points to Amazon DataZone for the specified as- set. See also: AWS API Documentation
+/// Posts time series data points to Amazon DataZone for the specified asset. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Posts time series data points to Amazon DataZone for the specified as- set. See also: AWS API Documentation
+    /// Posts time series data points to Amazon DataZone for the specified asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which you want to post time series data points. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityIdentifier">The ID of the asset for which you want to post time series data points. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="EntityType">The type of the asset for which you want to post data points. Possible values: o ASSET o LISTING</param>
-    /// <param name="Forms">The forms that contain the data points that you want to post. (structure) The time series data points form. formName -&gt; (string) [required] The name of the time series data points form. Constraints: o min: 1 o max: 128 typeIdentifier -&gt; (string) [required] The ID of the type of the time series data points form. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision type of the time series data points form. Constraints: o min: 1 o max: 64 timestamp -&gt; (timestamp) [required] The timestamp of the time series data points form. content -&gt; (string) The content of the time series data points form. Constraints: o min: 0 o max: 500000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,timestamp=timestamp,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "timestamp": timestamp, "content": "string" } ... ]</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which you want to post time series data points. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityIdentifier">The ID of the asset for which you want to post time series data points. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="EntityType">The type of the asset for which you want to post data points. Possible values: • ASSET • LISTING</param>
+    /// <param name="Forms">The forms that contain the data points that you want to post. (structure) The time series data points form. formName -&gt; (string) [required] The name of the time series data points form. Constraints: • min: 1 • max: 128 typeIdentifier -&gt; (string) [required] The ID of the type of the time series data points form. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision type of the time series data points form. Constraints: • min: 1 • max: 64 timestamp -&gt; (timestamp) [required] The timestamp of the time series data points form. content -&gt; (string) The content of the time series data points form. Constraints: • min: 0 • max: 500000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,timestamp=timestamp,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "timestamp": timestamp, "content": "string" } ... ]</param>
     public AwsDatazonePostTimeSeriesDataPointsOptions(
         string DomainIdentifier,
         string EntityIdentifier,
@@ -80,31 +81,31 @@ public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which you want to post time series data points. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which you want to post time series data points. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the asset for which you want to post time series data points. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the asset for which you want to post time series data points. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--entity-identifier")]
     public string? EntityIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of the asset for which you want to post data points. Possible values: o ASSET o LISTING
+    /// The type of the asset for which you want to post data points. Possible values: • ASSET • LISTING
     /// </summary>
     [CliOption("--entity-type")]
     public AwsDatazonePostTimeSeriesDataPointsEntityType? EntityType { get; private init; }
 
     /// <summary>
-    /// The forms that contain the data points that you want to post. (structure) The time series data points form. formName -&gt; (string) [required] The name of the time series data points form. Constraints: o min: 1 o max: 128 typeIdentifier -&gt; (string) [required] The ID of the type of the time series data points form. Constraints: o min: 1 o max: 385 o pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision type of the time series data points form. Constraints: o min: 1 o max: 64 timestamp -&gt; (timestamp) [required] The timestamp of the time series data points form. content -&gt; (string) The content of the time series data points form. Constraints: o min: 0 o max: 500000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,timestamp=timestamp,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "timestamp": timestamp, "content": "string" } ... ]
+    /// The forms that contain the data points that you want to post. (structure) The time series data points form. formName -&gt; (string) [required] The name of the time series data points form. Constraints: • min: 1 • max: 128 typeIdentifier -&gt; (string) [required] The ID of the type of the time series data points form. Constraints: • min: 1 • max: 385 • pattern: (?!\.)[\w\.]*\w typeRevision -&gt; (string) The revision type of the time series data points form. Constraints: • min: 1 • max: 64 timestamp -&gt; (timestamp) [required] The timestamp of the time series data points form. content -&gt; (string) The content of the time series data points form. Constraints: • min: 0 • max: 500000 Shorthand Syntax: formName=string,typeIdentifier=string,typeRevision=string,timestamp=timestamp,content=string ... JSON Syntax: [ { "formName": "string", "typeIdentifier": "string", "typeRevision": "string", "timestamp": timestamp, "content": "string" } ... ]
     /// </summary>
     [CliOption("--forms", GroupValues = true)]
     public IEnumerable<string>? Forms { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: o min: 1 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request. Constraints: • min: 1 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -131,6 +132,15 @@ public record AwsDatazonePostTimeSeriesDataPointsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

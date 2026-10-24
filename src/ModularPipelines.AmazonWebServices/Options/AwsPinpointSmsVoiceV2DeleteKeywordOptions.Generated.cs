@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. Keywords "HELP" and "STOP" can't be deleted or modified. See a...
+/// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified. See also: AWS...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPinpointSmsVoiceV2DeleteKeywordOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. Keywords "HELP" and "STOP" can't be deleted or modified. See a...
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified. See also: AWS...
     /// </summary>
-    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="Keyword">The keyword to delete. Constraints: o min: 1 o max: 30 o pattern: [ \S]+</param>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="Keyword">The keyword to delete. Constraints: • min: 1 • max: 30 • pattern: [ \S]+</param>
     public AwsPinpointSmsVoiceV2DeleteKeywordOptions(
         string OriginationIdentity,
         string Keyword
@@ -60,13 +61,13 @@ public record AwsPinpointSmsVoiceV2DeleteKeywordOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; private init; }
 
     /// <summary>
-    /// The keyword to delete. Constraints: o min: 1 o max: 30 o pattern: [ \S]+
+    /// The keyword to delete. Constraints: • min: 1 • max: 30 • pattern: [ \S]+
     /// </summary>
     [CliOption("--keyword")]
     public string? Keyword { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPinpointSmsVoiceV2DeleteKeywordOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

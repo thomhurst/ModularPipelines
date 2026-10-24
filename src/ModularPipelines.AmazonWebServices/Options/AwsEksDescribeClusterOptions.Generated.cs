@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a ``kubeconfig` file for an Amazon EKS cluster &lt;- https://docs.aws.amazon.com/eks/latest/userguide/create-kubecon- fig.html&gt;`__ . NOTE: The API server endpoint and certificate authority data aren't avail- able until the cluster reaches the ACTIVE state....
+/// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a ``kubeconfig` file for an Amazon EKS cluster &lt;https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html&gt;`__ . NOTE: The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state. See a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsEksDescribeClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a ``kubeconfig` file for an Amazon EKS cluster &lt;- https://docs.aws.amazon.com/eks/latest/userguide/create-kubecon- fig.html&gt;`__ . NOTE: The API server endpoint and certificate authority data aren't avail- able until the cluster reaches the ACTIVE state....
+    /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a ``kubeconfig` file for an Amazon EKS cluster &lt;https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html&gt;`__ . NOTE: The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state. See a...
     /// </summary>
     /// <param name="Name">The name of your cluster.</param>
     public AwsEksDescribeClusterOptions(
@@ -82,6 +83,15 @@ public record AwsEksDescribeClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

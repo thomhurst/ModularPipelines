@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsAppstreamCopyImageOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceImageName">The name of the image to copy. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="DestinationImageName">The name that the image will have when it is copied to the destina- tion. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="DestinationRegion">The destination region to which the image will be copied. This para- meter is required, even if you are copying an image within the same region. Constraints: o min: 1 o max: 32</param>
+    /// <param name="SourceImageName">The name of the image to copy. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="DestinationImageName">The name that the image will have when it is copied to the destination. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="DestinationRegion">The destination region to which the image will be copied. This parameter is required, even if you are copying an image within the same region. Constraints: • min: 1 • max: 32</param>
     public AwsAppstreamCopyImageOptions(
         string SourceImageName,
         string DestinationImageName,
@@ -64,25 +65,25 @@ public record AwsAppstreamCopyImageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image to copy. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the image to copy. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--source-image-name")]
     public string? SourceImageName { get; private init; }
 
     /// <summary>
-    /// The name that the image will have when it is copied to the destina- tion. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name that the image will have when it is copied to the destination. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--destination-image-name")]
     public string? DestinationImageName { get; private init; }
 
     /// <summary>
-    /// The destination region to which the image will be copied. This para- meter is required, even if you are copying an image within the same region. Constraints: o min: 1 o max: 32
+    /// The destination region to which the image will be copied. This parameter is required, even if you are copying an image within the same region. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--destination-region")]
     public string? DestinationRegion { get; private init; }
 
     /// <summary>
-    /// The description that the image will have when it is copied to the destination. Constraints: o max: 256
+    /// The description that the image will have when it is copied to the destination. Constraints: • max: 256
     /// </summary>
     [CliOption("--destination-image-description")]
     public string? DestinationImageDescription { get; set; }
@@ -108,6 +109,15 @@ public record AwsAppstreamCopyImageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

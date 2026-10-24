@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsWorkdocsGetDocumentPathOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+</param>
+    /// <param name="DocumentId">The ID of the document. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+</param>
     public AwsWorkdocsGetDocumentPathOptions(
         string DocumentId
     )
@@ -57,32 +58,32 @@ public record AwsWorkdocsGetDocumentPathOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the document. Constraints: o min: 1 o max: 256 o pattern: [&amp;\w+-.@]+
+    /// The ID of the document. Constraints: • min: 1 • max: 256 • pattern: [&amp;\w+-.@]+
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
     public string? AuthenticationToken { get; set; }
 
     /// <summary>
-    /// The maximum number of levels in the hierarchy to return. Constraints: o min: 1 o max: 999
+    /// The maximum number of levels in the hierarchy to return. Constraints: • min: 1 • max: 999
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// A comma-separated list of values. Specify NAME to include the names of the parent folders. Constraints: o min: 1 o max: 256 o pattern: [\w,]+
+    /// A comma-separated list of values. Specify NAME to include the names of the parent folders. Constraints: • min: 1 • max: 256 • pattern: [\w,]+
     /// </summary>
     [CliOption("--fields")]
     public string? Fields { get; set; }
 
     /// <summary>
-    /// This value is not supported. Constraints: o min: 1 o max: 2048
+    /// This value is not supported. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
@@ -108,6 +109,15 @@ public record AwsWorkdocsGetDocumentPathOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

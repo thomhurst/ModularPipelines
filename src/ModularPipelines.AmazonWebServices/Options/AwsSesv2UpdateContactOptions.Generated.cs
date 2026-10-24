@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPrefer- ences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
+/// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2UpdateContactOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPrefer- ences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
+    /// Updates a contact's preferences for a list. NOTE: You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed. See also: AWS API Documentation
     /// </summary>
     /// <param name="ContactListName">The name of the contact list.</param>
     /// <param name="EmailAddress">The contact's email address.</param>
@@ -72,7 +73,7 @@ public record AwsSesv2UpdateContactOptions : AwsOptions, IValidatableObject
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// The contact's preference for being opted-in to or opted-out of a topic. (structure) The contact's preference for being opted-in to or opted-out of a topic. TopicName -&gt; (string) [required] The name of the topic. SubscriptionStatus -&gt; (string) [required] The contact's subscription status to a topic which is either OPT_IN or OPT_OUT . Possible values: o OPT_IN o OPT_OUT Shorthand Syntax: TopicName=string,SubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "SubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
+    /// The contact's preference for being opted-in to or opted-out of a topic. (structure) The contact's preference for being opted-in to or opted-out of a topic. TopicName -&gt; (string) [required] The name of the topic. SubscriptionStatus -&gt; (string) [required] The contact's subscription status to a topic which is either OPT_IN or OPT_OUT . Possible values: • OPT_IN • OPT_OUT Shorthand Syntax: TopicName=string,SubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "SubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
     /// </summary>
     [CliOption("--topic-preferences", GroupValues = true)]
     public IEnumerable<string>? TopicPreferences { get; set; }
@@ -110,6 +111,15 @@ public record AwsSesv2UpdateContactOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

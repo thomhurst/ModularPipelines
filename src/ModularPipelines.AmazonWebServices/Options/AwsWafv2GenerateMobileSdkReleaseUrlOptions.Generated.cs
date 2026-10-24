@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a presigned download URL for the specified release of the mo- bile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
+/// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsWafv2GenerateMobileSdkReleaseUrlOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a presigned download URL for the specified release of the mo- bile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
+    /// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see WAF client application integration in the WAF Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Platform">The device platform. Possible values: o IOS o ANDROID</param>
-    /// <param name="ReleaseVersion">The release version. For the latest available version, specify LAT- EST . Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$</param>
+    /// <param name="Platform">The device platform. Possible values: • IOS • ANDROID</param>
+    /// <param name="ReleaseVersion">The release version. For the latest available version, specify LATEST . Constraints: • min: 1 • max: 64 • pattern: ^[\w#:\.\-/]+$</param>
     public AwsWafv2GenerateMobileSdkReleaseUrlOptions(
         AwsWafv2GenerateMobileSdkReleaseUrlPlatform Platform,
         string ReleaseVersion
@@ -60,13 +61,13 @@ public record AwsWafv2GenerateMobileSdkReleaseUrlOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The device platform. Possible values: o IOS o ANDROID
+    /// The device platform. Possible values: • IOS • ANDROID
     /// </summary>
     [CliOption("--platform")]
     public AwsWafv2GenerateMobileSdkReleaseUrlPlatform? Platform { get; private init; }
 
     /// <summary>
-    /// The release version. For the latest available version, specify LAT- EST . Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$
+    /// The release version. For the latest available version, specify LATEST . Constraints: • min: 1 • max: 64 • pattern: ^[\w#:\.\-/]+$
     /// </summary>
     [CliOption("--release-version")]
     public string? ReleaseVersion { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWafv2GenerateMobileSdkReleaseUrlOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

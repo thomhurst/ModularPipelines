@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configura- tion was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to AC- TIVE events from the last hour. See also: AWS API Documentation get-instrumentation-configuration-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
+/// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configuration was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to ACTIVE events from the last hour. See also: AWS API Documentation get-instrumentation-configuration-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,13 +28,13 @@ public record AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configura- tion was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to AC- TIVE events from the last hour. See also: AWS API Documentation get-instrumentation-configuration-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable paginati...
+    /// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configuration was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to ACTIVE events from the last hour. See also: AWS API Documentation get-instrumentation-configuration-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by ...
     /// </summary>
-    /// <param name="InstrumentationType">Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to identify the configuration to retrieve. Possible values: o BREAKPOINT o PROBE</param>
-    /// <param name="Service">Service name for the instrumentation configuration. Constraints: o min: 1 o max: 255</param>
-    /// <param name="Environment">Environment name for the instrumentation configuration. Constraints: o min: 1 o max: 255</param>
-    /// <param name="SignalType">Signal type for the instrumentation configuration. Possible values: o SNAPSHOT</param>
-    /// <param name="LocationIdentifier">Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: o min: 16 o max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }</param>
+    /// <param name="InstrumentationType">Type of instrumentation configuration (BREAKPOINT or PROBE). Required to identify the configuration to retrieve. Possible values: • BREAKPOINT • PROBE</param>
+    /// <param name="Service">Service name for the instrumentation configuration. Constraints: • min: 1 • max: 255</param>
+    /// <param name="Environment">Environment name for the instrumentation configuration. Constraints: • min: 1 • max: 255</param>
+    /// <param name="SignalType">Signal type for the instrumentation configuration. Possible values: • SNAPSHOT</param>
+    /// <param name="LocationIdentifier">Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: • Java • Python • Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: • min: 1 • max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is required for Java and optional for Python module-level functions. Constraints: • min: 1 • max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validateCreditCard or __init__ . Constraints: • min: 1 • max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/PaymentProcessor.py . Constraints: • min: 1 • max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: • min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: • min: 16 • max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }</param>
     public AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions(
         AwsApplicationSignalsGetInstrumentationConfigurationStatusInstrumentationType InstrumentationType,
         string Service,
@@ -73,37 +74,37 @@ public record AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Re- quired to identify the configuration to retrieve. Possible values: o BREAKPOINT o PROBE
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to identify the configuration to retrieve. Possible values: • BREAKPOINT • PROBE
     /// </summary>
     [CliOption("--instrumentation-type")]
     public AwsApplicationSignalsGetInstrumentationConfigurationStatusInstrumentationType? InstrumentationType { get; private init; }
 
     /// <summary>
-    /// Service name for the instrumentation configuration. Constraints: o min: 1 o max: 255
+    /// Service name for the instrumentation configuration. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--service")]
     public string? Service { get; private init; }
 
     /// <summary>
-    /// Environment name for the instrumentation configuration. Constraints: o min: 1 o max: 255
+    /// Environment name for the instrumentation configuration. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--environment")]
     public string? Environment { get; private init; }
 
     /// <summary>
-    /// Signal type for the instrumentation configuration. Possible values: o SNAPSHOT
+    /// Signal type for the instrumentation configuration. Possible values: • SNAPSHOT
     /// </summary>
     [CliOption("--signal-type")]
     public string? SignalType { get; private init; }
 
     /// <summary>
-    /// Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: o Java o Python o Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: o min: 1 o max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is re- quired for Java and optional for Python module-level func- tions. Constraints: o min: 1 o max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validate- CreditCard or __init__ . Constraints: o min: 1 o max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/Pay- mentProcessor.py . Constraints: o min: 1 o max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: o min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: o min: 16 o max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }
+    /// Location identifier - either full code location or a pre-computed hash. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: CodeLocation, LocationHash. CodeLocation -&gt; (structure) The full code location specification (will be hashed internally) Language -&gt; (string) [required] The programming language for this instrumentation point, such as Java, Python, or JavaScript. Possible values: • Java • Python • Javascript CodeUnit -&gt; (string) The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service . Constraints: • min: 1 • max: 128 ClassName -&gt; (string) The class or type name that contains the method. This is required for Java and optional for Python module-level functions. Constraints: • min: 1 • max: 128 MethodName -&gt; (string) The method or function name to instrument, such as validateCreditCard or __init__ . Constraints: • min: 1 • max: 80 FilePath -&gt; (string) [required] The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/PaymentProcessor.py . Constraints: • min: 1 • max: 1024 LineNumber -&gt; (integer) The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed. Constraints: • min: 1 LocationHash -&gt; (string) The pre-computed location hash (16-character hex string) Constraints: • min: 16 • max: 16 Shorthand Syntax: CodeLocation={Language=string,CodeUnit=string,ClassName=string,MethodName=string,FilePath=string,LineNumber=integer},LocationHash=string JSON Syntax: { "CodeLocation": { "Language": "Java"|"Python"|"Javascript", "CodeUnit": "string", "ClassName": "string", "MethodName": "string", "FilePath": "string", "LineNumber": integer }, "LocationHash": "string" }
     /// </summary>
     [CliOption("--location-identifier")]
     public string? LocationIdentifier { get; private init; }
 
     /// <summary>
-    /// The single status to query for. If omitted, only ACTIVE status events are returned. Possible values: o READY o ERROR o ACTIVE o DISABLED
+    /// The single status to query for. If omitted, only ACTIVE status events are returned. Possible values: • READY • ERROR • ACTIVE • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsApplicationSignalsGetInstrumentationConfigurationStatusStatus? Status { get; set; }
@@ -123,9 +124,6 @@ public record AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -134,16 +132,19 @@ public record AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -160,6 +161,15 @@ public record AwsApplicationSignalsGetInstrumentationConfigurationStatusOptions 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. NOTE: In the Route 53 console, traffic policy instances are known as pol- icy records. See also: AWS API Documentation
+/// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. NOTE: In the Route 53 console, traffic policy instances are known as policy records. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53DeleteTrafficPolicyInstanceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. NOTE: In the Route 53 console, traffic policy instances are known as pol- icy records. See also: AWS API Documentation
+    /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. NOTE: In the Route 53 console, traffic policy instances are known as policy records. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the traffic policy instance that you want to delete. WARNING: When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. Constraints: o min: 1 o max: 36</param>
+    /// <param name="Id">The ID of the traffic policy instance that you want to delete. WARNING: When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. Constraints: • min: 1 • max: 36</param>
     public AwsRoute53DeleteTrafficPolicyInstanceOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsRoute53DeleteTrafficPolicyInstanceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy instance that you want to delete. WARNING: When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy instance that you want to delete. WARNING: When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53DeleteTrafficPolicyInstanceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

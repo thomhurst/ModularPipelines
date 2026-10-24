@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     #region Commands
 
     /// <summary>
-    /// Creates a container for a collection of data being ingested for analy- sis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the loca- tion of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data. See also: AWS API Documentation
+    /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds pat- terns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The mod- els are made by analyzing normal data and abnormalities in machine be- havior that have already occurred. Your model is trained using a portion of the data from your dat...
+    /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any as- sociated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future. See also: AWS API Documentation
+    /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Specifies information about the inference scheduler being used, includ- ing name, model, status, and associated metadata See also: AWS API Documentation
+    /// Specifies information about the inference scheduler being used, including name, model, status, and associated metadata See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Provides a JSON containing the overall information about a specific ma- chine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on. See also: AWS API Documentation
+    /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Provides a description of the retraining scheduler, including informa- tion such as the model name and retraining parameters. See also: AWS API Documentation
+    /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Lists all inference events that have been found for the specified in- ference scheduler. See also: AWS API Documentation
+    /// Lists all inference events that have been found for the specified inference scheduler. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
-    /// Lists all inference executions that have been performed by the speci- fied inference scheduler. See also: AWS API Documentation
+    /// Lists all inference executions that have been performed by the specified inference scheduler. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,6 +497,21 @@ public class AwsLookoutequipment : IAwsLookoutequipment
     }
 
     /// <summary>
+    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListModelVersionsAsync(
+        AwsLookoutequipmentListModelVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -509,21 +524,6 @@ public class AwsLookoutequipment : IAwsLookoutequipment
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsLookoutequipmentListModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of ver- sions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListModelVersionsAsync(
-        AwsLookoutequipmentListModelVersionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

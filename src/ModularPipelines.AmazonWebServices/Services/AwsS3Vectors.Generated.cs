@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     #region Commands
 
     /// <summary>
-    /// Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this opera- tion. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags. See also: AWS API Documentation
+    /// Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this opera- tion. See also: AWS API Documentation
+    /// Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this op- eration, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation. See also: AWS API Documentation
+    /// Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Deletes a vector bucket policy. To specify the bucket, you must use ei- ther the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
+    /// Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this opera- tion. See also: AWS API Documentation
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this op- eration. See also: AWS API Documentation
+    /// Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Re- source Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
+    /// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this opera- tion. See also: AWS API Documentation get-vectors uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested p...
+    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this operation. See also: AWS API Documentation get-vectors uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested par...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this opera- tion. See also: AWS API Documentation list-indexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
+    /// Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this operation. See also: AWS API Documentation list-indexes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argumen...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Lists all of the tags applied to a specified Amazon S3 Vectors re- source. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to re- sources. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vec- tors:ListTagsForResource permission to use this operation. See also: AWS API Documentation
+    /// Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:ListTagsForResource permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Returns a list of all the vector buckets that are owned by the authen- ticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation. See also: AWS API Documentation list-vector-buckets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
+    /// Returns a list of all the vector buckets that are owned by the authenticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation. See also: AWS API Documentation list-vector-buckets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// List vectors in the specified vector index. To specify the vector in- dex, you can either use both the vector bucket name and the vector in- dex name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applica- tions can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors p...
+    /// List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors permiss...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Re- source Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
+    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Adds one or more vectors to a vector index. To specify the vector in- dex, you can either use both the vector bucket name and the vector in- dex name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide . NOTE: When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK,...
+    /// Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide . NOTE: When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vec- tors:TagResource permission to use this oper...
+    /// Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:TagResource permission to use this operat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsS3Vectors : IAwsS3Vectors
     }
 
     /// <summary>
-    /// Removes the specified user-defined tags from an Amazon S3 Vectors re- source. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:Un- tagResource permission to use this operation. See also: AWS API Documentation
+    /// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys. NOTE: For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources . Permissions For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

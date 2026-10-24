@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enable or disable email sending for messages that use a particular con- figuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
+/// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2PutConfigurationSetSendingOptionsOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enable or disable email sending for messages that use a particular con- figuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
+    /// Enable or disable email sending for messages that use a particular configuration set in a specific Amazon Web Services Region. See also: AWS API Documentation
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set to enable or disable email sending for.</param>
     public AwsSesv2PutConfigurationSetSendingOptionsOptions(
@@ -88,6 +89,15 @@ public record AwsSesv2PutConfigurationSetSendingOptionsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the association of a FirewallRuleGroup with a VPC. The associ- ation enables DNS filtering for the VPC. See also: AWS API Documentation
+/// Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions : AwsO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the association of a FirewallRuleGroup with a VPC. The associ- ation enables DNS filtering for the VPC. See also: AWS API Documentation
+    /// Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallRuleGroupAssociationId">The identifier of the FirewallRuleGroupAssociation . Constraints: o min: 1 o max: 64</param>
+    /// <param name="FirewallRuleGroupAssociationId">The identifier of the FirewallRuleGroupAssociation . Constraints: • min: 1 • max: 64</param>
     public AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions(
         string FirewallRuleGroupAssociationId
     )
@@ -57,25 +58,25 @@ public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions : AwsO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the FirewallRuleGroupAssociation . Constraints: o min: 1 o max: 64
+    /// The identifier of the FirewallRuleGroupAssociation . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-rule-group-association-id")]
     public string? FirewallRuleGroupAssociationId { get; private init; }
 
     /// <summary>
-    /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you as- sociate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group as- sociation after you create it.
+    /// The setting that determines the processing order of the rule group among the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. You must specify a unique priority for each rule group that you associate with a single VPC. To make it easier to insert rule groups later, leave space between the numbers, for example, use 100, 200, and so on. You can change the priority setting for a rule group association after you create it.
     /// </summary>
     [CliOption("--priority")]
     public int? Priority { get; set; }
 
     /// <summary>
-    /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS fire- wall protections. Possible values: o ENABLED o DISABLED
+    /// If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--mutation-protection")]
     public AwsRoute53resolverUpdateFirewallRuleGroupAssociationMutationProtection? MutationProtection { get; set; }
 
     /// <summary>
-    /// The name of the rule group association. Constraints: o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
+    /// The name of the rule group association. Constraints: • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -101,6 +102,15 @@ public record AwsRoute53resolverUpdateFirewallRuleGroupAssociationOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

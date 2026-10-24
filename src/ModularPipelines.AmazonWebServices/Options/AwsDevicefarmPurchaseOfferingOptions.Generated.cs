@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com . See also: AWS API Documentation
     /// </summary>
-    /// <param name="OfferingId">The ID of the offering. Constraints: o min: 32</param>
+    /// <param name="OfferingId">The ID of the offering. Constraints: • min: 32</param>
     /// <param name="Quantity">The number of device slots to purchase in an offering request.</param>
     public AwsDevicefarmPurchaseOfferingOptions(
         string OfferingId,
@@ -59,7 +60,7 @@ public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the offering. Constraints: o min: 32
+    /// The ID of the offering. Constraints: • min: 32
     /// </summary>
     [CliOption("--offering-id")]
     public string? OfferingId { get; private init; }
@@ -71,7 +72,7 @@ public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions, IValidatableObj
     public int? Quantity { get; private init; }
 
     /// <summary>
-    /// The ID of the offering promotion to be applied to the purchase. Constraints: o min: 4
+    /// The ID of the offering promotion to be applied to the purchase. Constraints: • min: 4
     /// </summary>
     [CliOption("--offering-promotion-id")]
     public string? OfferingPromotionId { get; set; }
@@ -97,6 +98,15 @@ public record AwsDevicefarmPurchaseOfferingOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

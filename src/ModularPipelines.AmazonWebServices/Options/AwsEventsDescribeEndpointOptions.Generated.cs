@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get the information about an existing global endpoint. For more infor- mation about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+/// Get the information about an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEventsDescribeEndpointOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get the information about an existing global endpoint. For more infor- mation about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
+    /// Get the information about an existing global endpoint. For more information about global endpoints, see Making applications Regional-fault tolerant with global endpoints and event replication in the * Amazon EventBridge User Guide * . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the endpoint you want to get information about. For ex- ample, "Name":"us-east-2-custom_bus_A-endpoint" . Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the endpoint you want to get information about. For example, "Name":"us-east-2-custom_bus_A-endpoint" . Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsEventsDescribeEndpointOptions(
         string Name
     )
@@ -56,13 +57,13 @@ public record AwsEventsDescribeEndpointOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the endpoint you want to get information about. For ex- ample, "Name":"us-east-2-custom_bus_A-endpoint" . Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the endpoint you want to get information about. For example, "Name":"us-east-2-custom_bus_A-endpoint" . Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The primary Region of the endpoint you want to get information about. For example "HomeRegion": "us-east-1" . Constraints: o min: 9 o max: 20 o pattern: ^[\-a-z0-9]+$
+    /// The primary Region of the endpoint you want to get information about. For example "HomeRegion": "us-east-1" . Constraints: • min: 9 • max: 20 • pattern: ^[\-a-z0-9]+$
     /// </summary>
     [CliOption("--home-region")]
     public string? HomeRegion { get; set; }
@@ -88,6 +89,15 @@ public record AwsEventsDescribeEndpointOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

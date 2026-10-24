@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history fea- ture, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: o Retrive all the crawls of a specified crawler. o Retrieve all the crawls of a specified crawler within a limited count. o Retrieve all the crawls of a specified crawler in a specific time range. o Retrieve all the crawls of a specified crawler with...
+/// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: • Retrive all the crawls of a specified crawler. • Retrieve all the crawls of a specified crawler within a limited count. • Retrieve all the crawls of a specified crawler in a specific time range. • Retrieve all the crawls of a specified crawler with a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGlueListCrawlsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history fea- ture, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: o Retrive all the crawls of a specified crawler. o Retrieve all the crawls of a specified crawler within a limited count. o Retrieve all the crawls of a specified crawler in a specific time range. o Retrieve all the crawls of a specified crawler with...
+    /// Returns all the crawls of a specified crawler. Returns only the crawls that have occurred since the launch date of the crawler history feature, and only retains up to 12 months of crawls. Older crawls will not be returned. You may use this API to: • Retrive all the crawls of a specified crawler. • Retrieve all the crawls of a specified crawler within a limited count. • Retrieve all the crawls of a specified crawler in a specific time range. • Retrieve all the crawls of a specified crawler with a...
     /// </summary>
-    /// <param name="CrawlerName">The name of the crawler whose runs you want to retrieve. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="CrawlerName">The name of the crawler whose runs you want to retrieve. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
     public AwsGlueListCrawlsOptions(
         string CrawlerName
     )
@@ -57,19 +58,19 @@ public record AwsGlueListCrawlsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the crawler whose runs you want to retrieve. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the crawler whose runs you want to retrieve. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--crawler-name")]
     public string? CrawlerName { get; private init; }
 
     /// <summary>
-    /// The maximum number of results to return. The default is 20, and max- imum is 100. Constraints: o min: 1 o max: 1000
+    /// The maximum number of results to return. The default is 20, and maximum is 100. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filters the crawls by the criteria you specify in a list of Crawls- Filter objects. (structure) A list of fields, comparators and value that you can use to fil- ter the crawler runs for a specified crawler. FieldName -&gt; (string) A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are: o CRAWL_ID : A string representing the UUID identifier for a crawl. o STATE : A string representing the state of the crawl. o START_TIME and END_TIME : The epoch timestamp in millisec- onds. o DPU_HOUR : The number of data processing unit (DPU) hours used for the crawl. Possible values: o CRAWL_ID o STATE o START_TIME o END_TIME o DPU_HOUR FilterOperator -&gt; (string) A defined comparator that operates on the value. The avail- able operators are: o GT : Greater than. o GE : Greater than or equal to. o LT : Less than. o LE : Less than or equal to. o EQ : Equal to. o NE : Not equal to. Possible values: o GT o GE o LT o LE o EQ o NE FieldValue -&gt; (string) The value provided for comparison on the crawl field. Shorthand Syntax: FieldName=string,FilterOperator=string,FieldValue=string ... JSON Syntax: [ { "FieldName": "CRAWL_ID"|"STATE"|"START_TIME"|"END_TIME"|"DPU_HOUR", "FilterOperator": "GT"|"GE"|"LT"|"LE"|"EQ"|"NE", "FieldValue": "string" } ... ]
+    /// Filters the crawls by the criteria you specify in a list of CrawlsFilter objects. (structure) A list of fields, comparators and value that you can use to filter the crawler runs for a specified crawler. FieldName -&gt; (string) A key used to filter the crawler runs for a specified crawler. Valid values for each of the field names are: • CRAWL_ID : A string representing the UUID identifier for a crawl. • STATE : A string representing the state of the crawl. • START_TIME and END_TIME : The epoch timestamp in milliseconds. • DPU_HOUR : The number of data processing unit (DPU) hours used for the crawl. Possible values: • CRAWL_ID • STATE • START_TIME • END_TIME • DPU_HOUR FilterOperator -&gt; (string) A defined comparator that operates on the value. The available operators are: • GT : Greater than. • GE : Greater than or equal to. • LT : Less than. • LE : Less than or equal to. • EQ : Equal to. • NE : Not equal to. Possible values: • GT • GE • LT • LE • EQ • NE FieldValue -&gt; (string) The value provided for comparison on the crawl field. Shorthand Syntax: FieldName=string,FilterOperator=string,FieldValue=string ... JSON Syntax: [ { "FieldName": "CRAWL_ID"|"STATE"|"START_TIME"|"END_TIME"|"DPU_HOUR", "FilterOperator": "GT"|"GE"|"LT"|"LE"|"EQ"|"NE", "FieldValue": "string" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -102,6 +103,15 @@ public record AwsGlueListCrawlsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

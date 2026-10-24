@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsBedrockGetAutomatedReasoningPolicyTestResultOptions : AwsOption
     /// <summary>
     /// Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
-    /// <param name="BuildWorkflowId">The build workflow identifier. The build workflow must display a COMPLETED status to get results. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
-    /// <param name="TestCaseId">The unique identifier of the test for which to retrieve results. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="BuildWorkflowId">The build workflow identifier. The build workflow must display a COMPLETED status to get results. Constraints: • min: 0 • max: 36 • pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
+    /// <param name="TestCaseId">The unique identifier of the test for which to retrieve results. Constraints: • min: 0 • max: 12 • pattern: [0-9A-Z]{12}</param>
     public AwsBedrockGetAutomatedReasoningPolicyTestResultOptions(
         string PolicyArn,
         string BuildWorkflowId,
@@ -64,19 +65,19 @@ public record AwsBedrockGetAutomatedReasoningPolicyTestResultOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The build workflow identifier. The build workflow must display a COMPLETED status to get results. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
+    /// The build workflow identifier. The build workflow must display a COMPLETED status to get results. Constraints: • min: 0 • max: 36 • pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
     /// </summary>
     [CliOption("--build-workflow-id")]
     public string? BuildWorkflowId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the test for which to retrieve results. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}
+    /// The unique identifier of the test for which to retrieve results. Constraints: • min: 0 • max: 12 • pattern: [0-9A-Z]{12}
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBedrockGetAutomatedReasoningPolicyTestResultOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

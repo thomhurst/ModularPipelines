@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkspacesInstancesTagResourceOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Adds tags to a WorkSpace Instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance to tag. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
-    /// <param name="Tags">Tags to be added to the WorkSpace Instance. Constraints: o min: 0 o max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance to tag. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="Tags">Tags to be added to the WorkSpace Instance. Constraints: • min: 0 • max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsWorkspacesInstancesTagResourceOptions(
         string WorkspaceInstanceId,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsWorkspacesInstancesTagResourceOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier of the WorkSpace Instance to tag. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// Unique identifier of the WorkSpace Instance to tag. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}
     /// </summary>
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; private init; }
 
     /// <summary>
-    /// Tags to be added to the WorkSpace Instance. Constraints: o min: 0 o max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Tags to be added to the WorkSpace Instance. Constraints: • min: 0 • max: 50 (structure) Represents a key-value metadata tag. Key -&gt; (string) Unique identifier for the tag. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Value -&gt; (string) Value associated with the tag key. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesInstancesTagResourceOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

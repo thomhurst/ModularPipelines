@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an event in an AgentCore Memory resource. Events represent in- teractions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For com...
+/// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For comma...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +27,12 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an event in an AgentCore Memory resource. Events represent in- teractions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For com...
+    /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For comma...
     /// </summary>
-    /// <param name="MemoryId">The identifier of the AgentCore Memory resource in which to create the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="ActorId">The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
+    /// <param name="MemoryId">The identifier of the AgentCore Memory resource in which to create the event. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="ActorId">The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*</param>
     /// <param name="EventTimestamp">The timestamp when the event occurred. If not specified, the current time is used.</param>
-    /// <param name="Payload">The content payload of the event. This can include conversational data, JSON data, or binary content. Constraints: o min: 0 o max: 100 (tagged union structure) Contains the payload content for an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, blob, json. conversational -&gt; (structure) The conversational content of the payload. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for ex- ample, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER blob -&gt; (document) The binary content of the payload. json -&gt; (structure) The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. Shorthand Syntax: conversational={content={text=string},role=string},json={} ... JSON Syntax: [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "blob": {...}, "json": { "content": {...} } } ... ]</param>
+    /// <param name="Payload">The content payload of the event. This can include conversational data, JSON data, or binary content. Constraints: • min: 0 • max: 100 (tagged union structure) Contains the payload content for an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, blob, json. conversational -&gt; (structure) The conversational content of the payload. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: • min: 1 • max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: • ASSISTANT • USER • TOOL • OTHER blob -&gt; (document) The binary content of the payload. json -&gt; (structure) The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. Shorthand Syntax: conversational={content={text=string},role=string},json={} ... JSON Syntax: [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "blob": {...}, "json": { "content": {...} } } ... ]</param>
     public AwsBedrockAgentcoreCreateEventOptions(
         string MemoryId,
         string ActorId,
@@ -81,13 +81,13 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the AgentCore Memory resource in which to create the event. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The identifier of the AgentCore Memory resource in which to create the event. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
+    /// The identifier of the actor associated with this event. An actor represents an entity that participates in sessions and generates events. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_/]*(?::[a-zA-Z0-9-_/]+)*[a-zA-Z0-9-_/]*
     /// </summary>
     [CliOption("--actor-id")]
     public string? ActorId { get; private init; }
@@ -99,44 +99,44 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions, IValidatableOb
     public string? EventTimestamp { get; private init; }
 
     /// <summary>
-    /// The content payload of the event. This can include conversational data, JSON data, or binary content. Constraints: o min: 0 o max: 100 (tagged union structure) Contains the payload content for an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, blob, json. conversational -&gt; (structure) The conversational content of the payload. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: o min: 1 o max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for ex- ample, "user" or "assistant"). Possible values: o ASSISTANT o USER o TOOL o OTHER blob -&gt; (document) The binary content of the payload. json -&gt; (structure) The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. Shorthand Syntax: conversational={content={text=string},role=string},json={} ... JSON Syntax: [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "blob": {...}, "json": { "content": {...} } } ... ]
+    /// The content payload of the event. This can include conversational data, JSON data, or binary content. Constraints: • min: 0 • max: 100 (tagged union structure) Contains the payload content for an event. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: conversational, blob, json. conversational -&gt; (structure) The conversational content of the payload. content -&gt; (tagged union structure) [required] The content of the conversation message. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: text. text -&gt; (string) The text content of the memory item. Constraints: • min: 1 • max: 100000 role -&gt; (string) [required] The role of the participant in the conversation (for example, "user" or "assistant"). Possible values: • ASSISTANT • USER • TOOL • OTHER blob -&gt; (document) The binary content of the payload. json -&gt; (structure) The JSON content of the payload. Use this type to store non-conversational, JSON-formatted data, such as behavioral events, activity logs, or system events. content -&gt; (document) [required] The JSON content of the payload. Accepts any JSON value, including objects, arrays, strings, numbers, booleans, and null. The maximum size is 100 KB. Shorthand Syntax: conversational={content={text=string},role=string},json={} ... JSON Syntax: [ { "conversational": { "content": { "text": "string" }, "role": "ASSISTANT"|"USER"|"TOOL"|"OTHER" }, "blob": {...}, "json": { "content": {...} } } ... ]
     /// </summary>
     [CliOption("--payload", GroupValues = true)]
     public IEnumerable<string>? Payload { get; private init; }
 
     /// <summary>
-    /// The identifier of the session in which this event occurs. A session represents a sequence of related events. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
+    /// The identifier of the session in which this event occurs. A session represents a sequence of related events. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; set; }
 
     /// <summary>
-    /// The branch information for this event. Branches allow for organizing events into different conversation threads or paths. rootEventId -&gt; (string) The identifier of the root event for this branch. Constraints: o pattern: [0-9]+#[a-fA-F0-9]+ name -&gt; (string) [required] The name of the branch. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* Shorthand Syntax: rootEventId=string,name=string JSON Syntax: { "rootEventId": "string", "name": "string" }
+    /// The branch information for this event. Branches allow for organizing events into different conversation threads or paths. rootEventId -&gt; (string) The identifier of the root event for this branch. Constraints: • pattern: [0-9]+#[a-fA-F0-9]+ name -&gt; (string) [required] The name of the branch. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9-_]* Shorthand Syntax: rootEventId=string,name=string JSON Syntax: { "rootEventId": "string", "name": "string" }
     /// </summary>
     [CliOption("--branch")]
     public string? Branch { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an er- ror.
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The key-value metadata to attach to the event. Constraints: o min: 0 o max: 15 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) Value associated with the eventMetadata key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1={stringValue=string},KeyName2={stringValue=string} JSON Syntax: {"string": { "stringValue": "string" } ...}
+    /// The key-value metadata to attach to the event. Constraints: • min: 0 • max: 15 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s._:/=+@-]* value -&gt; (tagged union structure) Value associated with the eventMetadata key. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: stringValue. stringValue -&gt; (string) Value associated with the eventMetadata key. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s._:/=+@-]* Shorthand Syntax: KeyName1={stringValue=string},KeyName2={stringValue=string} JSON Syntax: {"string": { "stringValue": "string" } ...}
     /// </summary>
     [CliOption("--metadata", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Metadata { get; set; }
 
     /// <summary>
-    /// Controls long-term memory extraction for this event. When set to SKIP , the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual. Possible values: o SKIP
+    /// Controls long-term memory extraction for this event. When set to SKIP , the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual. Possible values: • SKIP
     /// </summary>
     [CliOption("--extraction-mode")]
     public string? ExtractionMode { get; set; }
 
     /// <summary>
-    /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction. namespaceVariables -&gt; (map) A map of namespaceKeys to their values. The service substitutes these values into namespaceTemplates during long-term memory ex- traction to control namespace hierarchy. Constraints: o min: 1 o max: 5 key -&gt; (string) The name of the namespace variable key. The name cannot be a built-in variable name (actorId , sessionId , or memoryStrat- egyId ). Constraints: o min: 1 o max: 32 o pattern: (?!memoryStrategyId$|actorId$|ses- sionId$)[a-z][a-z0-9]* value -&gt; (string) The value of a namespace variable key. Constraints: o min: 1 o max: 64 o pattern: [a-z0-9][a-z0-9-_]* Shorthand Syntax: namespaceVariables={KeyName1=string,KeyName2=string} JSON Syntax: { "namespaceVariables": {"string": "string" ...} }
+    /// The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction. namespaceVariables -&gt; (map) A map of namespaceKeys to their values. The service substitutes these values into namespaceTemplates during long-term memory extraction to control namespace hierarchy. Constraints: • min: 1 • max: 5 key -&gt; (string) The name of the namespace variable key. The name cannot be a built-in variable name (actorId , sessionId , or memoryStrategyId ). Constraints: • min: 1 • max: 32 • pattern: (?!memoryStrategyId$|actorId$|sessionId$)[a-z][a-z0-9]* value -&gt; (string) The value of a namespace variable key. Constraints: • min: 1 • max: 64 • pattern: [a-z0-9][a-z0-9-_]* Shorthand Syntax: namespaceVariables={KeyName1=string,KeyName2=string} JSON Syntax: { "namespaceVariables": {"string": "string" ...} }
     /// </summary>
     [CliOption("--extraction-config")]
     public string? ExtractionConfig { get; set; }
@@ -162,6 +162,15 @@ public record AwsBedrockAgentcoreCreateEventOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

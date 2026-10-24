@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the Step Functions User Guide. If you set the publish parameter of this API action to true , it pub- lishes version 1 as the first revision of the sta...
+/// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the Step Functions User Guide. If you set the publish parameter of this API action to true , it publishes version 1 as the first revision of the state...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsStepfunctionsCreateStateMachineOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the Step Functions User Guide. If you set the publish parameter of this API action to true , it pub- lishes version 1 as the first revision of the sta...
+    /// Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the Step Functions User Guide. If you set the publish parameter of this API action to true , it publishes version 1 as the first revision of the state...
     /// </summary>
-    /// <param name="Name">The name of the state machine. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80</param>
-    /// <param name="Definition">The Amazon States Language definition of the state machine. See Amazon States Language . Constraints: o min: 1 o max: 1048576</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to use for this state machine. Constraints: o min: 1 o max: 256</param>
+    /// <param name="Name">The name of the state machine. A name must not contain: • white space • brackets &lt; &gt; { } [ ] • wildcard characters ? * • special characters " # % \ ^ | ~ ` $ &amp; , ; : / • control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) • surrogates (U+D800-DFFF ) • invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: • min: 1 • max: 80</param>
+    /// <param name="Definition">The Amazon States Language definition of the state machine. See Amazon States Language . Constraints: • min: 1 • max: 1048576</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role to use for this state machine. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsCreateStateMachineOptions(
         string Name,
         string Definition,
@@ -65,37 +66,37 @@ public record AwsStepfunctionsCreateStateMachineOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the state machine. A name must not contain: o white space o brackets &lt; &gt; { } [ ] o wildcard characters ? * o special characters " # % \ ^ | ~ ` $ &amp; , ; : / o control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) o surrogates (U+D800-DFFF ) o invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: o min: 1 o max: 80
+    /// The name of the state machine. A name must not contain: • white space • brackets &lt; &gt; { } [ ] • wildcard characters ? * • special characters " # % \ ^ | ~ ` $ &amp; , ; : / • control characters (U+0000-001F , U+007F-009F , U+FFFE-FFFF ) • surrogates (U+D800-DFFF ) • invalid characters (U+10FFFF ) To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _. Constraints: • min: 1 • max: 80
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon States Language definition of the state machine. See Amazon States Language . Constraints: o min: 1 o max: 1048576
+    /// The Amazon States Language definition of the state machine. See Amazon States Language . Constraints: • min: 1 • max: 1048576
     /// </summary>
     [CliOption("--definition")]
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the IAM role to use for this state machine. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Determines whether a Standard or Express state machine is created. The default is STANDARD . You cannot update the type of a state ma- chine once it has been created. Possible values: o STANDARD o EXPRESS
+    /// Determines whether a Standard or Express state machine is created. The default is STANDARD . You cannot update the type of a state machine once it has been created. Possible values: • STANDARD • EXPRESS
     /// </summary>
     [CliOption("--type")]
     public AwsStepfunctionsCreateStateMachineType? Type { get; set; }
 
     /// <summary>
-    /// Defines what execution history events are logged and where they are logged. NOTE: By default, the level is set to OFF . For more information see Log Levels in the Step Functions User Guide. level -&gt; (string) Defines which category of execution history events are logged. Possible values: o ALL o ERROR o FATAL o OFF includeExecutionData -&gt; (boolean) Determines whether execution data is included in your log. When set to false , data is excluded. destinations -&gt; (list) An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF . (structure) cloudWatchLogsLogGroup -&gt; (structure) An object describing a CloudWatch log group. For more in- formation, see AWS::Logs::LogGroup in the CloudFormation User Guide. logGroupArn -&gt; (string) The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* Constraints: o min: 1 o max: 256 JSON Syntax: { "level": "ALL"|"ERROR"|"FATAL"|"OFF", "includeExecutionData": true|false, "destinations": [ { "cloudWatchLogsLogGroup": { "logGroupArn": "string" } } ... ] }
+    /// Defines what execution history events are logged and where they are logged. NOTE: By default, the level is set to OFF . For more information see Log Levels in the Step Functions User Guide. level -&gt; (string) Defines which category of execution history events are logged. Possible values: • ALL • ERROR • FATAL • OFF includeExecutionData -&gt; (boolean) Determines whether execution data is included in your log. When set to false , data is excluded. destinations -&gt; (list) An array of objects that describes where your execution history events will be logged. Limited to size 1. Required, if your log level is not set to OFF . (structure) cloudWatchLogsLogGroup -&gt; (structure) An object describing a CloudWatch log group. For more information, see AWS::Logs::LogGroup in the CloudFormation User Guide. logGroupArn -&gt; (string) The ARN of the the CloudWatch log group to which you want your logs emitted to. The ARN must end with :* Constraints: • min: 1 • max: 256 JSON Syntax: { "level": "ALL"|"ERROR"|"FATAL"|"OFF", "includeExecutionData": true|false, "destinations": [ { "cloudWatchLogsLogGroup": { "logGroupArn": "string" } } ... ] }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Manage- ment User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Func- tions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value of a tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . (structure) Tags are key-value pairs that can be associated with Step Functions state machines and activities. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide , and Controlling Access Using IAM Tags . Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @ . key -&gt; (string) The key of a tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value of a tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -113,13 +114,13 @@ public record AwsStepfunctionsCreateStateMachineOptions : AwsOptions, IValidatab
     public bool? Publish { get; set; }
 
     /// <summary>
-    /// Sets description about the state machine version. You can only set the description if the publish parameter is set to true . Otherwise, if you set versionDescription , but publish to false , this API ac- tion throws ValidationException . Constraints: o max: 256
+    /// Sets description about the state machine version. You can only set the description if the publish parameter is set to true . Otherwise, if you set versionDescription , but publish to false , this API action throws ValidationException . Constraints: • max: 256
     /// </summary>
     [CliOption("--version-description")]
     public string? VersionDescription { get; set; }
 
     /// <summary>
-    /// Settings to configure server-side encryption. kmsKeyId -&gt; (string) An alias, alias ARN, key ID, or key ARN of a symmetric encryp- tion KMS key to encrypt data. To specify a KMS key in a differ- ent Amazon Web Services account, you must use the key ARN or alias ARN. Constraints: o min: 1 o max: 2048 kmsDataKeyReusePeriodSeconds -&gt; (integer) Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey . Only applies to customer managed keys. Constraints: o min: 60 o max: 900 type -&gt; (string) [required] Encryption type Possible values: o AWS_OWNED_KEY o CUSTOMER_MANAGED_KMS_KEY Shorthand Syntax: kmsKeyId=string,kmsDataKeyReusePeriodSeconds=integer,type=string JSON Syntax: { "kmsKeyId": "string", "kmsDataKeyReusePeriodSeconds": integer, "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY" }
+    /// Settings to configure server-side encryption. kmsKeyId -&gt; (string) An alias, alias ARN, key ID, or key ARN of a symmetric encryption KMS key to encrypt data. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. Constraints: • min: 1 • max: 2048 kmsDataKeyReusePeriodSeconds -&gt; (integer) Maximum duration that Step Functions will reuse data keys. When the period expires, Step Functions will call GenerateDataKey . Only applies to customer managed keys. Constraints: • min: 60 • max: 900 type -&gt; (string) [required] Encryption type Possible values: • AWS_OWNED_KEY • CUSTOMER_MANAGED_KMS_KEY Shorthand Syntax: kmsKeyId=string,kmsDataKeyReusePeriodSeconds=integer,type=string JSON Syntax: { "kmsKeyId": "string", "kmsDataKeyReusePeriodSeconds": integer, "type": "AWS_OWNED_KEY"|"CUSTOMER_MANAGED_KMS_KEY" }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -145,6 +146,15 @@ public record AwsStepfunctionsCreateStateMachineOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+/// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --quer...
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type. See also: AWS API Documentation list-instance-storage-configs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query ar...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ResourceType">A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ResourceType">A valid resource type. Possible values: • CHAT_TRANSCRIPTS • CALL_RECORDINGS • SCHEDULED_REPORTS • MEDIA_STREAMS • CONTACT_TRACE_RECORDS • AGENT_EVENTS • REAL_TIME_CONTACT_ANALYSIS_SEGMENTS • ATTACHMENTS • CONTACT_EVALUATIONS • SCREEN_RECORDINGS • REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS • REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS • EMAIL_MESSAGES</param>
     public AwsConnectListInstanceStorageConfigsOptions(
         string InstanceId,
         AwsConnectListInstanceStorageConfigsResourceType ResourceType
@@ -61,22 +62,19 @@ public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A valid resource type. Possible values: o CHAT_TRANSCRIPTS o CALL_RECORDINGS o SCHEDULED_REPORTS o MEDIA_STREAMS o CONTACT_TRACE_RECORDS o AGENT_EVENTS o REAL_TIME_CONTACT_ANALYSIS_SEGMENTS o ATTACHMENTS o CONTACT_EVALUATIONS o SCREEN_RECORDINGS o REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS o REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS o EMAIL_MESSAGES
+    /// A valid resource type. Possible values: • CHAT_TRANSCRIPTS • CALL_RECORDINGS • SCHEDULED_REPORTS • MEDIA_STREAMS • CONTACT_TRACE_RECORDS • AGENT_EVENTS • REAL_TIME_CONTACT_ANALYSIS_SEGMENTS • ATTACHMENTS • CONTACT_EVALUATIONS • SCREEN_RECORDINGS • REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS • REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS • EMAIL_MESSAGES
     /// </summary>
     [CliOption("--resource-type")]
     public AwsConnectListInstanceStorageConfigsResourceType? ResourceType { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +84,19 @@ public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions, IValidat
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -112,6 +113,15 @@ public record AwsConnectListInstanceStorageConfigsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

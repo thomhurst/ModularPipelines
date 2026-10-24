@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Re- gion Access Point. For more information about managing Multi-Region Ac- cess Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : o CreateMultiRegionAccessPoint o DeleteMultiRegionAccessPoint o GetMultiRegionAccessPoint o ListMultiRegionAccessPoint...
+/// NOTE: This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : • CreateMultiRegionAccessPoint • DeleteMultiRegionAccessPoint • GetMultiRegionAccessPoint • ListMultiRegionAccessPoints Se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3controlDescribeMultiRegionAccessPointOperationOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Re- gion Access Point. For more information about managing Multi-Region Ac- cess Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : o CreateMultiRegionAccessPoint o DeleteMultiRegionAccessPoint o GetMultiRegionAccessPoint o ListMultiRegionAccessPoint...
+    /// NOTE: This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see Using Multi-Region Access Points in the Amazon S3 User Guide . The following actions are related to GetMultiRegionAccessPoint : • CreateMultiRegionAccessPoint • DeleteMultiRegionAccessPoint • GetMultiRegionAccessPoint • ListMultiRegionAccessPoints Se...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="RequestTokenArn">The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: o min: 1 o max: 1024 o pattern: arn:.+</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="RequestTokenArn">The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: • min: 1 • max: 1024 • pattern: arn:.+</param>
     public AwsS3controlDescribeMultiRegionAccessPointOperationOptions(
         string AccountId,
         string RequestTokenArn
@@ -60,13 +61,13 @@ public record AwsS3controlDescribeMultiRegionAccessPointOperationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: o min: 1 o max: 1024 o pattern: arn:.+
+    /// The request token associated with the request you want to know about. This request token is returned as part of the response when you make an asynchronous request. You provide this token to query about the status of the asynchronous action. Constraints: • min: 1 • max: 1024 • pattern: arn:.+
     /// </summary>
     [CliOption("--request-token-arn")]
     public string? RequestTokenArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3controlDescribeMultiRegionAccessPointOperationOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

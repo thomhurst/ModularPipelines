@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsNetworkmanagerPutCoreNetworkPolicyOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CoreNetworkId">The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$</param>
-    /// <param name="PolicyDocument">The policy document. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]*</param>
+    /// <param name="CoreNetworkId">The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$</param>
+    /// <param name="PolicyDocument">The policy document. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerPutCoreNetworkPolicyOptions(
         string CoreNetworkId,
         string PolicyDocument
@@ -61,19 +62,19 @@ public record AwsNetworkmanagerPutCoreNetworkPolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$
+    /// The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$
     /// </summary>
     [CliOption("--core-network-id")]
     public string? CoreNetworkId { get; private init; }
 
     /// <summary>
-    /// The policy document. Constraints: o min: 0 o max: 10000000 o pattern: [\s\S]*
+    /// The policy document. Constraints: • min: 0 • max: 10000000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--policy-document")]
     public string? PolicyDocument { get; private init; }
 
     /// <summary>
-    /// a core network policy description. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// a core network policy description. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -85,7 +86,7 @@ public record AwsNetworkmanagerPutCoreNetworkPolicyOptions : AwsOptions, IValida
     public int? LatestVersionId { get; set; }
 
     /// <summary>
-    /// The client token associated with the request. Constraints: o min: 0 o max: 256 o pattern: [\s\S]*
+    /// The client token associated with the request. Constraints: • min: 0 • max: 256 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -112,6 +113,15 @@ public record AwsNetworkmanagerPutCoreNetworkPolicyOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

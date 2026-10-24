@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: o The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). o The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated re- sources, resource attributes, created artifacts). o If the stream takes ...
+/// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: • The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). • The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated resources, resource attributes, created artifacts). • If the stream takes ti...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMghDeleteProgressUpdateStreamOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: o The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). o The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated re- sources, resource attributes, created artifacts). o If the stream takes ...
+    /// Deletes a progress update stream, including all of its tasks, which was previously created as an AWS resource used for access control. This API has the following traits: • The only parameter needed for DeleteProgressUpdateStream is the stream name (same as a CreateProgressUpdateStream call). • The call will return, and a background process will asynchronously delete the stream and all of its resources (tasks, associated resources, resource attributes, created artifacts). • If the stream takes ti...
     /// </summary>
-    /// <param name="ProgressUpdateStreamName">The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+</param>
+    /// <param name="ProgressUpdateStreamName">The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+</param>
     public AwsMghDeleteProgressUpdateStreamOptions(
         string ProgressUpdateStreamName
     )
@@ -56,7 +57,7 @@ public record AwsMghDeleteProgressUpdateStreamOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: o min: 1 o max: 50 o pattern: [^/:|\000-\037]+
+    /// The name of the ProgressUpdateStream. Do not store personal data in this field. Constraints: • min: 1 • max: 50 • pattern: [^/:|\000-\037]+
     /// </summary>
     [CliOption("--progress-update-stream-name")]
     public string? ProgressUpdateStreamName { get; private init; }
@@ -88,6 +89,15 @@ public record AwsMghDeleteProgressUpdateStreamOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyIn- stance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a s...
+/// NOTE: After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a spe...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,15 +26,15 @@ public record AwsRoute53UpdateTrafficPolicyInstanceOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyIn- stance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a s...
+    /// NOTE: After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of updated traffic policy instance confirm that the UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. Updates the resource record sets in a specified hosted zone that were created based on the settings in a spe...
     /// </summary>
-    /// <param name="Id">The ID of the traffic policy instance that you want to update. Constraints: o min: 1 o max: 36</param>
-    /// <param name="Ttl">The TTL that you want Amazon Route 53 to assign to all of the up- dated resource record sets. Constraints: o min: 0 o max: 2147483647</param>
-    /// <param name="TrafficPolicyId">The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy in- stance. Constraints: o min: 1 o max: 36</param>
-    /// <param name="TrafficPolicyVersion">The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Id">The ID of the traffic policy instance that you want to update. Constraints: • min: 1 • max: 36</param>
+    /// <param name="Ttl">The TTL that you want Amazon Route 53 to assign to all of the updated resource record sets. Constraints: • min: 0 • max: 2147483647</param>
+    /// <param name="TrafficPolicyId">The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance. Constraints: • min: 1 • max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance. Constraints: • min: 1 • max: 1000</param>
     public AwsRoute53UpdateTrafficPolicyInstanceOptions(
         string Id,
-        int Ttl,
+        long Ttl,
         string TrafficPolicyId,
         int TrafficPolicyVersion
     )
@@ -66,25 +67,25 @@ public record AwsRoute53UpdateTrafficPolicyInstanceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy instance that you want to update. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy instance that you want to update. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The TTL that you want Amazon Route 53 to assign to all of the up- dated resource record sets. Constraints: o min: 0 o max: 2147483647
+    /// The TTL that you want Amazon Route 53 to assign to all of the updated resource record sets. Constraints: • min: 0 • max: 2147483647
     /// </summary>
     [CliOption("--ttl")]
-    public int? Ttl { get; private init; }
+    public long? Ttl { get; private init; }
 
     /// <summary>
-    /// The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy in- stance. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--traffic-policy-id")]
     public string? TrafficPolicyId { get; private init; }
 
     /// <summary>
-    /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance. Constraints: o min: 1 o max: 1000
+    /// The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--traffic-policy-version")]
     public int? TrafficPolicyVersion { get; private init; }
@@ -110,6 +111,15 @@ public record AwsRoute53UpdateTrafficPolicyInstanceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

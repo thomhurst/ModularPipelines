@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsConnectUpdateContactFlowModuleMetadataOptions : AwsOptions, IVa
     /// <summary>
     /// Updates metadata about specified flow module. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: o min: 1 o max: 256</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactFlowModuleId">The identifier of the flow module. Constraints: • min: 1 • max: 256</param>
     public AwsConnectUpdateContactFlowModuleMetadataOptions(
         string InstanceId,
         string ContactFlowModuleId
@@ -61,31 +62,31 @@ public record AwsConnectUpdateContactFlowModuleMetadataOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the flow module. Constraints: o min: 1 o max: 256
+    /// The identifier of the flow module. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-flow-module-id")]
     public string? ContactFlowModuleId { get; private init; }
 
     /// <summary>
-    /// The name of the flow module. Constraints: o min: 1 o max: 127 o pattern: .*\S.*
+    /// The name of the flow module. Constraints: • min: 1 • max: 127 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the flow module. Constraints: o min: 0 o max: 500 o pattern: .*\S.*
+    /// The description of the flow module. Constraints: • min: 0 • max: 500 • pattern: .*\S.*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The state of flow module. Possible values: o ACTIVE o ARCHIVED
+    /// The state of flow module. Possible values: • ACTIVE • ARCHIVED
     /// </summary>
     [CliOption("--state")]
     public AwsConnectUpdateContactFlowModuleMetadataState? State { get; set; }
@@ -111,6 +112,15 @@ public record AwsConnectUpdateContactFlowModuleMetadataOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

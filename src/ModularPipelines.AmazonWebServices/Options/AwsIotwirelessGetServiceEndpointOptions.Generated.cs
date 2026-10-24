@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessGetServiceEndpointOptions : AwsOptions
 {
     /// <summary>
-    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint. Possible values: o CUPS o LNS
+    /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint. Possible values: • CUPS • LNS
     /// </summary>
     [CliOption("--service-type")]
     public AwsIotwirelessGetServiceEndpointServiceType? ServiceType { get; set; }
@@ -33,5 +33,14 @@ public record AwsIotwirelessGetServiceEndpointOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

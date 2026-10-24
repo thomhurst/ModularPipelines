@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the At- tribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and At- tribute.0.Value , the second attribute by the parameters At- tribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value com- bination. For example, a single item can have...
+/// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the Attribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and Attribute.0.Value , the second attribute by the parameters Attribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value combination. For example, a single item can have the att...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSdbPutAttributesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the At- tribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and At- tribute.0.Value , the second attribute by the parameters At- tribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value com- bination. For example, a single item can have...
+    /// The PutAttributes operation creates or replaces attributes in an item. The client may specify new attributes using a combination of the Attribute.X.Name and Attribute.X.Value parameters. The client specifies the first attribute by the parameters Attribute.0.Name and Attribute.0.Value , the second attribute by the parameters Attribute.1.Name and Attribute.1.Value , and so on. Attributes are uniquely identified in an item by their name/value combination. For example, a single item can have the att...
     /// </summary>
     /// <param name="DomainName"></param>
     /// <param name="ItemName"></param>
@@ -107,6 +108,15 @@ public record AwsSdbPutAttributesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

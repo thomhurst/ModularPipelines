@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a channel to start receiving content streams. The channel repre- sents the input to MediaPackage for incoming live content from an en- coder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to down- stream devices (such as video players or CDNs) that request the con- tent. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant ...
+/// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +28,10 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a channel to start receiving content streams. The channel repre- sents the input to MediaPackage for incoming live content from an en- coder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to down- stream devices (such as video players or CDNs) that request the con- tent. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant ...
+    /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels...
     /// </summary>
-    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ChannelName">The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelGroupName">The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ChannelName">The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+</param>
     public AwsMediapackagev2CreateChannelOptions(
         string ChannelGroupName,
         string ChannelName
@@ -63,56 +63,56 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your ac- count in the AWS Region. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-group-name")]
     public string? ChannelGroupName { get; private init; }
 
     /// <summary>
-    /// The name that describes the channel. The name is the primary identi- fier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+
+    /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group. You can't change the name after you create the channel. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--channel-name")]
     public string? ChannelName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request. Constraints: o min: 1 o max: 256 o pattern: [\S]+
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 256 • pattern: [\S]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are: o HLS - The HLS streaming specification (which defines M3U8 mani- fests and TS segments). o CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests). o MULTIVIEW Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream. Possible values: o HLS o CMAF o MULTIVIEW
+    /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are: • HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments). • CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests). • MULTIVIEW Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream. Possible values: • HLS • CMAF • MULTIVIEW
     /// </summary>
     [CliOption("--input-type")]
     public AwsMediapackagev2CreateChannelInputType? InputType { get; set; }
 
     /// <summary>
-    /// Enter any descriptive text that helps you to identify the channel. Constraints: o min: 0 o max: 1024
+    /// Enter any descriptive text that helps you to identify the channel. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF . MQCSInputSwitching -&gt; (boolean) When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is false. This setting is valid only when InputType is CMAF . PreferredInput -&gt; (integer) For CMAF inputs, indicates which input MediaPackage should pre- fer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest end- point. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal. Constraints: o min: 1 o max: 2 Shorthand Syntax: MQCSInputSwitching=boolean,PreferredInput=integer JSON Syntax: { "MQCSInputSwitching": true|false, "PreferredInput": integer }
+    /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF . MQCSInputSwitching -&gt; (boolean) When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is false. This setting is valid only when InputType is CMAF . PreferredInput -&gt; (integer) For CMAF inputs, indicates which input MediaPackage should prefer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest endpoint. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal. Constraints: • min: 1 • max: 2 Shorthand Syntax: MQCSInputSwitching=boolean,PreferredInput=integer JSON Syntax: { "MQCSInputSwitching": true|false, "PreferredInput": integer }
     /// </summary>
     [CliOption("--input-switch-configuration")]
     public string? InputSwitchConfiguration { get; set; }
 
     /// <summary>
-    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This set- ting is valid only when InputType is CMAF . PublishMQCS -&gt; (boolean) When true, AWS Elemental MediaPackage includes the MQCS in re- sponses to the CDN. This setting is valid only when InputType is CMAF . Shorthand Syntax: PublishMQCS=boolean JSON Syntax: { "PublishMQCS": true|false }
+    /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF . PublishMQCS -&gt; (boolean) When true, AWS Elemental MediaPackage includes the MQCS in responses to the CDN. This setting is valid only when InputType is CMAF . Shorthand Syntax: PublishMQCS=boolean JSON Syntax: { "PublishMQCS": true|false }
     /// </summary>
     [CliOption("--output-header-configuration")]
     public string? OutputHeaderConfiguration { get; set; }
 
     /// <summary>
-    /// The multiview configuration for the channel. This setting is re- quired when InputType is MULTIVIEW , and can't be set for any other input type. AvailableSources -&gt; (list) [required] The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same chan- nel group as the multiview channel, and must have an InputType of CMAF . Only the channels that you list here are available as tiles. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_-]+ AvailableLayouts -&gt; (list) [required] The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once. Constraints: o min: 1 o max: 6 (string) A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are: o LAYOUT_2EH Two tiles of equal size, arranged horizontally. o LAYOUT_2PL Two tiles, with one larger primary tile. o LAYOUT_3EL Three tiles of equal size, arranged in two columns. o LAYOUT_3PL Three tiles, with one larger primary tile on the left and two stacked on the right. o LAYOUT_4E Four tiles of equal size, arranged in a two-by-two grid. o LAYOUT_4PL Four tiles, with one larger primary tile on the left and three stacked on the right. Possible values: o LAYOUT_2EH o LAYOUT_2PL o LAYOUT_3EL o LAYOUT_3PL o LAYOUT_4E o LAYOUT_4PL Shorthand Syntax: AvailableSources=string,string,AvailableLayouts=string,string JSON Syntax: { "AvailableSources": ["string", ...], "AvailableLayouts": ["LAYOUT_2EH"|"LAYOUT_2PL"|"LAYOUT_3EL"|"LAYOUT_3PL"|"LAYOUT_4E"|"LAYOUT_4PL", ...] }
+    /// The multiview configuration for the channel. This setting is required when InputType is MULTIVIEW , and can't be set for any other input type. AvailableSources -&gt; (list) [required] The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same channel group as the multiview channel, and must have an InputType of CMAF . Only the channels that you list here are available as tiles. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_-]+ AvailableLayouts -&gt; (list) [required] The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once. Constraints: • min: 1 • max: 6 (string) A tile layout for a multiview channel. Each layout determines how many source tiles are composited into the output and how those tiles are arranged. The allowed values are: • LAYOUT_2EH Two tiles of equal size, arranged horizontally. • LAYOUT_2PL Two tiles, with one larger primary tile. • LAYOUT_3EL Three tiles of equal size, arranged in two columns. • LAYOUT_3PL Three tiles, with one larger primary tile on the left and two stacked on the right. • LAYOUT_4E Four tiles of equal size, arranged in a two-by-two grid. • LAYOUT_4PL Four tiles, with one larger primary tile on the left and three stacked on the right. Possible values: • LAYOUT_2EH • LAYOUT_2PL • LAYOUT_3EL • LAYOUT_3PL • LAYOUT_4E • LAYOUT_4PL Shorthand Syntax: AvailableSources=string,string,AvailableLayouts=string,string JSON Syntax: { "AvailableSources": ["string", ...], "AvailableLayouts": ["LAYOUT_2EH"|"LAYOUT_2PL"|"LAYOUT_3EL"|"LAYOUT_3PL"|"LAYOUT_4E"|"LAYOUT_4PL", ...] }
     /// </summary>
     [CliOption("--multiview-configuration")]
     public string? MultiviewConfiguration { get; set; }
 
     /// <summary>
-    /// The output locking mode for the channel. This setting is only valid when InputType is CMAF . This value is immutable after channel cre- ation. If you don't specify a value, the default is EPOCH_LOCKED . The allowed values are: o EPOCH_LOCKED - The channel uses epoch-locked behavior with deter- ministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover. o NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing se- quence numbers starting from 0. This mode does not support cross-region synchronization or failover. Possible values: o EPOCH_LOCKED o NON_EPOCH_LOCKED
+    /// The output locking mode for the channel. This setting is only valid when InputType is CMAF . This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED . The allowed values are: • EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover. • NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover. Possible values: • EPOCH_LOCKED • NON_EPOCH_LOCKED
     /// </summary>
     [CliOption("--output-locking-mode")]
     public AwsMediapackagev2CreateChannelOutputLockingMode? OutputLockingMode { get; set; }
@@ -144,6 +144,15 @@ public record AwsMediapackagev2CreateChannelOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

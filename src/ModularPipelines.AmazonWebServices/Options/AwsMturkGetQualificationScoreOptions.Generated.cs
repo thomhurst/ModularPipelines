@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The GetQualificationScore operation returns the value of a Worker's Qualification for a given Qualification type. To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is included in the assignment data returned by the ListAs- signmentsForHIT operation. Only the owner of a Qualification type can query the value of a Worker's Qualification of that type. See also: AWS API Documentation
+/// The GetQualificationScore operation returns the value of a Worker's Qualification for a given Qualification type. To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is included in the assignment data returned by the ListAssignmentsForHIT operation. Only the owner of a Qualification type can query the value of a Worker's Qualification of that type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMturkGetQualificationScoreOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The GetQualificationScore operation returns the value of a Worker's Qualification for a given Qualification type. To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is included in the assignment data returned by the ListAs- signmentsForHIT operation. Only the owner of a Qualification type can query the value of a Worker's Qualification of that type. See also: AWS API Documentation
+    /// The GetQualificationScore operation returns the value of a Worker's Qualification for a given Qualification type. To get a Worker's Qualification, you must know the Worker's ID. The Worker's ID is included in the assignment data returned by the ListAssignmentsForHIT operation. Only the owner of a Qualification type can query the value of a Worker's Qualification of that type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QualificationTypeId">The ID of the QualificationType. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$</param>
-    /// <param name="WorkerId">The ID of the Worker whose Qualification is being updated. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="QualificationTypeId">The ID of the QualificationType. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$</param>
+    /// <param name="WorkerId">The ID of the Worker whose Qualification is being updated. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$</param>
     public AwsMturkGetQualificationScoreOptions(
         string QualificationTypeId,
         string WorkerId
@@ -60,13 +61,13 @@ public record AwsMturkGetQualificationScoreOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the QualificationType. Constraints: o min: 1 o max: 64 o pattern: ^[A-Z0-9]+$
+    /// The ID of the QualificationType. Constraints: • min: 1 • max: 64 • pattern: ^[A-Z0-9]+$
     /// </summary>
     [CliOption("--qualification-type-id")]
     public string? QualificationTypeId { get; private init; }
 
     /// <summary>
-    /// The ID of the Worker whose Qualification is being updated. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// The ID of the Worker whose Qualification is being updated. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMturkGetQualificationScoreOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

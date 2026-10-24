@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesE- valuation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest con- figuration state for your resources. It re-runs an evaluation against the last known state of your resources. You can specify up to 25 Config rules per request. An existing StartConfigRulesEvaluation call for the s...
+/// Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test that a rule you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources. It re-runs an evaluation against the last known state of your resources. You can specify up to 25 Config rules per request. An existing StartConfigRulesEvaluation call for the speci...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceStartConfigRulesEvaluationOptions : AwsOptions
 {
     /// <summary>
-    /// The list of names of Config rules that you want to run evaluations for. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The list of names of Config rules that you want to run evaluations for. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
@@ -32,5 +32,14 @@ public record AwsConfigserviceStartConfigRulesEvaluationOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

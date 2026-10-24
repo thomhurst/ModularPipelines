@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsAppflow : IAwsAppflow
     #region Commands
 
     /// <summary>
-    /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't can- cel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the st...
+    /// Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you can cancel specific runs by providing their IDs. You can cancel a flow run only when the run is in progress. You can't cancel a run that has already completed or failed. You also can't cancel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled run, you can deactivate the flow with the StopFlow action. You cannot resume a run after you cancel it. When you send your request, the stat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Creates a new connector profile associated with your Amazon Web Ser- vices account. There is a soft quota of 100 connector profiles per Ama- zon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector. See also: AWS API Documentation
+    /// Creates a new connector profile associated with your Amazon Web Services account. There is a soft quota of 100 connector profiles per Amazon Web Services account. If you need more connector profiles than this quota allows, you can submit a request to the Amazon AppFlow team through the Amazon AppFlow support channel. In each connector profile that you create, you can provide the credentials and properties for only one connector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destina- tions at once. See also: AWS API Documentation
+    /// Enables your application to create a new flow using Amazon AppFlow. You must create a connector profile before calling this API. Please note that the Request Syntax below shows syntax for multiple destinations, however, you can only transfer data to one item in this list at a time. Amazon AppFlow does not currently support flows to multiple destinations at once. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Describes the given custom connector registered in your Amazon Web Ser- vices account. This API can be used for custom connectors that are reg- istered in your account and also for Amazon authored connectors. See also: AWS API Documentation
+    /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Returns a list of connector-profile details matching the provided con- nector-profile names and connector-types . Both input lists are op- tional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector pro- files in a paginated form. If there is no match, this operation returns an empty list. See also: AWS API Documentation
+    /// Returns a list of connector-profile details matching the provided connector-profile names and connector-types . Both input lists are optional, and you can use them to filter the result. If no names or connector-types are provided, returns all connector profiles in a paginated form. If there is no match, this operation returns an empty list. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Describes the connectors vended by Amazon AppFlow for specified connec- tor types. If you don't specify a connector type, this operation de- scribes all connectors vended by Amazon AppFlow. If there are more con- nectors than can be returned in one page, the response contains a next- Token object, which can be be passed in to the next call to the De- scribeConnectors API operation to retrieve the next page. See also: AWS API Documentation
+    /// Describes the connectors vended by Amazon AppFlow for specified connector types. If you don't specify a connector type, this operation describes all connectors vended by Amazon AppFlow. If there are more connectors than can be returned in one page, the response contains a nextToken object, which can be be passed in to the next call to the DescribeConnectors API operation to retrieve the next page. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportu- nity entities, or query ServiceNow for the Incident entity. See also: AWS API Documentation
+    /// Returns the list of available connector entities supported by Amazon AppFlow. For example, you can query Salesforce for Account and Opportunity entities, or query ServiceNow for the Incident entity. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this op- eration activates the flow. See also: AWS API Documentation
+    /// Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Deactivates the existing flow. For on-demand flows, this operation re- turns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow. See also: AWS API Documentation
+    /// Deactivates the existing flow. For on-demand flows, this operation returns an unsupportedOperationException error message. For schedule and event-triggered flows, this operation deactivates the flow. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsAppflow : IAwsAppflow
     }
 
     /// <summary>
-    /// Updates a custom connector that you've previously registered. This op- eration updates the connector with one of the following: o The latest version of the AWS Lambda function that's assigned to the connector o A new AWS Lambda function that you specify See also: AWS API Documentation
+    /// Updates a custom connector that you've previously registered. This operation updates the connector with one of the following: • The latest version of the AWS Lambda function that's assigned to the connector • A new AWS Lambda function that you specify See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

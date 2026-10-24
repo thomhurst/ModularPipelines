@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops sharing the specified portfolio with the specified account or or- ganization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administra- tor. Note that if a delegated admin is de-registered, portfolio shares cre- ated from that account are removed. See also: AWS API Documentation
+/// Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsServicecatalogDeletePortfolioShareOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops sharing the specified portfolio with the specified account or or- ganization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administra- tor. Note that if a delegated admin is de-registered, portfolio shares cre- ated from that account are removed. See also: AWS API Documentation
+    /// Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PortfolioId">The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PortfolioId">The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogDeletePortfolioShareOptions(
         string PortfolioId
     )
@@ -56,25 +57,25 @@ public record AwsServicecatalogDeletePortfolioShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The portfolio identifier. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The portfolio identifier. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account ID. Constraints: o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account ID. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// The organization node to whom you are going to stop sharing. Type -&gt; (string) The organization node type. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT Value -&gt; (string) The identifier of the organization node. Constraints: o pattern: (^[0-9]{12}$)|(^arn:aws:organizations::\d{12}:organi- zation\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:or- ganiza- tions::\d{12}:ou\/o-[a-z0-9]{10,32}\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "ORGANIZATION"|"ORGANIZATIONAL_UNIT"|"ACCOUNT", "Value": "string" }
+    /// The organization node to whom you are going to stop sharing. Type -&gt; (string) The organization node type. Possible values: • ORGANIZATION • ORGANIZATIONAL_UNIT • ACCOUNT Value -&gt; (string) The identifier of the organization node. Constraints: • pattern: (^[0-9]{12}$)|(^arn:aws:organizations::\d{12}:organization\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:organizations::\d{12}:ou\/o-[a-z0-9]{10,32}\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "ORGANIZATION"|"ORGANIZATIONAL_UNIT"|"ACCOUNT", "Value": "string" }
     /// </summary>
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
@@ -100,6 +101,15 @@ public record AwsServicecatalogDeletePortfolioShareOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

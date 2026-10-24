@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables or disables additional Amazon CloudWatch metrics for the speci- fied CloudFront distribution. The additional metrics incur an addi- tional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+/// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCloudfrontCreateMonitoringSubscriptionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables or disables additional Amazon CloudWatch metrics for the speci- fied CloudFront distribution. The additional metrics incur an addi- tional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="DistributionId">The ID of the distribution that you are enabling metrics for.</param>
-    /// <param name="MonitoringSubscription">A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given Cloud- Front distribution. RealtimeMetricsSubscriptionConfig -&gt; (structure) A subscription configuration for additional CloudWatch metrics. RealtimeMetricsSubscriptionStatus -&gt; (string) [required] A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution. Possible values: o Enabled o Disabled Shorthand Syntax: RealtimeMetricsSubscriptionConfig={RealtimeMetricsSubscriptionStatus=string} JSON Syntax: { "RealtimeMetricsSubscriptionConfig": { "RealtimeMetricsSubscriptionStatus": "Enabled"|"Disabled" } }</param>
+    /// <param name="MonitoringSubscription">A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution. RealtimeMetricsSubscriptionConfig -&gt; (structure) A subscription configuration for additional CloudWatch metrics. RealtimeMetricsSubscriptionStatus -&gt; (string) [required] A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution. Possible values: • Enabled • Disabled Shorthand Syntax: RealtimeMetricsSubscriptionConfig={RealtimeMetricsSubscriptionStatus=string} JSON Syntax: { "RealtimeMetricsSubscriptionConfig": { "RealtimeMetricsSubscriptionStatus": "Enabled"|"Disabled" } }</param>
     public AwsCloudfrontCreateMonitoringSubscriptionOptions(
         string DistributionId,
         string MonitoringSubscription
@@ -66,7 +67,7 @@ public record AwsCloudfrontCreateMonitoringSubscriptionOptions : AwsOptions, IVa
     public string? DistributionId { get; private init; }
 
     /// <summary>
-    /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given Cloud- Front distribution. RealtimeMetricsSubscriptionConfig -&gt; (structure) A subscription configuration for additional CloudWatch metrics. RealtimeMetricsSubscriptionStatus -&gt; (string) [required] A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution. Possible values: o Enabled o Disabled Shorthand Syntax: RealtimeMetricsSubscriptionConfig={RealtimeMetricsSubscriptionStatus=string} JSON Syntax: { "RealtimeMetricsSubscriptionConfig": { "RealtimeMetricsSubscriptionStatus": "Enabled"|"Disabled" } }
+    /// A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution. RealtimeMetricsSubscriptionConfig -&gt; (structure) A subscription configuration for additional CloudWatch metrics. RealtimeMetricsSubscriptionStatus -&gt; (string) [required] A flag that indicates whether additional CloudWatch metrics are enabled for a given CloudFront distribution. Possible values: • Enabled • Disabled Shorthand Syntax: RealtimeMetricsSubscriptionConfig={RealtimeMetricsSubscriptionStatus=string} JSON Syntax: { "RealtimeMetricsSubscriptionConfig": { "RealtimeMetricsSubscriptionStatus": "Enabled"|"Disabled" } }
     /// </summary>
     [CliOption("--monitoring-subscription")]
     public string? MonitoringSubscription { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCloudfrontCreateMonitoringSubscriptionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -20,5 +20,8 @@ public enum AwsSecurityagentListIntegratedResourcesResourceType
     CodeRepository,
 
     [EnumValue("DOCUMENT")]
-    Document
+    Document,
+
+    [EnumValue("PROJECT")]
+    Project
 }

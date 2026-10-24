@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +30,11 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
     /// <summary>
     /// Get the balance of a payment instrument. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this payment instrument. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
-    /// <param name="PaymentConnectorId">The ID of the payment connector associated with this instrument. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
-    /// <param name="PaymentInstrumentId">The ID of the payment instrument to query balance for. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
-    /// <param name="Chain">The specific blockchain chain to query balance on. Required because balances are chain-specific. Possible values: o BASE o BASE_SEPOLIA o ETHEREUM o SOLANA o SOLANA_DEVNET</param>
-    /// <param name="Token">The token to query balance for. Only tokens supported for X402 pay- ments are returned. Possible values: o USDC</param>
+    /// <param name="PaymentManagerArn">The ARN of the payment manager that owns this payment instrument. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}</param>
+    /// <param name="PaymentConnectorId">The ID of the payment connector associated with this instrument. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}</param>
+    /// <param name="PaymentInstrumentId">The ID of the payment instrument to query balance for. Constraints: • min: 34 • max: 34 • pattern: payment-instrument-[0-9a-zA-Z-]{15}</param>
+    /// <param name="Chain">The specific blockchain chain to query balance on. Required because balances are chain-specific. Possible values: • BASE • BASE_SEPOLIA • ETHEREUM • SOLANA • SOLANA_DEVNET</param>
+    /// <param name="Token">The token to query balance for. Only tokens supported for X402 payments are returned. Possible values: • USDC</param>
     public AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions(
         string PaymentManagerArn,
         string PaymentConnectorId,
@@ -73,44 +74,44 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the payment manager that owns this payment instrument. Constraints: o min: 66 o max: 2048 o pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:payment-man- ager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
+    /// The ARN of the payment manager that owns this payment instrument. Constraints: • min: 66 • max: 2048 • pattern: arn:(aws|aws-[a-z0-9-]+):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:payment-manager/[a-z0-9]([a-z0-9-]{0,47}[a-z0-9])?-[a-z0-9]{10}
     /// </summary>
     [CliOption("--payment-manager-arn")]
     public string? PaymentManagerArn { get; private init; }
 
     /// <summary>
-    /// The ID of the payment connector associated with this instrument. Constraints: o min: 12 o max: 211 o pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
+    /// The ID of the payment connector associated with this instrument. Constraints: • min: 12 • max: 211 • pattern: ([0-9a-z][-]?){1,100}-[0-9a-z]{10}
     /// </summary>
     [CliOption("--payment-connector-id")]
     public string? PaymentConnectorId { get; private init; }
 
     /// <summary>
-    /// The ID of the payment instrument to query balance for. Constraints: o min: 34 o max: 34 o pattern: payment-instrument-[0-9a-zA-Z-]{15}
+    /// The ID of the payment instrument to query balance for. Constraints: • min: 34 • max: 34 • pattern: payment-instrument-[0-9a-zA-Z-]{15}
     /// </summary>
     [CliOption("--payment-instrument-id")]
     public string? PaymentInstrumentId { get; private init; }
 
     /// <summary>
-    /// The specific blockchain chain to query balance on. Required because balances are chain-specific. Possible values: o BASE o BASE_SEPOLIA o ETHEREUM o SOLANA o SOLANA_DEVNET
+    /// The specific blockchain chain to query balance on. Required because balances are chain-specific. Possible values: • BASE • BASE_SEPOLIA • ETHEREUM • SOLANA • SOLANA_DEVNET
     /// </summary>
     [CliOption("--chain")]
     public AwsBedrockAgentcoreGetPaymentInstrumentBalanceChain? Chain { get; private init; }
 
     /// <summary>
-    /// The token to query balance for. Only tokens supported for X402 pay- ments are returned. Possible values: o USDC
+    /// The token to query balance for. Only tokens supported for X402 payments are returned. Possible values: • USDC
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; private init; }
 
     /// <summary>
-    /// The user ID associated with this payment instrument. Constraints: o min: 0 o max: 120
+    /// The user ID associated with this payment instrument. Constraints: • min: 0 • max: 120
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The agent name associated with this request, used for observability. Constraints: o min: 0 o max: 256
+    /// The agent name associated with this request, used for observability. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
@@ -136,6 +137,15 @@ public record AwsBedrockAgentcoreGetPaymentInstrumentBalanceOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

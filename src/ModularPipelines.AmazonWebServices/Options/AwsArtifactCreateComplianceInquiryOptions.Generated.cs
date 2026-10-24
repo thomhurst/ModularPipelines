@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -31,7 +31,7 @@ public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions, IValidatab
     /// Create a new compliance inquiry. See also: AWS API Documentation
     /// </summary>
     /// <param name="Name">Title of the inquiry.</param>
-    /// <param name="InquiryContent">Content for creating a compliance inquiry - either a single query or file content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: query, fileContent. query -&gt; (string) Single text query for AI-generated answer. Constraints: o min: 1 o max: 2048 o pattern: [^&lt;&gt;]* fileContent -&gt; (structure) File content with multiple questions. fileSections -&gt; (list) List of file sections/sheets to process. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_\-\s]* content -&gt; (blob) [required] Binary content of the uploaded file. Shorthand Syntax: query=string,fileContent={fileSections=[string,string],content=blob} JSON Syntax: { "query": "string", "fileContent": { "fileSections": ["string", ...], "content": blob } }</param>
+    /// <param name="InquiryContent">Content for creating a compliance inquiry - either a single query or file content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: query, fileContent. query -&gt; (string) Single text query for AI-generated answer. Constraints: • min: 1 • max: 2048 • pattern: [^&lt;&gt;]* fileContent -&gt; (structure) File content with multiple questions. fileSections -&gt; (list) List of file sections/sheets to process. Constraints: • min: 0 • max: 30 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_\-\s]* content -&gt; (blob) [required] Binary content of the uploaded file. Shorthand Syntax: query=string,fileContent={fileSections=[string,string],content=blob} JSON Syntax: { "query": "string", "fileContent": { "fileSections": ["string", ...], "content": blob } }</param>
     public AwsArtifactCreateComplianceInquiryOptions(
         string Name,
         string InquiryContent
@@ -69,26 +69,26 @@ public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions, IValidatab
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Content for creating a compliance inquiry - either a single query or file content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: query, fileContent. query -&gt; (string) Single text query for AI-generated answer. Constraints: o min: 1 o max: 2048 o pattern: [^&lt;&gt;]* fileContent -&gt; (structure) File content with multiple questions. fileSections -&gt; (list) List of file sections/sheets to process. Constraints: o min: 0 o max: 30 (string) Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_\-\s]* content -&gt; (blob) [required] Binary content of the uploaded file. Shorthand Syntax: query=string,fileContent={fileSections=[string,string],content=blob} JSON Syntax: { "query": "string", "fileContent": { "fileSections": ["string", ...], "content": blob } }
+    /// Content for creating a compliance inquiry - either a single query or file content. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: query, fileContent. query -&gt; (string) Single text query for AI-generated answer. Constraints: • min: 1 • max: 2048 • pattern: [^&lt;&gt;]* fileContent -&gt; (structure) File content with multiple questions. fileSections -&gt; (list) List of file sections/sheets to process. Constraints: • min: 0 • max: 30 (string) Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_\-\s]* content -&gt; (blob) [required] Binary content of the uploaded file. Shorthand Syntax: query=string,fileContent={fileSections=[string,string],content=blob} JSON Syntax: { "query": "string", "fileContent": { "fileSections": ["string", ...], "content": blob } }
     /// </summary>
     [CliOption("--inquiry-content")]
     public string? InquiryContent { get; private init; }
 
     /// <summary>
-    /// Idempotency token for the request. Constraints: o min: 1 o max: 128 o pattern: [\w\-]+
+    /// Idempotency token for the request. Constraints: • min: 1 • max: 128 • pattern: [\w\-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Support mode for inquiry processing. Only supported for file upload mode. Defaults to AI_ONLY if not specified. Possible values: o AI_ONLY o FULL_SUPPORT
+    /// Support mode for inquiry processing. Only supported for file upload mode. Defaults to AI_ONLY if not specified. Possible values: • AI_ONLY • FULL_SUPPORT
     /// </summary>
     [CliOption("--support-mode")]
     public AwsArtifactCreateComplianceInquirySupportMode? SupportMode { get; set; }
 
     /// <summary>
-    /// Tags to associate with the compliance inquiry resource. Constraints: o min: 0 o max: 50 key -&gt; (string) A tag key. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9\s_.:/=+\-@]* value -&gt; (string) A tag value. Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9\s_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to associate with the compliance inquiry resource. Constraints: • min: 0 • max: 50 key -&gt; (string) A tag key. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9\s_.:/=+\-@]* value -&gt; (string) A tag value. Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9\s_.:/=+\-@]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -114,6 +114,15 @@ public record AwsArtifactCreateComplianceInquiryOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

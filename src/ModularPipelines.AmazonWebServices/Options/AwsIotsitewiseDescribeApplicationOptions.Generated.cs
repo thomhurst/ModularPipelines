@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotsitewiseDescribeApplicationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieves Application details based on the ID See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">Name of the workspace to associate with the underlying Application Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="Id">ID of the Application Constraints: o min: 36 o max: 36 o pattern: [a-z0-9-]{36}</param>
+    /// <param name="WorkspaceName">Name of the workspace to associate with the underlying Application Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Id">ID of the Application Constraints: • min: 36 • max: 36 • pattern: [a-z0-9-]{36}</param>
     public AwsIotsitewiseDescribeApplicationOptions(
         string WorkspaceName,
         string Id
@@ -60,13 +61,13 @@ public record AwsIotsitewiseDescribeApplicationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the workspace to associate with the underlying Application Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// Name of the workspace to associate with the underlying Application Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// ID of the Application Constraints: o min: 36 o max: 36 o pattern: [a-z0-9-]{36}
+    /// ID of the Application Constraints: • min: 36 • max: 36 • pattern: [a-z0-9-]{36}
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotsitewiseDescribeApplicationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

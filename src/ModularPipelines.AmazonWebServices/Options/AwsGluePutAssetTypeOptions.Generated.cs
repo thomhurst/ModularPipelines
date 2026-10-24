@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsGluePutAssetTypeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates or updates an asset type in Glue Data Catalog. An asset type defines the structure of assets by specifying which forms they include. If an asset type with the given name already exists, it is updated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the asset type. Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$</param>
-    /// <param name="Forms">The forms that make up the asset type, keyed by form name. Each en- try references the form type that defines the form's schema. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$ value -&gt; (structure) A reference to a form type that is included in an asset type. FormTypeIdentifier -&gt; (string) [required] The identifier of the referenced form type. Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1={FormTypeIdentifier=string},KeyName2={FormTypeIdentifier=string} JSON Syntax: {"string": { "FormTypeIdentifier": "string" } ...}</param>
+    /// <param name="Name">The name of the asset type. Constraints: • min: 1 • max: 128 • pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$</param>
+    /// <param name="Forms">The forms that make up the asset type, keyed by form name. Each entry references the form type that defines the form's schema. Constraints: • min: 1 • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$ value -&gt; (structure) A reference to a form type that is included in an asset type. FormTypeIdentifier -&gt; (string) [required] The identifier of the referenced form type. Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1={FormTypeIdentifier=string},KeyName2={FormTypeIdentifier=string} JSON Syntax: {"string": { "FormTypeIdentifier": "string" } ...}</param>
     public AwsGluePutAssetTypeOptions(
         string Name,
         IReadOnlyList<KeyValue> Forms
@@ -73,19 +73,19 @@ public record AwsGluePutAssetTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the asset type. Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$
+    /// The name of the asset type. Constraints: • min: 1 • max: 128 • pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The forms that make up the asset type, keyed by form name. Each en- try references the form type that defines the form's schema. Constraints: o min: 1 o max: 100 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$ value -&gt; (structure) A reference to a form type that is included in an asset type. FormTypeIdentifier -&gt; (string) [required] The identifier of the referenced form type. Constraints: o min: 1 o max: 256 Shorthand Syntax: KeyName1={FormTypeIdentifier=string},KeyName2={FormTypeIdentifier=string} JSON Syntax: {"string": { "FormTypeIdentifier": "string" } ...}
+    /// The forms that make up the asset type, keyed by form name. Each entry references the form type that defines the form's schema. Constraints: • min: 1 • max: 100 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?![0-9_])\w+$|^_\w*[a-zA-Z0-9]\w*$ value -&gt; (structure) A reference to a form type that is included in an asset type. FormTypeIdentifier -&gt; (string) [required] The identifier of the referenced form type. Constraints: • min: 1 • max: 256 Shorthand Syntax: KeyName1={FormTypeIdentifier=string},KeyName2={FormTypeIdentifier=string} JSON Syntax: {"string": { "FormTypeIdentifier": "string" } ...}
     /// </summary>
     [CliOption("--forms", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Forms { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -112,6 +112,15 @@ public record AwsGluePutAssetTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

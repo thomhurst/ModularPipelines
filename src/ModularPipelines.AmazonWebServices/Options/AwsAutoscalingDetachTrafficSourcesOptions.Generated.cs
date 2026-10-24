@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are dereg- istered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
+/// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAutoscalingDetachTrafficSourcesOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are dereg- istered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
+    /// Detaches one or more traffic sources from the specified Auto Scaling group. When you detach a traffic source, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the traffic source using the DescribeTrafficSources API call. The instances continue to run. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
-    /// <param name="TrafficSources">The unique identifiers of one or more traffic sources. You can spec- ify up to 10 traffic sources. (structure) Identifying information for a traffic source. Identifier -&gt; (string) [required] Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Net- work Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example: o Application Load Balancer ARN: arn:aws:elasticloadbalanc- ing:us-west-2:123456789012:targetgroup/my-tar- gets/1234567890123456 o Classic Load Balancer name: my-classic-load-balancer o VPC Lattice ARN: arn:aws:vpc-lat- tice:us-west-2:123456789012:targetgroup/tg-1234567890123456 To get the ARN of a target group for a Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) Provides additional context for the value of Identifier . The following lists the valid values: o elb if Identifier is the name of a Classic Load Balancer. o elbv2 if Identifier is the ARN of an Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer tar- get group. o vpc-lattice if Identifier is the ARN of a VPC Lattice tar- get group. Required if the identifier is the name of a Classic Load Bal- ancer. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: Identifier=string,Type=string ... JSON Syntax: [ { "Identifier": "string", "Type": "string" } ... ]</param>
+    /// <param name="AutoScalingGroupName">The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="TrafficSources">The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources. (structure) Identifying information for a traffic source. Identifier -&gt; (string) [required] Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Network Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example: • Application Load Balancer ARN: arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456 • Classic Load Balancer name: my-classic-load-balancer • VPC Lattice ARN: arn:aws:vpc-lattice:us-west-2:123456789012:targetgroup/tg-1234567890123456 To get the ARN of a target group for a Application Load Balancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation. Constraints: • min: 1 • max: 511 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) Provides additional context for the value of Identifier . The following lists the valid values: • elb if Identifier is the name of a Classic Load Balancer. • elbv2 if Identifier is the ARN of an Application Load Balancer, Gateway Load Balancer, or Network Load Balancer target group. • vpc-lattice if Identifier is the ARN of a VPC Lattice target group. Required if the identifier is the name of a Classic Load Balancer. Constraints: • min: 1 • max: 511 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: Identifier=string,Type=string ... JSON Syntax: [ { "Identifier": "string", "Type": "string" } ... ]</param>
     public AwsAutoscalingDetachTrafficSourcesOptions(
         string AutoScalingGroupName,
         IEnumerable<string> TrafficSources
@@ -71,13 +72,13 @@ public record AwsAutoscalingDetachTrafficSourcesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Auto Scaling group. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name of the Auto Scaling group. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--auto-scaling-group-name")]
     public string? AutoScalingGroupName { get; private init; }
 
     /// <summary>
-    /// The unique identifiers of one or more traffic sources. You can spec- ify up to 10 traffic sources. (structure) Identifying information for a traffic source. Identifier -&gt; (string) [required] Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Net- work Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example: o Application Load Balancer ARN: arn:aws:elasticloadbalanc- ing:us-west-2:123456789012:targetgroup/my-tar- gets/1234567890123456 o Classic Load Balancer name: my-classic-load-balancer o VPC Lattice ARN: arn:aws:vpc-lat- tice:us-west-2:123456789012:targetgroup/tg-1234567890123456 To get the ARN of a target group for a Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) Provides additional context for the value of Identifier . The following lists the valid values: o elb if Identifier is the name of a Classic Load Balancer. o elbv2 if Identifier is the ARN of an Application Load Bal- ancer, Gateway Load Balancer, or Network Load Balancer tar- get group. o vpc-lattice if Identifier is the ARN of a VPC Lattice tar- get group. Required if the identifier is the name of a Classic Load Bal- ancer. Constraints: o min: 1 o max: 511 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: Identifier=string,Type=string ... JSON Syntax: [ { "Identifier": "string", "Type": "string" } ... ]
+    /// The unique identifiers of one or more traffic sources. You can specify up to 10 traffic sources. (structure) Identifying information for a traffic source. Identifier -&gt; (string) [required] Identifies the traffic source. For Application Load Balancers, Gateway Load Balancers, Network Load Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for a target group in this account and Region. For Classic Load Balancers, this will be the name of the Classic Load Balancer in this account and Region. For example: • Application Load Balancer ARN: arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456 • Classic Load Balancer name: my-classic-load-balancer • VPC Lattice ARN: arn:aws:vpc-lattice:us-west-2:123456789012:targetgroup/tg-1234567890123456 To get the ARN of a target group for a Application Load Balancer, Gateway Load Balancer, or Network Load Balancer, or the name of a Classic Load Balancer, use the Elastic Load Balancing DescribeTargetGroups and DescribeLoadBalancers API operations. To get the ARN of a target group for VPC Lattice, use the VPC Lattice GetTargetGroup API operation. Constraints: • min: 1 • max: 511 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) Provides additional context for the value of Identifier . The following lists the valid values: • elb if Identifier is the name of a Classic Load Balancer. • elbv2 if Identifier is the ARN of an Application Load Balancer, Gateway Load Balancer, or Network Load Balancer target group. • vpc-lattice if Identifier is the ARN of a VPC Lattice target group. Required if the identifier is the name of a Classic Load Balancer. Constraints: • min: 1 • max: 511 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: Identifier=string,Type=string ... JSON Syntax: [ { "Identifier": "string", "Type": "string" } ... ]
     /// </summary>
     [CliOption("--traffic-sources", GroupValues = true)]
     public IEnumerable<string>? TrafficSources { get; private init; }
@@ -103,6 +104,15 @@ public record AwsAutoscalingDetachTrafficSourcesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

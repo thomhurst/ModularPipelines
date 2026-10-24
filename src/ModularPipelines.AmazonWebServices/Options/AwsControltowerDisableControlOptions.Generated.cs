@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organiza- tional unit and the accounts it contains. The resources will vary ac- cording to the control that you specify. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
+/// This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see the ` Controls Reference Guide https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html`__ . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsControltowerDisableControlOptions : AwsOptions
 {
     /// <summary>
-    /// The ARN of the control. Only Strongly recommended and Elective con- trols are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--control-identifier")]
     public string? ControlIdentifier { get; set; }
 
     /// <summary>
-    /// The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the organizational unit. For information on how to find the targetIdentifier , see the overview page . Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--target-identifier")]
     public string? TargetIdentifier { get; set; }
 
     /// <summary>
-    /// The ARN of the enabled control to be disabled, which uniquely iden- tifies the control instance on the target organizational unit. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[0-9a-zA-Z_\-:\/]+
+    /// The ARN of the enabled control to be disabled, which uniquely identifies the control instance on the target organizational unit. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[0-9a-zA-Z_\-:\/]+
     /// </summary>
     [CliOption("--enabled-control-identifier")]
     public string? EnabledControlIdentifier { get; set; }
@@ -44,5 +44,14 @@ public record AwsControltowerDisableControlOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsIotfleetwiseUpdateCampaignOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a campaign. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the campaign to update. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
-    /// <param name="Action">Specifies how to update a campaign. The action can be one of the following: o APPROVE - To approve delivering a data collection scheme to vehi- cles. o SUSPEND - To suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in the suspended campaign will stop sending data. o RESUME - To reactivate the SUSPEND campaign. The campaign is rede- ployed to all vehicles and the vehicles will resume sending data. o UPDATE - To update a campaign. Possible values: o APPROVE o SUSPEND o RESUME o UPDATE</param>
+    /// <param name="Name">The name of the campaign to update. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Action">Specifies how to update a campaign. The action can be one of the following: • APPROVE - To approve delivering a data collection scheme to vehicles. • SUSPEND - To suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in the suspended campaign will stop sending data. • RESUME - To reactivate the SUSPEND campaign. The campaign is redeployed to all vehicles and the vehicles will resume sending data. • UPDATE - To update a campaign. Possible values: • APPROVE • SUSPEND • RESUME • UPDATE</param>
     public AwsIotfleetwiseUpdateCampaignOptions(
         string Name,
         AwsIotfleetwiseUpdateCampaignAction Action
@@ -60,25 +61,25 @@ public record AwsIotfleetwiseUpdateCampaignOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the campaign to update. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the campaign to update. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies how to update a campaign. The action can be one of the following: o APPROVE - To approve delivering a data collection scheme to vehi- cles. o SUSPEND - To suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in the suspended campaign will stop sending data. o RESUME - To reactivate the SUSPEND campaign. The campaign is rede- ployed to all vehicles and the vehicles will resume sending data. o UPDATE - To update a campaign. Possible values: o APPROVE o SUSPEND o RESUME o UPDATE
+    /// Specifies how to update a campaign. The action can be one of the following: • APPROVE - To approve delivering a data collection scheme to vehicles. • SUSPEND - To suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in the suspended campaign will stop sending data. • RESUME - To reactivate the SUSPEND campaign. The campaign is redeployed to all vehicles and the vehicles will resume sending data. • UPDATE - To update a campaign. Possible values: • APPROVE • SUSPEND • RESUME • UPDATE
     /// </summary>
     [CliOption("--action")]
     public AwsIotfleetwiseUpdateCampaignAction? Action { get; private init; }
 
     /// <summary>
-    /// The description of the campaign. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// The description of the campaign. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of vehicle attributes to associate with a signal. Default: An empty array Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of vehicle attributes to associate with a signal. Default: An empty array Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--data-extra-dimensions", GroupValues = true)]
     public IEnumerable<string>? DataExtraDimensions { get; set; }
@@ -104,6 +105,15 @@ public record AwsIotfleetwiseUpdateCampaignOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

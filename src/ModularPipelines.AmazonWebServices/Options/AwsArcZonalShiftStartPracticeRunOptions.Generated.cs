@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Start an on-demand practice run zonal shift in Amazon Application Re- covery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see Considerations when you configure zonal au- toshift in the Amazon Application Recovery Controller Developer Guide. See also: AWS API Documentation
+/// Start an on-demand practice run zonal shift in Amazon Application Recovery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsArcZonalShiftStartPracticeRunOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Start an on-demand practice run zonal shift in Amazon Application Re- covery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see Considerations when you configure zonal au- toshift in the Amazon Application Recovery Controller Developer Guide. See also: AWS API Documentation
+    /// Start an on-demand practice run zonal shift in Amazon Application Recovery Controller. With zonal autoshift enabled, you can start an on-demand practice run to verify preparedness at any time. Amazon Web Services also runs automated practice runs about weekly when you have enabled zonal autoshift. For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The identifier for the resource that you want to start a practice run zonal shift for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024</param>
-    /// <param name="AwayFrom">The Availability Zone (for example, use1-az1 ) that traffic is shifted away from for the resource that you specify for the practice run. Constraints: o min: 0 o max: 20</param>
-    /// <param name="Comment">The initial comment that you enter about the practice run. Be aware that this comment can be overwritten by Amazon Web Services if the automatic check for balanced capacity fails. For more information, see Capacity checks for practice runs in the Amazon Application Re- covery Controller Developer Guide. Constraints: o min: 0 o max: 128</param>
+    /// <param name="ResourceIdentifier">The identifier for the resource that you want to start a practice run zonal shift for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024</param>
+    /// <param name="AwayFrom">The Availability Zone (for example, use1-az1 ) that traffic is shifted away from for the resource that you specify for the practice run. Constraints: • min: 0 • max: 20</param>
+    /// <param name="Comment">The initial comment that you enter about the practice run. Be aware that this comment can be overwritten by Amazon Web Services if the automatic check for balanced capacity fails. For more information, see Capacity checks for practice runs in the Amazon Application Recovery Controller Developer Guide. Constraints: • min: 0 • max: 128</param>
     public AwsArcZonalShiftStartPracticeRunOptions(
         string ResourceIdentifier,
         string AwayFrom,
@@ -64,19 +65,19 @@ public record AwsArcZonalShiftStartPracticeRunOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the resource that you want to start a practice run zonal shift for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: o min: 8 o max: 1024
+    /// The identifier for the resource that you want to start a practice run zonal shift for. The identifier is the Amazon Resource Name (ARN) for the resource. Constraints: • min: 8 • max: 1024
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
 
     /// <summary>
-    /// The Availability Zone (for example, use1-az1 ) that traffic is shifted away from for the resource that you specify for the practice run. Constraints: o min: 0 o max: 20
+    /// The Availability Zone (for example, use1-az1 ) that traffic is shifted away from for the resource that you specify for the practice run. Constraints: • min: 0 • max: 20
     /// </summary>
     [CliOption("--away-from")]
     public string? AwayFrom { get; private init; }
 
     /// <summary>
-    /// The initial comment that you enter about the practice run. Be aware that this comment can be overwritten by Amazon Web Services if the automatic check for balanced capacity fails. For more information, see Capacity checks for practice runs in the Amazon Application Re- covery Controller Developer Guide. Constraints: o min: 0 o max: 128
+    /// The initial comment that you enter about the practice run. Be aware that this comment can be overwritten by Amazon Web Services if the automatic check for balanced capacity fails. For more information, see Capacity checks for practice runs in the Amazon Application Recovery Controller Developer Guide. Constraints: • min: 0 • max: 128
     /// </summary>
     [CliOption("--comment")]
     public string? Comment { get; private init; }
@@ -102,6 +103,15 @@ public record AwsArcZonalShiftStartPracticeRunOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

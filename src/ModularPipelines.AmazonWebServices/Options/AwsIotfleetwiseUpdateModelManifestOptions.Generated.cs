@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a vehicle model (model manifest). If created vehicles are asso- ciated with a vehicle model, it can't be updated. See also: AWS API Documentation
+/// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotfleetwiseUpdateModelManifestOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a vehicle model (model manifest). If created vehicles are asso- ciated with a vehicle model, it can't be updated. See also: AWS API Documentation
+    /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the vehicle model to update. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Name">The name of the vehicle model to update. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseUpdateModelManifestOptions(
         string Name
     )
@@ -57,31 +58,31 @@ public record AwsIotfleetwiseUpdateModelManifestOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the vehicle model to update. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the vehicle model to update. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A brief description of the vehicle model. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A brief description of the vehicle model. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of fullyQualifiedName of nodes, which are a general abstrac- tion of signals, to add to the vehicle model. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of fullyQualifiedName of nodes, which are a general abstraction of signals, to add to the vehicle model. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--nodes-to-add", GroupValues = true)]
     public IEnumerable<string>? NodesToAdd { get; set; }
 
     /// <summary>
-    /// A list of fullyQualifiedName of nodes, which are a general abstrac- tion of signals, to remove from the vehicle model. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 150 o pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
+    /// A list of fullyQualifiedName of nodes, which are a general abstraction of signals, to remove from the vehicle model. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 150 • pattern: [a-zA-Z0-9_.]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--nodes-to-remove", GroupValues = true)]
     public IEnumerable<string>? NodesToRemove { get; set; }
 
     /// <summary>
-    /// The state of the vehicle model. If the status is ACTIVE , the vehi- cle model can't be edited. If the status is DRAFT , you can edit the vehicle model. Possible values: o ACTIVE o DRAFT o INVALID o VALIDATING
+    /// The state of the vehicle model. If the status is ACTIVE , the vehicle model can't be edited. If the status is DRAFT , you can edit the vehicle model. Possible values: • ACTIVE • DRAFT • INVALID • VALIDATING
     /// </summary>
     [CliOption("--status")]
     public AwsIotfleetwiseUpdateModelManifestStatus? Status { get; set; }
@@ -107,6 +108,15 @@ public record AwsIotfleetwiseUpdateModelManifestOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

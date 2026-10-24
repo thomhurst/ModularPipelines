@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specific permissions of users or groups in your IAM Iden- tity Center identity source with access to your Amazon Kendra experi- ence. You can create an Amazon Kendra experience such as a search ap- plication. For more information on creating a search application expe- rience, see Building a search experience with no code . See also: AWS API Documentation
+/// Removes the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsKendraDisassociatePersonasFromEntitiesOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specific permissions of users or groups in your IAM Iden- tity Center identity source with access to your Amazon Kendra experi- ence. You can create an Amazon Kendra experience such as a search ap- plication. For more information on creating a search application expe- rience, see Building a search experience with no code . See also: AWS API Documentation
+    /// Removes the specific permissions of users or groups in your IAM Identity Center identity source with access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The identifier of your Amazon Kendra experience. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
-    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="EntityIds">The identifiers of users or groups in your IAM Identity Center iden- tity source. For example, user IDs could be user emails. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 47 o pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Syntax: "string" "string" ...</param>
+    /// <param name="Id">The identifier of your Amazon Kendra experience. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="IndexId">The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="EntityIds">The identifiers of users or groups in your IAM Identity Center identity source. For example, user IDs could be user emails. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 47 • pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Syntax: "string" "string" ...</param>
     public AwsKendraDisassociatePersonasFromEntitiesOptions(
         string Id,
         string IndexId,
@@ -75,19 +76,19 @@ public record AwsKendraDisassociatePersonasFromEntitiesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of your Amazon Kendra experience. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The identifier of your Amazon Kendra experience. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The identifier of the index for your Amazon Kendra experience. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index for your Amazon Kendra experience. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// The identifiers of users or groups in your IAM Identity Center iden- tity source. For example, user IDs could be user emails. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 o max: 47 o pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Syntax: "string" "string" ...
+    /// The identifiers of users or groups in your IAM Identity Center identity source. For example, user IDs could be user emails. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 • max: 47 • pattern: ^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--entity-ids", GroupValues = true)]
     public IEnumerable<string>? EntityIds { get; private init; }
@@ -113,6 +114,15 @@ public record AwsKendraDisassociatePersonasFromEntitiesOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

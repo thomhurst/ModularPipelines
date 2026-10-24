@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsStoragegatewayAttachVolumeOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Connects a volume to an iSCSI connection and then attaches the volume to the specified gateway. Detaching and attaching a volume enables you to recover your data from one gateway to a different gateway without creating a snapshot. It also makes it easier to move your volumes from an on-premises gateway to a gateway hosted on an Amazon EC2 instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway that you want to at- tach the volume to. Constraints: o min: 50 o max: 500</param>
-    /// <param name="VolumeArn">The Amazon Resource Name (ARN) of the volume to attach to the speci- fied gateway. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
-    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.</param>
+    /// <param name="GatewayArn">The Amazon Resource Name (ARN) of the gateway that you want to attach the volume to. Constraints: • min: 50 • max: 500</param>
+    /// <param name="VolumeArn">The Amazon Resource Name (ARN) of the volume to attach to the specified gateway. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)</param>
+    /// <param name="NetworkInterfaceId">The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.</param>
     public AwsStoragegatewayAttachVolumeOptions(
         string GatewayArn,
         string VolumeArn,
@@ -64,31 +65,31 @@ public record AwsStoragegatewayAttachVolumeOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the gateway that you want to at- tach the volume to. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the gateway that you want to attach the volume to. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--gateway-arn")]
     public string? GatewayArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the volume to attach to the speci- fied gateway. Constraints: o min: 50 o max: 500 o pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storage- gateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
+    /// The Amazon Resource Name (ARN) of the volume to attach to the specified gateway. Constraints: • min: 50 • max: 500 • pattern: arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\-0-9]+:[0-9]+:gateway\/(.+)\/volume\/vol-(\S+)
     /// </summary>
     [CliOption("--volume-arn")]
     public string? VolumeArn { get; private init; }
 
     /// <summary>
-    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInfor- mation to get a list of the network interfaces available on a gate- way. Valid Values: A valid IP address.
+    /// The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4 and IPv6 addresses. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway. Valid Values: A valid IP address.
     /// </summary>
     [CliOption("--network-interface-id")]
     public AwsStoragegatewayAttachVolumeNetworkInterfaceId? NetworkInterfaceId { get; private init; }
 
     /// <summary>
-    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, speci- fying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gate- way/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: o min: 1 o max: 200 o pattern: ^[-\.;a-z0-9]+$
+    /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume . The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name. Constraints: • min: 1 • max: 200 • pattern: ^[-\.;a-z0-9]+$
     /// </summary>
     [CliOption("--target-name")]
     public string? TargetName { get; set; }
 
     /// <summary>
-    /// The unique device ID or other distinguishing data that identifies the local disk used to create the volume. This value is only re- quired when you are attaching a stored volume. Constraints: o min: 1 o max: 300
+    /// The unique device ID or other distinguishing data that identifies the local disk used to create the volume. This value is only required when you are attaching a stored volume. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--disk-id")]
     public string? DiskId { get; set; }
@@ -114,6 +115,15 @@ public record AwsStoragegatewayAttachVolumeOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

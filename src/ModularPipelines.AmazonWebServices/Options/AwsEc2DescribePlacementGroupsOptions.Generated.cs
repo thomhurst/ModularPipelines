@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the specified placement groups or all of your placement groups. NOTE: To describe a specific placement group that is shared with your ac- count, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see Placement groups in the Amazon EC2 User Guide . See also: AWS API Documentation
+/// Describes the specified placement groups or all of your placement groups. NOTE: To describe a specific placement group that is shared with your account, you must specify the ID of the placement group using the GroupId parameter. Specifying the name of a shared placement group using the GroupNames parameter will result in an error. For more information, see Placement groups in the Amazon EC2 User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,19 +28,19 @@ public record AwsEc2DescribePlacementGroupsOptions : AwsOptions
     public IEnumerable<string>? GroupIds { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The names of the placement groups. Constraints: o You can specify a name only if the placement group is owned by your account. o If a placement group is shared with your account, specifying the name results in an error. You must use the GroupId parameter in- stead. (string) Syntax: "string" "string" ...
+    /// The names of the placement groups. Constraints: • You can specify a name only if the placement group is owned by your account. • If a placement group is shared with your account, specifying the name results in an error. You must use the GroupId parameter instead. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-names", GroupValues = true)]
     public IEnumerable<string>? GroupNames { get; set; }
 
     /// <summary>
-    /// The filters. o group-name - The name of the placement group. o group-arn - The Amazon Resource Name (ARN) of the placement group. o spread-level - The spread level for the placement group (host | rack ). o state - The state of the placement group (pending | available | deleting | deleted ). o strategy - The strategy of the placement group (cluster | spread | partition | precision-time ). o tag:&lt;key&gt; - The key/value combination of a tag assigned to the re- source. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. o tag-key - The key of a tag assigned to the resource. Use this fil- ter to find all resources that have a tag with a specific key, re- gardless of the tag value. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// The filters. • group-name - The name of the placement group. • group-arn - The Amazon Resource Name (ARN) of the placement group. • spread-level - The spread level for the placement group (host | rack ). • state - The state of the placement group (pending | available | deleting | deleted ). • strategy - The strategy of the placement group (cluster | spread | partition | precision-time ). • tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA , specify tag:Owner for the filter name and TeamA for the filter value. • tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
@@ -50,5 +50,14 @@ public record AwsEc2DescribePlacementGroupsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides scheduled Auto-Tune action details for the Elasticsearch do- main, such as Auto-Tune action type, description, severity, and sched- uled date. See also: AWS API Documentation
+/// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEsDescribeDomainAutoTunesOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides scheduled Auto-Tune action details for the Elasticsearch do- main, such as Auto-Tune action type, description, severity, and sched- uled date. See also: AWS API Documentation
+    /// Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune action type, description, severity, and scheduled date. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Specifies the domain name for which you want Auto-Tune action de- tails. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">Specifies the domain name for which you want Auto-Tune action details. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsEsDescribeDomainAutoTunesOptions(
         string DomainName
     )
@@ -57,13 +58,13 @@ public record AwsEsDescribeDomainAutoTunesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the domain name for which you want Auto-Tune action de- tails. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Specifies the domain name for which you want Auto-Tune action details. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Set this value to limit the number of results returned. If not spec- ified, defaults to 100. Constraints: o max: 100
+    /// Set this value to limit the number of results returned. If not specified, defaults to 100. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsEsDescribeDomainAutoTunesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsElbv2AddTrustStoreRevocationsOptions : AwsOptions, IValidatable
     public string? TrustStoreArn { get; private init; }
 
     /// <summary>
-    /// The revocation file to add. (structure) Information about a revocation file. S3Bucket -&gt; (string) The Amazon S3 bucket for the revocation file. S3Key -&gt; (string) The Amazon S3 path for the revocation file. S3ObjectVersion -&gt; (string) The Amazon S3 object version of the revocation file. RevocationType -&gt; (string) The type of revocation file. Possible values: o CRL Shorthand Syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,RevocationType=string ... JSON Syntax: [ { "S3Bucket": "string", "S3Key": "string", "S3ObjectVersion": "string", "RevocationType": "CRL" } ... ]
+    /// The revocation file to add. (structure) Information about a revocation file. S3Bucket -&gt; (string) The Amazon S3 bucket for the revocation file. S3Key -&gt; (string) The Amazon S3 path for the revocation file. S3ObjectVersion -&gt; (string) The Amazon S3 object version of the revocation file. RevocationType -&gt; (string) The type of revocation file. Possible values: • CRL Shorthand Syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,RevocationType=string ... JSON Syntax: [ { "S3Bucket": "string", "S3Key": "string", "S3ObjectVersion": "string", "RevocationType": "CRL" } ... ]
     /// </summary>
     [CliOption("--revocation-contents", GroupValues = true)]
     public IEnumerable<string>? RevocationContents { get; set; }
@@ -88,6 +89,15 @@ public record AwsElbv2AddTrustStoreRevocationsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

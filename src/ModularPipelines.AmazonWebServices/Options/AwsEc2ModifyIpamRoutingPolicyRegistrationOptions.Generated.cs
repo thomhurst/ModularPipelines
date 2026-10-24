@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +30,7 @@ public record AwsEc2ModifyIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     /// Modifies an existing routing policy registration. You can update the authorized ASNs, maximum prefix length, and other properties of a Route Origin Authorization (ROA). See also: AWS API Documentation
     /// </summary>
     /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association.</param>
-    /// <param name="Cidr">The IP address prefix in CIDR notation identifying the routing pol- icy registration to modify.</param>
+    /// <param name="Cidr">The IP address prefix in CIDR notation identifying the routing policy registration to modify.</param>
     /// <param name="Asns">The updated list of Autonomous System Numbers (ASNs) authorized to originate the prefix. (string) Syntax: "string" "string" ...</param>
     public AwsEc2ModifyIpamRoutingPolicyRegistrationOptions(
         string IpamInternetRegistryAssociationId,
@@ -82,7 +83,7 @@ public record AwsEc2ModifyIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     public string? IpamInternetRegistryAssociationId { get; private init; }
 
     /// <summary>
-    /// The IP address prefix in CIDR notation identifying the routing pol- icy registration to modify.
+    /// The IP address prefix in CIDR notation identifying the routing policy registration to modify.
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; private init; }
@@ -94,19 +95,19 @@ public record AwsEc2ModifyIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
     public IEnumerable<string>? Asns { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// nouncements (boolean) Specifies whether to permit more specific route announcements than the CIDR prefix. Default: false .
+    /// Specifies whether to permit more specific route announcements than the CIDR prefix. Default: false .
     /// </summary>
     [CliFlag("--permit-more-specific-announcements", NegatedName = "--no-permit-more-specific-announcements")]
     public bool? PermitMoreSpecificAnnouncements { get; set; }
 
     /// <summary>
-    /// The new maximum prefix length that the ASNs are authorized to an- nounce. Must be greater than or equal to the prefix length of the CIDR. Constraints: o min: 0 o max: 48
+    /// The new maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR. Constraints: • min: 0 • max: 48
     /// </summary>
     [CliOption("--max-length")]
     public int? MaxLength { get; set; }
@@ -151,6 +152,15 @@ public record AwsEc2ModifyIpamRoutingPolicyRegistrationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

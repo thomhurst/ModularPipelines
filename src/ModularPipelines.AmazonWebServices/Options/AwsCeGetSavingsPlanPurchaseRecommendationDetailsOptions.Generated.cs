@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions : AwsOptio
     /// <summary>
     /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the cost, coverage, and utilization charts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationDetailId">The ID that is associated with the Savings Plan recommendation. Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$</param>
+    /// <param name="RecommendationDetailId">The ID that is associated with the Savings Plan recommendation. Constraints: • min: 36 • max: 36 • pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$</param>
     public AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions(
         string RecommendationDetailId
     )
@@ -56,7 +57,7 @@ public record AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID that is associated with the Savings Plan recommendation. Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$
+    /// The ID that is associated with the Savings Plan recommendation. Constraints: • min: 36 • max: 36 • pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$
     /// </summary>
     [CliOption("--recommendation-detail-id")]
     public string? RecommendationDetailId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

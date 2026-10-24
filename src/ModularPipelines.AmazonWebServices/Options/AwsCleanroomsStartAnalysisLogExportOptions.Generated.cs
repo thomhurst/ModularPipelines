@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions, IValidata
     /// <summary>
     /// Starts an export of the Apache Spark logs for a protected query to an Amazon S3 bucket that you own. Use the exported logs to diagnose a query that failed or that ran more slowly than you expected. Clean Rooms exports a redacted copy of the Spark logs instead of the raw logs. Analyze the exported logs with the tooling of your choice, such as Spark History Server. For details about what the exported logs contain, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-co...
     /// </summary>
-    /// <param name="MembershipIdentifier">A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AnalysisId">The unique identifier of the protected query that you want to export the analysis logs for. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="AnalysisType">The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: o PROTECTED_QUERY</param>
-    /// <param name="ResultConfiguration">The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }</param>
+    /// <param name="MembershipIdentifier">A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisId">The unique identifier of the protected query that you want to export the analysis logs for. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="AnalysisType">The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: • PROTECTED_QUERY</param>
+    /// <param name="ResultConfiguration">The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: • min: 3 • max: 63 • pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: • min: 0 • max: 512 • pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }</param>
     public AwsCleanroomsStartAnalysisLogExportOptions(
         string MembershipIdentifier,
         string AnalysisId,
@@ -68,25 +69,25 @@ public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the protected query that you want to export the analysis logs for. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the protected query that you want to export the analysis logs for. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--analysis-id")]
     public string? AnalysisId { get; private init; }
 
     /// <summary>
-    /// The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: o PROTECTED_QUERY
+    /// The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported. Possible values: • PROTECTED_QUERY
     /// </summary>
     [CliOption("--analysis-type")]
     public string? AnalysisType { get; private init; }
 
     /// <summary>
-    /// The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: o min: 3 o max: 63 o pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: o min: 0 o max: 512 o pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }
+    /// The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow. outputConfiguration -&gt; (structure) [required] The configuration for analysis log export results. s3 -&gt; (structure) [required] Required configuration for an analysis log export with an s3 output type. bucket -&gt; (string) [required] The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration. Constraints: • min: 3 • max: 63 • pattern: .*(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$).* keyPrefix -&gt; (string) The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export. Constraints: • min: 0 • max: 512 • pattern: [\w!.=*/-]* Shorthand Syntax: outputConfiguration={s3={bucket=string,keyPrefix=string}} JSON Syntax: { "outputConfiguration": { "s3": { "bucket": "string", "keyPrefix": "string" } } }
     /// </summary>
     [CliOption("--result-configuration")]
     public string? ResultConfiguration { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCleanroomsStartAnalysisLogExportOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

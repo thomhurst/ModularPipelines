@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws computeoptimizerautomation commands.
+/// aws compute-optimizer-automation commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
@@ -32,7 +32,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     #region Commands
 
     /// <summary>
-    /// Associates one or more member accounts with your organization's manage- ment account, enabling centralized implementation of optimization ac- tions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the man- agement account to create Automation rules that automatically apply ac- tions t...
+    /// Associates one or more member accounts with your organization's management account, enabling centralized implementation of optimization actions across those accounts. Once associated, the management account (or a delegated administrator) can apply recommended actions to the member account. When you associate a member account, its organization rule mode is automatically set to "Any allowed," which permits the management account to create Automation rules that automatically apply actions to that a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Disassociates member accounts from your organization's management ac- count, removing centralized automation capabilities. Once disassoci- ated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automa- tion rules for that account. NOTE: Only the management account or a delegated administrator can perform this action. See also: AWS API Documentation
+    /// Disassociates member accounts from your organization's management account, removing centralized automation capabilities. Once disassociated, organization rules no longer apply to the member account, and the management account (or delegated administrator) cannot create Automation rules for that account. NOTE: Only the management account or a delegated administrator can perform this action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation. NOTE: Only the management account or a delegated administrator can perform this action. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagina...
+    /// Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation. NOTE: Only the management account or a delegated administrator can perform this action. See also: AWS API Documentation list-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -149,6 +149,36 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerAutomationListAccountsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the steps for a specific automation event. You can only list steps for events created within the past year. See also: AWS API Documentation list-automation-event-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followin...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAutomationEventStepsAsync(
+        AwsComputeOptimizerAutomationListAutomationEventStepsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the summary. See also: AWS API Documentation list-automation-event-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data ...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListAutomationEventSummariesAsync(
+        AwsComputeOptimizerAutomationListAutomationEventSummariesOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerAutomationListAutomationEventSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -167,37 +197,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Lists the steps for a specific automation event. You can only list steps for events created within the past year. See also: AWS API Documentation list-automation-event-steps is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the foll...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAutomationEventStepsAsync(
-        AwsComputeOptimizerAutomationListAutomationEventStepsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the sum- mary. See also: AWS API Documentation list-automation-event-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListAutomationEventSummariesAsync(
-        AwsComputeOptimizerAutomationListAutomationEventSummariesOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerAutomationListAutomationEventSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Returns a preview of the recommended actions that match your Automation rule's configuration and criteria. See also: AWS API Documentation list-automation-rule-preview is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following ...
+    /// Returns a preview of the recommended actions that match your Automation rule's configuration and criteria. See also: AWS API Documentation list-automation-rule-preview is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Returns a summary of the recommended actions that match your rule pre- view configuration and criteria. See also: AWS API Documentation list-automation-rule-preview-summaries is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the f...
+    /// Returns a summary of the recommended actions that match your rule preview configuration and criteria. See also: AWS API Documentation list-automation-rule-preview-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,22 +242,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Lists the recommended actions based that match specified filters. NOTE: Management accounts and delegated administrators can retrieve recom- mended actions that include associated member accounts. You can as- sociate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Whe...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListRecommendedActionsAsync(
-        AwsComputeOptimizerAutomationListRecommendedActionsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerAutomationListRecommendedActionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Provides a summary of recommended actions based on specified filters. NOTE: Management accounts and delegated administrators can retrieve recom- mended actions that include associated member accounts. You can as- sociate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-action-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginat...
+    /// Provides a summary of recommended actions based on specified filters. NOTE: Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-action-summaries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -269,6 +254,21 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerAutomationListRecommendedActionSummariesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists the recommended actions based that match specified filters. NOTE: Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation list-recommended-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When us...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListRecommendedActionsAsync(
+        AwsComputeOptimizerAutomationListRecommendedActionsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsComputeOptimizerAutomationListRecommendedActionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -302,7 +302,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Initiates a one-time, on-demand automation for the specified recom- mended action. NOTE: Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can asso- ciate a member account using AssociateAccounts . See also: AWS API Documentation
+    /// Initiates a one-time, on-demand automation for the specified recommended action. NOTE: Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using AssociateAccounts . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsComputeOptimizerAutomation : IAwsComputeOptimizerAutomation
     }
 
     /// <summary>
-    /// Updates your accounts Compute Optimizer Automation enrollment configu- ration. See also: AWS API Documentation
+    /// Updates your accounts Compute Optimizer Automation enrollment configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

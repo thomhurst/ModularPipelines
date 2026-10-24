@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Ac- cess Grants instance. The location can be one of the following: o The default S3 location s3:// o A bucket - S3://&lt;bucket-name&gt; o A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt; When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume th...
+/// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following: • The default S3 location s3:// • A bucket - S3://&lt;bucket-name&gt; • A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt; When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Ac- cess Grants instance. The location can be one of the following: o The default S3 location s3:// o A bucket - S3://&lt;bucket-name&gt; o A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt; When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume th...
+    /// The S3 data location that you would like to register in your S3 Access Grants instance. Your S3 data must be in the same Region as your S3 Access Grants instance. The location can be one of the following: • The default S3 location s3:// • A bucket - S3://&lt;bucket-name&gt; • A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt; When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="LocationScope">The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: o min: 1 o max: 2000 o pattern: ^.+$</param>
-    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:iam::\d{12}:role/.*</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="LocationScope">The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: • min: 1 • max: 2000 • pattern: ^.+$</param>
+    /// <param name="IamRoleArn">The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: • min: 1 • max: 2048 • pattern: arn:[^:]+:iam::\d{12}:role/.*</param>
     public AwsS3controlCreateAccessGrantsLocationOptions(
         string AccountId,
         string LocationScope,
@@ -64,25 +65,25 @@ public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID of the S3 Access Grants instance. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: o min: 1 o max: 2000 o pattern: ^.+$
+    /// The S3 path to the location that you are registering. The location scope can be the default S3 location s3:// , the S3 path to a bucket s3://&lt;bucket&gt; , or the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt; . A prefix in S3 is a string of characters at the beginning of an object key name used to organize the objects that you store in your S3 buckets. For example, object key names that start with the engineering/ prefix or object key names that start with the marketing/campaigns/ prefix. Constraints: • min: 1 • max: 2000 • pattern: ^.+$
     /// </summary>
     [CliOption("--location-scope")]
     public string? LocationScope { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: o min: 1 o max: 2048 o pattern: arn:[^:]+:iam::\d{12}:role/.*
+    /// The Amazon Resource Name (ARN) of the IAM role for the registered location. S3 Access Grants assumes this role to manage access to the registered location. Constraints: • min: 1 • max: 2048 • pattern: arn:[^:]+:iam::\d{12}:role/.*
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services resource tags that you are adding to the S3 Access Grants location. Each tag is a label consisting of a user-de- fined key and value. Tags can help you manage, identify, organize, search for, and filter resources. Constraints: o min: 0 o max: 50 (structure) A key-value pair that you use to label your resources. You can add tags to new resources when you create them, or you can add tags to existing resources. Tags can help you organize, track costs for, and control access to resources. Key -&gt; (string) [required] The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: arent supported. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the key-value pair of a tag added to your Amazon Web Services resource. A tag value can be up to 256 Unicode characters in length and is case-sensitive. Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The Amazon Web Services resource tags that you are adding to the S3 Access Grants location. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources. Constraints: • min: 0 • max: 50 (structure) A key-value pair that you use to label your resources. You can add tags to new resources when you create them, or you can add tags to existing resources. Tags can help you organize, track costs for, and control access to resources. Key -&gt; (string) [required] The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: arent supported. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The value of the key-value pair of a tag added to your Amazon Web Services resource. A tag value can be up to 256 Unicode characters in length and is case-sensitive. Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsS3controlCreateAccessGrantsLocationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

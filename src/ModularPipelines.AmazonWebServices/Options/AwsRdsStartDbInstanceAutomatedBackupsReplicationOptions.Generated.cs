@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables replication of automated backups to a different Amazon Web Ser- vices Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Ama- zon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
+/// Enables replication of automated backups to a different Amazon Web Services Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Amazon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables replication of automated backups to a different Amazon Web Ser- vices Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Ama- zon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
+    /// Enables replication of automated backups to a different Amazon Web Services Region. This command doesn't apply to RDS Custom. For more information, see Replicating Automated Backups to Another Amazon Web Services Region in the Amazon RDS User Guide. See also: AWS API Documentation
     /// </summary>
     /// <param name="SourceDbInstanceArn">The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase .</param>
     public AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions(
@@ -74,7 +75,7 @@ public record AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions : AwsOptio
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// In an Amazon Web Services GovCloud (US) Region, an URL that contains a Signature Version 4 signed request for the StartDBInstanceAutomat- edBackupsReplication operation to call in the Amazon Web Services Region of the source DB instance. The presigned URL must be a valid request for the StartDBInstanceAutomatedBackupsReplication API oper- ation that can run in the Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Re- gions. It's ignored in other Amazon Web Services Regions. To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and Signature Version 4 Signing Process . NOTE: If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) in- stead of specifying PreSignedUrl manually. Specifying SourceRe- gion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Re- gion.
+    /// In an Amazon Web Services GovCloud (US) Region, an URL that contains a Signature Version 4 signed request for the StartDBInstanceAutomatedBackupsReplication operation to call in the Amazon Web Services Region of the source DB instance. The presigned URL must be a valid request for the StartDBInstanceAutomatedBackupsReplication API operation that can run in the Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Regions. It's ignored in other Amazon Web Services Regions. To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and Signature Version 4 Signing Process . NOTE: If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.
     /// </summary>
     [CliOption("--pre-signed-url")]
     public string? PreSignedUrl { get; set; }
@@ -112,6 +113,15 @@ public record AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

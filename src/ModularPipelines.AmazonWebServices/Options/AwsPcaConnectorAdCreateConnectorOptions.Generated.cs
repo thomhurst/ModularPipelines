@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a connector between Amazon Web Services Private CA and an Ac- tive Directory. You must specify the private CA, directory ID, and se- curity groups. See also: AWS API Documentation
+/// Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA, directory ID, and security groups. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a connector between Amazon Web Services Private CA and an Ac- tive Directory. You must specify the private CA, directory ID, and se- curity groups. See also: AWS API Documentation
+    /// Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA, directory ID, and security groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the certificate authority being used. Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:acm-pca:[\w-]+:[0-9]+:certificate-author- ity\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
-    /// <param name="DirectoryId">The identifier of the Active Directory. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="VpcInformation">Information about your VPC and security groups used with the connec- tor. IpAddressType -&gt; (string) The VPC IP address type. Possible values: o IPV4 o DUALSTACK SecurityGroupIds -&gt; (list) [required] The security groups used with the connector. You can use a maxi- mum of 4 security groups with a connector. Constraints: o min: 1 o max: 4 (string) Constraints: o min: 11 o max: 20 o pattern: ^(?:sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$ Shorthand Syntax: IpAddressType=string,SecurityGroupIds=string,string JSON Syntax: { "IpAddressType": "IPV4"|"DUALSTACK", "SecurityGroupIds": ["string", ...] }</param>
+    /// <param name="CertificateAuthorityArn">The Amazon Resource Name (ARN) of the certificate authority being used. Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:acm-pca:[\w-]+:[0-9]+:certificate-authority\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$</param>
+    /// <param name="DirectoryId">The identifier of the Active Directory. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="VpcInformation">Information about your VPC and security groups used with the connector. IpAddressType -&gt; (string) The VPC IP address type. Possible values: • IPV4 • DUALSTACK SecurityGroupIds -&gt; (list) [required] The security groups used with the connector. You can use a maximum of 4 security groups with a connector. Constraints: • min: 1 • max: 4 (string) Constraints: • min: 11 • max: 20 • pattern: ^(?:sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$ Shorthand Syntax: IpAddressType=string,SecurityGroupIds=string,string JSON Syntax: { "IpAddressType": "IPV4"|"DUALSTACK", "SecurityGroupIds": ["string", ...] }</param>
     public AwsPcaConnectorAdCreateConnectorOptions(
         string CertificateAuthorityArn,
         string DirectoryId,
@@ -66,25 +66,25 @@ public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the certificate authority being used. Constraints: o min: 5 o max: 200 o pattern: ^arn:[\w-]+:acm-pca:[\w-]+:[0-9]+:certificate-author- ity\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+    /// The Amazon Resource Name (ARN) of the certificate authority being used. Constraints: • min: 5 • max: 200 • pattern: ^arn:[\w-]+:acm-pca:[\w-]+:[0-9]+:certificate-authority\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
     /// </summary>
     [CliOption("--certificate-authority-arn")]
     public string? CertificateAuthorityArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the Active Directory. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// The identifier of the Active Directory. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// Information about your VPC and security groups used with the connec- tor. IpAddressType -&gt; (string) The VPC IP address type. Possible values: o IPV4 o DUALSTACK SecurityGroupIds -&gt; (list) [required] The security groups used with the connector. You can use a maxi- mum of 4 security groups with a connector. Constraints: o min: 1 o max: 4 (string) Constraints: o min: 11 o max: 20 o pattern: ^(?:sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$ Shorthand Syntax: IpAddressType=string,SecurityGroupIds=string,string JSON Syntax: { "IpAddressType": "IPV4"|"DUALSTACK", "SecurityGroupIds": ["string", ...] }
+    /// Information about your VPC and security groups used with the connector. IpAddressType -&gt; (string) The VPC IP address type. Possible values: • IPV4 • DUALSTACK SecurityGroupIds -&gt; (list) [required] The security groups used with the connector. You can use a maximum of 4 security groups with a connector. Constraints: • min: 1 • max: 4 (string) Constraints: • min: 11 • max: 20 • pattern: ^(?:sg-[0-9a-f]{8}|sg-[0-9a-f]{17})$ Shorthand Syntax: IpAddressType=string,SecurityGroupIds=string,string JSON Syntax: { "IpAddressType": "IPV4"|"DUALSTACK", "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-information")]
     public string? VpcInformation { get; private init; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 64 o pattern: ^[!-~]+$
+    /// Idempotency token. Constraints: • min: 1 • max: 64 • pattern: ^[!-~]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -117,6 +117,15 @@ public record AwsPcaConnectorAdCreateConnectorOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

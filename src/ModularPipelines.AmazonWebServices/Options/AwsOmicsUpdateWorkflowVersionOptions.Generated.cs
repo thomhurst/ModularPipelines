@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsOmicsUpdateWorkflowVersionOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Ama- zon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">The workflow's ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
-    /// <param name="VersionName">The name of the workflow version. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
+    /// <param name="WorkflowId">The workflow's ID. The workflowId is not the UUID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
+    /// <param name="VersionName">The name of the workflow version. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*</param>
     public AwsOmicsUpdateWorkflowVersionOptions(
         string WorkflowId,
         string VersionName
@@ -61,37 +62,37 @@ public record AwsOmicsUpdateWorkflowVersionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workflow's ID. The workflowId is not the UUID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The workflow's ID. The workflowId is not the UUID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// The name of the workflow version. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
+    /// The name of the workflow version. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9][A-Za-z0-9\-\._]*
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// Description of the workflow version. Constraints: o min: 1 o max: 256 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// Description of the workflow version. Constraints: • min: 1 • max: 256 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The default storage type for runs that use this workflow version. The storageType can be overridden at run time. DYNAMIC storage dy- namically scales the storage up or down, based on file system uti- lization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see Run storage types in the in the *Amazon Web Services HealthOmics User Guide * . Possible values: o STATIC o DYNAMIC Constraints: o min: 1 o max: 64
+    /// The default storage type for runs that use this workflow version. The storageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see Run storage types in the in the *Amazon Web Services HealthOmics User Guide * . Possible values: • STATIC • DYNAMIC Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--storage-type")]
     public AwsOmicsUpdateWorkflowVersionStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// The default static storage capacity (in gibibytes) for runs that use this workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type. Constraints: o min: 0 o max: 100000
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type. Constraints: • min: 0 • max: 100000
     /// </summary>
     [CliOption("--storage-capacity")]
     public int? StorageCapacity { get; set; }
 
     /// <summary>
-    /// The markdown content for the workflow version's README file. This provides documentation and usage information for users of this spe- cific workflow version.
+    /// The markdown content for the workflow version's README file. This provides documentation and usage information for users of this specific workflow version.
     /// </summary>
     [CliOption("--readme-markdown")]
     public string? ReadmeMarkdown { get; set; }
@@ -117,6 +118,15 @@ public record AwsOmicsUpdateWorkflowVersionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

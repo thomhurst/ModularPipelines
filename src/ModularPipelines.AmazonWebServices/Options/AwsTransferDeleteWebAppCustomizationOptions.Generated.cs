@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferDeleteWebAppCustomizationOptions : AwsOptions, IValidat
     /// <summary>
     /// Deletes the WebAppCustomization object that corresponds to the web app ID specified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WebAppId">Provide the unique identifier for the web app that contains the cus- tomizations that you are deleting. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}</param>
+    /// <param name="WebAppId">Provide the unique identifier for the web app that contains the customizations that you are deleting. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}</param>
     public AwsTransferDeleteWebAppCustomizationOptions(
         string WebAppId
     )
@@ -56,7 +57,7 @@ public record AwsTransferDeleteWebAppCustomizationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Provide the unique identifier for the web app that contains the cus- tomizations that you are deleting. Constraints: o min: 24 o max: 24 o pattern: webapp-[0-9a-f]{17}
+    /// Provide the unique identifier for the web app that contains the customizations that you are deleting. Constraints: • min: 24 • max: 24 • pattern: webapp-[0-9a-f]{17}
     /// </summary>
     [CliOption("--web-app-id")]
     public string? WebAppId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferDeleteWebAppCustomizationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

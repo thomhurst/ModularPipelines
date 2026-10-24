@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMes- sageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See...
+/// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMessageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSqsChangeMessageVisibilityBatchOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMes- sageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See...
+    /// Changes the visibility timeout of multiple messages. This is a batch version of `` ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 `` ChangeMessageVisibility `` requests with each ChangeMessageVisibilityBatch action. WARNING: Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 . See a...
     /// </summary>
     /// <param name="QueueUrl">The URL of the Amazon SQS queue whose messages' visibility is changed. Queue URLs and names are case-sensitive.</param>
-    /// <param name="Entries">Lists the receipt handles of the messages for which the visibility timeout must be changed. (structure) Encloses a receipt handle and an entry ID for each message in `` ChangeMessageVisibilityBatch .`` Id -&gt; (string) [required] An identifier for this particular receipt handle used to com- municate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. VisibilityTimeout -&gt; (integer) The new value (in seconds) for the message's visibility time- out. Shorthand Syntax: Id=string,ReceiptHandle=string,VisibilityTimeout=integer ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string", "VisibilityTimeout": integer } ... ]</param>
+    /// <param name="Entries">Lists the receipt handles of the messages for which the visibility timeout must be changed. (structure) Encloses a receipt handle and an entry ID for each message in `` ChangeMessageVisibilityBatch .`` Id -&gt; (string) [required] An identifier for this particular receipt handle used to communicate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. VisibilityTimeout -&gt; (integer) The new value (in seconds) for the message's visibility timeout. Shorthand Syntax: Id=string,ReceiptHandle=string,VisibilityTimeout=integer ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string", "VisibilityTimeout": integer } ... ]</param>
     public AwsSqsChangeMessageVisibilityBatchOptions(
         string QueueUrl,
         IEnumerable<string> Entries
@@ -77,7 +78,7 @@ public record AwsSqsChangeMessageVisibilityBatchOptions : AwsOptions, IValidatab
     public string? QueueUrl { get; private init; }
 
     /// <summary>
-    /// Lists the receipt handles of the messages for which the visibility timeout must be changed. (structure) Encloses a receipt handle and an entry ID for each message in `` ChangeMessageVisibilityBatch .`` Id -&gt; (string) [required] An identifier for this particular receipt handle used to com- municate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The follow- ing characters are accepted: alphanumeric characters, hy- phens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. VisibilityTimeout -&gt; (integer) The new value (in seconds) for the message's visibility time- out. Shorthand Syntax: Id=string,ReceiptHandle=string,VisibilityTimeout=integer ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string", "VisibilityTimeout": integer } ... ]
+    /// Lists the receipt handles of the messages for which the visibility timeout must be changed. (structure) Encloses a receipt handle and an entry ID for each message in `` ChangeMessageVisibilityBatch .`` Id -&gt; (string) [required] An identifier for this particular receipt handle used to communicate the result. NOTE: The Id s of a batch request need to be unique within a request. This identifier can have up to 80 characters. The following characters are accepted: alphanumeric characters, hyphens(-), and underscores (_). ReceiptHandle -&gt; (string) [required] A receipt handle. VisibilityTimeout -&gt; (integer) The new value (in seconds) for the message's visibility timeout. Shorthand Syntax: Id=string,ReceiptHandle=string,VisibilityTimeout=integer ... JSON Syntax: [ { "Id": "string", "ReceiptHandle": "string", "VisibilityTimeout": integer } ... ]
     /// </summary>
     [CliOption("--entries", GroupValues = true)]
     public IEnumerable<string>? Entries { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSqsChangeMessageVisibilityBatchOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

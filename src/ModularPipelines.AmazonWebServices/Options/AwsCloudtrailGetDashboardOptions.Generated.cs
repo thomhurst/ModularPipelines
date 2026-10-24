@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudtrailGetDashboardOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Returns the specified dashboard. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DashboardId">The name or ARN for the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="DashboardId">The name or ARN for the dashboard. Constraints: • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailGetDashboardOptions(
         string DashboardId
     )
@@ -56,7 +57,7 @@ public record AwsCloudtrailGetDashboardOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN for the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The name or ARN for the dashboard. Constraints: • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudtrailGetDashboardOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

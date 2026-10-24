@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the modifications made to your Reserved Instances. If no pa- rameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements...
+/// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see Modify Reserved Instances in the Amazon EC2 User Guide . NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -29,16 +29,13 @@ public record AwsEc2DescribeReservedInstancesModificationsOptions : AwsOptions
     public IEnumerable<string>? ReservedInstancesModificationIds { get; set; }
 
     /// <summary>
-    /// One or more filters. o client-token - The idempotency token for the modification request. o create-date - The time when the modification request was created. o effective-date - The time when the modification becomes effective. o modification-result.reserved-instances-id - The ID for the Re- served Instances created as part of the modification request. This ID is only available when the status of the modification is ful- filled . o modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances. o modification-result.target-configuration.availability-zone-id - The ID of the Availability Zone for the new Reserved Instances. o modification-result.target-configuration.instance-count - The num- ber of new Reserved Instances. o modification-result.target-configuration.instance-type - The in- stance type of the new Reserved Instances. o reserved-instances-id - The ID of the Reserved Instances modified. o reserved-instances-modification-id - The ID of the modification request. o status - The status of the Reserved Instances modification request (processing | fulfilled | failed ). o status-message - The reason for the status. o update-date - The time when the modification request was last up- dated. (structure) A filter name and value pair that is used to return a more spe- cific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
+    /// One or more filters. • client-token - The idempotency token for the modification request. • create-date - The time when the modification request was created. • effective-date - The time when the modification becomes effective. • modification-result.reserved-instances-id - The ID for the Reserved Instances created as part of the modification request. This ID is only available when the status of the modification is fulfilled . • modification-result.target-configuration.availability-zone - The Availability Zone for the new Reserved Instances. • modification-result.target-configuration.availability-zone-id - The ID of the Availability Zone for the new Reserved Instances. • modification-result.target-configuration.instance-count - The number of new Reserved Instances. • modification-result.target-configuration.instance-type - The instance type of the new Reserved Instances. • reserved-instances-id - The ID of the Reserved Instances modified. • reserved-instances-modification-id - The ID of the modification request. • status - The status of the Reserved Instances modification request (processing | fulfilled | failed ). • status-message - The reason for the status. • update-date - The time when the modification request was last updated. (structure) A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs. If you specify multiple filters, the filters are joined with an AND , and the request returns only results that match all of the specified filters. For more information, see List and filter using the CLI and API in the Amazon EC2 User Guide . Name -&gt; (string) The name of the filter. Filter names are case-sensitive. Values -&gt; (list) The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR , and the request returns all results that match any of the specified values. (string) Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,9 +45,21 @@ public record AwsEc2DescribeReservedInstancesModificationsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

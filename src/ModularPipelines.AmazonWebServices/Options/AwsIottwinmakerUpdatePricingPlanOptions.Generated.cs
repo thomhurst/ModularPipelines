@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions, IValidatable
     /// <summary>
     /// Update the pricing plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PricingMode">The pricing mode. Possible values: o BASIC o STANDARD o TIERED_BUNDLE</param>
+    /// <param name="PricingMode">The pricing mode. Possible values: • BASIC • STANDARD • TIERED_BUNDLE</param>
     public AwsIottwinmakerUpdatePricingPlanOptions(
         AwsIottwinmakerUpdatePricingPlanPricingMode PricingMode
     )
@@ -56,13 +57,13 @@ public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The pricing mode. Possible values: o BASIC o STANDARD o TIERED_BUNDLE
+    /// The pricing mode. Possible values: • BASIC • STANDARD • TIERED_BUNDLE
     /// </summary>
     [CliOption("--pricing-mode")]
     public AwsIottwinmakerUpdatePricingPlanPricingMode? PricingMode { get; private init; }
 
     /// <summary>
-    /// The bundle names. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 256 o pattern: .* Syntax: "string" "string" ...
+    /// The bundle names. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 256 • pattern: .* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--bundle-names", GroupValues = true)]
     public IEnumerable<string>? BundleNames { get; set; }
@@ -88,6 +89,15 @@ public record AwsIottwinmakerUpdatePricingPlanOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

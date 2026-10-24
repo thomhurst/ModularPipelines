@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws medialive wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMedialiveWait
@@ -32,7 +32,7 @@ public class AwsMedialiveWait
     #region Commands
 
     /// <summary>
-    /// Wait until a channel has been created It will poll every 3 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until a channel has been created It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until a channel has been deleted It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 84 failed checks. See also: AWS API Documentation
+    /// Wait until a channel has been deleted It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 84 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until a cluster has been created It will poll every 3 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until a cluster has been created It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until a cluster has been deleted It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until a cluster has been deleted It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until an input has been attached It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
+    /// Wait until an input has been attached It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 20 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until an input has been detached It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 84 failed checks. See also: AWS API Documentation
+    /// Wait until an input has been detached It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 84 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until a multiplex has is stopped It will poll every 5 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 28 failed checks. See also: AWS API Documentation
+    /// Wait until a multiplex has is stopped It will poll every 5 seconds until a successful state has been reached. This will exit with a return code of 255 after 28 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsMedialiveWait
     }
 
     /// <summary>
-    /// Wait until a node has been registered It will poll every 3 seconds un- til a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until a node has been registered It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

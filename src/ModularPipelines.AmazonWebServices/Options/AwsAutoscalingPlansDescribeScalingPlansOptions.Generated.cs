@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsAutoscalingPlansDescribeScalingPlansOptions : AwsOptions
 {
     /// <summary>
-    /// The names of the scaling plans (up to 10). If you specify applica- tion sources, you cannot specify scaling plan names. (string) Constraints: o min: 1 o max: 128 o pattern: [\p{Print}&amp;&amp;[^|:/]]+ Syntax: "string" "string" ...
+    /// The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names. (string) Constraints: • min: 1 • max: 128 • pattern: [\p{Print}&amp;&amp;[^|:/]]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--scaling-plan-names", GroupValues = true)]
     public IEnumerable<string>? ScalingPlanNames { get; set; }
@@ -32,19 +32,16 @@ public record AwsAutoscalingPlansDescribeScalingPlansOptions : AwsOptions
     /// The version number of the scaling plan. Currently, the only valid value is 1 . NOTE: If you specify a scaling plan version, you must also specify a scaling plan name.
     /// </summary>
     [CliOption("--scaling-plan-version")]
-    public int? ScalingPlanVersion { get; set; }
+    public long? ScalingPlanVersion { get; set; }
 
     /// <summary>
-    /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources. (structure) Represents an application source. CloudFormationStackARN -&gt; (string) The Amazon Resource Name (ARN) of a AWS CloudFormation stack. Constraints: o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* TagFilters -&gt; (list) A set of tags (up to 50). (structure) Represents a tag. Key -&gt; (string) The tag key. Constraints: o min: 1 o max: 128 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Values -&gt; (list) The tag values (0 to 20). (string) Constraints: o min: 1 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* JSON Syntax: [ { "CloudFormationStackARN": "string", "TagFilters": [ { "Key": "string", "Values": ["string", ...] } ... ] } ... ]
+    /// The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources. (structure) Represents an application source. CloudFormationStackARN -&gt; (string) The Amazon Resource Name (ARN) of a AWS CloudFormation stack. Constraints: • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* TagFilters -&gt; (list) A set of tags (up to 50). (structure) Represents a tag. Key -&gt; (string) The tag key. Constraints: • min: 1 • max: 128 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Values -&gt; (list) The tag values (0 to 20). (string) Constraints: • min: 1 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* JSON Syntax: [ { "CloudFormationStackARN": "string", "TagFilters": [ { "Key": "string", "Values": ["string", ...] } ... ] } ... ]
     /// </summary>
     [CliOption("--application-sources", GroupValues = true)]
     public IEnumerable<string>? ApplicationSources { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsAutoscalingPlansDescribeScalingPlansOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

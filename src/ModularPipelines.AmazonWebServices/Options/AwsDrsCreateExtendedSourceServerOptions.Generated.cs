@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsDrsCreateExtendedSourceServerOptions : AwsOptions, IValidatable
     /// <summary>
     /// Create an extended source server in the target Account based on the source server in staging account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceServerArn">This defines the ARN of the source server in staging Account based on which you want to create an extended source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})</param>
+    /// <param name="SourceServerArn">This defines the ARN of the source server in staging Account based on which you want to create an extended source server. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})</param>
     public AwsDrsCreateExtendedSourceServerOptions(
         string SourceServerArn
     )
@@ -57,13 +57,13 @@ public record AwsDrsCreateExtendedSourceServerOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// This defines the ARN of the source server in staging Account based on which you want to create an extended source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})
+    /// This defines the ARN of the source server in staging Account based on which you want to create an extended source server. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})
     /// </summary>
     [CliOption("--source-server-arn")]
     public string? SourceServerArn { get; private init; }
 
     /// <summary>
-    /// A list of tags associated with the extended source server. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags associated with the extended source server. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -89,6 +89,15 @@ public record AwsDrsCreateExtendedSourceServerOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

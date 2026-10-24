@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Gener- ated polic...
+/// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsBedrockAgentcoreControlStartPolicyGenerationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Gener- ated polic...
+    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy ...
     /// </summary>
-    /// <param name="PolicyEngineId">The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
-    /// <param name="Resource">The resource information that provides context for policy genera- tion. This helps the AI understand the target resources and generate appropriate access control rules. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: arn. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. This globally unique identifier specifies the exact resource that policies will be evaluated against for access control decisions. Constraints: o min: 20 o max: 1011 Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }</param>
-    /// <param name="Content">The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: rawText. rawText -&gt; (string) The raw text content containing natural language descriptions of desired policy behavior. This text is processed by AI to gener- ate corresponding Dogwood policy statements that match the de- scribed intent. Constraints: o min: 1 o max: 2000 Shorthand Syntax: rawText=string JSON Syntax: { "rawText": "string" }</param>
-    /// <param name="Name">A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when run- ning multiple generations simultaneously. Constraints: o min: 1 o max: 48 o pattern: [A-Za-z][A-Za-z0-9_]*</param>
+    /// <param name="PolicyEngineId">The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}</param>
+    /// <param name="Resource">The resource information that provides context for policy generation. This helps the AI understand the target resources and generate appropriate access control rules. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: arn. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. This globally unique identifier specifies the exact resource that policies will be evaluated against for access control decisions. Constraints: • min: 20 • max: 1011 Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }</param>
+    /// <param name="Content">The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: rawText. rawText -&gt; (string) The raw text content containing natural language descriptions of desired policy behavior. This text is processed by AI to generate corresponding Dogwood policy statements that match the described intent. Constraints: • min: 1 • max: 2000 Shorthand Syntax: rawText=string JSON Syntax: { "rawText": "string" }</param>
+    /// <param name="Name">A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when running multiple generations simultaneously. Constraints: • min: 1 • max: 48 • pattern: [A-Za-z][A-Za-z0-9_]*</param>
     public AwsBedrockAgentcoreControlStartPolicyGenerationOptions(
         string PolicyEngineId,
         string Resource,
@@ -69,31 +70,31 @@ public record AwsBedrockAgentcoreControlStartPolicyGenerationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable. Constraints: o min: 12 o max: 59 o pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
+    /// The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable. Constraints: • min: 12 • max: 59 • pattern: [A-Za-z][A-Za-z0-9_]*-[a-z0-9_]{10}
     /// </summary>
     [CliOption("--policy-engine-id")]
     public string? PolicyEngineId { get; private init; }
 
     /// <summary>
-    /// The resource information that provides context for policy genera- tion. This helps the AI understand the target resources and generate appropriate access control rules. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: arn. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. This globally unique identifier specifies the exact resource that policies will be evaluated against for access control decisions. Constraints: o min: 20 o max: 1011 Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }
+    /// The resource information that provides context for policy generation. This helps the AI understand the target resources and generate appropriate access control rules. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: arn. arn -&gt; (string) The Amazon Resource Name (ARN) of the resource. This globally unique identifier specifies the exact resource that policies will be evaluated against for access control decisions. Constraints: • min: 20 • max: 1011 Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }
     /// </summary>
     [CliOption("--resource")]
     public string? Resource { get; private init; }
 
     /// <summary>
-    /// The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: rawText. rawText -&gt; (string) The raw text content containing natural language descriptions of desired policy behavior. This text is processed by AI to gener- ate corresponding Dogwood policy statements that match the de- scribed intent. Constraints: o min: 1 o max: 2000 Shorthand Syntax: rawText=string JSON Syntax: { "rawText": "string" }
+    /// The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: rawText. rawText -&gt; (string) The raw text content containing natural language descriptions of desired policy behavior. This text is processed by AI to generate corresponding Dogwood policy statements that match the described intent. Constraints: • min: 1 • max: 2000 Shorthand Syntax: rawText=string JSON Syntax: { "rawText": "string" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when run- ning multiple generations simultaneously. Constraints: o min: 1 o max: 48 o pattern: [A-Za-z][A-Za-z0-9_]*
+    /// A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when running multiple generations simultaneously. Constraints: • min: 1 • max: 48 • pattern: [A-Za-z][A-Za-z0-9_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation. Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation. Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsBedrockAgentcoreControlStartPolicyGenerationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

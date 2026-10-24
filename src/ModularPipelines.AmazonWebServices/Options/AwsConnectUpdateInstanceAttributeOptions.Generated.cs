@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions, IValidatabl
     /// <summary>
     /// This API is in preview release for Connect Customer and is subject to change. Updates the value for the specified attribute type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="AttributeType">The type of attribute. NOTE: Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for al- lowlisting. NOTE: If you set the attribute type as MESSAGE_STREAMING , you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. NOTE: If you set the attribute type AUTO_MUTE_AGENT_ON_HOLD to true , the system automatically mutes agents while they're on hold and unmutes them when they resume the contact. Agents can't change their mute state while on hold. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o AUTO_MUTE_AGENT_ON_HOLD o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING</param>
-    /// <param name="Value">The value for the attribute. Maximum character limit is 100. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="AttributeType">The type of attribute. NOTE: Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. NOTE: If you set the attribute type as MESSAGE_STREAMING , you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. NOTE: If you set the attribute type AUTO_MUTE_AGENT_ON_HOLD to true , the system automatically mutes agents while they're on hold and unmutes them when they resume the contact. Agents can't change their mute state while on hold. Possible values: • INBOUND_CALLS • OUTBOUND_CALLS • CONTACTFLOW_LOGS • CONTACT_LENS • AUTO_RESOLVE_BEST_VOICES • USE_CUSTOM_TTS_VOICES • EARLY_MEDIA • MULTI_PARTY_CONFERENCE • AUTO_MUTE_AGENT_ON_HOLD • HIGH_VOLUME_OUTBOUND • ENHANCED_CONTACT_MONITORING • ENHANCED_CHAT_MONITORING • MULTI_PARTY_CHAT_CONFERENCE • MESSAGE_STREAMING</param>
+    /// <param name="Value">The value for the attribute. Maximum character limit is 100. Constraints: • min: 1 • max: 100</param>
     public AwsConnectUpdateInstanceAttributeOptions(
         string InstanceId,
         AwsConnectUpdateInstanceAttributeAttributeType AttributeType,
@@ -65,25 +66,25 @@ public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The type of attribute. NOTE: Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for al- lowlisting. NOTE: If you set the attribute type as MESSAGE_STREAMING , you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. NOTE: If you set the attribute type AUTO_MUTE_AGENT_ON_HOLD to true , the system automatically mutes agents while they're on hold and unmutes them when they resume the contact. Agents can't change their mute state while on hold. Possible values: o INBOUND_CALLS o OUTBOUND_CALLS o CONTACTFLOW_LOGS o CONTACT_LENS o AUTO_RESOLVE_BEST_VOICES o USE_CUSTOM_TTS_VOICES o EARLY_MEDIA o MULTI_PARTY_CONFERENCE o AUTO_MUTE_AGENT_ON_HOLD o HIGH_VOLUME_OUTBOUND o ENHANCED_CONTACT_MONITORING o ENHANCED_CHAT_MONITORING o MULTI_PARTY_CHAT_CONFERENCE o MESSAGE_STREAMING
+    /// The type of attribute. NOTE: Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting. NOTE: If you set the attribute type as MESSAGE_STREAMING , you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource. NOTE: If you set the attribute type AUTO_MUTE_AGENT_ON_HOLD to true , the system automatically mutes agents while they're on hold and unmutes them when they resume the contact. Agents can't change their mute state while on hold. Possible values: • INBOUND_CALLS • OUTBOUND_CALLS • CONTACTFLOW_LOGS • CONTACT_LENS • AUTO_RESOLVE_BEST_VOICES • USE_CUSTOM_TTS_VOICES • EARLY_MEDIA • MULTI_PARTY_CONFERENCE • AUTO_MUTE_AGENT_ON_HOLD • HIGH_VOLUME_OUTBOUND • ENHANCED_CONTACT_MONITORING • ENHANCED_CHAT_MONITORING • MULTI_PARTY_CHAT_CONFERENCE • MESSAGE_STREAMING
     /// </summary>
     [CliOption("--attribute-type")]
     public AwsConnectUpdateInstanceAttributeAttributeType? AttributeType { get; private init; }
 
     /// <summary>
-    /// The value for the attribute. Maximum character limit is 100. Constraints: o min: 1 o max: 100
+    /// The value for the attribute. Maximum character limit is 100. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsConnectUpdateInstanceAttributeOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

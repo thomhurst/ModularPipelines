@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions, IValidatableOb
     /// Modifies the rules of a security group. See also: AWS API Documentation
     /// </summary>
     /// <param name="GroupId">The ID of the security group.</param>
-    /// <param name="SecurityGroupRules">Information about the security group properties to update. (structure) Describes an update to a security group rule. SecurityGroupRuleId -&gt; (string) [required] The ID of the security group rule. SecurityGroupRule -&gt; (structure) Information about the security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or num- ber (see Protocol Numbers ). Use -1 to specify all protocols. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). CidrIpv4 -&gt; (string) The IPv4 CIDR range. To specify a single IPv4 address, use the /32 prefix length. CidrIpv6 -&gt; (string) The IPv6 CIDR range. To specify a single IPv6 address, use the /128 prefix length. PrefixListId -&gt; (string) The ID of the prefix list. ReferencedGroupId -&gt; (string) The ID of the security group that is referenced in the security group rule. Description -&gt; (string) The description of the security group rule. Shorthand Syntax: SecurityGroupRuleId=string,SecurityGroupRule={IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string} ... JSON Syntax: [ { "SecurityGroupRuleId": "string", "SecurityGroupRule": { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "CidrIpv4": "string", "CidrIpv6": "string", "PrefixListId": "string", "ReferencedGroupId": "string", "Description": "string" } } ... ]</param>
+    /// <param name="SecurityGroupRules">Information about the security group properties to update. (structure) Describes an update to a security group rule. SecurityGroupRuleId -&gt; (string) [required] The ID of the security group rule. SecurityGroupRule -&gt; (structure) Information about the security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or number (see Protocol Numbers ). Use -1 to specify all protocols. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). CidrIpv4 -&gt; (string) The IPv4 CIDR range. To specify a single IPv4 address, use the /32 prefix length. CidrIpv6 -&gt; (string) The IPv6 CIDR range. To specify a single IPv6 address, use the /128 prefix length. PrefixListId -&gt; (string) The ID of the prefix list. ReferencedGroupId -&gt; (string) The ID of the security group that is referenced in the security group rule. Description -&gt; (string) The description of the security group rule. Shorthand Syntax: SecurityGroupRuleId=string,SecurityGroupRule={IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string} ... JSON Syntax: [ { "SecurityGroupRuleId": "string", "SecurityGroupRule": { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "CidrIpv4": "string", "CidrIpv6": "string", "PrefixListId": "string", "ReferencedGroupId": "string", "Description": "string" } } ... ]</param>
     public AwsEc2ModifySecurityGroupRulesOptions(
         string GroupId,
         IEnumerable<string> SecurityGroupRules
@@ -77,13 +78,13 @@ public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions, IValidatableOb
     public string? GroupId { get; private init; }
 
     /// <summary>
-    /// Information about the security group properties to update. (structure) Describes an update to a security group rule. SecurityGroupRuleId -&gt; (string) [required] The ID of the security group rule. SecurityGroupRule -&gt; (structure) Information about the security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or num- ber (see Protocol Numbers ). Use -1 to specify all protocols. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). CidrIpv4 -&gt; (string) The IPv4 CIDR range. To specify a single IPv4 address, use the /32 prefix length. CidrIpv6 -&gt; (string) The IPv6 CIDR range. To specify a single IPv6 address, use the /128 prefix length. PrefixListId -&gt; (string) The ID of the prefix list. ReferencedGroupId -&gt; (string) The ID of the security group that is referenced in the security group rule. Description -&gt; (string) The description of the security group rule. Shorthand Syntax: SecurityGroupRuleId=string,SecurityGroupRule={IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string} ... JSON Syntax: [ { "SecurityGroupRuleId": "string", "SecurityGroupRule": { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "CidrIpv4": "string", "CidrIpv6": "string", "PrefixListId": "string", "ReferencedGroupId": "string", "Description": "string" } } ... ]
+    /// Information about the security group properties to update. (structure) Describes an update to a security group rule. SecurityGroupRuleId -&gt; (string) [required] The ID of the security group rule. SecurityGroupRule -&gt; (structure) Information about the security group rule. IpProtocol -&gt; (string) The IP protocol name (tcp , udp , icmp , icmpv6 ) or number (see Protocol Numbers ). Use -1 to specify all protocols. FromPort -&gt; (integer) If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP type or -1 (all ICMP types). ToPort -&gt; (integer) If the protocol is TCP or UDP, this is the end of the port range. If the protocol is ICMP or ICMPv6, this is the ICMP code or -1 (all ICMP codes). If the start port is -1 (all ICMP types), then the end port must be -1 (all ICMP codes). CidrIpv4 -&gt; (string) The IPv4 CIDR range. To specify a single IPv4 address, use the /32 prefix length. CidrIpv6 -&gt; (string) The IPv6 CIDR range. To specify a single IPv6 address, use the /128 prefix length. PrefixListId -&gt; (string) The ID of the prefix list. ReferencedGroupId -&gt; (string) The ID of the security group that is referenced in the security group rule. Description -&gt; (string) The description of the security group rule. Shorthand Syntax: SecurityGroupRuleId=string,SecurityGroupRule={IpProtocol=string,FromPort=integer,ToPort=integer,CidrIpv4=string,CidrIpv6=string,PrefixListId=string,ReferencedGroupId=string,Description=string} ... JSON Syntax: [ { "SecurityGroupRuleId": "string", "SecurityGroupRule": { "IpProtocol": "string", "FromPort": integer, "ToPort": integer, "CidrIpv4": "string", "CidrIpv6": "string", "PrefixListId": "string", "ReferencedGroupId": "string", "Description": "string" } } ... ]
     /// </summary>
     [CliOption("--security-group-rules", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupRules { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -109,6 +110,15 @@ public record AwsEc2ModifySecurityGroupRulesOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

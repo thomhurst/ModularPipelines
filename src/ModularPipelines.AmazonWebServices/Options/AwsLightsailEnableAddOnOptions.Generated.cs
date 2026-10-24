@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLightsailEnableAddOnOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the source resource for which to enable or modify the add-on. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="AddOnRequest">An array of strings representing the add-on to enable or modify. addOnType -&gt; (string) [required] The add-on type. Possible values: o AutoSnapshot o StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: o Must be in HH:00 format, and in an hourly increment. o Specified in Coordinated Universal Time (UTC). o The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: o pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} JSON Syntax: { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } }</param>
+    /// <param name="ResourceName">The name of the source resource for which to enable or modify the add-on. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="AddOnRequest">An array of strings representing the add-on to enable or modify. addOnType -&gt; (string) [required] The add-on type. Possible values: • AutoSnapshot • StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: • Must be in HH:00 format, and in an hourly increment. • Specified in Coordinated Universal Time (UTC). • The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: • pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} JSON Syntax: { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } }</param>
     public AwsLightsailEnableAddOnOptions(
         string ResourceName,
         string AddOnRequest
@@ -60,13 +61,13 @@ public record AwsLightsailEnableAddOnOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the source resource for which to enable or modify the add-on. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the source resource for which to enable or modify the add-on. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// An array of strings representing the add-on to enable or modify. addOnType -&gt; (string) [required] The add-on type. Possible values: o AutoSnapshot o StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: o Must be in HH:00 format, and in an hourly increment. o Specified in Coordinated Universal Time (UTC). o The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: o pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} JSON Syntax: { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } }
+    /// An array of strings representing the add-on to enable or modify. addOnType -&gt; (string) [required] The add-on type. Possible values: • AutoSnapshot • StopInstanceOnIdle autoSnapshotAddOnRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the automatic snapshot add-on. snapshotTimeOfDay -&gt; (string) The daily time when an automatic snapshot will be created. Constraints: • Must be in HH:00 format, and in an hourly increment. • Specified in Coordinated Universal Time (UTC). • The snapshot will be automatically created between the time specified and up to 45 minutes after. Constraints: • pattern: ^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$ stopInstanceOnIdleRequest -&gt; (structure) An object that represents additional parameters when enabling or modifying the StopInstanceOnIdle add-on. WARNING: This object only applies to Lightsail for Research resources. threshold -&gt; (string) The value to compare with the duration. duration -&gt; (string) The amount of idle time in minutes after which your virtual computer will automatically stop. Shorthand Syntax: addOnType=string,autoSnapshotAddOnRequest={snapshotTimeOfDay=string},stopInstanceOnIdleRequest={threshold=string,duration=string} JSON Syntax: { "addOnType": "AutoSnapshot"|"StopInstanceOnIdle", "autoSnapshotAddOnRequest": { "snapshotTimeOfDay": "string" }, "stopInstanceOnIdleRequest": { "threshold": "string", "duration": "string" } }
     /// </summary>
     [CliOption("--add-on-request")]
     public string? AddOnRequest { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLightsailEnableAddOnOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

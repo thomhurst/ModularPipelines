@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is ap- plied. See also: AWS API Documentation
+/// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is applied. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSecurityhubEnableImportFindingsForProductOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is ap- plied. See also: AWS API Documentation
+    /// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is applied. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductArn">The ARN of the product to enable the integration for. Constraints: o pattern: .*\S.*</param>
+    /// <param name="ProductArn">The ARN of the product to enable the integration for. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubEnableImportFindingsForProductOptions(
         string ProductArn
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubEnableImportFindingsForProductOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the product to enable the integration for. Constraints: o pattern: .*\S.*
+    /// The ARN of the product to enable the integration for. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--product-arn")]
     public string? ProductArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubEnableImportFindingsForProductOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggre- gate billing views. See also: AWS API Documentation
+/// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBillingDisassociateSourceViewsOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggre- gate billing views. See also: AWS API Documentation
+    /// Removes the association between one or more source billing views and an existing billing view. This allows modifying the composition of aggregate billing views. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing view to disassociate source views from. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
-    /// <param name="SourceViews">A list of ARNs of the source billing views to disassociate. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the billing view to disassociate source views from. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]</param>
+    /// <param name="SourceViews">A list of ARNs of the source billing views to disassociate. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
     public AwsBillingDisassociateSourceViewsOptions(
         string Arn,
         IEnumerable<string> SourceViews
@@ -71,13 +72,13 @@ public record AwsBillingDisassociateSourceViewsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the billing view to disassociate source views from. Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
+    /// The Amazon Resource Name (ARN) of the billing view to disassociate source views from. Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A list of ARNs of the source billing views to disassociate. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// A list of ARNs of the source billing views to disassociate. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-views", GroupValues = true)]
     public IEnumerable<string>? SourceViews { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBillingDisassociateSourceViewsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

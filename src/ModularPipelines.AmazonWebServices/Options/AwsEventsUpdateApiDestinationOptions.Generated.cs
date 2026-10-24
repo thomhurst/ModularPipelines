@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsEventsUpdateApiDestinationOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates an API destination. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the API destination to update. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Name">The name of the API destination to update. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
     public AwsEventsUpdateApiDestinationOptions(
         string Name
     )
@@ -57,37 +58,37 @@ public record AwsEventsUpdateApiDestinationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the API destination to update. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the API destination to update. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name of the API destination to update. Constraints: o max: 512 o pattern: .*
+    /// The name of the API destination to update. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The ARN of the connection to use for the API destination. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connec- tion\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$
+    /// The ARN of the connection to use for the API destination. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:connection\/[\.\-_A-Za-z0-9]+\/[\-A-Za-z0-9]+$
     /// </summary>
     [CliOption("--connection-arn")]
     public string? ConnectionArn { get; set; }
 
     /// <summary>
-    /// The URL to the endpoint to use for the API destination. Constraints: o min: 1 o max: 2048 o pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$
+    /// The URL to the endpoint to use for the API destination. Constraints: • min: 1 • max: 2048 • pattern: ^((%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@\x26=+$,A-Za-z0-9])+)([).!';/?:,])?$
     /// </summary>
     [CliOption("--invocation-endpoint")]
     public string? InvocationEndpoint { get; set; }
 
     /// <summary>
-    /// The method to use for the API destination. Possible values: o POST o GET o HEAD o OPTIONS o PUT o PATCH o DELETE
+    /// The method to use for the API destination. Possible values: • POST • GET • HEAD • OPTIONS • PUT • PATCH • DELETE
     /// </summary>
     [CliOption("--http-method")]
     public AwsEventsUpdateApiDestinationHttpMethod? HttpMethod { get; set; }
 
     /// <summary>
-    /// The maximum number of invocations per second to send to the API des- tination. Constraints: o min: 1
+    /// The maximum number of invocations per second to send to the API destination. Constraints: • min: 1
     /// </summary>
     [CliOption("--invocation-rate-limit-per-second")]
     public int? InvocationRateLimitPerSecond { get; set; }
@@ -113,6 +114,15 @@ public record AwsEventsUpdateApiDestinationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

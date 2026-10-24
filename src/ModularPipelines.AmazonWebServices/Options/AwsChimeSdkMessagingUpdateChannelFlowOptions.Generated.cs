@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsChimeSdkMessagingUpdateChannelFlowOptions : AwsOptions, IValida
     /// <summary>
     /// Updates channel flow attributes. This is a developer API. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ChannelFlowArn">The ARN of the channel flow. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
-    /// <param name="Processors">Information about the processor Lambda functions Constraints: o min: 1 o max: 3 (structure) The information about a processor in a channel flow. Name -&gt; (string) [required] The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]* Configuration -&gt; (structure) [required] The information about the type of processor and its identi- fier. Lambda -&gt; (structure) [required] Indicates that the processor is of type Lambda. ResourceArn -&gt; (string) [required] The ARN of the Lambda message processing function. Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? InvocationType -&gt; (string) [required] Controls how the Lambda function is invoked. Possible values: o ASYNC ExecutionOrder -&gt; (integer) [required] The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the se- quence. At this point, we support only 1 processor within a flow. Constraints: o min: 1 o max: 3 FallbackAction -&gt; (string) [required] Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and communica- tion with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel. Possible values: o CONTINUE o ABORT Shorthand Syntax: Name=string,Configuration={Lambda={ResourceArn=string,InvocationType=string}},ExecutionOrder=integer,FallbackAction=string ... JSON Syntax: [ { "Name": "string", "Configuration": { "Lambda": { "ResourceArn": "string", "InvocationType": "ASYNC" } }, "ExecutionOrder": integer, "FallbackAction": "CONTINUE"|"ABORT" } ... ]</param>
-    /// <param name="Name">The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
+    /// <param name="ChannelFlowArn">The ARN of the channel flow. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}</param>
+    /// <param name="Processors">Information about the processor Lambda functions Constraints: • min: 1 • max: 3 (structure) The information about a processor in a channel flow. Name -&gt; (string) [required] The name of the channel flow. Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]* Configuration -&gt; (structure) [required] The information about the type of processor and its identifier. Lambda -&gt; (structure) [required] Indicates that the processor is of type Lambda. ResourceArn -&gt; (string) [required] The ARN of the Lambda message processing function. Constraints: • min: 15 • max: 2048 • pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? InvocationType -&gt; (string) [required] Controls how the Lambda function is invoked. Possible values: • ASYNC ExecutionOrder -&gt; (integer) [required] The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the sequence. At this point, we support only 1 processor within a flow. Constraints: • min: 1 • max: 3 FallbackAction -&gt; (string) [required] Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and communication with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel. Possible values: • CONTINUE • ABORT Shorthand Syntax: Name=string,Configuration={Lambda={ResourceArn=string,InvocationType=string}},ExecutionOrder=integer,FallbackAction=string ... JSON Syntax: [ { "Name": "string", "Configuration": { "Lambda": { "ResourceArn": "string", "InvocationType": "ASYNC" } }, "ExecutionOrder": integer, "FallbackAction": "CONTINUE"|"ABORT" } ... ]</param>
+    /// <param name="Name">The name of the channel flow. Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*</param>
     public AwsChimeSdkMessagingUpdateChannelFlowOptions(
         string ChannelFlowArn,
         IEnumerable<string> Processors,
@@ -75,19 +76,19 @@ public record AwsChimeSdkMessagingUpdateChannelFlowOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the channel flow. Constraints: o min: 5 o max: 1600 o pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
+    /// The ARN of the channel flow. Constraints: • min: 5 • max: 1600 • pattern: arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}
     /// </summary>
     [CliOption("--channel-flow-arn")]
     public string? ChannelFlowArn { get; private init; }
 
     /// <summary>
-    /// Information about the processor Lambda functions Constraints: o min: 1 o max: 3 (structure) The information about a processor in a channel flow. Name -&gt; (string) [required] The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]* Configuration -&gt; (structure) [required] The information about the type of processor and its identi- fier. Lambda -&gt; (structure) [required] Indicates that the processor is of type Lambda. ResourceArn -&gt; (string) [required] The ARN of the Lambda message processing function. Constraints: o min: 15 o max: 2048 o pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:func- tion:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? InvocationType -&gt; (string) [required] Controls how the Lambda function is invoked. Possible values: o ASYNC ExecutionOrder -&gt; (integer) [required] The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the se- quence. At this point, we support only 1 processor within a flow. Constraints: o min: 1 o max: 3 FallbackAction -&gt; (string) [required] Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and communica- tion with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel. Possible values: o CONTINUE o ABORT Shorthand Syntax: Name=string,Configuration={Lambda={ResourceArn=string,InvocationType=string}},ExecutionOrder=integer,FallbackAction=string ... JSON Syntax: [ { "Name": "string", "Configuration": { "Lambda": { "ResourceArn": "string", "InvocationType": "ASYNC" } }, "ExecutionOrder": integer, "FallbackAction": "CONTINUE"|"ABORT" } ... ]
+    /// Information about the processor Lambda functions Constraints: • min: 1 • max: 3 (structure) The information about a processor in a channel flow. Name -&gt; (string) [required] The name of the channel flow. Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]* Configuration -&gt; (structure) [required] The information about the type of processor and its identifier. Lambda -&gt; (structure) [required] Indicates that the processor is of type Lambda. ResourceArn -&gt; (string) [required] The ARN of the Lambda message processing function. Constraints: • min: 15 • max: 2048 • pattern: arn:aws:lambda:[a-z]{2}-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9\-_\.]+(:(\$LATEST|[a-zA-Z0-9\-_]+))? InvocationType -&gt; (string) [required] Controls how the Lambda function is invoked. Possible values: • ASYNC ExecutionOrder -&gt; (integer) [required] The sequence in which processors run. If you have multiple processors in a channel flow, message processing goes through each processor in the sequence. The value determines the sequence. At this point, we support only 1 processor within a flow. Constraints: • min: 1 • max: 3 FallbackAction -&gt; (string) [required] Determines whether to continue with message processing or stop it in cases where communication with a processor fails. If a processor has a fallback action of ABORT and communication with it fails, the processor sets the message status to FAILED and does not send the message to any recipients. Note that if the last processor in the channel flow sequence has a fallback action of CONTINUE and communication with the processor fails, then the message is considered processed and sent to recipients of the channel. Possible values: • CONTINUE • ABORT Shorthand Syntax: Name=string,Configuration={Lambda={ResourceArn=string,InvocationType=string}},ExecutionOrder=integer,FallbackAction=string ... JSON Syntax: [ { "Name": "string", "Configuration": { "Lambda": { "ResourceArn": "string", "InvocationType": "ASYNC" } }, "ExecutionOrder": integer, "FallbackAction": "CONTINUE"|"ABORT" } ... ]
     /// </summary>
     [CliOption("--processors", GroupValues = true)]
     public IEnumerable<string>? Processors { get; private init; }
 
     /// <summary>
-    /// The name of the channel flow. Constraints: o min: 1 o max: 256 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
+    /// The name of the channel flow. Constraints: • min: 1 • max: 256 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -113,6 +114,15 @@ public record AwsChimeSdkMessagingUpdateChannelFlowOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsSesv2PutDedicatedIpPoolScalingAttributesOptions : AwsOptions, I
     /// Used to convert a dedicated IP pool to a different scaling mode. NOTE: MANAGED pools cannot be converted to STANDARD scaling mode. See also: AWS API Documentation
     /// </summary>
     /// <param name="PoolName">The name of the dedicated IP pool.</param>
-    /// <param name="ScalingMode">The scaling mode to apply to the dedicated IP pool. NOTE: Changing the scaling mode from MANAGED to STANDARD is not sup- ported. Possible values: o STANDARD o MANAGED</param>
+    /// <param name="ScalingMode">The scaling mode to apply to the dedicated IP pool. NOTE: Changing the scaling mode from MANAGED to STANDARD is not supported. Possible values: • STANDARD • MANAGED</param>
     public AwsSesv2PutDedicatedIpPoolScalingAttributesOptions(
         string PoolName,
         AwsSesv2PutDedicatedIpPoolScalingAttributesScalingMode ScalingMode
@@ -66,7 +67,7 @@ public record AwsSesv2PutDedicatedIpPoolScalingAttributesOptions : AwsOptions, I
     public string? PoolName { get; private init; }
 
     /// <summary>
-    /// The scaling mode to apply to the dedicated IP pool. NOTE: Changing the scaling mode from MANAGED to STANDARD is not sup- ported. Possible values: o STANDARD o MANAGED
+    /// The scaling mode to apply to the dedicated IP pool. NOTE: Changing the scaling mode from MANAGED to STANDARD is not supported. Possible values: • STANDARD • MANAGED
     /// </summary>
     [CliOption("--scaling-mode")]
     public AwsSesv2PutDedicatedIpPoolScalingAttributesScalingMode? ScalingMode { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSesv2PutDedicatedIpPoolScalingAttributesOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

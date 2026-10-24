@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,15 +28,15 @@ public record AwsQuicksightCreateTemplateAliasOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates a template alias for a template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template that you creating an alias for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="TemplateId">An ID for the template. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="AliasName">The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Quick Sight. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
-    /// <param name="TemplateVersionNumber">The version number of the template. Constraints: o min: 1</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the template that you creating an alias for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="TemplateId">An ID for the template. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="AliasName">The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Quick Sight. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)</param>
+    /// <param name="TemplateVersionNumber">The version number of the template. Constraints: • min: 1</param>
     public AwsQuicksightCreateTemplateAliasOptions(
         string AwsAccountId,
         string TemplateId,
         string AliasName,
-        int TemplateVersionNumber
+        long TemplateVersionNumber
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(AwsAccountId);
@@ -67,28 +68,28 @@ public record AwsQuicksightCreateTemplateAliasOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the template that you creating an alias for. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the template that you creating an alias for. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// An ID for the template. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// An ID for the template. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--template-id")]
     public string? TemplateId { get; private init; }
 
     /// <summary>
-    /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Quick Sight. Constraints: o min: 1 o max: 2048 o pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
+    /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Quick Sight. Constraints: • min: 1 • max: 2048 • pattern: [\w\-]+|(\$LATEST)|(\$PUBLISHED)
     /// </summary>
     [CliOption("--alias-name")]
     public string? AliasName { get; private init; }
 
     /// <summary>
-    /// The version number of the template. Constraints: o min: 1
+    /// The version number of the template. Constraints: • min: 1
     /// </summary>
     [CliOption("--template-version-number")]
-    public int? TemplateVersionNumber { get; private init; }
+    public long? TemplateVersionNumber { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -111,6 +112,15 @@ public record AwsQuicksightCreateTemplateAliasOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

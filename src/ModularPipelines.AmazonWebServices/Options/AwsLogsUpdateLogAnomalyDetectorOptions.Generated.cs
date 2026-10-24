@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Updates an existing log anomaly detector. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector that you want to update. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*</param>
+    /// <param name="AnomalyDetectorArn">The ARN of the anomaly detector that you want to update. Constraints: • min: 1 • pattern: [\w#+=/:,.@-]*</param>
     /// <param name="Enabled">Use this parameter to pause or restart the anomaly detector.</param>
     public AwsLogsUpdateLogAnomalyDetectorOptions(
         string AnomalyDetectorArn,
@@ -60,7 +61,7 @@ public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the anomaly detector that you want to update. Constraints: o min: 1 o pattern: [\w#+=/:,.@-]*
+    /// The ARN of the anomaly detector that you want to update. Constraints: • min: 1 • pattern: [\w#+=/:,.@-]*
     /// </summary>
     [CliOption("--anomaly-detector-arn")]
     public string? AnomalyDetectorArn { get; private init; }
@@ -72,22 +73,22 @@ public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions, IValidatableO
     public bool? Enabled { get; private init; }
 
     /// <summary>
-    /// Specifies how often the anomaly detector runs and look for anom- alies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIF- TEEN_MIN might be appropriate. Possible values: o ONE_MIN o FIVE_MIN o TEN_MIN o FIFTEEN_MIN o THIRTY_MIN o ONE_HOUR
+    /// Specifies how often the anomaly detector runs and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIFTEEN_MIN might be appropriate. Possible values: • ONE_MIN • FIVE_MIN • TEN_MIN • FIFTEEN_MIN • THIRTY_MIN • ONE_HOUR
     /// </summary>
     [CliOption("--evaluation-frequency")]
     public AwsLogsUpdateLogAnomalyDetectorEvaluationFrequency? EvaluationFrequency { get; set; }
 
     /// <summary>
-    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain time- stamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: o min: 0 o max: 1024
+    /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--filter-pattern")]
     public string? FilterPattern { get; set; }
 
     /// <summary>
-    /// The number of days to use as the life cycle of anomalies. After this time, anomalies are automatically baselined and the anomaly detector model will treat new occurrences of similar event as normal. There- fore, if you do not correct the cause of an anomaly during this time, it will be considered normal going forward and will not be de- tected. Constraints: o min: 7 o max: 90
+    /// The number of days to use as the life cycle of anomalies. After this time, anomalies are automatically baselined and the anomaly detector model will treat new occurrences of similar event as normal. Therefore, if you do not correct the cause of an anomaly during this time, it will be considered normal going forward and will not be detected. Constraints: • min: 7 • max: 90
     /// </summary>
     [CliOption("--anomaly-visibility-time")]
-    public int? AnomalyVisibilityTime { get; set; }
+    public long? AnomalyVisibilityTime { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -110,6 +111,15 @@ public record AwsLogsUpdateLogAnomalyDetectorOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

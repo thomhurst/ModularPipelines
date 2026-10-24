@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress de- ployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
+/// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAppConfigStopDeploymentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress de- ployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
+    /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING , unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK . The status of a completed deployment will be REVERTED . AppConfig only allows a revert within 72 hours of deployment completion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The application ID. Constraints: o min: 1 o max: 64</param>
-    /// <param name="EnvironmentId">The environment ID. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ApplicationId">The application ID. Constraints: • min: 1 • max: 64</param>
+    /// <param name="EnvironmentId">The environment ID. Constraints: • min: 1 • max: 64</param>
     /// <param name="DeploymentNumber">The sequence number of the deployment.</param>
     public AwsAppConfigStopDeploymentOptions(
         string ApplicationId,
@@ -63,13 +64,13 @@ public record AwsAppConfigStopDeploymentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application ID. Constraints: o min: 1 o max: 64
+    /// The application ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The environment ID. Constraints: o min: 1 o max: 64
+    /// The environment ID. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
@@ -81,7 +82,7 @@ public record AwsAppConfigStopDeploymentOptions : AwsOptions, IValidatableObject
     public int? DeploymentNumber { get; private init; }
 
     /// <summary>
-    /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deploy- ment to a status of REVERTED .
+    /// A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version. This action moves the deployment to a status of REVERTED .
     /// </summary>
     [CliFlag("--allow-revert", NegatedName = "--no-allow-revert")]
     public bool? AllowRevert { get; set; }
@@ -107,6 +108,15 @@ public record AwsAppConfigStopDeploymentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

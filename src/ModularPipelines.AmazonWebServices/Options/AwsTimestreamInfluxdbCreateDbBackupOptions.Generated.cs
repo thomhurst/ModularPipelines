@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsTimestreamInfluxdbCreateDbBackupOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates a new on-demand backup of a Timestream for InfluxDB resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the backup. Must be unique within the account and re- gion. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
-    /// <param name="DbResourceId">The id of the DB instance or DB cluster to back up. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+</param>
+    /// <param name="Name">The name of the backup. Must be unique within the account and region. Constraints: • min: 3 • max: 40 • pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*</param>
+    /// <param name="DbResourceId">The id of the DB instance or DB cluster to back up. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+</param>
     public AwsTimestreamInfluxdbCreateDbBackupOptions(
         string Name,
         string DbResourceId
@@ -61,25 +61,25 @@ public record AwsTimestreamInfluxdbCreateDbBackupOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the backup. Must be unique within the account and re- gion. Constraints: o min: 3 o max: 40 o pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
+    /// The name of the backup. Must be unique within the account and region. Constraints: • min: 3 • max: 40 • pattern: [a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The id of the DB instance or DB cluster to back up. Constraints: o min: 3 o max: 64 o pattern: [a-zA-Z0-9]+
+    /// The id of the DB instance or DB cluster to back up. Constraints: • min: 3 • max: 64 • pattern: [a-zA-Z0-9]+
     /// </summary>
     [CliOption("--db-resource-id")]
     public string? DbResourceId { get; private init; }
 
     /// <summary>
-    /// The number of days to retain the backup. Valid values are 1 to 3650. Constraints: o min: 1 o max: 3650
+    /// The number of days to retain the backup. Valid values are 1 to 3650. Constraints: • min: 1 • max: 3650
     /// </summary>
     [CliOption("--retention-days")]
     public int? RetentionDays { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs to associate with the backup. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs to associate with the backup. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -105,6 +105,15 @@ public record AwsTimestreamInfluxdbCreateDbBackupOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

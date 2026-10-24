@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessUpdateWirelessGatewayOptions : AwsOptions, IValidata
     /// <summary>
     /// Updates properties of a wireless gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the resource to update. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of the resource to update. Constraints: • max: 256</param>
     public AwsIotwirelessUpdateWirelessGatewayOptions(
         string Id
     )
@@ -56,40 +57,40 @@ public record AwsIotwirelessUpdateWirelessGatewayOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resource to update. Constraints: o max: 256
+    /// The ID of the resource to update. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The new name of the resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: o max: 256
+    /// The new name of the resource. NOTE: The following special characters aren't accepted: &lt;&gt;^#~$ Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description of the resource. Constraints: o max: 2048
+    /// A new description of the resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: o min: 0 o max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: o min: 2 o max: 2 (string) Constraints: o pattern: [a-fA-F0-9]{16} Shorthand Syntax: string,string ... JSON Syntax: [ ["string", ...] ... ]
+    /// A list of JoinEuiRange used by LoRa gateways to filter LoRa frames. Constraints: • min: 0 • max: 3 (list) A pair of join EUI describing a range [BegEui, EndEui], both ends are inclusive. Constraints: • min: 2 • max: 2 (string) Constraints: • pattern: [a-fA-F0-9]{16} Shorthand Syntax: string,string ... JSON Syntax: [ ["string", ...] ... ]
     /// </summary>
     [CliOption("--join-eui-filters", GroupValues = true)]
     public IEnumerable<string>? JoinEuiFilters { get; set; }
 
     /// <summary>
-    /// A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: o min: 0 o max: 10 (string) LoRaWAN network ID. Constraints: o pattern: [a-fA-F0-9]{6} Syntax: "string" "string" ...
+    /// A list of NetId values that are used by LoRa gateways to filter the uplink frames. Constraints: • min: 0 • max: 10 (string) LoRaWAN network ID. Constraints: • pattern: [a-fA-F0-9]{6} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--net-id-filters", GroupValues = true)]
     public IEnumerable<string>? NetIdFilters { get; set; }
 
     /// <summary>
-    /// The MaxEIRP value. Constraints: o min: 0 o max: 30
+    /// The MaxEIRP value. Constraints: • min: 0 • max: 30
     /// </summary>
     [CliOption("--max-eirp")]
-    public int? MaxEirp { get; set; }
+    public double? MaxEirp { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -112,6 +113,15 @@ public record AwsIotwirelessUpdateWirelessGatewayOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

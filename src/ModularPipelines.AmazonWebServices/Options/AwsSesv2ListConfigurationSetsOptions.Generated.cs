@@ -11,12 +11,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by in- cluding a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
+/// List all of the configuration sets associated with your account in the current region. Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListConfigurationSetsOptions : AwsOptions
 {
     /// <summary>
-    /// An object that contains filters to apply when listing configuration sets. You can filter by configuration set name. key -&gt; (string) The filter key to use when listing configuration sets. This can be one of the following: o CONFIGURATION_SET_NAME_CONTAINS Filter by a substring of the configuration set name. Possible values: o CONFIGURATION_SET_NAME_CONTAINS value -&gt; (string) Constraints: o min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: CONFIGURATION_SET_NAME_CONTAINS JSON Syntax: {"CONFIGURATION_SET_NAME_CONTAINS": "string" ...}
+    /// An object that contains filters to apply when listing configuration sets. You can filter by a substring of the configuration set name. key -&gt; (string) The filter key to use when listing configuration sets. This can be one of the following: • CONFIGURATION_SET_NAME_CONTAINS Filter by a substring of the configuration set name. Possible values: • CONFIGURATION_SET_NAME_CONTAINS value -&gt; (string) Constraints: • min: 1 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: CONFIGURATION_SET_NAME_CONTAINS JSON Syntax: {"CONFIGURATION_SET_NAME_CONTAINS": "string" ...}
     /// </summary>
     [CliOption("--filter", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Filter { get; set; }
@@ -37,7 +37,7 @@ public record AwsSesv2ListConfigurationSetsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListConfigura- tionSets . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    /// The number of results to show in a single call to ListConfigurationSets . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -47,5 +47,14 @@ public record AwsSesv2ListConfigurationSetsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

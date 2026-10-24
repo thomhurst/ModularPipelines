@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2PutAccountSuppressionAttributesOptions : AwsOptions
 {
     /// <summary>
-    /// A list that contains the reasons that email addresses will be auto- matically added to the suppression list for your account. This list can contain any or all of the following: o COMPLAINT Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint. o BOUNCE Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
+    /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following: • COMPLAINT Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint. • BOUNCE Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: • COMPLAINT Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a complaint. • BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a hard bounce. Possible values: • BOUNCE • COMPLAINT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--suppressed-reasons", GroupValues = true)]
     public IEnumerable<string>? SuppressedReasons { get; set; }
 
     /// <summary>
-    /// An object that contains additional suppression attributes for your account. ConditionThreshold -&gt; (structure) [required] Specifies the condition threshold settings for account-level suppression. ConditionThresholdEnabled -&gt; (string) [required] Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it. Possible values: o ENABLED o DISABLED OverallConfidenceThreshold -&gt; (structure) The overall confidence threshold used to determine suppres- sion decisions. ConfidenceVerdictThreshold -&gt; (string) [required] The confidence level threshold for suppression decisions. Possible values: o MEDIUM o HIGH o MANAGED Shorthand Syntax: ConditionThreshold={ConditionThresholdEnabled=string,OverallConfidenceThreshold={ConfidenceVerdictThreshold=string}} JSON Syntax: { "ConditionThreshold": { "ConditionThresholdEnabled": "ENABLED"|"DISABLED", "OverallConfidenceThreshold": { "ConfidenceVerdictThreshold": "MEDIUM"|"HIGH"|"MANAGED" } } }
+    /// An object that contains additional suppression attributes for your account. ConditionThreshold -&gt; (structure) [required] Specifies the condition threshold settings for account-level suppression. ConditionThresholdEnabled -&gt; (string) [required] Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it. Possible values: • ENABLED • DISABLED OverallConfidenceThreshold -&gt; (structure) The overall confidence threshold used to determine suppression decisions. ConfidenceVerdictThreshold -&gt; (string) [required] The confidence level threshold for suppression decisions. Possible values: • MEDIUM • HIGH • MANAGED Shorthand Syntax: ConditionThreshold={ConditionThresholdEnabled=string,OverallConfidenceThreshold={ConfidenceVerdictThreshold=string}} JSON Syntax: { "ConditionThreshold": { "ConditionThresholdEnabled": "ENABLED"|"DISABLED", "OverallConfidenceThreshold": { "ConfidenceVerdictThreshold": "MEDIUM"|"HIGH"|"MANAGED" } } }
     /// </summary>
     [CliOption("--validation-attributes")]
     public string? ValidationAttributes { get; set; }
@@ -38,5 +38,14 @@ public record AwsSesv2PutAccountSuppressionAttributesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

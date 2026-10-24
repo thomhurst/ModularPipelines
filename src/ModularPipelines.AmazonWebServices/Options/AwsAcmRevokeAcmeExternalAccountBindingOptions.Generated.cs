@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsAcmRevokeAcmeExternalAccountBindingOptions : AwsOptions, IValid
     /// <summary>
     /// Revokes an external account binding, preventing new ACME accounts from being registered using this binding. Existing ACME accounts that were previously registered using the binding are not affected and must be revoked separately. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcmeExternalAccountBindingArn">The Amazon Resource Name (ARN) of the ACME external account binding to revoke. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+</param>
+    /// <param name="AcmeExternalAccountBindingArn">The Amazon Resource Name (ARN) of the ACME external account binding to revoke. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+</param>
     public AwsAcmRevokeAcmeExternalAccountBindingOptions(
         string AcmeExternalAccountBindingArn
     )
@@ -56,7 +57,7 @@ public record AwsAcmRevokeAcmeExternalAccountBindingOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the ACME external account binding to revoke. Constraints: o min: 1 o max: 200 o pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-end- point/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+
+    /// The Amazon Resource Name (ARN) of the ACME external account binding to revoke. Constraints: • min: 1 • max: 200 • pattern: arn:aws[a-z-]*:acm:[a-z0-9-]+:[0-9]{12}:acme-endpoint/[a-zA-Z0-9-]+/acme-external-account-binding/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--acme-external-account-binding-arn")]
     public string? AcmeExternalAccountBindingArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAcmRevokeAcmeExternalAccountBindingOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

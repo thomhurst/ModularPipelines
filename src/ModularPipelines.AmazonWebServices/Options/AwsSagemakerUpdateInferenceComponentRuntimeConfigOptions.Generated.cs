@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Runtime settings for a model that is deployed with an inference compo- nent. See also: AWS API Documentation
+/// Runtime settings for a model that is deployed with an inference component. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Runtime settings for a model that is deployed with an inference compo- nent. See also: AWS API Documentation
+    /// Runtime settings for a model that is deployed with an inference component. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceComponentName">The name of the inference component to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
-    /// <param name="DesiredRuntimeConfig">Runtime settings for a model that is deployed with an inference com- ponent. CopyCount -&gt; (integer) [required] The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference re- quests. Constraints: o min: 0 Shorthand Syntax: CopyCount=integer JSON Syntax: { "CopyCount": integer }</param>
+    /// <param name="InferenceComponentName">The name of the inference component to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?</param>
+    /// <param name="DesiredRuntimeConfig">Runtime settings for a model that is deployed with an inference component. CopyCount -&gt; (integer) [required] The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference requests. Constraints: • min: 0 Shorthand Syntax: CopyCount=integer JSON Syntax: { "CopyCount": integer }</param>
     public AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions(
         string InferenceComponentName,
         string DesiredRuntimeConfig
@@ -60,13 +61,13 @@ public record AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the inference component to update. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
+    /// The name of the inference component to update. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--inference-component-name")]
     public string? InferenceComponentName { get; private init; }
 
     /// <summary>
-    /// Runtime settings for a model that is deployed with an inference com- ponent. CopyCount -&gt; (integer) [required] The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference re- quests. Constraints: o min: 0 Shorthand Syntax: CopyCount=integer JSON Syntax: { "CopyCount": integer }
+    /// Runtime settings for a model that is deployed with an inference component. CopyCount -&gt; (integer) [required] The number of runtime copies of the model container to deploy with the inference component. Each copy can serve inference requests. Constraints: • min: 0 Shorthand Syntax: CopyCount=integer JSON Syntax: { "CopyCount": integer }
     /// </summary>
     [CliOption("--desired-runtime-config")]
     public string? DesiredRuntimeConfig { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSagemakerUpdateInferenceComponentRuntimeConfigOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

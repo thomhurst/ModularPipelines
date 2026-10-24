@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsMigrationhuborchestratorCreateTemplateOptions : AwsOptions, IVa
     /// <summary>
     /// Creates a migration workflow template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TemplateName">The name of the migration workflow template. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9]*</param>
-    /// <param name="TemplateSource">The source of the migration workflow template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workflowId. workflowId -&gt; (string) The ID of the workflow from the source migration workflow tem- plate. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }</param>
+    /// <param name="TemplateName">The name of the migration workflow template. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9]*</param>
+    /// <param name="TemplateSource">The source of the migration workflow template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workflowId. workflowId -&gt; (string) The ID of the workflow from the source migration workflow template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+ Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }</param>
     public AwsMigrationhuborchestratorCreateTemplateOptions(
         string TemplateName,
         string TemplateSource
@@ -62,32 +62,32 @@ public record AwsMigrationhuborchestratorCreateTemplateOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the migration workflow template. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9]*
+    /// The name of the migration workflow template. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9]*
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The source of the migration workflow template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workflowId. workflowId -&gt; (string) The ID of the workflow from the source migration workflow tem- plate. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]+ Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
+    /// The source of the migration workflow template. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: workflowId. workflowId -&gt; (string) The ID of the workflow from the source migration workflow template. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]+ Shorthand Syntax: workflowId=string JSON Syntax: { "workflowId": "string" }
     /// </summary>
     [CliOption("--template-source")]
     public string? TemplateSource { get; private init; }
 
     /// <summary>
-    /// A description of the migration workflow template. Constraints: o min: 0 o max: 250 o pattern: .*
+    /// A description of the migration workflow template. Constraints: • min: 0 • max: 250 • pattern: .*
     /// </summary>
     [CliOption("--template-description")]
     public string? TemplateDescription { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Idempotency in the Smithy documentation. Constraints: o min: 1 o max: 256 o pattern: [-a-zA-Z0-9]*
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Idempotency in the Smithy documentation. Constraints: • min: 1 • max: 256 • pattern: [-a-zA-Z0-9]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to add to the migration workflow template. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to add to the migration workflow template. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -113,6 +113,15 @@ public record AwsMigrationhuborchestratorCreateTemplateOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

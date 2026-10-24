@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +29,9 @@ public record AwsCustomerProfilesCreateRecommenderOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a recommender See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="RecommenderName">The name of the recommender. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="RecommenderRecipeName">The name of the recommeder recipe. Possible values: o recommended-for-you o similar-items o frequently-paired-items o popular-items o trending-now o personalized-ranking</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="RecommenderName">The name of the recommender. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="RecommenderRecipeName">The name of the recommeder recipe. Possible values: • recommended-for-you • similar-items • frequently-paired-items • popular-items • trending-now • personalized-ranking</param>
     public AwsCustomerProfilesCreateRecommenderOptions(
         string DomainName,
         string RecommenderName,
@@ -65,43 +65,43 @@ public record AwsCustomerProfilesCreateRecommenderOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the recommender. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the recommender. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--recommender-name")]
     public string? RecommenderName { get; private init; }
 
     /// <summary>
-    /// The name of the recommeder recipe. Possible values: o recommended-for-you o similar-items o frequently-paired-items o popular-items o trending-now o personalized-ranking
+    /// The name of the recommeder recipe. Possible values: • recommended-for-you • similar-items • frequently-paired-items • popular-items • trending-now • personalized-ranking
     /// </summary>
     [CliOption("--recommender-recipe-name")]
     public AwsCustomerProfilesCreateRecommenderRecommenderRecipeName? RecommenderRecipeName { get; private init; }
 
     /// <summary>
-    /// The recommender configuration. EventsConfig -&gt; (structure) Configuration settings for how the recommender processes and uses events. EventParametersList -&gt; (list) [required] A list of event parameters configurations that specify how different event types should be handled. Constraints: o min: 1 o max: 10 (structure) Configuration parameters for events in the personaliza- tion system. EventType -&gt; (string) [required] The type of event being tracked (e.g., 'click', 'pur- chase', 'view'). Constraints: o min: 0 o max: 256 EventValueThreshold -&gt; (double) The minimum value threshold that an event must meet to be considered valid. EventWeight -&gt; (double) The weight of the event type. A higher weight means higher importance of the event type for the created solution. Constraints: o min: 0.0 o max: 1.0 TrainingFrequency -&gt; (integer) How often the recommender should retrain its model with new data. If set to 0, automatic retraining will not be enabled. Constraints: o min: 0 o max: 30 InferenceConfig -&gt; (structure) Configuration settings for how the recommender handles inference requests. MinProvisionedTPS -&gt; (integer) The minimum provisioned transactions per second (TPS) that the recommender supports. The default value is 1. A high Min- ProvisionedTPS will increase your cost. Constraints: o min: 1 o max: 1000 IncludedColumns -&gt; (map) A map of dataset type to a list of column names to train on. The _webAnalytics and _catalogItem keys are supported. The column names must be a subset of the columns defined in the recommender schema. If not specified, all columns in the schema are used for training. The following columns are always included in training and do not need to be specified: Item.Id , EventTimestamp , and EventType for _webAnalytics ; Id for _catalogItem . Mutually ex- clusive with ExcludedColumns both cannot be specified in the same request. Constraints: o min: 1 o max: 2 key -&gt; (string) value -&gt; (list) Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1000 ExcludedColumns -&gt; (map) A map of dataset type to a list of column names to exclude from training. The _webAnalytics and _catalogItem keys are supported. The column names must be valid columns defined in the recom- mender schema. All columns in the schema except the listed columns will be used for training. The following columns are mandatory and cannot be excluded: Item.Id , EventTimestamp , and EventType for _webAnalytics ; Id for _catalogItem . Mutually ex- clusive with IncludedColumns both cannot be specified in the same request. Constraints: o min: 1 o max: 2 key -&gt; (string) value -&gt; (list) Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 1000 DiversityConfig -&gt; (structure) Configuration for diversity-aware recommendations. When set, the recommender applies diversity constraints defined per item col- umn to reduce over-concentration of similar items in the re- sults. DiversityColumns -&gt; (list) A list of up to two diversity columns. Each column defines a cap on the number or percentage of recommended items that share the same value for that column. Constraints: o min: 0 o max: 2 (structure) Defines a diversity constraint for a single item column, specifying a cap type and a target value or placeholder that controls how many recommended items may share the same column value. Name -&gt; (string) [required] The name of the item catalog column on which to apply the diversity cap. The column must be defined in the recommender schema. Constraints: o min: 1 o max: 1000 CapType -&gt; (string) [required] The type of diversity cap to apply. Valid values are PERCENTAGE (interpret Target as a percentage of re- turned items) and VALUE (interpret Target as an ab- solute count). Possible values: o PERCENTAGE o VALUE Target -&gt; (string) [required] The diversity cap target. Either an integer literal (for example, "25" ) or a placeholder expression of the form $name whose value is supplied at inference time through GetProfileRecommendations . Constraints: o min: 1 o max: 64 o pattern: (\d+|\$[a-z_]+) JSON Syntax: { "EventsConfig": { "EventParametersList": [ { "EventType": "string", "EventValueThreshold": double, "EventWeight": double } ... ] }, "TrainingFrequency": integer, "InferenceConfig": { "MinProvisionedTPS": integer }, "IncludedColumns": {"string": ["string", ...] ...}, "ExcludedColumns": {"string": ["string", ...] ...}, "DiversityConfig": { "DiversityColumns": [ { "Name": "string", "CapType": "PERCENTAGE"|"VALUE", "Target": "string" } ... ] } }
+    /// The recommender configuration. EventsConfig -&gt; (structure) Configuration settings for how the recommender processes and uses events. EventParametersList -&gt; (list) [required] A list of event parameters configurations that specify how different event types should be handled. Constraints: • min: 1 • max: 10 (structure) Configuration parameters for events in the personalization system. EventType -&gt; (string) [required] The type of event being tracked (e.g., 'click', 'purchase', 'view'). Constraints: • min: 0 • max: 256 EventValueThreshold -&gt; (double) The minimum value threshold that an event must meet to be considered valid. EventWeight -&gt; (double) The weight of the event type. A higher weight means higher importance of the event type for the created solution. Constraints: • min: 0.0 • max: 1.0 TrainingFrequency -&gt; (integer) How often the recommender should retrain its model with new data. If set to 0, automatic retraining will not be enabled. Constraints: • min: 0 • max: 30 InferenceConfig -&gt; (structure) Configuration settings for how the recommender handles inference requests. MinProvisionedTPS -&gt; (integer) The minimum provisioned transactions per second (TPS) that the recommender supports. The default value is 1. A high MinProvisionedTPS will increase your cost. Constraints: • min: 1 • max: 1000 IncludedColumns -&gt; (map) A map of dataset type to a list of column names to train on. The _webAnalytics and _catalogItem keys are supported. The column names must be a subset of the columns defined in the recommender schema. If not specified, all columns in the schema are used for training. The following columns are always included in training and do not need to be specified: Item.Id , EventTimestamp , and EventType for _webAnalytics ; Id for _catalogItem . Mutually exclusive with ExcludedColumns both cannot be specified in the same request. Constraints: • min: 1 • max: 2 key -&gt; (string) value -&gt; (list) Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 1000 ExcludedColumns -&gt; (map) A map of dataset type to a list of column names to exclude from training. The _webAnalytics and _catalogItem keys are supported. The column names must be valid columns defined in the recommender schema. All columns in the schema except the listed columns will be used for training. The following columns are mandatory and cannot be excluded: Item.Id , EventTimestamp , and EventType for _webAnalytics ; Id for _catalogItem . Mutually exclusive with IncludedColumns both cannot be specified in the same request. Constraints: • min: 1 • max: 2 key -&gt; (string) value -&gt; (list) Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 1000 DiversityConfig -&gt; (structure) Configuration for diversity-aware recommendations. When set, the recommender applies diversity constraints defined per item column to reduce over-concentration of similar items in the results. DiversityColumns -&gt; (list) A list of up to two diversity columns. Each column defines a cap on the number or percentage of recommended items that share the same value for that column. Constraints: • min: 0 • max: 2 (structure) Defines a diversity constraint for a single item column, specifying a cap type and a target value or placeholder that controls how many recommended items may share the same column value. Name -&gt; (string) [required] The name of the item catalog column on which to apply the diversity cap. The column must be defined in the recommender schema. Constraints: • min: 1 • max: 1000 CapType -&gt; (string) [required] The type of diversity cap to apply. Valid values are PERCENTAGE (interpret Target as a percentage of returned items) and VALUE (interpret Target as an absolute count). Possible values: • PERCENTAGE • VALUE Target -&gt; (string) [required] The diversity cap target. Either an integer literal (for example, "25" ) or a placeholder expression of the form $name whose value is supplied at inference time through GetProfileRecommendations . Constraints: • min: 1 • max: 64 • pattern: (\d+|\$[a-z_]+) JSON Syntax: { "EventsConfig": { "EventParametersList": [ { "EventType": "string", "EventValueThreshold": double, "EventWeight": double } ... ] }, "TrainingFrequency": integer, "InferenceConfig": { "MinProvisionedTPS": integer }, "IncludedColumns": {"string": ["string", ...] ...}, "ExcludedColumns": {"string": ["string", ...] ...}, "DiversityConfig": { "DiversityColumns": [ { "Name": "string", "CapType": "PERCENTAGE"|"VALUE", "Target": "string" } ... ] } }
     /// </summary>
     [CliOption("--recommender-config")]
     public string? RecommenderConfig { get; set; }
 
     /// <summary>
-    /// The description of the domain object type. Constraints: o min: 1 o max: 1000
+    /// The description of the domain object type. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The name of the recommender schema to use for this recommender. If not specified, the default schema is used. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the recommender schema to use for this recommender. If not specified, the default schema is used. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--recommender-schema-name")]
     public string? RecommenderSchemaName { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsCustomerProfilesCreateRecommenderOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

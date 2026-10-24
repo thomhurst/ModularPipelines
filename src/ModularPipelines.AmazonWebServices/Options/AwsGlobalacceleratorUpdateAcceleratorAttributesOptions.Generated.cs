@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGlobalacceleratorUpdateAcceleratorAttributesOptions : AwsOption
     /// <summary>
     /// Update the attributes for an accelerator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator that you want to update. Constraints: o max: 255</param>
+    /// <param name="AcceleratorArn">The Amazon Resource Name (ARN) of the accelerator that you want to update. Constraints: • max: 255</param>
     public AwsGlobalacceleratorUpdateAcceleratorAttributesOptions(
         string AcceleratorArn
     )
@@ -56,25 +57,25 @@ public record AwsGlobalacceleratorUpdateAcceleratorAttributesOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the accelerator that you want to update. Constraints: o max: 255
+    /// The Amazon Resource Name (ARN) of the accelerator that you want to update. Constraints: • max: 255
     /// </summary>
     [CliOption("--accelerator-arn")]
     public string? AcceleratorArn { get; private init; }
 
     /// <summary>
-    /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the Global Accelerator Devel- oper Guide .
+    /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the Global Accelerator Developer Guide .
     /// </summary>
     [CliFlag("--flow-logs-enabled", NegatedName = "--no-flow-logs-enabled")]
     public bool? FlowLogsEnabled { get; set; }
 
     /// <summary>
-    /// The name of the Amazon S3 bucket for the flow logs. Attribute is re- quired if FlowLogsEnabled is true . The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the bucket. Constraints: o max: 255
+    /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true . The bucket must exist and have a bucket policy that grants Global Accelerator permission to write to the bucket. Constraints: • max: 255
     /// </summary>
     [CliOption("--flow-logs-s3-bucket")]
     public string? FlowLogsS3Bucket { get; set; }
 
     /// <summary>
-    /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true . If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: s3-bucket_name//AWSLogs/aws_account_id Constraints: o max: 255
+    /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true . If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: s3-bucket_name//AWSLogs/aws_account_id Constraints: • max: 255
     /// </summary>
     [CliOption("--flow-logs-s3-prefix")]
     public string? FlowLogsS3Prefix { get; set; }
@@ -100,6 +101,15 @@ public record AwsGlobalacceleratorUpdateAcceleratorAttributesOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

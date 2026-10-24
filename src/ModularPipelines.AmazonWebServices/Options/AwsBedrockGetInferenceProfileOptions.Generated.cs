@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
+/// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBedrockGetInferenceProfileOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Ama- zon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock . in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InferenceProfileIdentifier">The ID or Amazon Resource Name (ARN) of the inference profile. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+</param>
+    /// <param name="InferenceProfileIdentifier">The ID or Amazon Resource Name (ARN) of the inference profile. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+</param>
     public AwsBedrockGetInferenceProfileOptions(
         string InferenceProfileIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsBedrockGetInferenceProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the inference profile. Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(in- ference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+
+    /// The ID or Amazon Resource Name (ARN) of the inference profile. Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/)?[a-zA-Z0-9-:.]+
     /// </summary>
     [CliOption("--inference-profile-identifier")]
     public string? InferenceProfileIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockGetInferenceProfileOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

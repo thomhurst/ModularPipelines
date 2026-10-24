@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Subscribers
+/// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscribers
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsBudgetsDescribeSubscribersForNotificationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: Subscribers
+    /// Lists the subscribers that are associated with a notification. See also: AWS API Documentation describe-subscribers-for-notification is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Subscribers
     /// </summary>
-    /// <param name="AccountId">The accountId that is associated with the budget whose subscribers you want descriptions of. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
-    /// <param name="BudgetName">The name of the budget whose subscribers you want descriptions of. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
-    /// <param name="Notification">The notification whose subscribers you want to list. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: o ACTUAL o FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: o GREATER_THAN o LESS_THAN o EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: o min: 0 o max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PER- CENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dol- lars and you have a PERCENTAGE threshold of 80%, Amazon Web Ser- vices notifies you when you go over 160 dollars. Possible values: o PERCENTAGE o ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget no- tification is in the ALARM state, you passed the set threshold for the budget. Possible values: o OK o ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }</param>
+    /// <param name="AccountId">The accountId that is associated with the budget whose subscribers you want descriptions of. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
+    /// <param name="BudgetName">The name of the budget whose subscribers you want descriptions of. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$</param>
+    /// <param name="Notification">The notification whose subscribers you want to list. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: • ACTUAL • FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: • GREATER_THAN • LESS_THAN • EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: • min: 0 • max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, Amazon Web Services notifies you when you go over 160 dollars. Possible values: • PERCENTAGE • ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget notification is in the ALARM state, you passed the set threshold for the budget. Possible values: • OK • ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }</param>
     public AwsBudgetsDescribeSubscribersForNotificationOptions(
         string AccountId,
         string BudgetName,
@@ -65,28 +66,25 @@ public record AwsBudgetsDescribeSubscribersForNotificationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The accountId that is associated with the budget whose subscribers you want descriptions of. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The accountId that is associated with the budget whose subscribers you want descriptions of. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The name of the budget whose subscribers you want descriptions of. Constraints: o min: 1 o max: 100 o pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
+    /// The name of the budget whose subscribers you want descriptions of. Constraints: • min: 1 • max: 100 • pattern: ^(?![^:\\]*/action/|(?i).*&lt;script&gt;.*&lt;/script&gt;.*)[^:\\]+$
     /// </summary>
     [CliOption("--budget-name")]
     public string? BudgetName { get; private init; }
 
     /// <summary>
-    /// The notification whose subscribers you want to list. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: o ACTUAL o FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: o GREATER_THAN o LESS_THAN o EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: o min: 0 o max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PER- CENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dol- lars and you have a PERCENTAGE threshold of 80%, Amazon Web Ser- vices notifies you when you go over 160 dollars. Possible values: o PERCENTAGE o ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget no- tification is in the ALARM state, you passed the set threshold for the budget. Possible values: o OK o ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }
+    /// The notification whose subscribers you want to list. NotificationType -&gt; (string) [required] Specifies whether the notification is for how much you have spent (ACTUAL ) or for how much that you're forecasted to spend (FORECASTED ). Possible values: • ACTUAL • FORECASTED ComparisonOperator -&gt; (string) [required] The comparison that's used for this notification. Possible values: • GREATER_THAN • LESS_THAN • EQUAL_TO Threshold -&gt; (double) [required] The threshold that's associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount. Constraints: • min: 0 • max: 15000000000000 ThresholdType -&gt; (string) The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, Amazon Web Services notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, Amazon Web Services notifies you when you go over 160 dollars. Possible values: • PERCENTAGE • ABSOLUTE_VALUE NotificationState -&gt; (string) Specifies whether this notification is in alarm. If a budget notification is in the ALARM state, you passed the set threshold for the budget. Possible values: • OK • ALARM Shorthand Syntax: NotificationType=string,ComparisonOperator=string,Threshold=double,ThresholdType=string,NotificationState=string JSON Syntax: { "NotificationType": "ACTUAL"|"FORECASTED", "ComparisonOperator": "GREATER_THAN"|"LESS_THAN"|"EQUAL_TO", "Threshold": double, "ThresholdType": "PERCENTAGE"|"ABSOLUTE_VALUE", "NotificationState": "OK"|"ALARM" }
     /// </summary>
     [CliOption("--notification")]
     public string? Notification { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -96,16 +94,19 @@ public record AwsBudgetsDescribeSubscribersForNotificationOptions : AwsOptions, 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -122,6 +123,15 @@ public record AwsBudgetsDescribeSubscribersForNotificationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

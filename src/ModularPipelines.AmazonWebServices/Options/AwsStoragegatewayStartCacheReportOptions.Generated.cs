@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the re- quest. NOTE: The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but b...
+/// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the request. NOTE: The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but bef...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the re- quest. NOTE: The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but b...
+    /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the request. NOTE: The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but bef...
     /// </summary>
-    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share. Constraints: o min: 50 o max: 500</param>
-    /// <param name="Role">The ARN of the IAM role used when saving the cache report to Amazon S3. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$</param>
-    /// <param name="LocationArn">The ARN of the Amazon S3 bucket where you want to save the cache re- port. NOTE: We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs. Constraints: o min: 16 o max: 1400</param>
-    /// <param name="BucketRegion">The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report. Constraints: o min: 1 o max: 25</param>
-    /// <param name="ClientToken">A unique identifier that you use to ensure idempotent report genera- tion if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: o min: 5 o max: 100</param>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share. Constraints: • min: 50 • max: 500</param>
+    /// <param name="Role">The ARN of the IAM role used when saving the cache report to Amazon S3. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$</param>
+    /// <param name="LocationArn">The ARN of the Amazon S3 bucket where you want to save the cache report. NOTE: We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs. Constraints: • min: 16 • max: 1400</param>
+    /// <param name="BucketRegion">The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report. Constraints: • min: 1 • max: 25</param>
+    /// <param name="ClientToken">A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: • min: 5 • max: 100</param>
     public AwsStoragegatewayStartCacheReportOptions(
         string FileShareArn,
         string Role,
@@ -73,56 +74,56 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the file share. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the file share. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--file-share-arn")]
     public string? FileShareArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM role used when saving the cache report to Amazon S3. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$
+    /// The ARN of the IAM role used when saving the cache report to Amazon S3. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\S+)$
     /// </summary>
     [CliOption("--role")]
     public string? Role { get; private init; }
 
     /// <summary>
-    /// The ARN of the Amazon S3 bucket where you want to save the cache re- port. NOTE: We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs. Constraints: o min: 16 o max: 1400
+    /// The ARN of the Amazon S3 bucket where you want to save the cache report. NOTE: We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs. Constraints: • min: 16 • max: 1400
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report. Constraints: o min: 1 o max: 25
+    /// The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report. Constraints: • min: 1 • max: 25
     /// </summary>
     [CliOption("--bucket-region")]
     public string? BucketRegion { get; private init; }
 
     /// <summary>
-    /// A unique identifier that you use to ensure idempotent report genera- tion if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: o min: 5 o max: 100
+    /// A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request. Constraints: • min: 5 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional. Constraints: o min: 1 o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$
+    /// The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional. Constraints: • min: 1 • max: 255 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$
     /// </summary>
     [CliOption("--vpc-endpoint-dns-name")]
     public string? VpcEndpointDnsName { get; set; }
 
     /// <summary>
-    /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for In- clusionFilters or ExclusionFilters in a StartCacheReport request. (structure) A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while dif- ferent parameters are combined with an AND operation. Name -&gt; (string) [required] The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState Possible values: o UploadState o UploadFailureReason Values -&gt; (list) [required] The parameter value for a filter that determines which files are included or excluded from a cache report. Valid ``UploadFailureReason`` Values: InaccessibleStorageClass | InvalidObjectState | Object- Missing | S3AccessDenied Valid ``UploadState`` Values: FailingUpload (string) Constraints: o min: 1 o max: 25 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "UploadState"|"UploadFailureReason", "Values": ["string", ...] } ... ]
+    /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request. (structure) A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while different parameters are combined with an AND operation. Name -&gt; (string) [required] The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState Possible values: • UploadState • UploadFailureReason Values -&gt; (list) [required] The parameter value for a filter that determines which files are included or excluded from a cache report. Valid ``UploadFailureReason`` Values: InaccessibleStorageClass | InvalidObjectState | ObjectMissing | S3AccessDenied Valid ``UploadState`` Values: FailingUpload (string) Constraints: • min: 1 • max: 25 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "UploadState"|"UploadFailureReason", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--inclusion-filters", GroupValues = true)]
     public IEnumerable<string>? InclusionFilters { get; set; }
 
     /// <summary>
-    /// The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request. (structure) A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while dif- ferent parameters are combined with an AND operation. Name -&gt; (string) [required] The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState Possible values: o UploadState o UploadFailureReason Values -&gt; (list) [required] The parameter value for a filter that determines which files are included or excluded from a cache report. Valid ``UploadFailureReason`` Values: InaccessibleStorageClass | InvalidObjectState | Object- Missing | S3AccessDenied Valid ``UploadState`` Values: FailingUpload (string) Constraints: o min: 1 o max: 25 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "UploadState"|"UploadFailureReason", "Values": ["string", ...] } ... ]
+    /// The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request. (structure) A list of filter parameters and associated values that determine which files are included or excluded from a cache report created by a StartCacheReport request. Multiple instances of the same filter parameter are combined with an OR operation, while different parameters are combined with an AND operation. Name -&gt; (string) [required] The parameter name for a filter that determines which files are included or excluded from a cache report. Valid Names: UploadFailureReason | UploadState Possible values: • UploadState • UploadFailureReason Values -&gt; (list) [required] The parameter value for a filter that determines which files are included or excluded from a cache report. Valid ``UploadFailureReason`` Values: InaccessibleStorageClass | InvalidObjectState | ObjectMissing | S3AccessDenied Valid ``UploadState`` Values: FailingUpload (string) Constraints: • min: 1 • max: 25 Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "UploadState"|"UploadFailureReason", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--exclusion-filters", GroupValues = true)]
     public IEnumerable<string>? ExclusionFilters { get; set; }
 
     /// <summary>
-    /// A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results. (structure) A key-value pair that helps you manage, filter, and search for your resource. Allowed characters: letters, white space, and numbers, representable in UTF-8, and the following characters: + - = . _ : /. Key -&gt; (string) [required] Tag key. The key can't start with aws:. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] Value of the tag key. Constraints: • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -148,6 +149,15 @@ public record AwsStoragegatewayStartCacheReportOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

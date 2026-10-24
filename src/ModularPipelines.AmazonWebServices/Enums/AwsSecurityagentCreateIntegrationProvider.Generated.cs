@@ -29,5 +29,8 @@ public enum AwsSecurityagentCreateIntegrationProvider
     Github,
 
     [EnumValue("GITLAB")]
-    Gitlab
+    Gitlab,
+
+    [EnumValue("JIRA")]
+    Jira
 }

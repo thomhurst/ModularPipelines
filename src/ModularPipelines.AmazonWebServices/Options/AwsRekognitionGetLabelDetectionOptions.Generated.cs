@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection . The label detection operation is started by a call to StartLabelDetec- tion which returns a job identifier (JobId ). When the label detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartlabelDetection . To get the results of the label detection operation, first check that the status...
+/// Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection . The label detection operation is started by a call to StartLabelDetection which returns a job identifier (JobId ). When the label detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartlabelDetection . To get the results of the label detection operation, first check that the status v...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsRekognitionGetLabelDetectionOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection . The label detection operation is started by a call to StartLabelDetec- tion which returns a job identifier (JobId ). When the label detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartlabelDetection . To get the results of the label detection operation, first check that the status...
+    /// Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection . The label detection operation is started by a call to StartLabelDetection which returns a job identifier (JobId ). When the label detection operation finishes, Amazon Rekognition publishes a completion status to the Amazon Simple Notification Service topic registered in the initial call to StartlabelDetection . To get the results of the label detection operation, first check that the status v...
     /// </summary>
-    /// <param name="JobId">Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$</param>
+    /// <param name="JobId">Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$</param>
     public AwsRekognitionGetLabelDetectionOptions(
         string JobId
     )
@@ -58,32 +59,32 @@ public record AwsRekognitionGetLabelDetectionOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000. Constraints: o min: 1
+    /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the previous response was incomplete (because there are more la- bels to retrieve), Amazon Rekognition Video returns a pagination to- ken in the response. You can use this pagination token to retrieve the next set of labels. Constraints: o max: 255
+    /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels. Constraints: • max: 255
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alpha- betically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The de- fault sort is by TIMESTAMP . Possible values: o NAME o TIMESTAMP
+    /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP . Possible values: • NAME • TIMESTAMP
     /// </summary>
     [CliOption("--sort-by")]
     public AwsRekognitionGetLabelDetectionSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Defines how to aggregate the returned results. Results can be aggre- gated by timestamps or segments. Possible values: o TIMESTAMPS o SEGMENTS
+    /// Defines how to aggregate the returned results. Results can be aggregated by timestamps or segments. Possible values: • TIMESTAMPS • SEGMENTS
     /// </summary>
     [CliOption("--aggregate-by")]
     public AwsRekognitionGetLabelDetectionAggregateBy? AggregateBy { get; set; }
@@ -109,6 +110,15 @@ public record AwsRekognitionGetLabelDetectionOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

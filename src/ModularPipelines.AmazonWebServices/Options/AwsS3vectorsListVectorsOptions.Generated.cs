@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// List vectors in the specified vector index. To specify the vector in- dex, you can either use both the vector bucket name and the vector in- dex name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applica- tions can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors p...
+/// List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors permiss...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,37 +23,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsS3vectorsListVectorsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the vector bucket. Constraints: o min: 3 o max: 63
+    /// The name of the vector bucket. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--vector-bucket-name")]
     public string? VectorBucketName { get; set; }
 
     /// <summary>
-    /// The name of the vector index. Constraints: o min: 3 o max: 63
+    /// The name of the vector index. Constraints: • min: 3 • max: 63
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// The Amazon resource Name (ARN) of the vector index. Constraints: o pattern: arn:aws[-a-z0-9]*:s3vec- tors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/in- dex/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
+    /// The Amazon resource Name (ARN) of the vector index. Constraints: • pattern: arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]
     /// </summary>
     [CliOption("--index-arn")]
     public string? IndexArn { get; set; }
 
     /// <summary>
-    /// For a parallel ListVectors request, segmentCount represents the to- tal number of vector segments into which the ListVectors operation will be divided. The value of segmentCount corresponds to the number of application workers that will perform the parallel ListVectors operation. For example, if you want to use four application threads to list vectors in a vector index, specify a segmentCount value of 4. If you specify a segmentCount value of 1, the ListVectors operation will be sequential rather than parallel. If you specify segmentCount , you must also specify segmentIndex . Constraints: o min: 1 o max: 16
+    /// For a parallel ListVectors request, segmentCount represents the total number of vector segments into which the ListVectors operation will be divided. The value of segmentCount corresponds to the number of application workers that will perform the parallel ListVectors operation. For example, if you want to use four application threads to list vectors in a vector index, specify a segmentCount value of 4. If you specify a segmentCount value of 1, the ListVectors operation will be sequential rather than parallel. If you specify segmentCount , you must also specify segmentIndex . Constraints: • min: 1 • max: 16
     /// </summary>
     [CliOption("--segment-count")]
     public int? SegmentCount { get; set; }
 
     /// <summary>
-    /// For a parallel ListVectors request, segmentIndex is the index of the segment from which to list vectors in the current request. It iden- tifies an individual segment to be listed by an application worker. Segment IDs are zero-based, so the first segment is always 0. For example, if you want to use four application threads to list vectors in a vector index, then the first thread specifies a segmentIndex value of 0, the second thread specifies 1, and so on. The value of segmentIndex must be less than the value provided for segmentCount . If you provide segmentIndex , you must also provide segmentCount . Constraints: o min: 0 o max: 15
+    /// For a parallel ListVectors request, segmentIndex is the index of the segment from which to list vectors in the current request. It identifies an individual segment to be listed by an application worker. Segment IDs are zero-based, so the first segment is always 0. For example, if you want to use four application threads to list vectors in a vector index, then the first thread specifies a segmentIndex value of 0, the second thread specifies 1, and so on. The value of segmentIndex must be less than the value provided for segmentCount . If you provide segmentIndex , you must also provide segmentCount . Constraints: • min: 0 • max: 15
     /// </summary>
     [CliOption("--segment-index")]
     public int? SegmentIndex { get; set; }
 
     /// <summary>
-    /// If true, the vector data of each vector will be included in the re- sponse. The default value is false .
+    /// If true, the vector data of each vector will be included in the response. The default value is false .
     /// </summary>
     [CliFlag("--return-data", NegatedName = "--no-return-data")]
     public bool? ReturnData { get; set; }
@@ -67,9 +67,6 @@ public record AwsS3vectorsListVectorsOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -78,15 +75,27 @@ public record AwsS3vectorsListVectorsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

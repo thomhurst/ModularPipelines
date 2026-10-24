@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsConnectBatchGetFlowAssociationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Retrieve the flow associations for the given resources. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ResourceIds">A list of resource identifiers to retrieve flow associations. o Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER o Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ResourceIds">A list of resource identifiers to retrieve flow associations. • Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER • Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER Constraints: • min: 1 • max: 100 (string) Syntax: "string" "string" ...</param>
     public AwsConnectBatchGetFlowAssociationOptions(
         string InstanceId,
         IEnumerable<string> ResourceIds
@@ -72,19 +73,19 @@ public record AwsConnectBatchGetFlowAssociationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A list of resource identifiers to retrieve flow associations. o Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER o Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER Constraints: o min: 1 o max: 100 (string) Syntax: "string" "string" ...
+    /// A list of resource identifiers to retrieve flow associations. • Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER • Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER Constraints: • min: 1 • max: 100 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; private init; }
 
     /// <summary>
-    /// The type of resource association. Possible values: o WHATSAPP_MESSAGING_PHONE_NUMBER o VOICE_PHONE_NUMBER o INBOUND_EMAIL o OUTBOUND_EMAIL o ANALYTICS_CONNECTOR
+    /// The type of resource association. Possible values: • WHATSAPP_MESSAGING_PHONE_NUMBER • VOICE_PHONE_NUMBER • INBOUND_EMAIL • OUTBOUND_EMAIL • ANALYTICS_CONNECTOR
     /// </summary>
     [CliOption("--resource-type")]
     public AwsConnectBatchGetFlowAssociationResourceType? ResourceType { get; set; }
@@ -110,6 +111,15 @@ public record AwsConnectBatchGetFlowAssociationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

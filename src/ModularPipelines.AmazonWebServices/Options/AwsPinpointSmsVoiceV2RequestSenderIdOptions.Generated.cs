@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions, IValidat
     /// <summary>
     /// Request a new sender ID that doesn't require registration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SenderId">The sender ID string to request. The sender ID can be 1-11 alphanu- meric characters including letters (A-Z, a-z), numbers (0-9), or hy- phens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}</param>
+    /// <param name="SenderId">The sender ID string to request. The sender ID can be 1-11 alphanumeric characters including letters (A-Z, a-z), numbers (0-9), or hyphens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen. Constraints: • min: 1 • max: 11 • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="IsoCountryCode">The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}</param>
     public AwsPinpointSmsVoiceV2RequestSenderIdOptions(
         string SenderId,
         string IsoCountryCode
@@ -61,19 +62,19 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sender ID string to request. The sender ID can be 1-11 alphanu- meric characters including letters (A-Z, a-z), numbers (0-9), or hy- phens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen. Constraints: o min: 1 o max: 11 o pattern: [A-Za-z0-9_-]+
+    /// The sender ID string to request. The sender ID can be 1-11 alphanumeric characters including letters (A-Z, a-z), numbers (0-9), or hyphens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen. Constraints: • min: 1 • max: 11 • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--sender-id")]
     public string? SenderId { get; private init; }
 
     /// <summary>
-    /// The two-character code, in ISO 3166-1 alpha-2 format, for the coun- try or region. Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2}
+    /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2}
     /// </summary>
     [CliOption("--iso-country-code")]
     public string? IsoCountryCode { get; private init; }
 
     /// <summary>
-    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Constraints: o min: 0 o max: 2 (string) Possible values: o TRANSACTIONAL o PROMOTIONAL Syntax: "string" "string" ...
+    /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. Constraints: • min: 0 • max: 2 (string) Possible values: • TRANSACTIONAL • PROMOTIONAL Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--message-types", GroupValues = true)]
     public IEnumerable<string>? MessageTypes { get; set; }
@@ -85,13 +86,13 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions, IValidat
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// An array of tags (key and value pairs) to associate with the sender ID. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of tags (key and value pairs) to associate with the sender ID. Constraints: • min: 0 • max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -118,6 +119,15 @@ public record AwsPinpointSmsVoiceV2RequestSenderIdOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

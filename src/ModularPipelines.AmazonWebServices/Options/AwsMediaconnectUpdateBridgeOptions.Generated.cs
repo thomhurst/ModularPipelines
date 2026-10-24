@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediaconnectUpdateBridgeOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates the bridge. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">TheAmazon Resource Name (ARN) of the bridge that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="BridgeArn">TheAmazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
     public AwsMediaconnectUpdateBridgeOptions(
         string BridgeArn
     )
@@ -56,13 +57,13 @@ public record AwsMediaconnectUpdateBridgeOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// TheAmazon Resource Name (ARN) of the bridge that you want to update. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// TheAmazon Resource Name (ARN) of the bridge that you want to update. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }
 
     /// <summary>
-    /// A cloud-to-ground bridge. The content comes from an existing Media- Connect flow and is delivered to your premises. MaxBitrate -&gt; (integer) The maximum expected bitrate (in bps). Shorthand Syntax: MaxBitrate=integer JSON Syntax: { "MaxBitrate": integer }
+    /// A cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises. MaxBitrate -&gt; (integer) The maximum expected bitrate (in bps). Shorthand Syntax: MaxBitrate=integer JSON Syntax: { "MaxBitrate": integer }
     /// </summary>
     [CliOption("--egress-gateway-bridge")]
     public string? EgressGatewayBridge { get; set; }
@@ -74,7 +75,7 @@ public record AwsMediaconnectUpdateBridgeOptions : AwsOptions, IValidatableObjec
     public string? IngressGatewayBridge { get; set; }
 
     /// <summary>
-    /// The settings for source failover. FailoverMode -&gt; (string) The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful re- covery from any single-source loss. FAILOVER allows switching between different streams. Possible values: o MERGE o FAILOVER RecoveryWindow -&gt; (integer) Recovery window time to look for dash-7 packets. SourcePriority -&gt; (structure) The priority you want to assign to a source. You can have a pri- mary stream and a backup stream or two equally prioritized streams. PrimarySource -&gt; (string) The name of the source you choose as the primary source for this flow. State -&gt; (string) The state of source failover on the flow. If the state is inac- tive, the flow can have only one source. If the state is active, the flow can have one or two sources. Possible values: o ENABLED o DISABLED Shorthand Syntax: FailoverMode=string,RecoveryWindow=integer,SourcePriority={PrimarySource=string},State=string JSON Syntax: { "FailoverMode": "MERGE"|"FAILOVER", "RecoveryWindow": integer, "SourcePriority": { "PrimarySource": "string" }, "State": "ENABLED"|"DISABLED" }
+    /// The settings for source failover. FailoverMode -&gt; (string) The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams. Possible values: • MERGE • FAILOVER RecoveryWindow -&gt; (integer) Recovery window time to look for dash-7 packets. SourcePriority -&gt; (structure) The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams. PrimarySource -&gt; (string) The name of the source you choose as the primary source for this flow. State -&gt; (string) The state of source failover on the flow. If the state is inactive, the flow can have only one source. If the state is active, the flow can have one or two sources. Possible values: • ENABLED • DISABLED Shorthand Syntax: FailoverMode=string,RecoveryWindow=integer,SourcePriority={PrimarySource=string},State=string JSON Syntax: { "FailoverMode": "MERGE"|"FAILOVER", "RecoveryWindow": integer, "SourcePriority": { "PrimarySource": "string" }, "State": "ENABLED"|"DISABLED" }
     /// </summary>
     [CliOption("--source-failover-config")]
     public string? SourceFailoverConfig { get; set; }
@@ -100,6 +101,15 @@ public record AwsMediaconnectUpdateBridgeOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

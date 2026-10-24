@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an integration with a third-party provider. Returns the inte- gration identifier and its initial status; when the provider requires interactive consent, an authorization URL is returned for the user to complete setup. See also: AWS API Documentation
+/// Creates an integration with a third-party provider. Returns the integration identifier and its initial status; when the provider requires interactive consent, an authorization URL is returned for the user to complete setup. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,10 +28,10 @@ public record AwsCloudwatchomniCreateIntegrationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an integration with a third-party provider. Returns the inte- gration identifier and its initial status; when the provider requires interactive consent, an authorization URL is returned for the user to complete setup. See also: AWS API Documentation
+    /// Creates an integration with a third-party provider. Returns the integration identifier and its initial status; when the provider requires interactive consent, an authorization URL is returned for the user to complete setup. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationType">The type of third-party provider to integrate with. Possible values: o AWS_CONFIG_SLREC o SLACK o EXTERNAL_AGENT o AWS_INTEGRATION</param>
-    /// <param name="Name">The name for the new integration; unique within the account. Constraints: o min: 1 o max: 256</param>
+    /// <param name="IntegrationType">The type of third-party provider to integrate with. Possible values: • AWS_CONFIG_SLREC • SLACK • EXTERNAL_AGENT • AWS_INTEGRATION</param>
+    /// <param name="Name">The name for the new integration; unique within the account. Constraints: • min: 1 • max: 256</param>
     public AwsCloudwatchomniCreateIntegrationOptions(
         AwsCloudwatchomniCreateIntegrationIntegrationType IntegrationType,
         string Name
@@ -62,44 +62,44 @@ public record AwsCloudwatchomniCreateIntegrationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of third-party provider to integrate with. Possible values: o AWS_CONFIG_SLREC o SLACK o EXTERNAL_AGENT o AWS_INTEGRATION
+    /// The type of third-party provider to integrate with. Possible values: • AWS_CONFIG_SLREC • SLACK • EXTERNAL_AGENT • AWS_INTEGRATION
     /// </summary>
     [CliOption("--integration-type")]
     public AwsCloudwatchomniCreateIntegrationIntegrationType? IntegrationType { get; private init; }
 
     /// <summary>
-    /// The name for the new integration; unique within the account. Constraints: o min: 1 o max: 256
+    /// The name for the new integration; unique within the account. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The credential used to authenticate with the third-party provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauthCodeCredential, oauthClientCreden- tial, apiKeyCredential. oauthCodeCredential -&gt; (structure) Credentials for an OAuth 2.0 authorization-code grant. authCode -&gt; (string) [required] The OAuth 2.0 authorization code returned by the external system's authorization endpoint. Constraints: o min: 1 o max: 4096 oauthClientCredential -&gt; (structure) Credentials for an OAuth 2.0 client-credentials grant. clientId -&gt; (string) [required] The OAuth 2.0 client identifier registered with the external system. clientSecret -&gt; (string) [required] The OAuth 2.0 client secret that pairs with the client iden- tifier. providerId -&gt; (string) The identifier of the OAuth provider that issued the client credentials. apiKeyCredential -&gt; (structure) An API key credential. apiKeyValue -&gt; (string) [required] The API key value used to authenticate with the external sys- tem. Constraints: o min: 1 Shorthand Syntax: oauthCodeCredential={authCode=string},oauthClientCredential={clientId=string,clientSecret=string,providerId=string},apiKeyCredential={apiKeyValue=string} JSON Syntax: { "oauthCodeCredential": { "authCode": "string" }, "oauthClientCredential": { "clientId": "string", "clientSecret": "string", "providerId": "string" }, "apiKeyCredential": { "apiKeyValue": "string" } }
+    /// The credential used to authenticate with the third-party provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauthCodeCredential, oauthClientCredential, apiKeyCredential. oauthCodeCredential -&gt; (structure) Credentials for an OAuth 2.0 authorization-code grant. authCode -&gt; (string) [required] The OAuth 2.0 authorization code returned by the external system's authorization endpoint. Constraints: • min: 1 • max: 4096 oauthClientCredential -&gt; (structure) Credentials for an OAuth 2.0 client-credentials grant. clientId -&gt; (string) [required] The OAuth 2.0 client identifier registered with the external system. clientSecret -&gt; (string) [required] The OAuth 2.0 client secret that pairs with the client identifier. providerId -&gt; (string) The identifier of the OAuth provider that issued the client credentials. apiKeyCredential -&gt; (structure) An API key credential. apiKeyValue -&gt; (string) [required] The API key value used to authenticate with the external system. Constraints: • min: 1 Shorthand Syntax: oauthCodeCredential={authCode=string},oauthClientCredential={clientId=string,clientSecret=string,providerId=string},apiKeyCredential={apiKeyValue=string} JSON Syntax: { "oauthCodeCredential": { "authCode": "string" }, "oauthClientCredential": { "clientId": "string", "clientSecret": "string", "providerId": "string" }, "apiKeyCredential": { "apiKeyValue": "string" } }
     /// </summary>
     [SecretValue]
     [CliOption("--credential")]
     public string? Credential { get; set; }
 
     /// <summary>
-    /// Provider-specific attributes to associate with the integration. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Provider-specific attributes to associate with the integration. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--integration-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IntegrationAttributes { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name of the IAM role assumed to access the inte- gration.
+    /// The Amazon Resource Name of the IAM role assumed to access the integration.
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Tags to apply to the integration at creation time (Tagris tag-on-create). Constraints: o min: 0 o max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Con- straining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: o min: 1 o max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to apply to the integration at creation time (Tagris tag-on-create). Constraints: • min: 0 • max: 50 key -&gt; (string) Tag key. Must be non-empty; AWS-standard maximum length. Constraining the key (rather than a bare String) rejects empty-key payloads at the edge with a 400 ValidationException instead of faulting downstream as a 500. Constraints: • min: 1 • max: 128 value -&gt; (string) Tag value. AWS-standard maximum length; may be empty. Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Idempotency token for safe retries. Retrying with the same token re- turns the original integration instead of creating a duplicate. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Idempotency token for safe retries. Retrying with the same token returns the original integration instead of creating a duplicate. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -126,6 +126,15 @@ public record AwsCloudwatchomniCreateIntegrationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

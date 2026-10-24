@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotfleetwiseImportSignalCatalogOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a signal catalog using your existing VSS formatted content from your local device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the signal catalog to import. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="Name">The name of the signal catalog to import. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
     public AwsIotfleetwiseImportSignalCatalogOptions(
         string Name
     )
@@ -56,25 +57,25 @@ public record AwsIotfleetwiseImportSignalCatalogOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the signal catalog to import. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the signal catalog to import. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A brief description of the signal catalog. Constraints: o min: 1 o max: 2048 o pattern: [^\u0000-\u001F\u007F]+
+    /// A brief description of the signal catalog. Constraints: • min: 1 • max: 2048 • pattern: [^\u0000-\u001F\u007F]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The contents of the Vehicle Signal Specification (VSS) configura- tion. VSS is a precise language used to describe and model signals in vehicle networks. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: vssJson. vssJson -&gt; (string) Provides the VSS in JSON format. Shorthand Syntax: vssJson=string JSON Syntax: { "vssJson": "string" }
+    /// The contents of the Vehicle Signal Specification (VSS) configuration. VSS is a precise language used to describe and model signals in vehicle networks. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: vssJson. vssJson -&gt; (string) Provides the VSS in JSON format. Shorthand Syntax: vssJson=string JSON Syntax: { "vssJson": "string" }
     /// </summary>
     [CliOption("--vss")]
     public string? Vss { get; set; }
 
     /// <summary>
-    /// Metadata that can be used to manage the signal catalog. Constraints: o min: 0 o max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Metadata that can be used to manage the signal catalog. Constraints: • min: 0 • max: 50 (structure) A set of key/value pairs that are used to manage the resource. Key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -100,6 +101,15 @@ public record AwsIotfleetwiseImportSignalCatalogOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

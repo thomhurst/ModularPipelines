@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsWorkdocsDeleteCommentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the specified comment from the document version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DocumentId">The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="VersionId">The ID of the document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
-    /// <param name="CommentId">The ID of the comment. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+</param>
+    /// <param name="DocumentId">The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="VersionId">The ID of the document version. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
+    /// <param name="CommentId">The ID of the comment. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+</param>
     public AwsWorkdocsDeleteCommentOptions(
         string DocumentId,
         string VersionId,
@@ -65,25 +66,25 @@ public record AwsWorkdocsDeleteCommentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the document. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--document-id")]
     public string? DocumentId { get; private init; }
 
     /// <summary>
-    /// The ID of the document version. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the document version. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
 
     /// <summary>
-    /// The ID of the comment. Constraints: o min: 1 o max: 128 o pattern: [\w+-.@]+
+    /// The ID of the comment. Constraints: • min: 1 • max: 128 • pattern: [\w+-.@]+
     /// </summary>
     [CliOption("--comment-id")]
     public string? CommentId { get; private init; }
 
     /// <summary>
-    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: o min: 1 o max: 8199
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API. Constraints: • min: 1 • max: 8199
     /// </summary>
     [SecretValue]
     [CliOption("--authentication-token")]
@@ -110,6 +111,15 @@ public record AwsWorkdocsDeleteCommentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

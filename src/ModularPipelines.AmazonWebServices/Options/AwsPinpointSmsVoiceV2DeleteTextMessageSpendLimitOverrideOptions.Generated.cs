@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the En- forcedLimit to equal the MaxLimit , which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
+/// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit , which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas in the End User Messaging SMS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,5 +26,14 @@ public record AwsPinpointSmsVoiceV2DeleteTextMessageSpendLimitOverrideOptions : 
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightUpdateSpaceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the metadata of an Amazon QuickSight space. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="SpaceId">The ID of the space that you want to update. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="SpaceId">The ID of the space that you want to update. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+</param>
     public AwsQuicksightUpdateSpaceOptions(
         string AwsAccountId,
         string SpaceId
@@ -60,25 +61,25 @@ public record AwsQuicksightUpdateSpaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the space. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the space. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the space that you want to update. Constraints: o min: 1 o max: 256 o pattern: [0-9a-zA-Z-_=.+]+
+    /// The ID of the space that you want to update. Constraints: • min: 1 • max: 256 • pattern: [0-9a-zA-Z-_=.+]+
     /// </summary>
     [CliOption("--space-id")]
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// A new display name for the space. Constraints: o min: 1 o max: 1000 o pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
+    /// A new display name for the space. Constraints: • min: 1 • max: 1000 • pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A new description for the space. Constraints: o min: 0 o max: 1000 o pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
+    /// A new description for the space. Constraints: • min: 0 • max: 1000 • pattern: [\P{C}\n\r\t\f\v\p{Cf}]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -104,6 +105,15 @@ public record AwsQuicksightUpdateSpaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

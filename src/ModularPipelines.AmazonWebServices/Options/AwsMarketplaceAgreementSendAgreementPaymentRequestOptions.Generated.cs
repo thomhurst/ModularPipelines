@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows sellers (proposers) to submit a payment request to buyers (ac- ceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_AP- PROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to sup- port payment requests. The chargeAmount must not exceed the remain- ing available balance under the VariablePaymentTerm maxTo- talChargeAmount . See als...
+/// Allows sellers (proposers) to submit a payment request to buyers (acceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_APPROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to support payment requests. The chargeAmount must not exceed the remaining available balance under the VariablePaymentTerm maxTotalChargeAmount . See also: AWS API...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsMarketplaceAgreementSendAgreementPaymentRequestOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows sellers (proposers) to submit a payment request to buyers (ac- ceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_AP- PROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to sup- port payment requests. The chargeAmount must not exceed the remain- ing available balance under the VariablePaymentTerm maxTo- talChargeAmount . See als...
+    /// Allows sellers (proposers) to submit a payment request to buyers (acceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm . The payment request is created in PENDING_APPROVAL status, at which point the buyer can accept or reject it. NOTE: The agreement must be active and have a VariablePaymentTerm to support payment requests. The chargeAmount must not exceed the remaining available balance under the VariablePaymentTerm maxTotalChargeAmount . See also: AWS API...
     /// </summary>
-    /// <param name="AgreementId">The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+</param>
-    /// <param name="TermId">The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9+=;,.@\-_]+</param>
-    /// <param name="Name">A descriptive name for the payment request (5-64 characters). Constraints: o min: 5 o max: 64 o pattern: .+</param>
-    /// <param name="ChargeAmount">The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. NOTE: A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm , or if the termId is invalid. Constraints: o pattern: [0-9]*(\.[0-9]{0,8})?</param>
+    /// <param name="AgreementId">The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+</param>
+    /// <param name="TermId">The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9+=;,.@\-_]+</param>
+    /// <param name="Name">A descriptive name for the payment request (5-64 characters). Constraints: • min: 5 • max: 64 • pattern: .+</param>
+    /// <param name="ChargeAmount">The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. NOTE: A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm , or if the termId is invalid. Constraints: • pattern: [0-9]*(\.[0-9]{0,8})?</param>
     public AwsMarketplaceAgreementSendAgreementPaymentRequestOptions(
         string AgreementId,
         string TermId,
@@ -69,38 +70,38 @@ public record AwsMarketplaceAgreementSendAgreementPaymentRequestOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+
+    /// The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+
     /// </summary>
     [CliOption("--agreement-id")]
     public string? AgreementId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9+=;,.@\-_]+
+    /// The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9+=;,.@\-_]+
     /// </summary>
     [CliOption("--term-id")]
     public string? TermId { get; private init; }
 
     /// <summary>
-    /// A descriptive name for the payment request (5-64 characters). Constraints: o min: 5 o max: 64 o pattern: .+
+    /// A descriptive name for the payment request (5-64 characters). Constraints: • min: 5 • max: 64 • pattern: .+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. NOTE: A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm , or if the termId is invalid. Constraints: o pattern: [0-9]*(\.[0-9]{0,8})?
+    /// The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term. NOTE: A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm , or if the termId is invalid. Constraints: • pattern: [0-9]*(\.[0-9]{0,8})?
     /// </summary>
     [CliOption("--charge-amount")]
     public string? ChargeAmount { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional detailed description of the payment request (1-2000 characters). Constraints: o min: 1 o max: 2000
+    /// An optional detailed description of the payment request (1-2000 characters). Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -126,6 +127,15 @@ public record AwsMarketplaceAgreementSendAgreementPaymentRequestOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

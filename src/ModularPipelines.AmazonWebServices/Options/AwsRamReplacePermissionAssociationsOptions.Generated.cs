@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates all resource shares that use a managed permission to a differ- ent managed permission. This operation always applies the default ver- sion of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a speci- fied version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default versi...
+/// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRamReplacePermissionAssociationsOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates all resource shares that use a managed permission to a differ- ent managed permission. This operation always applies the default ver- sion of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a speci- fied version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default versi...
+    /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of ...
     /// </summary>
     /// <param name="FromPermissionArn">Specifies the Amazon Resource Name (ARN) of the managed permission that you want to replace.</param>
-    /// <param name="ToPermissionArn">Specifies the ARN of the managed permission that you want to asso- ciate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion . The operation always associates the version that is currently the default for the specified managed permission.</param>
+    /// <param name="ToPermissionArn">Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion . The operation always associates the version that is currently the default for the specified managed permission.</param>
     public AwsRamReplacePermissionAssociationsOptions(
         string FromPermissionArn,
         string ToPermissionArn
@@ -67,19 +68,19 @@ public record AwsRamReplacePermissionAssociationsOptions : AwsOptions, IValidata
     public string? FromPermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies the ARN of the managed permission that you want to asso- ciate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion . The operation always associates the version that is currently the default for the specified managed permission.
+    /// Specifies the ARN of the managed permission that you want to associate with resource shares in place of the one specified by fromPerssionArn and fromPermissionVersion . The operation always associates the version that is currently the default for the specified managed permission.
     /// </summary>
     [CliOption("--to-permission-arn")]
     public string? ToPermissionArn { get; private init; }
 
     /// <summary>
-    /// Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed per- mission.
+    /// Specifies that you want to updated the permissions for only those resource shares that use the specified version of the managed permission.
     /// </summary>
     [CliOption("--from-permission-version")]
     public int? FromPermissionVersion { get; set; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -106,6 +107,15 @@ public record AwsRamReplacePermissionAssociationsOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

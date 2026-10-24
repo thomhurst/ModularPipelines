@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +31,7 @@ public record AwsAppsyncCreateTypeOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="ApiId">The API ID.</param>
     /// <param name="Definition">The type definition, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation .</param>
-    /// <param name="Format">The type format: SDL or JSON. Possible values: o SDL o JSON</param>
+    /// <param name="Format">The type format: SDL or JSON. Possible values: • SDL • JSON</param>
     public AwsAppsyncCreateTypeOptions(
         string ApiId,
         string Definition,
@@ -76,7 +77,7 @@ public record AwsAppsyncCreateTypeOptions : AwsOptions, IValidatableObject
     public string? Definition { get; private init; }
 
     /// <summary>
-    /// The type format: SDL or JSON. Possible values: o SDL o JSON
+    /// The type format: SDL or JSON. Possible values: • SDL • JSON
     /// </summary>
     [CliOption("--format")]
     public AwsAppsyncCreateTypeFormat? Format { get; private init; }
@@ -102,6 +103,15 @@ public record AwsAppsyncCreateTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

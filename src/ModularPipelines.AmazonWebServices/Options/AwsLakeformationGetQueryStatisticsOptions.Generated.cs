@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLakeformationGetQueryStatisticsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves statistics on the planning and execution of a query. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryId">The ID of the plan query operation. Constraints: o min: 36 o max: 36</param>
+    /// <param name="QueryId">The ID of the plan query operation. Constraints: • min: 36 • max: 36</param>
     public AwsLakeformationGetQueryStatisticsOptions(
         string QueryId
     )
@@ -56,7 +57,7 @@ public record AwsLakeformationGetQueryStatisticsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the plan query operation. Constraints: o min: 36 o max: 36
+    /// The ID of the plan query operation. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLakeformationGetQueryStatisticsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

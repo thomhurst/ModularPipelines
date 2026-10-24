@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsFsxUpdateFileCacheOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the configuration of an existing Amazon File Cache resource. You can update multiple properties in a single request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileCacheId">The ID of the cache that you are updating. Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$</param>
+    /// <param name="FileCacheId">The ID of the cache that you are updating. Constraints: • min: 11 • max: 21 • pattern: ^(fc-[0-9a-f]{8,})$</param>
     public AwsFsxUpdateFileCacheOptions(
         string FileCacheId
     )
@@ -57,20 +58,20 @@ public record AwsFsxUpdateFileCacheOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cache that you are updating. Constraints: o min: 11 o max: 21 o pattern: ^(fc-[0-9a-f]{8,})$
+    /// The ID of the cache that you are updating. Constraints: • min: 11 • max: 21 • pattern: ^(fc-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--file-cache-id")]
     public string? FileCacheId { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The configuration updates for an Amazon File Cache resource. WeeklyMaintenanceStartTime -&gt; (string) The preferred start time to perform weekly maintenance, format- ted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday. Constraints: o min: 7 o max: 7 o pattern: ^[1-7]:([01]\d|2[0-3]):?([0-5]\d)$ Shorthand Syntax: WeeklyMaintenanceStartTime=string JSON Syntax: { "WeeklyMaintenanceStartTime": "string" }
+    /// The configuration updates for an Amazon File Cache resource. WeeklyMaintenanceStartTime -&gt; (string) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday. For example, 1:05:00 specifies maintenance at 5 AM Monday. Constraints: • min: 7 • max: 7 • pattern: ^[1-7]:([01]\d|2[0-3]):?([0-5]\d)$ Shorthand Syntax: WeeklyMaintenanceStartTime=string JSON Syntax: { "WeeklyMaintenanceStartTime": "string" }
     /// </summary>
     [CliOption("--lustre-configuration")]
     public string? LustreConfiguration { get; set; }
@@ -96,6 +97,15 @@ public record AwsFsxUpdateFileCacheOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

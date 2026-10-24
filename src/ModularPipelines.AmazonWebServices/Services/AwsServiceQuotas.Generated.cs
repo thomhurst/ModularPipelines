@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws servicequotas commands.
+/// aws service-quotas commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsServiceQuotas : IAwsServiceQuotas
@@ -107,7 +107,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas uti- lization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+    /// Retrieves information about your Service Quotas Automatic Management configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Retrieves the quota utilization report for your Amazon Web Services ac- count. This operation returns paginated results showing your quota us- age across all Amazon Web Services services, sorted by utilization per- centage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and r...
+    /// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport operation. The report generation process is asynchronous and may take several seconds to complete. Poll this operation periodically to check the status and retriev...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases. See also: AWS API Documentation list-aws-default-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract da...
+    /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases. See also: AWS API Documentation list-aws-default-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, re- source level, or all levels. See also: AWS API Documentation list-requested-service-quota-change-history-by-quota is a paginated op- eration. Multiple API calls may be issued in order to retrieve the en- tire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginat...
+    /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, resource level, or all levels. See also: AWS API Documentation list-requested-service-quota-change-history-by-quota is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Retrieves the quota increase requests for the specified Amazon Web Ser- vices service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days. See also: AWS API Documentation list-requested-service-quota-change-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate a...
+    /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days. See also: AWS API Documentation list-requested-service-quota-change-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Lists the quota increase requests in the specified quota request tem- plate. See also: AWS API Documentation list-service-quota-increase-requests-in-template is a paginated opera- tion. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argu- ment on a paginated response, the --query argument must extract data from the results of the following query expr...
+    /// Lists the quota increase requests in the specified quota request template. See also: AWS API Documentation list-service-quota-increase-requests-in-template is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not re- trieved. Filter responses to return applied quota values at either the account level, resource level, or all levels. See also: AWS API Documentation list-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can...
+    /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. Filter responses to return applied quota values at either the account level, resource level, or all levels. See also: AWS API Documentation list-service-quotas is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Lists the names and codes for the Amazon Web Services services inte- grated with Service Quotas. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Servic...
+    /// Lists the names and codes for the Amazon Web Services services integrated with Service Quotas. See also: AWS API Documentation list-services is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Services
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas config- urations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+    /// Starts Service Quotas Automatic Management for an Amazon Web Services account, including notification preferences and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns a unique re- port identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, de- pending on the number of quotas in your account. Use the GetQuotaUti- lizationReport operation to check the status and retrieve the results when the report is...
+    /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns a unique report identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, depending on the number of quotas in your account. Use the GetQuotaUtilizationReport operation to check the status and retrieve the results when the report is ready...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsServiceQuotas : IAwsServiceQuotas
     }
 
     /// <summary>
-    /// Updates your Service Quotas Automatic Management configuration, includ- ing notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
+    /// Updates your Service Quotas Automatic Management configuration, including notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the Network Manager service for an Amazon Web Services Organi- zation. This can only be called by a management account within the or- ganization. See also: AWS API Documentation
+/// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions : Aws
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the Network Manager service for an Amazon Web Services Organi- zation. This can only be called by a management account within the or- ganization. See also: AWS API Documentation
+    /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Action">The action to take for the update request. This can be either ENABLE or DISABLE . Constraints: o min: 0 o max: 50</param>
+    /// <param name="Action">The action to take for the update request. This can be either ENABLE or DISABLE . Constraints: • min: 0 • max: 50</param>
     public AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions(
         string Action
     )
@@ -56,7 +57,7 @@ public record AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions : Aws
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The action to take for the update request. This can be either ENABLE or DISABLE . Constraints: o min: 0 o max: 50
+    /// The action to take for the update request. This can be either ENABLE or DISABLE . Constraints: • min: 0 • max: 50
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkmanagerStartOrganizationServiceAccessUpdateOptions : Aws
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

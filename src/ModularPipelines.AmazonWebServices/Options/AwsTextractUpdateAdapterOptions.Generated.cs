@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsTextractUpdateAdapterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Update the configuration for an adapter. FeatureTypes configurations cannot be updated. At least one new parameter must be specified as an argument. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdapterId">A string containing a unique ID for the adapter that will be up- dated. Constraints: o min: 12 o max: 1011</param>
+    /// <param name="AdapterId">A string containing a unique ID for the adapter that will be updated. Constraints: • min: 12 • max: 1011</param>
     public AwsTextractUpdateAdapterOptions(
         string AdapterId
     )
@@ -57,25 +58,25 @@ public record AwsTextractUpdateAdapterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string containing a unique ID for the adapter that will be up- dated. Constraints: o min: 12 o max: 1011
+    /// A string containing a unique ID for the adapter that will be updated. Constraints: • min: 12 • max: 1011
     /// </summary>
     [CliOption("--adapter-id")]
     public string? AdapterId { get; private init; }
 
     /// <summary>
-    /// The new description to be applied to the adapter. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$
+    /// The new description to be applied to the adapter. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s!"\#\$%'&amp;\(\)\*\+\,\-\./:;=\?@\[\\\]\^_`\{\|\}~&gt;&lt;]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new name to be applied to the adapter. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The new name to be applied to the adapter. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--adapter-name")]
     public string? AdapterName { get; set; }
 
     /// <summary>
-    /// The new auto-update status to be applied to the adapter. Possible values: o ENABLED o DISABLED
+    /// The new auto-update status to be applied to the adapter. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--auto-update")]
     public AwsTextractUpdateAdapterAutoUpdate? AutoUpdate { get; set; }
@@ -101,6 +102,15 @@ public record AwsTextractUpdateAdapterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

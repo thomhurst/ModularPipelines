@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : 
     /// Decreases the number of node groups in a Global datastore See also: AWS API Documentation
     /// </summary>
     /// <param name="GlobalReplicationGroupId">The name of the Global datastore</param>
-    /// <param name="NodeGroupCount">The number of node groups (shards) that results from the modifica- tion of the shard configuration</param>
+    /// <param name="NodeGroupCount">The number of node groups (shards) that results from the modification of the shard configuration</param>
     /// <param name="ApplyImmediately">Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.</param>
     public AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions(
         string GlobalReplicationGroupId,
@@ -68,7 +69,7 @@ public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : 
     public string? GlobalReplicationGroupId { get; private init; }
 
     /// <summary>
-    /// The number of node groups (shards) that results from the modifica- tion of the shard configuration
+    /// The number of node groups (shards) that results from the modification of the shard configuration
     /// </summary>
     [CliOption("--node-group-count")]
     public int? NodeGroupCount { get; private init; }
@@ -80,13 +81,13 @@ public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : 
     public bool? ApplyImmediately { get; private init; }
 
     /// <summary>
-    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. GlobalNodeGroupsToRemove is a list of Node- GroupIds to remove from the cluster. ElastiCache will attempt to re- move all node groups listed by GlobalNodeGroupsToRemove from the cluster. (string) Syntax: "string" "string" ...
+    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--global-node-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? GlobalNodeGroupsToRemove { get; set; }
 
     /// <summary>
-    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroup- sToRetain is required. GlobalNodeGroupsToRetain is a list of Node- GroupIds to retain from the cluster. ElastiCache will attempt to re- tain all node groups listed by GlobalNodeGroupsToRetain from the cluster. (string) Syntax: "string" "string" ...
+    /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster. ElastiCache will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from the cluster. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--global-node-groups-to-retain", GroupValues = true)]
     public IEnumerable<string>? GlobalNodeGroupsToRetain { get; set; }
@@ -112,6 +113,15 @@ public record AwsElasticacheDecreaseNodeGroupsInGlobalReplicationGroupOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

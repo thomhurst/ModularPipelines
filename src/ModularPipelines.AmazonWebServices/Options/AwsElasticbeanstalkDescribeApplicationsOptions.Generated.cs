@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the descriptions of existing applications. This action only returns information about applications that the call- ing principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applica- tions. When the user calls the DescribeApplications action, the re- sponse will only include the two applications that the user has permis- sion to access instead of all three applications. If the user doesnt have access to any of the appl...
+/// Returns the descriptions of existing applications. This action only returns information about applications that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applications. When the user calls the DescribeApplications action, the response will only include the two applications that the user has permission to access instead of all three applications. If the user doesnt have access to any of the applications...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsElasticbeanstalkDescribeApplicationsOptions : AwsOptions
 {
     /// <summary>
-    /// If specified, Elastic Beanstalk restricts the returned descriptions to only include those with the specified names. (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// If specified, Elastic Beanstalk restricts the returned descriptions to only include those with the specified names. (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--application-names", GroupValues = true)]
     public IEnumerable<string>? ApplicationNames { get; set; }
@@ -32,5 +32,14 @@ public record AwsElasticbeanstalkDescribeApplicationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +29,9 @@ public record AwsWellarchitectedUpdateAnswerOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Update the answer to a specific question in a workload review. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128</param>
-    /// <param name="QuestionId">The ID of the question. Constraints: o min: 1 o max: 128</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="LensAlias">The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128</param>
+    /// <param name="QuestionId">The ID of the question. Constraints: • min: 1 • max: 128</param>
     public AwsWellarchitectedUpdateAnswerOptions(
         string WorkloadId,
         string LensAlias,
@@ -66,37 +66,37 @@ public record AwsWellarchitectedUpdateAnswerOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellar- chitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128
+    /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--lens-alias")]
     public string? LensAlias { get; private init; }
 
     /// <summary>
-    /// The ID of the question. Constraints: o min: 1 o max: 128
+    /// The ID of the question. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--question-id")]
     public string? QuestionId { get; private init; }
 
     /// <summary>
-    /// List of selected choice IDs in a question answer. The values entered replace the previously selected choices. (string) The ID of a choice. Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// List of selected choice IDs in a question answer. The values entered replace the previously selected choices. (string) The ID of a choice. Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--selected-choices", GroupValues = true)]
     public IEnumerable<string>? SelectedChoices { get; set; }
 
     /// <summary>
-    /// A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated. key -&gt; (string) The ID of a choice. Constraints: o min: 1 o max: 64 value -&gt; (structure) A list of choices to be updated. Status -&gt; (string) [required] The status of a choice. Possible values: o SELECTED o NOT_APPLICABLE o UNSELECTED Reason -&gt; (string) The reason why a choice is non-applicable to a question in your workload. Possible values: o OUT_OF_SCOPE o BUSINESS_PRIORITIES o ARCHITECTURE_CONSTRAINTS o OTHER o NONE Notes -&gt; (string) The notes associated with a choice. Constraints: o min: 0 o max: 250 Shorthand Syntax: KeyName1={Status=string,Reason=string,Notes=string},KeyName2={Status=string,Reason=string,Notes=string} JSON Syntax: {"string": { "Status": "SELECTED"|"NOT_APPLICABLE"|"UNSELECTED", "Reason": "OUT_OF_SCOPE"|"BUSINESS_PRIORITIES"|"ARCHITECTURE_CONSTRAINTS"|"OTHER"|"NONE", "Notes": "string" } ...}
+    /// A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated. key -&gt; (string) The ID of a choice. Constraints: • min: 1 • max: 64 value -&gt; (structure) A list of choices to be updated. Status -&gt; (string) [required] The status of a choice. Possible values: • SELECTED • NOT_APPLICABLE • UNSELECTED Reason -&gt; (string) The reason why a choice is non-applicable to a question in your workload. Possible values: • OUT_OF_SCOPE • BUSINESS_PRIORITIES • ARCHITECTURE_CONSTRAINTS • OTHER • NONE Notes -&gt; (string) The notes associated with a choice. Constraints: • min: 0 • max: 250 Shorthand Syntax: KeyName1={Status=string,Reason=string,Notes=string},KeyName2={Status=string,Reason=string,Notes=string} JSON Syntax: {"string": { "Status": "SELECTED"|"NOT_APPLICABLE"|"UNSELECTED", "Reason": "OUT_OF_SCOPE"|"BUSINESS_PRIORITIES"|"ARCHITECTURE_CONSTRAINTS"|"OTHER"|"NONE", "Notes": "string" } ...}
     /// </summary>
     [CliOption("--choice-updates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ChoiceUpdates { get; set; }
 
     /// <summary>
-    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
@@ -108,7 +108,7 @@ public record AwsWellarchitectedUpdateAnswerOptions : AwsOptions, IValidatableOb
     public bool? IsApplicable { get; set; }
 
     /// <summary>
-    /// The reason why a question is not applicable to your workload. Possible values: o OUT_OF_SCOPE o BUSINESS_PRIORITIES o ARCHITECTURE_CONSTRAINTS o OTHER o NONE
+    /// The reason why a question is not applicable to your workload. Possible values: • OUT_OF_SCOPE • BUSINESS_PRIORITIES • ARCHITECTURE_CONSTRAINTS • OTHER • NONE
     /// </summary>
     [CliOption("--reason")]
     public AwsWellarchitectedUpdateAnswerReason? Reason { get; set; }
@@ -134,6 +134,15 @@ public record AwsWellarchitectedUpdateAnswerOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

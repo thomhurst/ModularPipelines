@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudtrailGetTrailStatusOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single Region. To return trail status from all Regions, you must call the operation on each Region. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a repli- cation of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN: arn:aws:cloud- trail:us-east-2:123456789012:trail/MyTrail NOTE: If the trail is an organization trail and you are a member ac- count in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.</param>
+    /// <param name="Name">Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail NOTE: If the trail is an organization trail and you are a member account in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.</param>
     public AwsCloudtrailGetTrailStatusOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsCloudtrailGetTrailStatusOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a repli- cation of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN: arn:aws:cloud- trail:us-east-2:123456789012:trail/MyTrail NOTE: If the trail is an organization trail and you are a member ac- count in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.
+    /// Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another Region), you must specify its ARN. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail NOTE: If the trail is an organization trail and you are a member account in the organization in Organizations, you must provide the full ARN of that trail, and not just the name.
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudtrailGetTrailStatusOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes your Amazon Lightsail content delivery network (CDN) distribu- tion. See also: AWS API Documentation
+/// Deletes your Amazon Lightsail content delivery network (CDN) distribution. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLightsailDeleteDistributionOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the distribution to delete. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the distribution to delete. Use the GetDistributions action to get a list of distribution names that you can specify. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--distribution-name")]
     public string? DistributionName { get; set; }
@@ -32,5 +32,14 @@ public record AwsLightsailDeleteDistributionOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

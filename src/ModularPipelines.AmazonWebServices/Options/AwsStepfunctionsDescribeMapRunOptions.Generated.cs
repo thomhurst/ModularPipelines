@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides information about a Map Run's configuration, progress, and re- sults. If you've redriven a Map Run, this API action also returns in- formation about the redrives of that Map Run. For more information, see Examining Map Run in the Step Functions Developer Guide . See also: AWS API Documentation
+/// Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the Step Functions Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsStepfunctionsDescribeMapRunOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides information about a Map Run's configuration, progress, and re- sults. If you've redriven a Map Run, this API action also returns in- formation about the redrives of that Map Run. For more information, see Examining Map Run in the Step Functions Developer Guide . See also: AWS API Documentation
+    /// Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the Step Functions Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MapRunArn">The Amazon Resource Name (ARN) that identifies a Map Run. Constraints: o min: 1 o max: 2000</param>
+    /// <param name="MapRunArn">The Amazon Resource Name (ARN) that identifies a Map Run. Constraints: • min: 1 • max: 2000</param>
     public AwsStepfunctionsDescribeMapRunOptions(
         string MapRunArn
     )
@@ -56,7 +57,7 @@ public record AwsStepfunctionsDescribeMapRunOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that identifies a Map Run. Constraints: o min: 1 o max: 2000
+    /// The Amazon Resource Name (ARN) that identifies a Map Run. Constraints: • min: 1 • max: 2000
     /// </summary>
     [CliOption("--map-run-arn")]
     public string? MapRunArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsStepfunctionsDescribeMapRunOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

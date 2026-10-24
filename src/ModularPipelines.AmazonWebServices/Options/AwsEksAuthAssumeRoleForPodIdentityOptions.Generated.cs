@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to con- nect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically. See also: AWS API Documentation
+/// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsEksAuthAssumeRoleForPodIdentityOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to con- nect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically. See also: AWS API Documentation
+    /// The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web Services services; if credentials from an EKS Pod Identity association are available in the pod, the latest versions of the SDKs use them automatically. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The name of the cluster for the request. Constraints: o min: 1 o max: 100 o pattern: [0-9A-Za-z][A-Za-z0-9\-_]*</param>
-    /// <param name="Token">The token of the Kubernetes service account for the pod. Constraints: o min: 1 o pattern: [A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+</param>
+    /// <param name="ClusterName">The name of the cluster for the request. Constraints: • min: 1 • max: 100 • pattern: [0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="Token">The token of the Kubernetes service account for the pod. Constraints: • min: 1 • pattern: [A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+</param>
     public AwsEksAuthAssumeRoleForPodIdentityOptions(
         string ClusterName,
         string Token
@@ -61,32 +62,32 @@ public record AwsEksAuthAssumeRoleForPodIdentityOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster for the request. Constraints: o min: 1 o max: 100 o pattern: [0-9A-Za-z][A-Za-z0-9\-_]*
+    /// The name of the cluster for the request. Constraints: • min: 1 • max: 100 • pattern: [0-9A-Za-z][A-Za-z0-9\-_]*
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The token of the Kubernetes service account for the pod. Constraints: o min: 1 o pattern: [A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+
+    /// The token of the Kubernetes service account for the pod. Constraints: • min: 1 • pattern: [A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; private init; }
 
     /// <summary>
-    /// The Kubernetes node name of the worker node where the pod is run- ning.
+    /// The Kubernetes node name of the worker node where the pod is running.
     /// </summary>
     [CliOption("--eks-node-name")]
     public string? EksNodeName { get; set; }
 
     /// <summary>
-    /// The Amazon EC2 instance ID of the worker node where the pod is run- ning.
+    /// The Amazon EC2 instance ID of the worker node where the pod is running.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; set; }
 
     /// <summary>
-    /// The Availability Zone ID of the worker node where the pod is run- ning.
+    /// The Availability Zone ID of the worker node where the pod is running.
     /// </summary>
     [CliOption("--zone")]
     public string? Zone { get; set; }
@@ -112,6 +113,15 @@ public record AwsEksAuthAssumeRoleForPodIdentityOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

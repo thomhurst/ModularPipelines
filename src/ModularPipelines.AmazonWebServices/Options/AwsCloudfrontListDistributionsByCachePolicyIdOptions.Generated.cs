@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequ...
+/// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsCloudfrontListDistributionsByCachePolicyIdOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a list of distribution IDs for distributions that have a cache be- havior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the max- imum that you specify, or the default maximum, the response is pagi- nated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequ...
+    /// Gets a list of distribution IDs for distributions that have a cache behavior that's associated with the specified cache policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent re...
     /// </summary>
     /// <param name="CachePolicyId">The ID of the cache policy whose associated distribution IDs you want to list.</param>
     public AwsCloudfrontListDistributionsByCachePolicyIdOptions(
@@ -68,7 +69,7 @@ public record AwsCloudfrontListDistributionsByCachePolicyIdOptions : AwsOptions,
     public string? Marker { get; set; }
 
     /// <summary>
-    /// The maximum number of distribution IDs that you want in the re- sponse.
+    /// The maximum number of distribution IDs that you want in the response.
     /// </summary>
     [CliOption("--max-items")]
     public string? MaxItems { get; set; }
@@ -94,6 +95,15 @@ public record AwsCloudfrontListDistributionsByCachePolicyIdOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

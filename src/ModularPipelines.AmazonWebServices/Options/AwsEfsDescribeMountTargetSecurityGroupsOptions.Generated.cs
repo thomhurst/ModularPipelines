@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted . This operation requires permissions for the following actions: o elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system. o ec2:DescribeNetworkInterfaceAttribute action on the mount target's network interface. See also: AWS API Documentation
+/// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted . This operation requires permissions for the following actions: • elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system. • ec2:DescribeNetworkInterfaceAttribute action on the mount target's network interface. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEfsDescribeMountTargetSecurityGroupsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted . This operation requires permissions for the following actions: o elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system. o ec2:DescribeNetworkInterfaceAttribute action on the mount target's network interface. See also: AWS API Documentation
+    /// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted . This operation requires permissions for the following actions: • elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system. • ec2:DescribeNetworkInterfaceAttribute action on the mount target's network interface. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MountTargetId">The ID of the mount target whose security groups you want to re- trieve. Constraints: o min: 13 o max: 45 o pattern: ^fsmt-[0-9a-f]{8,40}$</param>
+    /// <param name="MountTargetId">The ID of the mount target whose security groups you want to retrieve. Constraints: • min: 13 • max: 45 • pattern: ^fsmt-[0-9a-f]{8,40}$</param>
     public AwsEfsDescribeMountTargetSecurityGroupsOptions(
         string MountTargetId
     )
@@ -56,7 +57,7 @@ public record AwsEfsDescribeMountTargetSecurityGroupsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the mount target whose security groups you want to re- trieve. Constraints: o min: 13 o max: 45 o pattern: ^fsmt-[0-9a-f]{8,40}$
+    /// The ID of the mount target whose security groups you want to retrieve. Constraints: • min: 13 • max: 45 • pattern: ^fsmt-[0-9a-f]{8,40}$
     /// </summary>
     [CliOption("--mount-target-id")]
     public string? MountTargetId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEfsDescribeMountTargetSecurityGroupsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

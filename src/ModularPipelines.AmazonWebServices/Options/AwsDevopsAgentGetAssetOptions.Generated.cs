@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDevopsAgentGetAssetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets an asset from the specified agent space See also: AWS API Documentation get-asset uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048</param>
-    /// <param name="AssetId">The unique identifier of the asset to retrieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048</param>
+    /// <param name="AssetId">The unique identifier of the asset to retrieve Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsDevopsAgentGetAssetOptions(
         string AgentSpaceId,
         string AssetId
@@ -60,19 +61,19 @@ public record AwsDevopsAgentGetAssetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the asset Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the asset Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the asset to retrieve Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The unique identifier of the asset to retrieve Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
 
     /// <summary>
-    /// The specific version of the asset to retrieve. If omitted, the lat- est version is returned. Constraints: o min: 1
+    /// The specific version of the asset to retrieve. If omitted, the latest version is returned. Constraints: • min: 1
     /// </summary>
     [CliOption("--asset-version")]
     public int? AssetVersion { get; set; }
@@ -98,6 +99,15 @@ public record AwsDevopsAgentGetAssetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOamGetSinkPolicyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SinkIdentifier">The ARN of the sink to retrieve the policy of. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
+    /// <param name="SinkIdentifier">The ARN of the sink to retrieve the policy of. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$</param>
     public AwsOamGetSinkPolicyOptions(
         string SinkIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsOamGetSinkPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the sink to retrieve the policy of. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
+    /// The ARN of the sink to retrieve the policy of. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_:\.\-\/]{0,2047}$
     /// </summary>
     [CliOption("--sink-identifier")]
     public string? SinkIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOamGetSinkPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsLightsailGetCostEstimateOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves information about the cost estimate for a specified resource. A cost estimate will not generate for a resource that has been deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The resource name. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="StartTime">The cost estimate start time. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .</param>
-    /// <param name="EndTime">The cost estimate end time. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .</param>
+    /// <param name="ResourceName">The resource name. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="StartTime">The cost estimate start time. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .</param>
+    /// <param name="EndTime">The cost estimate end time. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .</param>
     public AwsLightsailGetCostEstimateOptions(
         string ResourceName,
         string StartTime,
@@ -64,19 +65,19 @@ public record AwsLightsailGetCostEstimateOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource name. Constraints: o pattern: \w[\w\-]*\w
+    /// The resource name. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The cost estimate start time. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
+    /// The cost estimate start time. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you want to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
     /// </summary>
     [CliOption("--start-time")]
     public string? StartTime { get; private init; }
 
     /// <summary>
-    /// The cost estimate end time. Constraints: o Specified in Coordinated Universal Time (UTC). o Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
+    /// The cost estimate end time. Constraints: • Specified in Coordinated Universal Time (UTC). • Specified in the Unix time format. For example, if you want to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time. You can convert a human-friendly time to Unix time format using a converter like Epoch converter .
     /// </summary>
     [CliOption("--end-time")]
     public string? EndTime { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLightsailGetCostEstimateOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

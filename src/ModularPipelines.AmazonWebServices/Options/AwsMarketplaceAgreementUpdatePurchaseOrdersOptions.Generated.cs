@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMarketplaceAgreementUpdatePurchaseOrdersOptions : AwsOptions, I
     /// <summary>
     /// Allows acceptors to associate purchase orders with agreement charges after an agreement is created. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PurchaseOrders">Contains information about purchase order associations. Constraints: o min: 1 o max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: o min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: o min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]</param>
+    /// <param name="PurchaseOrders">Contains information about purchase order associations. Constraints: • min: 1 • max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: • min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: • min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]</param>
     public AwsMarketplaceAgreementUpdatePurchaseOrdersOptions(
         IEnumerable<string> PurchaseOrders
     )
@@ -67,7 +68,7 @@ public record AwsMarketplaceAgreementUpdatePurchaseOrdersOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Contains information about purchase order associations. Constraints: o min: 1 o max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: o min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: o min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]
+    /// Contains information about purchase order associations. Constraints: • min: 1 • max: 86 (structure) Contains information about a purchase order association to a charge within an agreement. chargeId -&gt; (string) [required] The unique identifier of the charge to associate the purchase order with. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+ chargeRevision -&gt; (long) The revision of the charge. Constraints: • min: 1 agreementId -&gt; (string) The unique identifier of the agreement associated with this charge. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9_/-]+ purchaseOrderReference -&gt; (string) The purchase order reference to associate with the charge. Constraints: • min: 1 Shorthand Syntax: chargeId=string,chargeRevision=long,agreementId=string,purchaseOrderReference=string ... JSON Syntax: [ { "chargeId": "string", "chargeRevision": long, "agreementId": "string", "purchaseOrderReference": "string" } ... ]
     /// </summary>
     [CliOption("--purchase-orders", GroupValues = true)]
     public IEnumerable<string>? PurchaseOrders { get; private init; }
@@ -93,6 +94,15 @@ public record AwsMarketplaceAgreementUpdatePurchaseOrdersOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

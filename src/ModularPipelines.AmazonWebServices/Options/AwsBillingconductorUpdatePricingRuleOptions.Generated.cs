@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates an existing pricing rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing rule to update. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the pricing rule to update. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10}</param>
     public AwsBillingconductorUpdatePricingRuleOptions(
         string Arn
     )
@@ -57,37 +58,37 @@ public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the pricing rule to update. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10}
+    /// The Amazon Resource Name (ARN) of the pricing rule to update. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The new name of the pricing rule. The name must be unique to each pricing rule. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_\+=\.\-@]+
+    /// The new name of the pricing rule. The name must be unique to each pricing rule. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The new description for the pricing rule. Constraints: o min: 0 o max: 1024
+    /// The new description for the pricing rule. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new pricing rule type. Possible values: o MARKUP o DISCOUNT o TIERING
+    /// The new pricing rule type. Possible values: • MARKUP • DISCOUNT • TIERING
     /// </summary>
     [CliOption("--type")]
     public AwsBillingconductorUpdatePricingRuleType? Type { get; set; }
 
     /// <summary>
-    /// The new modifier to show pricing plan rates as a percentage. Your entry will be rounded to the nearest 2 decimal places. Constraints: o min: 0
+    /// The new modifier to show pricing plan rates as a percentage. Your entry will be rounded to the nearest 2 decimal places. Constraints: • min: 0
     /// </summary>
     [CliOption("--modifier-percentage")]
-    public int? ModifierPercentage { get; set; }
+    public double? ModifierPercentage { get; set; }
 
     /// <summary>
-    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate application of Amazon Web Services Free Tier. CustomTiers -&gt; (list) The set of custom tiers for the pricing rule. Constraints: o min: 1 o max: 10 (structure) A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range. BeginRangeInclusive -&gt; (double) [required] The inclusive start of the usage range that this tier ap- plies to. Constraints: o min: 0 EndRangeExclusive -&gt; (double) The exclusive end of the usage range that this tier ap- plies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to Begin- RangeInclusive . Constraints: o min: 0 RateValue -&gt; (double) [required] The rate that's applied to the usage that falls within this tier. Constraints: o min: 0 Shorthand Syntax: FreeTier={Activated=boolean},CustomTiers=[{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double},{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double}] JSON Syntax: { "FreeTier": { "Activated": true|false }, "CustomTiers": [ { "BeginRangeInclusive": double, "EndRangeExclusive": double, "RateValue": double } ... ] }
+    /// The set of tiering configurations for the pricing rule. FreeTier -&gt; (structure) The possible Amazon Web Services Free Tier configurations. Activated -&gt; (boolean) [required] Activate or deactivate application of Amazon Web Services Free Tier. CustomTiers -&gt; (list) The set of custom tiers for the pricing rule. Constraints: • min: 1 • max: 10 (structure) A custom tier for the pricing rule. Each custom tier applies a rate to the usage that falls within the tier's range. BeginRangeInclusive -&gt; (double) [required] The inclusive start of the usage range that this tier applies to. Constraints: • min: 0 EndRangeExclusive -&gt; (double) The exclusive end of the usage range that this tier applies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to BeginRangeInclusive . Constraints: • min: 0 RateValue -&gt; (double) [required] The rate that's applied to the usage that falls within this tier. Constraints: • min: 0 Shorthand Syntax: FreeTier={Activated=boolean},CustomTiers=[{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double},{BeginRangeInclusive=double,EndRangeExclusive=double,RateValue=double}] JSON Syntax: { "FreeTier": { "Activated": true|false }, "CustomTiers": [ { "BeginRangeInclusive": double, "EndRangeExclusive": double, "RateValue": double } ... ] }
     /// </summary>
     [CliOption("--tiering")]
     public string? Tiering { get; set; }
@@ -113,6 +114,15 @@ public record AwsBillingconductorUpdatePricingRuleOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

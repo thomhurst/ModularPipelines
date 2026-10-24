@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a configuration set. Configuration sets enable you to publish email sending events. For in- formation about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+/// Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSesCreateConfigurationSetOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a configuration set. Configuration sets enable you to publish email sending events. For in- formation about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
+    /// Creates a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide . You can execute this operation no more than once per second. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSet">A data structure that contains the name of the configuration set. Name -&gt; (string) [required] The name of the configuration set. The name must meet the fol- lowing requirements: o Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Contain 64 characters or fewer. Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }</param>
+    /// <param name="ConfigurationSet">A data structure that contains the name of the configuration set. Name -&gt; (string) [required] The name of the configuration set. The name must meet the following requirements: • Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). • Contain 64 characters or fewer. Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }</param>
     public AwsSesCreateConfigurationSetOptions(
         string ConfigurationSet
     )
@@ -56,7 +57,7 @@ public record AwsSesCreateConfigurationSetOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A data structure that contains the name of the configuration set. Name -&gt; (string) [required] The name of the configuration set. The name must meet the fol- lowing requirements: o Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). o Contain 64 characters or fewer. Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }
+    /// A data structure that contains the name of the configuration set. Name -&gt; (string) [required] The name of the configuration set. The name must meet the following requirements: • Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). • Contain 64 characters or fewer. Shorthand Syntax: Name=string JSON Syntax: { "Name": "string" }
     /// </summary>
     [CliOption("--configuration-set")]
     public string? ConfigurationSet { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesCreateConfigurationSetOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

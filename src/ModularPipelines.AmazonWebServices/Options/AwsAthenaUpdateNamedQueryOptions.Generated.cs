@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a NamedQuery object. The database or workgroup cannot be up- dated. See also: AWS API Documentation
+/// Updates a NamedQuery object. The database or workgroup cannot be updated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsAthenaUpdateNamedQueryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a NamedQuery object. The database or workgroup cannot be up- dated. See also: AWS API Documentation
+    /// Updates a NamedQuery object. The database or workgroup cannot be updated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NamedQueryId">The unique identifier (UUID) of the query. Constraints: o min: 1 o max: 128 o pattern: \S+</param>
-    /// <param name="Name">The name of the query. Constraints: o min: 1 o max: 128</param>
-    /// <param name="QueryString">The contents of the query with all query statements. Constraints: o min: 1 o max: 262144</param>
+    /// <param name="NamedQueryId">The unique identifier (UUID) of the query. Constraints: • min: 1 • max: 128 • pattern: \S+</param>
+    /// <param name="Name">The name of the query. Constraints: • min: 1 • max: 128</param>
+    /// <param name="QueryString">The contents of the query with all query statements. Constraints: • min: 1 • max: 262144</param>
     public AwsAthenaUpdateNamedQueryOptions(
         string NamedQueryId,
         string Name,
@@ -64,25 +65,25 @@ public record AwsAthenaUpdateNamedQueryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (UUID) of the query. Constraints: o min: 1 o max: 128 o pattern: \S+
+    /// The unique identifier (UUID) of the query. Constraints: • min: 1 • max: 128 • pattern: \S+
     /// </summary>
     [CliOption("--named-query-id")]
     public string? NamedQueryId { get; private init; }
 
     /// <summary>
-    /// The name of the query. Constraints: o min: 1 o max: 128
+    /// The name of the query. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The contents of the query with all query statements. Constraints: o min: 1 o max: 262144
+    /// The contents of the query with all query statements. Constraints: • min: 1 • max: 262144
     /// </summary>
     [CliOption("--query-string")]
     public string? QueryString { get; private init; }
 
     /// <summary>
-    /// The query description. Constraints: o min: 0 o max: 1024
+    /// The query description. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -108,6 +109,15 @@ public record AwsAthenaUpdateNamedQueryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

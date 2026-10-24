@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws marketplacereporting commands.
+/// aws marketplace-reporting commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsMarketplaceReporting : IAwsMarketplaceReporting
@@ -32,7 +32,7 @@ public class AwsMarketplaceReporting : IAwsMarketplaceReporting
     #region Commands
 
     /// <summary>
-    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization man- agement accounts or delegated administrators registered for the pro- curement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: o It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. o It...
+    /// Generates an embedding URL for an Amazon QuickSight dashboard for an anonymous user. NOTE: This API is available only to Amazon Web Services Organization management accounts or delegated administrators registered for the procurement insights (procurement-insights.marketplace.amazonaws.com ) feature. The following rules apply to a generated URL: • It contains a temporary bearer token, valid for 5 minutes after it is generated. Once redeemed within that period, it cannot be re-used again. • It has...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

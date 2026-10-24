@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkspacesDescribeWorkspaceSnapshotsOptions : AwsOptions, IVali
     /// <summary>
     /// Describes the snapshots for the specified WorkSpace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesDescribeWorkspaceSnapshotsOptions(
         string WorkspaceId
     )
@@ -56,7 +57,7 @@ public record AwsWorkspacesDescribeWorkspaceSnapshotsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWorkspacesDescribeWorkspaceSnapshotsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

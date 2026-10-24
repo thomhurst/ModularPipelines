@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGlueStartBlueprintRunOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Starts a new run of the specified blueprint. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueprintName">The name of the blueprint. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="RoleArn">Specifies the IAM role used to create the workflow. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:iam::[0-9]*:role/.+</param>
+    /// <param name="BlueprintName">The name of the blueprint. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="RoleArn">Specifies the IAM role used to create the workflow. Constraints: • min: 1 • max: 1024 • pattern: arn:aws[^:]*:iam::[0-9]*:role/.+</param>
     public AwsGlueStartBlueprintRunOptions(
         string BlueprintName,
         string RoleArn
@@ -60,19 +61,19 @@ public record AwsGlueStartBlueprintRunOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the blueprint. Constraints: o min: 1 o max: 128 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the blueprint. Constraints: • min: 1 • max: 128 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--blueprint-name")]
     public string? BlueprintName { get; private init; }
 
     /// <summary>
-    /// Specifies the IAM role used to create the workflow. Constraints: o min: 1 o max: 1024 o pattern: arn:aws[^:]*:iam::[0-9]*:role/.+
+    /// Specifies the IAM role used to create the workflow. Constraints: • min: 1 • max: 1024 • pattern: arn:aws[^:]*:iam::[0-9]*:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// Specifies the parameters as a BlueprintParameters object. Constraints: o min: 1 o max: 131072
+    /// Specifies the parameters as a BlueprintParameters object. Constraints: • min: 1 • max: 131072
     /// </summary>
     [CliOption("--parameters")]
     public string? Parameters { get; set; }
@@ -98,6 +99,15 @@ public record AwsGlueStartBlueprintRunOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

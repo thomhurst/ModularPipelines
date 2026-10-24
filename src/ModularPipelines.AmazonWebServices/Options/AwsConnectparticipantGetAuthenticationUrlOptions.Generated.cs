@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: o This API can only be called within one minute of receiving the au- thenticationInitiated event. o The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantTo...
+/// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: • This API can only be called within one minute of receiving the authenticationInitiated event. • The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsConnectparticipantGetAuthenticationUrlOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: o This API can only be called within one minute of receiving the au- thenticationInitiated event. o The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantTo...
+    /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: • This API can only be called within one minute of receiving the authenticationInitiated event. • The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken ...
     /// </summary>
-    /// <param name="SessionId">The sessionId provided in the authenticationInitiated event. Constraints: o min: 36 o max: 36</param>
-    /// <param name="RedirectUri">The URL where the customer will be redirected after Amazon Cognito authorizes the user. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="SessionId">The sessionId provided in the authenticationInitiated event. Constraints: • min: 36 • max: 36</param>
+    /// <param name="RedirectUri">The URL where the customer will be redirected after Amazon Cognito authorizes the user. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantGetAuthenticationUrlOptions(
         string SessionId,
         string RedirectUri,
@@ -65,19 +66,19 @@ public record AwsConnectparticipantGetAuthenticationUrlOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The sessionId provided in the authenticationInitiated event. Constraints: o min: 36 o max: 36
+    /// The sessionId provided in the authenticationInitiated event. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The URL where the customer will be redirected after Amazon Cognito authorizes the user. Constraints: o min: 1 o max: 1024
+    /// The URL where the customer will be redirected after Amazon Cognito authorizes the user. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--redirect-uri")]
     public string? RedirectUri { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
@@ -104,6 +105,15 @@ public record AwsConnectparticipantGetAuthenticationUrlOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

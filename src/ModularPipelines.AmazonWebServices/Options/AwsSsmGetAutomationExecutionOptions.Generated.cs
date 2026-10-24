@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmGetAutomationExecutionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Get detailed information about a particular Automation execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AutomationExecutionId">The unique identifier for an existing automation execution to exam- ine. The execution ID is returned by StartAutomationExecution when the execution of an Automation runbook is initiated. Constraints: o min: 36 o max: 36</param>
+    /// <param name="AutomationExecutionId">The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation runbook is initiated. Constraints: • min: 36 • max: 36</param>
     public AwsSsmGetAutomationExecutionOptions(
         string AutomationExecutionId
     )
@@ -56,7 +57,7 @@ public record AwsSsmGetAutomationExecutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for an existing automation execution to exam- ine. The execution ID is returned by StartAutomationExecution when the execution of an Automation runbook is initiated. Constraints: o min: 36 o max: 36
+    /// The unique identifier for an existing automation execution to examine. The execution ID is returned by StartAutomationExecution when the execution of an Automation runbook is initiated. Constraints: • min: 36 • max: 36
     /// </summary>
     [CliOption("--automation-execution-id")]
     public string? AutomationExecutionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmGetAutomationExecutionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

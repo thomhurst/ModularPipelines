@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The op- eration compares the features of the input face with faces in the spec- ified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subse- quent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response...
+/// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The operation compares the features of the input face with faces in the specified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subsequent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response to ma...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsRekognitionSearchFacesByImageOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The op- eration compares the features of the input face with faces in the spec- ified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subse- quent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response...
+    /// For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The operation compares the features of the input face with faces in the specified collection. NOTE: To search for all faces in an input image, you might first call the IndexFaces operation, and then use the face IDs returned in subsequent calls to the SearchFaces operation. You can also call the DetectFaces operation and use the bounding boxes in the response to ma...
     /// </summary>
-    /// <param name="CollectionId">ID of the collection to search. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="CollectionId">ID of the collection to search. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionSearchFacesByImageOptions(
         string CollectionId
     )
@@ -57,31 +58,31 @@ public record AwsRekognitionSearchFacesByImageOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the collection to search. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// ID of the collection to search. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: o min: 1 o max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: o min: 3 o max: 255 o pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: o min: 1 o max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the ob- ject version. Constraints: o min: 1 o max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
+    /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide. To specify a local file use --image-bytes instead. Bytes -&gt; (blob) Blob of image bytes up to 5 MBs. Note that the maximum image size you can pass to DetectCustomLabels is 4MB. Constraints: • min: 1 • max: 5242880 S3Object -&gt; (structure) Identifies an S3 object as the image source. Bucket -&gt; (string) Name of the S3 bucket. Constraints: • min: 3 • max: 255 • pattern: [0-9A-Za-z\.\-_]* Name -&gt; (string) S3 object key name. Constraints: • min: 1 • max: 1024 Version -&gt; (string) If the bucket is versioning enabled, you can specify the object version. Constraints: • min: 1 • max: 1024 Shorthand Syntax: Bytes=blob,S3Object={Bucket=string,Name=string,Version=string} JSON Syntax: { "Bytes": blob, "S3Object": { "Bucket": "string", "Name": "string", "Version": "string" } }
     /// </summary>
     [CliOption("--image")]
     public string? Image { get; set; }
 
     /// <summary>
-    /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match. Constraints: o min: 1 o max: 4096
+    /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--max-faces")]
     public int? MaxFaces { get; set; }
 
     /// <summary>
-    /// (Optional) Specifies the minimum confidence in the face match to re- turn. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%. Constraints: o min: 0 o max: 100
+    /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--face-match-threshold")]
-    public int? FaceMatchThreshold { get; set; }
+    public double? FaceMatchThreshold { get; set; }
 
     /// <summary>
-    /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collec- tion. If you specify AUTO , Amazon Rekognition chooses the quality bar. If you specify LOW , MEDIUM , or HIGH , filtering removes all faces that dont meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE , no filtering is performed. The default value is NONE . To use quality filtering, the collection you are using must be asso- ciated with version 3 of the face model or higher. Possible values: o NONE o AUTO o LOW o MEDIUM o HIGH
+    /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. If you specify AUTO , Amazon Rekognition chooses the quality bar. If you specify LOW , MEDIUM , or HIGH , filtering removes all faces that dont meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE , no filtering is performed. The default value is NONE . To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher. Possible values: • NONE • AUTO • LOW • MEDIUM • HIGH
     /// </summary>
     [CliOption("--quality-filter")]
     public AwsRekognitionSearchFacesByImageQualityFilter? QualityFilter { get; set; }
@@ -113,6 +114,15 @@ public record AwsRekognitionSearchFacesByImageOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns usage information about the last successful cryptographic oper- ation performed with a specified KMS key, including the operation type, timestamp, and associated CloudTrail event ID. The TrackingStartDate in the GetKeyLastUsage response indicates the date from which KMS began recording cryptographic activity for a given key. Use this value together with KeyCreationDate to understand the key's usage history: o If the KeyLastUsage response element is present , the key has been used for a s...
+/// Returns usage information about the last successful cryptographic operation performed with a specified KMS key, including the operation type, timestamp, and associated CloudTrail event ID. The TrackingStartDate in the GetKeyLastUsage response indicates the date from which KMS began recording cryptographic activity for a given key. Use this value together with KeyCreationDate to understand the key's usage history: • If the KeyLastUsage response element is present , the key has been used for a suc...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKmsGetKeyLastUsageOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns usage information about the last successful cryptographic oper- ation performed with a specified KMS key, including the operation type, timestamp, and associated CloudTrail event ID. The TrackingStartDate in the GetKeyLastUsage response indicates the date from which KMS began recording cryptographic activity for a given key. Use this value together with KeyCreationDate to understand the key's usage history: o If the KeyLastUsage response element is present , the key has been used for a s...
+    /// Returns usage information about the last successful cryptographic operation performed with a specified KMS key, including the operation type, timestamp, and associated CloudTrail event ID. The TrackingStartDate in the GetKeyLastUsage response indicates the date from which KMS began recording cryptographic activity for a given key. Use this value together with KeyCreationDate to understand the key's usage history: • If the KeyLastUsage response element is present , the key has been used for a suc...
     /// </summary>
-    /// <param name="KeyId">Identifies the KMS key to get usage information for. To specify a KMS key, use its key ID or key ARN. Alias names are not supported. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
+    /// <param name="KeyId">Identifies the KMS key to get usage information for. To specify a KMS key, use its key ID or key ARN. Alias names are not supported. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
     public AwsKmsGetKeyLastUsageOptions(
         string KeyId
     )
@@ -56,7 +57,7 @@ public record AwsKmsGetKeyLastUsageOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the KMS key to get usage information for. To specify a KMS key, use its key ID or key ARN. Alias names are not supported. Specify the key ID or key ARN of the KMS key. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// Identifies the KMS key to get usage information for. To specify a KMS key, use its key ID or key ARN. Alias names are not supported. Specify the key ID or key ARN of the KMS key. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsKmsGetKeyLastUsageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

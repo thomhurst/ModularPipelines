@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: o neptune-graph:ReadDataViaQuery o neptune-graph:WriteDataViaQuery o neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
+/// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: • neptune-graph:ReadDataViaQuery • neptune-graph:WriteDataViaQuery • neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,11 +24,11 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
 {
     /// <summary>
-    /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: o neptune-graph:ReadDataViaQuery o neptune-graph:WriteDataViaQuery o neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
+    /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query: • neptune-graph:ReadDataViaQuery • neptune-graph:WriteDataViaQuery • neptune-graph:DeleteDataViaQuery See also: AWS API Documentation execute-query uses document type values. Document types follow the JSON data model where valid values are: strings, number...
     /// </summary>
-    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}</param>
+    /// <param name="GraphIdentifier">The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}</param>
     /// <param name="QueryString">The query string to be executed.</param>
-    /// <param name="Language">The query language the query is written in. Currently only open- Cypher is supported. Possible values: o OPEN_CYPHER</param>
+    /// <param name="Language">The query language the query is written in. Currently only openCypher is supported. Possible values: • OPEN_CYPHER</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsNeptuneGraphExecuteQueryOptions(
         string GraphIdentifier,
@@ -56,7 +56,7 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     }
 
     /// <summary>
-    /// The unique identifier of the Neptune Analytics graph. Constraints: o pattern: g-[a-z0-9]{10}
+    /// The unique identifier of the Neptune Analytics graph. Constraints: • pattern: g-[a-z0-9]{10}
     /// </summary>
     [CliOption("--graph-identifier")]
     public string GraphIdentifier { get; private init; }
@@ -68,7 +68,7 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     public string QueryString { get; private init; }
 
     /// <summary>
-    /// The query language the query is written in. Currently only open- Cypher is supported. Possible values: o OPEN_CYPHER
+    /// The query language the query is written in. Currently only openCypher is supported. Possible values: • OPEN_CYPHER
     /// </summary>
     [CliOption("--language")]
     public string Language { get; private init; }
@@ -80,13 +80,13 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
 
     /// <summary>
-    /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query. This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an LRU cache with a 5 minute TTL and a capacity of 1000. Possible values: o ENABLED o DISABLED o AUTO
+    /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query. This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an LRU cache with a 5 minute TTL and a capacity of 1000. Possible values: • ENABLED • DISABLED • AUTO
     /// </summary>
     [CliOption("--plan-cache")]
     public AwsNeptuneGraphExecuteQueryPlanCache? PlanCache { get; set; }
 
     /// <summary>
-    /// The explain mode parameter returns a query explain instead of the actual query results. A query explain can be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions flowing etc. Possible values: o STATIC o DETAILS
+    /// The explain mode parameter returns a query explain instead of the actual query results. A query explain can be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions flowing etc. Possible values: • STATIC • DETAILS
     /// </summary>
     [CliOption("--explain-mode")]
     public AwsNeptuneGraphExecuteQueryExplainMode? ExplainMode { get; set; }
@@ -102,5 +102,14 @@ public record AwsNeptuneGraphExecuteQueryOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

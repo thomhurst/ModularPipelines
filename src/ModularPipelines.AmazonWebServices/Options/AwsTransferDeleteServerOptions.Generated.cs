@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTransferDeleteServerOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the file transfer protocol-enabled server that you specify. No response returns from this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerId">A unique system-assigned identifier for a server instance. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})</param>
+    /// <param name="ServerId">A unique system-assigned identifier for a server instance. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})</param>
     public AwsTransferDeleteServerOptions(
         string ServerId
     )
@@ -56,7 +57,7 @@ public record AwsTransferDeleteServerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique system-assigned identifier for a server instance. Constraints: o min: 19 o max: 19 o pattern: s-([0-9a-f]{17})
+    /// A unique system-assigned identifier for a server instance. Constraints: • min: 19 • max: 19 • pattern: s-([0-9a-f]{17})
     /// </summary>
     [CliOption("--server-id")]
     public string? ServerId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsTransferDeleteServerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

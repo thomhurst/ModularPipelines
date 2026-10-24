@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a Lambda function definition version, in- cluding which Lambda functions are included in the version and their configurations. See also: AWS API Documentation
+/// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +27,7 @@ public record AwsGreengrassGetFunctionDefinitionVersionOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a Lambda function definition version, in- cluding which Lambda functions are included in the version and their configurations. See also: AWS API Documentation
+    /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations. See also: AWS API Documentation
     /// </summary>
     /// <param name="FunctionDefinitionId"></param>
     /// <param name="FunctionDefinitionVersionId"></param>
@@ -91,6 +92,15 @@ public record AwsGreengrassGetFunctionDefinitionVersionOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

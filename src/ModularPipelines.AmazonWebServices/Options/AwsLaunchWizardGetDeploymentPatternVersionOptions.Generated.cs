@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsLaunchWizardGetDeploymentPatternVersionOptions : AwsOptions, IV
     /// <summary>
     /// Returns information about a deployment pattern version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadName">The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
-    /// <param name="DeploymentPatternName">The name of the deployment pattern. You can use the ` ListWorkload- DeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="DeploymentPatternVersionName">The name of the deployment pattern version. Constraints: o min: 5 o max: 30 o pattern: (([A-Za-z0-9][a-zA-Z0-9-]*)|(\d+\.\d+\.\d+))</param>
+    /// <param name="WorkloadName">The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z][a-zA-Z0-9-_]*</param>
+    /// <param name="DeploymentPatternName">The name of the deployment pattern. You can use the ` ListWorkloadDeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="DeploymentPatternVersionName">The name of the deployment pattern version. Constraints: • min: 5 • max: 30 • pattern: (([A-Za-z0-9][a-zA-Z0-9-]*)|(\d+\.\d+\.\d+))</param>
     public AwsLaunchWizardGetDeploymentPatternVersionOptions(
         string WorkloadName,
         string DeploymentPatternName,
@@ -64,19 +65,19 @@ public record AwsLaunchWizardGetDeploymentPatternVersionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z][a-zA-Z0-9-_]*
+    /// The name of the workload. You can use the ` ListWorkloads https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z][a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
 
     /// <summary>
-    /// The name of the deployment pattern. You can use the ` ListWorkload- DeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9][a-zA-Z0-9-]*
+    /// The name of the deployment pattern. You can use the ` ListWorkloadDeploymentPatterns https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html`__ operation to discover supported values for this parameter. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--deployment-pattern-name")]
     public string? DeploymentPatternName { get; private init; }
 
     /// <summary>
-    /// The name of the deployment pattern version. Constraints: o min: 5 o max: 30 o pattern: (([A-Za-z0-9][a-zA-Z0-9-]*)|(\d+\.\d+\.\d+))
+    /// The name of the deployment pattern version. Constraints: • min: 5 • max: 30 • pattern: (([A-Za-z0-9][a-zA-Z0-9-]*)|(\d+\.\d+\.\d+))
     /// </summary>
     [CliOption("--deployment-pattern-version-name")]
     public string? DeploymentPatternVersionName { get; private init; }
@@ -102,6 +103,15 @@ public record AwsLaunchWizardGetDeploymentPatternVersionOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

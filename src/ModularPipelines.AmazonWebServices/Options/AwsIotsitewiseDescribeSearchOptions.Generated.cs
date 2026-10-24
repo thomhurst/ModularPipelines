@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotsitewiseDescribeSearchOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns the current status and metadata of a single search, including the query that was submitted, the search type, and when the search has failed the reason. Use this to poll a search started with StartSearch until it reaches a terminal status (SUCCEEDED or FAILED ). See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceName">The name of the workspace the search belongs to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="SearchId">The identifier of the search to describe. Constraints: o min: 23 o max: 36 o pattern: [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*</param>
+    /// <param name="WorkspaceName">The name of the workspace the search belongs to. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="SearchId">The identifier of the search to describe. Constraints: • min: 23 • max: 36 • pattern: [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*</param>
     public AwsIotsitewiseDescribeSearchOptions(
         string WorkspaceName,
         string SearchId
@@ -60,13 +61,13 @@ public record AwsIotsitewiseDescribeSearchOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workspace the search belongs to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The name of the workspace the search belongs to. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--workspace-name")]
     public string? WorkspaceName { get; private init; }
 
     /// <summary>
-    /// The identifier of the search to describe. Constraints: o min: 23 o max: 36 o pattern: [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*
+    /// The identifier of the search to describe. Constraints: • min: 23 • max: 36 • pattern: [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--search-id")]
     public string? SearchId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotsitewiseDescribeSearchOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

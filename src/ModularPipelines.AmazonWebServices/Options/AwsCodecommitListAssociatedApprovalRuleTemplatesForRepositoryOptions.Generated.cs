@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptio
     /// <summary>
     /// Lists all approval rule templates that are associated with a specified repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository for which you want to list all associated approval rule templates. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository for which you want to list all associated approval rule templates. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     public AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptions(
         string RepositoryName
     )
@@ -57,7 +58,7 @@ public record AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository for which you want to list all associated approval rule templates. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository for which you want to list all associated approval rule templates. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -70,7 +71,7 @@ public record AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptio
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// A non-zero, non-negative integer used to limit the number of re- turned results.
+    /// A non-zero, non-negative integer used to limit the number of returned results.
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsCodecommitListAssociatedApprovalRuleTemplatesForRepositoryOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

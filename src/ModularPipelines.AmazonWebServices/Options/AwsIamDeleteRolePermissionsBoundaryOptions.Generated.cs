@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. WARNING: Deleting the permissions boundary for a role might increase its per- missions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies. See also: AWS API Documentation
+/// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. WARNING: Deleting the permissions boundary for a role might increase its permissions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIamDeleteRolePermissionsBoundaryOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. WARNING: Deleting the permissions boundary for a role might increase its per- missions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies. See also: AWS API Documentation
+    /// Deletes the permissions boundary for the specified IAM role. You cannot set the boundary for a service-linked role. WARNING: Deleting the permissions boundary for a role might increase its permissions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleName">The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
+    /// <param name="RoleName">The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
     public AwsIamDeleteRolePermissionsBoundaryOptions(
         string RoleName
     )
@@ -56,7 +57,7 @@ public record AwsIamDeleteRolePermissionsBoundaryOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIamDeleteRolePermissionsBoundaryOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The DeleteDBInstance action deletes a previously provisioned DB in- stance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't b...
+/// The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The DeleteDBInstance action deletes a previously provisioned DB in- stance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't b...
+    /// The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be ...
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.</param>
+    /// <param name="DbInstanceIdentifier">The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: • Must match the name of an existing DB instance.</param>
     public AwsNeptuneDeleteDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -56,19 +57,19 @@ public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: o Must match the name of an existing DB instance.
+    /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints: • Must match the name of an existing DB instance.
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// Determines whether a final DB snapshot is created before the DB in- stance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB in- stance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica. NOTE: The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false . Default: false
+    /// Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica. NOTE: The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false . Default: false
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
 
     /// <summary>
-    /// The DBSnapshotIdentifier of the new DBSnapshot created when SkipFi- nalSnapshot is set to false . NOTE: Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error. Constraints: o Must be 1 to 255 letters or numbers. o First character must be a letter o Cannot end with a hyphen or contain two consecutive hyphens o Cannot be specified when deleting a Read Replica.
+    /// The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false . NOTE: Specifying this parameter and also setting the SkipFinalSnapshot parameter to true results in an error. Constraints: • Must be 1 to 255 letters or numbers. • First character must be a letter • Cannot end with a hyphen or contain two consecutive hyphens • Cannot be specified when deleting a Read Replica.
     /// </summary>
     [CliOption("--final-db-snapshot-identifier")]
     public string? FinalDbSnapshotIdentifier { get; set; }
@@ -94,6 +95,15 @@ public record AwsNeptuneDeleteDbInstanceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

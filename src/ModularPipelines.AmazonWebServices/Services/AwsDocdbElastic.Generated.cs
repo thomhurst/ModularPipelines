@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws docdbelastic commands.
+/// aws docdb-elastic commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDocdbElastic : IAwsDocdbElastic
@@ -182,7 +182,7 @@ public class AwsDocdbElastic : IAwsDocdbElastic
     }
 
     /// <summary>
-    /// Returns information about provisioned Amazon DocumentDB elastic clus- ters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
+    /// Returns information about provisioned Amazon DocumentDB elastic clusters. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: clusters
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDocdbElastic : IAwsDocdbElastic
     }
 
     /// <summary>
-    /// Retrieves a list of all maintenance actions that are pending. See also: AWS API Documentation list-pending-maintenance-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourcePendingMainten...
+    /// Retrieves a list of all maintenance actions that are pending. See also: AWS API Documentation list-pending-maintenance-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: resourcePendingMaintenance...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsDocdbElastic : IAwsDocdbElastic
     }
 
     /// <summary>
-    /// Modifies an elastic cluster. This includes updating admin-user- name/password, upgrading the API version, and setting up a backup win- dow and maintenance window See also: AWS API Documentation
+    /// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

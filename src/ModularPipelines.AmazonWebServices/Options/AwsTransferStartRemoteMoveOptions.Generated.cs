@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsTransferStartRemoteMoveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Moves or renames a file or directory on the remote SFTP server. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
-    /// <param name="SourcePath">The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
-    /// <param name="TargetPath">The absolute path for the target of the move/rename operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+</param>
+    /// <param name="ConnectorId">The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})</param>
+    /// <param name="SourcePath">The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation. Constraints: • min: 1 • max: 1024 • pattern: (.)+</param>
+    /// <param name="TargetPath">The absolute path for the target of the move/rename operation. Constraints: • min: 1 • max: 1024 • pattern: (.)+</param>
     public AwsTransferStartRemoteMoveOptions(
         string ConnectorId,
         string SourcePath,
@@ -64,19 +65,19 @@ public record AwsTransferStartRemoteMoveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the connector. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// The unique identifier for the connector. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// The absolute path of the file or directory to move or rename. You can only specify one path per call to this operation. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--source-path")]
     public string? SourcePath { get; private init; }
 
     /// <summary>
-    /// The absolute path for the target of the move/rename operation. Constraints: o min: 1 o max: 1024 o pattern: (.)+
+    /// The absolute path for the target of the move/rename operation. Constraints: • min: 1 • max: 1024 • pattern: (.)+
     /// </summary>
     [CliOption("--target-path")]
     public string? TargetPath { get; private init; }
@@ -102,6 +103,15 @@ public record AwsTransferStartRemoteMoveOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsIotwirelessGetResourceEventConfigurationOptions : AwsOptions, I
     /// <summary>
     /// Get the event configuration for a particular resource identifier. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Resource identifier to opt in for event messaging. Constraints: o max: 256</param>
-    /// <param name="IdentifierType">Identifier type of the particular resource identifier for event con- figuration. Possible values: o PartnerAccountId o DevEui o GatewayEui o WirelessDeviceId o WirelessGatewayId</param>
+    /// <param name="Identifier">Resource identifier to opt in for event messaging. Constraints: • max: 256</param>
+    /// <param name="IdentifierType">Identifier type of the particular resource identifier for event configuration. Possible values: • PartnerAccountId • DevEui • GatewayEui • WirelessDeviceId • WirelessGatewayId</param>
     public AwsIotwirelessGetResourceEventConfigurationOptions(
         string Identifier,
         AwsIotwirelessGetResourceEventConfigurationIdentifierType IdentifierType
@@ -60,19 +61,19 @@ public record AwsIotwirelessGetResourceEventConfigurationOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Resource identifier to opt in for event messaging. Constraints: o max: 256
+    /// Resource identifier to opt in for event messaging. Constraints: • max: 256
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// Identifier type of the particular resource identifier for event con- figuration. Possible values: o PartnerAccountId o DevEui o GatewayEui o WirelessDeviceId o WirelessGatewayId
+    /// Identifier type of the particular resource identifier for event configuration. Possible values: • PartnerAccountId • DevEui • GatewayEui • WirelessDeviceId • WirelessGatewayId
     /// </summary>
     [CliOption("--identifier-type")]
     public AwsIotwirelessGetResourceEventConfigurationIdentifierType? IdentifierType { get; private init; }
 
     /// <summary>
-    /// Partner type of the resource if the identifier type is PartnerAc- countId . Possible values: o Sidewalk
+    /// Partner type of the resource if the identifier type is PartnerAccountId . Possible values: • Sidewalk
     /// </summary>
     [CliOption("--partner-type")]
     public string? PartnerType { get; set; }
@@ -98,6 +99,15 @@ public record AwsIotwirelessGetResourceEventConfigurationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

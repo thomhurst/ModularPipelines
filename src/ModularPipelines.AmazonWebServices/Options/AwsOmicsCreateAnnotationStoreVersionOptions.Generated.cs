@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsOmicsCreateAnnotationStoreVersionOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a new version of an annotation store. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of an annotation store version from which versions are be- ing created. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
-    /// <param name="VersionName">The name given to an annotation store version to distinguish it from other versions. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
+    /// <param name="Name">The name of an annotation store version from which versions are being created. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
+    /// <param name="VersionName">The name given to an annotation store version to distinguish it from other versions. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}</param>
     public AwsOmicsCreateAnnotationStoreVersionOptions(
         string Name,
         string VersionName
@@ -61,31 +61,31 @@ public record AwsOmicsCreateAnnotationStoreVersionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an annotation store version from which versions are be- ing created. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// The name of an annotation store version from which versions are being created. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The name given to an annotation store version to distinguish it from other versions. Constraints: o min: 3 o max: 255 o pattern: ([a-z]){1}([a-z0-9_]){2,254}
+    /// The name given to an annotation store version to distinguish it from other versions. Constraints: • min: 3 • max: 255 • pattern: ([a-z]){1}([a-z0-9_]){2,254}
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; private init; }
 
     /// <summary>
-    /// The description of an annotation store version. Constraints: o min: 0 o max: 500
+    /// The description of an annotation store version. Constraints: • min: 0 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The options for an annotation store version. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvVersionOptions. tsvVersionOptions -&gt; (structure) File settings for a version of a TSV store. annotationType -&gt; (string) The store version's annotation type. Possible values: o GENERIC o CHR_POS o CHR_POS_REF_ALT o CHR_START_END_ONE_BASE o CHR_START_END_REF_ALT_ONE_BASE o CHR_START_END_ZERO_BASE o CHR_START_END_REF_ALT_ZERO_BASE formatToHeader -&gt; (map) The annotation store version's header key to column name map- ping. key -&gt; (string) Possible values: o CHR o START o END o REF o ALT o POS value -&gt; (string) Constraints: o min: 0 o max: 1000 schema -&gt; (list) The TSV schema for an annotation store version. Constraints: o min: 1 o max: 5000 (map) Constraints: o min: 1 o max: 1 key -&gt; (string) Constraints: o pattern: [a-z0-9_]{1,255} value -&gt; (string) Possible values: o LONG o INT o STRING o FLOAT o DOUBLE o BOOLEAN JSON Syntax: { "tsvVersionOptions": { "annotationType": "GENERIC"|"CHR_POS"|"CHR_POS_REF_ALT"|"CHR_START_END_ONE_BASE"|"CHR_START_END_REF_ALT_ONE_BASE"|"CHR_START_END_ZERO_BASE"|"CHR_START_END_REF_ALT_ZERO_BASE", "formatToHeader": {"CHR"|"START"|"END"|"REF"|"ALT"|"POS": "string" ...}, "schema": [ {"string": "LONG"|"INT"|"STRING"|"FLOAT"|"DOUBLE"|"BOOLEAN" ...} ... ] } }
+    /// The options for an annotation store version. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: tsvVersionOptions. tsvVersionOptions -&gt; (structure) File settings for a version of a TSV store. annotationType -&gt; (string) The store version's annotation type. Possible values: • GENERIC • CHR_POS • CHR_POS_REF_ALT • CHR_START_END_ONE_BASE • CHR_START_END_REF_ALT_ONE_BASE • CHR_START_END_ZERO_BASE • CHR_START_END_REF_ALT_ZERO_BASE formatToHeader -&gt; (map) The annotation store version's header key to column name mapping. key -&gt; (string) Possible values: • CHR • START • END • REF • ALT • POS value -&gt; (string) Constraints: • min: 0 • max: 1000 schema -&gt; (list) The TSV schema for an annotation store version. Constraints: • min: 1 • max: 5000 (map) Constraints: • min: 1 • max: 1 key -&gt; (string) Constraints: • pattern: [a-z0-9_]{1,255} value -&gt; (string) Possible values: • LONG • INT • STRING • FLOAT • DOUBLE • BOOLEAN JSON Syntax: { "tsvVersionOptions": { "annotationType": "GENERIC"|"CHR_POS"|"CHR_POS_REF_ALT"|"CHR_START_END_ONE_BASE"|"CHR_START_END_REF_ALT_ONE_BASE"|"CHR_START_END_ZERO_BASE"|"CHR_START_END_REF_ALT_ZERO_BASE", "formatToHeader": {"CHR"|"START"|"END"|"REF"|"ALT"|"POS": "string" ...}, "schema": [ {"string": "LONG"|"INT"|"STRING"|"FLOAT"|"DOUBLE"|"BOOLEAN" ...} ... ] } }
     /// </summary>
     [CliOption("--version-options")]
     public string? VersionOptions { get; set; }
 
     /// <summary>
-    /// Any tags added to annotation store version. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Any tags added to annotation store version. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -111,6 +111,15 @@ public record AwsOmicsCreateAnnotationStoreVersionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowRe
     /// <summary>
     /// Notifies the result of the terminate engine execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowToken">The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts. Constraints: o min: 1 o max: 20000 o pattern: [0-9A-Za-z+\/=]+</param>
-    /// <param name="RecordId">The identifier of the record. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
-    /// <param name="Status">The status of the terminate engine execution. Possible values: o SUCCEEDED o FAILED</param>
+    /// <param name="WorkflowToken">The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts. Constraints: • min: 1 • max: 20000 • pattern: [0-9A-Za-z+\/=]+</param>
+    /// <param name="RecordId">The identifier of the record. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="Status">The status of the terminate engine execution. Possible values: • SUCCEEDED • FAILED</param>
     public AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultOptions(
         string WorkflowToken,
         string RecordId,
@@ -65,32 +66,32 @@ public record AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowRe
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts. Constraints: o min: 1 o max: 20000 o pattern: [0-9A-Za-z+\/=]+
+    /// The encrypted contents of the terminate engine execution payload that Service Catalog sends after the Terraform product terminate workflow starts. Constraints: • min: 1 • max: 20000 • pattern: [0-9A-Za-z+\/=]+
     /// </summary>
     [SecretValue]
     [CliOption("--workflow-token")]
     public string? WorkflowToken { get; private init; }
 
     /// <summary>
-    /// The identifier of the record. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The identifier of the record. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--record-id")]
     public string? RecordId { get; private init; }
 
     /// <summary>
-    /// The status of the terminate engine execution. Possible values: o SUCCEEDED o FAILED
+    /// The status of the terminate engine execution. Possible values: • SUCCEEDED • FAILED
     /// </summary>
     [CliOption("--status")]
     public AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowResultStatus? Status { get; private init; }
 
     /// <summary>
-    /// The reason why the terminate engine execution failed. Constraints: o min: 1 o max: 2048 o pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
+    /// The reason why the terminate engine execution failed. Constraints: • min: 1 • max: 2048 • pattern: [\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*
     /// </summary>
     [CliOption("--failure-reason")]
     public string? FailureReason { get; set; }
 
     /// <summary>
-    /// The idempotency token that identifies the terminate engine execu- tion. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// The idempotency token that identifies the terminate engine execution. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -117,6 +118,15 @@ public record AwsServicecatalogNotifyTerminateProvisionedProductEngineWorkflowRe
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

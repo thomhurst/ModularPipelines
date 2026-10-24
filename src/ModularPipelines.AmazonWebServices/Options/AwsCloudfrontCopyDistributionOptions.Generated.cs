@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -78,13 +79,13 @@ public record AwsCloudfrontCopyDistributionOptions : AwsOptions, IValidatableObj
     public bool? Staging { get; set; }
 
     /// <summary>
-    /// The version identifier of the primary distribution whose configura- tion you are copying. This is the ETag value returned in the re- sponse to GetDistribution and GetDistributionConfig .
+    /// The version identifier of the primary distribution whose configuration you are copying. This is the ETag value returned in the response to GetDistribution and GetDistributionConfig .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }
 
     /// <summary>
-    /// A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True , the staging distrib- ution is enabled. When you set this value to False , the staging distribution is disabled. If you omit this field, the default value is True .
+    /// A Boolean flag to specify the state of the staging distribution when it's created. When you set this value to True , the staging distribution is enabled. When you set this value to False , the staging distribution is disabled. If you omit this field, the default value is True .
     /// </summary>
     [CliFlag("--enabled", NegatedName = "--no-enabled")]
     public bool? Enabled { get; set; }
@@ -110,6 +111,15 @@ public record AwsCloudfrontCopyDistributionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

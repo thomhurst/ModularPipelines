@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodecommitUpdateRepositoryEncryptionKeyOptions : AwsOptions, IV
     /// <summary>
     /// Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository for which you want to update the KMS en- cryption key used to encrypt and decrypt the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
-    /// <param name="KmsKeyId">The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically re- trieve a key ID. For more information about acceptable values for keyID, see KeyId in the Decrypt API description in the Key Manage- ment Service API Reference . Constraints: o pattern: ^[a-zA-Z0-9:/_-]+$</param>
+    /// <param name="RepositoryName">The name of the repository for which you want to update the KMS encryption key used to encrypt and decrypt the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
+    /// <param name="KmsKeyId">The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for keyID, see KeyId in the Decrypt API description in the Key Management Service API Reference . Constraints: • pattern: ^[a-zA-Z0-9:/_-]+$</param>
     public AwsCodecommitUpdateRepositoryEncryptionKeyOptions(
         string RepositoryName,
         string KmsKeyId
@@ -60,13 +61,13 @@ public record AwsCodecommitUpdateRepositoryEncryptionKeyOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository for which you want to update the KMS en- cryption key used to encrypt and decrypt the repository. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository for which you want to update the KMS encryption key used to encrypt and decrypt the repository. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically re- trieve a key ID. For more information about acceptable values for keyID, see KeyId in the Decrypt API description in the Key Manage- ment Service API Reference . Constraints: o pattern: ^[a-zA-Z0-9:/_-]+$
+    /// The ID of the encryption key. You can view the ID of an encryption key in the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more information about acceptable values for keyID, see KeyId in the Decrypt API description in the Key Management Service API Reference . Constraints: • pattern: ^[a-zA-Z0-9:/_-]+$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitUpdateRepositoryEncryptionKeyOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

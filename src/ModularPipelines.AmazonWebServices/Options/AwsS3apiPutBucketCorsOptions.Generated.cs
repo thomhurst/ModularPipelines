@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Sets the cors configuration for your bucket. If the configuration ex- ists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucket- CORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.co...
+/// NOTE: This operation is not supported for directory buckets. Sets the cors configuration for your bucket. If the configuration exists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucketCORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsS3apiPutBucketCorsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Sets the cors configuration for your bucket. If the configuration ex- ists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucket- CORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.co...
+    /// NOTE: This operation is not supported for directory buckets. Sets the cors configuration for your bucket. If the configuration exists, Amazon S3 replaces it. To use this operation, you must be allowed to perform the s3:PutBucketCORS action. By default, the bucket owner has this permission and can grant it to others. You set this configuration on a bucket so that the bucket can service cross-origin requests. For example, you might want to enable a request whose origin is http://www.example.com to...
     /// </summary>
     /// <param name="Bucket">Specifies the bucket impacted by the cors configuration.</param>
-    /// <param name="CorsConfiguration">Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . CORSRules -&gt; (list) [required] A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration. (structure) Specifies a cross-origin access rule for an Amazon S3 bucket. ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. AllowedHeaders -&gt; (list) Headers that are specified in the Access-Control-Re- quest-Headers header. These headers are allowed in a pre- flight OPTIONS request. In response to any preflight OP- TIONS request, Amazon S3 returns any requested headers that are allowed. (string) AllowedMethods -&gt; (list) [required] An HTTP method that you allow the origin to execute. Valid values are GET , PUT , HEAD , POST , and DELETE . (string) AllowedOrigins -&gt; (list) [required] One or more origins you want customers to be able to ac- cess the bucket from. (string) ExposeHeaders -&gt; (list) One or more headers in the response that you want cus- tomers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). (string) MaxAgeSeconds -&gt; (integer) The time in seconds that your browser is to cache the preflight response for the specified resource. JSON Syntax: { "CORSRules": [ { "ID": "string", "AllowedHeaders": ["string", ...], "AllowedMethods": ["string", ...], "AllowedOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAgeSeconds": integer } ... ] }</param>
+    /// <param name="CorsConfiguration">Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . CORSRules -&gt; (list) [required] A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration. (structure) Specifies a cross-origin access rule for an Amazon S3 bucket. ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. AllowedHeaders -&gt; (list) Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed. (string) AllowedMethods -&gt; (list) [required] An HTTP method that you allow the origin to execute. Valid values are GET , PUT , HEAD , POST , and DELETE . (string) AllowedOrigins -&gt; (list) [required] One or more origins you want customers to be able to access the bucket from. (string) ExposeHeaders -&gt; (list) One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). (string) MaxAgeSeconds -&gt; (integer) The time in seconds that your browser is to cache the preflight response for the specified resource. JSON Syntax: { "CORSRules": [ { "ID": "string", "AllowedHeaders": ["string", ...], "AllowedMethods": ["string", ...], "AllowedOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAgeSeconds": integer } ... ] }</param>
     public AwsS3apiPutBucketCorsOptions(
         string Bucket,
         string CorsConfiguration
@@ -67,25 +68,25 @@ public record AwsS3apiPutBucketCorsOptions : AwsOptions, IValidatableObject
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . CORSRules -&gt; (list) [required] A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration. (structure) Specifies a cross-origin access rule for an Amazon S3 bucket. ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. AllowedHeaders -&gt; (list) Headers that are specified in the Access-Control-Re- quest-Headers header. These headers are allowed in a pre- flight OPTIONS request. In response to any preflight OP- TIONS request, Amazon S3 returns any requested headers that are allowed. (string) AllowedMethods -&gt; (list) [required] An HTTP method that you allow the origin to execute. Valid values are GET , PUT , HEAD , POST , and DELETE . (string) AllowedOrigins -&gt; (list) [required] One or more origins you want customers to be able to ac- cess the bucket from. (string) ExposeHeaders -&gt; (list) One or more headers in the response that you want cus- tomers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). (string) MaxAgeSeconds -&gt; (integer) The time in seconds that your browser is to cache the preflight response for the specified resource. JSON Syntax: { "CORSRules": [ { "ID": "string", "AllowedHeaders": ["string", ...], "AllowedMethods": ["string", ...], "AllowedOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAgeSeconds": integer } ... ] }
+    /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide . CORSRules -&gt; (list) [required] A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration. (structure) Specifies a cross-origin access rule for an Amazon S3 bucket. ID -&gt; (string) Unique identifier for the rule. The value cannot be longer than 255 characters. AllowedHeaders -&gt; (list) Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed. (string) AllowedMethods -&gt; (list) [required] An HTTP method that you allow the origin to execute. Valid values are GET , PUT , HEAD , POST , and DELETE . (string) AllowedOrigins -&gt; (list) [required] One or more origins you want customers to be able to access the bucket from. (string) ExposeHeaders -&gt; (list) One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object). (string) MaxAgeSeconds -&gt; (integer) The time in seconds that your browser is to cache the preflight response for the specified resource. JSON Syntax: { "CORSRules": [ { "ID": "string", "AllowedHeaders": ["string", ...], "AllowedMethods": ["string", ...], "AllowedOrigins": ["string", ...], "ExposeHeaders": ["string", ...], "MaxAgeSeconds": integer } ... ] }
     /// </summary>
     [CliOption("--cors-configuration")]
     public string? CorsConfiguration { get; private init; }
 
     /// <summary>
-    /// The Base64 encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
+    /// The Base64 encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object in- tegrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutBucketCorsChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -111,6 +112,15 @@ public record AwsS3apiPutBucketCorsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

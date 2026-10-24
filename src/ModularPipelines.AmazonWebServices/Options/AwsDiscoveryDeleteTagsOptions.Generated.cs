@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDiscoveryDeleteTagsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationIds">A list of configuration items with tags that you want to delete. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="ConfigurationIds">A list of configuration items with tags that you want to delete. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...</param>
     public AwsDiscoveryDeleteTagsOptions(
         IEnumerable<string> ConfigurationIds
     )
@@ -67,7 +68,7 @@ public record AwsDiscoveryDeleteTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of configuration items with tags that you want to delete. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// A list of configuration items with tags that you want to delete. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }
@@ -99,6 +100,15 @@ public record AwsDiscoveryDeleteTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns a list of the ARNs of the canaries that are as- sociated with the specified group. See also: AWS API Documentation
+/// This operation returns a list of the ARNs of the canaries that are associated with the specified group. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSyntheticsListGroupResourcesOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation returns a list of the ARNs of the canaries that are as- sociated with the specified group. See also: AWS API Documentation
+    /// This operation returns a list of the ARNs of the canaries that are associated with the specified group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupIdentifier">Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128</param>
+    /// <param name="GroupIdentifier">Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128</param>
     public AwsSyntheticsListGroupResourcesOptions(
         string GroupIdentifier
     )
@@ -57,20 +58,20 @@ public record AwsSyntheticsListGroupResourcesOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128
+    /// Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; private init; }
 
     /// <summary>
-    /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: o min: 1 o max: 512 o pattern: ^.+$
+    /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results. Constraints: • min: 1 • max: 512 • pattern: ^.+$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specify this parameter to limit how many canary ARNs are returned each time you use the ListGroupResources operation. If you omit this parameter, the default of 20 is used. Constraints: o min: 1 o max: 20
+    /// Specify this parameter to limit how many canary ARNs are returned each time you use the ListGroupResources operation. If you omit this parameter, the default of 20 is used. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsSyntheticsListGroupResourcesOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

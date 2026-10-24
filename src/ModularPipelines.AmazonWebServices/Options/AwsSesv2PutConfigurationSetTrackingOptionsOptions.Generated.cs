@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -69,7 +70,7 @@ public record AwsSesv2PutConfigurationSetTrackingOptionsOptions : AwsOptions, IV
     public string? CustomRedirectDomain { get; set; }
 
     /// <summary>
-    /// The https policy to use for tracking open and click events. If the value is OPTIONAL or HttpsPolicy is not specified, the open trackers use HTTP and click tracker use the original protocol of the link. If the value is REQUIRE, both open and click tracker uses HTTPS and if the value is REQUIRE_OPEN_ONLY open tracker uses HTTPS and link tracker is same as original protocol of the link. Possible values: o REQUIRE o REQUIRE_OPEN_ONLY o OPTIONAL
+    /// The https policy to use for tracking open and click events. If the value is OPTIONAL or HttpsPolicy is not specified, the open trackers use HTTP and click tracker use the original protocol of the link. If the value is REQUIRE, both open and click tracker uses HTTPS and if the value is REQUIRE_OPEN_ONLY open tracker uses HTTPS and link tracker is same as original protocol of the link. Possible values: • REQUIRE • REQUIRE_OPEN_ONLY • OPTIONAL
     /// </summary>
     [CliOption("--https-policy")]
     public AwsSesv2PutConfigurationSetTrackingOptionsHttpsPolicy? HttpsPolicy { get; set; }
@@ -95,6 +96,15 @@ public record AwsSesv2PutConfigurationSetTrackingOptionsOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

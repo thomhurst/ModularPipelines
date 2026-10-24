@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmContactsUpdateContactOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Updates the contact or escalation plan specified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact or escalation plan you're updating. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact or escalation plan you're updating. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
     public AwsSsmContactsUpdateContactOptions(
         string ContactId
     )
@@ -56,19 +57,19 @@ public record AwsSsmContactsUpdateContactOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact or escalation plan you're updating. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the contact or escalation plan you're updating. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The full name of the contact or escalation plan. Constraints: o min: 0 o max: 255 o pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
+    /// The full name of the contact or escalation plan. Constraints: • min: 0 • max: 255 • pattern: ^[\p{L}\p{Z}\p{N}_.\-]*$
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// A list of stages. A contact has an engagement plan with stages for specified contact channels. An escalation plan uses these stages to contact specified contacts. Stages -&gt; (list) A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods. (structure) A set amount of time that an escalation plan or engagement plan engages the specified contacts or contact methods. DurationInMinutes -&gt; (integer) [required] The time to wait until beginning the next stage. The du- ration can only be set to 0 if a target is specified. Constraints: o min: 0 o max: 30 Targets -&gt; (list) [required] The contacts or contact methods that the escalation plan or engagement plan is engaging. (structure) The contact or contact channel that's being engaged. ChannelTargetInfo -&gt; (structure) Information about the contact channel that Inci- dent Manager engages. ContactChannelId -&gt; (string) [required] The Amazon Resource Name (ARN) of the contact channel. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* RetryIntervalInMinutes -&gt; (integer) The number of minutes to wait before retrying to send engagement if the engagement initially failed. Constraints: o min: 0 o max: 60 ContactTargetInfo -&gt; (structure) Information about the contact that Incident Man- ager engages. ContactId -&gt; (string) The Amazon Resource Name (ARN) of the contact. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* IsEssential -&gt; (boolean) [required] A Boolean value determining if the contact's acknowledgement stops the progress of stages in the plan. RotationIds -&gt; (list) The Amazon Resource Names (ARNs) of the on-call rotations asso- ciated with the plan. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* JSON Syntax: { "Stages": [ { "DurationInMinutes": integer, "Targets": [ { "ChannelTargetInfo": { "ContactChannelId": "string", "RetryIntervalInMinutes": integer }, "ContactTargetInfo": { "ContactId": "string", "IsEssential": true|false } } ... ] } ... ], "RotationIds": ["string", ...] }
+    /// A list of stages. A contact has an engagement plan with stages for specified contact channels. An escalation plan uses these stages to contact specified contacts. Stages -&gt; (list) A list of stages that the escalation plan or engagement plan uses to engage contacts and contact methods. (structure) A set amount of time that an escalation plan or engagement plan engages the specified contacts or contact methods. DurationInMinutes -&gt; (integer) [required] The time to wait until beginning the next stage. The duration can only be set to 0 if a target is specified. Constraints: • min: 0 • max: 30 Targets -&gt; (list) [required] The contacts or contact methods that the escalation plan or engagement plan is engaging. (structure) The contact or contact channel that's being engaged. ChannelTargetInfo -&gt; (structure) Information about the contact channel that Incident Manager engages. ContactChannelId -&gt; (string) [required] The Amazon Resource Name (ARN) of the contact channel. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* RetryIntervalInMinutes -&gt; (integer) The number of minutes to wait before retrying to send engagement if the engagement initially failed. Constraints: • min: 0 • max: 60 ContactTargetInfo -&gt; (structure) Information about the contact that Incident Manager engages. ContactId -&gt; (string) The Amazon Resource Name (ARN) of the contact. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* IsEssential -&gt; (boolean) [required] A Boolean value determining if the contact's acknowledgement stops the progress of stages in the plan. RotationIds -&gt; (list) The Amazon Resource Names (ARNs) of the on-call rotations associated with the plan. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)* JSON Syntax: { "Stages": [ { "DurationInMinutes": integer, "Targets": [ { "ChannelTargetInfo": { "ContactChannelId": "string", "RetryIntervalInMinutes": integer }, "ContactTargetInfo": { "ContactId": "string", "IsEssential": true|false } } ... ] } ... ], "RotationIds": ["string", ...] }
     /// </summary>
     [CliOption("--plan")]
     public string? Plan { get; set; }
@@ -94,6 +95,15 @@ public record AwsSsmContactsUpdateContactOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

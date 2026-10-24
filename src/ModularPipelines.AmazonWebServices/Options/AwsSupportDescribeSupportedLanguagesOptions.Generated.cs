@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Servi...
+/// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will include a ISO 639-1 code for the language , and the language display name. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSupportDescribeSupportedLanguagesOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will in- clude a ISO 639-1 code for the language , and the language display name. NOTE: o You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Opera- tions plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Servi...
+    /// Returns a list of supported languages for a specified categoryCode , issueType and serviceCode . The returned supported languages will include a ISO 639-1 code for the language , and the language display name. NOTE: • You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services ...
     /// </summary>
-    /// <param name="IssueType">The type of issue for the case. You can specify customer-service or technical . Constraints: o min: 9 o max: 22</param>
-    /// <param name="ServiceCode">The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values. Constraints: o min: 0 o max: 100</param>
-    /// <param name="CategoryCode">The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes. Constraints: o min: 0 o max: 100</param>
+    /// <param name="IssueType">The type of issue for the case. You can specify customer-service or technical . Constraints: • min: 9 • max: 22</param>
+    /// <param name="ServiceCode">The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values. Constraints: • min: 0 • max: 100</param>
+    /// <param name="CategoryCode">The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes. Constraints: • min: 0 • max: 100</param>
     public AwsSupportDescribeSupportedLanguagesOptions(
         string IssueType,
         string ServiceCode,
@@ -64,25 +65,25 @@ public record AwsSupportDescribeSupportedLanguagesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of issue for the case. You can specify customer-service or technical . Constraints: o min: 9 o max: 22
+    /// The type of issue for the case. You can specify customer-service or technical . Constraints: • min: 9 • max: 22
     /// </summary>
     [CliOption("--issue-type")]
     public string? IssueType { get; private init; }
 
     /// <summary>
-    /// The code for the Amazon Web Services service. You can use the De- scribeServices operation to get the possible serviceCode values. Constraints: o min: 0 o max: 100
+    /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--service-code")]
     public string? ServiceCode { get; private init; }
 
     /// <summary>
-    /// The category of problem for the support case. You also use the De- scribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes. Constraints: o min: 0 o max: 100
+    /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--category-code")]
     public string? CategoryCode { get; private init; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually returning supported languages. When set to true , the request is validated but no languages are returned, and the operation returns a DryRunOpera- tionException . When omitted or set to false , the request runs nor- mally.
+    /// Specifies whether to validate the request without actually returning supported languages. When set to true , the request is validated but no languages are returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -108,6 +109,15 @@ public record AwsSupportDescribeSupportedLanguagesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

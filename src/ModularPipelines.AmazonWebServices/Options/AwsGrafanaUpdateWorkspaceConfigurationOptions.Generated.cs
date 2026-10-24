@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGrafanaUpdateWorkspaceConfigurationOptions : AwsOptions, IValid
     /// <summary>
     /// Updates the configuration string for the given workspace See also: AWS API Documentation
     /// </summary>
-    /// <param name="Configuration">The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace . Constraints: o min: 2 o max: 65536</param>
-    /// <param name="WorkspaceId">The ID of the workspace to update. Constraints: o pattern: g-[0-9a-f]{10}</param>
+    /// <param name="Configuration">The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace . Constraints: • min: 2 • max: 65536</param>
+    /// <param name="WorkspaceId">The ID of the workspace to update. Constraints: • pattern: g-[0-9a-f]{10}</param>
     public AwsGrafanaUpdateWorkspaceConfigurationOptions(
         string Configuration,
         string WorkspaceId
@@ -60,19 +61,19 @@ public record AwsGrafanaUpdateWorkspaceConfigurationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace . Constraints: o min: 2 o max: 65536
+    /// The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace . Constraints: • min: 2 • max: 65536
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The ID of the workspace to update. Constraints: o pattern: g-[0-9a-f]{10}
+    /// The ID of the workspace to update. Constraints: • pattern: g-[0-9a-f]{10}
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// Specifies the version of Grafana to support in the workspace. If not specified, keeps the current version of the workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see the ListVersions operation. Constraints: o min: 1 o max: 255
+    /// Specifies the version of Grafana to support in the workspace. If not specified, keeps the current version of the workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see the ListVersions operation. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--grafana-version")]
     public string? GrafanaVersion { get; set; }
@@ -98,6 +99,15 @@ public record AwsGrafanaUpdateWorkspaceConfigurationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

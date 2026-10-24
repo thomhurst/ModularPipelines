@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerDescribeImageVersionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Describes a version of a SageMaker AI image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageName">The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
+    /// <param name="ImageName">The name of the image. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeImageVersionOptions(
         string ImageName
     )
@@ -56,19 +57,19 @@ public record AwsSagemakerDescribeImageVersionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the image. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
+    /// The name of the image. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--image-name")]
     public string? ImageName { get; private init; }
 
     /// <summary>
-    /// The alias of the image version. Constraints: o min: 1 o max: 128 o pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
+    /// The alias of the image version. Constraints: • min: 1 • max: 128 • pattern: (?!^[.-])^([a-zA-Z0-9-_.]+)
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; set; }
 
     /// <summary>
-    /// The version of the image. If not specified, the latest version is described. Constraints: o min: 0
+    /// The version of the image. If not specified, the latest version is described. Constraints: • min: 0
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }
@@ -94,6 +95,15 @@ public record AwsSagemakerDescribeImageVersionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

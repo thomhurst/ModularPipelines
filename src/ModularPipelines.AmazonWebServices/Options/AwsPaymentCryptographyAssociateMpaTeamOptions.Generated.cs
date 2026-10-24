@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a Multi-Party Approval (MPA) team with a protected opera- tion. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o DisassociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+/// Associates a Multi-Party Approval (MPA) team with a protected operation. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • DisassociateMpaTeam • GetMpaTeamAssociation See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPaymentCryptographyAssociateMpaTeamOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a Multi-Party Approval (MPA) team with a protected opera- tion. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: o DisassociateMpaTeam o GetMpaTeamAssociation See also: AWS API Documentation
+    /// Associates a Multi-Party Approval (MPA) team with a protected operation. For more information, see Multi-Party Approval in the Amazon Web Services Payment Cryptography User Guide. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations: • DisassociateMpaTeam • GetMpaTeamAssociation See also: AWS API Documentation
     /// </summary>
-    /// <param name="Action">The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
-    /// <param name="MpaTeamArn">The ARN of the MPA team to associate with the protected operation. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+</param>
+    /// <param name="Action">The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: • IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE</param>
+    /// <param name="MpaTeamArn">The ARN of the MPA team to associate with the protected operation. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+</param>
     public AwsPaymentCryptographyAssociateMpaTeamOptions(
         string Action,
         string MpaTeamArn
@@ -60,19 +61,19 @@ public record AwsPaymentCryptographyAssociateMpaTeamOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: o IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
+    /// The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE . Possible values: • IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The ARN of the MPA team to associate with the protected operation. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:ap- proval-team/[a-zA-Z0-9._-]+
+    /// The ARN of the MPA team to associate with the protected operation. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--mpa-team-arn")]
     public string? MpaTeamArn { get; private init; }
 
     /// <summary>
-    /// The comment from the requester explaining the reason for the associ- ation. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in Cloud- Trail logs and other output. Constraints: o min: 0 o max: 200
+    /// The comment from the requester explaining the reason for the association. WARNING: Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--requester-comment")]
     public string? RequesterComment { get; set; }
@@ -98,6 +99,15 @@ public record AwsPaymentCryptographyAssociateMpaTeamOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

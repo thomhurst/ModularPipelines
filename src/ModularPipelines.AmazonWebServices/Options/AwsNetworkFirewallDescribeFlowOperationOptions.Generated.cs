@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsNetworkFirewallDescribeFlowOperationOptions : AwsOptions, IVali
     /// <summary>
     /// Returns key information about a specific flow operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*</param>
-    /// <param name="FlowOperationId">A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands. Constraints: o min: 36 o max: 36 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
+    /// <param name="FirewallArn">The Amazon Resource Name (ARN) of the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*</param>
+    /// <param name="FlowOperationId">A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands. Constraints: • min: 36 • max: 36 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$</param>
     public AwsNetworkFirewallDescribeFlowOperationOptions(
         string FirewallArn,
         string FlowOperationId
@@ -60,13 +61,13 @@ public record AwsNetworkFirewallDescribeFlowOperationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands. Constraints: o min: 36 o max: 36 o pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands. Constraints: • min: 36 • max: 36 • pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$
     /// </summary>
     [CliOption("--flow-operation-id")]
     public string? FlowOperationId { get; private init; }
@@ -78,13 +79,13 @@ public record AwsNetworkFirewallDescribeFlowOperationOptions : AwsOptions, IVali
     public string? AvailabilityZone { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--vpc-endpoint-association-arn")]
     public string? VpcEndpointAssociationArn { get; set; }
 
     /// <summary>
-    /// A unique identifier for the primary endpoint associated with a fire- wall. Constraints: o min: 5 o max: 256 o pattern: ^vpce-[a-zA-Z0-9]*$
+    /// A unique identifier for the primary endpoint associated with a firewall. Constraints: • min: 5 • max: 256 • pattern: ^vpce-[a-zA-Z0-9]*$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
@@ -110,6 +111,15 @@ public record AwsNetworkFirewallDescribeFlowOperationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

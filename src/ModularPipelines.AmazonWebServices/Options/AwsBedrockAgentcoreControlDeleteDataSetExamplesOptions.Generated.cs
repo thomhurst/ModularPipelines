@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes specific examples by ID from DRAFT. All example IDs are vali- dated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation
+/// Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes specific examples by ID from DRAFT. All example IDs are vali- dated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation
+    /// Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetId">The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
-    /// <param name="ExampleIds">The IDs of the examples to delete. Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:-]+ Syntax: "string" "string" ...</param>
+    /// <param name="DataSetId">The unique identifier of the dataset. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="ExampleIds">The IDs of the examples to delete. Constraints: • min: 1 • max: 1000 (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_.:-]+ Syntax: "string" "string" ...</param>
     public AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions(
         string DataSetId,
         IEnumerable<string> ExampleIds
@@ -72,19 +73,19 @@ public record AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// The unique identifier of the dataset. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// The IDs of the examples to delete. Constraints: o min: 1 o max: 1000 (string) Constraints: o min: 0 o max: 256 o pattern: [a-zA-Z0-9_.:-]+ Syntax: "string" "string" ...
+    /// The IDs of the examples to delete. Constraints: • min: 1 • max: 1000 (string) Constraints: • min: 0 • max: 256 • pattern: [a-zA-Z0-9_.:-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--example-ids", GroupValues = true)]
     public IEnumerable<string>? ExampleIds { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -111,6 +112,15 @@ public record AwsBedrockAgentcoreControlDeleteDataSetExamplesOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

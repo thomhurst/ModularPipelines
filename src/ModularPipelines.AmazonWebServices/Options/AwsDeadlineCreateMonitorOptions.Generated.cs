@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,10 +29,10 @@ public record AwsDeadlineCreateMonitorOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">The name that you give the monitor that is displayed in the Deadline Cloud console. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100</param>
-    /// <param name="IdentityCenterInstanceArn">The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
-    /// <param name="Subdomain">The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com. Constraints: o pattern: [a-z0-9-]{1,100}</param>
-    /// <param name="RoleArn">The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources. Constraints: o pattern: arn:(aws[a-zA-Z-]*):iam::\d{12}:role(/[!-.0-~]+)*/[\w+=,.@-]+</param>
+    /// <param name="DisplayName">The name that you give the monitor that is displayed in the Deadline Cloud console. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100</param>
+    /// <param name="IdentityCenterInstanceArn">The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}</param>
+    /// <param name="Subdomain">The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com. Constraints: • pattern: [a-z0-9-]{1,100}</param>
+    /// <param name="RoleArn">The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources. Constraints: • pattern: arn:(aws[a-zA-Z-]*):iam::\d{12}:role(/[!-.0-~]+)*/[\w+=,.@-]+</param>
     public AwsDeadlineCreateMonitorOptions(
         string DisplayName,
         string IdentityCenterInstanceArn,
@@ -70,38 +70,38 @@ public record AwsDeadlineCreateMonitorOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name that you give the monitor that is displayed in the Deadline Cloud console. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: o min: 1 o max: 100
+    /// The name that you give the monitor that is displayed in the Deadline Cloud console. WARNING: This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users. Constraints: o pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16}
+    /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users. Constraints: • pattern: arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}
     /// </summary>
     [CliOption("--identity-center-instance-arn")]
     public string? IdentityCenterInstanceArn { get; private init; }
 
     /// <summary>
-    /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com. Constraints: o pattern: [a-z0-9-]{1,100}
+    /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com. Constraints: • pattern: [a-z0-9-]{1,100}
     /// </summary>
     [CliOption("--subdomain")]
     public string? Subdomain { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources. Constraints: o pattern: arn:(aws[a-zA-Z-]*):iam::\d{12}:role(/[!-.0-~]+)*/[\w+=,.@-]+
+    /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources. Constraints: • pattern: arn:(aws[a-zA-Z-]*):iam::\d{12}:role(/[!-.0-~]+)*/[\w+=,.@-]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor. Constraints: o min: 1 o max: 25 o pattern: [a-z0-9-]+
+    /// The Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor. Constraints: • min: 1 • max: 25 • pattern: [a-z0-9-]+
     /// </summary>
     [CliOption("--identity-center-region")]
     public string? IdentityCenterRegion { get; set; }
@@ -133,6 +133,15 @@ public record AwsDeadlineCreateMonitorOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

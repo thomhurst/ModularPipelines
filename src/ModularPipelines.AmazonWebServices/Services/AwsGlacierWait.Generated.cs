@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws glacier wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsGlacierWait
@@ -47,7 +47,7 @@ public class AwsGlacierWait
     }
 
     /// <summary>
-    /// Wait until ResourceNotFoundException is thrown when polling with de- scribe-vault. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 15 failed checks. See also: AWS API Documentation
+    /// Wait until ResourceNotFoundException is thrown when polling with describe-vault. It will poll every 3 seconds until a successful state has been reached. This will exit with a return code of 255 after 15 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

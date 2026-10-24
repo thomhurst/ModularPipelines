@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Descrip- tion' is not provided, it is removed from the domain. See also: AWS API Documentation
+/// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsVoiceIdUpdateDomainOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Descrip- tion' is not provided, it is removed from the domain. See also: AWS API Documentation
+    /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain to be updated. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="Name">The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
-    /// <param name="ServerSideEncryptionConfiguration">The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the do- main's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }</param>
+    /// <param name="DomainId">The identifier of the domain to be updated. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="Name">The name of the domain. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$</param>
+    /// <param name="ServerSideEncryptionConfiguration">The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the domain's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: • min: 1 • max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }</param>
     public AwsVoiceIdUpdateDomainOptions(
         string DomainId,
         string Name,
@@ -64,25 +65,25 @@ public record AwsVoiceIdUpdateDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain to be updated. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain to be updated. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
+    /// The name of the domain. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_-]*$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the do- main's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: o min: 1 o max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
+    /// The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side encryption of your data. Changing the domain's associated KMS key immediately triggers an asynchronous process to remove dependency on the old KMS key, such that the domain's data can only be accessed using the new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this process. KmsKeyId -&gt; (string) [required] The identifier of the KMS key to use to encrypt data stored by Voice ID. Voice ID doesn't support asymmetric customer managed keys. Constraints: • min: 1 • max: 2048 Shorthand Syntax: KmsKeyId=string JSON Syntax: { "KmsKeyId": "string" }
     /// </summary>
     [CliOption("--server-side-encryption-configuration")]
     public string? ServerSideEncryptionConfiguration { get; private init; }
 
     /// <summary>
-    /// A brief description about this domain. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// A brief description about this domain. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -108,6 +109,15 @@ public record AwsVoiceIdUpdateDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

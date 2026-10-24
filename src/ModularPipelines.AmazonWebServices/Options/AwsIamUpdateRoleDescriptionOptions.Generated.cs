@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIamUpdateRoleDescriptionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Use UpdateRole instead. Modifies only the description of a role. This operation performs the same function as the Description parameter in the UpdateRole operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RoleName">The name of the role that you want to modify. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+</param>
-    /// <param name="Description">The new description that you want to apply to the specified role. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*</param>
+    /// <param name="RoleName">The name of the role that you want to modify. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+</param>
+    /// <param name="Description">The new description that you want to apply to the specified role. Constraints: • max: 1000 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*</param>
     public AwsIamUpdateRoleDescriptionOptions(
         string RoleName,
         string Description
@@ -60,13 +61,13 @@ public record AwsIamUpdateRoleDescriptionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the role that you want to modify. Constraints: o min: 1 o max: 64 o pattern: [\w+=,.@-]+
+    /// The name of the role that you want to modify. Constraints: • min: 1 • max: 64 • pattern: [\w+=,.@-]+
     /// </summary>
     [CliOption("--role-name")]
     public string? RoleName { get; private init; }
 
     /// <summary>
-    /// The new description that you want to apply to the specified role. Constraints: o max: 1000 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
+    /// The new description that you want to apply to the specified role. Constraints: • max: 1000 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u00A1-\u00FF]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIamUpdateRoleDescriptionOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCleanroomsBatchGetSchemaOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Retrieves multiple schemas by their identifiers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Names">The names for the schema objects to retrieve. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? Syntax: "string" "string" ...</param>
+    /// <param name="CollaborationIdentifier">A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Names">The names for the schema objects to retrieve. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? Syntax: "string" "string" ...</param>
     public AwsCleanroomsBatchGetSchemaOptions(
         string CollaborationIdentifier,
         IEnumerable<string> Names
@@ -71,13 +72,13 @@ public record AwsCleanroomsBatchGetSchemaOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// The names for the schema objects to retrieve. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? Syntax: "string" "string" ...
+    /// The names for the schema objects to retrieve. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))? Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--names", GroupValues = true)]
     public IEnumerable<string>? Names { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCleanroomsBatchGetSchemaOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

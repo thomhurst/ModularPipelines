@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomCon- fig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
+/// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomCon- fig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
+    /// Submits a request to change the health status of a custom health check to healthy or unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for custom health checks, which you define using HealthCheckCustomConfig when you create a service. You can't use it to change the status for Route 53 health checks, which you define using HealthCheckConfig . For more information, see HealthCheckCustomConfig . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared name- spaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
-    /// <param name="InstanceId">The ID of the instance that you want to change the health status for. Constraints: o max: 64</param>
-    /// <param name="Status">The new status of the instance, HEALTHY or UNHEALTHY . Possible values: o HEALTHY o UNHEALTHY</param>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255</param>
+    /// <param name="InstanceId">The ID of the instance that you want to change the health status for. Constraints: • max: 64</param>
+    /// <param name="Status">The new status of the instance, HEALTHY or UNHEALTHY . Possible values: • HEALTHY • UNHEALTHY</param>
     public AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions(
         string ServiceId,
         string InstanceId,
@@ -64,19 +65,19 @@ public record AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared name- spaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service that includes the configuration for the custom health check that you want to change the status for. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255
     /// </summary>
     [CliOption("--service-id")]
     public string? ServiceId { get; private init; }
 
     /// <summary>
-    /// The ID of the instance that you want to change the health status for. Constraints: o max: 64
+    /// The ID of the instance that you want to change the health status for. Constraints: • max: 64
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The new status of the instance, HEALTHY or UNHEALTHY . Possible values: o HEALTHY o UNHEALTHY
+    /// The new status of the instance, HEALTHY or UNHEALTHY . Possible values: • HEALTHY • UNHEALTHY
     /// </summary>
     [CliOption("--status")]
     public AwsServicediscoveryUpdateInstanceCustomHealthStatusStatus? Status { get; private init; }
@@ -102,6 +103,15 @@ public record AwsServicediscoveryUpdateInstanceCustomHealthStatusOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

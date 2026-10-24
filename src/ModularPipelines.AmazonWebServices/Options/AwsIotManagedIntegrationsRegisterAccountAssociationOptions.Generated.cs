@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsIotManagedIntegrationsRegisterAccountAssociationOptions : AwsOp
     /// <summary>
     /// Registers an account association with a managed thing, establishing a connection between a device and a third-party account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagedThingId">The identifier of the managed thing to register with the account as- sociation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*</param>
-    /// <param name="AccountAssociationId">The identifier of the account association to register with the man- aged thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+</param>
-    /// <param name="DeviceDiscoveryId">The identifier of the device discovery job associated with this reg- istration. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+</param>
+    /// <param name="ManagedThingId">The identifier of the managed thing to register with the account association. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*</param>
+    /// <param name="AccountAssociationId">The identifier of the account association to register with the managed thing. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+</param>
+    /// <param name="DeviceDiscoveryId">The identifier of the device discovery job associated with this registration. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+</param>
     public AwsIotManagedIntegrationsRegisterAccountAssociationOptions(
         string ManagedThingId,
         string AccountAssociationId,
@@ -64,19 +65,19 @@ public record AwsIotManagedIntegrationsRegisterAccountAssociationOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the managed thing to register with the account as- sociation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9:_-]*
+    /// The identifier of the managed thing to register with the account association. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9:_-]*
     /// </summary>
     [CliOption("--managed-thing-id")]
     public string? ManagedThingId { get; private init; }
 
     /// <summary>
-    /// The identifier of the account association to register with the man- aged thing. Constraints: o min: 1 o max: 64 o pattern: [0-9a-zA-Z]+
+    /// The identifier of the account association to register with the managed thing. Constraints: • min: 1 • max: 64 • pattern: [0-9a-zA-Z]+
     /// </summary>
     [CliOption("--account-association-id")]
     public string? AccountAssociationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the device discovery job associated with this reg- istration. Constraints: o min: 1 o max: 200 o pattern: [A-Za-z0-9]+
+    /// The identifier of the device discovery job associated with this registration. Constraints: • min: 1 • max: 200 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--device-discovery-id")]
     public string? DeviceDiscoveryId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsIotManagedIntegrationsRegisterAccountAssociationOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotStartOnDemandAuditTaskOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Starts an on-demand Device Defender audit. Requires permission to access the StartOnDemandAuditTask action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetCheckNames">Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use De- scribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled. (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...</param>
+    /// <param name="TargetCheckNames">Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled. (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...</param>
     public AwsIotStartOnDemandAuditTaskOptions(
         IEnumerable<string> TargetCheckNames
     )
@@ -67,7 +68,7 @@ public record AwsIotStartOnDemandAuditTaskOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use De- scribeAccountAuditConfiguration to see the list of all checks, in- cluding those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled. (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAu- ditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
+    /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled. (string) An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-check-names", GroupValues = true)]
     public IEnumerable<string>? TargetCheckNames { get; private init; }
@@ -93,6 +94,15 @@ public record AwsIotStartOnDemandAuditTaskOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates the list of tags in the input Tags parameter with the re- source identified by the ResourceArn input parameter. See also: AWS API Documentation
+/// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDeployTagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates the list of tags in the input Tags parameter with the re- source identified by the ResourceArn input parameter. See also: AWS API Documentation
+    /// Associates the list of tags in the input Tags parameter with the resource identified by the ResourceArn input parameter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of a resource, such as a CodeDeploy application or deploy- ment group. Constraints: o min: 1 o max: 1011</param>
-    /// <param name="Tags">A list of tags that TagResource associates with a resource. The re- source is identified by the ResourceArn input parameter. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The ARN of a resource, such as a CodeDeploy application or deployment group. Constraints: • min: 1 • max: 1011</param>
+    /// <param name="Tags">A list of tags that TagResource associates with a resource. The resource is identified by the ResourceArn input parameter. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsDeployTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsDeployTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of a resource, such as a CodeDeploy application or deploy- ment group. Constraints: o min: 1 o max: 1011
+    /// The ARN of a resource, such as a CodeDeploy application or deployment group. Constraints: • min: 1 • max: 1011
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// A list of tags that TagResource associates with a resource. The re- source is identified by the ResourceArn input parameter. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags that TagResource associates with a resource. The resource is identified by the ResourceArn input parameter. (structure) Information about a tag. Key -&gt; (string) The tag's key. Value -&gt; (string) The tag's value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDeployTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

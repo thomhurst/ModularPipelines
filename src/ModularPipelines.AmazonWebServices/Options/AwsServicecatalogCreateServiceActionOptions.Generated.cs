@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,9 +29,9 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a self-service action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The self-service action name. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_\-.]*</param>
-    /// <param name="DefinitionType">The service action definition type. For example, SSM_AUTOMATION . Possible values: o SSM_AUTOMATION</param>
-    /// <param name="Definition">The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN in- stead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}</param>
+    /// <param name="Name">The self-service action name. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_\-.]*</param>
+    /// <param name="DefinitionType">The service action definition type. For example, SSM_AUTOMATION . Possible values: • SSM_AUTOMATION</param>
+    /// <param name="Definition">The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN instead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: • min: 1 • max: 100 key -&gt; (string) Possible values: • Name • Version • AssumeRole • Parameters value -&gt; (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}</param>
     public AwsServicecatalogCreateServiceActionOptions(
         string Name,
         string DefinitionType,
@@ -77,37 +77,37 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The self-service action name. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9_\-.]*
+    /// The self-service action name. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9_\-.]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The service action definition type. For example, SSM_AUTOMATION . Possible values: o SSM_AUTOMATION
+    /// The service action definition type. For example, SSM_AUTOMATION . Possible values: • SSM_AUTOMATION
     /// </summary>
     [CliOption("--definition-type")]
     public string? DefinitionType { get; private init; }
 
     /// <summary>
-    /// The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN in- stead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: o min: 1 o max: 100 key -&gt; (string) Possible values: o Name o Version o AssumeRole o Parameters value -&gt; (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}
+    /// The self-service action definition. Can be one of the following: Name The name of the Amazon Web Services Systems Manager document (SSM document). For example, AWS-RestartEC2Instance . If you are using a shared SSM document, you must provide the ARN instead of the name. Version The Amazon Web Services Systems Manager automation document version. For example, "Version": "1" AssumeRole The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole" . To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE" . Parameters The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}] . Constraints: • min: 1 • max: 100 key -&gt; (string) Possible values: • Name • Version • AssumeRole • Parameters value -&gt; (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: Name Version AssumeRole Parameters JSON Syntax: {"Name"|"Version"|"AssumeRole"|"Parameters": "string" ...}
     /// </summary>
     [CliOption("--definition", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Definition { get; private init; }
 
     /// <summary>
-    /// The self-service action description. Constraints: o max: 1024
+    /// The self-service action description. Constraints: • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// A unique identifier that you provide to ensure idempotency. If mul- tiple requests differ only by the idempotency token, the same re- sponse is returned for each repeated request. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -134,6 +134,15 @@ public record AwsServicecatalogCreateServiceActionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

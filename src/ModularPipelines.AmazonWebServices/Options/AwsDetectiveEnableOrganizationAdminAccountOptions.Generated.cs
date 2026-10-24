@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organiza- tions, then the Detective administrator account must be either the del- egated administrator account or the organization management account. If the organizat...
+/// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organizations, then the Detective administrator account must be either the delegated administrator account or the organization management account. If the organization ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDetectiveEnableOrganizationAdminAccountOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organiza- tions, then the Detective administrator account must be either the del- egated administrator account or the organization management account. If the organizat...
+    /// Designates the Detective administrator account for the organization in the current Region. If the account does not have Detective enabled, then enables Detective for that account and creates a new behavior graph. Can only be called by the organization management account. If the organization has a delegated administrator account in Organizations, then the Detective administrator account must be either the delegated administrator account or the organization management account. If the organization ...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account identifier of the account to desig- nate as the Detective administrator account for the organization. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
+    /// <param name="AccountId">The Amazon Web Services account identifier of the account to designate as the Detective administrator account for the organization. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$</param>
     public AwsDetectiveEnableOrganizationAdminAccountOptions(
         string AccountId
     )
@@ -56,7 +57,7 @@ public record AwsDetectiveEnableOrganizationAdminAccountOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account identifier of the account to desig- nate as the Detective administrator account for the organization. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account identifier of the account to designate as the Detective administrator account for the organization. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDetectiveEnableOrganizationAdminAccountOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

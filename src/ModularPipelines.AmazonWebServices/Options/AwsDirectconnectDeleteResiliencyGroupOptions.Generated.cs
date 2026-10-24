@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent GetResiliency- Group call. See also: AWS API Documentation
+/// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent GetResiliencyGroup call. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDirectconnectDeleteResiliencyGroupOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent GetResiliency- Group call. See also: AWS API Documentation
+    /// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent GetResiliencyGroup call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
+    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
     public AwsDirectconnectDeleteResiliencyGroupOptions(
         string ResiliencyGroupId
     )
@@ -56,7 +57,7 @@ public record AwsDirectconnectDeleteResiliencyGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
+    /// The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
     /// </summary>
     [CliOption("--resiliency-group-id")]
     public string? ResiliencyGroupId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDirectconnectDeleteResiliencyGroupOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

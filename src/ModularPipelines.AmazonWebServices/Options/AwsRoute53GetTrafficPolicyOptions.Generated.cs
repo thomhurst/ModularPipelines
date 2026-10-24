@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the re- sponse from GetTrafficPolicy , see DeleteTrafficPolicy . See also: AWS API Documentation
+/// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy , see DeleteTrafficPolicy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRoute53GetTrafficPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the re- sponse from GetTrafficPolicy , see DeleteTrafficPolicy . See also: AWS API Documentation
+    /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy , see DeleteTrafficPolicy . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the traffic policy that you want to get information about. Constraints: o min: 1 o max: 36</param>
-    /// <param name="TrafficPolicyVersion">The version number of the traffic policy that you want to get infor- mation about. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="Id">The ID of the traffic policy that you want to get information about. Constraints: • min: 1 • max: 36</param>
+    /// <param name="TrafficPolicyVersion">The version number of the traffic policy that you want to get information about. Constraints: • min: 1 • max: 1000</param>
     public AwsRoute53GetTrafficPolicyOptions(
         string Id,
         int TrafficPolicyVersion
@@ -59,13 +60,13 @@ public record AwsRoute53GetTrafficPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the traffic policy that you want to get information about. Constraints: o min: 1 o max: 36
+    /// The ID of the traffic policy that you want to get information about. Constraints: • min: 1 • max: 36
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The version number of the traffic policy that you want to get infor- mation about. Constraints: o min: 1 o max: 1000
+    /// The version number of the traffic policy that you want to get information about. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--traffic-policy-version")]
     public int? TrafficPolicyVersion { get; private init; }
@@ -91,6 +92,15 @@ public record AwsRoute53GetTrafficPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

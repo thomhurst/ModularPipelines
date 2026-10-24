@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsCloudcontrol : IAwsCloudcontrol
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws cloudcontrol wait sub-commands.
     /// </summary>
     public AwsCloudcontrolWait Wait => _wait ??= new AwsCloudcontrolWait(_command);
 
@@ -87,7 +87,7 @@ public class AwsCloudcontrol : IAwsCloudcontrol
     }
 
     /// <summary>
-    /// Returns information about the current state of the specified resource. For details, see Reading a resource's current state . You can use this action to return information about an existing re- source in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation
+    /// Returns information about the current state of the specified resource. For details, see Reading a resource's current state . You can use this action to return information about an existing resource in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsCloudcontrol : IAwsCloudcontrol
     }
 
     /// <summary>
-    /// Returns existing resource operation requests. This includes requests of all status types. For more information, see Listing active resource op- eration requests in the Amazon Web Services Cloud Control API User Guide . NOTE: Resource operation requests expire after 7 days. See also: AWS API Documentation list-resource-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate a...
+    /// Returns existing resource operation requests. This includes requests of all status types. For more information, see Listing active resource operation requests in the Amazon Web Services Cloud Control API User Guide . NOTE: Resource operation requests expire after 7 days. See also: AWS API Documentation list-resource-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate arg...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsCloudcontrol : IAwsCloudcontrol
     }
 
     /// <summary>
-    /// Returns information about the specified resources. For more informa- tion, see Discovering resources in the Amazon Web Services Cloud Con- trol API User Guide . You can use this action to return information about existing resources in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of re...
+    /// Returns information about the specified resources. For more information, see Discovering resources in the Amazon Web Services Cloud Control API User Guide . You can use this action to return information about existing resources in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API. See also: AWS API Documentation list-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsCloudcontrol : IAwsCloudcontrol
     }
 
     /// <summary>
-    /// Updates the specified property values in the resource. You specify your resource property updates as a list of patch opera- tions contained in a JSON patch document that adheres to the ` RFC 6902 - JavaScript Object Notation (JSON) Patch https://datatracker.ietf.org/doc/html/rfc6902`__ standard. For details on how Cloud Control API performs resource update opera- tions, see Updating a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource update re...
+    /// Updates the specified property values in the resource. You specify your resource property updates as a list of patch operations contained in a JSON patch document that adheres to the ` RFC 6902 - JavaScript Object Notation (JSON) Patch https://datatracker.ietf.org/doc/html/rfc6902`__ standard. For details on how Cloud Control API performs resource update operations, see Updating a resource in the Amazon Web Services Cloud Control API User Guide . After you have initiated a resource update reques...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

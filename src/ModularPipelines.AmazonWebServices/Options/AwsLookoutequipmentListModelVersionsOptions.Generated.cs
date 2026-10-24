@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of ver- sions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
+/// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of ver- sions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
+    /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">Then name of the machine learning model for which the model versions are to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="ModelName">Then name of the machine learning model for which the model versions are to be listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentListModelVersionsOptions(
         string ModelName
     )
@@ -58,32 +59,32 @@ public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Then name of the machine learning model for which the model versions are to be listed. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// Then name of the machine learning model for which the model versions are to be listed. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }
 
     /// <summary>
-    /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indi- cating where to continue the listing of machine learning model ver- sions. Use this token in the NextToken field in the request to list the next page of results. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of machine learning model versions to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of machine learning model versions to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filter the results based on the current status of the model version. Possible values: o IN_PROGRESS o SUCCESS o FAILED o IMPORT_IN_PROGRESS o CANCELED
+    /// Filter the results based on the current status of the model version. Possible values: • IN_PROGRESS • SUCCESS • FAILED • IMPORT_IN_PROGRESS • CANCELED
     /// </summary>
     [CliOption("--status")]
     public AwsLookoutequipmentListModelVersionsStatus? Status { get; set; }
 
     /// <summary>
-    /// Filter the results based on the way the model version was generated. Possible values: o TRAINING o RETRAINING o IMPORT
+    /// Filter the results based on the way the model version was generated. Possible values: • TRAINING • RETRAINING • IMPORT
     /// </summary>
     [CliOption("--source-type")]
     public AwsLookoutequipmentListModelVersionsSourceType? SourceType { get; set; }
@@ -101,16 +102,16 @@ public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions, IValidat
     public string? CreatedAtStartTime { get; set; }
 
     /// <summary>
-    /// Specifies the highest version of the model to return in the list. Constraints: o min: 1
+    /// Specifies the highest version of the model to return in the list. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-model-version")]
-    public int? MaxModelVersion { get; set; }
+    public long? MaxModelVersion { get; set; }
 
     /// <summary>
-    /// Specifies the lowest version of the model to return in the list. Constraints: o min: 1
+    /// Specifies the lowest version of the model to return in the list. Constraints: • min: 1
     /// </summary>
     [CliOption("--min-model-version")]
-    public int? MinModelVersion { get; set; }
+    public long? MinModelVersion { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -133,6 +134,15 @@ public record AwsLookoutequipmentListModelVersionsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

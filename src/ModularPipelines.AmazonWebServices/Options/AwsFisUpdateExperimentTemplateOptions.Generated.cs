@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsFisUpdateExperimentTemplateOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Updates the specified experiment template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+</param>
+    /// <param name="Id">The ID of the experiment template. Constraints: • max: 64 • pattern: [\S]+</param>
     public AwsFisUpdateExperimentTemplateOptions(
         string Id
     )
@@ -57,55 +57,55 @@ public record AwsFisUpdateExperimentTemplateOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the experiment template. Constraints: o max: 64 o pattern: [\S]+
+    /// The ID of the experiment template. Constraints: • max: 64 • pattern: [\S]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A description for the template. Constraints: o max: 512 o pattern: [\s\S]+
+    /// A description for the template. Constraints: • max: 512 • pattern: [\s\S]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The stop conditions for the experiment. (structure) Specifies a stop condition for an experiment. You can define a stop condition as a CloudWatch alarm. source -&gt; (string) [required] The source for the stop condition. Specify aws:cloud- watch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition. Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch alarm. Constraints: o min: 20 o max: 2048 o pattern: [\s\S]+ Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "string", "value": "string" } ... ]
+    /// The stop conditions for the experiment. (structure) Specifies a stop condition for an experiment. You can define a stop condition as a CloudWatch alarm. source -&gt; (string) [required] The source for the stop condition. Specify aws:cloudwatch:alarm if the stop condition is defined by a CloudWatch alarm. Specify none if there is no stop condition. Constraints: • max: 64 • pattern: [\S]+ value -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch alarm. Constraints: • min: 20 • max: 2048 • pattern: [\s\S]+ Shorthand Syntax: source=string,value=string ... JSON Syntax: [ { "source": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--stop-conditions", GroupValues = true)]
     public IEnumerable<string>? StopConditions { get; set; }
 
     /// <summary>
-    /// The targets for the experiment. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (structure) Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both. resourceType -&gt; (string) [required] The resource type. The resource type must be supported for the specified action. Constraints: o max: 128 o pattern: [\S]+ resourceArns -&gt; (list) The Amazon Resource Names (ARNs) of the targets. Constraints: o max: 5 (string) Constraints: o min: 20 o max: 2048 o pattern: [\S]+ resourceTags -&gt; (map) The tags for the target resources. Constraints: o max: 50 key -&gt; (string) Constraints: o max: 128 o pattern: [\s\S]+ value -&gt; (string) Constraints: o max: 256 o pattern: [\s\S]* filters -&gt; (list) The filters to apply to identify target resources using spe- cific attributes. (structure) Specifies a filter used for the target resource input in an experiment template. For more information, see Resource filters in the Fault Injection Service User Guide . path -&gt; (string) [required] The attribute path for the filter. Constraints: o max: 256 o pattern: [\S]+ values -&gt; (list) [required] The attribute values for the filter. (string) Constraints: o max: 128 o pattern: [\S]+ selectionMode -&gt; (string) [required] Scopes the identified resources to a specific count or per- centage. Constraints: o max: 64 o pattern: [\S]+ parameters -&gt; (map) The resource type parameters. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o min: 1 o max: 1024 o pattern: ^[\p{L}\p{Z}\p{N}_.:/=+\-@]+$ JSON Syntax: {"string": { "resourceType": "string", "resourceArns": ["string", ...], "resourceTags": {"string": "string" ...}, "filters": [ { "path": "string", "values": ["string", ...] } ... ], "selectionMode": "string", "parameters": {"string": "string" ...} } ...}
+    /// The targets for the experiment. key -&gt; (string) Constraints: • max: 64 • pattern: [\S]+ value -&gt; (structure) Specifies a target for an experiment. You must specify at least one Amazon Resource Name (ARN) or at least one resource tag. You cannot specify both. resourceType -&gt; (string) [required] The resource type. The resource type must be supported for the specified action. Constraints: • max: 128 • pattern: [\S]+ resourceArns -&gt; (list) The Amazon Resource Names (ARNs) of the targets. Constraints: • max: 5 (string) Constraints: • min: 20 • max: 2048 • pattern: [\S]+ resourceTags -&gt; (map) The tags for the target resources. Constraints: • max: 50 key -&gt; (string) Constraints: • max: 128 • pattern: [\s\S]+ value -&gt; (string) Constraints: • max: 256 • pattern: [\s\S]* filters -&gt; (list) The filters to apply to identify target resources using specific attributes. (structure) Specifies a filter used for the target resource input in an experiment template. For more information, see Resource filters in the Fault Injection Service User Guide . path -&gt; (string) [required] The attribute path for the filter. Constraints: • max: 256 • pattern: [\S]+ values -&gt; (list) [required] The attribute values for the filter. (string) Constraints: • max: 128 • pattern: [\S]+ selectionMode -&gt; (string) [required] Scopes the identified resources to a specific count or percentage. Constraints: • max: 64 • pattern: [\S]+ parameters -&gt; (map) The resource type parameters. key -&gt; (string) Constraints: • max: 64 • pattern: [\S]+ value -&gt; (string) Constraints: • min: 1 • max: 1024 • pattern: ^[\p{L}\p{Z}\p{N}_.:/=+\-@]+$ JSON Syntax: {"string": { "resourceType": "string", "resourceArns": ["string", ...], "resourceTags": {"string": "string" ...}, "filters": [ { "path": "string", "values": ["string", ...] } ... ], "selectionMode": "string", "parameters": {"string": "string" ...} } ...}
     /// </summary>
     [CliOption("--targets", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Targets { get; set; }
 
     /// <summary>
-    /// The actions for the experiment. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (structure) Specifies an action for an experiment template. actionId -&gt; (string) The ID of the action. Constraints: o max: 128 o pattern: [\S]+ description -&gt; (string) A description for the action. Constraints: o max: 512 o pattern: [\s\S]+ parameters -&gt; (map) The parameters for the action, if applicable. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o max: 1024 o pattern: [\S]+ targets -&gt; (map) The targets for the action. key -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ value -&gt; (string) Constraints: o max: 64 o pattern: [\S]+ startAfter -&gt; (list) The name of the action that must be completed before the cur- rent action starts. Omit this parameter to run the action at the start of the experiment. (string) Constraints: o max: 64 o pattern: [\S]+ Shorthand Syntax: KeyName1={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]},KeyName2={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]} JSON Syntax: {"string": { "actionId": "string", "description": "string", "parameters": {"string": "string" ...}, "targets": {"string": "string" ...}, "startAfter": ["string", ...] } ...}
+    /// The actions for the experiment. key -&gt; (string) Constraints: • max: 64 • pattern: [\S]+ value -&gt; (structure) Specifies an action for an experiment template. actionId -&gt; (string) The ID of the action. Constraints: • max: 128 • pattern: [\S]+ description -&gt; (string) A description for the action. Constraints: • max: 512 • pattern: [\s\S]+ parameters -&gt; (map) The parameters for the action, if applicable. key -&gt; (string) Constraints: • max: 64 • pattern: [\S]+ value -&gt; (string) Constraints: • max: 1024 • pattern: [\S]+ targets -&gt; (map) The targets for the action. key -&gt; (string) Constraints: • max: 64 • pattern: [\S]+ value -&gt; (string) Constraints: • max: 64 • pattern: [\S]+ startAfter -&gt; (list) The name of the action that must be completed before the current action starts. Omit this parameter to run the action at the start of the experiment. (string) Constraints: • max: 64 • pattern: [\S]+ Shorthand Syntax: KeyName1={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]},KeyName2={actionId=string,description=string,parameters={KeyName1=string,KeyName2=string},targets={KeyName1=string,KeyName2=string},startAfter=[string,string]} JSON Syntax: {"string": { "actionId": "string", "description": "string", "parameters": {"string": "string" ...}, "targets": {"string": "string" ...}, "startAfter": ["string", ...] } ...}
     /// </summary>
     [CliOption("--actions", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Actions { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf. Constraints: o min: 20 o max: 2048 o pattern: [\S]+
+    /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf. Constraints: • min: 20 • max: 2048 • pattern: [\S]+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The configuration for experiment logging. cloudWatchLogsConfiguration -&gt; (structure) The configuration for experiment logging to Amazon CloudWatch Logs. logGroupArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group. Constraints: o min: 20 o max: 2048 o pattern: [\S]+ s3Configuration -&gt; (structure) The configuration for experiment logging to Amazon S3. bucketName -&gt; (string) [required] The name of the destination bucket. Constraints: o min: 3 o max: 63 o pattern: [\S]+ prefix -&gt; (string) The bucket prefix. Constraints: o min: 1 o max: 700 o pattern: [\s\S]+ logSchemaVersion -&gt; (integer) The schema version. Shorthand Syntax: cloudWatchLogsConfiguration={logGroupArn=string},s3Configuration={bucketName=string,prefix=string},logSchemaVersion=integer JSON Syntax: { "cloudWatchLogsConfiguration": { "logGroupArn": "string" }, "s3Configuration": { "bucketName": "string", "prefix": "string" }, "logSchemaVersion": integer }
+    /// The configuration for experiment logging. cloudWatchLogsConfiguration -&gt; (structure) The configuration for experiment logging to Amazon CloudWatch Logs. logGroupArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group. Constraints: • min: 20 • max: 2048 • pattern: [\S]+ s3Configuration -&gt; (structure) The configuration for experiment logging to Amazon S3. bucketName -&gt; (string) [required] The name of the destination bucket. Constraints: • min: 3 • max: 63 • pattern: [\S]+ prefix -&gt; (string) The bucket prefix. Constraints: • min: 1 • max: 700 • pattern: [\s\S]+ logSchemaVersion -&gt; (integer) The schema version. Shorthand Syntax: cloudWatchLogsConfiguration={logGroupArn=string},s3Configuration={bucketName=string,prefix=string},logSchemaVersion=integer JSON Syntax: { "cloudWatchLogsConfiguration": { "logGroupArn": "string" }, "s3Configuration": { "bucketName": "string", "prefix": "string" }, "logSchemaVersion": integer }
     /// </summary>
     [CliOption("--log-configuration")]
     public string? LogConfiguration { get; set; }
 
     /// <summary>
-    /// The experiment options for the experiment template. emptyTargetResolutionMode -&gt; (string) The empty target resolution mode of the experiment template. Possible values: o fail o skip Shorthand Syntax: emptyTargetResolutionMode=string JSON Syntax: { "emptyTargetResolutionMode": "fail"|"skip" }
+    /// The experiment options for the experiment template. emptyTargetResolutionMode -&gt; (string) The empty target resolution mode of the experiment template. Possible values: • fail • skip Shorthand Syntax: emptyTargetResolutionMode=string JSON Syntax: { "emptyTargetResolutionMode": "fail"|"skip" }
     /// </summary>
     [CliOption("--experiment-options")]
     public string? ExperimentOptions { get; set; }
 
     /// <summary>
-    /// The experiment report configuration for the experiment template. outputs -&gt; (structure) Describes the output destinations of the experiment report. s3Configuration -&gt; (structure) The S3 destination for the experiment report. bucketName -&gt; (string) The name of the S3 bucket where the experiment report will be stored. Constraints: o min: 3 o max: 63 o pattern: [\S]+ prefix -&gt; (string) The prefix of the S3 bucket where the experiment report will be stored. Constraints: o max: 256 o pattern: [\S]+ dataSources -&gt; (structure) The data sources for the experiment report. cloudWatchDashboards -&gt; (list) The CloudWatch dashboards to include as data sources in the experiment report. (structure) Specifies the CloudWatch dashboard for the experiment re- port. dashboardIdentifier -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch dash- board to include in the experiment report. Constraints: o max: 512 o pattern: [\S]+ preExperimentDuration -&gt; (string) The duration before the experiment start time for the data sources to include in the report. Constraints: o max: 32 o pattern: [\S]+ postExperimentDuration -&gt; (string) The duration after the experiment end time for the data sources to include in the report. Constraints: o max: 32 o pattern: [\S]+ JSON Syntax: { "outputs": { "s3Configuration": { "bucketName": "string", "prefix": "string" } }, "dataSources": { "cloudWatchDashboards": [ { "dashboardIdentifier": "string" } ... ] }, "preExperimentDuration": "string", "postExperimentDuration": "string" }
+    /// The experiment report configuration for the experiment template. outputs -&gt; (structure) Describes the output destinations of the experiment report. s3Configuration -&gt; (structure) The S3 destination for the experiment report. bucketName -&gt; (string) The name of the S3 bucket where the experiment report will be stored. Constraints: • min: 3 • max: 63 • pattern: [\S]+ prefix -&gt; (string) The prefix of the S3 bucket where the experiment report will be stored. Constraints: • max: 256 • pattern: [\S]+ dataSources -&gt; (structure) The data sources for the experiment report. cloudWatchDashboards -&gt; (list) The CloudWatch dashboards to include as data sources in the experiment report. (structure) Specifies the CloudWatch dashboard for the experiment report. dashboardIdentifier -&gt; (string) The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the experiment report. Constraints: • max: 512 • pattern: [\S]+ preExperimentDuration -&gt; (string) The duration before the experiment start time for the data sources to include in the report. Constraints: • max: 32 • pattern: [\S]+ postExperimentDuration -&gt; (string) The duration after the experiment end time for the data sources to include in the report. Constraints: • max: 32 • pattern: [\S]+ JSON Syntax: { "outputs": { "s3Configuration": { "bucketName": "string", "prefix": "string" } }, "dataSources": { "cloudWatchDashboards": [ { "dashboardIdentifier": "string" } ... ] }, "preExperimentDuration": "string", "postExperimentDuration": "string" }
     /// </summary>
     [CliOption("--experiment-report-configuration")]
     public string? ExperimentReportConfiguration { get; set; }
@@ -131,6 +131,15 @@ public record AwsFisUpdateExperimentTemplateOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

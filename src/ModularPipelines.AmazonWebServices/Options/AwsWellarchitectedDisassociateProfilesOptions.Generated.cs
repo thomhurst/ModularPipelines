@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWellarchitectedDisassociateProfilesOptions : AwsOptions, IValid
     /// <summary>
     /// Disassociate a profile from a workload. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}</param>
-    /// <param name="ProfileArns">The list of profile ARNs to disassociate from the workload. Constraints: o min: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="WorkloadId">The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}</param>
+    /// <param name="ProfileArns">The list of profile ARNs to disassociate from the workload. Constraints: • min: 1 (string) Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...</param>
     public AwsWellarchitectedDisassociateProfilesOptions(
         string WorkloadId,
         IEnumerable<string> ProfileArns
@@ -71,13 +72,13 @@ public record AwsWellarchitectedDisassociateProfilesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: o min: 32 o max: 32 o pattern: [0-9a-f]{32}
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region. Constraints: • min: 32 • max: 32 • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--workload-id")]
     public string? WorkloadId { get; private init; }
 
     /// <summary>
-    /// The list of profile ARNs to disassociate from the workload. Constraints: o min: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...
+    /// The list of profile ARNs to disassociate from the workload. Constraints: • min: 1 (string) Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--profile-arns", GroupValues = true)]
     public IEnumerable<string>? ProfileArns { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWellarchitectedDisassociateProfilesOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEmrGetSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns detailed information about a session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterId">The ID of the cluster that the session belongs to. Constraints: o max: 256</param>
-    /// <param name="SessionId">The ID of the session. Constraints: o min: 0 o max: 256</param>
+    /// <param name="ClusterId">The ID of the cluster that the session belongs to. Constraints: • max: 256</param>
+    /// <param name="SessionId">The ID of the session. Constraints: • min: 0 • max: 256</param>
     public AwsEmrGetSessionOptions(
         string ClusterId,
         string SessionId
@@ -60,13 +61,13 @@ public record AwsEmrGetSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the cluster that the session belongs to. Constraints: o max: 256
+    /// The ID of the cluster that the session belongs to. Constraints: • max: 256
     /// </summary>
     [CliOption("--cluster-id")]
     public string? ClusterId { get; private init; }
 
     /// <summary>
-    /// The ID of the session. Constraints: o min: 0 o max: 256
+    /// The ID of the session. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsEmrGetSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

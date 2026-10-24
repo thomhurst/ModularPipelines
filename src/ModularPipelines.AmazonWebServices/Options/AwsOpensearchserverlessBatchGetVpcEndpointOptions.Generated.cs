@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchserverlessBatchGetVpcEndpointOptions : AwsOptions, IV
     /// <summary>
     /// Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ids">A list of VPC endpoint identifiers. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: vpce-[0-9a-z]* Syntax: "string" "string" ...</param>
+    /// <param name="Ids">A list of VPC endpoint identifiers. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: vpce-[0-9a-z]* Syntax: "string" "string" ...</param>
     public AwsOpensearchserverlessBatchGetVpcEndpointOptions(
         IEnumerable<string> Ids
     )
@@ -67,7 +68,7 @@ public record AwsOpensearchserverlessBatchGetVpcEndpointOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of VPC endpoint identifiers. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 255 o pattern: vpce-[0-9a-z]* Syntax: "string" "string" ...
+    /// A list of VPC endpoint identifiers. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 255 • pattern: vpce-[0-9a-z]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }
@@ -93,6 +94,15 @@ public record AwsOpensearchserverlessBatchGetVpcEndpointOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

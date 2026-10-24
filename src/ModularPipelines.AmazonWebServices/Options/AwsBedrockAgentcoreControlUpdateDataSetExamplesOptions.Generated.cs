@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labele...
+/// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labele...
+    /// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics). See also: AWS API Documentation update-dataset-examples uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled ...
     /// </summary>
-    /// <param name="DataSetId">The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}</param>
-    /// <param name="Examples">Examples to update. Each element is a JSON object containing a re- quired exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call. Constraints: o min: 1 o max: 1000 (document) JSON Syntax: [ {...} ... ]</param>
+    /// <param name="DataSetId">The unique identifier of the dataset. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}</param>
+    /// <param name="Examples">Examples to update. Each element is a JSON object containing a required exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call. Constraints: • min: 1 • max: 1000 (document) JSON Syntax: [ {...} ... ]</param>
     public AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions(
         string DataSetId,
         IEnumerable<string> Examples
@@ -72,19 +73,19 @@ public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the dataset. Constraints: o pattern: [a-zA-Z0-9_-]{1,110}
+    /// The unique identifier of the dataset. Constraints: • pattern: [a-zA-Z0-9_-]{1,110}
     /// </summary>
     [CliOption("--dataset-id")]
     public string? DataSetId { get; private init; }
 
     /// <summary>
-    /// Examples to update. Each element is a JSON object containing a re- quired exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call. Constraints: o min: 1 o max: 1000 (document) JSON Syntax: [ {...} ... ]
+    /// Examples to update. Each element is a JSON object containing a required exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call. Constraints: • min: 1 • max: 1000 (document) JSON Syntax: [ {...} ... ]
     /// </summary>
     [CliOption("--examples", GroupValues = true)]
     public IEnumerable<string>? Examples { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previ- ous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency . Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -111,6 +112,15 @@ public record AwsBedrockAgentcoreControlUpdateDataSetExamplesOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

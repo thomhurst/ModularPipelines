@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing custom medical vocabulary with new values. This op- eration overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
+/// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsTranscribeUpdateMedicalVocabularyOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing custom medical vocabulary with new values. This op- eration overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
+    /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VocabularyName">The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+</param>
-    /// <param name="LanguageCode">The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US ) is the only language supported with Amazon Transcribe Medical. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA</param>
-    /// <param name="VocabularyFileUri">The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vo- cab-file.txt Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+</param>
+    /// <param name="VocabularyName">The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+</param>
+    /// <param name="LanguageCode">The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US ) is the only language supported with Amazon Transcribe Medical. Possible values: • af-ZA • ar-AE • ar-SA • am-ET • cy-GB • da-DK • de-CH • de-DE • en-AB • en-AU • en-GB • en-IE • en-IN • en-US • en-WL • es-ES • es-MX • es-US • fa-AF • fa-IR • fr-CA • fr-FR • ga-IE • gd-GB • he-IL • hi-IN • ht-HT • id-ID • it-IT • ja-JP • jv-ID • km-KH • ko-KR • my-MM • ms-MY • nl-NL • pt-BR • pt-PT • ru-RU • ta-IN • te-IN • tr-TR • zh-CN • zh-TW • th-TH • en-ZA • en-NZ • vi-VN • sv-SE • ab-GE • ast-ES • az-AZ • ba-RU • be-BY • bg-BG • bn-IN • bs-BA • ca-ES • ckb-IQ • ckb-IR • cs-CZ • cy-WL • el-GR • et-EE • et-ET • eu-ES • fi-FI • gl-ES • gu-IN • ha-NG • hr-HR • hu-HU • hy-AM • is-IS • ka-GE • kab-DZ • kk-KZ • kn-IN • ky-KG • lg-IN • lt-LT • lv-LV • mhr-RU • mi-NZ • mk-MK • ml-IN • mn-MN • mr-IN • mt-MT • no-NO • ne-NP • or-IN • pa-IN • pl-PL • ps-AF • ro-RO • rw-RW • si-LK • sk-SK • sl-SI • so-SO • sq-AL • sr-RS • su-ID • sw-BI • sw-KE • sw-RW • sw-TZ • sw-UG • tl-PH • tt-RU • ug-CN • uk-UA • uz-UZ • wo-SN • zh-HK • zu-ZA</param>
+    /// <param name="VocabularyFileUri">The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt Constraints: • min: 1 • max: 2000 • pattern: (s3://|http(s*)://).+</param>
     public AwsTranscribeUpdateMedicalVocabularyOptions(
         string VocabularyName,
         string LanguageCode,
@@ -64,19 +65,19 @@ public record AwsTranscribeUpdateMedicalVocabularyOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z._-]+
+    /// The name of the custom medical vocabulary you want to update. Custom medical vocabulary names are case sensitive. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z._-]+
     /// </summary>
     [CliOption("--vocabulary-name")]
     public string? VocabularyName { get; private init; }
 
     /// <summary>
-    /// The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US ) is the only language supported with Amazon Transcribe Medical. Possible values: o af-ZA o ar-AE o ar-SA o am-ET o cy-GB o da-DK o de-CH o de-DE o en-AB o en-AU o en-GB o en-IE o en-IN o en-US o en-WL o es-ES o es-MX o es-US o fa-AF o fa-IR o fr-CA o fr-FR o ga-IE o gd-GB o he-IL o hi-IN o ht-HT o id-ID o it-IT o ja-JP o jv-ID o km-KH o ko-KR o my-MM o ms-MY o nl-NL o pt-BR o pt-PT o ru-RU o ta-IN o te-IN o tr-TR o zh-CN o zh-TW o th-TH o en-ZA o en-NZ o vi-VN o sv-SE o ab-GE o ast-ES o az-AZ o ba-RU o be-BY o bg-BG o bn-IN o bs-BA o ca-ES o ckb-IQ o ckb-IR o cs-CZ o cy-WL o el-GR o et-EE o et-ET o eu-ES o fi-FI o gl-ES o gu-IN o ha-NG o hr-HR o hu-HU o hy-AM o is-IS o ka-GE o kab-DZ o kk-KZ o kn-IN o ky-KG o lg-IN o lt-LT o lv-LV o mhr-RU o mi-NZ o mk-MK o ml-IN o mn-MN o mr-IN o mt-MT o no-NO o ne-NP o or-IN o pa-IN o pl-PL o ps-AF o ro-RO o rw-RW o si-LK o sk-SK o sl-SI o so-SO o sq-AL o sr-RS o su-ID o sw-BI o sw-KE o sw-RW o sw-TZ o sw-UG o tl-PH o tt-RU o ug-CN o uk-UA o uz-UZ o wo-SN o zh-HK o zu-ZA
+    /// The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US ) is the only language supported with Amazon Transcribe Medical. Possible values: • af-ZA • ar-AE • ar-SA • am-ET • cy-GB • da-DK • de-CH • de-DE • en-AB • en-AU • en-GB • en-IE • en-IN • en-US • en-WL • es-ES • es-MX • es-US • fa-AF • fa-IR • fr-CA • fr-FR • ga-IE • gd-GB • he-IL • hi-IN • ht-HT • id-ID • it-IT • ja-JP • jv-ID • km-KH • ko-KR • my-MM • ms-MY • nl-NL • pt-BR • pt-PT • ru-RU • ta-IN • te-IN • tr-TR • zh-CN • zh-TW • th-TH • en-ZA • en-NZ • vi-VN • sv-SE • ab-GE • ast-ES • az-AZ • ba-RU • be-BY • bg-BG • bn-IN • bs-BA • ca-ES • ckb-IQ • ckb-IR • cs-CZ • cy-WL • el-GR • et-EE • et-ET • eu-ES • fi-FI • gl-ES • gu-IN • ha-NG • hr-HR • hu-HU • hy-AM • is-IS • ka-GE • kab-DZ • kk-KZ • kn-IN • ky-KG • lg-IN • lt-LT • lv-LV • mhr-RU • mi-NZ • mk-MK • ml-IN • mn-MN • mr-IN • mt-MT • no-NO • ne-NP • or-IN • pa-IN • pl-PL • ps-AF • ro-RO • rw-RW • si-LK • sk-SK • sl-SI • so-SO • sq-AL • sr-RS • su-ID • sw-BI • sw-KE • sw-RW • sw-TZ • sw-UG • tl-PH • tt-RU • ug-CN • uk-UA • uz-UZ • wo-SN • zh-HK • zu-ZA
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vo- cab-file.txt Constraints: o min: 1 o max: 2000 o pattern: (s3://|http(s*)://).+
+    /// The Amazon S3 location of the text file that contains your custom medical vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt Constraints: • min: 1 • max: 2000 • pattern: (s3://|http(s*)://).+
     /// </summary>
     [CliOption("--vocabulary-file-uri")]
     public string? VocabularyFileUri { get; private init; }
@@ -102,6 +103,15 @@ public record AwsTranscribeUpdateMedicalVocabularyOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

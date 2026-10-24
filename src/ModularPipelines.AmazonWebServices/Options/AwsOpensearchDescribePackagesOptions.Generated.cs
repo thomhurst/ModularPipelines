@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes all packages available to OpenSearch Service. For more infor- mation, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
+/// Describes all packages available to OpenSearch Service. For more information, see Custom packages for Amazon OpenSearch Service . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchDescribePackagesOptions : AwsOptions
 {
     /// <summary>
-    /// Only returns packages that match the DescribePackagesFilterList val- ues. (structure) A filter to apply to the DescribePackage response. Name -&gt; (string) Any field from PackageDetails . Possible values: o PackageID o PackageName o PackageStatus o PackageType o EngineVersion o PackageOwner Value -&gt; (list) A non-empty list of values for the specified filter field. Constraints: o min: 1 (string) Constraints: o pattern: ^[0-9a-zA-Z\*\.\_\\\/\?-]+$ Shorthand Syntax: Name=string,Value=string,string ... JSON Syntax: [ { "Name": "PackageID"|"PackageName"|"PackageStatus"|"PackageType"|"EngineVersion"|"PackageOwner", "Value": ["string", ...] } ... ]
+    /// Only returns packages that match the DescribePackagesFilterList values. (structure) A filter to apply to the DescribePackage response. Name -&gt; (string) Any field from PackageDetails . Possible values: • PackageID • PackageName • PackageStatus • PackageType • EngineVersion • PackageOwner Value -&gt; (list) A non-empty list of values for the specified filter field. Constraints: • min: 1 (string) Constraints: • pattern: ^[0-9a-zA-Z\*\.\_\\\/\?-]+$ Shorthand Syntax: Name=string,Value=string,string ... JSON Syntax: [ { "Name": "PackageID"|"PackageName"|"PackageStatus"|"PackageType"|"EngineVersion"|"PackageOwner", "Value": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial DescribePackageFilters operation returns a nextToken , you can include the returned nextToken in subsequent DescribePack- ageFilters operations, which returns results in the next page.
+    /// If your initial DescribePackageFilters operation returns a nextToken , you can include the returned nextToken in subsequent DescribePackageFilters operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -46,5 +46,14 @@ public record AwsOpensearchDescribePackagesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

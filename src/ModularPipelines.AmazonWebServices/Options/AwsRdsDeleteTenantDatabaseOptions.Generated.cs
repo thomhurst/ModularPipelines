@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a tenant database from your DB instance. This command only ap- plies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
+/// Deletes a tenant database from your DB instance. This command only applies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a tenant database from your DB instance. This command only ap- plies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
+    /// Deletes a tenant database from your DB instance. This command only applies to RDS for Oracle container database (CDB) instances. You can't delete a tenant database when it is the only tenant in the DB instance. See also: AWS API Documentation
     /// </summary>
     /// <param name="DbInstanceIdentifier">The user-supplied identifier for the DB instance that contains the tenant database that you want to delete.</param>
-    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to re- move from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isnt case-sensitive.</param>
+    /// <param name="TenantDbName">The user-supplied name of the tenant database that you want to remove from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isnt case-sensitive.</param>
     public AwsRdsDeleteTenantDatabaseOptions(
         string DbInstanceIdentifier,
         string TenantDbName
@@ -66,13 +67,13 @@ public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions, IValidatableObject
     public string? DbInstanceIdentifier { get; private init; }
 
     /// <summary>
-    /// The user-supplied name of the tenant database that you want to re- move from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isnt case-sensitive.
+    /// The user-supplied name of the tenant database that you want to remove from your DB instance. Amazon RDS deletes the tenant database with this name. This parameter isnt case-sensitive.
     /// </summary>
     [CliOption("--tenant-db-name")]
     public string? TenantDbName { get; private init; }
 
     /// <summary>
-    /// Specifies whether to skip the creation of a final DB snapshot before removing the tenant database from your DB instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't en- able this parameter, RDS creates a DB snapshot before it deletes the tenant database. By default, RDS doesn't skip the final snapshot. If you don't enable this parameter, you must specify the FinalDBSnap- shotIdentifier parameter.
+    /// Specifies whether to skip the creation of a final DB snapshot before removing the tenant database from your DB instance. If you enable this parameter, RDS doesn't create a DB snapshot. If you don't enable this parameter, RDS creates a DB snapshot before it deletes the tenant database. By default, RDS doesn't skip the final snapshot. If you don't enable this parameter, you must specify the FinalDBSnapshotIdentifier parameter.
     /// </summary>
     [CliFlag("--skip-final-snapshot", NegatedName = "--no-skip-final-snapshot")]
     public bool? SkipFinalSnapshot { get; set; }
@@ -104,6 +105,15 @@ public record AwsRdsDeleteTenantDatabaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

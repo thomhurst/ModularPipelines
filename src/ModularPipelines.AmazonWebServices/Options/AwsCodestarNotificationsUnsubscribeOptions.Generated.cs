@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes an association between a notification rule and an Amazon Q De- veloper in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
+/// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCodestarNotificationsUnsubscribeOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes an association between a notification rule and an Amazon Q De- veloper in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
+    /// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$</param>
-    /// <param name="TargetAddress">The ARN of the Amazon Q Developer in chat applications topic to un- subscribe from the notification rule. Constraints: o min: 1 o max: 320</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the notification rule. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$</param>
+    /// <param name="TargetAddress">The ARN of the Amazon Q Developer in chat applications topic to unsubscribe from the notification rule. Constraints: • min: 1 • max: 320</param>
     public AwsCodestarNotificationsUnsubscribeOptions(
         string Arn,
         string TargetAddress
@@ -60,13 +61,13 @@ public record AwsCodestarNotificationsUnsubscribeOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the notification rule. Constraints: o pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:no- tificationrule\/(.*\S)?$
+    /// The Amazon Resource Name (ARN) of the notification rule. Constraints: • pattern: ^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The ARN of the Amazon Q Developer in chat applications topic to un- subscribe from the notification rule. Constraints: o min: 1 o max: 320
+    /// The ARN of the Amazon Q Developer in chat applications topic to unsubscribe from the notification rule. Constraints: • min: 1 • max: 320
     /// </summary>
     [CliOption("--target-address")]
     public string? TargetAddress { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodestarNotificationsUnsubscribeOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

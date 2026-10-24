@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBillingconductorAssociatePricingRulesOptions : AwsOptions, IVal
     /// <summary>
     /// Connects an array of PricingRuleArns to a defined PricingPlan . The maximum number PricingRuleArn that can be associated in one call is 30. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The PricingPlanArn that the PricingRuleArns are associated with. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
-    /// <param name="PricingRuleArns">The PricingRuleArns that are associated with the Pricing Plan. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The PricingPlanArn that the PricingRuleArns are associated with. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})</param>
+    /// <param name="PricingRuleArns">The PricingRuleArns that are associated with the Pricing Plan. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...</param>
     public AwsBillingconductorAssociatePricingRulesOptions(
         string Arn,
         IEnumerable<string> PricingRuleArns
@@ -71,13 +72,13 @@ public record AwsBillingconductorAssociatePricingRulesOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The PricingPlanArn that the PricingRuleArns are associated with. Constraints: o pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricing- plan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
+    /// The PricingPlanArn that the PricingRuleArns are associated with. Constraints: • pattern: (arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The PricingRuleArns that are associated with the Pricing Plan. Constraints: o min: 1 o max: 30 (string) Constraints: o pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricin- grule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
+    /// The PricingRuleArns that are associated with the Pricing Plan. Constraints: • min: 1 • max: 30 (string) Constraints: • pattern: (arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pricing-rule-arns", GroupValues = true)]
     public IEnumerable<string>? PricingRuleArns { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBillingconductorAssociatePricingRulesOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

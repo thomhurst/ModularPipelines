@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudformationDescribeStackRefactorOptions : AwsOptions, IValid
     /// <summary>
     /// Describes the stack refactor status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="StackRefactorId">The ID associated with the stack refactor created from the CreateS- tackRefactor action.</param>
+    /// <param name="StackRefactorId">The ID associated with the stack refactor created from the CreateStackRefactor action.</param>
     public AwsCloudformationDescribeStackRefactorOptions(
         string StackRefactorId
     )
@@ -56,7 +57,7 @@ public record AwsCloudformationDescribeStackRefactorOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID associated with the stack refactor created from the CreateS- tackRefactor action.
+    /// The ID associated with the stack refactor created from the CreateStackRefactor action.
     /// </summary>
     [CliOption("--stack-refactor-id")]
     public string? StackRefactorId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudformationDescribeStackRefactorOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

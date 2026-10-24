@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsLexv2ModelsUpdateBotRecommendationOptions : AwsOptions, IValida
     /// <summary>
     /// Updates an existing bot recommendation request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot containing the bot recommendation to be updated. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot containing the bot recommendation to be up- dated. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$</param>
+    /// <param name="BotId">The unique identifier of the bot containing the bot recommendation to be updated. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot containing the bot recommendation to be updated. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$</param>
     /// <param name="LocaleId">The identifier of the language and locale of the bot recommendation to update. The string must match one of the supported locales. For more information, see Supported languages</param>
-    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation to be updated. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="EncryptionSetting">The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata. kmsKeyArn -&gt; (string) The KMS key ARN used to encrypt the metadata associated with the bot recommendation. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ botLocaleExportPassword -&gt; (string) The password used to encrypt the recommended bot recommendation file. Constraints: o min: 0 o max: 1024 associatedTranscriptsPassword -&gt; (string) The password used to encrypt the associated transcript file. Constraints: o min: 0 o max: 1024 Shorthand Syntax: kmsKeyArn=string,botLocaleExportPassword=string,associatedTranscriptsPassword=string JSON Syntax: { "kmsKeyArn": "string", "botLocaleExportPassword": "string", "associatedTranscriptsPassword": "string" }</param>
+    /// <param name="BotRecommendationId">The unique identifier of the bot recommendation to be updated. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="EncryptionSetting">The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata. kmsKeyArn -&gt; (string) The KMS key ARN used to encrypt the metadata associated with the bot recommendation. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ botLocaleExportPassword -&gt; (string) The password used to encrypt the recommended bot recommendation file. Constraints: • min: 0 • max: 1024 associatedTranscriptsPassword -&gt; (string) The password used to encrypt the associated transcript file. Constraints: • min: 0 • max: 1024 Shorthand Syntax: kmsKeyArn=string,botLocaleExportPassword=string,associatedTranscriptsPassword=string JSON Syntax: { "kmsKeyArn": "string", "botLocaleExportPassword": "string", "associatedTranscriptsPassword": "string" }</param>
     public AwsLexv2ModelsUpdateBotRecommendationOptions(
         string BotId,
         string BotVersion,
@@ -72,13 +73,13 @@ public record AwsLexv2ModelsUpdateBotRecommendationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot containing the bot recommendation to be updated. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot containing the bot recommendation to be updated. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot containing the bot recommendation to be up- dated. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot containing the bot recommendation to be updated. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
@@ -90,13 +91,13 @@ public record AwsLexv2ModelsUpdateBotRecommendationOptions : AwsOptions, IValida
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot recommendation to be updated. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot recommendation to be updated. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-recommendation-id")]
     public string? BotRecommendationId { get; private init; }
 
     /// <summary>
-    /// The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata. kmsKeyArn -&gt; (string) The KMS key ARN used to encrypt the metadata associated with the bot recommendation. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ botLocaleExportPassword -&gt; (string) The password used to encrypt the recommended bot recommendation file. Constraints: o min: 0 o max: 1024 associatedTranscriptsPassword -&gt; (string) The password used to encrypt the associated transcript file. Constraints: o min: 0 o max: 1024 Shorthand Syntax: kmsKeyArn=string,botLocaleExportPassword=string,associatedTranscriptsPassword=string JSON Syntax: { "kmsKeyArn": "string", "botLocaleExportPassword": "string", "associatedTranscriptsPassword": "string" }
+    /// The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata. kmsKeyArn -&gt; (string) The KMS key ARN used to encrypt the metadata associated with the bot recommendation. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ botLocaleExportPassword -&gt; (string) The password used to encrypt the recommended bot recommendation file. Constraints: • min: 0 • max: 1024 associatedTranscriptsPassword -&gt; (string) The password used to encrypt the associated transcript file. Constraints: • min: 0 • max: 1024 Shorthand Syntax: kmsKeyArn=string,botLocaleExportPassword=string,associatedTranscriptsPassword=string JSON Syntax: { "kmsKeyArn": "string", "botLocaleExportPassword": "string", "associatedTranscriptsPassword": "string" }
     /// </summary>
     [CliOption("--encryption-setting")]
     public string? EncryptionSetting { get; private init; }
@@ -122,6 +123,15 @@ public record AwsLexv2ModelsUpdateBotRecommendationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

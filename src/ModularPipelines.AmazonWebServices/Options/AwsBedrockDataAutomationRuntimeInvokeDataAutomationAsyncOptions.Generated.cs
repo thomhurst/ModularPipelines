@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : 
     /// <summary>
     /// Async API: Invoke data automation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InputConfiguration">Input configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? assetProcessingConfiguration -&gt; (structure) Asset processing configuration video -&gt; (structure) Video asset processing configuration segmentConfiguration -&gt; (tagged union structure) Delimits the segment of the input that will be processed NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: timestampSegment. timestampSegment -&gt; (structure) Timestamp segment startTimeMillis -&gt; (long) [required] Start timestamp in milliseconds Constraints: o min: 0 endTimeMillis -&gt; (long) [required] End timestamp in milliseconds Constraints: o min: 300000 JSON Syntax: { "s3Uri": "string", "assetProcessingConfiguration": { "video": { "segmentConfiguration": { "timestampSegment": { "startTimeMillis": long, "endTimeMillis": long } } } } }</param>
-    /// <param name="OutputConfiguration">Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
-    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+</param>
+    /// <param name="InputConfiguration">Input configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? assetProcessingConfiguration -&gt; (structure) Asset processing configuration video -&gt; (structure) Video asset processing configuration segmentConfiguration -&gt; (tagged union structure) Delimits the segment of the input that will be processed NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: timestampSegment. timestampSegment -&gt; (structure) Timestamp segment startTimeMillis -&gt; (long) [required] Start timestamp in milliseconds Constraints: • min: 0 endTimeMillis -&gt; (long) [required] End timestamp in milliseconds Constraints: • min: 300000 JSON Syntax: { "s3Uri": "string", "assetProcessingConfiguration": { "video": { "segmentConfiguration": { "timestampSegment": { "startTimeMillis": long, "endTimeMillis": long } } } } }</param>
+    /// <param name="OutputConfiguration">Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }</param>
+    /// <param name="DataAutomationProfileArn">Data automation profile ARN Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+</param>
     public AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions(
         string InputConfiguration,
         string OutputConfiguration,
@@ -65,38 +66,38 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Input configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? assetProcessingConfiguration -&gt; (structure) Asset processing configuration video -&gt; (structure) Video asset processing configuration segmentConfiguration -&gt; (tagged union structure) Delimits the segment of the input that will be processed NOTE: This is a Tagged Union structure. Only one of the fol- lowing top level keys can be set: timestampSegment. timestampSegment -&gt; (structure) Timestamp segment startTimeMillis -&gt; (long) [required] Start timestamp in milliseconds Constraints: o min: 0 endTimeMillis -&gt; (long) [required] End timestamp in milliseconds Constraints: o min: 300000 JSON Syntax: { "s3Uri": "string", "assetProcessingConfiguration": { "video": { "segmentConfiguration": { "timestampSegment": { "startTimeMillis": long, "endTimeMillis": long } } } } }
+    /// Input configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? assetProcessingConfiguration -&gt; (structure) Asset processing configuration video -&gt; (structure) Video asset processing configuration segmentConfiguration -&gt; (tagged union structure) Delimits the segment of the input that will be processed NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: timestampSegment. timestampSegment -&gt; (structure) Timestamp segment startTimeMillis -&gt; (long) [required] Start timestamp in milliseconds Constraints: • min: 0 endTimeMillis -&gt; (long) [required] End timestamp in milliseconds Constraints: • min: 300000 JSON Syntax: { "s3Uri": "string", "assetProcessingConfiguration": { "video": { "segmentConfiguration": { "timestampSegment": { "startTimeMillis": long, "endTimeMillis": long } } } } }
     /// </summary>
     [CliOption("--input-configuration")]
     public string? InputConfiguration { get; private init; }
 
     /// <summary>
-    /// Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: o min: 1 o max: 1024 o pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
+    /// Output configuration. s3Uri -&gt; (string) [required] S3 uri. Constraints: • min: 1 • max: 1024 • pattern: s3://[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9](/[^\x00-\x1F\x7F\{^}%`\]"&gt;\[~&lt;#|]*)? Shorthand Syntax: s3Uri=string JSON Syntax: { "s3Uri": "string" }
     /// </summary>
     [CliOption("--output-configuration")]
     public string? OutputConfiguration { get; private init; }
 
     /// <summary>
-    /// Data automation profile ARN Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-profile/[a-zA-Z0-9-_.]+
+    /// Data automation profile ARN Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+
     /// </summary>
     [CliOption("--data-automation-profile-arn")]
     public string? DataAutomationProfileArn { get; private init; }
 
     /// <summary>
-    /// Idempotency token. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){1,256}
+    /// Idempotency token. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Data automation configuration. dataAutomationProjectArn -&gt; (string) [required] Data automation project arn. Constraints: o min: 1 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-_]+ stage -&gt; (string) Data automation stage. Possible values: o LIVE o DEVELOPMENT Shorthand Syntax: dataAutomationProjectArn=string,stage=string JSON Syntax: { "dataAutomationProjectArn": "string", "stage": "LIVE"|"DEVELOPMENT" }
+    /// Data automation configuration. dataAutomationProjectArn -&gt; (string) [required] Data automation project arn. Constraints: • min: 1 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-_]+ stage -&gt; (string) Data automation stage. Possible values: • LIVE • DEVELOPMENT Shorthand Syntax: dataAutomationProjectArn=string,stage=string JSON Syntax: { "dataAutomationProjectArn": "string", "stage": "LIVE"|"DEVELOPMENT" }
     /// </summary>
     [CliOption("--data-automation-configuration")]
     public string? DataAutomationConfiguration { get; set; }
 
     /// <summary>
-    /// Encryption configuration. kmsKeyId -&gt; (string) [required] Customer KMS key used for encryption Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS encryption context. Constraints: o min: 1 o max: 10 key -&gt; (string) Excryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
+    /// Encryption configuration. kmsKeyId -&gt; (string) [required] Customer KMS key used for encryption Constraints: • min: 1 • max: 2048 • pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS encryption context. Constraints: • min: 1 • max: 10 key -&gt; (string) Excryption context key. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
@@ -108,13 +109,13 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : 
     public string? NotificationConfiguration { get; set; }
 
     /// <summary>
-    /// Blueprint list. Constraints: o min: 1 o max: 40 (structure) Blueprint. blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-insights-pub- lic-[a-zA-Z0-9-_]{1,30}|bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) version -&gt; (string) Version of blueprint. Constraints: o min: 1 o max: 128 o pattern: [0-9]* stage -&gt; (string) Stage of blueprint. Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: blueprintArn=string,version=string,stage=string ... JSON Syntax: [ { "blueprintArn": "string", "version": "string", "stage": "DEVELOPMENT"|"LIVE" } ... ]
+    /// Blueprint list. Constraints: • min: 1 • max: 40 (structure) Blueprint. blueprintArn -&gt; (string) [required] Arn of blueprint. Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-insights-public-[a-zA-Z0-9-_]{1,30}|bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36}) version -&gt; (string) Version of blueprint. Constraints: • min: 1 • max: 128 • pattern: [0-9]* stage -&gt; (string) Stage of blueprint. Possible values: • DEVELOPMENT • LIVE Shorthand Syntax: blueprintArn=string,version=string,stage=string ... JSON Syntax: [ { "blueprintArn": "string", "version": "string", "stage": "DEVELOPMENT"|"LIVE" } ... ]
     /// </summary>
     [CliOption("--blueprints", GroupValues = true)]
     public IEnumerable<string>? Blueprints { get; set; }
 
     /// <summary>
-    /// List of tags. Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// List of tags. Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]* value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -140,6 +141,15 @@ public record AwsBedrockDataAutomationRuntimeInvokeDataAutomationAsyncOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

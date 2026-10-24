@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsGlueModifyIntegrationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies a Zero-ETL integration in the caller's account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IntegrationIdentifier">The Amazon Resource Name (ARN) for the integration. Constraints: o min: 1 o max: 128</param>
+    /// <param name="IntegrationIdentifier">The Amazon Resource Name (ARN) for the integration. Constraints: • min: 1 • max: 128</param>
     public AwsGlueModifyIntegrationOptions(
         string IntegrationIdentifier
     )
@@ -56,31 +57,31 @@ public record AwsGlueModifyIntegrationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the integration. Constraints: o min: 1 o max: 128
+    /// The Amazon Resource Name (ARN) for the integration. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--integration-identifier")]
     public string? IntegrationIdentifier { get; private init; }
 
     /// <summary>
-    /// A description of the integration. Constraints: o max: 1000 o pattern: [\S\s]*
+    /// A description of the integration. Constraints: • max: 1000 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Selects source tables for the integration using Maxwell filter syn- tax. Constraints: o min: 1 o max: 2048
+    /// Selects source tables for the integration using Maxwell filter syntax. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--data-filter")]
     public string? DataFilter { get; set; }
 
     /// <summary>
-    /// The configuration settings for the integration. Currently, only the RefreshInterval can be modified. RefreshInterval -&gt; (string) Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flex- ibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimiza- tion goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Constraints: o min: 1 o max: 128 SourceProperties -&gt; (map) A collection of key-value pairs that specify additional proper- ties for the integration source. These properties provide con- figuration options that can be used to customize the behavior of the ODB source during data integration operations. key -&gt; (string) value -&gt; (string) ContinuousSync -&gt; (boolean) Enables continuous synchronization for on-demand data extrac- tions from SaaS applications to Amazon Web Services data ser- vices like Amazon Redshift and Amazon S3. Shorthand Syntax: RefreshInterval=string,SourceProperties={KeyName1=string,KeyName2=string},ContinuousSync=boolean JSON Syntax: { "RefreshInterval": "string", "SourceProperties": {"string": "string" ...}, "ContinuousSync": true|false }
+    /// The configuration settings for the integration. Currently, only the RefreshInterval can be modified. RefreshInterval -&gt; (string) Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Constraints: • min: 1 • max: 128 SourceProperties -&gt; (map) A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that can be used to customize the behavior of the ODB source during data integration operations. key -&gt; (string) value -&gt; (string) ContinuousSync -&gt; (boolean) Enables continuous synchronization for on-demand data extractions from SaaS applications to Amazon Web Services data services like Amazon Redshift and Amazon S3. TargetNamespace -&gt; (string) An optional custom namespace for the integration's target. Supply this parameter only when the target is an Amazon S3 Tables table bucket; it is not accepted for other target types. The integration replicates data into the namespace you specify, reusing it if it already exists. If you omit this parameter, the target namespace defaults to zetl_ followed by the integration ID, with hyphens converted to underscores. The value is immutable after the integration is created; ModifyIntegration rejects changes to it. It must be a valid Amazon S3 Tables namespace name: 1 to 255 characters using lowercase letters, numbers, and underscores, with no leading or trailing underscore and no reserved aws prefix. Constraints: • min: 1 • max: 255 • pattern: [a-z0-9]([a-z0-9_]*[a-z0-9])? Shorthand Syntax: RefreshInterval=string,SourceProperties={KeyName1=string,KeyName2=string},ContinuousSync=boolean,TargetNamespace=string JSON Syntax: { "RefreshInterval": "string", "SourceProperties": {"string": "string" ...}, "ContinuousSync": true|false, "TargetNamespace": "string" }
     /// </summary>
     [CliOption("--integration-config")]
     public string? IntegrationConfig { get; set; }
 
     /// <summary>
-    /// A unique name for an integration in Glue. Constraints: o min: 1 o max: 128
+    /// A unique name for an integration in Glue. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--integration-name")]
     public string? IntegrationName { get; set; }
@@ -106,6 +107,15 @@ public record AwsGlueModifyIntegrationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

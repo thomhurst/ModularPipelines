@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsDeadlineGetSessionActionOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets a session action for the job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID for the session action. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID for the session action. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="JobId">The job ID for the session. Constraints: o pattern: job-[0-9a-f]{32}</param>
-    /// <param name="SessionActionId">The session action ID for the session. Constraints: o pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))</param>
+    /// <param name="FarmId">The farm ID for the session action. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID for the session action. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID for the session. Constraints: • pattern: job-[0-9a-f]{32}</param>
+    /// <param name="SessionActionId">The session action ID for the session. Constraints: • pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))</param>
     public AwsDeadlineGetSessionActionOptions(
         string FarmId,
         string QueueId,
@@ -68,25 +69,25 @@ public record AwsDeadlineGetSessionActionOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID for the session action. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID for the session action. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID for the session action. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID for the session action. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The job ID for the session. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID for the session. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The session action ID for the session. Constraints: o pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))
+    /// The session action ID for the session. Constraints: • pattern: sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))
     /// </summary>
     [CliOption("--session-action-id")]
     public string? SessionActionId { get; private init; }
@@ -112,6 +113,15 @@ public record AwsDeadlineGetSessionActionOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

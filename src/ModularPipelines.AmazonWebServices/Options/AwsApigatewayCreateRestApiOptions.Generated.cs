@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -82,25 +82,25 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? BinaryMediaTypes { get; set; }
 
     /// <summary>
-    /// A nullable integer that is used to enable compression (with non-neg- ative between 0 and 10485760 (10M) bytes, inclusive) or disable com- pression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
+    /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
     /// </summary>
     [CliOption("--minimum-compression-size")]
     public int? MinimumCompressionSize { get; set; }
 
     /// <summary>
-    /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. Possible values: o HEADER o AUTHORIZER
+    /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer. Possible values: • HEADER • AUTHORIZER
     /// </summary>
     [CliOption("--api-key-source")]
     public AwsApigatewayCreateRestApiApiKeySource? ApiKeySource { get; set; }
 
     /// <summary>
-    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API. types -&gt; (list) A list of endpoint types of an API (RestApi) or its custom do- main name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE" . For a regional API and its custom domain name, the endpoint type is REGIONAL . For a private API, the endpoint type is PRIVATE . (string) The endpoint type. The valid values are EDGE for edge-opti- mized API setup, most suitable for mobile applications; RE- GIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs. Possible values: o REGIONAL o EDGE o PRIVATE ipAddressType -&gt; (string) The IP address types that can invoke an API (RestApi) or a Do- mainName. Use ipv4 to allow only IPv4 addresses to invoke an API or DomainName, or use dualstack to allow both IPv4 and IPv6 ad- dresses to invoke an API or a DomainName. For the PRIVATE end- point type, only dualstack is supported. Possible values: o ipv4 o dualstack vpcEndpointIds -&gt; (list) A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE end- point type. (string) Shorthand Syntax: types=string,string,ipAddressType=string,vpcEndpointIds=string,string JSON Syntax: { "types": ["REGIONAL"|"EDGE"|"PRIVATE", ...], "ipAddressType": "ipv4"|"dualstack", "vpcEndpointIds": ["string", ...] }
+    /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API. types -&gt; (list) A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE" . For a regional API and its custom domain name, the endpoint type is REGIONAL . For a private API, the endpoint type is PRIVATE . (string) The endpoint type. The valid values are EDGE for edge-optimized API setup, most suitable for mobile applications; REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region; and PRIVATE for private APIs. Possible values: • REGIONAL • EDGE • PRIVATE ipAddressType -&gt; (string) The IP address types that can invoke an API (RestApi) or a DomainName. Use ipv4 to allow only IPv4 addresses to invoke an API or DomainName, or use dualstack to allow both IPv4 and IPv6 addresses to invoke an API or a DomainName. For the PRIVATE endpoint type, only dualstack is supported. Possible values: • ipv4 • dualstack vpcEndpointIds -&gt; (list) A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE endpoint type. (string) Shorthand Syntax: types=string,string,ipAddressType=string,vpcEndpointIds=string,string JSON Syntax: { "types": ["REGIONAL"|"EDGE"|"PRIVATE", ...], "ipAddressType": "ipv4"|"dualstack", "vpcEndpointIds": ["string", ...] }
     /// </summary>
     [CliOption("--endpoint-configuration")]
     public string? EndpointConfiguration { get; set; }
 
     /// <summary>
-    /// A stringified JSON policy document that applies to this RestApi re- gardless of the caller and Method configuration.
+    /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
@@ -112,19 +112,19 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions, IValidatableObject
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com end- point. To require that clients use a custom domain name to invoke your API, disable the default endpoint
+    /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
     /// </summary>
     [CliFlag("--disable-execute-api-endpoint", NegatedName = "--no-disable-execute-api-endpoint")]
     public bool? DisableExecuteApiEndpoint { get; set; }
 
     /// <summary>
-    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi. Possible values: o TLS_1_0 o TLS_1_2 o SecurityPolicy_TLS13_1_3_2025_09 o SecurityPolicy_TLS13_1_3_FIPS_2025_09 o SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09 o SecurityPolicy_TLS13_1_2_PQ_2025_09 o SecurityPolicy_TLS13_1_2_2021_06 o SecurityPolicy_TLS13_2025_EDGE o SecurityPolicy_TLS12_PFS_2025_EDGE o SecurityPolicy_TLS12_2018_EDGE
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi. Possible values: • TLS_1_0 • TLS_1_2 • SecurityPolicy_TLS13_1_3_2025_09 • SecurityPolicy_TLS13_1_3_FIPS_2025_09 • SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09 • SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09 • SecurityPolicy_TLS13_1_2_PQ_2025_09 • SecurityPolicy_TLS13_1_2_2021_06 • SecurityPolicy_TLS13_2025_EDGE • SecurityPolicy_TLS12_PFS_2025_EDGE • SecurityPolicy_TLS12_2018_EDGE
     /// </summary>
     [CliOption("--security-policy")]
     public AwsApigatewayCreateRestApiSecurityPolicy? SecurityPolicy { get; set; }
 
     /// <summary>
-    /// The endpoint access mode of the RestApi. Only available for RestApis that use security policies that start with SecurityPolicy_ . Possible values: o BASIC o STRICT
+    /// The endpoint access mode of the RestApi. Only available for RestApis that use security policies that start with SecurityPolicy_ . Possible values: • BASIC • STRICT
     /// </summary>
     [CliOption("--endpoint-access-mode")]
     public AwsApigatewayCreateRestApiEndpointAccessMode? EndpointAccessMode { get; set; }
@@ -156,6 +156,15 @@ public record AwsApigatewayCreateRestApiOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

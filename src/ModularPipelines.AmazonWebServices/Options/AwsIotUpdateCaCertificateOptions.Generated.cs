@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotUpdateCaCertificateOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a registered CA certificate. Requires permission to access the UpdateCACertificate action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificateId">The CA certificate identifier. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+</param>
+    /// <param name="CertificateId">The CA certificate identifier. Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+</param>
     public AwsIotUpdateCaCertificateOptions(
         string CertificateId
     )
@@ -57,25 +58,25 @@ public record AwsIotUpdateCaCertificateOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The CA certificate identifier. Constraints: o min: 64 o max: 64 o pattern: (0x)?[a-fA-F0-9]+
+    /// The CA certificate identifier. Constraints: • min: 64 • max: 64 • pattern: (0x)?[a-fA-F0-9]+
     /// </summary>
     [CliOption("--certificate-id")]
     public string? CertificateId { get; private init; }
 
     /// <summary>
-    /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used. Possible values: o ACTIVE o INACTIVE
+    /// The updated status of the CA certificate. Note: The status value REGISTER_INACTIVE is deprecated and should not be used. Possible values: • ACTIVE • INACTIVE
     /// </summary>
     [CliOption("--new-status")]
     public AwsIotUpdateCaCertificateNewStatus? NewStatus { get; set; }
 
     /// <summary>
-    /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE". Possible values: o ENABLE o DISABLE
+    /// The new value for the auto registration status. Valid values are: "ENABLE" or "DISABLE". Possible values: • ENABLE • DISABLE
     /// </summary>
     [CliOption("--new-auto-registration-status")]
     public AwsIotUpdateCaCertificateNewAutoRegistrationStatus? NewAutoRegistrationStatus { get; set; }
 
     /// <summary>
-    /// Information about the registration configuration. templateBody -&gt; (string) The template body. Constraints: o min: 0 o max: 10240 o pattern: [\s\S]* roleArn -&gt; (string) The ARN of the role. Constraints: o min: 20 o max: 2048 templateName -&gt; (string) The name of the provisioning template. Constraints: o min: 1 o max: 36 o pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: templateBody=string,roleArn=string,templateName=string JSON Syntax: { "templateBody": "string", "roleArn": "string", "templateName": "string" }
+    /// Information about the registration configuration. templateBody -&gt; (string) The template body. Constraints: • min: 0 • max: 10240 • pattern: [\s\S]* roleArn -&gt; (string) The ARN of the role. Constraints: • min: 20 • max: 2048 templateName -&gt; (string) The name of the provisioning template. Constraints: • min: 1 • max: 36 • pattern: ^[0-9A-Za-z_-]+$ Shorthand Syntax: templateBody=string,roleArn=string,templateName=string JSON Syntax: { "templateBody": "string", "roleArn": "string", "templateName": "string" }
     /// </summary>
     [CliOption("--registration-config")]
     public string? RegistrationConfig { get; set; }
@@ -107,6 +108,15 @@ public record AwsIotUpdateCaCertificateOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

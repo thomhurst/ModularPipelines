@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: o You must have an Amazon Web Services Business Support+, A...
+/// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: • You must have an Amazon Web Services Business Support+, A...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSupportGetAttachmentDownloadLinkOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: o You must have an Amazon Web Services Business Support+, A...
+    /// Returns a presigned download URL for an attachment that is associated with a case communication. The download link works for an attachment of any size, including attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks . The download URL is time-limited and expires at the date and time indicated in the downloadUrl response field. Download the attachment from the URL before it expires. NOTE: • You must have an Amazon Web Services Business Support+, A...
     /// </summary>
     /// <param name="AttachmentId">The unique identifier of the attachment for which to retrieve a download link. Attachment IDs are returned in the AttachmentDetails objects in the attachments field of a Communication returned by DescribeCommunications or DescribeCases .</param>
     public AwsSupportGetAttachmentDownloadLinkOptions(
@@ -62,7 +63,7 @@ public record AwsSupportGetAttachmentDownloadLinkOptions : AwsOptions, IValidata
     public string? AttachmentId { get; private init; }
 
     /// <summary>
-    /// Specifies whether to validate the request without actually returning a download link. When set to true , the request is validated but no URL is returned, and the operation returns a DryRunOperationExcep- tion . When omitted or set to false , the request runs normally.
+    /// Specifies whether to validate the request without actually returning a download link. When set to true , the request is validated but no URL is returned, and the operation returns a DryRunOperationException . When omitted or set to false , the request runs normally.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsSupportGetAttachmentDownloadLinkOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

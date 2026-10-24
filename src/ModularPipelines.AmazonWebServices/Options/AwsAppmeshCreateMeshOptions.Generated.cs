@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a service mesh. A service mesh is a logical boundary for network traffic between ser- vices that are represented by resources within the mesh. After you cre- ate your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applica- tions in your mesh. For more information about service meshes, see Service meshes . See also: AWS API Documentation
+/// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see Service meshes . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAppmeshCreateMeshOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a service mesh. A service mesh is a logical boundary for network traffic between ser- vices that are represented by resources within the mesh. After you cre- ate your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applica- tions in your mesh. For more information about service meshes, see Service meshes . See also: AWS API Documentation
+    /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see Service meshes . See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name to use for the service mesh. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name to use for the service mesh. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshCreateMeshOptions(
         string MeshName
     )
@@ -57,7 +58,7 @@ public record AwsAppmeshCreateMeshOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name to use for the service mesh. Constraints: o min: 1 o max: 255
+    /// The name to use for the service mesh. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
@@ -70,13 +71,13 @@ public record AwsAppmeshCreateMeshOptions : AwsOptions, IValidatableObject
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The service mesh specification to apply. egressFilter -&gt; (structure) The egress filter rules for the service mesh. type -&gt; (string) [required] The egress filter type. By default, the type is DROP_ALL , which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazon- aws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any end- point inside or outside of the service mesh. Possible values: o ALLOW_ALL o DROP_ALL serviceDiscovery -&gt; (structure) An object that represents the service discovery information for a service mesh. ipPreference -&gt; (string) The IP version to use to control traffic within the mesh. Possible values: o IPv6_PREFERRED o IPv4_PREFERRED o IPv4_ONLY o IPv6_ONLY Shorthand Syntax: egressFilter={type=string},serviceDiscovery={ipPreference=string} JSON Syntax: { "egressFilter": { "type": "ALLOW_ALL"|"DROP_ALL" }, "serviceDiscovery": { "ipPreference": "IPv6_PREFERRED"|"IPv4_PREFERRED"|"IPv4_ONLY"|"IPv6_ONLY" } }
+    /// The service mesh specification to apply. egressFilter -&gt; (structure) The egress filter rules for the service mesh. type -&gt; (string) [required] The egress filter type. By default, the type is DROP_ALL , which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh. Possible values: • ALLOW_ALL • DROP_ALL serviceDiscovery -&gt; (structure) An object that represents the service discovery information for a service mesh. ipPreference -&gt; (string) The IP version to use to control traffic within the mesh. Possible values: • IPv6_PREFERRED • IPv4_PREFERRED • IPv4_ONLY • IPv6_ONLY Shorthand Syntax: egressFilter={type=string},serviceDiscovery={ipPreference=string} JSON Syntax: { "egressFilter": { "type": "ALLOW_ALL"|"DROP_ALL" }, "serviceDiscovery": { "ipPreference": "IPv6_PREFERRED"|"IPv4_PREFERRED"|"IPv4_ONLY"|"IPv6_ONLY" } }
     /// </summary>
     [CliOption("--spec")]
     public string? Spec { get; set; }
 
     /// <summary>
-    /// Optional metadata that you can apply to the service mesh to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: o min: 0 o max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// Optional metadata that you can apply to the service mesh to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. Constraints: • min: 0 • max: 50 (structure) Optional metadata that you apply to a resource to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters. key -&gt; (string) [required] One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -102,6 +103,15 @@ public record AwsAppmeshCreateMeshOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

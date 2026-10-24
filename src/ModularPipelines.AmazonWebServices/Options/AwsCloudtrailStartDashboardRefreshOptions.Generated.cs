@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions, IValidatab
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Starts a refresh of the specified dashboard. Each time a dashboard is refreshed, CloudTrail runs queries to populate the dashboard's widgets. CloudTrail must be granted permissions to run the StartQuery operation on ...
     /// </summary>
-    /// <param name="DashboardId">The name or ARN of the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="DashboardId">The name or ARN of the dashboard. Constraints: • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailStartDashboardRefreshOptions(
         string DashboardId
     )
@@ -57,13 +57,13 @@ public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ARN of the dashboard. Constraints: o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The name or ARN of the dashboard. Constraints: • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--dashboard-id")]
     public string? DashboardId { get; private init; }
 
     /// <summary>
-    /// The query parameter values for the dashboard For custom dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . For managed dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , $Period$ , and $EventDataStoreId$ . The $EventDataStoreId$ query parameter is required. key -&gt; (string) Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._/\-:$]+$ value -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9._/\-:]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The query parameter values for the dashboard For custom dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , and $Period$ . For managed dashboards, the following query parameters are valid: $StartTime$ , $EndTime$ , $Period$ , and $EventDataStoreId$ . The $EventDataStoreId$ query parameter is required. key -&gt; (string) Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9._/\-:$]+$ value -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9._/\-:]+$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--query-parameter-values", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? QueryParameterValues { get; set; }
@@ -89,6 +89,15 @@ public record AwsCloudtrailStartDashboardRefreshOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies an elastic cluster. This includes updating admin-user- name/password, upgrading the API version, and setting up a backup win- dow and maintenance window See also: AWS API Documentation
+/// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies an elastic cluster. This includes updating admin-user- name/password, upgrading the API version, and setting up a backup win- dow and maintenance window See also: AWS API Documentation
+    /// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterArn">The ARN identifier of the elastic cluster.</param>
     public AwsDocdbElasticUpdateClusterOptions(
@@ -71,7 +72,7 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions, IValidatableObje
     public string? AdminUserPassword { get; set; }
 
     /// <summary>
-    /// The authentication type used to determine where to fetch the pass- word used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: o PLAIN_TEXT o SECRET_ARN
+    /// The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN . Possible values: • PLAIN_TEXT • SECRET_ARN
     /// </summary>
     [CliOption("--auth-type")]
     public AwsDocdbElasticUpdateClusterAuthType? AuthType { get; set; }
@@ -90,7 +91,7 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions, IValidatableObje
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetention- Period .
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetentionPeriod .
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
@@ -114,7 +115,7 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions, IValidatableObje
     public int? ShardCount { get; set; }
 
     /// <summary>
-    /// The number of replica instances applying to all shards in the elas- tic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+    /// The number of replica instances applying to all shards in the elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
     /// </summary>
     [CliOption("--shard-instance-count")]
     public int? ShardInstanceCount { get; set; }
@@ -152,6 +153,15 @@ public record AwsDocdbElasticUpdateClusterOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

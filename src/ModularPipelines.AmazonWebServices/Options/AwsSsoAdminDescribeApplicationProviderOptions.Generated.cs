@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about a provider that can be used to connect an Ama- zon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
+/// Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSsoAdminDescribeApplicationProviderOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about a provider that can be used to connect an Ama- zon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
+    /// Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationProviderArn">Specifies the ARN of the application provider for which you want de- tails. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+</param>
+    /// <param name="ApplicationProviderArn">Specifies the ARN of the application provider for which you want details. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+</param>
     public AwsSsoAdminDescribeApplicationProviderOptions(
         string ApplicationProviderArn
     )
@@ -56,7 +57,7 @@ public record AwsSsoAdminDescribeApplicationProviderOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application provider for which you want de- tails. Constraints: o min: 10 o max: 1224 o pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:application- Provider/[a-zA-Z0-9-/]+
+    /// Specifies the ARN of the application provider for which you want details. Constraints: • min: 10 • max: 1224 • pattern: arn:aws(-[a-z]{1,5}){0,3}:sso::aws:applicationProvider/[a-zA-Z0-9-/]+
     /// </summary>
     [CliOption("--application-provider-arn")]
     public string? ApplicationProviderArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsoAdminDescribeApplicationProviderOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

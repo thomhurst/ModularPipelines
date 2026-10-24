@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions, IValida
     /// <summary>
     /// Updates an execution step. Supports two actions: (1) skip a step that is in NOT_STARTED or FAILED status; (2) update the wait duration of a WAIT type step that is in NOT_STARTED status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryPlanExecutionStepArn">The ARN of the execution step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
+    /// <param name="RecoveryPlanExecutionStepArn">The ARN of the execution step to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+</param>
     public AwsDrsUpdateRecoveryPlanExecutionStepOptions(
         string RecoveryPlanExecutionStepArn
     )
@@ -57,25 +58,25 @@ public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the execution step to update. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
+    /// The ARN of the execution step to update. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+
     /// </summary>
     [CliOption("--recovery-plan-execution-step-arn")]
     public string? RecoveryPlanExecutionStepArn { get; private init; }
 
     /// <summary>
-    /// Only SKIPPED is accepted. Step must be in NOT_STARTED or FAILED sta- tus. Possible values: o NOT_STARTED o EXECUTING o WAITING o COMPLETED o FAILED o TIMED_OUT o SKIPPED
+    /// Only SKIPPED is accepted. Step must be in NOT_STARTED or FAILED status. Possible values: • NOT_STARTED • EXECUTING • WAITING • COMPLETED • FAILED • TIMED_OUT • SKIPPED
     /// </summary>
     [CliOption("--status")]
     public AwsDrsUpdateRecoveryPlanExecutionStepStatus? Status { get; set; }
 
     /// <summary>
-    /// Full replacement of the server list. Only allowed when the step is in NOT_STARTED status (Server type steps only). Constraints: o min: 1 o max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: o min: 20 o max: 2048 o pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: o CRITICAL o OPTIONAL Shorthand Syntax: serverArn=string,impactLevel=string ... JSON Syntax: [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ]
+    /// Full replacement of the server list. Only allowed when the step is in NOT_STARTED status (Server type steps only). Constraints: • min: 1 • max: 100 (structure) A server associated with a Recovery Plan Step. serverArn -&gt; (string) [required] The ARN of the source server. Constraints: • min: 20 • max: 2048 • pattern: arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17}) impactLevel -&gt; (string) Defaults to CRITICAL if not specified. Possible values: • CRITICAL • OPTIONAL Shorthand Syntax: serverArn=string,impactLevel=string ... JSON Syntax: [ { "serverArn": "string", "impactLevel": "CRITICAL"|"OPTIONAL" } ... ]
     /// </summary>
     [CliOption("--servers", GroupValues = true)]
     public IEnumerable<string>? Servers { get; set; }
 
     /// <summary>
-    /// Updated wait duration. Only allowed when the step is in NOT_STARTED status (Wait type steps only). Constraints: o min: 1 o max: 120
+    /// Updated wait duration. Only allowed when the step is in NOT_STARTED status (Wait type steps only). Constraints: • min: 1 • max: 120
     /// </summary>
     [CliOption("--wait-duration-minutes")]
     public int? WaitDurationMinutes { get; set; }
@@ -101,6 +102,15 @@ public record AwsDrsUpdateRecoveryPlanExecutionStepOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDiscoveryDisassociateConfigurationItemsFromApplicationOptions :
     /// <summary>
     /// Disassociates one or more configuration items from an application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationConfigurationId">Configuration ID of an application from which each item is disasso- ciated. Constraints: o max: 200 o pattern: \S+</param>
-    /// <param name="ConfigurationIds">Configuration ID of each item to be disassociated from an applica- tion. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...</param>
+    /// <param name="ApplicationConfigurationId">Configuration ID of an application from which each item is disassociated. Constraints: • max: 200 • pattern: \S+</param>
+    /// <param name="ConfigurationIds">Configuration ID of each item to be disassociated from an application. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...</param>
     public AwsDiscoveryDisassociateConfigurationItemsFromApplicationOptions(
         string ApplicationConfigurationId,
         IEnumerable<string> ConfigurationIds
@@ -71,13 +72,13 @@ public record AwsDiscoveryDisassociateConfigurationItemsFromApplicationOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Configuration ID of an application from which each item is disasso- ciated. Constraints: o max: 200 o pattern: \S+
+    /// Configuration ID of an application from which each item is disassociated. Constraints: • max: 200 • pattern: \S+
     /// </summary>
     [CliOption("--application-configuration-id")]
     public string? ApplicationConfigurationId { get; private init; }
 
     /// <summary>
-    /// Configuration ID of each item to be disassociated from an applica- tion. (string) Constraints: o max: 200 o pattern: \S* Syntax: "string" "string" ...
+    /// Configuration ID of each item to be disassociated from an application. (string) Constraints: • max: 200 • pattern: \S* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--configuration-ids", GroupValues = true)]
     public IEnumerable<string>? ConfigurationIds { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDiscoveryDisassociateConfigurationItemsFromApplicationOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behav- ior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
+/// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotTestInvokeAuthorizerOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behav- ior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
+    /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestInvokeAuthorizer action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthorizerName">The custom authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="AuthorizerName">The custom authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotTestInvokeAuthorizerOptions(
         string AuthorizerName
     )
@@ -57,40 +58,40 @@ public record AwsIotTestInvokeAuthorizerOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The custom authorizer name. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The custom authorizer name. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--authorizer-name")]
     public string? AuthorizerName { get; private init; }
 
     /// <summary>
-    /// The token returned by your custom authentication service. Constraints: o min: 1 o max: 6144 o pattern: [\s\S]*
+    /// The token returned by your custom authentication service. Constraints: • min: 1 • max: 6144 • pattern: [\s\S]*
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; set; }
 
     /// <summary>
-    /// The signature made with the token and your custom authentication service's private key. This value must be Base-64-encoded. Constraints: o min: 1 o max: 2560 o pattern: [A-Za-z0-9+/]+={0,2}
+    /// The signature made with the token and your custom authentication service's private key. This value must be Base-64-encoded. Constraints: • min: 1 • max: 2560 • pattern: [A-Za-z0-9+/]+={0,2}
     /// </summary>
     [SecretValue]
     [CliOption("--token-signature")]
     public string? TokenSignature { get; set; }
 
     /// <summary>
-    /// Specifies a test HTTP authorization request. headers -&gt; (map) The header keys and values in an HTTP authorization request. key -&gt; (string) Constraints: o min: 1 o max: 8192 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 1 o max: 8192 o pattern: [\s\S]* queryString -&gt; (string) The query string keys and values in an HTTP authorization re- quest. Constraints: o min: 1 o max: 4096 o pattern: [\s\S]* Shorthand Syntax: headers={KeyName1=string,KeyName2=string},queryString=string JSON Syntax: { "headers": {"string": "string" ...}, "queryString": "string" }
+    /// Specifies a test HTTP authorization request. headers -&gt; (map) The header keys and values in an HTTP authorization request. key -&gt; (string) Constraints: • min: 1 • max: 8192 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 1 • max: 8192 • pattern: [\s\S]* queryString -&gt; (string) The query string keys and values in an HTTP authorization request. Constraints: • min: 1 • max: 4096 • pattern: [\s\S]* Shorthand Syntax: headers={KeyName1=string,KeyName2=string},queryString=string JSON Syntax: { "headers": {"string": "string" ...}, "queryString": "string" }
     /// </summary>
     [CliOption("--http-context")]
     public string? HttpContext { get; set; }
 
     /// <summary>
-    /// Specifies a test MQTT authorization request. username -&gt; (string) The value of the username key in an MQTT authorization request. Constraints: o min: 1 o max: 65535 o pattern: [\s\S]* password -&gt; (blob) The value of the password key in an MQTT authorization request. Constraints: o min: 1 o max: 65535 clientId -&gt; (string) The value of the clientId key in an MQTT authorization request. Constraints: o min: 1 o max: 65535 o pattern: [\s\S]* Shorthand Syntax: username=string,password=blob,clientId=string JSON Syntax: { "username": "string", "password": blob, "clientId": "string" }
+    /// Specifies a test MQTT authorization request. username -&gt; (string) The value of the username key in an MQTT authorization request. Constraints: • min: 1 • max: 65535 • pattern: [\s\S]* password -&gt; (blob) The value of the password key in an MQTT authorization request. Constraints: • min: 1 • max: 65535 clientId -&gt; (string) The value of the clientId key in an MQTT authorization request. Constraints: • min: 1 • max: 65535 • pattern: [\s\S]* Shorthand Syntax: username=string,password=blob,clientId=string JSON Syntax: { "username": "string", "password": blob, "clientId": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--mqtt-context")]
     public string? MqttContext { get; set; }
 
     /// <summary>
-    /// Specifies a test TLS authorization request. serverName -&gt; (string) The value of the serverName key in a TLS authorization request. Constraints: o min: 1 o max: 253 o pattern: [\s\S]* Shorthand Syntax: serverName=string JSON Syntax: { "serverName": "string" }
+    /// Specifies a test TLS authorization request. serverName -&gt; (string) The value of the serverName key in a TLS authorization request. Constraints: • min: 1 • max: 253 • pattern: [\s\S]* Shorthand Syntax: serverName=string JSON Syntax: { "serverName": "string" }
     /// </summary>
     [CliOption("--tls-context")]
     public string? TlsContext { get; set; }
@@ -116,6 +117,15 @@ public record AwsIotTestInvokeAuthorizerOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

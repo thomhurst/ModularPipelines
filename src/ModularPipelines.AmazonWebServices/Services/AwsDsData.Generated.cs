@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws dsdata commands.
+/// aws ds-data commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsDsData : IAwsDsData
@@ -137,7 +137,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Deactivates an active user account. For information about how to enable an inactive user account, see ResetUserPassword in the Directory Ser- vice API Reference . See also: AWS API Documentation
+    /// Deactivates an active user account. For information about how to enable an inactive user account, see ResetUserPassword in the Directory Service API Reference . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Returns member information for the specified group. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Mul...
+    /// Returns member information for the specified group. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroupMembers.NextToken member contains a token that you pass in the next call to ListGroupMembers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter. See also: AWS API Documentation list-group-members is a paginated operation. Multiple ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Returns group information for the specified member. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- GroupsForMember.NextToken member contains a token that you pass in the next call to ListGroupsForMember . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-groups-for-member is a paginated oper...
+    /// Returns group information for the specified member. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroupsForMember.NextToken member contains a token that you pass in the next call to ListGroupsForMember . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter. See also: AWS API Documentation list-groups-for-member is a paginated operation....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Returns group information for the specified directory. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the List- Groups.NextToken member contains a token that you pass in the next call to ListGroups . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls ...
+    /// Returns group information for the specified directory. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListGroups.NextToken member contains a token that you pass in the next call to ListGroups . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter. See also: AWS API Documentation list-groups is a paginated operation. Multiple API calls may be...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Returns user information for the specified directory. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the Lis- tUsers.NextToken member contains a token that you pass in the next call to ListUsers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxRe- sults parameter. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may ...
+    /// Returns user information for the specified directory. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the ListUsers.NextToken member contains a token that you pass in the next call to ListUsers . This retrieves the next set of items. You can also specify a maximum number of return results with the MaxResults parameter. See also: AWS API Documentation list-users is a paginated operation. Multiple API calls may be iss...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Searches the specified directory for a group. You can find groups that match the SearchString parameter with the value of their attributes in- cluded in the SearchString parameter. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the SearchGroups.NextToken member contains a token that you pass in the next call to SearchGroups . This retrieves the next set of items. You can also specify a maximum number of return re...
+    /// Searches the specified directory for a group. You can find groups that match the SearchString parameter with the value of their attributes included in the SearchString parameter. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the SearchGroups.NextToken member contains a token that you pass in the next call to SearchGroups . This retrieves the next set of items. You can also specify a maximum number of return result...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsDsData : IAwsDsData
     }
 
     /// <summary>
-    /// Searches the specified directory for a user. You can find users that match the SearchString parameter with the value of their attributes in- cluded in the SearchString parameter. This operation supports pagination with the use of the NextToken re- quest and response parameters. If more results are available, the SearchUsers.NextToken member contains a token that you pass in the next call to SearchUsers . This retrieves the next set of items. You can also specify a maximum number of return result...
+    /// Searches the specified directory for a user. You can find users that match the SearchString parameter with the value of their attributes included in the SearchString parameter. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the SearchUsers.NextToken member contains a token that you pass in the next call to SearchUsers . This retrieves the next set of items. You can also specify a maximum number of return results wi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

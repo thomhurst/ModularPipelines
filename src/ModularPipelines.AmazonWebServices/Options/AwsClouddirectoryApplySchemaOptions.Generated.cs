@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsClouddirectoryApplySchemaOptions : AwsOptions, IValidatableObje
     /// Copies the input published schema, at the specified version, into the Directory with the same name and version as that of the published schema. See also: AWS API Documentation
     /// </summary>
     /// <param name="PublishedSchemaArn">Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns .</param>
-    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory into which the schema is copied. For more information, see arns .</param>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns .</param>
     public AwsClouddirectoryApplySchemaOptions(
         string PublishedSchemaArn,
         string DirectoryArn
@@ -66,7 +67,7 @@ public record AwsClouddirectoryApplySchemaOptions : AwsOptions, IValidatableObje
     public string? PublishedSchemaArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory into which the schema is copied. For more information, see arns .
+    /// The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns .
     /// </summary>
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsClouddirectoryApplySchemaOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

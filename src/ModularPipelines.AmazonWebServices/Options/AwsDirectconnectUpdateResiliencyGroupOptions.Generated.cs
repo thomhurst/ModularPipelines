@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsDirectconnectUpdateResiliencyGroupOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the name of the specified resiliency group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
-    /// <param name="ResiliencyGroupName">The new name of the resiliency group. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-]+$</param>
+    /// <param name="ResiliencyGroupId">The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$</param>
+    /// <param name="ResiliencyGroupName">The new name of the resiliency group. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-]+$</param>
     public AwsDirectconnectUpdateResiliencyGroupOptions(
         string ResiliencyGroupId,
         string ResiliencyGroupName
@@ -61,19 +62,19 @@ public record AwsDirectconnectUpdateResiliencyGroupOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the resiliency group. Constraints: o min: 22 o max: 22 o pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
+    /// The ID of the resiliency group. Constraints: • min: 22 • max: 22 • pattern: ^(dxrg|DXRG)-[0-9a-zA-Z]{17}$
     /// </summary>
     [CliOption("--resiliency-group-id")]
     public string? ResiliencyGroupId { get; private init; }
 
     /// <summary>
-    /// The new name of the resiliency group. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_\-]+$
+    /// The new name of the resiliency group. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_\-]+$
     /// </summary>
     [CliOption("--resiliency-group-name")]
     public string? ResiliencyGroupName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 128
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -100,6 +101,15 @@ public record AwsDirectconnectUpdateResiliencyGroupOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

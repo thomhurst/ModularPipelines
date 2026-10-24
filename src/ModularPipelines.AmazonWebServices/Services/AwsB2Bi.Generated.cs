@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsB2Bi : IAwsB2Bi
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws b2bi wait sub-commands.
     /// </summary>
     public AwsB2BiWait Wait => _wait ??= new AwsB2BiWait(_command);
 
@@ -57,7 +57,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection be- tween you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
+    /// Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -72,7 +72,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+    /// Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -87,7 +87,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a map- ping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON o...
+    /// Amazon Web Services B2B Data Interchange uses a mapping template in JSONata or XSLT format to transform a customer input file into a JSON or XML file that can be converted to EDI. If you provide a sample EDI file with the same structure as the EDI files that you wish to generate, then the service can generate a mapping template. The starter template contains placeholder values which you can replace with JSONata or XSLT expressions to take data from your input file and insert it into the JSON or ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Creates a transformer. Amazon Web Services B2B Data Interchange cur- rently supports two scenarios: o Inbound EDI : the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires. o...
+    /// Creates a transformer. Amazon Web Services B2B Data Interchange currently supports two scenarios: • Inbound EDI : the Amazon Web Services customer receives an EDI file from their trading partner. Amazon Web Services B2B Data Interchange converts this EDI file into a JSON or XML file with a service-defined structure. A mapping template provided by the customer, in JSONata or XSLT format, is optionally applied to this file to produce a JSON or XML file with the structure the customer requires. • O...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -117,7 +117,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Deletes the specified capability. A trading capability contains the in- formation required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
+    /// Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Deletes the specified partnership. A partnership represents the connec- tion between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
+    /// Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -147,7 +147,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Deletes the specified profile. A profile is the mechanism used to cre- ate the concept of a private network. See also: AWS API Documentation
+    /// Deletes the specified profile. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alter- natively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file. See also: AWS API Documentation
+    /// Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Takes sample input and output documents and uses Amazon Bedrock to gen- erate a mapping automatically. Depending on the accuracy and other fac- tors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Ama- zon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following ...
+    /// Takes sample input and output documents and uses Amazon Bedrock to generate a mapping automatically. Depending on the accuracy and other factors, you can then edit the mapping for your needs. NOTE: Before you can use the AI-assisted feature for Amazon Web Services B2B Data Interchange you must enable models in Amazon Bedrock. For details, see AI-assisted template mapping prerequisites in the Amazon Web Services B2B Data Interchange User guide . To generate a mapping, perform the following steps:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,7 +192,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Retrieves the details for the specified capability. A trading capabil- ity contains the information required to transform incoming EDI docu- ments into JSON or XML outputs. See also: AWS API Documentation
+    /// Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -207,7 +207,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Retrieves the details for a partnership, based on the partner and pro- file IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
+    /// Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -222,7 +222,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private net- work. See also: AWS API Documentation
+    /// Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -282,7 +282,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the con- nection between you and your trading partner. It ties together a pro- file and one or more trading capabilities. See also: AWS API Documentation list-partnerships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --...
+    /// Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities. See also: AWS API Documentation list-partnerships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outp...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -297,7 +297,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation list-profiles is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query a...
+    /// Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation list-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argum...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, pro- file, or transformer. See also: AWS API Documentation
+    /// Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alterna- tively, a transformer can take a JSON-or XML-formatted document as in- put and transform it into an EDI file. See also: AWS API Documentation list-transformers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --outp...
+    /// Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file. See also: AWS API Documentation list-transformers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -342,7 +342,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Ser- vices B2B Data Interchange. If you only want to transform EDI (electronic data interchange) docu- ments, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTrans- formerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run...
+    /// Runs a job, using a transformer, to parse input EDI (electronic data interchange) file into the output structures used by Amazon Web Services B2B Data Interchange. If you only want to transform EDI (electronic data interchange) documents, you don't need to create profiles, partnerships or capabilities. Just create and configure a transformer, and then run the StartTransformerJob API to process your files. NOTE: The system stores transformer jobs for 30 days. During that period, you can run GetTr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// This operation mimics the latter half of a typical Outbound EDI re- quest. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string. See also: AWS API Documentation
+    /// This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -462,7 +462,7 @@ public class AwsB2Bi : IAwsB2Bi
     }
 
     /// <summary>
-    /// Updates the specified parameters for a profile. A profile is the mecha- nism used to create the concept of a private network. See also: AWS API Documentation
+    /// Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

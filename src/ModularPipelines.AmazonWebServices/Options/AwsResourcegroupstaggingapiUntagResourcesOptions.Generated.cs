@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified tags from the specified resources. When you spec- ify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: o To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource yo...
+/// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: • To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource you ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsResourcegroupstaggingapiUntagResourcesOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified tags from the specified resources. When you spec- ify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: o To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource yo...
+    /// Removes the specified tags from the specified resources. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from a resource that were already removed. Note the following: • To remove tags from a resource, you need the necessary permissions for the service that the resource belongs to as well as permissions for removing tags. For more information, see the documentation for the service whose resource you ...
     /// </summary>
-    /// <param name="ResourceArnList">Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 1011 o pattern: [\s\S]* Syntax: "string" "string" ...</param>
-    /// <param name="TagKeys">Specifies a list of tag keys that you want to remove from the speci- fied resources. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArnList">Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 1011 • pattern: [\s\S]* Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">Specifies a list of tag keys that you want to remove from the specified resources. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\s\S]* Syntax: "string" "string" ...</param>
     public AwsResourcegroupstaggingapiUntagResourcesOptions(
         IEnumerable<string> ResourceArnList,
         IEnumerable<string> TagKeys
@@ -82,13 +83,13 @@ public record AwsResourcegroupstaggingapiUntagResourcesOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 1011 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Specifies a list of ARNs of the resources that you want to remove tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 1011 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; private init; }
 
     /// <summary>
-    /// Specifies a list of tag keys that you want to remove from the speci- fied resources. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Specifies a list of tag keys that you want to remove from the specified resources. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -114,6 +115,15 @@ public record AwsResourcegroupstaggingapiUntagResourcesOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

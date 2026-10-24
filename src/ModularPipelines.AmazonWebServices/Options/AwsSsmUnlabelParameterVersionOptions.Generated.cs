@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. See also: AWS API Documentation
+/// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,14 +26,14 @@ public record AwsSsmUnlabelParameterVersionOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the speci- fied name for a parameter contains spaces between characters, the re- quest fails with a ValidationException error. See also: AWS API Documentation
+    /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the parameter from which you want to delete one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Name">The name of the parameter from which you want to delete one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 2048</param>
     /// <param name="ParameterVersion">The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.</param>
-    /// <param name="Labels">One or more labels to delete from the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...</param>
+    /// <param name="Labels">One or more labels to delete from the specified parameter version. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...</param>
     public AwsSsmUnlabelParameterVersionOptions(
         string Name,
-        int ParameterVersion,
+        long ParameterVersion,
         IEnumerable<string> Labels
     )
     {
@@ -74,7 +75,7 @@ public record AwsSsmUnlabelParameterVersionOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the parameter from which you want to delete one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: o min: 1 o max: 2048
+    /// The name of the parameter from which you want to delete one or more labels. NOTE: You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -83,10 +84,10 @@ public record AwsSsmUnlabelParameterVersionOptions : AwsOptions, IValidatableObj
     /// The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.
     /// </summary>
     [CliOption("--parameter-version")]
-    public int? ParameterVersion { get; private init; }
+    public long? ParameterVersion { get; private init; }
 
     /// <summary>
-    /// One or more labels to delete from the specified parameter version. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 100 Syntax: "string" "string" ...
+    /// One or more labels to delete from the specified parameter version. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--labels", GroupValues = true)]
     public IEnumerable<string>? Labels { get; private init; }
@@ -112,6 +113,15 @@ public record AwsSsmUnlabelParameterVersionOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

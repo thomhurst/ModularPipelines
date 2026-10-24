@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotfleetwisePutLoggingOptionsOptions : AwsOptions, IValidatable
     /// <summary>
     /// Creates or updates the logging option. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CloudWatchLogDelivery">Creates or updates the log delivery option to Amazon CloudWatch Logs. logType -&gt; (string) [required] The type of log to send data to Amazon CloudWatch Logs. Possible values: o OFF o ERROR logGroupName -&gt; (string) The Amazon CloudWatch Logs group the operation sends data to. Constraints: o min: 1 o max: 512 o pattern: [\.\-_\/#A-Za-z0-9]+ Shorthand Syntax: logType=string,logGroupName=string JSON Syntax: { "logType": "OFF"|"ERROR", "logGroupName": "string" }</param>
+    /// <param name="CloudWatchLogDelivery">Creates or updates the log delivery option to Amazon CloudWatch Logs. logType -&gt; (string) [required] The type of log to send data to Amazon CloudWatch Logs. Possible values: • OFF • ERROR logGroupName -&gt; (string) The Amazon CloudWatch Logs group the operation sends data to. Constraints: • min: 1 • max: 512 • pattern: [\.\-_\/#A-Za-z0-9]+ Shorthand Syntax: logType=string,logGroupName=string JSON Syntax: { "logType": "OFF"|"ERROR", "logGroupName": "string" }</param>
     public AwsIotfleetwisePutLoggingOptionsOptions(
         string CloudWatchLogDelivery
     )
@@ -56,7 +57,7 @@ public record AwsIotfleetwisePutLoggingOptionsOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Creates or updates the log delivery option to Amazon CloudWatch Logs. logType -&gt; (string) [required] The type of log to send data to Amazon CloudWatch Logs. Possible values: o OFF o ERROR logGroupName -&gt; (string) The Amazon CloudWatch Logs group the operation sends data to. Constraints: o min: 1 o max: 512 o pattern: [\.\-_\/#A-Za-z0-9]+ Shorthand Syntax: logType=string,logGroupName=string JSON Syntax: { "logType": "OFF"|"ERROR", "logGroupName": "string" }
+    /// Creates or updates the log delivery option to Amazon CloudWatch Logs. logType -&gt; (string) [required] The type of log to send data to Amazon CloudWatch Logs. Possible values: • OFF • ERROR logGroupName -&gt; (string) The Amazon CloudWatch Logs group the operation sends data to. Constraints: • min: 1 • max: 512 • pattern: [\.\-_\/#A-Za-z0-9]+ Shorthand Syntax: logType=string,logGroupName=string JSON Syntax: { "logType": "OFF"|"ERROR", "logGroupName": "string" }
     /// </summary>
     [CliOption("--cloud-watch-log-delivery")]
     public string? CloudWatchLogDelivery { get; private init; }
@@ -82,6 +83,15 @@ public record AwsIotfleetwisePutLoggingOptionsOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

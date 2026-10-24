@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsMgnStartNetworkMigrationCodeGenerationOptions : AwsOptions, IVa
     /// <summary>
     /// Starts a code generation job to convert network migration mappings into infrastructure-as-code templates. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}</param>
+    /// <param name="NetworkMigrationExecutionId">The unique identifier of the network migration execution. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="NetworkMigrationDefinitionId">The unique identifier of the network migration definition. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}</param>
     public AwsMgnStartNetworkMigrationCodeGenerationOptions(
         string NetworkMigrationExecutionId,
         string NetworkMigrationDefinitionId
@@ -60,19 +61,19 @@ public record AwsMgnStartNetworkMigrationCodeGenerationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network migration execution. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the network migration execution. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--network-migration-execution-id")]
     public string? NetworkMigrationExecutionId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the network migration definition. Constraints: o min: 21 o max: 21 o pattern: nmd-[0-9a-zA-Z]{17}
+    /// The unique identifier of the network migration definition. Constraints: • min: 21 • max: 21 • pattern: nmd-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--network-migration-definition-id")]
     public string? NetworkMigrationDefinitionId { get; private init; }
 
     /// <summary>
-    /// The output format types for code generation, such as CloudFormation or Terraform. Constraints: o min: 0 o max: 10 (string) Possible values: o CDK_L1 o CDK_L2 o TERRAFORM o LZA Syntax: "string" "string" ...
+    /// The output format types for code generation, such as CloudFormation or Terraform. Constraints: • min: 0 • max: 10 (string) Possible values: • CDK_L1 • CDK_L2 • TERRAFORM • LZA Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--code-generation-output-format-types", GroupValues = true)]
     public IEnumerable<string>? CodeGenerationOutputFormatTypes { get; set; }
@@ -98,6 +99,15 @@ public record AwsMgnStartNetworkMigrationCodeGenerationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

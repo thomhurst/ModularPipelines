@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Changes the properties of a custom key store. You can use this opera- tion to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the up- dated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which c...
+/// Changes the properties of a custom key store. You can use this operation to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the updated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which combi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsKmsUpdateCustomKeyStoreOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Changes the properties of a custom key store. You can use this opera- tion to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the up- dated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which c...
+    /// Changes the properties of a custom key store. You can use this operation to change the properties of an CloudHSM key store or an external key store. Use the required CustomKeyStoreId parameter to identify the custom key store. Use the remaining optional parameters to change its properties. This operation does not return any property values. To verify the updated property values, use the DescribeCustomKeyStores operation. This operation is part of the custom key stores feature in KMS, which combi...
     /// </summary>
-    /// <param name="CustomKeyStoreId">Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: o min: 1 o max: 64</param>
+    /// <param name="CustomKeyStoreId">Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: • min: 1 • max: 64</param>
     public AwsKmsUpdateCustomKeyStoreOptions(
         string CustomKeyStoreId
     )
@@ -58,63 +59,63 @@ public record AwsKmsUpdateCustomKeyStoreOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: o min: 1 o max: 64
+    /// Identifies the custom key store that you want to update. Enter the ID of the custom key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--custom-key-store-id")]
     public string? CustomKeyStoreId { get; private init; }
 
     /// <summary>
-    /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To change this value, the custom key store can be connected or dis- connected. Constraints: o min: 1 o max: 256
+    /// Changes the friendly name of the custom key store to the value that you specify. The custom key store name must be unique in the Amazon Web Services account. WARNING: Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To change this value, the custom key store can be connected or disconnected. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--new-custom-key-store-name")]
     public string? NewCustomKeyStoreName { get; set; }
 
     /// <summary>
-    /// Enter the current password of the kmsuser crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter is valid only for custom key stores with a CustomKeyStore- Type of AWS_CLOUDHSM . This parameter tells KMS the current password of the kmsuser crypto user (CU). It does not set or change the password of any users in the CloudHSM cluster. To change this value, the CloudHSM key store must be disconnected. Constraints: o min: 7 o max: 32
+    /// Enter the current password of the kmsuser crypto user (CU) in the CloudHSM cluster that is associated with the custom key store. This parameter is valid only for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM . This parameter tells KMS the current password of the kmsuser crypto user (CU). It does not set or change the password of any users in the CloudHSM cluster. To change this value, the CloudHSM key store must be disconnected. Constraints: • min: 7 • max: 32
     /// </summary>
     [SecretValue]
     [CliOption("--key-store-password")]
     public string? KeyStorePassword { get; set; }
 
     /// <summary>
-    /// Associates the custom key store with a related CloudHSM cluster. This parameter is valid only for custom key stores with a CustomKey- StoreType of AWS_CLOUDHSM . Enter the cluster ID of the cluster that you used to create the cus- tom key store or a cluster that shares a backup history and has the same cluster certificate as the original cluster. You cannot use this parameter to associate a custom key store with an unrelated cluster. In addition, the replacement cluster must fulfill the re- quirements for a cluster associated with a custom key store. To view the cluster certificate of a cluster, use the DescribeClusters oper- ation. To change this value, the CloudHSM key store must be disconnected. Constraints: o min: 19 o max: 24 o pattern: cluster-[2-7a-zA-Z]{11,16}
+    /// Associates the custom key store with a related CloudHSM cluster. This parameter is valid only for custom key stores with a CustomKeyStoreType of AWS_CLOUDHSM . Enter the cluster ID of the cluster that you used to create the custom key store or a cluster that shares a backup history and has the same cluster certificate as the original cluster. You cannot use this parameter to associate a custom key store with an unrelated cluster. In addition, the replacement cluster must fulfill the requirements for a cluster associated with a custom key store. To view the cluster certificate of a cluster, use the DescribeClusters operation. To change this value, the CloudHSM key store must be disconnected. Constraints: • min: 19 • max: 24 • pattern: cluster-[2-7a-zA-Z]{11,16}
     /// </summary>
     [CliOption("--cloud-hsm-cluster-id")]
     public string? CloudHsmClusterId { get; set; }
 
     /// <summary>
-    /// Changes the URI endpoint that KMS uses to connect to your external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE . For external key stores with an XksProxyConnectivity value of PUB- LIC_ENDPOINT , the protocol must be HTTPS. For external key stores with an XksProxyConnectivity value of VPC_ENDPOINT_SERVICE , specify https:// followed by the private DNS name associated with the VPC endpoint service. Each external key store must use a different private DNS name. The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region. To change this value, the external key store must be disconnected. Constraints: o min: 10 o max: 128 o pattern: ^https://[a-zA-Z0-9.-]+$
+    /// Changes the URI endpoint that KMS uses to connect to your external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE . For external key stores with an XksProxyConnectivity value of PUBLIC_ENDPOINT , the protocol must be HTTPS. For external key stores with an XksProxyConnectivity value of VPC_ENDPOINT_SERVICE , specify https:// followed by the private DNS name associated with the VPC endpoint service. Each external key store must use a different private DNS name. The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region. To change this value, the external key store must be disconnected. Constraints: • min: 10 • max: 128 • pattern: ^https://[a-zA-Z0-9.-]+$
     /// </summary>
     [CliOption("--xks-proxy-uri-endpoint")]
     public string? XksProxyUriEndpoint { get; set; }
 
     /// <summary>
-    /// Changes the base path to the proxy APIs for this external key store. To find this value, see the documentation for your external key man- ager and external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTER- NAL_KEY_STORE . The value must start with / and must end with /kms/xks/v1 , where v1 represents the version of the KMS external key store proxy API. You can include an optional prefix between the required elements such as /*example* /kms/xks/v1 . The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region. You can change this value when the external key store is connected or disconnected. Constraints: o min: 10 o max: 128 o pattern: ^(/[a-zA-Z0-9\/_-]+/kms/xks/v\d{1,2})$|^(/kms/xks/v\d{1,2})$
+    /// Changes the base path to the proxy APIs for this external key store. To find this value, see the documentation for your external key manager and external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE . The value must start with / and must end with /kms/xks/v1 , where v1 represents the version of the KMS external key store proxy API. You can include an optional prefix between the required elements such as /*example* /kms/xks/v1 . The combined XksProxyUriEndpoint and XksProxyUriPath values must be unique in the Amazon Web Services account and Region. You can change this value when the external key store is connected or disconnected. Constraints: • min: 10 • max: 128 • pattern: ^(/[a-zA-Z0-9\/_-]+/kms/xks/v\d{1,2})$|^(/kms/xks/v\d{1,2})$
     /// </summary>
     [CliOption("--xks-proxy-uri-path")]
     public string? XksProxyUriPath { get; set; }
 
     /// <summary>
-    /// Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parame- ter is valid when the CustomKeyStoreType is EXTERNAL_KEY_STORE and the XksProxyConnectivity is VPC_ENDPOINT_SERVICE . To change this value, the external key store must be disconnected. Constraints: o min: 20 o max: 64 o pattern: ^(com|eu)\.amazon- aws\.vpce\.([a-z]+-){2,3}\d+\.vpce-svc-[0-9a-z]+$
+    /// Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is valid when the CustomKeyStoreType is EXTERNAL_KEY_STORE and the XksProxyConnectivity is VPC_ENDPOINT_SERVICE . To change this value, the external key store must be disconnected. Constraints: • min: 20 • max: 64 • pattern: ^(com|eu)\.amazonaws\.vpce\.([a-z]+-){2,3}\d+\.vpce-svc-[0-9a-z]+$
     /// </summary>
     [CliOption("--xks-proxy-vpc-endpoint-service-name")]
     public string? XksProxyVpcEndpointServiceName { get; set; }
 
     /// <summary>
-    /// Changes the Amazon Web Services account ID that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is optional. If not specified, the cur- rent Amazon Web Services account ID for the VPC endpoint service will not be updated. To change this value, the external key store must be disconnected. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12}
+    /// Changes the Amazon Web Services account ID that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is optional. If not specified, the current Amazon Web Services account ID for the VPC endpoint service will not be updated. To change this value, the external key store must be disconnected. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--xks-proxy-vpc-endpoint-service-owner")]
     public string? XksProxyVpcEndpointServiceOwner { get; set; }
 
     /// <summary>
-    /// Changes the credentials that KMS uses to sign requests to the exter- nal key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE . You must specify both the AccessKeyId and SecretAccessKey value in the authentication credential, even if you are only updating one value. This parameter doesn't establish or change your authentication cre- dentials on the proxy. It just tells KMS the credential that you es- tablished with your external key store proxy. For example, if you rotate the credential on your external key store proxy, you can use this parameter to update the credential in KMS. You can change this value when the external key store is connected or disconnected. AccessKeyId -&gt; (string) [required] A unique identifier for the raw secret access key. Constraints: o min: 20 o max: 30 o pattern: ^[A-Z2-7]+$ RawSecretAccessKey -&gt; (string) [required] A secret string of 43-64 characters. Valid characters are a-z, A-Z, 0-9, /, +, and =. Constraints: o min: 43 o max: 64 o pattern: ^[a-zA-Z0-9\/+=]+$ Shorthand Syntax: AccessKeyId=string,RawSecretAccessKey=string JSON Syntax: { "AccessKeyId": "string", "RawSecretAccessKey": "string" }
+    /// Changes the credentials that KMS uses to sign requests to the external key store proxy (XKS proxy). This parameter is valid only for custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE . You must specify both the AccessKeyId and SecretAccessKey value in the authentication credential, even if you are only updating one value. This parameter doesn't establish or change your authentication credentials on the proxy. It just tells KMS the credential that you established with your external key store proxy. For example, if you rotate the credential on your external key store proxy, you can use this parameter to update the credential in KMS. You can change this value when the external key store is connected or disconnected. AccessKeyId -&gt; (string) [required] A unique identifier for the raw secret access key. Constraints: • min: 20 • max: 30 • pattern: ^[A-Z2-7]+$ RawSecretAccessKey -&gt; (string) [required] A secret string of 43-64 characters. Valid characters are a-z, A-Z, 0-9, /, +, and =. Constraints: • min: 43 • max: 64 • pattern: ^[a-zA-Z0-9\/+=]+$ Shorthand Syntax: AccessKeyId=string,RawSecretAccessKey=string JSON Syntax: { "AccessKeyId": "string", "RawSecretAccessKey": "string" }
     /// </summary>
     [SecretValue]
     [CliOption("--xks-proxy-authentication-credential")]
     public string? XksProxyAuthenticationCredential { get; set; }
 
     /// <summary>
-    /// Changes the connectivity setting for the external key store. To in- dicate that the external key store proxy uses a Amazon VPC endpoint service to communicate with KMS, specify VPC_ENDPOINT_SERVICE . Oth- erwise, specify PUBLIC_ENDPOINT . If you change the XksProxyConnectivity to VPC_ENDPOINT_SERVICE , you must also change the XksProxyUriEndpoint and add an XksProxyVpcEnd- pointServiceName value. If you change the XksProxyConnectivity to PUBLIC_ENDPOINT , you must also change the XksProxyUriEndpoint and specify a null or empty string for the XksProxyVpcEndpointServiceName value. To change this value, the external key store must be disconnected. Possible values: o PUBLIC_ENDPOINT o VPC_ENDPOINT_SERVICE
+    /// Changes the connectivity setting for the external key store. To indicate that the external key store proxy uses a Amazon VPC endpoint service to communicate with KMS, specify VPC_ENDPOINT_SERVICE . Otherwise, specify PUBLIC_ENDPOINT . If you change the XksProxyConnectivity to VPC_ENDPOINT_SERVICE , you must also change the XksProxyUriEndpoint and add an XksProxyVpcEndpointServiceName value. If you change the XksProxyConnectivity to PUBLIC_ENDPOINT , you must also change the XksProxyUriEndpoint and specify a null or empty string for the XksProxyVpcEndpointServiceName value. To change this value, the external key store must be disconnected. Possible values: • PUBLIC_ENDPOINT • VPC_ENDPOINT_SERVICE
     /// </summary>
     [CliOption("--xks-proxy-connectivity")]
     public AwsKmsUpdateCustomKeyStoreXksProxyConnectivity? XksProxyConnectivity { get; set; }
@@ -140,6 +141,15 @@ public record AwsKmsUpdateCustomKeyStoreOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

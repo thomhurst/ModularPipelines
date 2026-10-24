@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information, see DeregisterTaskDefinition . When you delete a task definition revision, it is immediately transi- tions from the INACTIVE to DELETE_IN_PROGRESS . Existing tasks and ser- vices that reference a DELETE_IN_PROGRESS task definition revision con- tinue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS task definition revision can still scal...
+/// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information, see DeregisterTaskDefinition . When you delete a task definition revision, it is immediately transitions from the INACTIVE to DELETE_IN_PROGRESS . Existing tasks and services that reference a DELETE_IN_PROGRESS task definition revision continue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS task definition revision can still scale up o...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEcsDeleteTaskDefinitionsOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information, see DeregisterTaskDefinition . When you delete a task definition revision, it is immediately transi- tions from the INACTIVE to DELETE_IN_PROGRESS . Existing tasks and ser- vices that reference a DELETE_IN_PROGRESS task definition revision con- tinue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS task definition revision can still scal...
+    /// Deletes one or more task definitions. You must deregister a task definition revision before you delete it. For more information, see DeregisterTaskDefinition . When you delete a task definition revision, it is immediately transitions from the INACTIVE to DELETE_IN_PROGRESS . Existing tasks and services that reference a DELETE_IN_PROGRESS task definition revision continue to run without disruption. Existing services that reference a DELETE_IN_PROGRESS task definition revision can still scale up o...
     /// </summary>
-    /// <param name="TaskDefinitions">The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the task definition to delete. You must specify a re- vision . You can specify up to 10 task definitions as a comma separated list. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TaskDefinitions">The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the task definition to delete. You must specify a revision . You can specify up to 10 task definitions as a comma separated list. (string) Syntax: "string" "string" ...</param>
     public AwsEcsDeleteTaskDefinitionsOptions(
         IEnumerable<string> TaskDefinitions
     )
@@ -67,7 +68,7 @@ public record AwsEcsDeleteTaskDefinitionsOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the task definition to delete. You must specify a re- vision . You can specify up to 10 task definitions as a comma separated list. (string) Syntax: "string" "string" ...
+    /// The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the task definition to delete. You must specify a revision . You can specify up to 10 task definitions as a comma separated list. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--task-definitions", GroupValues = true)]
     public IEnumerable<string>? TaskDefinitions { get; private init; }
@@ -93,6 +94,15 @@ public record AwsEcsDeleteTaskDefinitionsOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

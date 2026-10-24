@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLambdaMicrovmsSuspendMicrovmOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Suspends a running MicroVM, preserving its full memory and disk state. The MicroVM transitions through SUSPENDING to SUSPENDED. To restore, call ResumeMicrovm or send traffic to the endpoint if autoResumeEnabled is true. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MicrovmIdentifier">The ID of the MicroVM to suspend. Constraints: o min: 1 o max: 256</param>
+    /// <param name="MicrovmIdentifier">The ID of the MicroVM to suspend. Constraints: • min: 1 • max: 256</param>
     public AwsLambdaMicrovmsSuspendMicrovmOptions(
         string MicrovmIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsLambdaMicrovmsSuspendMicrovmOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the MicroVM to suspend. Constraints: o min: 1 o max: 256
+    /// The ID of the MicroVM to suspend. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--microvm-identifier")]
     public string? MicrovmIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLambdaMicrovmsSuspendMicrovmOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

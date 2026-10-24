@@ -28,16 +28,16 @@ public record AwsDirectconnectDeleteBgpPeerOptions : AwsOptions
     public string? VirtualInterfaceId { get; set; }
 
     /// <summary>
-    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. o You can use asnLong or asn , but not both. We recommend using asn- Long as it supports a greater pool of numbers. o If you provide a value in the same API call for both asn and asn- Long , the API will only accept the value for asnLong . o If you enter a 4-byte ASN for the asn parameter, the API returns an error. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. • You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. • If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong . • If you enter a 4-byte ASN for the asn parameter, the API returns an error. • If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields.
     /// </summary>
     [CliOption("--asn")]
     public int? Asn { get; set; }
 
     /// <summary>
-    /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong : o You can use asnLong or asn , but not both. We recommend using asn- Long as it supports a greater pool of numbers. o asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte. o When using a 4-byte asnLong , the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647. o If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. o If you provide a value in the same API call for both asn and asn- Long , the API will only accept the value for asnLong .
+    /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong : • You can use asnLong or asn , but not both. We recommend using asnLong as it supports a greater pool of numbers. • asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte. • When using a 4-byte asnLong , the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647. • If you are using a 2-byte ASN, the API response will include the 2-byte value for both the asn and asnLong fields. • If you provide a value in the same API call for both asn and asnLong , the API will only accept the value for asnLong .
     /// </summary>
     [CliOption("--asn-long")]
-    public int? AsnLong { get; set; }
+    public long? AsnLong { get; set; }
 
     /// <summary>
     /// The IP address assigned to the customer interface.
@@ -56,5 +56,14 @@ public record AwsDirectconnectDeleteBgpPeerOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

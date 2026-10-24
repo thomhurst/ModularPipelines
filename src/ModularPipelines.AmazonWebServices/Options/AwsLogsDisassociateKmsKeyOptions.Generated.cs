@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates the specified KMS key from the specified log group or from all CloudWatch Logs Insights query results in the account. When you use DisassociateKmsKey , you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. o Specify the logGroupName parameter to stop using the KMS key to en- crypt future log events ingested and stored in the log group. In- stead, they will be encrypted with the default Cl...
+/// Disassociates the specified KMS key from the specified log group or from all CloudWatch Logs Insights query results in the account. When you use DisassociateKmsKey , you specify either the logGroupName parameter or the resourceIdentifier parameter. You can't specify both of those parameters in the same operation. • Specify the logGroupName parameter to stop using the KMS key to encrypt future log events ingested and stored in the log group. Instead, they will be encrypted with the default CloudW...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLogsDisassociateKmsKeyOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the log group. In your DisassociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. In your DisassociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; set; }
 
     /// <summary>
-    /// Specifies the target for this operation. You must specify one of the following: o Specify the ARN of a log group to stop having CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. After you run this operation, CloudWatch Logs en- crypts ingested log events with the default CloudWatch Logs method. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. `` arn:aws:logs:REGION :ACCOUNT_ID :log-group:LOG_GROUP_NAME `` System Message: WARNING/2 (&lt;string&gt;:, line 116) Inline literal start-string without end-string. o Specify the following ARN to stop using this key to encrypt the results of future StartQuery operations in this account. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:*REGION* :*ACCOUNT_ID* :query-result:* In your DisssociateKmsKey operation, you must specify either the re- sourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: o min: 1 o max: 2048 o pattern: [\w+=/:,.@\-\*]*
+    /// Specifies the target for this operation. You must specify one of the following: • Specify the ARN of a log group to stop having CloudWatch Logs use the KMS key to encrypt log events that are ingested and stored by that log group. After you run this operation, CloudWatch Logs encrypts ingested log events with the default CloudWatch Logs method. The log group ARN must be in the following format. Replace REGION and ACCOUNT_ID with your Region and account ID. `` arn:aws:logs:REGION :ACCOUNT_ID :log-group:LOG_GROUP_NAME `` System Message: WARNING/2 (&lt;string&gt;:, line 116) Inline literal start-string without end-string. • Specify the following ARN to stop using this key to encrypt the results of future StartQuery operations in this account. Replace REGION and ACCOUNT_ID with your Region and account ID. arn:aws:logs:*REGION* :*ACCOUNT_ID* :query-result:* In your DisssociateKmsKey operation, you must specify either the resourceIdentifier parameter or the logGroup parameter, but you can't specify both. Constraints: • min: 1 • max: 2048 • pattern: [\w+=/:,.@\-\*]*
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; set; }
@@ -38,5 +38,14 @@ public record AwsLogsDisassociateKmsKeyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

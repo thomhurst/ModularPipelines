@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,11 +29,11 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an Amazon Quick Sight user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The Amazon Quick Sight user name that you want to update. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+</param>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="UserName">The Amazon Quick Sight user name that you want to update. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace. Currently, you should set this to default . Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     /// <param name="Email">The email address of the user that you want to update.</param>
-    /// <param name="Role">The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts: o READER : A user who has read-only access to dashboards. o AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. o ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. o READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive sum- maries from dashboards. o AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Au- thor role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. o ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions. Possible values: o ADMIN o AUTHOR o READER o RESTRICTED_AUTHOR o RESTRICTED_READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO</param>
+    /// <param name="Role">The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts: • READER : A user who has read-only access to dashboards. • AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. • ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. • READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards. • AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. • ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions. Possible values: • ADMIN • AUTHOR • READER • RESTRICTED_AUTHOR • RESTRICTED_READER • ADMIN_PRO • AUTHOR_PRO • READER_PRO</param>
     public AwsQuicksightUpdateUserOptions(
         string UserName,
         string AwsAccountId,
@@ -72,19 +73,19 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Quick Sight user name that you want to update. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
+    /// The Amazon Quick Sight user name that you want to update. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that the user is in. Cur- rently, you use the ID for the Amazon Web Services account that con- tains your Amazon Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace. Currently, you should set this to default . Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace. Currently, you should set this to default . Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
@@ -96,13 +97,13 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
     public string? Email { get; private init; }
 
     /// <summary>
-    /// The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts: o READER : A user who has read-only access to dashboards. o AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. o ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. o READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive sum- maries from dashboards. o AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Au- thor role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. o ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions. Possible values: o ADMIN o AUTHOR o READER o RESTRICTED_AUTHOR o RESTRICTED_READER o ADMIN_PRO o AUTHOR_PRO o READER_PRO
+    /// The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts: • READER : A user who has read-only access to dashboards. • AUTHOR : A user who can create data sources, datasets, analyses, and dashboards. • ADMIN : A user who is an author, who can also manage Amazon Quick Sight settings. • READER_PRO : Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards. • AUTHOR_PRO : Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&amp;A, and generate executive summaries from dashboards. • ADMIN_PRO : Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing. The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions. Possible values: • ADMIN • AUTHOR • READER • RESTRICTED_AUTHOR • RESTRICTED_READER • ADMIN_PRO • AUTHOR_PRO • READER_PRO
     /// </summary>
     [CliOption("--role")]
     public AwsQuicksightUpdateUserRole? Role { get; private init; }
 
     /// <summary>
-    /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations: o Create and update data sources o Create and update datasets o Create and update email reports o Subscribe to email reports A set of custom permissions includes any combination of these re- strictions. Currently, you need to create the profile names for cus- tom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permis- sions to a Quick Sight user. Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by as- signing Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader). This feature is available only to Quick Sight Enterprise edition subscriptions. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9+=,.@_-]+$
+    /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations: • Create and update data sources • Create and update datasets • Create and update email reports • Subscribe to email reports A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user. Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader). This feature is available only to Quick Sight Enterprise edition subscriptions. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9+=,.@_-]+$
     /// </summary>
     [CliOption("--custom-permissions-name")]
     public string? CustomPermissionsName { get; set; }
@@ -114,7 +115,7 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
     public bool? UnapplyCustomPermissions { get; set; }
 
     /// <summary>
-    /// The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external lo- gin provider can be one of the following. o COGNITO : Amazon Cognito. The provider URL is cognito-iden- tity.amazonaws.com. When choosing the COGNITO provider type, dont use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom. o CUSTOM_OIDC : Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL. o NONE : This clears all the previously saved external login infor- mation for a user. Use the `` DescribeUser `` API operation to check the external login information.
+    /// The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following. • COGNITO : Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, dont use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom. • CUSTOM_OIDC : Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL. • NONE : This clears all the previously saved external login information for a user. Use the `` DescribeUser `` API operation to check the external login information.
     /// </summary>
     [CliOption("--external-login-federation-provider-type")]
     public string? ExternalLoginFederationProviderType { get; set; }
@@ -152,6 +153,15 @@ public record AwsQuicksightUpdateUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

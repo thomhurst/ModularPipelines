@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsEvsCreateEntitlementOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a Windows Server License entitlement for virtual machines in an Amazon EVS environment using the provided vCenter Server connector. This is an asynchronous operation. Amazon EVS validates the specified virtual machines before starting usage tracking. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique ID for the environment to create the entitlement in. Constraints: o pattern: (env-[a-zA-Z0-9]{10})</param>
-    /// <param name="ConnectorId">A unique ID for the connector associated with the entitlement. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})</param>
-    /// <param name="EntitlementType">The type of entitlement to create. Possible values: o WINDOWS_SERVER</param>
-    /// <param name="VmIds">The list of VMware vSphere virtual machine managed object IDs to create entitlements for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 4 o max: 1024 o pattern: vm-[0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="EnvironmentId">A unique ID for the environment to create the entitlement in. Constraints: • pattern: (env-[a-zA-Z0-9]{10})</param>
+    /// <param name="ConnectorId">A unique ID for the connector associated with the entitlement. Constraints: • pattern: (cnctr-[a-zA-Z0-9]{10})</param>
+    /// <param name="EntitlementType">The type of entitlement to create. Possible values: • WINDOWS_SERVER</param>
+    /// <param name="VmIds">The list of VMware vSphere virtual machine managed object IDs to create entitlements for. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 4 • max: 1024 • pattern: vm-[0-9]+ Syntax: "string" "string" ...</param>
     public AwsEvsCreateEntitlementOptions(
         string EnvironmentId,
         string ConnectorId,
@@ -80,31 +81,31 @@ public record AwsEvsCreateEntitlementOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique ID for the environment to create the entitlement in. Constraints: o pattern: (env-[a-zA-Z0-9]{10})
+    /// A unique ID for the environment to create the entitlement in. Constraints: • pattern: (env-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// A unique ID for the connector associated with the entitlement. Constraints: o pattern: (cnctr-[a-zA-Z0-9]{10})
+    /// A unique ID for the connector associated with the entitlement. Constraints: • pattern: (cnctr-[a-zA-Z0-9]{10})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// The type of entitlement to create. Possible values: o WINDOWS_SERVER
+    /// The type of entitlement to create. Possible values: • WINDOWS_SERVER
     /// </summary>
     [CliOption("--entitlement-type")]
     public string? EntitlementType { get; private init; }
 
     /// <summary>
-    /// The list of VMware vSphere virtual machine managed object IDs to create entitlements for. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 4 o max: 1024 o pattern: vm-[0-9]+ Syntax: "string" "string" ...
+    /// The list of VMware vSphere virtual machine managed object IDs to create entitlements for. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 4 • max: 1024 • pattern: vm-[0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--vm-ids", GroupValues = true)]
     public IEnumerable<string>? VmIds { get; private init; }
 
     /// <summary>
-    /// NOTE: This parameter is not used in Amazon EVS currently. If you sup- ply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement creation request. If you do not spec- ify a client token, a randomly generated token is used for the re- quest to ensure idempotency. Constraints: o min: 1 o max: 100 o pattern: [!-~]+
+    /// NOTE: This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 100 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -131,6 +132,15 @@ public record AwsEvsCreateEntitlementOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

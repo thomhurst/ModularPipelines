@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChatbotDeleteCustomActionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a custom action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomActionArn">The fully defined ARN of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}</param>
+    /// <param name="CustomActionArn">The fully defined ARN of the custom action. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}</param>
     public AwsChatbotDeleteCustomActionOptions(
         string CustomActionArn
     )
@@ -56,7 +57,7 @@ public record AwsChatbotDeleteCustomActionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The fully defined ARN of the custom action. Constraints: o min: 1 o max: 1011 o pattern: arn:aws:chat- bot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-ac- tion/[a-zA-Z0-9_-]{1,64}
+    /// The fully defined ARN of the custom action. Constraints: • min: 1 • max: 1011 • pattern: arn:aws:chatbot:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:custom-action/[a-zA-Z0-9_-]{1,64}
     /// </summary>
     [CliOption("--custom-action-arn")]
     public string? CustomActionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChatbotDeleteCustomActionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// For a given input face ID, searches for matching faces in the collec- tion the face belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with faces in the specified collection. NOTE: You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. ...
+/// For a given input face ID, searches for matching faces in the collection the face belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with faces in the specified collection. NOTE: You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. Mo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRekognitionSearchFacesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// For a given input face ID, searches for matching faces in the collec- tion the face belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with faces in the specified collection. NOTE: You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. ...
+    /// For a given input face ID, searches for matching faces in the collection the face belongs to. You get a face ID when you add a face to the collection using the IndexFaces operation. The operation compares the features of the input face with faces in the specified collection. NOTE: You can also search faces without indexing faces by using the SearchFacesByImage operation. The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. Mo...
     /// </summary>
-    /// <param name="CollectionId">ID of the collection the face belongs to. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
-    /// <param name="FaceId">ID of a face to find matches for in the collection. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="CollectionId">ID of the collection the face belongs to. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="FaceId">ID of a face to find matches for in the collection. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsRekognitionSearchFacesOptions(
         string CollectionId,
         string FaceId
@@ -60,28 +61,28 @@ public record AwsRekognitionSearchFacesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID of the collection the face belongs to. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// ID of the collection the face belongs to. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// ID of a face to find matches for in the collection. Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// ID of a face to find matches for in the collection. Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--face-id")]
     public string? FaceId { get; private init; }
 
     /// <summary>
-    /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match. Constraints: o min: 1 o max: 4096
+    /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--max-faces")]
     public int? MaxFaces { get; set; }
 
     /// <summary>
-    /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%. Constraints: o min: 0 o max: 100
+    /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--face-match-threshold")]
-    public int? FaceMatchThreshold { get; set; }
+    public double? FaceMatchThreshold { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -104,6 +105,15 @@ public record AwsRekognitionSearchFacesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

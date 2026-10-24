@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Ama- zon Web Services resources. After you've received authorization, use CreateVpcPeeringConnection to establish the peering connection. For more information, see VPC Peering ...
+/// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use CreateVpcPeeringConnection to establish the peering connection. For more information, see VPC Peering wi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftCreateVpcPeeringAuthorizationOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Ama- zon Web Services resources. After you've received authorization, use CreateVpcPeeringConnection to establish the peering connection. For more information, see VPC Peering ...
+    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use CreateVpcPeeringConnection to establish the peering connection. For more information, see VPC Peering wi...
     /// </summary>
-    /// <param name="GameLiftAwsAccountId">A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift Servers fleet. You can find your Ac- count ID in the Amazon Web Services Management Console under account settings. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="PeerVpcId">A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="GameLiftAwsAccountId">A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift Servers fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="PeerVpcId">A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: • min: 1 • max: 1024</param>
     public AwsGameliftCreateVpcPeeringAuthorizationOptions(
         string GameLiftAwsAccountId,
         string PeerVpcId
@@ -60,13 +61,13 @@ public record AwsGameliftCreateVpcPeeringAuthorizationOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift Servers fleet. You can find your Ac- count ID in the Amazon Web Services Management Console under account settings. Constraints: o min: 1 o max: 1024
+    /// A unique identifier for the Amazon Web Services account that you use to manage your Amazon GameLift Servers fleet. You can find your Account ID in the Amazon Web Services Management Console under account settings. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--game-lift-aws-account-id")]
     public string? GameLiftAwsAccountId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: o min: 1 o max: 1024
+    /// A unique identifier for a VPC with resources to be accessed by your Amazon GameLift Servers fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the VPC Dashboard in the Amazon Web Services Management Console. Learn more about VPC peering in VPC Peering with Amazon GameLift Servers Fleets . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--peer-vpc-id")]
     public string? PeerVpcId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGameliftCreateVpcPeeringAuthorizationOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

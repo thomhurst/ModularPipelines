@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockdataautomation commands.
+/// aws bedrock-data-automation commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,8 +28,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CopyBlueprintStageAsync(AwsBedrockDataAutomationCopyBlueprintStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CopyBlueprintStageAsync(AwsBedrockDataAutomationCopyBlueprintStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
@@ -38,8 +37,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBlueprintAsync(AwsBedrockDataAutomationCreateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBlueprintAsync(AwsBedrockDataAutomationCreateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new version of an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
@@ -48,8 +46,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateBlueprintVersionAsync(AwsBedrockDataAutomationCreateBlueprintVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateBlueprintVersionAsync(AwsBedrockDataAutomationCreateBlueprintVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Bedrock Data Automation Library See also: AWS API Documentation
@@ -58,8 +55,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataAutomationLibraryAsync(AwsBedrockDataAutomationCreateDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataAutomationLibraryAsync(AwsBedrockDataAutomationCreateDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates an Amazon Bedrock Data Automation Project See also: AWS API Documentation
@@ -68,8 +64,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> CreateDataAutomationProjectAsync(AwsBedrockDataAutomationCreateDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> CreateDataAutomationProjectAsync(AwsBedrockDataAutomationCreateDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
@@ -78,8 +73,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteBlueprintAsync(AwsBedrockDataAutomationDeleteBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteBlueprintAsync(AwsBedrockDataAutomationDeleteBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing Amazon Bedrock Data Automation Library See also: AWS API Documentation
@@ -88,8 +82,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataAutomationLibraryAsync(AwsBedrockDataAutomationDeleteDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataAutomationLibraryAsync(AwsBedrockDataAutomationDeleteDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an existing Amazon Bedrock Data Automation Project See also: AWS API Documentation
@@ -98,8 +91,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DeleteDataAutomationProjectAsync(AwsBedrockDataAutomationDeleteDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DeleteDataAutomationProjectAsync(AwsBedrockDataAutomationDeleteDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// API used to get blueprint optimization status. See also: AWS API Documentation
@@ -108,8 +100,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlueprintOptimizationStatusAsync(AwsBedrockDataAutomationGetBlueprintOptimizationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlueprintOptimizationStatusAsync(AwsBedrockDataAutomationGetBlueprintOptimizationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
@@ -118,8 +109,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetBlueprintAsync(AwsBedrockDataAutomationGetBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetBlueprintAsync(AwsBedrockDataAutomationGetBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an existing entity based on entity type from the library See also: AWS API Documentation
@@ -128,8 +118,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataAutomationLibraryEntityAsync(AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataAutomationLibraryEntityAsync(AwsBedrockDataAutomationGetDataAutomationLibraryEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// API used to get status of data automation library ingestion job See also: AWS API Documentation
@@ -138,8 +127,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataAutomationLibraryIngestionJobAsync(AwsBedrockDataAutomationGetDataAutomationLibraryIngestionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataAutomationLibraryIngestionJobAsync(AwsBedrockDataAutomationGetDataAutomationLibraryIngestionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an existing Amazon Bedrock Data Automation Library See also: AWS API Documentation
@@ -148,8 +136,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataAutomationLibraryAsync(AwsBedrockDataAutomationGetDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataAutomationLibraryAsync(AwsBedrockDataAutomationGetDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets an existing Amazon Bedrock Data Automation Project See also: AWS API Documentation
@@ -158,8 +145,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetDataAutomationProjectAsync(AwsBedrockDataAutomationGetDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetDataAutomationProjectAsync(AwsBedrockDataAutomationGetDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Invoke an async job to perform Blueprint Optimization See also: AWS API Documentation
@@ -168,8 +154,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeBlueprintOptimizationAsync(AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeBlueprintOptimizationAsync(AwsBedrockDataAutomationInvokeBlueprintOptimizationAsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Async API: Invoke data automation library ingestion job See also: AWS API Documentation
@@ -178,58 +163,52 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> InvokeDataAutomationLibraryIngestionJobAsync(AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> InvokeDataAutomationLibraryIngestionJobAsync(AwsBedrockDataAutomationInvokeDataAutomationLibraryIngestionJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all existing Amazon Bedrock Data Automation Blueprints See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: blueprints
+    /// Lists all existing Amazon Bedrock Data Automation Blueprints See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: blueprints
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListBlueprintsAsync(AwsBedrockDataAutomationListBlueprintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListBlueprintsAsync(AwsBedrockDataAutomationListBlueprintsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all existing Amazon Bedrock Data Automation Libraries See also: AWS API Documentation list-data-automation-libraries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: libraries
+    /// Lists all existing Amazon Bedrock Data Automation Libraries See also: AWS API Documentation list-data-automation-libraries is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: libraries
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataAutomationLibrariesAsync(AwsBedrockDataAutomationListDataAutomationLibrariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataAutomationLibrariesAsync(AwsBedrockDataAutomationListDataAutomationLibrariesOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all stored entities in the library See also: AWS API Documentation list-data-automation-library-entities is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: entities
+    /// Lists all stored entities in the library See also: AWS API Documentation list-data-automation-library-entities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: entities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataAutomationLibraryEntitiesAsync(AwsBedrockDataAutomationListDataAutomationLibraryEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataAutomationLibraryEntitiesAsync(AwsBedrockDataAutomationListDataAutomationLibraryEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all data automation library ingestion jobs See also: AWS API Documentation list-data-automation-library-ingestion-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: jobs
+    /// Lists all data automation library ingestion jobs See also: AWS API Documentation list-data-automation-library-ingestion-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: jobs
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataAutomationLibraryIngestionJobsAsync(AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataAutomationLibraryIngestionJobsAsync(AwsBedrockDataAutomationListDataAutomationLibraryIngestionJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Lists all existing Amazon Bedrock Data Automation Projects See also: AWS API Documentation list-data-automation-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
+    /// Lists all existing Amazon Bedrock Data Automation Projects See also: AWS API Documentation list-data-automation-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: projects
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListDataAutomationProjectsAsync(AwsBedrockDataAutomationListDataAutomationProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListDataAutomationProjectsAsync(AwsBedrockDataAutomationListDataAutomationProjectsOptions? options = null, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List tags for an Amazon Bedrock Data Automation resource See also: AWS API Documentation
@@ -238,8 +217,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockDataAutomationListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> ListTagsForResourceAsync(AwsBedrockDataAutomationListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tag an Amazon Bedrock Data Automation resource See also: AWS API Documentation
@@ -248,8 +226,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> TagResourceAsync(AwsBedrockDataAutomationTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> TagResourceAsync(AwsBedrockDataAutomationTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Untag an Amazon Bedrock Data Automation resource See also: AWS API Documentation
@@ -258,8 +235,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UntagResourceAsync(AwsBedrockDataAutomationUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UntagResourceAsync(AwsBedrockDataAutomationUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
@@ -268,8 +244,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateBlueprintAsync(AwsBedrockDataAutomationUpdateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateBlueprintAsync(AwsBedrockDataAutomationUpdateBlueprintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Amazon Bedrock Data Automation Library See also: AWS API Documentation
@@ -278,8 +253,7 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataAutomationLibraryAsync(AwsBedrockDataAutomationUpdateDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataAutomationLibraryAsync(AwsBedrockDataAutomationUpdateDataAutomationLibraryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing Amazon Bedrock Data Automation Project See also: AWS API Documentation
@@ -288,7 +262,6 @@ public interface IAwsBedrockDataAutomation
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateDataAutomationProjectAsync(AwsBedrockDataAutomationUpdateDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateDataAutomationProjectAsync(AwsBedrockDataAutomationUpdateDataAutomationProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralBenefitsGetBenefitOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves detailed information about a specific benefit available in the partner catalog. See also: AWS API Documentation get-benefit uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to query. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="Identifier">The unique identifier of the benefit to retrieve. Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14})</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog to query. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="Identifier">The unique identifier of the benefit to retrieve. Constraints: • pattern: (arn:.+|ben-[0-9a-z]{14})</param>
     public AwsPartnercentralBenefitsGetBenefitOptions(
         string Catalog,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsPartnercentralBenefitsGetBenefitOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog to query. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog to query. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit to retrieve. Constraints: o pattern: (arn:.+|ben-[0-9a-z]{14})
+    /// The unique identifier of the benefit to retrieve. Constraints: • pattern: (arn:.+|ben-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPartnercentralBenefitsGetBenefitOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

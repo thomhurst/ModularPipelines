@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an attachment associated with a specific Amazon Q Business con- versation. See also: AWS API Documentation
+/// Deletes an attachment associated with a specific Amazon Q Business conversation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsQbusinessDeleteAttachmentOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an attachment associated with a specific Amazon Q Business con- versation. See also: AWS API Documentation
+    /// Deletes an attachment associated with a specific Amazon Q Business conversation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The unique identifier for the Amazon Q Business application environ- ment. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="ConversationId">The unique identifier of the conversation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="AttachmentId">The unique identifier for the attachment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="ApplicationId">The unique identifier for the Amazon Q Business application environment. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="ConversationId">The unique identifier of the conversation. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="AttachmentId">The unique identifier for the attachment. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsQbusinessDeleteAttachmentOptions(
         string ApplicationId,
         string ConversationId,
@@ -64,25 +65,25 @@ public record AwsQbusinessDeleteAttachmentOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Q Business application environ- ment. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier for the Amazon Q Business application environment. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the conversation. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The unique identifier of the conversation. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--conversation-id")]
     public string? ConversationId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for the attachment. Constraints: o pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The unique identifier for the attachment. Constraints: • pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--attachment-id")]
     public string? AttachmentId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the user involved in the conversation. Constraints: o min: 1 o max: 1024 o pattern: \P{C}*
+    /// The unique identifier of the user involved in the conversation. Constraints: • min: 1 • max: 1024 • pattern: \P{C}*
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
@@ -108,6 +109,15 @@ public record AwsQbusinessDeleteAttachmentOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

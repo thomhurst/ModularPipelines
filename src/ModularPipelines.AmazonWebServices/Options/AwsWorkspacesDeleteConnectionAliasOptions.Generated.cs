@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . WARNING: If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see Security Considerations if You Stop Using Cross-Re- gion Redirection . NOTE: To delete a connection alias that has been shared, the shared ac- count must firs...
+/// Deletes the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . WARNING: If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see Security Considerations if You Stop Using Cross-Region Redirection . NOTE: To delete a connection alias that has been shared, the shared account must first di...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkspacesDeleteConnectionAliasOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . WARNING: If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see Security Considerations if You Stop Using Cross-Re- gion Redirection . NOTE: To delete a connection alias that has been shared, the shared ac- count must firs...
+    /// Deletes the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces . WARNING: If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see Security Considerations if You Stop Using Cross-Region Redirection . NOTE: To delete a connection alias that has been shared, the shared account must first di...
     /// </summary>
-    /// <param name="AliasId">The identifier of the connection alias to delete. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$</param>
+    /// <param name="AliasId">The identifier of the connection alias to delete. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesDeleteConnectionAliasOptions(
         string AliasId
     )
@@ -56,7 +57,7 @@ public record AwsWorkspacesDeleteConnectionAliasOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the connection alias to delete. Constraints: o min: 13 o max: 68 o pattern: ^wsca-[0-9a-z]{8,63}$
+    /// The identifier of the connection alias to delete. Constraints: • min: 13 • max: 68 • pattern: ^wsca-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--alias-id")]
     public string? AliasId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWorkspacesDeleteConnectionAliasOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

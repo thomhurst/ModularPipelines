@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in t...
+/// This API works with the following fleet types: EC2, Anywhere, Container Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in the...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftCreatePlayerSessionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in t...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Reserves an open player slot in a game session for a player. New player sessions can be created in any game session with an open slot that is in ACTIVE status and has a player creation policy of ACCEPT_ALL . You can add a group of players to a game session with CreatePlayerSessions . To create a player session, specify a game session ID, player ID, and optionally a set of player data. If successful, a slot is reserved in the...
     /// </summary>
-    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$</param>
-    /// <param name="PlayerId">A unique identifier for a player. Player IDs are developer-defined. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="GameSessionId">An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$</param>
+    /// <param name="PlayerId">A unique identifier for a player. Player IDs are developer-defined. Constraints: • min: 1 • max: 1024</param>
     public AwsGameliftCreatePlayerSessionOptions(
         string GameSessionId,
         string PlayerId
@@ -60,19 +61,19 @@ public record AwsGameliftCreatePlayerSessionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_re- gion&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9:/-]+$
+    /// An identifier for the game session that is unique across all regions to add a player to. The value is always a full ARN in the following format: For Home Region game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;ID string&gt; . For Remote Location game session - arn:aws:gamelift:&lt;home_region&gt;::gamesession/&lt;fleet ID&gt;/&lt;location&gt;/&lt;ID string&gt; . Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9:/-]+$
     /// </summary>
     [CliOption("--game-session-id")]
     public string? GameSessionId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a player. Player IDs are developer-defined. Constraints: o min: 1 o max: 1024
+    /// A unique identifier for a player. Player IDs are developer-defined. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--player-id")]
     public string? PlayerId { get; private init; }
 
     /// <summary>
-    /// Developer-defined information related to a player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Constraints: o min: 1 o max: 2048
+    /// Developer-defined information related to a player. Amazon GameLift Servers does not use this data, so it can be formatted as needed for use in the game. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--player-data")]
     public string? PlayerData { get; set; }
@@ -98,6 +99,15 @@ public record AwsGameliftCreatePlayerSessionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

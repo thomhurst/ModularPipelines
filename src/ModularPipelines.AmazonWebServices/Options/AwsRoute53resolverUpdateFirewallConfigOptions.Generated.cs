@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsRoute53resolverUpdateFirewallConfigOptions : AwsOptions, IValid
     /// <summary>
     /// Updates the configuration of the firewall behavior provided by DNS Firewall for a single VPC from Amazon Virtual Private Cloud (Amazon VPC). See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceId">The ID of the VPC that the configuration is for. Constraints: o min: 1 o max: 64</param>
-    /// <param name="FirewallFailOpen">Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply. o By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Fire- wall blocks queries that it is unable to evaluate properly. o If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them. This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association. Possible values: o ENABLED o DISABLED o USE_LOCAL_RESOURCE_SETTING</param>
+    /// <param name="ResourceId">The ID of the VPC that the configuration is for. Constraints: • min: 1 • max: 64</param>
+    /// <param name="FirewallFailOpen">Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply. • By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly. • If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them. This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association. Possible values: • ENABLED • DISABLED • USE_LOCAL_RESOURCE_SETTING</param>
     public AwsRoute53resolverUpdateFirewallConfigOptions(
         string ResourceId,
         AwsRoute53resolverUpdateFirewallConfigFirewallFailOpen FirewallFailOpen
@@ -60,13 +61,13 @@ public record AwsRoute53resolverUpdateFirewallConfigOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the VPC that the configuration is for. Constraints: o min: 1 o max: 64
+    /// The ID of the VPC that the configuration is for. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply. o By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Fire- wall blocks queries that it is unable to evaluate properly. o If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them. This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association. Possible values: o ENABLED o DISABLED o USE_LOCAL_RESOURCE_SETTING
+    /// Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply. • By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly. • If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them. This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association. Possible values: • ENABLED • DISABLED • USE_LOCAL_RESOURCE_SETTING
     /// </summary>
     [CliOption("--firewall-fail-open")]
     public AwsRoute53resolverUpdateFirewallConfigFirewallFailOpen? FirewallFailOpen { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRoute53resolverUpdateFirewallConfigOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

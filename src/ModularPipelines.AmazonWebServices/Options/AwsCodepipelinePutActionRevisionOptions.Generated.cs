@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsCodepipelinePutActionRevisionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Provides information to CodePipeline about new revisions to a source. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PipelineName">The name of the pipeline that starts processing the revision to the source. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="StageName">The name of the stage that contains the action that acts on the re- vision. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="ActionName">The name of the action that processes the revision. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+</param>
-    /// <param name="ActionRevision">Represents information about the version (or revision) of an action. revisionId -&gt; (string) [required] The system-generated unique ID that identifies the revision num- ber of the action. Constraints: o min: 1 o max: 1500 revisionChangeId -&gt; (string) [required] The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp). Constraints: o min: 1 o max: 100 created -&gt; (timestamp) [required] The date and time when the most recent version of the action was created, in timestamp format. Shorthand Syntax: revisionId=string,revisionChangeId=string,created=timestamp JSON Syntax: { "revisionId": "string", "revisionChangeId": "string", "created": timestamp }</param>
+    /// <param name="PipelineName">The name of the pipeline that starts processing the revision to the source. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="StageName">The name of the stage that contains the action that acts on the revision. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="ActionName">The name of the action that processes the revision. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+</param>
+    /// <param name="ActionRevision">Represents information about the version (or revision) of an action. revisionId -&gt; (string) [required] The system-generated unique ID that identifies the revision number of the action. Constraints: • min: 1 • max: 1500 revisionChangeId -&gt; (string) [required] The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp). Constraints: • min: 1 • max: 100 created -&gt; (timestamp) [required] The date and time when the most recent version of the action was created, in timestamp format. Shorthand Syntax: revisionId=string,revisionChangeId=string,created=timestamp JSON Syntax: { "revisionId": "string", "revisionChangeId": "string", "created": timestamp }</param>
     public AwsCodepipelinePutActionRevisionOptions(
         string PipelineName,
         string StageName,
@@ -68,25 +69,25 @@ public record AwsCodepipelinePutActionRevisionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pipeline that starts processing the revision to the source. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the pipeline that starts processing the revision to the source. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--pipeline-name")]
     public string? PipelineName { get; private init; }
 
     /// <summary>
-    /// The name of the stage that contains the action that acts on the re- vision. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the stage that contains the action that acts on the revision. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
 
     /// <summary>
-    /// The name of the action that processes the revision. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of the action that processes the revision. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--action-name")]
     public string? ActionName { get; private init; }
 
     /// <summary>
-    /// Represents information about the version (or revision) of an action. revisionId -&gt; (string) [required] The system-generated unique ID that identifies the revision num- ber of the action. Constraints: o min: 1 o max: 1500 revisionChangeId -&gt; (string) [required] The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp). Constraints: o min: 1 o max: 100 created -&gt; (timestamp) [required] The date and time when the most recent version of the action was created, in timestamp format. Shorthand Syntax: revisionId=string,revisionChangeId=string,created=timestamp JSON Syntax: { "revisionId": "string", "revisionChangeId": "string", "created": timestamp }
+    /// Represents information about the version (or revision) of an action. revisionId -&gt; (string) [required] The system-generated unique ID that identifies the revision number of the action. Constraints: • min: 1 • max: 1500 revisionChangeId -&gt; (string) [required] The unique identifier of the change that set the state to this revision (for example, a deployment ID or timestamp). Constraints: • min: 1 • max: 100 created -&gt; (timestamp) [required] The date and time when the most recent version of the action was created, in timestamp format. Shorthand Syntax: revisionId=string,revisionChangeId=string,created=timestamp JSON Syntax: { "revisionId": "string", "revisionChangeId": "string", "created": timestamp }
     /// </summary>
     [CliOption("--action-revision")]
     public string? ActionRevision { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCodepipelinePutActionRevisionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

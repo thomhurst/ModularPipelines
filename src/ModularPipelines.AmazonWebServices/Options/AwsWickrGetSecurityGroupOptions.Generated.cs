@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configura- tion. See also: AWS API Documentation
+/// Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsWickrGetSecurityGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configura- tion. See also: AWS API Documentation
+    /// Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The ID of the Wickr network containing the security group. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}</param>
-    /// <param name="GroupId">The unique identifier of the security group to retrieve. Constraints: o pattern: [\S\s]*</param>
+    /// <param name="NetworkId">The ID of the Wickr network containing the security group. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}</param>
+    /// <param name="GroupId">The unique identifier of the security group to retrieve. Constraints: • pattern: [\S\s]*</param>
     public AwsWickrGetSecurityGroupOptions(
         string NetworkId,
         string GroupId
@@ -60,13 +61,13 @@ public record AwsWickrGetSecurityGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Wickr network containing the security group. Constraints: o min: 8 o max: 8 o pattern: [0-9]{8}
+    /// The ID of the Wickr network containing the security group. Constraints: • min: 8 • max: 8 • pattern: [0-9]{8}
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the security group to retrieve. Constraints: o pattern: [\S\s]*
+    /// The unique identifier of the security group to retrieve. Constraints: • pattern: [\S\s]*
     /// </summary>
     [CliOption("--group-id")]
     public string? GroupId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWickrGetSecurityGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

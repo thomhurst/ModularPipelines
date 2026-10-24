@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates contact list metadata. This operation does a complete replace- ment. See also: AWS API Documentation
+/// Updates contact list metadata. This operation does a complete replacement. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesv2UpdateContactListOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates contact list metadata. This operation does a complete replace- ment. See also: AWS API Documentation
+    /// Updates contact list metadata. This operation does a complete replacement. See also: AWS API Documentation
     /// </summary>
     /// <param name="ContactListName">The name of the contact list.</param>
     public AwsSesv2UpdateContactListOptions(
@@ -62,7 +63,7 @@ public record AwsSesv2UpdateContactListOptions : AwsOptions, IValidatableObject
     public string? ContactListName { get; private init; }
 
     /// <summary>
-    /// An interest group, theme, or label within a list. A contact list can have multiple topics. (structure) An interest group, theme, or label within a list. Lists can have multiple topics. TopicName -&gt; (string) [required] The name of the topic. DisplayName -&gt; (string) [required] The name of the topic the contact will see. Description -&gt; (string) A description of what the topic is about, which the contact will see. DefaultSubscriptionStatus -&gt; (string) [required] The default subscription status to be applied to a contact if the contact has not noted their preference for subscribing to a topic. Possible values: o OPT_IN o OPT_OUT Shorthand Syntax: TopicName=string,DisplayName=string,Description=string,DefaultSubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "DisplayName": "string", "Description": "string", "DefaultSubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
+    /// An interest group, theme, or label within a list. A contact list can have multiple topics. (structure) An interest group, theme, or label within a list. Lists can have multiple topics. TopicName -&gt; (string) [required] The name of the topic. DisplayName -&gt; (string) [required] The name of the topic the contact will see. Description -&gt; (string) A description of what the topic is about, which the contact will see. DefaultSubscriptionStatus -&gt; (string) [required] The default subscription status to be applied to a contact if the contact has not noted their preference for subscribing to a topic. Possible values: • OPT_IN • OPT_OUT Shorthand Syntax: TopicName=string,DisplayName=string,Description=string,DefaultSubscriptionStatus=string ... JSON Syntax: [ { "TopicName": "string", "DisplayName": "string", "Description": "string", "DefaultSubscriptionStatus": "OPT_IN"|"OPT_OUT" } ... ]
     /// </summary>
     [CliOption("--topics", GroupValues = true)]
     public IEnumerable<string>? Topics { get; set; }
@@ -94,6 +95,15 @@ public record AwsSesv2UpdateContactListOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Wait until JMESPath query status returns SCHEDULING_BLOCKED when polling with get-queue. It will poll every 10 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+/// Wait until JMESPath query status returns SCHEDULING_BLOCKED when polling with get-queue. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDeadlineWaitQueueSchedulingBlockedOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Wait until JMESPath query status returns SCHEDULING_BLOCKED when polling with get-queue. It will poll every 10 seconds until a success- ful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query status returns SCHEDULING_BLOCKED when polling with get-queue. It will poll every 10 seconds until a successful state has been reached. This will exit with a return code of 255 after 30 failed checks. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID of the farm in the queue. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID for the queue to retrieve. Constraints: o pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="FarmId">The farm ID of the farm in the queue. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID for the queue to retrieve. Constraints: • pattern: queue-[0-9a-f]{32}</param>
     public AwsDeadlineWaitQueueSchedulingBlockedOptions(
         string FarmId,
         string QueueId
@@ -60,13 +61,13 @@ public record AwsDeadlineWaitQueueSchedulingBlockedOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID of the farm in the queue. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID of the farm in the queue. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID for the queue to retrieve. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID for the queue to retrieve. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDeadlineWaitQueueSchedulingBlockedOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

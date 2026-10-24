@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsGlueUpdateUserDefinedFunctionOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates an existing function definition in the Data Catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">The name of the catalog database where the function to be updated is located. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="FunctionName">The name of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="FunctionInput">A FunctionInput object that redefines the function in the Data Cata- log. FunctionName -&gt; (string) The name of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ClassName -&gt; (string) The Java class that contains the function code. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OwnerName -&gt; (string) The owner of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FunctionType -&gt; (string) The type of the function. Possible values: o REGULAR_FUNCTION o AGGREGATE_FUNCTION o STORED_PROCEDURE OwnerType -&gt; (string) The owner type. Possible values: o USER o ROLE o GROUP ResourceUris -&gt; (list) The resource URIs for the function. Constraints: o min: 0 o max: 1000 (structure) The URIs for function resources. ResourceType -&gt; (string) The type of the resource. Possible values: o JAR o FILE o ARCHIVE Uri -&gt; (string) The URI for accessing the resource. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: FunctionName=string,ClassName=string,OwnerName=string,FunctionType=string,OwnerType=string,ResourceUris=[{ResourceType=string,Uri=string},{ResourceType=string,Uri=string}] JSON Syntax: { "FunctionName": "string", "ClassName": "string", "OwnerName": "string", "FunctionType": "REGULAR_FUNCTION"|"AGGREGATE_FUNCTION"|"STORED_PROCEDURE", "OwnerType": "USER"|"ROLE"|"GROUP", "ResourceUris": [ { "ResourceType": "JAR"|"FILE"|"ARCHIVE", "Uri": "string" } ... ] }</param>
+    /// <param name="DatabaseName">The name of the catalog database where the function to be updated is located. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="FunctionName">The name of the function. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="FunctionInput">A FunctionInput object that redefines the function in the Data Catalog. FunctionName -&gt; (string) The name of the function. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ClassName -&gt; (string) The Java class that contains the function code. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OwnerName -&gt; (string) The owner of the function. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FunctionType -&gt; (string) The type of the function. Possible values: • REGULAR_FUNCTION • AGGREGATE_FUNCTION • STORED_PROCEDURE OwnerType -&gt; (string) The owner type. Possible values: • USER • ROLE • GROUP ResourceUris -&gt; (list) The resource URIs for the function. Constraints: • min: 0 • max: 1000 (structure) The URIs for function resources. ResourceType -&gt; (string) The type of the resource. Possible values: • JAR • FILE • ARCHIVE Uri -&gt; (string) The URI for accessing the resource. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: FunctionName=string,ClassName=string,OwnerName=string,FunctionType=string,OwnerType=string,ResourceUris=[{ResourceType=string,Uri=string},{ResourceType=string,Uri=string}] JSON Syntax: { "FunctionName": "string", "ClassName": "string", "OwnerName": "string", "FunctionType": "REGULAR_FUNCTION"|"AGGREGATE_FUNCTION"|"STORED_PROCEDURE", "OwnerType": "USER"|"ROLE"|"GROUP", "ResourceUris": [ { "ResourceType": "JAR"|"FILE"|"ARCHIVE", "Uri": "string" } ... ] }</param>
     public AwsGlueUpdateUserDefinedFunctionOptions(
         string DatabaseName,
         string FunctionName,
@@ -64,25 +65,25 @@ public record AwsGlueUpdateUserDefinedFunctionOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the catalog database where the function to be updated is located. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the catalog database where the function to be updated is located. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The name of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The name of the function. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--function-name")]
     public string? FunctionName { get; private init; }
 
     /// <summary>
-    /// A FunctionInput object that redefines the function in the Data Cata- log. FunctionName -&gt; (string) The name of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ClassName -&gt; (string) The Java class that contains the function code. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OwnerName -&gt; (string) The owner of the function. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FunctionType -&gt; (string) The type of the function. Possible values: o REGULAR_FUNCTION o AGGREGATE_FUNCTION o STORED_PROCEDURE OwnerType -&gt; (string) The owner type. Possible values: o USER o ROLE o GROUP ResourceUris -&gt; (list) The resource URIs for the function. Constraints: o min: 0 o max: 1000 (structure) The URIs for function resources. ResourceType -&gt; (string) The type of the resource. Possible values: o JAR o FILE o ARCHIVE Uri -&gt; (string) The URI for accessing the resource. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: FunctionName=string,ClassName=string,OwnerName=string,FunctionType=string,OwnerType=string,ResourceUris=[{ResourceType=string,Uri=string},{ResourceType=string,Uri=string}] JSON Syntax: { "FunctionName": "string", "ClassName": "string", "OwnerName": "string", "FunctionType": "REGULAR_FUNCTION"|"AGGREGATE_FUNCTION"|"STORED_PROCEDURE", "OwnerType": "USER"|"ROLE"|"GROUP", "ResourceUris": [ { "ResourceType": "JAR"|"FILE"|"ARCHIVE", "Uri": "string" } ... ] }
+    /// A FunctionInput object that redefines the function in the Data Catalog. FunctionName -&gt; (string) The name of the function. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* ClassName -&gt; (string) The Java class that contains the function code. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* OwnerName -&gt; (string) The owner of the function. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* FunctionType -&gt; (string) The type of the function. Possible values: • REGULAR_FUNCTION • AGGREGATE_FUNCTION • STORED_PROCEDURE OwnerType -&gt; (string) The owner type. Possible values: • USER • ROLE • GROUP ResourceUris -&gt; (list) The resource URIs for the function. Constraints: • min: 0 • max: 1000 (structure) The URIs for function resources. ResourceType -&gt; (string) The type of the resource. Possible values: • JAR • FILE • ARCHIVE Uri -&gt; (string) The URI for accessing the resource. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: FunctionName=string,ClassName=string,OwnerName=string,FunctionType=string,OwnerType=string,ResourceUris=[{ResourceType=string,Uri=string},{ResourceType=string,Uri=string}] JSON Syntax: { "FunctionName": "string", "ClassName": "string", "OwnerName": "string", "FunctionType": "REGULAR_FUNCTION"|"AGGREGATE_FUNCTION"|"STORED_PROCEDURE", "OwnerType": "USER"|"ROLE"|"GROUP", "ResourceUris": [ { "ResourceType": "JAR"|"FILE"|"ARCHIVE", "Uri": "string" } ... ] }
     /// </summary>
     [CliOption("--function-input")]
     public string? FunctionInput { get; private init; }
 
     /// <summary>
-    /// The ID of the Data Catalog where the function to be updated is lo- cated. If none is provided, the Amazon Web Services account ID is used by default. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The ID of the Data Catalog where the function to be updated is located. If none is provided, the Amazon Web Services account ID is used by default. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
@@ -108,6 +109,15 @@ public record AwsGlueUpdateUserDefinedFunctionOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

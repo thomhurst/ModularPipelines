@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws partnercentralselling commands.
+/// aws partnercentral-selling commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsPartnercentralSelling : IAwsPartnercentralSelling
@@ -32,7 +32,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     #region Commands
 
     /// <summary>
-    /// Use the AcceptEngagementInvitation action to accept an engagement invi- tation shared by AWS. Accepting the invitation indicates your willing- ness to participate in the engagement, granting you access to all en- gagement-related data. See also: AWS API Documentation
+    /// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportu- nity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each op- portunity is handled by the right person. By default, the opportunity owner is the one...
+    /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the op- portunity for better collaboration and decision making. You can asso- ciate an opportunity with the following entity types: o Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. o Amazon Web Services Products: Amazon We...
+    /// Enables you to create a formal association between an Opportunity and various related entities, enriching the context and details of the opportunity for better collaboration and decision making. You can associate an opportunity with the following entity types: • Partner Solution: A software product or consulting practice created and delivered by Partners. Partner Solutions help customers address business challenges using Amazon Web Services services. • Amazon Web Services Products: Amazon Web Se...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or docu- ments to an engagement, providing additional details that help facili- tate collaboration between engagement members. See also: AWS API Documentation
+    /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pend- ing Submission . To submit an opportunity, follow these steps: o To create the opportunity, use CreateOpportunity . o To associate a solution with the opportunity, use AssociateOpportu- nity . o To start the engagement with AWS, use StartEngagementFromOpportunity . After submission, you ...
+    /// Creates an Opportunity record in Partner Central. Use this operation to create a potential business opportunity for submission to Amazon Web Services. Creating an opportunity sets Lifecycle.ReviewStatus to Pending Submission . To submit an opportunity, follow these steps: • To create the opportunity, use CreateOpportunity . • To associate a solution with the opportunity, use AssociateOpportunity . • To start the engagement with AWS, use StartEngagementFromOpportunity . After submission, you can'...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and im- mutability rules as direct snapshot creation. See also: AWS API Documentation
+    /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services prod- uct, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity , and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in er- ror. Ensuring accurate assoc...
+    /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity , and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associati...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project de- tails, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
+    /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitations Payload.Project.Title with opportunity Project.Title . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Use this action to retrieve the engagement record for a given Engage- mentIdentifier . See also: AWS API Documentation
+    /// Use this action to retrieve the engagement record for a given EngagementIdentifier . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Fetches the Opportunity record from Partner Central by a given Identi- fier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
+    /// Fetches the Opportunity record from Partner Central by a given Identifier . Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Retrieves the details and current status of a prospecting task previ- ously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
+    /// Retrieves the details and current status of a prospecting task previously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Lists all in-progress, completed, or failed StartEngagementByAccepting- InvitationTask tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-by-accepting-invitation-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must e...
+    /// Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-by-accepting-invitation-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extra...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the...
+    /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account. See also: AWS API Documentation list-engagement-from-opportunity-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resul...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated respon...
+    /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS. See also: AWS API Documentation list-engagement-invitations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Retrieves the details of member partners in an Engagement. This opera- tion can only be invoked by members of the Engagement. The ListEngage- mentMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagina...
+    /// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried. See also: AWS API Documentation list-engagement-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract ...
+    /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement. See also: AWS API Documentation list-engagement-resource-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// This request accepts a list of filters that retrieve opportunity sub- sets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the op- portunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportu- nities action. W...
+    /// This request accepts a list of filters that retrieve opportunity subsets as well as sort options. This feature is available to partners from Partner Central using the ListOpportunities API action. To synchronize your system with Amazon Web Services, list only the opportunities that were newly created or updated. We recommend you rely on events emitted by the service into your Amazon Web Services accounts Amazon EventBridge default event bus. You can also use the ListOpportunities action. We reco...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account. See also: AWS API Documentation list-opportunity-from-engagement-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract d...
+    /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account. See also: AWS API Documentation list-opportunity-from-engagement-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is pagi- nated. Use the NextToken value from each response to retrieve subse- quent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagi...
+    /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is paginated. Use the NextToken value from each response to retrieve subsequent pages. See also: AWS API Documentation list-prospecting-from-engagement-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Lists resource snapshot jobs owned by the customer. This operation sup- ports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific sta- tus, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. W...
+    /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters. See also: AWS API Documentation list-resource-snapshot-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When usin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Retrieves a list of resource view snapshots based on specified crite- ria. This operation supports various use cases, including: o Fetching all snapshots associated with an engagement. o Retrieving snapshots of a specific resource type within an engage- ment. o Obtaining snapshots for a particular resource using a specified tem- plate. o Accessing the latest snapshot of a resource within an engagement. o Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapsho...
+    /// Retrieves a list of resource view snapshots based on specified criteria. This operation supports various use cases, including: • Fetching all snapshots associated with an engagement. • Retrieving snapshots of a specific resource type within an engagement. • Obtaining snapshots for a particular resource using a specified template. • Accessing the latest snapshot of a resource within an engagement. • Filtering snapshots by resource owner. See also: AWS API Documentation list-resource-snapshots is ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity. See also: AWS API Documentation list-solutions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated re...
+    /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity. See also: AWS API Documentation list-solutions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respon...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the op- portunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
+    /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// This action starts the engagement by accepting an EngagementInvitation . The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partners account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportu- nity has been successfully created in the partner's account. See also: AWS API Documentation
+    /// This action starts the engagement by accepting an EngagementInvitation . The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partners account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportunity has been successfully created in the partner's account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API opera- tions into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of opera- tions including GetOpportunity , CreateEngagement (if it doesn't ex- ist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEn- gagementIn...
+    /// Similar to StartEngagementByAcceptingInvitationTask , this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including GetOpportunity , CreateEngagement (if it doesn't exist), CreateResourceSnapshot , CreateResourceSnapshotJob , CreateEngagementInvitation...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting en- gagement contextual information into a structured opportunity record within the partner's account. See also: AWS API Documentation
+    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEn- gagementTasks to monitor multiple tasks. See also: AWS API Documentation
+    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask , or use ListProspectingFromEngagementTasks to monitor multiple tasks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsPartnercentralSelling : IAwsPartnercentralSelling
     }
 
     /// <summary>
-    /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.Re- viewStatus as either Approved or Action Required . See also: AWS API Documentation
+    /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has LifeCycle.ReviewStatus as either Approved or Action Required . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

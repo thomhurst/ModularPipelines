@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsStepfunctionsDescribeExecutionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Provides information about a state machine execution, such as the state machine associated with the execution, the execution input and output, and relevant execution metadata. If you've redriven an execution, you can use this API action to return information about the redrives of that execution. In addition, you can use this API action to return the Map Run Amazon Resource Name (ARN) if the execution was dispatched by a Map Run. If you specify a version or alias ARN when you call the StartExecut...
     /// </summary>
-    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to describe. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ExecutionArn">The Amazon Resource Name (ARN) of the execution to describe. Constraints: • min: 1 • max: 256</param>
     public AwsStepfunctionsDescribeExecutionOptions(
         string ExecutionArn
     )
@@ -57,13 +58,13 @@ public record AwsStepfunctionsDescribeExecutionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the execution to describe. Constraints: o min: 1 o max: 256
+    /// The Amazon Resource Name (ARN) of the execution to describe. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--execution-arn")]
     public string? ExecutionArn { get; private init; }
 
     /// <summary>
-    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call DescribeStateMachine API with included- Data = METADATA_ONLY to get a successful response without the en- crypted definition. Possible values: o ALL_DATA o METADATA_ONLY
+    /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call DescribeStateMachine API with includedData = METADATA_ONLY to get a successful response without the encrypted definition. Possible values: • ALL_DATA • METADATA_ONLY
     /// </summary>
     [CliOption("--included-data")]
     public AwsStepfunctionsDescribeExecutionIncludedData? IncludedData { get; set; }
@@ -89,6 +90,15 @@ public record AwsStepfunctionsDescribeExecutionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

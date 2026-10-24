@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsMacie2 : IAwsMacie2
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws macie2 wait sub-commands.
     /// </summary>
     public AwsMacie2Wait Wait => _wait ??= new AwsMacie2Wait(_command);
 
@@ -132,7 +132,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Creates and defines the criteria and other settings for a findings fil- ter. See also: AWS API Documentation
+    /// Creates and defines the criteria and other settings for a findings filter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Disables Amazon Macie and deletes all settings and resources for a Ma- cie account. See also: AWS API Documentation
+    /// Disables Amazon Macie and deletes all settings and resources for a Macie account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -357,7 +357,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Disassociates a member account from its Amazon Macie administrator ac- count. See also: AWS API Documentation
+    /// Disassociates a member account from its Amazon Macie administrator account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -372,7 +372,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// (Deprecated) Disassociates a member account from its Amazon Macie ad- ministrator account. This operation has been replaced by the Disassoci- ateFromAdministratorAccountoperation. See also: AWS API Documentation
+    /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccountoperation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Disassociates an Amazon Macie administrator account from a member ac- count. See also: AWS API Documentation
+    /// Disassociates an Amazon Macie administrator account from a member account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Enables Amazon Macie and specifies the configuration settings for a Ma- cie account. See also: AWS API Documentation
+    /// Enables Amazon Macie and specifies the configuration settings for a Macie account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -417,7 +417,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Designates an account as the delegated Amazon Macie administrator ac- count for an organization in Organizations. See also: AWS API Documentation
+    /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves (queries) aggregated statistical data about all the S3 buck- ets that Amazon Macie monitors and analyzes for an account. See also: AWS API Documentation
+    /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -537,6 +537,21 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
+    /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetFindingStatisticsAsync(
+        AwsMacie2GetFindingStatisticsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Retrieves the criteria and other settings for a findings filter. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -567,7 +582,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves the configuration settings for publishing findings to Secu- rity Hub. See also: AWS API Documentation
+    /// Retrieves the configuration settings for publishing findings to Security Hub. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -579,21 +594,6 @@ public class AwsMacie2 : IAwsMacie2
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options ?? new AwsMacie2GetFindingsPublicationConfigurationOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Retrieves (queries) aggregated statistical data about findings. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetFindingStatisticsAsync(
-        AwsMacie2GetFindingStatisticsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -612,7 +612,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves the status and configuration settings for an Amazon Macie ac- count. See also: AWS API Documentation
+    /// Retrieves the status and configuration settings for an Amazon Macie account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAd- ministratorAccountoperation. See also: AWS API Documentation
+    /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccountoperation. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves (queries) sensitive data discovery statistics and the sensi- tivity score for an S3 bucket. See also: AWS API Documentation
+    /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
+    /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves a subset of information about all the allow lists for an ac- count. See also: AWS API Documentation list-allow-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: allowLists
+    /// Retrieves a subset of information about all the allow lists for an account. See also: AWS API Documentation list-allow-lists is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: allowLists
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves the status of automated sensitive data discovery for one or more accounts. See also: AWS API Documentation list-automated-discovery-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions...
+    /// Retrieves the status of automated sensitive data discovery for one or more accounts. See also: AWS API Documentation list-automated-discovery-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: it...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves a subset of information about one or more classification jobs. See also: AWS API Documentation list-classification-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Retrieves a subset of information about one or more classification jobs. See also: AWS API Documentation list-classification-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves a subset of information about the classification scope for an account. See also: AWS API Documentation list-classification-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: classificat...
+    /// Retrieves a subset of information about the classification scope for an account. See also: AWS API Documentation list-classification-scopes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: classificatio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -822,7 +822,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves a subset of information about the custom data identifiers for an account. See also: AWS API Documentation list-custom-data-identifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: item...
+    /// Retrieves a subset of information about the custom data identifiers for an account. See also: AWS API Documentation list-custom-data-identifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves a subset of information about one or more findings. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingIds
+    /// Retrieves a subset of information about one or more findings. See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: findingIds
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -882,7 +882,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves information about all the managed data identifiers that Ama- zon Macie currently provides. See also: AWS API Documentation list-managed-data-identifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query...
+    /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides. See also: AWS API Documentation list-managed-data-identifiers is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -897,7 +897,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions:...
+    /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account. See also: AWS API Documentation list-members is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: mem...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation list-organization-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of th...
+    /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations. See also: AWS API Documentation list-organization-admin-accounts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -927,7 +927,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery. See also: AWS API Documentation list-resource-profile-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery. See also: AWS API Documentation list-resource-profile-artifacts is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -942,7 +942,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket. See also: AWS API Documentation list-resource-profile-detections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follo...
+    /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket. See also: AWS API Documentation list-resource-profile-detections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -957,7 +957,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Retrieves a subset of information about the sensitivity inspection tem- plate for an account. See also: AWS API Documentation list-sensitivity-inspection-templates is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following qu...
+    /// Retrieves a subset of information about the sensitivity inspection template for an account. See also: AWS API Documentation list-sensitivity-inspection-templates is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Adds or updates the configuration settings for storing data classifica- tion results. See also: AWS API Documentation
+    /// Adds or updates the configuration settings for storing data classification results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Removes one or more tags (keys and values) from an Amazon Macie re- source. See also: AWS API Documentation
+    /// Removes one or more tags (keys and values) from an Amazon Macie resource. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1152,7 +1152,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Suspends or re-enables Amazon Macie, or updates the configuration set- tings for a Macie account. See also: AWS API Documentation
+    /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1227,7 +1227,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Updates the status and configuration settings for retrieving occur- rences of sensitive data reported by findings. See also: AWS API Documentation
+    /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1242,7 +1242,7 @@ public class AwsMacie2 : IAwsMacie2
     }
 
     /// <summary>
-    /// Updates the settings for the sensitivity inspection template for an ac- count. See also: AWS API Documentation
+    /// Updates the settings for the sensitivity inspection template for an account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

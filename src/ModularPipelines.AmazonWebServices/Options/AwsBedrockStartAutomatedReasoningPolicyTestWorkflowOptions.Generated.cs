@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and gener- ates validation results. See also: AWS API Documentation
+/// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and gener- ates validation results. See also: AWS API Documentation
+    /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy to test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
-    /// <param name="BuildWorkflowId">The build workflow identifier. The build workflow must show a COM- PLETED status before running tests. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy to test. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="BuildWorkflowId">The build workflow identifier. The build workflow must show a COMPLETED status before running tests. Constraints: • min: 0 • max: 36 • pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}</param>
     public AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions(
         string PolicyArn,
         string BuildWorkflowId
@@ -61,25 +62,25 @@ public record AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to test. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The build workflow identifier. The build workflow must show a COM- PLETED status before running tests. Constraints: o min: 0 o max: 36 o pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
+    /// The build workflow identifier. The build workflow must show a COMPLETED status before running tests. Constraints: • min: 0 • max: 36 • pattern: [a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}
     /// </summary>
     [CliOption("--build-workflow-id")]
     public string? BuildWorkflowId { get; private init; }
 
     /// <summary>
-    /// The list of test identifiers to run. If not provided, all tests for the policy are run. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12} Syntax: "string" "string" ...
+    /// The list of test identifiers to run. If not provided, all tests for the policy are run. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 0 • max: 12 • pattern: [0-9A-Z]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--test-case-ids", GroupValues = true)]
     public IEnumerable<string>? TestCaseIds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but doesn't return an error. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -106,6 +107,15 @@ public record AwsBedrockStartAutomatedReasoningPolicyTestWorkflowOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

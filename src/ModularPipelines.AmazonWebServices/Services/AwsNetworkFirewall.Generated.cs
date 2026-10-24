@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws networkfirewall commands.
+/// aws network-firewall commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsNetworkFirewall : IAwsNetworkFirewall
@@ -32,7 +32,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     #region Commands
 
     /// <summary>
-    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the neces- sary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to ver- ify the firewall status. To reject an attachmen...
+    /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use DescribeFirewall to verify the firewall status. To reject an attachment in...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Associates the specified Availability Zones with a transit gateway-at- tached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints. See also: AWS API Documentation
+    /// Associates the specified Availability Zones with a transit gateway-attached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use DescribeFirewall to monitor the status of the new endpoints. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other set- tings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
+    /// Associates a FirewallPolicy to a Firewall . A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates a Network Firewall container association. The association moni- tors container lifecycle events in your Amazon ECS or Amazon EKS clus- ters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
+    /// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall end- points, and any tags that are attached to the firewall Amazon Web Ser- vices resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for...
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for a f...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates the firewall policy for the firewall according to the specifi- cations. An Network Firewall firewall policy defines the behavior of a firewall, in a collection of stateless and stateful rule groups and other set- tings. You can use one firewall policy for multiple firewalls. See also: AWS API Documentation
+    /// Creates the firewall policy for the firewall according to the specifications. An Network Firewall firewall policy defines the behavior of a firewall, in a collection of stateless and stateful rule groups and other settings. You can use one firewall policy for multiple firewalls. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagRe- source , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AW...
+    /// Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxies, use ListProxyConfigurations and DescribeProxyConfiguration . See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagRe- source . To retrieve information about proxies, use ListProxies and De- scribeProxy . See also: AWS API Documentation
+    /// Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxies, use ListProxies and DescribeProxy . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates an Network Firewall ProxyRuleGroup Collections of related proxy filtering rules. Rule groups help you man- age and reuse sets of rules across multiple proxy configurations. To manage a proxy rule group's tags, use the standard Amazon Web Ser- vices resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxy rule groups, use ListProxyRule- Groups and DescribeProxyRuleGroup . To retrieve information about individual proxy rules, ...
+    /// Creates an Network Firewall ProxyRuleGroup Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of rules across multiple proxy configurations. To manage a proxy rule group's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource , TagResource , and UntagResource . To retrieve information about proxy rule groups, use ListProxyRuleGroups and DescribeProxyRuleGroup . To retrieve information about individual proxy rules, use De...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates Network Firewall ProxyRule resources. Attaches new proxy rule(s) to an existing proxy rule group. To retrieve information about individual proxy rules, use De- scribeProxyRuleGroup and DescribeProxyRule . See also: AWS API Documentation
+    /// Creates Network Firewall ProxyRule resources. Attaches new proxy rule(s) to an existing proxy rule group. To retrieve information about individual proxy rules, use DescribeProxyRuleGroup and DescribeProxyRule . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates an Network Firewall TLS inspection configuration. Network Fire- wall uses TLS inspection configurations to decrypt your firewall's in- bound and outbound SSL/TLS traffic. After decryption, Network Firewall inspects the traffic according to your firewall policy's stateful rules, and then re-encrypts it before sending it to its destination. You can enable inspection of your firewall's inbound traffic, outbound traffic, or both. To use TLS inspection with your firewall, you must first impor...
+    /// Creates an Network Firewall TLS inspection configuration. Network Firewall uses TLS inspection configurations to decrypt your firewall's inbound and outbound SSL/TLS traffic. After decryption, Network Firewall inspects the traffic according to your firewall policy's stateful rules, and then re-encrypts it before sending it to its destination. You can enable inspection of your firewall's inbound traffic, outbound traffic, or both. To use TLS inspection with your firewall, you must first import or...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Deletes the specified Firewall and its FirewallStatus . This opera- tion requires the firewall's DeleteProtection flag to be FALSE . You can't revert this operation. You can check whether a firewall is in use by reviewing the route ta- bles for the Availability Zones where you have firewall subnet map- pings. Retrieve the subnet mappings by calling DescribeFirewall . You define and update the route tables through Amazon VPC. As needed, up- date the route tables for the zones to remove the firewa...
+    /// Deletes the specified Firewall and its FirewallStatus . This operation requires the firewall's DeleteProtection flag to be FALSE . You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall . You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attach- ment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to moni- tor the deletion status. See also: AWS API Documentation
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. WARNING: After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use DescribeFirewall to monitor the deletion status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Deletes the specified ProxyRule (s). currently attached to a Prox- yRuleGroup See also: AWS API Documentation
+    /// Deletes the specified ProxyRule (s). currently attached to a ProxyRuleGroup See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Deletes a resource policy that you created in a PutResourcePolicy re- quest. See also: AWS API Documentation
+    /// Deletes a resource policy that you created in a PutResourcePolicy request. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Deletes the specified VpcEndpointAssociation . You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping. You can retrieve the subnet mapping by calling De- scribeVpcEndpointAssociation . You define and update the route tables through Amazon VPC. As needed, update the route tables for the Avail- ability Zone to remove the firewall endpoint for the association. When the route tables no longer use the...
+    /// Deletes the specified VpcEndpointAssociation . You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping. You can retrieve the subnet mapping by calling DescribeVpcEndpointAssociation . You define and update the route tables through Amazon VPC. As needed, update the route tables for the Availability Zone to remove the firewall endpoint for the association. When the route tables no longer use the fir...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the meta- data to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup . See also: AWS API Documentation
+    /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the Summa- ryConfiguration parameter in UpdateRuleGroup . See also: AWS API ...
+    /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the SummaryConfiguration parameter in UpdateRuleGroup . See also: AWS API Do...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Returns the data objects for the specified TLS inspection configura- tion. See also: AWS API Documentation
+    /// Returns the data objects for the specified TLS inspection configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your tran- sit gateway route tables to redirect traffic appropriately. NOTE: If AvailabilityZoneChangeProtection is enabled, you must first dis- able it using UpdateAvailabilityZoneChangeProtection . To verify the status of your Availa...
+    /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately. NOTE: If AvailabilityZoneChangeProtection is enabled, you must first disable it using UpdateAvailabilityZoneChangeProtection . To verify the status of your Availabili...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Removes the specified subnet associations from the firewall. This re- moves the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing. See also: AWS API Documentation
+    /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -722,7 +722,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// The results of a COMPLETED analysis report generated with StartAnaly- sisReport . For more information, see AnalysisTypeReportResult . See also: AWS API Documentation get-analysis-report-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from th...
+    /// The results of a COMPLETED analysis report generated with StartAnalysisReport . For more information, see AnalysisTypeReportResult . See also: AWS API Documentation get-analysis-report-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Lists the container associations in your account and Region. Use the NextToken parameter in subsequent requests to retrieve additional re- sults. See also: AWS API Documentation list-container-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract d...
+    /// Lists the container associations in your account and Region. Use the NextToken parameter in subsequent requests to retrieve additional results. See also: AWS API Documentation list-container-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data fr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the metadata for the firewalls that you have defined. If you provide VPC identifiers in your request, this returns only the fire- walls for those VPCs. Depending on your setting for max results and the number of firewalls, a single call might not return the full list. See also: AWS API Documentation list-firewalls is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate ...
+    /// Retrieves the metadata for the firewalls that you have defined. If you provide VPC identifiers in your request, this returns only the firewalls for those VPCs. Depending on your setting for max results and the number of firewalls, a single call might not return the full list. See also: AWS API Documentation list-firewalls is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the metadata for the proxies that you have defined. Depending on your setting for max results and the number of proxies, a single call might not return the full list. See also: AWS API Documentation list-proxies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument ...
+    /// Retrieves the metadata for the proxies that you have defined. Depending on your setting for max results and the number of proxies, a single call might not return the full list. See also: AWS API Documentation list-proxies is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument mu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the metadata for the proxy configuration that you have de- fined. Depending on your setting for max results and the number of proxy configurations, a single call might not return the full list. See also: AWS API Documentation list-proxy-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pag...
+    /// Retrieves the metadata for the proxy configuration that you have defined. Depending on your setting for max results and the number of proxy configurations, a single call might not return the full list. See also: AWS API Documentation list-proxy-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the metadata for the rule groups that you have defined. De- pending on your setting for max results and the number of rule groups, a single call might not return the full list. See also: AWS API Documentation list-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --que...
+    /// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list. See also: AWS API Documentation list-rule-groups is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your re- sources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule...
+    /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule g...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list. See also: AWS API Documentation list-tls-inspection-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and...
+    /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list. See also: AWS API Documentation list-tls-inspection-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll, this returns only the endpoint as- sociations for that firewall. Depending on your setting for max results and the number of associa- tions, a single call might not return the full list. See also: AWS API Documentation list-vpc-endpoint-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by...
+    /// Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll, this returns only the endpoint associations for that firewall. Depending on your setting for max results and the number of associations, a single call might not return the full list. See also: AWS API Documentation list-vpc-endpoint-associations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by provi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Devel- oper Guide . Use this operation to create or update a resource policy for...
+    /// Creates or updates an IAM policy for your rule group, firewall policy, or firewall. Use this to share these resources between accounts. This operation works in conjunction with the Amazon Web Services Resource Access Manager (RAM) service to manage resource sharing for Network Firewall. For information about using sharing with Network Firewall resources, see Sharing Network Firewall resources in the Network Firewall Developer Guide . Use this operation to create or update a resource policy for y...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -947,7 +947,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the cre- ation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejec- tion, no traffic will flow through the firewall endpoints for this at- tachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewa...
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use DescribeFirewall to monitor the rejection status. To accept the attachment instead of rejecting it, use AcceptNetworkFirewallTran...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Begins the flushing of traffic from the firewall, according to the fil- ters you define. When the operation starts, impacted flows are tem- porarily marked as timed out before the Suricata engine prunes, or flushes, the flows from the firewall table. WARNING: While the flush completes, impacted flows are processed as midstream traffic. This may result in a temporary increase in midstream traf- fic metrics. We recommend that you double check your stream excep- tion policy before you perform a flu...
+    /// Begins the flushing of traffic from the firewall, according to the filters you define. When the operation starts, impacted flows are temporarily marked as timed out before the Suricata engine prunes, or flushes, the flows from the firewall table. WARNING: While the flush completes, impacted flows are processed as midstream traffic. This may result in a temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy before you perform a flush opera...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1007,7 +1007,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "cus- tomer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups....
+    /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups. S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1022,7 +1022,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Removes the tags with the specified keys from the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can manage tags for the Amazon Web Services resources that you man- age through Network Firewall: firewalls, fire...
+    /// Removes the tags with the specified keys from the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can manage tags for the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1037,7 +1037,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents acciden- tal changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environ- ments. When enabled, you must disable this protection before using Associ- ateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration. See also: AWS API Documentation
+    /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents accidental changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environments. When enabled, you must disable this protection before using AssociateAvailabilityZones or DisassociateAvailabilityZones to modify the firewall's Availability Zone configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Pro- vide an update token to enable optimistic concurrency control. See also: AWS API Documentation
+    /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Provide an update token to enable optimistic concurrency control. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1082,7 +1082,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Modifies the flag, DeleteProtection , which indicates whether it is possible to delete the firewall. If the flag is set to TRUE , the fire- wall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use. See also: AWS API Documentation
+    /// Modifies the flag, DeleteProtection , which indicates whether it is possible to delete the firewall. If the flag is set to TRUE , the firewall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Modifies the description for the specified firewall. Use the descrip- tion to help you identify the firewall when you're working with it. See also: AWS API Documentation
+    /// Modifies the description for the specified firewall. Use the description to help you identify the firewall when you're working with it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the fire- wall is protected from changes. This setting helps protect against ac- cidentally changing a firewall that's in use. See also: AWS API Documentation
+    /// Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall. If the flag is set to TRUE , the firewall is protected from changes. This setting helps protect against accidentally changing a firewall that's in use. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1157,7 +1157,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Sets the logging configuration for the specified firewall. To change the logging configuration, retrieve the LoggingConfiguration by calling DescribeLoggingConfiguration , then change it and provide the modified object to this update call. You must change the logging configuration one LogDestinationConfig at a time inside the retrieved LoggingConfiguration object. You can perform only one of the following actions in any call to Up- dateLoggingConfiguration : o Create a new log destination object...
+    /// Sets the logging configuration for the specified firewall. To change the logging configuration, retrieve the LoggingConfiguration by calling DescribeLoggingConfiguration , then change it and provide the modified object to this update call. You must change the logging configuration one LogDestinationConfig at a time inside the retrieved LoggingConfiguration object. You can perform only one of the following actions in any call to UpdateLoggingConfiguration : • Create a new log destination object b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1262,7 +1262,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group. To update a rule group, first call DescribeRuleGroup to retrieve the current RuleGroup object, update the object as needed, and then pro- vide the updated object to this call. See also: AWS API Documentation
+    /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group. To update a rule group, first call DescribeRuleGroup to retrieve the current RuleGroup object, update the object as needed, and then provide the updated object to this call. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1292,7 +1292,7 @@ public class AwsNetworkFirewall : IAwsNetworkFirewall
     }
 
     /// <summary>
-    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by referencing it in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call DescribeTLSIn- spectionConfiguration to retrieve the current TLSInspectionConfigura- tion object, update the object as needed, and the...
+    /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by referencing it in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call DescribeTLSInspectionConfiguration to retrieve the current TLSInspectionConfiguration object, update the object as needed, and then pr...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the ef- fects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes. See also: AWS API Documentation
+/// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkmailGetMobileDeviceAccessEffectOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the ef- fects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes. See also: AWS API Documentation
+    /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The WorkMail organization to simulate the access effect for. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="OrganizationId">The WorkMail organization to simulate the access effect for. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
     public AwsWorkmailGetMobileDeviceAccessEffectOptions(
         string OrganizationId
     )
@@ -56,31 +57,31 @@ public record AwsWorkmailGetMobileDeviceAccessEffectOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The WorkMail organization to simulate the access effect for. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The WorkMail organization to simulate the access effect for. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// Device type the simulated user will report. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+
+    /// Device type the simulated user will report. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--device-type")]
     public string? DeviceType { get; set; }
 
     /// <summary>
-    /// Device model the simulated user will report. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+
+    /// Device model the simulated user will report. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--device-model")]
     public string? DeviceModel { get; set; }
 
     /// <summary>
-    /// Device operating system the simulated user will report. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+
+    /// Device operating system the simulated user will report. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--device-operating-system")]
     public string? DeviceOperatingSystem { get; set; }
 
     /// <summary>
-    /// Device user agent the simulated user will report. Constraints: o min: 1 o max: 256 o pattern: [\u0020-\u00FF]+
+    /// Device user agent the simulated user will report. Constraints: • min: 1 • max: 256 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--device-user-agent")]
     public string? DeviceUserAgent { get; set; }
@@ -106,6 +107,15 @@ public record AwsWorkmailGetMobileDeviceAccessEffectOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

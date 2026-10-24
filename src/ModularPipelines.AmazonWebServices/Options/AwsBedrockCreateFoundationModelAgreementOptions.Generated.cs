@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +30,7 @@ public record AwsBedrockCreateFoundationModelAgreementOptions : AwsOptions, IVal
     /// Request a model access agreement for the specified model. See also: AWS API Documentation
     /// </summary>
     /// <param name="OfferToken">An offer token encapsulates the information for an offer.</param>
-    /// <param name="ModelId">Model Id of the model for the access request. Constraints: o min: 0 o max: 140 o pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)</param>
+    /// <param name="ModelId">Model Id of the model for the access request. Constraints: • min: 0 • max: 140 • pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)</param>
     public AwsBedrockCreateFoundationModelAgreementOptions(
         string OfferToken,
         string ModelId
@@ -68,7 +69,7 @@ public record AwsBedrockCreateFoundationModelAgreementOptions : AwsOptions, IVal
     public string? OfferToken { get; private init; }
 
     /// <summary>
-    /// Model Id of the model for the access request. Constraints: o min: 0 o max: 140 o pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)
+    /// Model Id of the model for the access request. Constraints: • min: 0 • max: 140 • pattern: [a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)
     /// </summary>
     [CliOption("--model-id")]
     public string? ModelId { get; private init; }
@@ -94,6 +95,15 @@ public record AwsBedrockCreateFoundationModelAgreementOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

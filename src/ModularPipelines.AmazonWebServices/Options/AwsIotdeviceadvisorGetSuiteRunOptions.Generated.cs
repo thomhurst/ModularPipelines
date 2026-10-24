@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotdeviceadvisorGetSuiteRunOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Gets information about a Device Advisor test suite run. Requires permission to access the GetSuiteRun action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SuiteDefinitionId">Suite definition ID for the test suite run. Constraints: o min: 12 o max: 36</param>
-    /// <param name="SuiteRunId">Suite run ID for the test suite run. Constraints: o min: 12 o max: 36</param>
+    /// <param name="SuiteDefinitionId">Suite definition ID for the test suite run. Constraints: • min: 12 • max: 36</param>
+    /// <param name="SuiteRunId">Suite run ID for the test suite run. Constraints: • min: 12 • max: 36</param>
     public AwsIotdeviceadvisorGetSuiteRunOptions(
         string SuiteDefinitionId,
         string SuiteRunId
@@ -60,13 +61,13 @@ public record AwsIotdeviceadvisorGetSuiteRunOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Suite definition ID for the test suite run. Constraints: o min: 12 o max: 36
+    /// Suite definition ID for the test suite run. Constraints: • min: 12 • max: 36
     /// </summary>
     [CliOption("--suite-definition-id")]
     public string? SuiteDefinitionId { get; private init; }
 
     /// <summary>
-    /// Suite run ID for the test suite run. Constraints: o min: 12 o max: 36
+    /// Suite run ID for the test suite run. Constraints: • min: 12 • max: 36
     /// </summary>
     [CliOption("--suite-run-id")]
     public string? SuiteRunId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotdeviceadvisorGetSuiteRunOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

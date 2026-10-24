@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a matchmaking ticket or match backfill ticket that is currently being processed. To stop the matchmaking operation, specify the ticket ID. If successful, work on the ticket is stopped, and the ticket status is changed to CANCELLED . This call is also used to turn off automatic backfill for an individual game session. This is for game sessions that are created with a match- making configuration that has automatic ba...
+/// This API works with the following fleet types: EC2, Anywhere, Container Cancels a matchmaking ticket or match backfill ticket that is currently being processed. To stop the matchmaking operation, specify the ticket ID. If successful, work on the ticket is stopped, and the ticket status is changed to CANCELLED . This call is also used to turn off automatic backfill for an individual game session. This is for game sessions that are created with a matchmaking configuration that has automatic backfi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftStopMatchmakingOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Cancels a matchmaking ticket or match backfill ticket that is currently being processed. To stop the matchmaking operation, specify the ticket ID. If successful, work on the ticket is stopped, and the ticket status is changed to CANCELLED . This call is also used to turn off automatic backfill for an individual game session. This is for game sessions that are created with a match- making configuration that has automatic ba...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Cancels a matchmaking ticket or match backfill ticket that is currently being processed. To stop the matchmaking operation, specify the ticket ID. If successful, work on the ticket is stopped, and the ticket status is changed to CANCELLED . This call is also used to turn off automatic backfill for an individual game session. This is for game sessions that are created with a matchmaking configuration that has automatic backfi...
     /// </summary>
-    /// <param name="TicketId">A unique identifier for a matchmaking ticket. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$</param>
+    /// <param name="TicketId">A unique identifier for a matchmaking ticket. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$</param>
     public AwsGameliftStopMatchmakingOptions(
         string TicketId
     )
@@ -56,7 +57,7 @@ public record AwsGameliftStopMatchmakingOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a matchmaking ticket. Constraints: o max: 128 o pattern: ^[a-zA-Z0-9-\.]*$
+    /// A unique identifier for a matchmaking ticket. Constraints: • max: 128 • pattern: ^[a-zA-Z0-9-\.]*$
     /// </summary>
     [CliOption("--ticket-id")]
     public string? TicketId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsGameliftStopMatchmakingOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

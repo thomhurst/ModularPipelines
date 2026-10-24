@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build con- tinues independently. See also: AWS API Documentation
+/// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build continues independently. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsImagebuilderDeleteImagePipelineOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build con- tinues independently. See also: AWS API Documentation
+    /// Deletes an image pipeline. Images that the pipeline created aren't deleted - remove those separately with DeleteImage . You can delete a pipeline while a build that it started is still running. The build continues independently. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$</param>
+    /// <param name="ImagePipelineArn">The Amazon Resource Name (ARN) of the image pipeline to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$</param>
     public AwsImagebuilderDeleteImagePipelineOptions(
         string ImagePipelineArn
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderDeleteImagePipelineOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image pipeline to delete. Constraints: o pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):im- age-pipeline/[a-z0-9-_]+$
+    /// The Amazon Resource Name (ARN) of the image pipeline to delete. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$
     /// </summary>
     [CliOption("--image-pipeline-arn")]
     public string? ImagePipelineArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderDeleteImagePipelineOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsApigatewayv2GetStageOptions : AwsOptions, IValidatableObject
     /// Gets a Stage. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApiId">The API identifier.</param>
-    /// <param name="StageName">The stage name. Stage names can only contain alphanumeric charac- ters, hyphens, and underscores. Maximum length is 128 characters.</param>
+    /// <param name="StageName">The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.</param>
     public AwsApigatewayv2GetStageOptions(
         string ApiId,
         string StageName
@@ -66,7 +67,7 @@ public record AwsApigatewayv2GetStageOptions : AwsOptions, IValidatableObject
     public string? ApiId { get; private init; }
 
     /// <summary>
-    /// The stage name. Stage names can only contain alphanumeric charac- ters, hyphens, and underscores. Maximum length is 128 characters.
+    /// The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
     /// </summary>
     [CliOption("--stage-name")]
     public string? StageName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsApigatewayv2GetStageOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

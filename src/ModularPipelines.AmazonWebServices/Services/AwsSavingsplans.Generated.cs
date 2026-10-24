@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -77,7 +77,7 @@ public class AwsSavingsplans : IAwsSavingsplans
     }
 
     /// <summary>
-    /// Describes the offering rates for Savings Plans you might want to pur- chase. See also: AWS API Documentation
+    /// Describes the offering rates for Savings Plans you might want to purchase. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBackupListReportJobsOptions : AwsOptions
 {
     /// <summary>
-    /// Returns only report jobs with the specified report plan name. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z][_a-zA-Z0-9]*
+    /// Returns only report jobs with the specified report plan name. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z][_a-zA-Z0-9]*
     /// </summary>
     [CliOption("--by-report-plan-name")]
     public string? ByReportPlanName { get; set; }
@@ -41,19 +41,19 @@ public record AwsBackupListReportJobsOptions : AwsOptions
     public string? ByCreationAfter { get; set; }
 
     /// <summary>
-    /// Returns only report jobs that are in the specified status. The sta- tuses are: CREATED | RUNNING | COMPLETED | FAILED | COMPLETED_WITH_ISSUES Please note that only scanning jobs finish with state completed with issues. For backup jobs this is a console interpretation of a job that finishes in completed state and has a status message.
+    /// Returns only report jobs that are in the specified status. The statuses are: CREATED | RUNNING | COMPLETED | FAILED | COMPLETED_WITH_ISSUES Please note that only scanning jobs finish with state completed with issues. For backup jobs this is a console interpretation of a job that finishes in completed state and has a status message.
     /// </summary>
     [CliOption("--by-status")]
     public string? ByStatus { get; set; }
 
     /// <summary>
-    /// The number of desired results from 1 to 1000. Optional. If unspeci- fied, the query will return 1 MB of data. Constraints: o min: 1 o max: 1000
+    /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// An identifier that was returned from the previous call to this oper- ation, which can be used to return the next set of items in the list.
+    /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -64,5 +64,14 @@ public record AwsBackupListReportJobsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsEcrPutImageScanningConfigurationOptions : AwsOptions, IValidata
     /// <summary>
     /// WARNING: The PutImageScanningConfiguration API is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see PutRegistryScanningConfiguration . Updates the image scanning configuration for the specified repository. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository in which to update the image scanning configuration setting. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
-    /// <param name="ImageScanningConfiguration">The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities af- ter being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after be- ing pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }</param>
+    /// <param name="RepositoryName">The name of the repository in which to update the image scanning configuration setting. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*</param>
+    /// <param name="ImageScanningConfiguration">The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after being pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }</param>
     public AwsEcrPutImageScanningConfigurationOptions(
         string RepositoryName,
         string ImageScanningConfiguration
@@ -60,19 +61,19 @@ public record AwsEcrPutImageScanningConfigurationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository in which to update the image scanning configuration setting. Constraints: o min: 2 o max: 256 o pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
+    /// The name of the repository in which to update the image scanning configuration setting. Constraints: • min: 2 • max: 256 • pattern: [a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*(\/[a-z0-9]+((\.|_|__|-+)[a-z0-9]+)*)*
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
 
     /// <summary>
-    /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities af- ter being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after be- ing pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }
+    /// The image scanning configuration for the repository. This setting determines whether images are scanned for known vulnerabilities after being pushed to the repository. scanOnPush -&gt; (boolean) The setting that determines whether images are scanned after being pushed to a repository. If set to true , images will be scanned after being pushed. If this parameter is not specified, it will default to false and images will not be scanned unless a scan is manually started with the API_StartImageScan API. Shorthand Syntax: scanOnPush=boolean JSON Syntax: { "scanOnPush": true|false }
     /// </summary>
     [CliOption("--image-scanning-configuration")]
     public string? ImageScanningConfiguration { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image scanning con- figuration setting. If you do not specify a registry, the default registry is assumed. Constraints: o pattern: [0-9]{12}
+    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image scanning configuration setting. If you do not specify a registry, the default registry is assumed. Constraints: • pattern: [0-9]{12}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
@@ -98,6 +99,15 @@ public record AwsEcrPutImageScanningConfigurationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

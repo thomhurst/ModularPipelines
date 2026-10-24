@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsControltowerGetBaselineOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieve details about an existing Baseline resource by specifying its identifier. For usage examples, see ` the Amazon Web Services Control Tower User Guide https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html`__ . See also: AWS API Documentation
     /// </summary>
-    /// <param name="BaselineIdentifier">The ARN of the Baseline resource to be retrieved. Constraints: o pattern: arn:[a-z-]+:controltower:[a-z0-9-]*:[0-9]{0,12}:base- line/[A-Z0-9]{16}</param>
+    /// <param name="BaselineIdentifier">The ARN of the Baseline resource to be retrieved. Constraints: • pattern: arn:[a-z-]+:controltower:[a-z0-9-]*:[0-9]{0,12}:baseline/[A-Z0-9]{16}</param>
     public AwsControltowerGetBaselineOptions(
         string BaselineIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsControltowerGetBaselineOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Baseline resource to be retrieved. Constraints: o pattern: arn:[a-z-]+:controltower:[a-z0-9-]*:[0-9]{0,12}:base- line/[A-Z0-9]{16}
+    /// The ARN of the Baseline resource to be retrieved. Constraints: • pattern: arn:[a-z-]+:controltower:[a-z0-9-]*:[0-9]{0,12}:baseline/[A-Z0-9]{16}
     /// </summary>
     [CliOption("--baseline-identifier")]
     public string? BaselineIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsControltowerGetBaselineOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

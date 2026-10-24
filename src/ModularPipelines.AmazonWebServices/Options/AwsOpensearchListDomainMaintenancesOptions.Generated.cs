@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsOpensearchListDomainMaintenancesOptions : AwsOptions, IValidata
     /// <summary>
     /// A list of maintenance actions for the domain. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="DomainName">The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
     public AwsOpensearchListDomainMaintenancesOptions(
         string DomainName
     )
@@ -58,31 +59,31 @@ public record AwsOpensearchListDomainMaintenancesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// The name of the domain. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// The name of the action. Possible values: o REBOOT_NODE o RESTART_SEARCH_PROCESS o RESTART_DASHBOARD
+    /// The name of the action. Possible values: • REBOOT_NODE • RESTART_SEARCH_PROCESS • RESTART_DASHBOARD
     /// </summary>
     [CliOption("--action")]
     public AwsOpensearchListDomainMaintenancesAction? Action { get; set; }
 
     /// <summary>
-    /// The status of the action. Possible values: o PENDING o IN_PROGRESS o COMPLETED o FAILED o TIMED_OUT
+    /// The status of the action. Possible values: • PENDING • IN_PROGRESS • COMPLETED • FAILED • TIMED_OUT
     /// </summary>
     [CliOption("--status")]
     public AwsOpensearchListDomainMaintenancesStatus? Status { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. Constraints: • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If your initial ListDomainMaintenances operation returns a nextToken , include the returned nextToken in subsequent ListDomainMainte- nances operations, which returns results in the next page.
+    /// If your initial ListDomainMaintenances operation returns a nextToken , include the returned nextToken in subsequent ListDomainMaintenances operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -109,6 +110,15 @@ public record AwsOpensearchListDomainMaintenancesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

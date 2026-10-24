@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified set of tags from an Amazon OpenSearch Service do- main, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
+/// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsOpensearchRemoveTagsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified set of tags from an Amazon OpenSearch Service do- main, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
+    /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see Tagging Amazon OpenSearch Service resources . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the domain, data source, or appli- cation from which you want to delete the specified tags. Constraints: o min: 20 o max: 2048 o pattern: .*</param>
-    /// <param name="TagKeys">The list of tag keys to remove from the domain, data source, or ap- plication. (string) Syntax: "string" "string" ...</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags. Constraints: • min: 20 • max: 2048 • pattern: .*</param>
+    /// <param name="TagKeys">The list of tag keys to remove from the domain, data source, or application. (string) Syntax: "string" "string" ...</param>
     public AwsOpensearchRemoveTagsOptions(
         string Arn,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsOpensearchRemoveTagsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the domain, data source, or appli- cation from which you want to delete the specified tags. Constraints: o min: 20 o max: 2048 o pattern: .*
+    /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags. Constraints: • min: 20 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The list of tag keys to remove from the domain, data source, or ap- plication. (string) Syntax: "string" "string" ...
+    /// The list of tag keys to remove from the domain, data source, or application. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsOpensearchRemoveTagsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

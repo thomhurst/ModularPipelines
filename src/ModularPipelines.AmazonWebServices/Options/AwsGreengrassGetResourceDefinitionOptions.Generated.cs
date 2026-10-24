@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves information about a resource definition, including its cre- ation time and latest version. See also: AWS API Documentation
+/// Retrieves information about a resource definition, including its creation time and latest version. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsGreengrassGetResourceDefinitionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves information about a resource definition, including its cre- ation time and latest version. See also: AWS API Documentation
+    /// Retrieves information about a resource definition, including its creation time and latest version. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceDefinitionId"></param>
     public AwsGreengrassGetResourceDefinitionOptions(
@@ -79,6 +80,15 @@ public record AwsGreengrassGetResourceDefinitionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

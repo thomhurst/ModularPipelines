@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsMediaconnectUpdateBridgeStateOptions : AwsOptions, IValidatable
     /// <summary>
     /// Updates the bridge state. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update the state of. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+</param>
-    /// <param name="DesiredState">The desired state for the bridge. Possible values: o ACTIVE o STANDBY o DELETED</param>
+    /// <param name="BridgeArn">The Amazon Resource Name (ARN) of the bridge that you want to update the state of. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+</param>
+    /// <param name="DesiredState">The desired state for the bridge. Possible values: • ACTIVE • STANDBY • DELETED</param>
     public AwsMediaconnectUpdateBridgeStateOptions(
         string BridgeArn,
         AwsMediaconnectUpdateBridgeStateDesiredState DesiredState
@@ -60,13 +61,13 @@ public record AwsMediaconnectUpdateBridgeStateOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the bridge that you want to update the state of. Constraints: o pattern: arn:.+:mediaconnect.+:bridge:.+
+    /// The Amazon Resource Name (ARN) of the bridge that you want to update the state of. Constraints: • pattern: arn:.+:mediaconnect.+:bridge:.+
     /// </summary>
     [CliOption("--bridge-arn")]
     public string? BridgeArn { get; private init; }
 
     /// <summary>
-    /// The desired state for the bridge. Possible values: o ACTIVE o STANDBY o DELETED
+    /// The desired state for the bridge. Possible values: • ACTIVE • STANDBY • DELETED
     /// </summary>
     [CliOption("--desired-state")]
     public AwsMediaconnectUpdateBridgeStateDesiredState? DesiredState { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMediaconnectUpdateBridgeStateOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

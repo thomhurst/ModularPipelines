@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsMqPromoteOptions : AwsOptions, IValidatableObject
     /// Promotes a data replication replica broker to the primary broker role. See also: AWS API Documentation
     /// </summary>
     /// <param name="BrokerId">The unique ID that Amazon MQ generates for the broker.</param>
-    /// <param name="Mode">The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER. Possible values: o SWITCHOVER o FAILOVER</param>
+    /// <param name="Mode">The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER. Possible values: • SWITCHOVER • FAILOVER</param>
     public AwsMqPromoteOptions(
         string BrokerId,
         AwsMqPromoteMode Mode
@@ -66,7 +67,7 @@ public record AwsMqPromoteOptions : AwsOptions, IValidatableObject
     public string? BrokerId { get; private init; }
 
     /// <summary>
-    /// The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER. Possible values: o SWITCHOVER o FAILOVER
+    /// The Promote mode requested. Note: Valid values for the parameter are SWITCHOVER, FAILOVER. Possible values: • SWITCHOVER • FAILOVER
     /// </summary>
     [CliOption("--mode")]
     public AwsMqPromoteMode? Mode { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMqPromoteOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +30,11 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
     /// <summary>
     /// Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
-    /// <param name="TestCaseId">The unique identifier of the test to update. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}</param>
-    /// <param name="GuardContent">The updated content to be validated by the Automated Reasoning pol- icy. Constraints: o min: 0 o max: 2048</param>
-    /// <param name="LastUpdatedAt">The timestamp when the test was last updated. This is used as a con- currency token to prevent conflicting modifications.</param>
-    /// <param name="ExpectedAggregatedFindingsResult">The updated expected result of the Automated Reasoning check. Possible values: o VALID o INVALID o SATISFIABLE o IMPOSSIBLE o TRANSLATION_AMBIGUOUS o TOO_COMPLEX o NO_TRANSLATION</param>
+    /// <param name="PolicyArn">The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?</param>
+    /// <param name="TestCaseId">The unique identifier of the test to update. Constraints: • min: 0 • max: 12 • pattern: [0-9A-Z]{12}</param>
+    /// <param name="GuardContent">The updated content to be validated by the Automated Reasoning policy. Constraints: • min: 0 • max: 2048</param>
+    /// <param name="LastUpdatedAt">The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.</param>
+    /// <param name="ExpectedAggregatedFindingsResult">The updated expected result of the Automated Reasoning check. Possible values: • VALID • INVALID • SATISFIABLE • IMPOSSIBLE • TRANSLATION_AMBIGUOUS • TOO_COMPLEX • NO_TRANSLATION</param>
     public AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions(
         string PolicyArn,
         string TestCaseId,
@@ -73,49 +74,49 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: o min: 1 o max: 2048 o pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:auto- mated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that contains the test. Constraints: • min: 1 • max: 2048 • pattern: arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:automated-reasoning-policy/[a-z0-9]{12}(:([1-9][0-9]{0,11}))?
     /// </summary>
     [CliOption("--policy-arn")]
     public string? PolicyArn { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the test to update. Constraints: o min: 0 o max: 12 o pattern: [0-9A-Z]{12}
+    /// The unique identifier of the test to update. Constraints: • min: 0 • max: 12 • pattern: [0-9A-Z]{12}
     /// </summary>
     [CliOption("--test-case-id")]
     public string? TestCaseId { get; private init; }
 
     /// <summary>
-    /// The updated content to be validated by the Automated Reasoning pol- icy. Constraints: o min: 0 o max: 2048
+    /// The updated content to be validated by the Automated Reasoning policy. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--guard-content")]
     public string? GuardContent { get; private init; }
 
     /// <summary>
-    /// The timestamp when the test was last updated. This is used as a con- currency token to prevent conflicting modifications.
+    /// The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
     /// </summary>
     [CliOption("--last-updated-at")]
     public string? LastUpdatedAt { get; private init; }
 
     /// <summary>
-    /// The updated expected result of the Automated Reasoning check. Possible values: o VALID o INVALID o SATISFIABLE o IMPOSSIBLE o TRANSLATION_AMBIGUOUS o TOO_COMPLEX o NO_TRANSLATION
+    /// The updated expected result of the Automated Reasoning check. Possible values: • VALID • INVALID • SATISFIABLE • IMPOSSIBLE • TRANSLATION_AMBIGUOUS • TOO_COMPLEX • NO_TRANSLATION
     /// </summary>
     [CliOption("--expected-aggregated-findings-result")]
     public AwsBedrockUpdateAutomatedReasoningPolicyTestCaseExpectedAggregatedFindingsResult? ExpectedAggregatedFindingsResult { get; private init; }
 
     /// <summary>
-    /// The updated input query or prompt that generated the content. Constraints: o min: 0 o max: 1024
+    /// The updated input query or prompt that generated the content. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--query-content")]
     public string? QueryContent { get; set; }
 
     /// <summary>
-    /// The updated minimum confidence level for logic validation. If null is provided, the threshold will be removed. Constraints: o min: 0 o max: 1
+    /// The updated minimum confidence level for logic validation. If null is provided, the threshold will be removed. Constraints: • min: 0 • max: 1
     /// </summary>
     [CliOption("--confidence-threshold")]
-    public int? ConfidenceThreshold { get; set; }
+    public double? ConfidenceThreshold { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -142,6 +143,15 @@ public record AwsBedrockUpdateAutomatedReasoningPolicyTestCaseOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

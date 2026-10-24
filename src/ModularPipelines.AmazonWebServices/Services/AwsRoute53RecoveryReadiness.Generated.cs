@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws route53recoveryreadiness commands.
+/// aws route53-recovery-readiness commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
@@ -47,7 +47,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Creates a cross-account readiness authorization. This lets you autho- rize another account to work with Route 53 Application Recovery Con- troller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
+    /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora in- stances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
+    /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the appli- cation. See also: AWS API Documentation
+    /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Delete a cell. When successful, the response code is 204, with no re- sponse body. See also: AWS API Documentation
+    /// Delete a cell. When successful, the response code is 204, with no response body. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Gets recommendations about architecture designs for improving re- siliency for an application, based on a recovery group. See also: AWS API Documentation
+    /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Gets readiness for a cell. Aggregates the readiness of all the re- sources that are associated with the cell into a single value. See also: AWS API Documentation get-cell-readiness-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results ...
+    /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value. See also: AWS API Documentation get-cell-readiness-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary. See also: AWS API Documentation get-readiness-check-resource-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When usi...
+    /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary. See also: AWS API Documentation get-readiness-check-resource-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using -...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one. See also: AWS API Documentation get-recovery-group-readiness-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated r...
+    /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one. See also: AWS API Documentation get-recovery-group-readiness-summary is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated respo...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Displays the details about a resource set, including a list of the re- sources in the set. See also: AWS API Documentation
+    /// Displays the details about a resource set, including a list of the resources in the set. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -317,7 +317,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Lists the cells for an account. See also: AWS API Documentation list-cells is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Cells
+    /// Lists the cells for an account. See also: AWS API Documentation list-cells is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cells
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Lists the cross-account readiness authorizations that are in place for an account. See also: AWS API Documentation list-cross-account-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ...
+    /// Lists the cross-account readiness authorizations that are in place for an account. See also: AWS API Documentation list-cross-account-authorizations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Cros...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsRoute53RecoveryReadiness : IAwsRoute53RecoveryReadiness
     }
 
     /// <summary>
-    /// Lists all readiness rules, or lists the readiness rules for a specific resource type. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Rules
+    /// Lists all readiness rules, or lists the readiness rules for a specific resource type. See also: AWS API Documentation list-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Rules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

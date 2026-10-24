@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotUpdateRoleAliasOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a role alias. Requires permission to access the UpdateRoleAlias action. WARNING: The value of ` credentialDurationSeconds https://docs.aws.amazon.com/iot/latest/apireference/API_UpdateRoleAlias.html#iot-UpdateRoleAlias-request-credentialDurationSeconds`__ must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see Modifying a role maximum session duration (Amazon Web Services API) from the Amazon Web Services Identi...
     /// </summary>
-    /// <param name="RoleAlias">The role alias to update. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+</param>
+    /// <param name="RoleAlias">The role alias to update. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+</param>
     public AwsIotUpdateRoleAliasOptions(
         string RoleAlias
     )
@@ -56,19 +57,19 @@ public record AwsIotUpdateRoleAliasOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The role alias to update. Constraints: o min: 1 o max: 128 o pattern: [\w=,@-]+
+    /// The role alias to update. Constraints: • min: 1 • max: 128 • pattern: [\w=,@-]+
     /// </summary>
     [CliOption("--role-alias")]
     public string? RoleAlias { get; private init; }
 
     /// <summary>
-    /// The role ARN. Constraints: o min: 20 o max: 2048
+    /// The role ARN. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// The number of seconds the credential will be valid. This value must be less than or equal to the maximum session dura- tion of the IAM role that the role alias references. Constraints: o min: 900 o max: 43200
+    /// The number of seconds the credential will be valid. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--credential-duration-seconds")]
     public int? CredentialDurationSeconds { get; set; }
@@ -94,6 +95,15 @@ public record AwsIotUpdateRoleAliasOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsImagebuilderPutImagePolicyOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Applies a policy to an image. The preferred way to share resources is with the RAM API CreateResourceShare . If you use the PutImagePolicy operation instead, you must also call the RAM API PromoteResourceShareCreatedFromPolicy . Otherwise, the resource isn't visible to the principals that it's shared with. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageArn">The Amazon Resource Name (ARN) of the image that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
-    /// <param name="Policy">The resource policy to apply to the image, as a JSON policy docu- ment. Image Builder validates the policy with Amazon Web Services RAM before applying it, and rejects invalid policies with InvalidPa- rameterValueException . Constraints: o min: 1 o max: 30000</param>
+    /// <param name="ImageArn">The Amazon Resource Name (ARN) of the image that this policy should be applied to. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$</param>
+    /// <param name="Policy">The resource policy to apply to the image, as a JSON policy document. Image Builder validates the policy with Amazon Web Services RAM before applying it, and rejects invalid policies with InvalidParameterValueException . Constraints: • min: 1 • max: 30000</param>
     public AwsImagebuilderPutImagePolicyOptions(
         string ImageArn,
         string Policy
@@ -60,13 +61,13 @@ public record AwsImagebuilderPutImagePolicyOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the image that this policy should be applied to. Constraints: o pattern: ^arn:aws[^:]*:image- builder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):im- age/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
+    /// The Amazon Resource Name (ARN) of the image that this policy should be applied to. Constraints: • pattern: ^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\.[0-9]+\.[0-9]+/[0-9]+$
     /// </summary>
     [CliOption("--image-arn")]
     public string? ImageArn { get; private init; }
 
     /// <summary>
-    /// The resource policy to apply to the image, as a JSON policy docu- ment. Image Builder validates the policy with Amazon Web Services RAM before applying it, and rejects invalid policies with InvalidPa- rameterValueException . Constraints: o min: 1 o max: 30000
+    /// The resource policy to apply to the image, as a JSON policy document. Image Builder validates the policy with Amazon Web Services RAM before applying it, and rejects invalid policies with InvalidParameterValueException . Constraints: • min: 1 • max: 30000
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsImagebuilderPutImagePolicyOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

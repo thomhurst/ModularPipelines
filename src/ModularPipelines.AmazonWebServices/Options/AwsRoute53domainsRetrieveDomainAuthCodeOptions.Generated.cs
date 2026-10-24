@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation returns the authorization code for the domain. To trans- fer a domain to another registrar, you provide this value to the new registrar. See also: AWS API Documentation
+/// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53domainsRetrieveDomainAuthCodeOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation returns the authorization code for the domain. To trans- fer a domain to another registrar, you provide this value to the new registrar. See also: AWS API Documentation
+    /// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to get an authorization code for. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to get an authorization code for. Constraints: • max: 255</param>
     public AwsRoute53domainsRetrieveDomainAuthCodeOptions(
         string DomainName
     )
@@ -56,7 +57,7 @@ public record AwsRoute53domainsRetrieveDomainAuthCodeOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to get an authorization code for. Constraints: o max: 255
+    /// The name of the domain that you want to get an authorization code for. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRoute53domainsRetrieveDomainAuthCodeOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

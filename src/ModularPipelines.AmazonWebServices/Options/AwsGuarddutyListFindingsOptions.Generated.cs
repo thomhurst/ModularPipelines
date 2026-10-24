@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
+/// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsGuarddutyListFindingsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text an...
+    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see Regions and endpoints . See also: AWS API Documentation list-findings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and th...
     /// </summary>
-    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
     public AwsGuarddutyListFindingsOptions(
         string DetectorId
     )
@@ -57,28 +58,25 @@ public record AwsGuarddutyListFindingsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the detector that specifies the GuardDuty service whose findings you want to list. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// Represents the criteria used for querying findings. Valid values in- clude: o JSON field name o accountId o region o confidence o id o resource.accessKeyDetails.accessKeyId o resource.accessKeyDetails.principalId o resource.accessKeyDetails.userName o resource.accessKeyDetails.userType o resource.instanceDetails.iamInstanceProfile.id o resource.instanceDetails.imageId o resource.instanceDetails.instanceId o resource.instanceDetails.networkInterfaces.ipv6Addresses o resource.instanceDetails.networkInterfaces.privateIpAddresses.pri- vateIpAddress o resource.instanceDetails.networkInterfaces.publicDnsName o resource.instanceDetails.networkInterfaces.publicIp o resource.instanceDetails.networkInterfaces.securityGroups.groupId o resource.instanceDetails.networkInterfaces.securityGroups.group- Name o resource.instanceDetails.networkInterfaces.subnetId o resource.instanceDetails.networkInterfaces.vpcId o resource.instanceDetails.tags.key o resource.instanceDetails.tags.value o resource.resourceType o service.action.actionType o service.action.awsApiCallAction.api o service.action.awsApiCallAction.callerType o service.action.awsApiCallAction.remoteIpDetails.city.cityName o service.action.awsApiCallAction.remoteIpDetails.country.country- Name o service.action.awsApiCallAction.remoteIpDetails.ipAddressV4 o service.action.awsApiCallAction.remoteIpDetails.organization.asn o service.action.awsApiCallAction.remoteIpDetails.organization.as- nOrg o service.action.awsApiCallAction.serviceName o service.action.dnsRequestAction.domain o service.action.dnsRequestAction.domainWithSuffix o service.action.networkConnectionAction.blocked o service.action.networkConnectionAction.connectionDirection o service.action.networkConnectionAction.localPortDetails.port o service.action.networkConnectionAction.protocol o service.action.networkConnectionAction.remoteIpDetails.coun- try.countryName o service.action.networkConnectionAction.remoteIpDetails.ipAddressV4 o service.action.networkConnectionAction.remoteIpDetails.organiza- tion.asn o service.action.networkConnectionAction.remoteIpDetails.organiza- tion.asnOrg o service.action.networkConnectionAction.remotePortDetails.port o service.additionalInfo.threatListName o service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unar- chived findings are listed. When this attribute is not set, all existing findings are listed. o service.ebsVolumeScanDetails.scanId o service.resourceRole o severity o type o updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000 Criterion -&gt; (map) Represents a map of finding properties that match specified con- ditions and values when querying findings. key -&gt; (string) value -&gt; (structure) Contains information about the condition. Eq -&gt; (list) Represents the equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Neq -&gt; (list) Represents the not equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Gt -&gt; (integer) Represents a greater than condition to be applied to a single field when querying for findings. Gte -&gt; (integer) Represents a greater than or equal condition to be ap- plied to a single field when querying for findings. Lt -&gt; (integer) Represents a less than condition to be applied to a sin- gle field when querying for findings. Lte -&gt; (integer) Represents a less than or equal condition to be applied to a single field when querying for findings. Equals -&gt; (list) Represents an equal condition to be applied to a single field when querying for findings. Max values: 50 (string) NotEquals -&gt; (list) Represents a not equal condition to be applied to a sin- gle field when querying for findings. Max values: 50 (string) GreaterThan -&gt; (long) Represents a greater than condition to be applied to a single field when querying for findings. GreaterThanOrEqual -&gt; (long) Represents a greater than or equal condition to be ap- plied to a single field when querying for findings. LessThan -&gt; (long) Represents a less than condition to be applied to a sin- gle field when querying for findings. LessThanOrEqual -&gt; (long) Represents a less than or equal condition to be applied to a single field when querying for findings. Matches -&gt; (list) Represents the match condition to be applied to a single field when querying for findings. NOTE: The matches condition is available only for cre- ate-filter and update-filter APIs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 NotMatches -&gt; (list) Represents the not match condition to be applied to a single field when querying for findings. NOTE: The not-matches condition is available only for cre- ate-filter and update-filter APIs. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 1 o max: 512 JSON Syntax: { "Criterion": {"string": { "Eq": ["string", ...], "Neq": ["string", ...], "Gt": integer, "Gte": integer, "Lt": integer, "Lte": integer, "Equals": ["string", ...], "NotEquals": ["string", ...], "GreaterThan": long, "GreaterThanOrEqual": long, "LessThan": long, "LessThanOrEqual": long, "Matches": ["string", ...], "NotMatches": ["string", ...] } ...} }
+    /// Represents the criteria used for querying findings. Valid values include: • JSON field name • accountId • region • confidence • id • resource.accessKeyDetails.accessKeyId • resource.accessKeyDetails.principalId • resource.accessKeyDetails.userName • resource.accessKeyDetails.userType • resource.instanceDetails.iamInstanceProfile.id • resource.instanceDetails.imageId • resource.instanceDetails.instanceId • resource.instanceDetails.networkInterfaces.ipv6Addresses • resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress • resource.instanceDetails.networkInterfaces.publicDnsName • resource.instanceDetails.networkInterfaces.publicIp • resource.instanceDetails.networkInterfaces.securityGroups.groupId • resource.instanceDetails.networkInterfaces.securityGroups.groupName • resource.instanceDetails.networkInterfaces.subnetId • resource.instanceDetails.networkInterfaces.vpcId • resource.instanceDetails.tags.key • resource.instanceDetails.tags.value • resource.resourceType • service.action.actionType • service.action.awsApiCallAction.api • service.action.awsApiCallAction.callerType • service.action.awsApiCallAction.remoteIpDetails.city.cityName • service.action.awsApiCallAction.remoteIpDetails.country.countryName • service.action.awsApiCallAction.remoteIpDetails.ipAddressV4 • service.action.awsApiCallAction.remoteIpDetails.organization.asn • service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg • service.action.awsApiCallAction.serviceName • service.action.dnsRequestAction.domain • service.action.dnsRequestAction.domainWithSuffix • service.action.networkConnectionAction.blocked • service.action.networkConnectionAction.connectionDirection • service.action.networkConnectionAction.localPortDetails.port • service.action.networkConnectionAction.protocol • service.action.networkConnectionAction.remoteIpDetails.country.countryName • service.action.networkConnectionAction.remoteIpDetails.ipAddressV4 • service.action.networkConnectionAction.remoteIpDetails.organization.asn • service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg • service.action.networkConnectionAction.remotePortDetails.port • service.additionalInfo.threatListName • service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed. • service.ebsVolumeScanDetails.scanId • service.resourceRole • severity • type • updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000 Criterion -&gt; (map) Represents a map of finding properties that match specified conditions and values when querying findings. key -&gt; (string) value -&gt; (structure) Contains information about the condition. Eq -&gt; (list) Represents the equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Neq -&gt; (list) Represents the not equal condition to be applied to a single field when querying for findings. Max values: 50 (string) Gt -&gt; (integer) Represents a greater than condition to be applied to a single field when querying for findings. Gte -&gt; (integer) Represents a greater than or equal condition to be applied to a single field when querying for findings. Lt -&gt; (integer) Represents a less than condition to be applied to a single field when querying for findings. Lte -&gt; (integer) Represents a less than or equal condition to be applied to a single field when querying for findings. Equals -&gt; (list) Represents an equal condition to be applied to a single field when querying for findings. Max values: 50 (string) NotEquals -&gt; (list) Represents a not equal condition to be applied to a single field when querying for findings. Max values: 50 (string) GreaterThan -&gt; (long) Represents a greater than condition to be applied to a single field when querying for findings. GreaterThanOrEqual -&gt; (long) Represents a greater than or equal condition to be applied to a single field when querying for findings. LessThan -&gt; (long) Represents a less than condition to be applied to a single field when querying for findings. LessThanOrEqual -&gt; (long) Represents a less than or equal condition to be applied to a single field when querying for findings. Matches -&gt; (list) Represents the match condition to be applied to a single field when querying for findings. NOTE: The matches condition is available only for create-filter and update-filter APIs. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 NotMatches -&gt; (list) Represents the not match condition to be applied to a single field when querying for findings. NOTE: The not-matches condition is available only for create-filter and update-filter APIs. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 1 • max: 512 JSON Syntax: { "Criterion": {"string": { "Eq": ["string", ...], "Neq": ["string", ...], "Gt": integer, "Gte": integer, "Lt": integer, "Lte": integer, "Equals": ["string", ...], "NotEquals": ["string", ...], "GreaterThan": long, "GreaterThanOrEqual": long, "LessThan": long, "LessThanOrEqual": long, "Matches": ["string", ...], "NotMatches": ["string", ...] } ...} }
     /// </summary>
     [CliOption("--finding-criteria")]
     public string? FindingCriteria { get; set; }
 
     /// <summary>
-    /// Represents the criteria used for sorting findings. AttributeName -&gt; (string) Represents the finding attribute, such as accountId , that sorts the findings. OrderBy -&gt; (string) The order by which the sorted findings are to be displayed. Possible values: o ASC o DESC Shorthand Syntax: AttributeName=string,OrderBy=string JSON Syntax: { "AttributeName": "string", "OrderBy": "ASC"|"DESC" }
+    /// Represents the criteria used for sorting findings. AttributeName -&gt; (string) Represents the finding attribute, such as accountId , that sorts the findings. OrderBy -&gt; (string) The order by which the sorted findings are to be displayed. Possible values: • ASC • DESC Shorthand Syntax: AttributeName=string,OrderBy=string JSON Syntax: { "AttributeName": "string", "OrderBy": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsGuarddutyListFindingsOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsGuarddutyListFindingsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

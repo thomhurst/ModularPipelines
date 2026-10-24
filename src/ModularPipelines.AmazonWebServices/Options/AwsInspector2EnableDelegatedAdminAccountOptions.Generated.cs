@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables the Amazon Inspector delegated administrator for your Organiza- tions organization. See also: AWS API Documentation
+/// Enables the Amazon Inspector delegated administrator for your Organizations organization. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsInspector2EnableDelegatedAdminAccountOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables the Amazon Inspector delegated administrator for your Organiza- tions organization. See also: AWS API Documentation
+    /// Enables the Amazon Inspector delegated administrator for your Organizations organization. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DelegatedAdminAccountId">The Amazon Web Services account ID of the Amazon Inspector delegated administrator. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="DelegatedAdminAccountId">The Amazon Web Services account ID of the Amazon Inspector delegated administrator. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
     public AwsInspector2EnableDelegatedAdminAccountOptions(
         string DelegatedAdminAccountId
     )
@@ -57,13 +58,13 @@ public record AwsInspector2EnableDelegatedAdminAccountOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--delegated-admin-account-id")]
     public string? DelegatedAdminAccountId { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the request. Constraints: o min: 1 o max: 64
+    /// The idempotency token for the request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsInspector2EnableDelegatedAdminAccountOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotwirelessUpdateFuotaTaskOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates properties of a FUOTA task. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of a FUOTA task. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of a FUOTA task. Constraints: • max: 256</param>
     public AwsIotwirelessUpdateFuotaTaskOptions(
         string Id
     )
@@ -56,61 +57,61 @@ public record AwsIotwirelessUpdateFuotaTaskOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a FUOTA task. Constraints: o max: 256
+    /// The ID of a FUOTA task. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of a FUOTA task. Constraints: o max: 256
+    /// The name of a FUOTA task. Constraints: • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The S3 URI points to a firmware update image that is to be used with a FUOTA task. Constraints: o min: 1 o max: 4096
+    /// The S3 URI points to a firmware update image that is to be used with a FUOTA task. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--firmware-update-image")]
     public string? FirmwareUpdateImage { get; set; }
 
     /// <summary>
-    /// The firmware update role that is to be used with a FUOTA task. Constraints: o min: 1 o max: 2048
+    /// The firmware update role that is to be used with a FUOTA task. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--firmware-update-role")]
     public string? FirmwareUpdateRole { get; set; }
 
     /// <summary>
-    /// The percentage of the added fragments that are redundant. For exam- ple, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15. Constraints: o min: 0 o max: 100
+    /// The percentage of the added fragments that are redundant. For example, if the size of the firmware image file is 100 bytes and the fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--redundancy-percent")]
     public int? RedundancyPercent { get; set; }
 
     /// <summary>
-    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups. Constraints: o min: 1
+    /// The size of each fragment in bytes. This parameter is supported only for FUOTA tasks with multicast groups. Constraints: • min: 1
     /// </summary>
     [CliOption("--fragment-size-bytes")]
     public int? FragmentSizeBytes { get; set; }
 
     /// <summary>
-    /// The interval for sending fragments in milliseconds, rounded to the nearest second. NOTE: This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay de- pends on the device's class and the communication delay with the cloud. Constraints: o min: 1
+    /// The interval for sending fragments in milliseconds, rounded to the nearest second. NOTE: This interval only determines the timing for when the Cloud sends down the fragments to yor device. There can be a delay for when your device will receive these fragments. This delay depends on the device's class and the communication delay with the cloud. Constraints: • min: 1
     /// </summary>
     [CliOption("--fragment-interval-ms")]
     public int? FragmentIntervalMs { get; set; }
 
     /// <summary>
-    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64. Constraints: o max: 332 o pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+    /// The descriptor is the metadata about the file that is transferred to the device using FUOTA, such as the software version. It is a binary field encoded in base64. Constraints: • max: 332 • pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
     /// </summary>
     [CliOption("--descriptor")]
     public string? Descriptor { get; set; }
 
     /// <summary>
-    /// The LoRaWAN information used with a FUOTA task. RfRegion -&gt; (string) Supported RfRegions Possible values: o EU868 o US915 o AU915 o AS923-1 o AS923-2 o AS923-3 o AS923-4 o EU433 o CN470 o CN779 o RU864 o KR920 o IN865 Shorthand Syntax: RfRegion=string JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865" }
+    /// The LoRaWAN information used with a FUOTA task. RfRegion -&gt; (string) Supported RfRegions Possible values: • EU868 • US915 • AU915 • AS923-1 • AS923-2 • AS923-3 • AS923-4 • EU433 • CN470 • CN779 • RU864 • KR920 • IN865 Shorthand Syntax: RfRegion=string JSON Syntax: { "RfRegion": "EU868"|"US915"|"AU915"|"AS923-1"|"AS923-2"|"AS923-3"|"AS923-4"|"EU433"|"CN470"|"CN779"|"RU864"|"KR920"|"IN865" }
     /// </summary>
     [CliOption("--lorawan")]
     public string? Lorawan { get; set; }
@@ -136,6 +137,15 @@ public record AwsIotwirelessUpdateFuotaTaskOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

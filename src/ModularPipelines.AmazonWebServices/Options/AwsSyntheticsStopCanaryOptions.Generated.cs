@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canarys cur- rent schedule at any point in the future. See also: AWS API Documentation
+/// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canarys current schedule at any point in the future. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSyntheticsStopCanaryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canarys cur- rent schedule at any point in the future. See also: AWS API Documentation
+    /// Stops the canary to prevent all future runs. If the canary is currently running,the run that is in progress completes on its own, publishes metrics, and uploads artifacts, but it is not recorded in Synthetics as a completed run. You can use StartCanary to start it running again with the canarys current schedule at any point in the future. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the canary that you want to stop. To find the names of your canaries, use ListCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$</param>
+    /// <param name="Name">The name of the canary that you want to stop. To find the names of your canaries, use ListCanaries . Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$</param>
     public AwsSyntheticsStopCanaryOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsSyntheticsStopCanaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the canary that you want to stop. To find the names of your canaries, use ListCanaries . Constraints: o min: 1 o max: 255 o pattern: ^[0-9a-z_\-]+$
+    /// The name of the canary that you want to stop. To find the names of your canaries, use ListCanaries . Constraints: • min: 1 • max: 255 • pattern: ^[0-9a-z_\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSyntheticsStopCanaryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCleanroomsDisallowIntermediateTableOptions : AwsOptions, IValid
     /// <summary>
     /// Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermedi- ate table to disallow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="IntermediateTableName">The name of the intermediate table to disallow. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
+    /// <param name="MembershipIdentifier">The unique identifier of the membership that contains the intermediate table to disallow. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="IntermediateTableName">The name of the intermediate table to disallow. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*</param>
     public AwsCleanroomsDisallowIntermediateTableOptions(
         string MembershipIdentifier,
         string IntermediateTableName
@@ -60,19 +61,19 @@ public record AwsCleanroomsDisallowIntermediateTableOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the membership that contains the intermedi- ate table to disallow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The unique identifier of the membership that contains the intermediate table to disallow. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--membership-identifier")]
     public string? MembershipIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the intermediate table to disallow. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// The name of the intermediate table to disallow. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--intermediate-table-name")]
     public string? IntermediateTableName { get; private init; }
 
     /// <summary>
-    /// Specifies whether to cascade the disallow action to descendant in- termediate tables. Default is true .
+    /// Specifies whether to cascade the disallow action to descendant intermediate tables. Default is true .
     /// </summary>
     [CliFlag("--include-descendants", NegatedName = "--no-include-descendants")]
     public bool? IncludeDescendants { get; set; }
@@ -98,6 +99,15 @@ public record AwsCleanroomsDisallowIntermediateTableOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

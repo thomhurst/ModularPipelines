@@ -6,14 +6,14 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
-using ModularPipelines.Models;
+using ModularPipelines;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws iotjobsdata commands.
+/// aws iot-jobs-data commands.
 /// </summary>
 /// <remarks>
 /// Nested sub-command groups are exposed as concrete services; only this top-level facade is interface-backed.
@@ -28,18 +28,16 @@ public interface IAwsIotJobsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> DescribeJobExecutionAsync(AwsIotJobsDataDescribeJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> DescribeJobExecutionAsync(AwsIotJobsDataDescribeJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the list of all jobs for a thing that are not in a terminal sta- tus. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
+    /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the GetPendingJobExecutions action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> GetPendingJobExecutionsAsync(AwsIotJobsDataGetPendingJobExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> GetPendingJobExecutionsAsync(AwsIotJobsDataGetPendingJobExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Using the command created with the CreateCommand API, start a command execution on a specific device. See also: AWS API Documentation
@@ -48,18 +46,16 @@ public interface IAwsIotJobsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartCommandExecutionAsync(AwsIotJobsDataStartCommandExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartCommandExecutionAsync(AwsIotJobsDataStartCommandExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job ex- ecution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
+    /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the StartNextPendingJobExecution action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> StartNextPendingJobExecutionAsync(AwsIotJobsDataStartNextPendingJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> StartNextPendingJobExecutionAsync(AwsIotJobsDataStartNextPendingJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates the status of a job execution. Requires permission to access the UpdateJobExecution action. See also: AWS API Documentation
@@ -68,7 +64,6 @@ public interface IAwsIotJobsData
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    public Task<CommandResult> UpdateJobExecutionAsync(AwsIotJobsDataUpdateJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
-        => throw new System.NotSupportedException();
+    public Task<CommandResult> UpdateJobExecutionAsync(AwsIotJobsDataUpdateJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
 }

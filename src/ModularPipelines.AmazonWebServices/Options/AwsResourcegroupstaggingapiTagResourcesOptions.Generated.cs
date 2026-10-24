@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Applies one or more tags to the specified resources. Note the follow- ing: o Not all resources can have tags. For a list of services with re- sources that support tagging using this operation, see Services that support the Resource Groups Tagging API . If the resource doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the doc- umentation for that service. o Each resource can have up to 50 tags. For other l...
+/// Applies one or more tags to the specified resources. Note the following: • Not all resources can have tags. For a list of services with resources that support tagging using this operation, see Services that support the Resource Groups Tagging API . If the resource doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service. • Each resource can have up to 50 tags. For other limits,...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Applies one or more tags to the specified resources. Note the follow- ing: o Not all resources can have tags. For a list of services with re- sources that support tagging using this operation, see Services that support the Resource Groups Tagging API . If the resource doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the doc- umentation for that service. o Each resource can have up to 50 tags. For other l...
+    /// Applies one or more tags to the specified resources. Note the following: • Not all resources can have tags. For a list of services with resources that support tagging using this operation, see Services that support the Resource Groups Tagging API . If the resource doesn't yet support this operation, the resource's service might support tagging using its own API operations. For more information, refer to the documentation for that service. • Each resource can have up to 50 tags. For other limits,...
     /// </summary>
-    /// <param name="ResourceArnList">Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 1011 o pattern: [\s\S]* Syntax: "string" "string" ...</param>
-    /// <param name="Tags">Specifies a list of tags that you want to add to the specified re- sources. A tag consists of a key and a value that you define. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArnList">Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 1011 • pattern: [\s\S]* Syntax: "string" "string" ...</param>
+    /// <param name="Tags">Specifies a list of tags that you want to add to the specified resources. A tag consists of a key and a value that you define. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsResourcegroupstaggingapiTagResourcesOptions(
         IEnumerable<string> ResourceArnList,
         IReadOnlyList<KeyValue> Tags
@@ -83,13 +83,13 @@ public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Ref- erence . Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 1011 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// Specifies the list of ARNs of the resources that you want to apply tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 1011 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-arn-list", GroupValues = true)]
     public IEnumerable<string>? ResourceArnList { get; private init; }
 
     /// <summary>
-    /// Specifies a list of tags that you want to add to the specified re- sources. A tag consists of a key and a value that you define. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\s\S]* value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Specifies a list of tags that you want to add to the specified resources. A tag consists of a key and a value that you define. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\s\S]* value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -115,6 +115,15 @@ public record AwsResourcegroupstaggingapiTagResourcesOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

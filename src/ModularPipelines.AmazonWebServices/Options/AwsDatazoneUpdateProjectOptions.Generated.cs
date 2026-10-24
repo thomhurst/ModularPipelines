@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsDatazoneUpdateProjectOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the specified project in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where a project is being up- dated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the project that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain where a project is being updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the project that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneUpdateProjectOptions(
         string DomainIdentifier,
         string Identifier
@@ -61,55 +61,55 @@ public record AwsDatazoneUpdateProjectOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain where a project is being up- dated. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain where a project is being updated. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the project that is to be updated. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The identifier of the project that is to be updated. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The name to be updated as part of the UpdateProject action. Constraints: o min: 1 o max: 64 o pattern: [\w -]+
+    /// The name to be updated as part of the UpdateProject action. Constraints: • min: 1 • max: 64 • pattern: [\w -]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description to be updated as part of the UpdateProject action. Constraints: o min: 0 o max: 2048
+    /// The description to be updated as part of the UpdateProject action. Constraints: • min: 0 • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The resource tags of the project. Constraints: o min: 0 o max: 25 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The resource tags of the project. Constraints: • min: 0 • max: 25 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\w \.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\w \.:/=+@-]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--resource-tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResourceTags { get; set; }
 
     /// <summary>
-    /// The glossary terms to be updated as part of the UpdateProject ac- tion. Constraints: o min: 1 o max: 20 (string) Constraints: o pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
+    /// The glossary terms to be updated as part of the UpdateProject action. Constraints: • min: 1 • max: 20 (string) Constraints: • pattern: [a-zA-Z0-9_-]{1,36} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--glossary-terms", GroupValues = true)]
     public IEnumerable<string>? GlossaryTerms { get; set; }
 
     /// <summary>
-    /// The ID of the domain unit. Constraints: o min: 1 o max: 256 o pattern: [a-z0-9_\-]+
+    /// The ID of the domain unit. Constraints: • min: 1 • max: 256 • pattern: [a-z0-9_\-]+
     /// </summary>
     [CliOption("--domain-unit-id")]
     public string? DomainUnitId { get; set; }
 
     /// <summary>
-    /// The environment deployment details of the project. overallDeploymentStatus -&gt; (string) The overall deployment status of the environment. Possible values: o PENDING_DEPLOYMENT o IN_PROGRESS o SUCCESSFUL o FAILED_VALIDATION o FAILED_DEPLOYMENT environmentFailureReasons -&gt; (map) Environment failure reasons. key -&gt; (string) value -&gt; (list) (structure) The failure reasons for the environment deployment. code -&gt; (string) The error code for the failure reason for the environ- ment deployment. message -&gt; (string) [required] The error message for the failure reason for the envi- ronment deployment. JSON Syntax: { "overallDeploymentStatus": "PENDING_DEPLOYMENT"|"IN_PROGRESS"|"SUCCESSFUL"|"FAILED_VALIDATION"|"FAILED_DEPLOYMENT", "environmentFailureReasons": {"string": [ { "code": "string", "message": "string" } ... ] ...} }
+    /// The environment deployment details of the project. overallDeploymentStatus -&gt; (string) The overall deployment status of the environment. Possible values: • PENDING_DEPLOYMENT • IN_PROGRESS • SUCCESSFUL • FAILED_VALIDATION • FAILED_DEPLOYMENT environmentFailureReasons -&gt; (map) Environment failure reasons. key -&gt; (string) value -&gt; (list) (structure) The failure reasons for the environment deployment. code -&gt; (string) The error code for the failure reason for the environment deployment. message -&gt; (string) [required] The error message for the failure reason for the environment deployment. JSON Syntax: { "overallDeploymentStatus": "PENDING_DEPLOYMENT"|"IN_PROGRESS"|"SUCCESSFUL"|"FAILED_VALIDATION"|"FAILED_DEPLOYMENT", "environmentFailureReasons": {"string": [ { "code": "string", "message": "string" } ... ] ...} }
     /// </summary>
     [CliOption("--environment-deployment-details")]
     public string? EnvironmentDeploymentDetails { get; set; }
 
     /// <summary>
-    /// The user parameters of the project. (structure) The environment configuration user parameters. environmentId -&gt; (string) The ID of the environment. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} environmentResolvedAccount -&gt; (structure) Specifies the account/Region that is to be used during project creation for a particular blueprint. awsAccountId -&gt; (string) [required] The ID of the resolved account. Constraints: o pattern: \d{12} regionName -&gt; (string) [required] The name of the resolved Region. Constraints: o pattern: [a-z]{2}-[a-z]{4,10}-\d sourceAccountPoolId -&gt; (string) The ID of the account pool. Constraints: o pattern: [a-zA-Z0-9_-]{1,36} environmentConfigurationName -&gt; (string) The environment configuration name. Constraints: o min: 1 o max: 64 o pattern: [\w -]+ environmentParameters -&gt; (list) The environment parameters. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: environmentId=string,environmentResolvedAccount={awsAccountId=string,regionName=string,sourceAccountPoolId=string},environmentConfigurationName=string,environmentParameters=[{name=string,value=string},{name=string,value=string}] ... JSON Syntax: [ { "environmentId": "string", "environmentResolvedAccount": { "awsAccountId": "string", "regionName": "string", "sourceAccountPoolId": "string" }, "environmentConfigurationName": "string", "environmentParameters": [ { "name": "string", "value": "string" } ... ] } ... ]
+    /// The user parameters of the project. (structure) The environment configuration user parameters. environmentId -&gt; (string) The ID of the environment. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} environmentResolvedAccount -&gt; (structure) Specifies the account/Region that is to be used during project creation for a particular blueprint. awsAccountId -&gt; (string) [required] The ID of the resolved account. Constraints: • pattern: \d{12} regionName -&gt; (string) [required] The name of the resolved Region. Constraints: • pattern: [a-z]{2}-[a-z]{4,10}-\d sourceAccountPoolId -&gt; (string) The ID of the account pool. Constraints: • pattern: [a-zA-Z0-9_-]{1,36} environmentConfigurationName -&gt; (string) The environment configuration name. Constraints: • min: 1 • max: 64 • pattern: [\w -]+ environmentParameters -&gt; (list) The environment parameters. (structure) The parameter details of an evironment profile. name -&gt; (string) The name of an environment profile parameter. value -&gt; (string) The value of an environment profile parameter. Shorthand Syntax: environmentId=string,environmentResolvedAccount={awsAccountId=string,regionName=string,sourceAccountPoolId=string},environmentConfigurationName=string,environmentParameters=[{name=string,value=string},{name=string,value=string}] ... JSON Syntax: [ { "environmentId": "string", "environmentResolvedAccount": { "awsAccountId": "string", "regionName": "string", "sourceAccountPoolId": "string" }, "environmentConfigurationName": "string", "environmentParameters": [ { "name": "string", "value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--user-parameters", GroupValues = true)]
     public IEnumerable<string>? UserParameters { get; set; }
@@ -141,6 +141,15 @@ public record AwsDatazoneUpdateProjectOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

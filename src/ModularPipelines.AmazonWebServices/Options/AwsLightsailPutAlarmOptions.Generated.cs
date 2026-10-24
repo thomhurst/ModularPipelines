@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates an alarm, and associates it with the specified met- ric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail . When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is then evaluated and its state is set appropriately. ...
+/// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail . When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is then evaluated and its state is set appropriately. An...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,20 +27,20 @@ public record AwsLightsailPutAlarmOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates an alarm, and associates it with the specified met- ric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail . When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is then evaluated and its state is set appropriately. ...
+    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail . When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is then evaluated and its state is set appropriately. An...
     /// </summary>
-    /// <param name="AlarmName">The name for the alarm. Specify the name of an existing alarm to up- date, and overwrite the previous configuration of the alarm. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="MetricName">The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type: o Instances : BurstCapacityPercentage , BurstCapacityTime , CPUUti- lization , NetworkIn , NetworkOut , StatusCheckFailed , Sta- tusCheckFailed_Instance , and StatusCheckFailed_System . o Load balancers : ClientTLSNegotiationErrorCount , HealthyHostCount , UnhealthyHostCount , HTTPCode_LB_4XX_Count , HTTP- Code_LB_5XX_Count , HTTPCode_Instance_2XX_Count , HTTPCode_In- stance_3XX_Count , HTTPCode_Instance_4XX_Count , HTTPCode_In- stance_5XX_Count , InstanceResponseTime , RejectedConnectionCount , and RequestCount . o Relational databases : CPUUtilization , DatabaseConnections , DiskQueueDepth , FreeStorageSpace , NetworkReceiveThroughput , and NetworkTransmitThroughput . For more information about these metrics, see Metrics available in Lightsail . Possible values: o CPUUtilization o NetworkIn o NetworkOut o StatusCheckFailed o StatusCheckFailed_Instance o StatusCheckFailed_System o ClientTLSNegotiationErrorCount o HealthyHostCount o UnhealthyHostCount o HTTPCode_LB_4XX_Count o HTTPCode_LB_5XX_Count o HTTPCode_Instance_2XX_Count o HTTPCode_Instance_3XX_Count o HTTPCode_Instance_4XX_Count o HTTPCode_Instance_5XX_Count o InstanceResponseTime o RejectedConnectionCount o RequestCount o DatabaseConnections o DiskQueueDepth o FreeStorageSpace o NetworkReceiveThroughput o NetworkTransmitThroughput o FreeableMemory o SwapUsage o BurstCapacityTime o BurstCapacityPercentage</param>
-    /// <param name="MonitoredResourceName">The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms. Constraints: o pattern: \w[\w\-]*\w</param>
-    /// <param name="ComparisonOperator">The arithmetic operation to use when comparing the specified statis- tic to the threshold. The specified statistic value is used as the first operand. Possible values: o GreaterThanOrEqualToThreshold o GreaterThanThreshold o LessThanThreshold o LessThanOrEqualToThreshold</param>
+    /// <param name="AlarmName">The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="MetricName">The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type: • Instances : BurstCapacityPercentage , BurstCapacityTime , CPUUtilization , NetworkIn , NetworkOut , StatusCheckFailed , StatusCheckFailed_Instance , and StatusCheckFailed_System . • Load balancers : ClientTLSNegotiationErrorCount , HealthyHostCount , UnhealthyHostCount , HTTPCode_LB_4XX_Count , HTTPCode_LB_5XX_Count , HTTPCode_Instance_2XX_Count , HTTPCode_Instance_3XX_Count , HTTPCode_Instance_4XX_Count , HTTPCode_Instance_5XX_Count , InstanceResponseTime , RejectedConnectionCount , and RequestCount . • Relational databases : CPUUtilization , DatabaseConnections , DiskQueueDepth , FreeStorageSpace , NetworkReceiveThroughput , and NetworkTransmitThroughput . For more information about these metrics, see Metrics available in Lightsail . Possible values: • CPUUtilization • NetworkIn • NetworkOut • StatusCheckFailed • StatusCheckFailed_Instance • StatusCheckFailed_System • ClientTLSNegotiationErrorCount • HealthyHostCount • UnhealthyHostCount • HTTPCode_LB_4XX_Count • HTTPCode_LB_5XX_Count • HTTPCode_Instance_2XX_Count • HTTPCode_Instance_3XX_Count • HTTPCode_Instance_4XX_Count • HTTPCode_Instance_5XX_Count • InstanceResponseTime • RejectedConnectionCount • RequestCount • DatabaseConnections • DiskQueueDepth • FreeStorageSpace • NetworkReceiveThroughput • NetworkTransmitThroughput • FreeableMemory • SwapUsage • BurstCapacityTime • BurstCapacityPercentage</param>
+    /// <param name="MonitoredResourceName">The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms. Constraints: • pattern: \w[\w\-]*\w</param>
+    /// <param name="ComparisonOperator">The arithmetic operation to use when comparing the specified statistic to the threshold. The specified statistic value is used as the first operand. Possible values: • GreaterThanOrEqualToThreshold • GreaterThanThreshold • LessThanThreshold • LessThanOrEqualToThreshold</param>
     /// <param name="Threshold">The value against which the specified statistic is compared.</param>
-    /// <param name="EvaluationPeriods">The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods ) is the N. If you are setting an alarm that requires that a number of consecu- tive data points be breaching to trigger the alarm, this value spec- ifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).</param>
+    /// <param name="EvaluationPeriods">The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods ) is the N. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).</param>
     public AwsLightsailPutAlarmOptions(
         string AlarmName,
         string MetricName,
         string MonitoredResourceName,
         AwsLightsailPutAlarmComparisonOperator ComparisonOperator,
-        int Threshold,
+        double Threshold,
         int EvaluationPeriods
     )
     {
@@ -74,25 +75,25 @@ public record AwsLightsailPutAlarmOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the alarm. Specify the name of an existing alarm to up- date, and overwrite the previous configuration of the alarm. Constraints: o pattern: \w[\w\-]*\w
+    /// The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--alarm-name")]
     public string? AlarmName { get; private init; }
 
     /// <summary>
-    /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type: o Instances : BurstCapacityPercentage , BurstCapacityTime , CPUUti- lization , NetworkIn , NetworkOut , StatusCheckFailed , Sta- tusCheckFailed_Instance , and StatusCheckFailed_System . o Load balancers : ClientTLSNegotiationErrorCount , HealthyHostCount , UnhealthyHostCount , HTTPCode_LB_4XX_Count , HTTP- Code_LB_5XX_Count , HTTPCode_Instance_2XX_Count , HTTPCode_In- stance_3XX_Count , HTTPCode_Instance_4XX_Count , HTTPCode_In- stance_5XX_Count , InstanceResponseTime , RejectedConnectionCount , and RequestCount . o Relational databases : CPUUtilization , DatabaseConnections , DiskQueueDepth , FreeStorageSpace , NetworkReceiveThroughput , and NetworkTransmitThroughput . For more information about these metrics, see Metrics available in Lightsail . Possible values: o CPUUtilization o NetworkIn o NetworkOut o StatusCheckFailed o StatusCheckFailed_Instance o StatusCheckFailed_System o ClientTLSNegotiationErrorCount o HealthyHostCount o UnhealthyHostCount o HTTPCode_LB_4XX_Count o HTTPCode_LB_5XX_Count o HTTPCode_Instance_2XX_Count o HTTPCode_Instance_3XX_Count o HTTPCode_Instance_4XX_Count o HTTPCode_Instance_5XX_Count o InstanceResponseTime o RejectedConnectionCount o RequestCount o DatabaseConnections o DiskQueueDepth o FreeStorageSpace o NetworkReceiveThroughput o NetworkTransmitThroughput o FreeableMemory o SwapUsage o BurstCapacityTime o BurstCapacityPercentage
+    /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type: • Instances : BurstCapacityPercentage , BurstCapacityTime , CPUUtilization , NetworkIn , NetworkOut , StatusCheckFailed , StatusCheckFailed_Instance , and StatusCheckFailed_System . • Load balancers : ClientTLSNegotiationErrorCount , HealthyHostCount , UnhealthyHostCount , HTTPCode_LB_4XX_Count , HTTPCode_LB_5XX_Count , HTTPCode_Instance_2XX_Count , HTTPCode_Instance_3XX_Count , HTTPCode_Instance_4XX_Count , HTTPCode_Instance_5XX_Count , InstanceResponseTime , RejectedConnectionCount , and RequestCount . • Relational databases : CPUUtilization , DatabaseConnections , DiskQueueDepth , FreeStorageSpace , NetworkReceiveThroughput , and NetworkTransmitThroughput . For more information about these metrics, see Metrics available in Lightsail . Possible values: • CPUUtilization • NetworkIn • NetworkOut • StatusCheckFailed • StatusCheckFailed_Instance • StatusCheckFailed_System • ClientTLSNegotiationErrorCount • HealthyHostCount • UnhealthyHostCount • HTTPCode_LB_4XX_Count • HTTPCode_LB_5XX_Count • HTTPCode_Instance_2XX_Count • HTTPCode_Instance_3XX_Count • HTTPCode_Instance_4XX_Count • HTTPCode_Instance_5XX_Count • InstanceResponseTime • RejectedConnectionCount • RequestCount • DatabaseConnections • DiskQueueDepth • FreeStorageSpace • NetworkReceiveThroughput • NetworkTransmitThroughput • FreeableMemory • SwapUsage • BurstCapacityTime • BurstCapacityPercentage
     /// </summary>
     [CliOption("--metric-name")]
     public string? MetricName { get; private init; }
 
     /// <summary>
-    /// The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--monitored-resource-name")]
     public string? MonitoredResourceName { get; private init; }
 
     /// <summary>
-    /// The arithmetic operation to use when comparing the specified statis- tic to the threshold. The specified statistic value is used as the first operand. Possible values: o GreaterThanOrEqualToThreshold o GreaterThanThreshold o LessThanThreshold o LessThanOrEqualToThreshold
+    /// The arithmetic operation to use when comparing the specified statistic to the threshold. The specified statistic value is used as the first operand. Possible values: • GreaterThanOrEqualToThreshold • GreaterThanThreshold • LessThanThreshold • LessThanOrEqualToThreshold
     /// </summary>
     [CliOption("--comparison-operator")]
     public AwsLightsailPutAlarmComparisonOperator? ComparisonOperator { get; private init; }
@@ -101,10 +102,10 @@ public record AwsLightsailPutAlarmOptions : AwsOptions, IValidatableObject
     /// The value against which the specified statistic is compared.
     /// </summary>
     [CliOption("--threshold")]
-    public int? Threshold { get; private init; }
+    public double? Threshold { get; private init; }
 
     /// <summary>
-    /// The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods ) is the N. If you are setting an alarm that requires that a number of consecu- tive data points be breaching to trigger the alarm, this value spec- ifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).
+    /// The number of most recent periods over which data is compared to the specified threshold. If you are setting an "M out of N" alarm, this value (evaluationPeriods ) is the N. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies the rolling period of time in which data points are evaluated. Each evaluation period is five minutes long. For example, specify an evaluation period of 24 to evaluate a metric over a rolling period of two hours. You can specify a minimum valuation period of 1 (5 minutes), and a maximum evaluation period of 288 (24 hours).
     /// </summary>
     [CliOption("--evaluation-periods")]
     public int? EvaluationPeriods { get; private init; }
@@ -116,31 +117,31 @@ public record AwsLightsailPutAlarmOptions : AwsOptions, IValidatableObject
     public int? DatapointsToAlarm { get; set; }
 
     /// <summary>
-    /// Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways: o breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold. o notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold. o ignore - Ignore the missing data. Maintains the current alarm state. o missing - Missing data is treated as missing. If treatMissingData is not specified, the default behavior of miss- ing is used. Possible values: o breaching o notBreaching o ignore o missing
+    /// Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways: • breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold. • notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold. • ignore - Ignore the missing data. Maintains the current alarm state. • missing - Missing data is treated as missing. If treatMissingData is not specified, the default behavior of missing is used. Possible values: • breaching • notBreaching • ignore • missing
     /// </summary>
     [CliOption("--treat-missing-data")]
     public AwsLightsailPutAlarmTreatMissingData? TreatMissingData { get; set; }
 
     /// <summary>
-    /// The contact protocols to use for the alarm, such as Email , SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifi- cations are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the Amazon Web Services Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an Amazon Web Services Region. (string) Possible values: o Email o SMS Syntax: "string" "string" ...
+    /// The contact protocols to use for the alarm, such as Email , SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifications are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the Amazon Web Services Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an Amazon Web Services Region. (string) Possible values: • Email • SMS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--contact-protocols", GroupValues = true)]
     public IEnumerable<string>? ContactProtocols { get; set; }
 
     /// <summary>
-    /// The alarm states that trigger a notification. An alarm has the following possible states: o ALARM - The metric is outside of the defined threshold. o INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to de- termine the alarm state. o OK - The metric is within the defined threshold. When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state. o If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm noti- fication. o If you specify INSUFFICIENT_DATA as the alarm trigger, a notifica- tion is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state. The notification trigger defaults to ALARM if you don't specify this parameter. (string) Possible values: o OK o ALARM o INSUFFICIENT_DATA Syntax: "string" "string" ...
+    /// The alarm states that trigger a notification. An alarm has the following possible states: • ALARM - The metric is outside of the defined threshold. • INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state. • OK - The metric is within the defined threshold. When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state. • If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification. • If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state. The notification trigger defaults to ALARM if you don't specify this parameter. (string) Possible values: • OK • ALARM • INSUFFICIENT_DATA Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--notification-triggers", GroupValues = true)]
     public IEnumerable<string>? NotificationTriggers { get; set; }
 
     /// <summary>
-    /// Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this para- meter.
+    /// Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this parameter.
     /// </summary>
     [CliFlag("--notification-enabled", NegatedName = "--no-notification-enabled")]
     public bool? NotificationEnabled { get; set; }
 
     /// <summary>
-    /// The tag keys and optional values to add to the alarm during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, num- bers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tag keys and optional values to add to the alarm during create. Use the TagResource action to tag a resource after it's created. (structure) Describes a tag key and optional value assigned to an Amazon Lightsail resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide . key -&gt; (string) The key of the tag. Constraints: Tag keys accept a maximum of 128 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ value -&gt; (string) The value of the tag. Constraints: Tag values accept a maximum of 256 letters, numbers, spaces in UTF-8, or the following characters: + - = . _ : / @ Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -166,6 +167,15 @@ public record AwsLightsailPutAlarmOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

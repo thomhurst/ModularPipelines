@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a work- load can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter i...
+/// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter is ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +28,12 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a work- load can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter i...
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide . WARNING: Either AwsRegions , NonAwsRegions , or both must be specified when creating a workload. You also must specify ReviewOwner , even though the parameter is ...
     /// </summary>
-    /// <param name="WorkloadName">The name of the workload. The name must be unique within an account within an Amazon Web Ser- vices Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: o min: 3 o max: 100</param>
-    /// <param name="Description">The description for the workload. Constraints: o min: 3 o max: 250</param>
-    /// <param name="Environment">The environment for the workload. Possible values: o PRODUCTION o PREPRODUCTION</param>
-    /// <param name="Lenses">The list of lenses associated with the workload. Each lens is iden- tified by its LensSummary$LensAlias . If a review template that specifies lenses is applied to the work- load, those lenses are applied to the workload in addition to these lenses. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="WorkloadName">The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: • min: 3 • max: 100</param>
+    /// <param name="Description">The description for the workload. Constraints: • min: 3 • max: 250</param>
+    /// <param name="Environment">The environment for the workload. Possible values: • PRODUCTION • PREPRODUCTION</param>
+    /// <param name="Lenses">The list of lenses associated with the workload. Each lens is identified by its LensSummary$LensAlias . If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsWellarchitectedCreateWorkloadOptions(
         string WorkloadName,
         string Description,
@@ -81,122 +81,122 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload. The name must be unique within an account within an Amazon Web Ser- vices Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: o min: 3 o max: 100
+    /// The name of the workload. The name must be unique within an account within an Amazon Web Services Region. Spaces and capitalization are ignored when checking for uniqueness. Constraints: • min: 3 • max: 100
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
 
     /// <summary>
-    /// The description for the workload. Constraints: o min: 3 o max: 250
+    /// The description for the workload. Constraints: • min: 3 • max: 250
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The environment for the workload. Possible values: o PRODUCTION o PREPRODUCTION
+    /// The environment for the workload. Possible values: • PRODUCTION • PREPRODUCTION
     /// </summary>
     [CliOption("--environment")]
     public AwsWellarchitectedCreateWorkloadEnvironment? Environment { get; private init; }
 
     /// <summary>
-    /// The list of lenses associated with the workload. Each lens is iden- tified by its LensSummary$LensAlias . If a review template that specifies lenses is applied to the work- load, those lenses are applied to the workload in addition to these lenses. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellar- chi- tected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The list of lenses associated with the workload. Each lens is identified by its LensSummary$LensAlias . If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses. (string) The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless , or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless . Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef . Each lens is identified by its LensSummary$LensAlias . Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--lenses", GroupValues = true)]
     public IEnumerable<string>? Lenses { get; private init; }
 
     /// <summary>
-    /// The list of Amazon Web Services account IDs associated with the workload. Constraints: o min: 0 o max: 100 (string) An Amazon Web Services account ID. Constraints: o min: 12 o max: 12 o pattern: [0-9]{12} Syntax: "string" "string" ...
+    /// The list of Amazon Web Services account IDs associated with the workload. Constraints: • min: 0 • max: 100 (string) An Amazon Web Services account ID. Constraints: • min: 12 • max: 12 • pattern: [0-9]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--account-ids", GroupValues = true)]
     public IEnumerable<string>? AccountIds { get; set; }
 
     /// <summary>
-    /// The list of Amazon Web Services Regions associated with the work- load, for example, us-east-2 , or ca-central-1 . Constraints: o min: 0 o max: 50 (string) An Amazon Web Services Region, for example, us-west-2 or ap-northeast-1 . Constraints: o min: 0 o max: 100 Syntax: "string" "string" ...
+    /// The list of Amazon Web Services Regions associated with the workload, for example, us-east-2 , or ca-central-1 . Constraints: • min: 0 • max: 50 (string) An Amazon Web Services Region, for example, us-west-2 or ap-northeast-1 . Constraints: • min: 0 • max: 100 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aws-regions", GroupValues = true)]
     public IEnumerable<string>? AwsRegions { get; set; }
 
     /// <summary>
-    /// The list of non-Amazon Web Services Regions associated with the workload. Constraints: o min: 0 o max: 5 (string) Constraints: o min: 3 o max: 25 Syntax: "string" "string" ...
+    /// The list of non-Amazon Web Services Regions associated with the workload. Constraints: • min: 0 • max: 5 (string) Constraints: • min: 3 • max: 25 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--non-aws-regions", GroupValues = true)]
     public IEnumerable<string>? NonAwsRegions { get; set; }
 
     /// <summary>
-    /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its PillarReview- Summary$PillarId . (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: o min: 1 o max: 64 Syntax: "string" "string" ...
+    /// The priorities of the pillars, which are used to order items in the improvement plan. Each pillar is represented by its PillarReviewSummary$PillarId . (string) The ID used to identify a pillar, for example, security . A pillar is identified by its PillarReviewSummary$PillarId . Constraints: • min: 1 • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--pillar-priorities", GroupValues = true)]
     public IEnumerable<string>? PillarPriorities { get; set; }
 
     /// <summary>
-    /// The URL of the architectural design for the workload. Constraints: o min: 0 o max: 2048 o pattern: (|(https?|ftp):\/\/[^\s/$.?#].[^\s]*)
+    /// The URL of the architectural design for the workload. Constraints: • min: 0 • max: 2048 • pattern: (|(https?|ftp):\/\/[^\s/$.?#].[^\s]*)
     /// </summary>
     [CliOption("--architectural-design")]
     public string? ArchitecturalDesign { get; set; }
 
     /// <summary>
-    /// The review owner of the workload. The name, email address, or iden- tifier for the primary group or individual that owns the workload review process. Constraints: o min: 3 o max: 255
+    /// The review owner of the workload. The name, email address, or identifier for the primary group or individual that owns the workload review process. Constraints: • min: 3 • max: 255
     /// </summary>
     [CliOption("--review-owner")]
     public string? ReviewOwner { get; set; }
 
     /// <summary>
-    /// The industry type for the workload. If specified, must be one of the following: o Agriculture o Automobile o Defense o Design and Engineering o Digital Advertising o Education o Environmental Protection o Financial Services o Gaming o General Public Services o Healthcare o Hospitality o InfoTech o Justice and Public Safety o Life Sciences o Manufacturing o Media &amp; Entertainment o Mining &amp; Resources o Oil &amp; Gas o Power &amp; Utilities o Professional Services o Real Estate &amp; Construction o Retail &amp; Wholesale o Social Protection o Telecommunications o Travel, Transportation &amp; Logistics o Other Constraints: o min: 0 o max: 100
+    /// The industry type for the workload. If specified, must be one of the following: • Agriculture • Automobile • Defense • Design and Engineering • Digital Advertising • Education • Environmental Protection • Financial Services • Gaming • General Public Services • Healthcare • Hospitality • InfoTech • Justice and Public Safety • Life Sciences • Manufacturing • Media &amp; Entertainment • Mining &amp; Resources • Oil &amp; Gas • Power &amp; Utilities • Professional Services • Real Estate &amp; Construction • Retail &amp; Wholesale • Social Protection • Telecommunications • Travel, Transportation &amp; Logistics • Other Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--industry-type")]
     public string? IndustryType { get; set; }
 
     /// <summary>
-    /// The industry for the workload. Constraints: o min: 0 o max: 100
+    /// The industry for the workload. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--industry")]
     public string? Industry { get; set; }
 
     /// <summary>
-    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: o min: 0 o max: 2084
+    /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied. Constraints: • min: 0 • max: 2084
     /// </summary>
     [CliOption("--notes")]
     public string? Notes { get; set; }
 
     /// <summary>
-    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: o min: 1 o max: 2048 o pattern: [\x00-\x7F]*
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. WARNING: This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail. Constraints: • min: 1 • max: 2048 • pattern: [\x00-\x7F]*
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The tags to be associated with the workload. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be associated with the workload. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N}\p{Z}_.:/=+@-]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Well-Architected discovery configuration settings associated to the workload. TrustedAdvisorIntegrationStatus -&gt; (string) Discovery integration status in respect to Trusted Advisor for the workload. Possible values: o ENABLED o DISABLED WorkloadResourceDefinition -&gt; (list) The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA , APP_REGISTRY , or both. (string) Possible values: o WORKLOAD_METADATA o APP_REGISTRY Shorthand Syntax: TrustedAdvisorIntegrationStatus=string,WorkloadResourceDefinition=string,string JSON Syntax: { "TrustedAdvisorIntegrationStatus": "ENABLED"|"DISABLED", "WorkloadResourceDefinition": ["WORKLOAD_METADATA"|"APP_REGISTRY", ...] }
+    /// Well-Architected discovery configuration settings associated to the workload. TrustedAdvisorIntegrationStatus -&gt; (string) Discovery integration status in respect to Trusted Advisor for the workload. Possible values: • ENABLED • DISABLED WorkloadResourceDefinition -&gt; (list) The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA , APP_REGISTRY , or both. (string) Possible values: • WORKLOAD_METADATA • APP_REGISTRY Shorthand Syntax: TrustedAdvisorIntegrationStatus=string,WorkloadResourceDefinition=string,string JSON Syntax: { "TrustedAdvisorIntegrationStatus": "ENABLED"|"DISABLED", "WorkloadResourceDefinition": ["WORKLOAD_METADATA"|"APP_REGISTRY", ...] }
     /// </summary>
     [CliOption("--discovery-config")]
     public string? DiscoveryConfig { get; set; }
 
     /// <summary>
-    /// List of AppRegistry application ARNs associated to the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:servicecata- log:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[a-z0-9]+ Syntax: "string" "string" ...
+    /// List of AppRegistry application ARNs associated to the workload. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:servicecatalog:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:/applications/[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--applications", GroupValues = true)]
     public IEnumerable<string>? Applications { get; set; }
 
     /// <summary>
-    /// The list of profile ARNs associated with the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 0 o max: 2084 o pattern: arn:aws[-a-z]*:wellarchi- tected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...
+    /// The list of profile ARNs associated with the workload. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 0 • max: 2084 • pattern: arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:profile/[a-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--profile-arns", GroupValues = true)]
     public IEnumerable<string>? ProfileArns { get; set; }
 
     /// <summary>
-    /// The list of review template ARNs to associate with the workload. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 50 o max: 250 o pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchi- tected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(re- view-template)/[a-f0-9]{32} Syntax: "string" "string" ...
+    /// The list of review template ARNs to associate with the workload. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 50 • max: 250 • pattern: arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\d:\d{12}:(review-template)/[a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--review-template-arns", GroupValues = true)]
     public IEnumerable<string>? ReviewTemplateArns { get; set; }
 
     /// <summary>
-    /// Jira configuration settings when creating a workload. IssueManagementStatus -&gt; (string) Workload-level: Jira issue management status. Possible values: o ENABLED o DISABLED o INHERIT IssueManagementType -&gt; (string) Workload-level: Jira issue management type. Possible values: o AUTO o MANUAL JiraProjectKey -&gt; (string) Workload-level: Jira project key to sync workloads to. Constraints: o min: 1 o max: 100 o pattern: [A-Z][A-Z0-9_]* Shorthand Syntax: IssueManagementStatus=string,IssueManagementType=string,JiraProjectKey=string JSON Syntax: { "IssueManagementStatus": "ENABLED"|"DISABLED"|"INHERIT", "IssueManagementType": "AUTO"|"MANUAL", "JiraProjectKey": "string" }
+    /// Jira configuration settings when creating a workload. IssueManagementStatus -&gt; (string) Workload-level: Jira issue management status. Possible values: • ENABLED • DISABLED • INHERIT IssueManagementType -&gt; (string) Workload-level: Jira issue management type. Possible values: • AUTO • MANUAL JiraProjectKey -&gt; (string) Workload-level: Jira project key to sync workloads to. Constraints: • min: 1 • max: 100 • pattern: [A-Z][A-Z0-9_]* Shorthand Syntax: IssueManagementStatus=string,IssueManagementType=string,JiraProjectKey=string JSON Syntax: { "IssueManagementStatus": "ENABLED"|"DISABLED"|"INHERIT", "IssueManagementType": "AUTO"|"MANUAL", "JiraProjectKey": "string" }
     /// </summary>
     [CliOption("--jira-configuration")]
     public string? JiraConfiguration { get; set; }
@@ -222,6 +222,15 @@ public record AwsWellarchitectedCreateWorkloadOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

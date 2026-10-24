@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
+/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsWorkspacesCreateWorkspacesPoolOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Creates a pool of WorkSpaces. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PoolName">The name of the pool. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$</param>
-    /// <param name="Description">The pool description. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_./() -]+$</param>
-    /// <param name="BundleId">The identifier of the bundle for the pool. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$</param>
-    /// <param name="DirectoryId">The identifier of the directory for the pool. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
-    /// <param name="Capacity">The user capacity of the pool. DesiredUserSessions -&gt; (integer) [required] The desired number of user sessions for the WorkSpaces in the pool. Constraints: o min: 0 Shorthand Syntax: DesiredUserSessions=integer JSON Syntax: { "DesiredUserSessions": integer }</param>
+    /// <param name="PoolName">The name of the pool. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$</param>
+    /// <param name="Description">The pool description. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_./() -]+$</param>
+    /// <param name="BundleId">The identifier of the bundle for the pool. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$</param>
+    /// <param name="DirectoryId">The identifier of the directory for the pool. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)</param>
+    /// <param name="Capacity">The user capacity of the pool. DesiredUserSessions -&gt; (integer) [required] The desired number of user sessions for the WorkSpaces in the pool. Constraints: • min: 0 Shorthand Syntax: DesiredUserSessions=integer JSON Syntax: { "DesiredUserSessions": integer }</param>
     public AwsWorkspacesCreateWorkspacesPoolOptions(
         string PoolName,
         string Description,
@@ -73,55 +74,55 @@ public record AwsWorkspacesCreateWorkspacesPoolOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the pool. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$
+    /// The name of the pool. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$
     /// </summary>
     [CliOption("--pool-name")]
     public string? PoolName { get; private init; }
 
     /// <summary>
-    /// The pool description. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z0-9_./() -]+$
+    /// The pool description. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z0-9_./() -]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// The identifier of the bundle for the pool. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// The identifier of the bundle for the pool. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// The identifier of the directory for the pool. Constraints: o min: 10 o max: 65 o pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
+    /// The identifier of the directory for the pool. Constraints: • min: 10 • max: 65 • pattern: ^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The user capacity of the pool. DesiredUserSessions -&gt; (integer) [required] The desired number of user sessions for the WorkSpaces in the pool. Constraints: o min: 0 Shorthand Syntax: DesiredUserSessions=integer JSON Syntax: { "DesiredUserSessions": integer }
+    /// The user capacity of the pool. DesiredUserSessions -&gt; (integer) [required] The desired number of user sessions for the WorkSpaces in the pool. Constraints: • min: 0 Shorthand Syntax: DesiredUserSessions=integer JSON Syntax: { "DesiredUserSessions": integer }
     /// </summary>
     [CliOption("--capacity")]
     public string? Capacity { get; private init; }
 
     /// <summary>
-    /// The tags for the pool. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: o min: 1 o max: 127 Value -&gt; (string) The value of the tag. Constraints: o max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the pool. (structure) Describes a tag. Key -&gt; (string) [required] The key of the tag. Constraints: • min: 1 • max: 127 Value -&gt; (string) The value of the tag. Constraints: • max: 255 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Indicates the application settings of the pool. Status -&gt; (string) [required] Enables or disables persistent application settings for users during their pool sessions. Possible values: o DISABLED o ENABLED SettingsGroup -&gt; (string) The path prefix for the S3 bucket where users persistent appli- cation settings are stored. You can allow the same persistent application settings to be used across multiple pools by speci- fying the same settings group for each pool. Constraints: o max: 100 o pattern: ^[A-Za-z0-9_./()!*'-]+$ Shorthand Syntax: Status=string,SettingsGroup=string JSON Syntax: { "Status": "DISABLED"|"ENABLED", "SettingsGroup": "string" }
+    /// Indicates the application settings of the pool. Status -&gt; (string) [required] Enables or disables persistent application settings for users during their pool sessions. Possible values: • DISABLED • ENABLED SettingsGroup -&gt; (string) The path prefix for the S3 bucket where users persistent application settings are stored. You can allow the same persistent application settings to be used across multiple pools by specifying the same settings group for each pool. Constraints: • max: 100 • pattern: ^[A-Za-z0-9_./()!*'-]+$ Shorthand Syntax: Status=string,SettingsGroup=string JSON Syntax: { "Status": "DISABLED"|"ENABLED", "SettingsGroup": "string" }
     /// </summary>
     [CliOption("--application-settings")]
     public string? ApplicationSettings { get; set; }
 
     /// <summary>
-    /// Indicates the timeout settings of the pool. DisconnectTimeoutInSeconds -&gt; (integer) Specifies the amount of time, in seconds, that a streaming ses- sion remains active after users disconnect. If users try to re- connect to the streaming session after a disconnection or net- work interruption within the time set, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Constraints: o min: 60 o max: 36000 IdleDisconnectTimeoutInSeconds -&gt; (integer) The amount of time in seconds a connection will stay active while idle. Constraints: o min: 0 o max: 36000 MaxUserDurationInSeconds -&gt; (integer) Specifies the maximum amount of time, in seconds, that a stream- ing session can remain active. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being dis- connected. After this time elapses, the instance is terminated and replaced by a new instance. Constraints: o min: 600 o max: 432000 Shorthand Syntax: DisconnectTimeoutInSeconds=integer,IdleDisconnectTimeoutInSeconds=integer,MaxUserDurationInSeconds=integer JSON Syntax: { "DisconnectTimeoutInSeconds": integer, "IdleDisconnectTimeoutInSeconds": integer, "MaxUserDurationInSeconds": integer }
+    /// Indicates the timeout settings of the pool. DisconnectTimeoutInSeconds -&gt; (integer) Specifies the amount of time, in seconds, that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within the time set, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Constraints: • min: 60 • max: 36000 IdleDisconnectTimeoutInSeconds -&gt; (integer) The amount of time in seconds a connection will stay active while idle. Constraints: • min: 0 • max: 36000 MaxUserDurationInSeconds -&gt; (integer) Specifies the maximum amount of time, in seconds, that a streaming session can remain active. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Constraints: • min: 600 • max: 432000 Shorthand Syntax: DisconnectTimeoutInSeconds=integer,IdleDisconnectTimeoutInSeconds=integer,MaxUserDurationInSeconds=integer JSON Syntax: { "DisconnectTimeoutInSeconds": integer, "IdleDisconnectTimeoutInSeconds": integer, "MaxUserDurationInSeconds": integer }
     /// </summary>
     [CliOption("--timeout-settings")]
     public string? TimeoutSettings { get; set; }
 
     /// <summary>
-    /// The running mode for the pool. Possible values: o AUTO_STOP o ALWAYS_ON
+    /// The running mode for the pool. Possible values: • AUTO_STOP • ALWAYS_ON
     /// </summary>
     [CliOption("--running-mode")]
     public AwsWorkspacesCreateWorkspacesPoolRunningMode? RunningMode { get; set; }
@@ -147,6 +148,15 @@ public record AwsWorkspacesCreateWorkspacesPoolOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

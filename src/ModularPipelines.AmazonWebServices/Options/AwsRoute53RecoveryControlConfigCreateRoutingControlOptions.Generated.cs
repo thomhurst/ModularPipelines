@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Con- troller. See also: AWS API Documentation
+/// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsRoute53RecoveryControlConfigCreateRoutingControlOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Con- troller. See also: AWS API Documentation
+    /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster that includes the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$</param>
-    /// <param name="RoutingControlName">The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$</param>
+    /// <param name="ClusterArn">The Amazon Resource Name (ARN) of the cluster that includes the routing control. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$</param>
+    /// <param name="RoutingControlName">The name of the routing control. Constraints: • min: 1 • max: 64 • pattern: ^\S+$</param>
     public AwsRoute53RecoveryControlConfigCreateRoutingControlOptions(
         string ClusterArn,
         string RoutingControlName
@@ -61,26 +62,26 @@ public record AwsRoute53RecoveryControlConfigCreateRoutingControlOptions : AwsOp
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the cluster that includes the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// The Amazon Resource Name (ARN) of the cluster that includes the routing control. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--cluster-arn")]
     public string? ClusterArn { get; private init; }
 
     /// <summary>
-    /// The name of the routing control. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// The name of the routing control. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [CliOption("--routing-control-name")]
     public string? RoutingControlName { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client to- ken in the request. Constraints: o min: 1 o max: 64 o pattern: ^\S+$
+    /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request. Constraints: • min: 1 • max: 64 • pattern: ^\S+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the control panel that includes the routing control. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$
+    /// The Amazon Resource Name (ARN) of the control panel that includes the routing control. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$
     /// </summary>
     [CliOption("--control-panel-arn")]
     public string? ControlPanelArn { get; set; }
@@ -106,6 +107,15 @@ public record AwsRoute53RecoveryControlConfigCreateRoutingControlOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

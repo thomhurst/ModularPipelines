@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsConnectcasesUpdateFieldOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates the properties of an existing field. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500</param>
-    /// <param name="FieldId">The unique identifier of a field. Constraints: o min: 1 o max: 500</param>
+    /// <param name="DomainId">The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500</param>
+    /// <param name="FieldId">The unique identifier of a field. Constraints: • min: 1 • max: 500</param>
     public AwsConnectcasesUpdateFieldOptions(
         string DomainId,
         string FieldId
@@ -60,25 +61,25 @@ public record AwsConnectcasesUpdateFieldOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Cases domain. Constraints: o min: 1 o max: 500
+    /// The unique identifier of the Cases domain. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of a field. Constraints: o min: 1 o max: 500
+    /// The unique identifier of a field. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--field-id")]
     public string? FieldId { get; private init; }
 
     /// <summary>
-    /// The name of the field. Constraints: o min: 1 o max: 100 o pattern: .*[\S]
+    /// The name of the field. Constraints: • min: 1 • max: 100 • pattern: .*[\S]
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The description of a field. Constraints: o min: 0 o max: 255
+    /// The description of a field. Constraints: • min: 0 • max: 255
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -110,6 +111,15 @@ public record AwsConnectcasesUpdateFieldOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

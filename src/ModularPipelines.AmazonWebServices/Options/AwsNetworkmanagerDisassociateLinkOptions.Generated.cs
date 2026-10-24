@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates an existing device from a link. You must first disassoci- ate any customer gateways that are associated with the link. See also: AWS API Documentation
+/// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsNetworkmanagerDisassociateLinkOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates an existing device from a link. You must first disassoci- ate any customer gateways that are associated with the link. See also: AWS API Documentation
+    /// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="DeviceId">The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="LinkId">The ID of the link. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="DeviceId">The ID of the device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="LinkId">The ID of the link. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerDisassociateLinkOptions(
         string GlobalNetworkId,
         string DeviceId,
@@ -64,19 +65,19 @@ public record AwsNetworkmanagerDisassociateLinkOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the device. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the device. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
 
     /// <summary>
-    /// The ID of the link. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the link. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--link-id")]
     public string? LinkId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsNetworkmanagerDisassociateLinkOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

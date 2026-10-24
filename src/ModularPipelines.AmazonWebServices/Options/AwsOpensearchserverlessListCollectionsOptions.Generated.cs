@@ -23,20 +23,20 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchserverlessListCollectionsOptions : AwsOptions
 {
     /// <summary>
-    /// A list of filter names and values that you can use for requests. name -&gt; (string) The name of the collection. Constraints: o min: 3 o max: 64 o pattern: [a-z][a-z0-9-]+ status -&gt; (string) The current status of the collection. Possible values: o CREATING o UPDATING o DELETING o ACTIVE o FAILED o UPDATE_FAILED collectionGroupName -&gt; (string) The name of the collection group to filter by. Constraints: o min: 3 o max: 32 o pattern: [a-z][a-z0-9-]+ Shorthand Syntax: name=string,status=string,collectionGroupName=string JSON Syntax: { "name": "string", "status": "CREATING"|"UPDATING"|"DELETING"|"ACTIVE"|"FAILED"|"UPDATE_FAILED", "collectionGroupName": "string" }
+    /// A list of filter names and values that you can use for requests. name -&gt; (string) The name of the collection. Constraints: • min: 3 • max: 64 • pattern: [a-z][a-z0-9-]+ status -&gt; (string) The current status of the collection. Possible values: • CREATING • UPDATING • DELETING • ACTIVE • FAILED • UPDATE_FAILED collectionGroupName -&gt; (string) The name of the collection group to filter by. Constraints: • min: 3 • max: 32 • pattern: [a-z][a-z0-9-]+ Shorthand Syntax: name=string,status=string,collectionGroupName=string JSON Syntax: { "name": "string", "status": "CREATING"|"UPDATING"|"DELETING"|"ACTIVE"|"FAILED"|"UPDATE_FAILED", "collectionGroupName": "string" }
     /// </summary>
     [CliOption("--collection-filters")]
     public string? CollectionFilters { get; set; }
 
     /// <summary>
-    /// If your initial ListCollections operation returns a nextToken , you can include the returned nextToken in subsequent ListCollections op- erations, which returns results in the next page.
+    /// If your initial ListCollections operation returns a nextToken , you can include the returned nextToken in subsequent ListCollections operations, which returns results in the next page.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results. Constraints: o min: 1 o max: 100
+    /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsOpensearchserverlessListCollectionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

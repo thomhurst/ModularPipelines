@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables block public access for AMIs at the account level in the speci- fied Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see ...
+/// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see Bl...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables block public access for AMIs at the account level in the speci- fied Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see ...
+    /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run GetImageBlockPublicAccessState , the response will be unblocked . When the API has completed the configuration, the response will be block-new-sharing . For more information, see Bl...
     /// </summary>
-    /// <param name="ImageBlockPublicAccessState">Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any at- tempt to publicly share your AMIs in the specified Region. Possible values: o block-new-sharing</param>
+    /// <param name="ImageBlockPublicAccessState">Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any attempt to publicly share your AMIs in the specified Region. Possible values: • block-new-sharing</param>
     public AwsEc2EnableImageBlockPublicAccessOptions(
         string ImageBlockPublicAccessState
     )
@@ -56,13 +57,13 @@ public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any at- tempt to publicly share your AMIs in the specified Region. Possible values: o block-new-sharing
+    /// Specify block-new-sharing to enable block public access for AMIs at the account level in the specified Region. This will block any attempt to publicly share your AMIs in the specified Region. Possible values: • block-new-sharing
     /// </summary>
     [CliOption("--image-block-public-access-state")]
     public string? ImageBlockPublicAccessState { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -88,6 +89,15 @@ public record AwsEc2EnableImageBlockPublicAccessOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

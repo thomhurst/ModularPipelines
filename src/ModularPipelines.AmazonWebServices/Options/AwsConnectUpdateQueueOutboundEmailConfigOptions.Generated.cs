@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsConnectUpdateQueueOutboundEmailConfigOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the outbound email address Id for a specified queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QueueId">The identifier for the queue.</param>
-    /// <param name="OutboundEmailConfig">The outbound email address ID for a specified queue. OutboundEmailAddressId -&gt; (string) The identifier of the email address. Constraints: o min: 1 o max: 500 Shorthand Syntax: OutboundEmailAddressId=string JSON Syntax: { "OutboundEmailAddressId": "string" }</param>
+    /// <param name="OutboundEmailConfig">The outbound email address ID for a specified queue. OutboundEmailAddressId -&gt; (string) The identifier of the email address. Constraints: • min: 1 • max: 500 Shorthand Syntax: OutboundEmailAddressId=string JSON Syntax: { "OutboundEmailAddressId": "string" }</param>
     public AwsConnectUpdateQueueOutboundEmailConfigOptions(
         string InstanceId,
         string QueueId,
@@ -64,7 +65,7 @@ public record AwsConnectUpdateQueueOutboundEmailConfigOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -76,7 +77,7 @@ public record AwsConnectUpdateQueueOutboundEmailConfigOptions : AwsOptions, IVal
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The outbound email address ID for a specified queue. OutboundEmailAddressId -&gt; (string) The identifier of the email address. Constraints: o min: 1 o max: 500 Shorthand Syntax: OutboundEmailAddressId=string JSON Syntax: { "OutboundEmailAddressId": "string" }
+    /// The outbound email address ID for a specified queue. OutboundEmailAddressId -&gt; (string) The identifier of the email address. Constraints: • min: 1 • max: 500 Shorthand Syntax: OutboundEmailAddressId=string JSON Syntax: { "OutboundEmailAddressId": "string" }
     /// </summary>
     [CliOption("--outbound-email-config")]
     public string? OutboundEmailConfig { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectUpdateQueueOutboundEmailConfigOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

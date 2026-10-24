@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions, IValidatable
     /// <summary>
     /// Deletes a file share from an S3 File Gateway. This operation is only supported for S3 File Gateways. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share to be deleted. Constraints: o min: 50 o max: 500</param>
+    /// <param name="FileShareArn">The Amazon Resource Name (ARN) of the file share to be deleted. Constraints: • min: 50 • max: 500</param>
     public AwsStoragegatewayDeleteFileShareOptions(
         string FileShareArn
     )
@@ -56,13 +57,13 @@ public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the file share to be deleted. Constraints: o min: 50 o max: 500
+    /// The Amazon Resource Name (ARN) of the file share to be deleted. Constraints: • min: 50 • max: 500
     /// </summary>
     [CliOption("--file-share-arn")]
     public string? FileShareArn { get; private init; }
 
     /// <summary>
-    /// If this value is set to true , the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Oth- erwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
+    /// If this value is set to true , the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
     /// </summary>
     [CliFlag("--force-delete", NegatedName = "--no-force-delete")]
     public bool? ForceDelete { get; set; }
@@ -88,6 +89,15 @@ public record AwsStoragegatewayDeleteFileShareOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

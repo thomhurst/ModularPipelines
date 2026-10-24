@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenForUserIdOptions : AwsOpt
     /// <summary>
     /// Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkloadName">The name of the workload from which you want to retrieve the access token. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+</param>
-    /// <param name="UserId">The ID of the user for whom you are retrieving the access token. Constraints: o min: 1 o max: 128</param>
+    /// <param name="WorkloadName">The name of the workload from which you want to retrieve the access token. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+</param>
+    /// <param name="UserId">The ID of the user for whom you are retrieving the access token. Constraints: • min: 1 • max: 128</param>
     public AwsBedrockAgentcoreGetWorkloadAccessTokenForUserIdOptions(
         string WorkloadName,
         string UserId
@@ -60,13 +61,13 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenForUserIdOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the workload from which you want to retrieve the access token. Constraints: o min: 3 o max: 255 o pattern: [A-Za-z0-9_.-]+
+    /// The name of the workload from which you want to retrieve the access token. Constraints: • min: 3 • max: 255 • pattern: [A-Za-z0-9_.-]+
     /// </summary>
     [CliOption("--workload-name")]
     public string? WorkloadName { get; private init; }
 
     /// <summary>
-    /// The ID of the user for whom you are retrieving the access token. Constraints: o min: 1 o max: 128
+    /// The ID of the user for whom you are retrieving the access token. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentcoreGetWorkloadAccessTokenForUserIdOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

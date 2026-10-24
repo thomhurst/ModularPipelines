@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+/// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,10 +22,10 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsTnbGetSolFunctionPackageContentOptions : AwsOptions
 {
     /// <summary>
-    /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) for- mat that contains a network function (an ETSI standard telecommunica- tion application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your net- work. See also: AWS API Documentation
+    /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Accept">The format of the package that you want to download from the func- tion packages. Possible values: o application/zip</param>
-    /// <param name="VnfPkgId">ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
+    /// <param name="Accept">The format of the package that you want to download from the function packages. Possible values: • application/zip</param>
+    /// <param name="VnfPkgId">ID of the function package. Constraints: • pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsTnbGetSolFunctionPackageContentOptions(
         string Accept,
@@ -49,13 +49,13 @@ public record AwsTnbGetSolFunctionPackageContentOptions : AwsOptions
     }
 
     /// <summary>
-    /// The format of the package that you want to download from the func- tion packages. Possible values: o application/zip
+    /// The format of the package that you want to download from the function packages. Possible values: • application/zip
     /// </summary>
     [CliOption("--accept")]
     public string Accept { get; private init; }
 
     /// <summary>
-    /// ID of the function package. Constraints: o pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
+    /// ID of the function package. Constraints: • pattern: ^fp-[a-f0-9]{17}$ outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--vnf-pkg-id")]
     public string VnfPkgId { get; private init; }
@@ -65,5 +65,14 @@ public record AwsTnbGetSolFunctionPackageContentOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

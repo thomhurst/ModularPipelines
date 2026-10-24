@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkspacesDescribeBundleAssociationsOptions : AwsOptions, IVali
     /// <summary>
     /// Describes the associations between the applications and the specified bundle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BundleId">The identifier of the bundle. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$</param>
-    /// <param name="AssociatedResourceTypes">The resource types of the associated resource. (string) Possible values: o APPLICATION Syntax: "string" "string" ...</param>
+    /// <param name="BundleId">The identifier of the bundle. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$</param>
+    /// <param name="AssociatedResourceTypes">The resource types of the associated resource. (string) Possible values: • APPLICATION Syntax: "string" "string" ...</param>
     public AwsWorkspacesDescribeBundleAssociationsOptions(
         string BundleId,
         IEnumerable<string> AssociatedResourceTypes
@@ -71,13 +72,13 @@ public record AwsWorkspacesDescribeBundleAssociationsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bundle. Constraints: o pattern: ^wsb-[0-9a-z]{8,63}$
+    /// The identifier of the bundle. Constraints: • pattern: ^wsb-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--bundle-id")]
     public string? BundleId { get; private init; }
 
     /// <summary>
-    /// The resource types of the associated resource. (string) Possible values: o APPLICATION Syntax: "string" "string" ...
+    /// The resource types of the associated resource. (string) Possible values: • APPLICATION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-resource-types", GroupValues = true)]
     public IEnumerable<string>? AssociatedResourceTypes { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesDescribeBundleAssociationsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all tar- gets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many re...
+/// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all targets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all tar- gets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many re...
+    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. NOTE: A successful execution of RemoveTargets doesn't guarantee all targets are removed from the rule, it means that the target(s) listed in the request are removed. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requ...
     /// </summary>
-    /// <param name="Rule">The name of the rule. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="Ids">The IDs of the targets to remove from the rule. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...</param>
+    /// <param name="Rule">The name of the rule. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="Ids">The IDs of the targets to remove from the rule. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...</param>
     public AwsEventsRemoveTargetsOptions(
         string Rule,
         IEnumerable<string> Ids
@@ -71,19 +72,19 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the rule. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the rule. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--rule")]
     public string? Rule { get; private init; }
 
     /// <summary>
-    /// The IDs of the targets to remove from the rule. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...
+    /// The IDs of the targets to remove from the rule. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--ids", GroupValues = true)]
     public IEnumerable<string>? Ids { get; private init; }
 
     /// <summary>
-    /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: o min: 1 o max: 1600 o pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
+    /// The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used. Constraints: • min: 1 • max: 1600 • pattern: (arn:aws[\w-]*:events:[a-z]+-[a-z]+-[\w-]+:[0-9]{12}:event-bus\/)?[/\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--event-bus-name")]
     public string? EventBusName { get; set; }
@@ -115,6 +116,15 @@ public record AwsEventsRemoveTargetsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

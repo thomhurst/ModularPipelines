@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the follow- ing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. See also: AWS API Documentation
+/// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the following requirements: • It can optionally start with * (asterisk). • With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). • It must be from 1-255 characters in length. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the follow- ing requirements: o It can optionally start with * (asterisk). o With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). o It must be from 1-255 characters in length. See also: AWS API Documentation
+    /// Imports domain names from a file into a domain list, for use in a DNS firewall rule group. Each domain specification in your domain list must satisfy the following requirements: • It can optionally start with * (asterisk). • With the exception of the optional starting asterisk, it must only contain the following characters: A-Z , a-z , 0-9 , - (hyphen). • It must be from 1-255 characters in length. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FirewallDomainListId">The ID of the domain list that you want to modify with the import operation. Constraints: o min: 1 o max: 64</param>
-    /// <param name="Operation">What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: o REPLACE</param>
-    /// <param name="DomainFileUrl">The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to im- port. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="FirewallDomainListId">The ID of the domain list that you want to modify with the import operation. Constraints: • min: 1 • max: 64</param>
+    /// <param name="Operation">What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: • REPLACE</param>
+    /// <param name="DomainFileUrl">The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: • min: 1 • max: 1024</param>
     public AwsRoute53resolverImportFirewallDomainsOptions(
         string FirewallDomainListId,
         string Operation,
@@ -64,19 +65,19 @@ public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain list that you want to modify with the import operation. Constraints: o min: 1 o max: 64
+    /// The ID of the domain list that you want to modify with the import operation. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--firewall-domain-list-id")]
     public string? FirewallDomainListId { get; private init; }
 
     /// <summary>
-    /// What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: o REPLACE
+    /// What you want DNS Firewall to do with the domains that are listed in the file. This must be set to REPLACE , which updates the domain list to exactly match the list in the file. Possible values: • REPLACE
     /// </summary>
     [CliOption("--operation")]
     public string? Operation { get; private init; }
 
     /// <summary>
-    /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to im- port. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: o min: 1 o max: 1024
+    /// The fully qualified URL or URI of the file stored in Amazon Simple Storage Service (Amazon S3) that contains the list of domains to import. The file must be in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text file and must contain a single domain per line. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--domain-file-url")]
     public string? DomainFileUrl { get; private init; }
@@ -102,6 +103,15 @@ public record AwsRoute53resolverImportFirewallDomainsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

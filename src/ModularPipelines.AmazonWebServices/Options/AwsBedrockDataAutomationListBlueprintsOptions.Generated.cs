@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists all existing Amazon Bedrock Data Automation Blueprints See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: blueprints
+/// Lists all existing Amazon Bedrock Data Automation Blueprints See also: AWS API Documentation list-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: blueprints
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,34 +24,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsBedrockDataAutomationListBlueprintsOptions : AwsOptions
 {
     /// <summary>
-    /// ARN of a Blueprint Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blue- print/(bedrock-data-automation-pub- lic-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
+    /// ARN of a Blueprint Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})
     /// </summary>
     [CliOption("--blueprint-arn")]
     public string? BlueprintArn { get; set; }
 
     /// <summary>
-    /// Resource Owner Possible values: o SERVICE o ACCOUNT
+    /// Resource Owner Possible values: • SERVICE • ACCOUNT
     /// </summary>
     [CliOption("--resource-owner")]
     public AwsBedrockDataAutomationListBlueprintsResourceOwner? ResourceOwner { get; set; }
 
     /// <summary>
-    /// Blueprint Stage filter Possible values: o DEVELOPMENT o LIVE o ALL
+    /// Blueprint Stage filter Possible values: • DEVELOPMENT • LIVE • ALL
     /// </summary>
     [CliOption("--blueprint-stage-filter")]
     public AwsBedrockDataAutomationListBlueprintsBlueprintStageFilter? BlueprintStageFilter { get; set; }
 
     /// <summary>
-    /// Data Automation Project Filter projectArn -&gt; (string) [required] ARN of a DataAutomationProject Constraints: o min: 0 o max: 128 o pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-au- tomation-project/[a-zA-Z0-9-]{12,36} projectStage -&gt; (string) Stage of the Project Possible values: o DEVELOPMENT o LIVE Shorthand Syntax: projectArn=string,projectStage=string JSON Syntax: { "projectArn": "string", "projectStage": "DEVELOPMENT"|"LIVE" }
+    /// Data Automation Project Filter projectArn -&gt; (string) [required] ARN of a DataAutomationProject Constraints: • min: 0 • max: 128 • pattern: arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-]{12,36} projectStage -&gt; (string) Stage of the Project Possible values: • DEVELOPMENT • LIVE Shorthand Syntax: projectArn=string,projectStage=string JSON Syntax: { "projectArn": "string", "projectStage": "DEVELOPMENT"|"LIVE" }
     /// </summary>
     [CliOption("--project-filter")]
     public string? ProjectFilter { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -61,15 +58,27 @@ public record AwsBedrockDataAutomationListBlueprintsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

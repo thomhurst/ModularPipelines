@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsEmr : IAwsEmr
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws emr wait sub-commands.
     /// </summary>
     public AwsEmrWait Wait => _wait ??= new AwsEmrWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsEmr : IAwsEmr
     #region Commands
 
     /// <summary>
-    /// Adds an instance fleet to a running cluster. NOTE: The instance fleet configuration is available only in Amazon EMR re- leases 4.8.0 and later, excluding 5.0.x. See also: AWS API Documentation
+    /// Adds an instance fleet to a running cluster. NOTE: The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -132,7 +132,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Creates the default IAM role EMR_EC2_DefaultRole and EMR_DefaultRole which can be used when creating the cluster using the create-cluster command. The default roles for EMR use managed policies, which are up- dated automatically to support future EMR functionality. If you do not have a Service Role and Instance Profile variable set for your create-cluster command in the AWS CLI config file, create-de- fault-roles will automatically set the values for these variables with these default roles. If ...
+    /// Creates the default IAM role EMR_EC2_DefaultRole and EMR_DefaultRole which can be used when creating the cluster using the create-cluster command. The default roles for EMR use managed policies, which are updated automatically to support future EMR functionality. If you do not have a Service Role and Instance Profile variable set for your create-cluster command in the AWS CLI config file, create-default-roles will automatically set the values for these variables with these default roles. If you ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -267,7 +267,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapre- duce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elas- ticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
+    /// Provides cluster-level details including status, hardware and software configuration, VPC settings, bootstrap actions, instance groups and so on. Permissions needed for describe-cluster include elasticmapreduce:ListBootstrapActions, elasticmapreduce:ListInstanceFleets, elasticmapreduce:DescribeCluster, and elasticmapreduce:ListInstanceGroups.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -312,7 +312,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides Amazon EMR release label details, such as the releases avail- able the Region where the API request is run, and the available appli- cations for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark. See also: AWS API Documentation
+    /// Provides Amazon EMR release label details, such as the releases available the Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -327,7 +327,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides the details of a security configuration by returning the con- figuration JSON. See also: AWS API Documentation
+    /// Provides the details of a security configuration by returning the configuration JSON. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Returns the Amazon EMR block public access configuration for your Ama- zon Web Services account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Man- agement Guide . See also: AWS API Documentation
+    /// Returns the Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -447,7 +447,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+    /// The presigned URL properties for the cluster's application user interface. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// The presigned URL properties for the cluster's application user inter- face. See also: AWS API Documentation
+    /// The presigned URL properties for the cluster's application user interface. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -492,7 +492,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Returns the Spark Connect endpoint URL and a time-limited authentica- tion token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one. See also: AWS API Documentation
+    /// Returns the Spark Connect endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a PySpark client to the session. Call this operation again when the token expires to obtain a new one. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Fetches mapping details for the specified Amazon EMR Studio and iden- tity (user or group). See also: AWS API Documentation
+    /// Fetches mapping details for the specified Amazon EMR Studio and identity (user or group). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -552,7 +552,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides the status of all clusters visible to this Amazon Web Services account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters in unsorted order per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be is- sued in o...
+    /// Provides the status of all clusters visible to this Amazon Web Services account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters in unsorted order per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls. See also: AWS API Documentation list-clusters is a paginated operation. Multiple API calls may be issued in ord...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -567,7 +567,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Lists all available details about the instance fleets in a cluster. NOTE: The instance fleet configuration is available only in Amazon EMR re- leases 4.8.0 and later, excluding 5.0.x versions. See also: AWS API Documentation list-instance-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response,...
+    /// Lists all available details about the instance fleets in a cluster. NOTE: The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. See also: AWS API Documentation list-instance-fleets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered ac- tive: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate ar...
+    /// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING. See also: AWS API Documentation list-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNote- bookExecutions calls. See also: AWS API Documentation list-notebook-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by...
+    /// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecutions calls. See also: AWS API Documentation list-notebook-executions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Lists all the security configurations visible to this account, provid- ing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls. See also: AWS API Documentation list-security-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providi...
+    /// Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls. See also: AWS API Documentation list-security-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query exp...
+    /// Lists the sessions on a cluster. You can filter the results by session state. Newer sessions are returned first. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query express...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates . You can specify a maximum of 10 stepIDs . The CLI automatically paginates re- sults to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker , which is a pagination token that indicates the next set of steps to retrieve. See also: AWS API Documentation list-steps is a paginated operation. Multiple API calls may be issued in or...
+    /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates . You can specify a maximum of 10 stepIDs . The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker , which is a pagination token that indicates the next set of steps to retrieve. See also: AWS API Documentation list-steps is a paginated operation. Multiple API calls may be issued in orde...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -672,7 +672,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId . See also: AWS API Documentation list-studio-session-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
+    /// Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId . See also: AWS API Documentation list-studio-session-mappings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -687,7 +687,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and creation time for each Studio. See also: AWS API Documentation list-studios is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argu...
+    /// Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and creation time for each Studio. See also: AWS API Documentation list-studios is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argume...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -717,7 +717,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Modifies the cluster attributes 'visible-to-all-users', 'termina- tion-protected' and 'unhealthy-node-replacement'.
+    /// Modifies the cluster attributes 'visible-to-all-users', 'termination-protected' and 'unhealthy-node-replacement'.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -747,7 +747,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Modifies the target On-Demand and target Spot capacities for the in- stance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomi- cally. NOTE: The instance fleet configuration is available only in Amazon EMR re- leases 4.8.0 and later, excluding 5.0.x versions. See also: AWS API Documentation
+    /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. NOTE: The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -777,7 +777,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and ter- minates Amazon EC2 instances in response to the value of a CloudWatch metric. See also: AWS API Documentation
+    /// Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -792,7 +792,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR clus- ter. An auto-termination policy defines the amount of idle time in sec- onds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
+    /// NOTE: Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see Using an auto-termination policy . Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see Control cluster termination . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -807,7 +807,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Creates or updates an Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more infor- mation see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide . See also: AWS API Documentation
+    /// Creates or updates an Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -912,7 +912,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Restores HBase from S3. This command is only available when using Ama- zon EMR versionsearlier than 4.0.
+    /// Restores HBase from S3. This command is only available when using Amazon EMR versionsearlier than 4.0.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -987,7 +987,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Creates and starts a new Spark Connect session on the specified clus- ter. The cluster must be in the RUNNING or WAITING state and have ses- sions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later. See also: AWS API Documentation
+    /// Creates and starts a new Spark Connect session on the specified cluster. The cluster must be in the RUNNING or WAITING state and have sessions enabled. This operation is supported in Amazon EMR Spark 8.0.0 and later. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection en- abled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was speci- fied when the cluster was created. The maximum number of clusters al- lowed...
+    /// Shuts down one or more clusters, each specified by cluster ID. Use this command only on clusters that do not have termination protection enabled. Clusters with termination protection enabled are not terminated. When a cluster is shut down, any step not yet completed is canceled and the Amazon EC2 instances in the cluster are terminated. Any log files not already saved are uploaded to Amazon S3 if a --log-uri was specified when the cluster was created. The maximum number of clusters allowed in th...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Terminates an active session. After you call this operation, the ses- sion enters the TERMINATING state and then transitions to TERMINATED . See also: AWS API Documentation
+    /// Terminates an active session. After you call this operation, the session enters the TERMINATING state and then transitions to TERMINATED . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1062,7 +1062,7 @@ public class AwsEmr : IAwsEmr
     }
 
     /// <summary>
-    /// Updates the session policy attached to the user or group for the speci- fied Amazon EMR Studio. See also: AWS API Documentation
+    /// Updates the session policy attached to the user or group for the specified Amazon EMR Studio. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

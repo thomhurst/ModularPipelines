@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +29,9 @@ public record AwsConnectCreateUseCaseOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a use case for an integration association. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="IntegrationAssociationId">The identifier for the integration association. Constraints: o min: 1 o max: 200</param>
-    /// <param name="UseCaseType">The type of use case to associate to the integration association. Each integration association can have only one of each use case type. Possible values: o RULES_EVALUATION o CONNECT_CAMPAIGNS</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="IntegrationAssociationId">The identifier for the integration association. Constraints: • min: 1 • max: 200</param>
+    /// <param name="UseCaseType">The type of use case to associate to the integration association. Each integration association can have only one of each use case type. Possible values: • RULES_EVALUATION • CONNECT_CAMPAIGNS</param>
     public AwsConnectCreateUseCaseOptions(
         string InstanceId,
         string IntegrationAssociationId,
@@ -65,25 +65,25 @@ public record AwsConnectCreateUseCaseOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier for the integration association. Constraints: o min: 1 o max: 200
+    /// The identifier for the integration association. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--integration-association-id")]
     public string? IntegrationAssociationId { get; private init; }
 
     /// <summary>
-    /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type. Possible values: o RULES_EVALUATION o CONNECT_CAMPAIGNS
+    /// The type of use case to associate to the integration association. Each integration association can have only one of each use case type. Possible values: • RULES_EVALUATION • CONNECT_CAMPAIGNS
     /// </summary>
     [CliOption("--use-case-type")]
     public AwsConnectCreateUseCaseUseCaseType? UseCaseType { get; private init; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -109,6 +109,15 @@ public record AwsConnectCreateUseCaseOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

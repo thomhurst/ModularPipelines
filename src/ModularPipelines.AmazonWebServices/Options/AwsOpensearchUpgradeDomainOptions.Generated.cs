@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsOpensearchUpgradeDomainOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainName">Name of the OpenSearch Service domain that you want to upgrade. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+</param>
-    /// <param name="TargetVersion">OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$</param>
+    /// <param name="DomainName">Name of the OpenSearch Service domain that you want to upgrade. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+</param>
+    /// <param name="TargetVersion">OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y. Constraints: • min: 14 • max: 18 • pattern: ^Elasticsearch_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$</param>
     public AwsOpensearchUpgradeDomainOptions(
         string DomainName,
         string TargetVersion
@@ -61,13 +61,13 @@ public record AwsOpensearchUpgradeDomainOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the OpenSearch Service domain that you want to upgrade. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+
+    /// Name of the OpenSearch Service domain that you want to upgrade. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y. Constraints: o min: 14 o max: 18 o pattern: ^Elastic- search_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
+    /// OpenSearch or Elasticsearch version to which you want to upgrade, in the format Opensearch_X.Y or Elasticsearch_X.Y. Constraints: • min: 14 • max: 18 • pattern: ^Elasticsearch_[0-9]{1}\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\.[0-9]{1,2}$
     /// </summary>
     [CliOption("--target-version")]
     public string? TargetVersion { get; private init; }
@@ -79,7 +79,7 @@ public record AwsOpensearchUpgradeDomainOptions : AwsOptions, IValidatableObject
     public bool? PerformCheckOnly { get; set; }
 
     /// <summary>
-    /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when up- grading to an OpenSearch version. Specifies whether the domain re- ports its version as 7.10 so that it continues to work with Elastic- search OSS clients and plugins. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--advanced-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AdvancedOptions { get; set; }
@@ -105,6 +105,15 @@ public record AwsOpensearchUpgradeDomainOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

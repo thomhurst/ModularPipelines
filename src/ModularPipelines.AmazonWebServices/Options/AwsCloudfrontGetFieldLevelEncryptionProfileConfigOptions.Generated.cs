@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions : AwsOpti
     /// <summary>
     /// Get the field-level encryption profile configuration information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">Get the ID for the field-level encryption profile configuration in- formation.</param>
+    /// <param name="Id">Get the ID for the field-level encryption profile configuration information.</param>
     public AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Get the ID for the field-level encryption profile configuration in- formation.
+    /// Get the ID for the field-level encryption profile configuration information.
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudfrontGetFieldLevelEncryptionProfileConfigOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

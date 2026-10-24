@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsQconnectPutFeedbackOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Provides feedback against the specified assistant for the specified target. This API only supports generative targets. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
-    /// <param name="TargetId">The identifier of the feedback target. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="TargetType">The type of the feedback target. Possible values: o RECOMMENDATION o RESULT o MESSAGE</param>
-    /// <param name="ContentFeedback">Information about the feedback provided. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: generativeContentFeedbackData. generativeContentFeedbackData -&gt; (structure) Information about the feedback for a generative target type. relevance -&gt; (string) [required] The relevance of the feedback. Possible values: o HELPFUL o NOT_HELPFUL Shorthand Syntax: generativeContentFeedbackData={relevance=string} JSON Syntax: { "generativeContentFeedbackData": { "relevance": "HELPFUL"|"NOT_HELPFUL" } }</param>
+    /// <param name="AssistantId">The identifier of the Amazon Q in Connect assistant. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}</param>
+    /// <param name="TargetId">The identifier of the feedback target. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="TargetType">The type of the feedback target. Possible values: • RECOMMENDATION • RESULT • MESSAGE</param>
+    /// <param name="ContentFeedback">Information about the feedback provided. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: generativeContentFeedbackData. generativeContentFeedbackData -&gt; (structure) Information about the feedback for a generative target type. relevance -&gt; (string) [required] The relevance of the feedback. Possible values: • HELPFUL • NOT_HELPFUL Shorthand Syntax: generativeContentFeedbackData={relevance=string} JSON Syntax: { "generativeContentFeedbackData": { "relevance": "HELPFUL"|"NOT_HELPFUL" } }</param>
     public AwsQconnectPutFeedbackOptions(
         string AssistantId,
         string TargetId,
@@ -68,25 +69,25 @@ public record AwsQconnectPutFeedbackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q in Connect assistant. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wis- dom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
+    /// The identifier of the Amazon Q in Connect assistant. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}
     /// </summary>
     [CliOption("--assistant-id")]
     public string? AssistantId { get; private init; }
 
     /// <summary>
-    /// The identifier of the feedback target. Constraints: o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The identifier of the feedback target. Constraints: • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--target-id")]
     public string? TargetId { get; private init; }
 
     /// <summary>
-    /// The type of the feedback target. Possible values: o RECOMMENDATION o RESULT o MESSAGE
+    /// The type of the feedback target. Possible values: • RECOMMENDATION • RESULT • MESSAGE
     /// </summary>
     [CliOption("--target-type")]
     public AwsQconnectPutFeedbackTargetType? TargetType { get; private init; }
 
     /// <summary>
-    /// Information about the feedback provided. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: generativeContentFeedbackData. generativeContentFeedbackData -&gt; (structure) Information about the feedback for a generative target type. relevance -&gt; (string) [required] The relevance of the feedback. Possible values: o HELPFUL o NOT_HELPFUL Shorthand Syntax: generativeContentFeedbackData={relevance=string} JSON Syntax: { "generativeContentFeedbackData": { "relevance": "HELPFUL"|"NOT_HELPFUL" } }
+    /// Information about the feedback provided. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: generativeContentFeedbackData. generativeContentFeedbackData -&gt; (structure) Information about the feedback for a generative target type. relevance -&gt; (string) [required] The relevance of the feedback. Possible values: • HELPFUL • NOT_HELPFUL Shorthand Syntax: generativeContentFeedbackData={relevance=string} JSON Syntax: { "generativeContentFeedbackData": { "relevance": "HELPFUL"|"NOT_HELPFUL" } }
     /// </summary>
     [CliOption("--content-feedback")]
     public string? ContentFeedback { get; private init; }
@@ -112,6 +113,15 @@ public record AwsQconnectPutFeedbackOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results. See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- pu...
+/// Returns a list of tasks. You can filter the results by cluster, task definition family, container instance, launch type, what IAM principal started the task, or by the desired status of the task. Recently stopped tasks might appear in the returned results. See also: AWS API Documentation list-tasks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -30,7 +30,7 @@ public record AwsEcsListTasksOptions : AwsOptions
     public string? Cluster { get; set; }
 
     /// <summary>
-    /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerIn- stance limits the results to tasks that belong to that container in- stance.
+    /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
     /// </summary>
     [CliOption("--container-instance")]
     public string? ContainerInstance { get; set; }
@@ -54,13 +54,13 @@ public record AwsEcsListTasksOptions : AwsOptions
     public string? ServiceName { get; set; }
 
     /// <summary>
-    /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED . This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING , which shows tasks that Amazon ECS has set the desired status to RUNNING . NOTE: Although you can filter results based on a desired status of PENDING , this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's last- Status may have a value of PENDING ). Possible values: o RUNNING o PENDING o STOPPED
+    /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED . This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING , which shows tasks that Amazon ECS has set the desired status to RUNNING . NOTE: Although you can filter results based on a desired status of PENDING , this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING ). Possible values: • RUNNING • PENDING • STOPPED
     /// </summary>
     [CliOption("--desired-status")]
     public AwsEcsListTasksDesiredStatus? DesiredStatus { get; set; }
 
     /// <summary>
-    /// The launch type to use when filtering the ListTasks results. Possible values: o EC2 o FARGATE o EXTERNAL o MANAGED_INSTANCES
+    /// The launch type to use when filtering the ListTasks results. Possible values: • EC2 • FARGATE • EXTERNAL • MANAGED_INSTANCES
     /// </summary>
     [CliOption("--launch-type")]
     public AwsEcsListTasksLaunchType? LaunchType { get; set; }
@@ -74,9 +74,6 @@ public record AwsEcsListTasksOptions : AwsOptions
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -85,15 +82,27 @@ public record AwsEcsListTasksOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

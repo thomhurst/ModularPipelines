@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// From a datashare producer account, removes authorization from the spec- ified datashare. See also: AWS API Documentation
+/// From a datashare producer account, removes authorization from the specified datashare. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRedshiftDeauthorizeDataShareOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// From a datashare producer account, removes authorization from the spec- ified datashare. See also: AWS API Documentation
+    /// From a datashare producer account, removes authorization from the specified datashare. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataShareArn">The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from. Constraints: o max: 2147483647</param>
-    /// <param name="ConsumerIdentifier">The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Ser- vices account ID or a keyword, such as ADX. Constraints: o max: 2147483647</param>
+    /// <param name="DataShareArn">The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from. Constraints: • max: 2147483647</param>
+    /// <param name="ConsumerIdentifier">The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeauthorizeDataShareOptions(
         string DataShareArn,
         string ConsumerIdentifier
@@ -60,13 +61,13 @@ public record AwsRedshiftDeauthorizeDataShareOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from. Constraints: o max: 2147483647
+    /// The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--data-share-arn")]
     public string? DataShareArn { get; private init; }
 
     /// <summary>
-    /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Ser- vices account ID or a keyword, such as ADX. Constraints: o max: 2147483647
+    /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--consumer-identifier")]
     public string? ConsumerIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRedshiftDeauthorizeDataShareOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

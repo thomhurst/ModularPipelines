@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsPartnercentralChannelListRelationshipsOptions : AwsOptions, IVa
     /// <summary>
     /// Lists partner relationships based on specified criteria. See also: AWS API Documentation list-relationships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
-    /// <param name="Catalog">The catalog identifier to filter relationships. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*</param>
+    /// <param name="Catalog">The catalog identifier to filter relationships. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*</param>
     public AwsPartnercentralChannelListRelationshipsOptions(
         string Catalog
     )
@@ -57,46 +58,43 @@ public record AwsPartnercentralChannelListRelationshipsOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier to filter relationships. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]*
+    /// The catalog identifier to filter relationships. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]*
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Filter by associated AWS account IDs. (string) Constraints: o min: 12 o max: 12 o pattern: [0-9]* Syntax: "string" "string" ...
+    /// Filter by associated AWS account IDs. (string) Constraints: • min: 12 • max: 12 • pattern: [0-9]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--associated-account-ids", GroupValues = true)]
     public IEnumerable<string>? AssociatedAccountIds { get; set; }
 
     /// <summary>
-    /// Filter by association types. (string) Possible values: o DOWNSTREAM_SELLER o END_CUSTOMER o INTERNAL Syntax: "string" "string" ...
+    /// Filter by association types. (string) Possible values: • DOWNSTREAM_SELLER • END_CUSTOMER • INTERNAL Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--association-types", GroupValues = true)]
     public IEnumerable<string>? AssociationTypes { get; set; }
 
     /// <summary>
-    /// Filter by display names. (string) Constraints: o min: 1 o max: 30 o pattern: [^\x00-\x1F\x7F]* Syntax: "string" "string" ...
+    /// Filter by display names. (string) Constraints: • min: 1 • max: 30 • pattern: [^\x00-\x1F\x7F]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--display-names", GroupValues = true)]
     public IEnumerable<string>? DisplayNames { get; set; }
 
     /// <summary>
-    /// Filter by program management account identifiers. (string) Constraints: o min: 17 o max: 1011 o pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:cat- alog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13} Syntax: "string" "string" ...
+    /// Filter by program management account identifiers. (string) Constraints: • min: 17 • max: 1011 • pattern: (arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[a-zA-Z]+/program-management-account/)?pma-[a-z0-9]{13} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--program-management-account-identifiers", GroupValues = true)]
     public IEnumerable<string>? ProgramManagementAccountIdentifiers { get; set; }
 
     /// <summary>
-    /// Sorting options for the results. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: o Ascending o Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: o UpdatedAt Shorthand Syntax: sortOrder=string,sortBy=string JSON Syntax: { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }
+    /// Sorting options for the results. sortOrder -&gt; (string) [required] The sort order (ascending or descending). Possible values: • Ascending • Descending sortBy -&gt; (string) [required] The field to sort by. Possible values: • UpdatedAt Shorthand Syntax: sortOrder=string,sortBy=string JSON Syntax: { "sortOrder": "Ascending"|"Descending", "sortBy": "UpdatedAt" }
     /// </summary>
     [CliOption("--sort")]
     public string? Sort { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +104,19 @@ public record AwsPartnercentralChannelListRelationshipsOptions : AwsOptions, IVa
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -132,6 +133,15 @@ public record AwsPartnercentralChannelListRelationshipsOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

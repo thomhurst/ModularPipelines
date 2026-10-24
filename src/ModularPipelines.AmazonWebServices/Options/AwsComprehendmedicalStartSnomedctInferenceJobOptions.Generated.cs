@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsComprehendmedicalStartSnomedctInferenceJobOptions : AwsOptions,
     /// <summary>
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InputDataConfig">The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed. S3Bucket -&gt; (string) [required] The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the input data files in the S3 bucket. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
-    /// <param name="OutputDataConfig">The output properties for a detection job. S3Bucket -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the output data files in the S3 bucket. Amazon Com- prehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
-    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the AWS Identity and Access Man- agement (IAM) role that grants Amazon Comprehend Medical read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
-    /// <param name="LanguageCode">The language of the input documents. All documents must be in the same language. Possible values: o en</param>
+    /// <param name="InputDataConfig">The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed. S3Bucket -&gt; (string) [required] The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the input data files in the S3 bucket. Constraints: • max: 1024 • pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="OutputDataConfig">The output properties for a detection job. S3Bucket -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the output data files in the S3 bucket. Amazon Comprehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another. Constraints: • max: 1024 • pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="DataAccessRoleArn">The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+</param>
+    /// <param name="LanguageCode">The language of the input documents. All documents must be in the same language. Possible values: • en</param>
     public AwsComprehendmedicalStartSnomedctInferenceJobOptions(
         string InputDataConfig,
         string OutputDataConfig,
@@ -69,44 +70,44 @@ public record AwsComprehendmedicalStartSnomedctInferenceJobOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed. S3Bucket -&gt; (string) [required] The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the input data files in the S3 bucket. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed. S3Bucket -&gt; (string) [required] The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the input data files in the S3 bucket. Constraints: • max: 1024 • pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--input-data-config")]
     public string? InputDataConfig { get; private init; }
 
     /// <summary>
-    /// The output properties for a detection job. S3Bucket -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous oper- ations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the output data files in the S3 bucket. Amazon Com- prehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another. Constraints: o max: 1024 o pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The output properties for a detection job. S3Bucket -&gt; (string) [required] When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-_]*(?!\.)$ S3Key -&gt; (string) The path to the output data files in the S3 bucket. Amazon Comprehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another. Constraints: • max: 1024 • pattern: .* Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--output-data-config")]
     public string? OutputDataConfig { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Man- agement (IAM) role that grants Amazon Comprehend Medical read access to your input data. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--data-access-role-arn")]
     public string? DataAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// The language of the input documents. All documents must be in the same language. Possible values: o en
+    /// The language of the input documents. All documents must be in the same language. Possible values: • en
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; private init; }
 
     /// <summary>
-    /// The user generated name the asynchronous InferSNOMEDCT job. Constraints: o min: 1 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
+    /// The user generated name the asynchronous InferSNOMEDCT job. Constraints: • min: 1 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. If you don't set the client re- quest token, Amazon Comprehend Medical generates one. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-]+$
+    /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// An AWS Key Management Service key used to encrypt your output files. If you do not specify a key, the files are written in plain text. Constraints: o min: 1 o max: 2048 o pattern: .*
+    /// An AWS Key Management Service key used to encrypt your output files. If you do not specify a key, the files are written in plain text. Constraints: • min: 1 • max: 2048 • pattern: .*
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
@@ -132,6 +133,15 @@ public record AwsComprehendmedicalStartSnomedctInferenceJobOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

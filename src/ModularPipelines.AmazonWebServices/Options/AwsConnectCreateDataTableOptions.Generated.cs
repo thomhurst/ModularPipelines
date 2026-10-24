@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +29,11 @@ public record AwsConnectCreateDataTableOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance where the data table will be created. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Name">The name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Whitespace must be trimmed first. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Must be unique for the instance using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
-    /// <param name="TimeZone">The IANA timezone identifier to use when resolving time based dy- namic values. Required even if no time slices are specified.</param>
-    /// <param name="ValueLockLevel">The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. NONE is the default if unspecified. This determines how concurrent edits are handled when multiple users attempt to modify values simultaneously. Possible values: o NONE o DATA_TABLE o PRIMARY_VALUE o ATTRIBUTE o VALUE</param>
-    /// <param name="Status">The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table. Possible values: o PUBLISHED</param>
+    /// <param name="InstanceId">The unique identifier for the Amazon Connect instance where the data table will be created. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Name">The name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Whitespace must be trimmed first. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Must be unique for the instance using case-insensitive comparison. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$</param>
+    /// <param name="TimeZone">The IANA timezone identifier to use when resolving time based dynamic values. Required even if no time slices are specified.</param>
+    /// <param name="ValueLockLevel">The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. NONE is the default if unspecified. This determines how concurrent edits are handled when multiple users attempt to modify values simultaneously. Possible values: • NONE • DATA_TABLE • PRIMARY_VALUE • ATTRIBUTE • VALUE</param>
+    /// <param name="Status">The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table. Possible values: • PUBLISHED</param>
     public AwsConnectCreateDataTableOptions(
         string InstanceId,
         string Name,
@@ -73,43 +73,43 @@ public record AwsConnectCreateDataTableOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the Amazon Connect instance where the data table will be created. Constraints: o min: 1 o max: 100
+    /// The unique identifier for the Amazon Connect instance where the data table will be created. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Whitespace must be trimmed first. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Must be unique for the instance using case-insensitive comparison. Constraints: o min: 1 o max: 127 o pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
+    /// The name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Whitespace must be trimmed first. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Must be unique for the instance using case-insensitive comparison. Constraints: • min: 1 • max: 127 • pattern: ^[\p{L}\p{Z}\p{N}\-_.:=@'|]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The IANA timezone identifier to use when resolving time based dy- namic values. Required even if no time slices are specified.
+    /// The IANA timezone identifier to use when resolving time based dynamic values. Required even if no time slices are specified.
     /// </summary>
     [CliOption("--time-zone")]
     public string? TimeZone { get; private init; }
 
     /// <summary>
-    /// The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. NONE is the default if unspecified. This determines how concurrent edits are handled when multiple users attempt to modify values simultaneously. Possible values: o NONE o DATA_TABLE o PRIMARY_VALUE o ATTRIBUTE o VALUE
+    /// The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. NONE is the default if unspecified. This determines how concurrent edits are handled when multiple users attempt to modify values simultaneously. Possible values: • NONE • DATA_TABLE • PRIMARY_VALUE • ATTRIBUTE • VALUE
     /// </summary>
     [CliOption("--value-lock-level")]
     public AwsConnectCreateDataTableValueLockLevel? ValueLockLevel { get; private init; }
 
     /// <summary>
-    /// The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table. Possible values: o PUBLISHED
+    /// The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table. Possible values: • PUBLISHED
     /// </summary>
     [CliOption("--status")]
     public string? Status { get; private init; }
 
     /// <summary>
-    /// An optional description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace must be trimmed first. Constraints: o min: 0 o max: 250 o pattern: ^[\\P{C}\r\n\t]+$
+    /// An optional description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace must be trimmed first. Constraints: • min: 0 • max: 250 • pattern: ^[\\P{C}\r\n\t]+$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Key value pairs for attribute based access control (TBAC or ABAC). Optional tags to apply to the data table for organization and access control purposes. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Key value pairs for attribute based access control (TBAC or ABAC). Optional tags to apply to the data table for organization and access control purposes. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -135,6 +135,15 @@ public record AwsConnectCreateDataTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Cre- dentials o StartDashboardSnapshotJob o DescribeDashboardSnapshotJob o DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory...
+/// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Credentials • StartDashboardSnapshotJob • DescribeDashboardSnapshotJob • DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory u...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsQuicksightGetIdentityContextOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Cre- dentials o StartDashboardSnapshotJob o DescribeDashboardSnapshotJob o DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory...
+    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Credentials • StartDashboardSnapshotJob • DescribeDashboardSnapshotJob • DescribeDashboardSnapshotJobResult Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory u...
     /// </summary>
-    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user whose iden- tity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="UserIdentifier">The identifier for the user whose identity context you want to re- trieve. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserName, Email, UserArn. UserName -&gt; (string) The name of the user that you want to get identity context for. Email -&gt; (string) The email address of the user that you want to get identity con- text for. UserArn -&gt; (string) The Amazon Resource Name (ARN) of the user that you want to get identity context for. Shorthand Syntax: UserName=string,Email=string,UserArn=string JSON Syntax: { "UserName": "string", "Email": "string", "UserArn": "string" }</param>
+    /// <param name="AwsAccountId">The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="UserIdentifier">The identifier for the user whose identity context you want to retrieve. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserName, Email, UserArn. UserName -&gt; (string) The name of the user that you want to get identity context for. Email -&gt; (string) The email address of the user that you want to get identity context for. UserArn -&gt; (string) The Amazon Resource Name (ARN) of the user that you want to get identity context for. Shorthand Syntax: UserName=string,Email=string,UserArn=string JSON Syntax: { "UserName": "string", "Email": "string", "UserArn": "string" }</param>
     public AwsQuicksightGetIdentityContextOptions(
         string AwsAccountId,
         string UserIdentifier
@@ -60,19 +61,19 @@ public record AwsQuicksightGetIdentityContextOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID for the Amazon Web Services account that the user whose iden- tity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The identifier for the user whose identity context you want to re- trieve. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserName, Email, UserArn. UserName -&gt; (string) The name of the user that you want to get identity context for. Email -&gt; (string) The email address of the user that you want to get identity con- text for. UserArn -&gt; (string) The Amazon Resource Name (ARN) of the user that you want to get identity context for. Shorthand Syntax: UserName=string,Email=string,UserArn=string JSON Syntax: { "UserName": "string", "Email": "string", "UserArn": "string" }
+    /// The identifier for the user whose identity context you want to retrieve. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: UserName, Email, UserArn. UserName -&gt; (string) The name of the user that you want to get identity context for. Email -&gt; (string) The email address of the user that you want to get identity context for. UserArn -&gt; (string) The Amazon Resource Name (ARN) of the user that you want to get identity context for. Shorthand Syntax: UserName=string,Email=string,UserArn=string JSON Syntax: { "UserName": "string", "Email": "string", "UserArn": "string" }
     /// </summary>
     [CliOption("--user-identifier")]
     public string? UserIdentifier { get; private init; }
 
     /// <summary>
-    /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified us- ing Email or UserName. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified using Email or UserName. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; set; }
@@ -84,7 +85,7 @@ public record AwsQuicksightGetIdentityContextOptions : AwsOptions, IValidatableO
     public string? SessionExpiresAt { get; set; }
 
     /// <summary>
-    /// The region in which the context is to be used. Use this parameter to obtain an identity context for cross-region use. The specified region must meet the following conditions: o The region must be in the same Amazon Web Services partition as the region you are calling from. Cross-partition requests are not supported. For example, you cannot specify a region in the aws-cn partition when calling from a region in the aws partition. o It must be a valid Amazon QuickSight supported region. o The calling customer account must be enabled in the specified con- text region. o This parameter is not supported when calling from an opt-in re- gion. Constraints: o pattern: [a-z]+-[a-z]+-[0-9]{1}
+    /// The region in which the context is to be used. Use this parameter to obtain an identity context for cross-region use. The specified region must meet the following conditions: • The region must be in the same Amazon Web Services partition as the region you are calling from. Cross-partition requests are not supported. For example, you cannot specify a region in the aws-cn partition when calling from a region in the aws partition. • It must be a valid Amazon QuickSight supported region. • The calling customer account must be enabled in the specified context region. • This parameter is not supported when calling from an opt-in region. Constraints: • pattern: [a-z]+-[a-z]+-[0-9]{1}
     /// </summary>
     [CliOption("--context-region")]
     public string? ContextRegion { get; set; }
@@ -110,6 +111,15 @@ public record AwsQuicksightGetIdentityContextOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

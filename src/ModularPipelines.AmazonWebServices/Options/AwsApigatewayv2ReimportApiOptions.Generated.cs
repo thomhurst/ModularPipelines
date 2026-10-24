@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -72,13 +73,13 @@ public record AwsApigatewayv2ReimportApiOptions : AwsOptions, IValidatableObject
     public string? Body { get; private init; }
 
     /// <summary>
-    /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property . Sup- ported only for HTTP APIs.
+    /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property . Supported only for HTTP APIs.
     /// </summary>
     [CliOption("--basepath")]
     public string? Basepath { get; set; }
 
     /// <summary>
-    /// Specifies whether to rollback the API creation when a warning is en- countered. By default, API creation continues if a warning is en- countered.
+    /// Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
     /// </summary>
     [CliFlag("--fail-on-warnings", NegatedName = "--no-fail-on-warnings")]
     public bool? FailOnWarnings { get; set; }
@@ -104,6 +105,15 @@ public record AwsApigatewayv2ReimportApiOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Activates an DataSync agent that you deploy in your storage environ- ment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
+/// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Activates an DataSync agent that you deploy in your storage environ- ment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
+    /// Activates an DataSync agent that you deploy in your storage environment. The activation process associates the agent with your Amazon Web Services account. If you haven't deployed an agent yet, see Do I need a DataSync agent? See also: AWS API Documentation
     /// </summary>
-    /// <param name="ActivationKey">Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent . Constraints: o max: 29 o pattern: [A-Z0-9]{5}(-[A-Z0-9]{5}){4}</param>
+    /// <param name="ActivationKey">Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent . Constraints: • max: 29 • pattern: [A-Z0-9]{5}(-[A-Z0-9]{5}){4}</param>
     public AwsDatasyncCreateAgentOptions(
         string ActivationKey
     )
@@ -56,37 +57,37 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent . Constraints: o max: 29 o pattern: [A-Z0-9]{5}(-[A-Z0-9]{5}){4}
+    /// Specifies your DataSync agent's activation key. If you don't have an activation key, see Activating your agent . Constraints: • max: 29 • pattern: [A-Z0-9]{5}(-[A-Z0-9]{5}){4}
     /// </summary>
     [CliOption("--activation-key")]
     public string? ActivationKey { get; private init; }
 
     /// <summary>
-    /// Specifies a name for your agent. We recommend specifying a name that you can remember. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$
+    /// Specifies a name for your agent. We recommend specifying a name that you can remember. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:@/-]+$
     /// </summary>
     [CliOption("--agent-name")]
     public string? AgentName { get; set; }
 
     /// <summary>
-    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent. Constraints: o min: 0 o max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: o min: 0 o max: 256 o pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent. Constraints: • min: 0 • max: 50 (structure) A key-value pair representing a single tag that's been applied to an Amazon Web Services resource. Key -&gt; (string) [required] The key for an Amazon Web Services resource tag. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:/-]+$ Value -&gt; (string) The value for an Amazon Web Services resource tag. Constraints: • min: 0 • max: 256 • pattern: ^[a-zA-Z0-9\s+=._:@/-]+$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1 . WARNING: The VPC service endpoint you use must include the DataSync ser- vice name (for example, com.amazonaws.us-east-2.datasync ). Constraints: o pattern: ^vpce-[0-9a-f]{17}$
+    /// Specifies the ID of the VPC service endpoint that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1 . WARNING: The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync ). The endpoint ID is informational. DataSync doesn't verify it or use it to connect to your agent. For more information, see Using a single VPC service endpoint across multiple subnets . Constraints: • pattern: ^vpce-[0-9a-f]{17}$
     /// </summary>
     [CliOption("--vpc-endpoint-id")]
     public string? VpcEndpointId { get; set; }
 
     /// <summary>
-    /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:sub- net/subnet-[a-f0-9]+$ Syntax: "string" "string" ...
+    /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC service endpoint. The subnet can be one that another Amazon Web Services account shared with you through RAM , in which case the ARN must specify the account that owns the subnet. For more information, see Using a single VPC service endpoint across multiple subnets . Constraints: • min: 1 • max: 1 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:subnet/subnet-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-arns", GroupValues = true)]
     public IEnumerable<string>? SubnetArns { get; set; }
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. Constraints: o min: 1 o max: 1 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:se- curity-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
+    /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. The ARN must specify your own account, even when the security group was shared with you from the account that owns the VPC. The security group must belong to the same VPC as the subnet that you specify in SubnetArns . Constraints: • min: 1 • max: 1 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):ec2:[a-z\-0-9]*:[0-9]{12}:security-group/sg-[a-f0-9]+$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-arns", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupArns { get; set; }
@@ -112,6 +113,15 @@ public record AwsDatasyncCreateAgentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

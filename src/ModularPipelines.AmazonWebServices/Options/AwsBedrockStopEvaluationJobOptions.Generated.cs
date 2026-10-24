@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBedrockStopEvaluationJobOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Stops an evaluation job that is current being created or running. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobIdentifier">The Amazon Resource Name (ARN) of the evaluation job you want to stop. Constraints: o min: 0 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:eval- uation-job/[a-z0-9]{12})</param>
+    /// <param name="JobIdentifier">The Amazon Resource Name (ARN) of the evaluation job you want to stop. Constraints: • min: 0 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12})</param>
     public AwsBedrockStopEvaluationJobOptions(
         string JobIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsBedrockStopEvaluationJobOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the evaluation job you want to stop. Constraints: o min: 0 o max: 1011 o pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:eval- uation-job/[a-z0-9]{12})
+    /// The Amazon Resource Name (ARN) of the evaluation job you want to stop. Constraints: • min: 0 • max: 1011 • pattern: (arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:evaluation-job/[a-z0-9]{12})
     /// </summary>
     [CliOption("--job-identifier")]
     public string? JobIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBedrockStopEvaluationJobOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

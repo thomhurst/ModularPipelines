@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions, IVa
     /// <summary>
     /// Creates an access configuration for your documents. This includes user and group access information for your documents. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. You can use this to re-configure your existing document level access control without indexing all of your documents again. For example, your index contains top-secret company documents that only certain employees or users should access. One of these...
     /// </summary>
-    /// <param name="IndexId">The identifier of the index to create an access control configura- tion for your documents. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
-    /// <param name="Name">A name for the access control configuration. Constraints: o min: 1 o max: 200 o pattern: [\S\s]*</param>
+    /// <param name="IndexId">The identifier of the index to create an access control configuration for your documents. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*</param>
+    /// <param name="Name">A name for the access control configuration. Constraints: • min: 1 • max: 200 • pattern: [\S\s]*</param>
     public AwsKendraCreateAccessControlConfigurationOptions(
         string IndexId,
         string Name
@@ -61,37 +62,37 @@ public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the index to create an access control configura- tion for your documents. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
+    /// The identifier of the index to create an access control configuration for your documents. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--index-id")]
     public string? IndexId { get; private init; }
 
     /// <summary>
-    /// A name for the access control configuration. Constraints: o min: 1 o max: 200 o pattern: [\S\s]*
+    /// A name for the access control configuration. Constraints: • min: 1 • max: 200 • pattern: [\S\s]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the access control configuration. Constraints: o min: 0 o max: 1000 o pattern: ^\P{C}*$
+    /// A description for the access control configuration. Constraints: • min: 0 • max: 1000 • pattern: ^\P{C}*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filter- ing, where search results are filtered based on the user or their group access to documents. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: o min: 1 o max: 200 o pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: o USER o GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: o ALLOW o DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: Name=string,Type=string,Access=string,DataSourceId=string ... JSON Syntax: [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ]
+    /// Information on principals (users and/or groups) and which documents they should have access to. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: • min: 1 • max: 200 • pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: • USER • GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: • ALLOW • DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: Name=string,Type=string,Access=string,DataSourceId=string ... JSON Syntax: [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ]
     /// </summary>
     [CliOption("--access-control-list", GroupValues = true)]
     public IEnumerable<string>? AccessControlList { get; set; }
 
     /// <summary>
-    /// The list of principal lists that define the hierarchy for which doc- uments users should have access to. Constraints: o min: 1 o max: 30 (structure) Information to define the hierarchy for which documents users should have access to. PrincipalList -&gt; (list) [required] A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document. (structure) Provides user and group information for user context fil- tering . Name -&gt; (string) [required] The name of the user or group. Constraints: o min: 1 o max: 200 o pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: o USER o GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the prin- cipal. Possible values: o ALLOW o DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: PrincipalList=[{Name=string,Type=string,Access=string,DataSourceId=string},{Name=string,Type=string,Access=string,DataSourceId=string}] ... JSON Syntax: [ { "PrincipalList": [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ] } ... ]
+    /// The list of principal lists that define the hierarchy for which documents users should have access to. Constraints: • min: 1 • max: 30 (structure) Information to define the hierarchy for which documents users should have access to. PrincipalList -&gt; (list) [required] A list of principal lists that define the hierarchy for which documents users should have access to. Each hierarchical list specifies which user or group has allow or deny access for each document. (structure) Provides user and group information for user context filtering . Name -&gt; (string) [required] The name of the user or group. Constraints: • min: 1 • max: 200 • pattern: ^\P{C}*$ Type -&gt; (string) [required] The type of principal. Possible values: • USER • GROUP Access -&gt; (string) [required] Whether to allow or deny document access to the principal. Possible values: • ALLOW • DENY DataSourceId -&gt; (string) The identifier of the data source the principal should access documents from. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]* Shorthand Syntax: PrincipalList=[{Name=string,Type=string,Access=string,DataSourceId=string},{Name=string,Type=string,Access=string,DataSourceId=string}] ... JSON Syntax: [ { "PrincipalList": [ { "Name": "string", "Type": "USER"|"GROUP", "Access": "ALLOW"|"DENY", "DataSourceId": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--hierarchical-access-control-list", GroupValues = true)]
     public IEnumerable<string>? HierarchicalAccessControlList { get; set; }
 
     /// <summary>
-    /// A token that you provide to identify the request to create an access control configuration. Multiple calls to the CreateAccessControlCon- figuration API with the same client token will create only one ac- cess control configuration. Constraints: o min: 1 o max: 100
+    /// A token that you provide to identify the request to create an access control configuration. Multiple calls to the CreateAccessControlConfiguration API with the same client token will create only one access control configuration. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -118,6 +119,15 @@ public record AwsKendraCreateAccessControlConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

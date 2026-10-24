@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLookoutequipmentListRetrainingSchedulersOptions : AwsOptions
 {
     /// <summary>
-    /// Specify this field to only list retraining schedulers whose machine learning models begin with the value you specify. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// Specify this field to only list retraining schedulers whose machine learning models begin with the value you specify. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name-begins-with")]
     public string? ModelNameBeginsWith { get; set; }
 
     /// <summary>
-    /// Specify this field to only list retraining schedulers whose status matches the value you specify. Possible values: o PENDING o RUNNING o STOPPING o STOPPED
+    /// Specify this field to only list retraining schedulers whose status matches the value you specify. Possible values: • PENDING • RUNNING • STOPPING • STOPPED
     /// </summary>
     [CliOption("--status")]
     public AwsLookoutequipmentListRetrainingSchedulersStatus? Status { get; set; }
 
     /// <summary>
-    /// If the number of results exceeds the maximum, a pagination token is returned. Use the token in the request to show the next page of re- training schedulers. Constraints: o max: 8192 o pattern: \p{ASCII}{0,8192}
+    /// If the number of results exceeds the maximum, a pagination token is returned. Use the token in the request to show the next page of retraining schedulers. Constraints: • max: 8192 • pattern: \p{ASCII}{0,8192}
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Specifies the maximum number of retraining schedulers to list. Constraints: o min: 1 o max: 500
+    /// Specifies the maximum number of retraining schedulers to list. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -53,5 +53,14 @@ public record AwsLookoutequipmentListRetrainingSchedulersOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

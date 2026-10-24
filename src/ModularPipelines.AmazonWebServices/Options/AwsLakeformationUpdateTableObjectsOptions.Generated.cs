@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DatabaseName">The database containing the governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="TableName">The governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
-    /// <param name="WriteOperations">A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table. Constraints: o min: 1 o max: 100 (structure) Defines an object to add to or delete from a governed table. AddObject -&gt; (structure) A new object to add to the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) [required] The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Size -&gt; (long) [required] The size of the Amazon S3 object in bytes. PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 DeleteObject -&gt; (structure) An object to delete from the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object to delete. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the governed table. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 Shorthand Syntax: AddObject={Uri=string,ETag=string,Size=long,PartitionValues=[string,string]},DeleteObject={Uri=string,ETag=string,PartitionValues=[string,string]} ... JSON Syntax: [ { "AddObject": { "Uri": "string", "ETag": "string", "Size": long, "PartitionValues": ["string", ...] }, "DeleteObject": { "Uri": "string", "ETag": "string", "PartitionValues": ["string", ...] } } ... ]</param>
+    /// <param name="DatabaseName">The database containing the governed table to update. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="TableName">The governed table to update. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*</param>
+    /// <param name="WriteOperations">A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table. Constraints: • min: 1 • max: 100 (structure) Defines an object to add to or delete from a governed table. AddObject -&gt; (structure) A new object to add to the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) [required] The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]* Size -&gt; (long) [required] The size of the Amazon S3 object in bytes. PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: • min: 1 • max: 100 (string) Constraints: • max: 1024 DeleteObject -&gt; (structure) An object to delete from the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object to delete. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]* PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the governed table. Constraints: • min: 1 • max: 100 (string) Constraints: • max: 1024 Shorthand Syntax: AddObject={Uri=string,ETag=string,Size=long,PartitionValues=[string,string]},DeleteObject={Uri=string,ETag=string,PartitionValues=[string,string]} ... JSON Syntax: [ { "AddObject": { "Uri": "string", "ETag": "string", "Size": long, "PartitionValues": ["string", ...] }, "DeleteObject": { "Uri": "string", "ETag": "string", "PartitionValues": ["string", ...] } } ... ]</param>
     public AwsLakeformationUpdateTableObjectsOptions(
         string DatabaseName,
         string TableName,
@@ -75,31 +76,31 @@ public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The database containing the governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The database containing the governed table to update. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; private init; }
 
     /// <summary>
-    /// The governed table to update. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The governed table to update. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table. Constraints: o min: 1 o max: 100 (structure) Defines an object to add to or delete from a governed table. AddObject -&gt; (structure) A new object to add to the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) [required] The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* Size -&gt; (long) [required] The size of the Amazon S3 object in bytes. PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 DeleteObject -&gt; (structure) An object to delete from the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object to delete. Constraints: o min: 1 o max: 1024 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The Amazon S3 ETag of the object. Returned by GetTableOb- jects for validation and used to identify changes to the underlying data. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]* PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the governed table. Constraints: o min: 1 o max: 100 (string) Constraints: o max: 1024 Shorthand Syntax: AddObject={Uri=string,ETag=string,Size=long,PartitionValues=[string,string]},DeleteObject={Uri=string,ETag=string,PartitionValues=[string,string]} ... JSON Syntax: [ { "AddObject": { "Uri": "string", "ETag": "string", "Size": long, "PartitionValues": ["string", ...] }, "DeleteObject": { "Uri": "string", "ETag": "string", "PartitionValues": ["string", ...] } } ... ]
+    /// A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table. Constraints: • min: 1 • max: 100 (structure) Defines an object to add to or delete from a governed table. AddObject -&gt; (structure) A new object to add to the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) [required] The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]* Size -&gt; (long) [required] The size of the Amazon S3 object in bytes. PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the table. The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal. Constraints: • min: 1 • max: 100 (string) Constraints: • max: 1024 DeleteObject -&gt; (structure) An object to delete from the governed table. Uri -&gt; (string) [required] The Amazon S3 location of the object to delete. Constraints: • min: 1 • max: 1024 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ETag -&gt; (string) The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]* PartitionValues -&gt; (list) A list of partition values for the object. A value must be specified for each partition key associated with the governed table. Constraints: • min: 1 • max: 100 (string) Constraints: • max: 1024 Shorthand Syntax: AddObject={Uri=string,ETag=string,Size=long,PartitionValues=[string,string]},DeleteObject={Uri=string,ETag=string,PartitionValues=[string,string]} ... JSON Syntax: [ { "AddObject": { "Uri": "string", "ETag": "string", "Size": long, "PartitionValues": ["string", ...] }, "DeleteObject": { "Uri": "string", "ETag": "string", "PartitionValues": ["string", ...] } } ... ]
     /// </summary>
     [CliOption("--write-operations", GroupValues = true)]
     public IEnumerable<string>? WriteOperations { get; private init; }
 
     /// <summary>
-    /// The catalog containing the governed table to update. Defaults to the callers account ID. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The catalog containing the governed table to update. Defaults to the callers account ID. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     /// <summary>
-    /// The transaction at which to do the write. Constraints: o min: 1 o max: 255 o pattern: [\p{L}\p{N}\p{P}]*
+    /// The transaction at which to do the write. Constraints: • min: 1 • max: 255 • pattern: [\p{L}\p{N}\p{P}]*
     /// </summary>
     [CliOption("--transaction-id")]
     public string? TransactionId { get; set; }
@@ -125,6 +126,15 @@ public record AwsLakeformationUpdateTableObjectsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

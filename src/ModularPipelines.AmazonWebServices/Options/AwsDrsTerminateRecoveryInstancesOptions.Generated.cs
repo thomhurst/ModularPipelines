@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery In- stances from the Elastic Disaster Recovery service. See also: AWS API Documentation
+/// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsDrsTerminateRecoveryInstancesOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery In- stances from the Elastic Disaster Recovery service. See also: AWS API Documentation
+    /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceIds">The IDs of the Recovery Instances that should be terminated. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
+    /// <param name="RecoveryInstanceIds">The IDs of the Recovery Instances that should be terminated. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...</param>
     public AwsDrsTerminateRecoveryInstancesOptions(
         IEnumerable<string> RecoveryInstanceIds
     )
@@ -67,7 +68,7 @@ public record AwsDrsTerminateRecoveryInstancesOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IDs of the Recovery Instances that should be terminated. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
+    /// The IDs of the Recovery Instances that should be terminated. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recovery-instance-ids", GroupValues = true)]
     public IEnumerable<string>? RecoveryInstanceIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsDrsTerminateRecoveryInstancesOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

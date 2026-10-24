@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsDevopsAgentListRecommendationsOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Lists recommendations for the specified agent space See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the recommenda- tions Constraints: o min: 1 o max: 2048</param>
+    /// <param name="AgentSpaceId">The unique identifier for the agent space containing the recommendations Constraints: • min: 1 • max: 2048</param>
     public AwsDevopsAgentListRecommendationsOptions(
         string AgentSpaceId
     )
@@ -58,43 +59,43 @@ public record AwsDevopsAgentListRecommendationsOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the agent space containing the recommenda- tions Constraints: o min: 1 o max: 2048
+    /// The unique identifier for the agent space containing the recommendations Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--agent-space-id")]
     public string? AgentSpaceId { get; private init; }
 
     /// <summary>
-    /// Optional task ID to filter recommendations by specific task Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// Optional task ID to filter recommendations by specific task Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; set; }
 
     /// <summary>
-    /// Optional goal ID to filter recommendations by specific goal Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// Optional goal ID to filter recommendations by specific goal Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--goal-id")]
     public string? GoalId { get; set; }
 
     /// <summary>
-    /// Optional status to filter recommendations by their current status Possible values: o PROPOSED o ACCEPTED o REJECTED o CLOSED o COMPLETED o UPDATE_IN_PROGRESS
+    /// Optional status to filter recommendations by their current status Possible values: • PROPOSED • ACCEPTED • REJECTED • CLOSED • COMPLETED • UPDATE_IN_PROGRESS
     /// </summary>
     [CliOption("--status")]
     public AwsDevopsAgentListRecommendationsStatus? Status { get; set; }
 
     /// <summary>
-    /// Optional priority to filter recommendations by priority level Possible values: o HIGH o MEDIUM o LOW
+    /// Optional priority to filter recommendations by priority level Possible values: • HIGH • MEDIUM • LOW
     /// </summary>
     [CliOption("--priority")]
     public AwsDevopsAgentListRecommendationsPriority? Priority { get; set; }
 
     /// <summary>
-    /// Maximum number of recommendations to return in a single response Constraints: o min: 1 o max: 100
+    /// Maximum number of recommendations to return in a single response Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// Token for retrieving the next page of results Constraints: o min: 1 o max: 2048
+    /// Token for retrieving the next page of results Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -121,6 +122,15 @@ public record AwsDevopsAgentListRecommendationsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

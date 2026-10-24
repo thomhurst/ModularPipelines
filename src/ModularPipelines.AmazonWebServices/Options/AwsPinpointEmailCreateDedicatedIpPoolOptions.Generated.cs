@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pin- point account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool. See also: AWS API Documentation
+/// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsPinpointEmailCreateDedicatedIpPoolOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pin- point account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool. See also: AWS API Documentation
+    /// Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your Amazon Pinpoint account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, Amazon Pinpoint sends it using only the IP addresses in the associated pool. See also: AWS API Documentation
     /// </summary>
     /// <param name="PoolName">The name of the dedicated IP pool.</param>
     public AwsPinpointEmailCreateDedicatedIpPoolOptions(
@@ -62,7 +63,7 @@ public record AwsPinpointEmailCreateDedicatedIpPoolOptions : AwsOptions, IValida
     public string? PoolName { get; private init; }
 
     /// <summary>
-    /// An object that defines the tags (keys and values) that you want to associate with the pool. (structure) An object that defines the tags that are associated with a re- source. A tag is a label that you optionally define and asso- ciate with a resource in Amazon Pinpoint. Tags can help you cat- egorize and manage resources in different ways, such as by pur- pose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can con- tain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, dig- its, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: o Tag keys and values are case sensitive. o For each associated resource, each tag key must be unique and it can have only one value. o The aws: prefix is reserved for use by AWS; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix dont count against the limit of 50 tags per resource. o You can associate tags with public or shared resources, but the tags are available only for your AWS account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the spec- ified AWS Region for your AWS account. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you dont want a resource to have a specific tag value, dont specify a value for this parameter. Amazon Pinpoint will set the value to an empty string. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An object that defines the tags (keys and values) that you want to associate with the pool. (structure) An object that defines the tags that are associated with a resource. A tag is a label that you optionally define and associate with a resource in Amazon Pinpoint. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value , both of which you define. A tag key is a general label that acts as a category for a more specific tag value. A tag value acts as a descriptor within a tag key. A tag key can contain as many as 128 characters. A tag value can contain as many as 256 characters. The characters can be Unicode letters, digits, white space, or one of the following symbols: _ . : / = + -. The following additional restrictions apply to tags: • Tag keys and values are case sensitive. • For each associated resource, each tag key must be unique and it can have only one value. • The aws: prefix is reserved for use by AWS; you cant use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix dont count against the limit of 50 tags per resource. • You can associate tags with public or shared resources, but the tags are available only for your AWS account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the specified AWS Region for your AWS account. Key -&gt; (string) [required] One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character. Value -&gt; (string) [required] The optional part of a key-value pair that defines a tag. The maximum length of a tag value is 256 characters. The minimum length is 0 characters. If you dont want a resource to have a specific tag value, dont specify a value for this parameter. Amazon Pinpoint will set the value to an empty string. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -88,6 +89,15 @@ public record AwsPinpointEmailCreateDedicatedIpPoolOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

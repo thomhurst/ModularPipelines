@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsCodestarConnectionsUpdateSyncBlockerOptions : AwsOptions, IVali
     /// <summary>
     /// Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the sync blocker to be updated. Constraints: o min: 1 o max: 50</param>
-    /// <param name="SyncType">The sync type of the sync blocker to be updated. Possible values: o CFN_STACK_SYNC</param>
-    /// <param name="ResourceName">The name of the resource for the sync blocker to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
-    /// <param name="ResolvedReason">The reason for resolving the sync blocker. Constraints: o min: 1 o max: 250</param>
+    /// <param name="Id">The ID of the sync blocker to be updated. Constraints: • min: 1 • max: 50</param>
+    /// <param name="SyncType">The sync type of the sync blocker to be updated. Possible values: • CFN_STACK_SYNC</param>
+    /// <param name="ResourceName">The name of the resource for the sync blocker to be updated. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$</param>
+    /// <param name="ResolvedReason">The reason for resolving the sync blocker. Constraints: • min: 1 • max: 250</param>
     public AwsCodestarConnectionsUpdateSyncBlockerOptions(
         string Id,
         string SyncType,
@@ -68,25 +69,25 @@ public record AwsCodestarConnectionsUpdateSyncBlockerOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the sync blocker to be updated. Constraints: o min: 1 o max: 50
+    /// The ID of the sync blocker to be updated. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The sync type of the sync blocker to be updated. Possible values: o CFN_STACK_SYNC
+    /// The sync type of the sync blocker to be updated. Possible values: • CFN_STACK_SYNC
     /// </summary>
     [CliOption("--sync-type")]
     public string? SyncType { get; private init; }
 
     /// <summary>
-    /// The name of the resource for the sync blocker to be updated. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
+    /// The name of the resource for the sync blocker to be updated. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The reason for resolving the sync blocker. Constraints: o min: 1 o max: 250
+    /// The reason for resolving the sync blocker. Constraints: • min: 1 • max: 250
     /// </summary>
     [CliOption("--resolved-reason")]
     public string? ResolvedReason { get; private init; }
@@ -112,6 +113,15 @@ public record AwsCodestarConnectionsUpdateSyncBlockerOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

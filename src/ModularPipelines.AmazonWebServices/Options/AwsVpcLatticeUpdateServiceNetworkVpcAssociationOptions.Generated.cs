@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit secu- rity groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
+/// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit secu- rity groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
+    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceNetworkVpcAssociationIdentifier">The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassocia- tion/snva-[0-9a-z]{17}))</param>
+    /// <param name="ServiceNetworkVpcAssociationIdentifier">The ID or ARN of the association. Constraints: • min: 17 • max: 2048 • pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassociation/snva-[0-9a-z]{17}))</param>
     public AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions(
         string ServiceNetworkVpcAssociationIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or ARN of the association. Constraints: o min: 17 o max: 2048 o pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lat- tice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassocia- tion/snva-[0-9a-z]{17}))
+    /// The ID or ARN of the association. Constraints: • min: 17 • max: 2048 • pattern: ((snva-[0-9a-z]{17})|(arn:[a-z0-9\-]+:vpc-lattice:[a-zA-Z0-9\-]+:\d{12}:servicenetworkvpcassociation/snva-[0-9a-z]{17}))
     /// </summary>
     [CliOption("--service-network-vpc-association-identifier")]
     public string? ServiceNetworkVpcAssociationIdentifier { get; private init; }
 
     /// <summary>
-    /// The IDs of the security groups. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 5 o max: 200 o pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
+    /// The IDs of the security groups. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 5 • max: 200 • pattern: sg-(([0-9a-z]{8})|([0-9a-z]{17})) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
@@ -74,7 +75,7 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
     public bool? PrivateDnsEnabled { get; set; }
 
     /// <summary>
-    /// DNS options for the service network VPC association. privateDnsPreference -&gt; (string) The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource. o ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names. o VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider. o VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provi- sions private hosted zones for all verified custom domain names and other domain names that the resource consumer speci- fies. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. o SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource con- sumer. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. Possible values: o VERIFIED_DOMAINS_ONLY o ALL_DOMAINS o VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS o SPECIFIED_DOMAINS_ONLY privateDnsSpecifiedDomains -&gt; (list) Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY . Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 255 Shorthand Syntax: privateDnsPreference=string,privateDnsSpecifiedDomains=string,string JSON Syntax: { "privateDnsPreference": "VERIFIED_DOMAINS_ONLY"|"ALL_DOMAINS"|"VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS"|"SPECIFIED_DOMAINS_ONLY", "privateDnsSpecifiedDomains": ["string", ...] }
+    /// DNS options for the service network VPC association. privateDnsPreference -&gt; (string) The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource. • ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names. • VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider. • VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. • SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter. Possible values: • VERIFIED_DOMAINS_ONLY • ALL_DOMAINS • VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS • SPECIFIED_DOMAINS_ONLY privateDnsSpecifiedDomains -&gt; (list) Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY . Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 255 Shorthand Syntax: privateDnsPreference=string,privateDnsSpecifiedDomains=string,string JSON Syntax: { "privateDnsPreference": "VERIFIED_DOMAINS_ONLY"|"ALL_DOMAINS"|"VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS"|"SPECIFIED_DOMAINS_ONLY", "privateDnsSpecifiedDomains": ["string", ...] }
     /// </summary>
     [CliOption("--dns-options")]
     public string? DnsOptions { get; set; }
@@ -100,6 +101,15 @@ public record AwsVpcLatticeUpdateServiceNetworkVpcAssociationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

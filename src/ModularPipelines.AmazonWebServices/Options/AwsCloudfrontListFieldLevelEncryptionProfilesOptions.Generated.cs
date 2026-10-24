@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Request a list of field-level encryption profiles that have been cre- ated in CloudFront for this account. See also: AWS API Documentation
+/// Request a list of field-level encryption profiles that have been created in CloudFront for this account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudfrontListFieldLevelEncryptionProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that oc- cur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's re- sponse (which is also the ID of the last profile on that page).
+    /// Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page).
     /// </summary>
     [CliOption("--marker")]
     public string? Marker { get; set; }
@@ -38,5 +38,14 @@ public record AwsCloudfrontListFieldLevelEncryptionProfilesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

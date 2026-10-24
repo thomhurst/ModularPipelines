@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned for- mats (FASTQ and uBAM), a reference genome is not required. You can cre- ate multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store: o Use s3Access...
+/// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned formats (FASTQ and uBAM), a reference genome is not required. You can create multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store: • Use s3AccessConf...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,9 +28,9 @@ public record AwsOmicsCreateSequenceStoreOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned for- mats (FASTQ and uBAM), a reference genome is not required. You can cre- ate multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store: o Use s3Access...
+    /// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned formats (FASTQ and uBAM), a reference genome is not required. You can create multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store: • Use s3AccessConf...
     /// </summary>
-    /// <param name="Name">A name for the store. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
+    /// <param name="Name">A name for the store. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+</param>
     public AwsOmicsCreateSequenceStoreOptions(
         string Name
     )
@@ -59,56 +59,56 @@ public record AwsOmicsCreateSequenceStoreOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the store. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the store. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A description for the store. Constraints: o min: 1 o max: 255 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A description for the store. Constraints: • min: 1 • max: 255 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Server-side encryption (SSE) settings for the store. type -&gt; (string) [required] The encryption type. Possible values: o KMS keyArn -&gt; (string) An encryption key ARN. Constraints: o min: 20 o max: 2048 o pattern: .*arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*).* Shorthand Syntax: type=string,keyArn=string JSON Syntax: { "type": "KMS", "keyArn": "string" }
+    /// Server-side encryption (SSE) settings for the store. type -&gt; (string) [required] The encryption type. Possible values: • KMS keyArn -&gt; (string) An encryption key ARN. Constraints: • min: 20 • max: 2048 • pattern: .*arn:([^: ]*):([^: ]*):([^: ]*):([0-9]{12}):([^: ]*).* Shorthand Syntax: type=string,keyArn=string JSON Syntax: { "type": "KMS", "keyArn": "string" }
     /// </summary>
     [CliOption("--sse-config")]
     public string? SseConfig { get; set; }
 
     /// <summary>
-    /// Tags for the store. You can configure up to 50 tags. key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags for the store. You can configure up to 50 tags. key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// An idempotency token used to dedupe retry requests so that duplicate runs are not created. Constraints: o min: 1 o max: 127 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// An idempotency token used to dedupe retry requests so that duplicate runs are not created. Constraints: • min: 1 • max: 127 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An S3 location that is used to store files that have failed a direct upload. You can add or change the fallbackLocation after creating a sequence store. This is not required if you are uploading files from a different S3 bucket. Constraints: o pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?
+    /// An S3 location that is used to store files that have failed a direct upload. You can add or change the fallbackLocation after creating a sequence store. This is not required if you are uploading files from a different S3 bucket. Constraints: • pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?
     /// </summary>
     [CliOption("--fallback-location")]
     public string? FallbackLocation { get; set; }
 
     /// <summary>
-    /// The ETag algorithm family to use for ingested read sets. The default value is MD5up. For more information on ETags, see ETags and data provenance in the Amazon Web Services HealthOmics User Guide . Possible values: o MD5up o SHA256up o SHA512up
+    /// The ETag algorithm family to use for ingested read sets. The default value is MD5up. For more information on ETags, see ETags and data provenance in the Amazon Web Services HealthOmics User Guide . Possible values: • MD5up • SHA256up • SHA512up
     /// </summary>
     [CliOption("--e-tag-algorithm-family")]
     public AwsOmicsCreateSequenceStoreETagAlgorithmFamily? ETagAlgorithmFamily { get; set; }
 
     /// <summary>
-    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. These tags can be used as input to add metadata to your read sets. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. These tags can be used as input to add metadata to your read sets. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--propagated-set-level-tags", GroupValues = true)]
     public IEnumerable<string>? PropagatedSetLevelTags { get; set; }
 
     /// <summary>
-    /// S3 access configuration parameters. This specifies the parameters needed to access logs stored in S3 buckets. The S3 bucket must be in the same region and account as the sequence store. accessLogLocation -&gt; (string) Location of the access logs. Constraints: o pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,800})/)? Shorthand Syntax: accessLogLocation=string JSON Syntax: { "accessLogLocation": "string" }
+    /// S3 access configuration parameters. This specifies the parameters needed to access logs stored in S3 buckets. The S3 bucket must be in the same region and account as the sequence store. accessLogLocation -&gt; (string) Location of the access logs. Constraints: • pattern: $|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,800})/)? Shorthand Syntax: accessLogLocation=string JSON Syntax: { "accessLogLocation": "string" }
     /// </summary>
     [CliOption("--s3-access-config")]
     public string? S3AccessConfig { get; set; }
@@ -134,6 +134,15 @@ public record AwsOmicsCreateSequenceStoreOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsDataexchangeUpdateAssetOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This operation updates an asset. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetId">The unique identifier for an asset. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
-    /// <param name="DataSetId">The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="AssetId">The unique identifier for an asset. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="DataSetId">The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
     /// <param name="Name">The name of the asset. When importing from Amazon S3, the Amazon S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name. When importing from AWS Lake Formation, the static values of "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are used as the name.</param>
-    /// <param name="RevisionId">The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="RevisionId">The unique identifier for a revision. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeUpdateAssetOptions(
         string AssetId,
         string DataSetId,
@@ -68,13 +69,13 @@ public record AwsDataexchangeUpdateAssetOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for an asset. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for an asset. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--asset-id")]
     public string? AssetId { get; private init; }
 
     /// <summary>
-    /// The unique identifier for a data set. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a data set. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--data-set-id")]
     public string? DataSetId { get; private init; }
@@ -86,7 +87,7 @@ public record AwsDataexchangeUpdateAssetOptions : AwsOptions, IValidatableObject
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The unique identifier for a revision. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a revision. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--revision-id")]
     public string? RevisionId { get; private init; }
@@ -112,6 +113,15 @@ public record AwsDataexchangeUpdateAssetOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

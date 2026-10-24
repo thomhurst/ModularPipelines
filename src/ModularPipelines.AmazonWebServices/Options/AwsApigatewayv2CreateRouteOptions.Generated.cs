@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -86,7 +86,7 @@ public record AwsApigatewayv2CreateRouteOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? AuthorizationScopes { get; set; }
 
     /// <summary>
-    /// The authorization type for the route. For WebSocket APIs, valid val- ues are NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer For HTTP APIs, valid values are NONE for open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer. Possible values: o NONE o AWS_IAM o CUSTOM o JWT
+    /// The authorization type for the route. For WebSocket APIs, valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer For HTTP APIs, valid values are NONE for open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda authorizer. Possible values: • NONE • AWS_IAM • CUSTOM • JWT
     /// </summary>
     [CliOption("--authorization-type")]
     public AwsApigatewayv2CreateRouteAuthorizationType? AuthorizationType { get; set; }
@@ -154,6 +154,15 @@ public record AwsApigatewayv2CreateRouteOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

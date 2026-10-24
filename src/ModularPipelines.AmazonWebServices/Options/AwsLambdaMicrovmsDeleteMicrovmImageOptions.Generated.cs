@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a MicroVM image. This operation is idempotent; deleting an im- age that has already been deleted succeeds without error. See also: AWS API Documentation
+/// Deletes a MicroVM image. This operation is idempotent; deleting an image that has already been deleted succeeds without error. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaMicrovmsDeleteMicrovmImageOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a MicroVM image. This operation is idempotent; deleting an im- age that has already been deleted succeeds without error. See also: AWS API Documentation
+    /// Deletes a MicroVM image. This operation is idempotent; deleting an image that has already been deleted succeeds without error. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image to delete. Constraints: o min: 1 o max: 256</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image to delete. Constraints: • min: 1 • max: 256</param>
     public AwsLambdaMicrovmsDeleteMicrovmImageOptions(
         string ImageIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsLambdaMicrovmsDeleteMicrovmImageOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image to delete. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image to delete. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLambdaMicrovmsDeleteMicrovmImageOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

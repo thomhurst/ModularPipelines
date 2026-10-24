@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Gets the network routes of the specified global network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*</param>
-    /// <param name="RouteTableIdentifier">The ID of the route table. TransitGatewayRouteTableArn -&gt; (string) The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]* CoreNetworkSegmentEdge -&gt; (structure) The segment edge in a core network. CoreNetworkId -&gt; (string) The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ SegmentName -&gt; (string) The name of the segment edge. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The Region where the segment edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* CoreNetworkNetworkFunctionGroup -&gt; (structure) The route table identifier associated with the network function group. CoreNetworkId -&gt; (string) The ID of the core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ NetworkFunctionGroupName -&gt; (string) The network function group name. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The location for the core network edge. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayRouteTableArn=string,CoreNetworkSegmentEdge={CoreNetworkId=string,SegmentName=string,EdgeLocation=string},CoreNetworkNetworkFunctionGroup={CoreNetworkId=string,NetworkFunctionGroupName=string,EdgeLocation=string} JSON Syntax: { "TransitGatewayRouteTableArn": "string", "CoreNetworkSegmentEdge": { "CoreNetworkId": "string", "SegmentName": "string", "EdgeLocation": "string" }, "CoreNetworkNetworkFunctionGroup": { "CoreNetworkId": "string", "NetworkFunctionGroupName": "string", "EdgeLocation": "string" } }</param>
+    /// <param name="GlobalNetworkId">The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*</param>
+    /// <param name="RouteTableIdentifier">The ID of the route table. TransitGatewayRouteTableArn -&gt; (string) The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456" . Constraints: • min: 0 • max: 500 • pattern: [\s\S]* CoreNetworkSegmentEdge -&gt; (structure) The segment edge in a core network. CoreNetworkId -&gt; (string) The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$ SegmentName -&gt; (string) The name of the segment edge. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* EdgeLocation -&gt; (string) The Region where the segment edge is located. Constraints: • min: 1 • max: 63 • pattern: [\s\S]* CoreNetworkNetworkFunctionGroup -&gt; (structure) The route table identifier associated with the network function group. CoreNetworkId -&gt; (string) The ID of the core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$ NetworkFunctionGroupName -&gt; (string) The network function group name. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* EdgeLocation -&gt; (string) The location for the core network edge. Constraints: • min: 1 • max: 63 • pattern: [\s\S]* Shorthand Syntax: TransitGatewayRouteTableArn=string,CoreNetworkSegmentEdge={CoreNetworkId=string,SegmentName=string,EdgeLocation=string},CoreNetworkNetworkFunctionGroup={CoreNetworkId=string,NetworkFunctionGroupName=string,EdgeLocation=string} JSON Syntax: { "TransitGatewayRouteTableArn": "string", "CoreNetworkSegmentEdge": { "CoreNetworkId": "string", "SegmentName": "string", "EdgeLocation": "string" }, "CoreNetworkNetworkFunctionGroup": { "CoreNetworkId": "string", "NetworkFunctionGroupName": "string", "EdgeLocation": "string" } }</param>
     public AwsNetworkmanagerGetNetworkRoutesOptions(
         string GlobalNetworkId,
         string RouteTableIdentifier
@@ -61,61 +61,61 @@ public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the global network. Constraints: o min: 0 o max: 50 o pattern: [\s\S]*
+    /// The ID of the global network. Constraints: • min: 0 • max: 50 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--global-network-id")]
     public string? GlobalNetworkId { get; private init; }
 
     /// <summary>
-    /// The ID of the route table. TransitGatewayRouteTableArn -&gt; (string) The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-ta- ble/tgw-rtb-9876543210123456" . Constraints: o min: 0 o max: 500 o pattern: [\s\S]* CoreNetworkSegmentEdge -&gt; (structure) The segment edge in a core network. CoreNetworkId -&gt; (string) The ID of a core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ SegmentName -&gt; (string) The name of the segment edge. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The Region where the segment edge is located. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* CoreNetworkNetworkFunctionGroup -&gt; (structure) The route table identifier associated with the network function group. CoreNetworkId -&gt; (string) The ID of the core network. Constraints: o min: 0 o max: 50 o pattern: ^core-network-([0-9a-f]{8,17})$ NetworkFunctionGroupName -&gt; (string) The network function group name. Constraints: o min: 0 o max: 256 o pattern: [\s\S]* EdgeLocation -&gt; (string) The location for the core network edge. Constraints: o min: 1 o max: 63 o pattern: [\s\S]* Shorthand Syntax: TransitGatewayRouteTableArn=string,CoreNetworkSegmentEdge={CoreNetworkId=string,SegmentName=string,EdgeLocation=string},CoreNetworkNetworkFunctionGroup={CoreNetworkId=string,NetworkFunctionGroupName=string,EdgeLocation=string} JSON Syntax: { "TransitGatewayRouteTableArn": "string", "CoreNetworkSegmentEdge": { "CoreNetworkId": "string", "SegmentName": "string", "EdgeLocation": "string" }, "CoreNetworkNetworkFunctionGroup": { "CoreNetworkId": "string", "NetworkFunctionGroupName": "string", "EdgeLocation": "string" } }
+    /// The ID of the route table. TransitGatewayRouteTableArn -&gt; (string) The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456" . Constraints: • min: 0 • max: 500 • pattern: [\s\S]* CoreNetworkSegmentEdge -&gt; (structure) The segment edge in a core network. CoreNetworkId -&gt; (string) The ID of a core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$ SegmentName -&gt; (string) The name of the segment edge. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* EdgeLocation -&gt; (string) The Region where the segment edge is located. Constraints: • min: 1 • max: 63 • pattern: [\s\S]* CoreNetworkNetworkFunctionGroup -&gt; (structure) The route table identifier associated with the network function group. CoreNetworkId -&gt; (string) The ID of the core network. Constraints: • min: 0 • max: 50 • pattern: ^core-network-([0-9a-f]{8,17})$ NetworkFunctionGroupName -&gt; (string) The network function group name. Constraints: • min: 0 • max: 256 • pattern: [\s\S]* EdgeLocation -&gt; (string) The location for the core network edge. Constraints: • min: 1 • max: 63 • pattern: [\s\S]* Shorthand Syntax: TransitGatewayRouteTableArn=string,CoreNetworkSegmentEdge={CoreNetworkId=string,SegmentName=string,EdgeLocation=string},CoreNetworkNetworkFunctionGroup={CoreNetworkId=string,NetworkFunctionGroupName=string,EdgeLocation=string} JSON Syntax: { "TransitGatewayRouteTableArn": "string", "CoreNetworkSegmentEdge": { "CoreNetworkId": "string", "SegmentName": "string", "EdgeLocation": "string" }, "CoreNetworkNetworkFunctionGroup": { "CoreNetworkId": "string", "NetworkFunctionGroupName": "string", "EdgeLocation": "string" } }
     /// </summary>
     [CliOption("--route-table-identifier")]
     public string? RouteTableIdentifier { get; private init; }
 
     /// <summary>
-    /// An exact CIDR block. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// An exact CIDR block. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exact-cidr-matches", GroupValues = true)]
     public IEnumerable<string>? ExactCidrMatches { get; set; }
 
     /// <summary>
-    /// The most specific route that matches the traffic (longest prefix match). (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// The most specific route that matches the traffic (longest prefix match). (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--longest-prefix-matches", GroupValues = true)]
     public IEnumerable<string>? LongestPrefixMatches { get; set; }
 
     /// <summary>
-    /// The routes with a subnet that match the specified CIDR filter. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// The routes with a subnet that match the specified CIDR filter. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-of-matches", GroupValues = true)]
     public IEnumerable<string>? SubnetOfMatches { get; set; }
 
     /// <summary>
-    /// The routes with a CIDR that encompasses the CIDR filter. Example: If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// The routes with a CIDR that encompasses the CIDR filter. Example: If you specify 10.0.1.0/30, then the result returns 10.0.1.0/29. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supernet-of-matches", GroupValues = true)]
     public IEnumerable<string>? SupernetOfMatches { get; set; }
 
     /// <summary>
-    /// The IDs of the prefix lists. (string) Constraints: o min: 0 o max: 256 o pattern: [\s\S]* Syntax: "string" "string" ...
+    /// The IDs of the prefix lists. (string) Constraints: • min: 0 • max: 256 • pattern: [\s\S]* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--prefix-list-ids", GroupValues = true)]
     public IEnumerable<string>? PrefixListIds { get; set; }
 
     /// <summary>
-    /// The route states. (string) Possible values: o ACTIVE o BLACKHOLE Syntax: "string" "string" ...
+    /// The route states. (string) Possible values: • ACTIVE • BLACKHOLE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--states", GroupValues = true)]
     public IEnumerable<string>? States { get; set; }
 
     /// <summary>
-    /// The route types. (string) Possible values: o PROPAGATED o STATIC Syntax: "string" "string" ...
+    /// The route types. (string) Possible values: • PROPAGATED • STATIC Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--types", GroupValues = true)]
     public IEnumerable<string>? Types { get; set; }
 
     /// <summary>
-    /// Filter by route table destination. Possible Values: TRANSIT_GATE- WAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE. key -&gt; (string) Constraints: o max: 128 o pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: o max: 255 o pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// Filter by route table destination. Possible Values: TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE. key -&gt; (string) Constraints: • max: 128 • pattern: ^[0-9a-zA-Z\.-]*$ value -&gt; (list) (string) Constraints: • max: 255 • pattern: ^[0-9a-zA-Z\*\.\\/\?-]*$ Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--destination-filters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? DestinationFilters { get; set; }
@@ -141,6 +141,15 @@ public record AwsNetworkmanagerGetNetworkRoutesOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

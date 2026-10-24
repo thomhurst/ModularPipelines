@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A name- space is required for every selector. The label field consists of mul- ti...
+/// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A name- space is required for every selector. The label field consists of mul- ti...
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple ...
     /// </summary>
     /// <param name="FargateProfileName">The name of the Fargate profile.</param>
     /// <param name="ClusterName">The name of your cluster.</param>
-    /// <param name="PodExecutionRoleArn">The Amazon Resource Name (ARN) of the Pod execution role to use for a Pod that matches the selectors in the Fargate profile. The Pod ex- ecution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see ` Pod execution role &lt;- https://docs.aws.amazon.com/eks/latest/userguide/pod-execu- tion-role.html&gt;`__ in the Amazon EKS User Guide .</param>
+    /// <param name="PodExecutionRoleArn">The Amazon Resource Name (ARN) of the Pod execution role to use for a Pod that matches the selectors in the Fargate profile. The Pod execution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see ` Pod execution role &lt;https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html&gt;`__ in the Amazon EKS User Guide .</param>
     public AwsEksCreateFargateProfileOptions(
         string FargateProfileName,
         string ClusterName,
@@ -78,19 +78,19 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions, IValidatableObject
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Pod execution role to use for a Pod that matches the selectors in the Fargate profile. The Pod ex- ecution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see ` Pod execution role &lt;- https://docs.aws.amazon.com/eks/latest/userguide/pod-execu- tion-role.html&gt;`__ in the Amazon EKS User Guide .
+    /// The Amazon Resource Name (ARN) of the Pod execution role to use for a Pod that matches the selectors in the Fargate profile. The Pod execution role allows Fargate infrastructure to register with your cluster as a node, and it provides read access to Amazon ECR image repositories. For more information, see ` Pod execution role &lt;https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html&gt;`__ in the Amazon EKS User Guide .
     /// </summary>
     [CliOption("--pod-execution-role-arn")]
     public string? PodExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// The IDs of subnets to launch a Pod into. A Pod running on Fargate isn't assigned a public IP address, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parame- ter. (string) Syntax: "string" "string" ...
+    /// The IDs of subnets to launch a Pod into. A Pod running on Fargate isn't assigned a public IP address, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parameter. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnets", GroupValues = true)]
     public IEnumerable<string>? Subnets { get; set; }
 
     /// <summary>
-    /// The selectors to match for a Pod to use this Fargate profile. Each selector must have an associated Kubernetes namespace . Optionally, you can also specify labels for a namespace . You may specify up to five selectors in a Fargate profile. (structure) An object representing an Fargate profile selector. namespace -&gt; (string) The Kubernetes namespace that the selector should match. labels -&gt; (map) The Kubernetes labels that the selector should match. A pod must contain all of the labels that are specified in the se- lector for it to be considered a match. key -&gt; (string) value -&gt; (string) Shorthand Syntax: namespace=string,labels={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "namespace": "string", "labels": {"string": "string" ...} } ... ]
+    /// The selectors to match for a Pod to use this Fargate profile. Each selector must have an associated Kubernetes namespace . Optionally, you can also specify labels for a namespace . You may specify up to five selectors in a Fargate profile. (structure) An object representing an Fargate profile selector. namespace -&gt; (string) The Kubernetes namespace that the selector should match. labels -&gt; (map) The Kubernetes labels that the selector should match. A pod must contain all of the labels that are specified in the selector for it to be considered a match. key -&gt; (string) value -&gt; (string) Shorthand Syntax: namespace=string,labels={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "namespace": "string", "labels": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--selectors", GroupValues = true)]
     public IEnumerable<string>? Selectors { get; set; }
@@ -103,7 +103,7 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions, IValidatableObject
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources. Constraints: • min: 1 • max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -129,6 +129,15 @@ public record AwsEksCreateFargateProfileOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

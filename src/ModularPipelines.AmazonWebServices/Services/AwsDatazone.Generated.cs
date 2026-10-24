@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -77,7 +77,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or envi- ronment profiles. See also: AWS API Documentation
+    /// Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Cancels the metadata generation run. Prerequisites: o The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS). o Runs in SUCCEEDED status cannot be cancelled. o User must have access to the run and cancel permissions. See also: AWS API Documentation
+    /// Cancels the metadata generation run. Prerequisites: • The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS). • Runs in SUCCEEDED status cannot be cancelled. • User must have access to the run and cancel permissions. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a data asset filter. Asset filters provide a sophisticated way to create controlled views of data assets by selecting specific columns or applying row-level fil- ters. This capability is crucial for organizations that need to share data while maintaining security and privacy controls. For example, your database might be filtered to show only non-PII fields to certain users, or sales data might be filtered by region for different regional teams. Asset filters enable fine-grained access co...
+    /// Creates a data asset filter. Asset filters provide a sophisticated way to create controlled views of data assets by selecting specific columns or applying row-level filters. This capability is crucial for organizations that need to share data while maintaining security and privacy controls. For example, your database might be filtered to show only non-PII fields to certain users, or sales data might be filtered by region for different regional teams. Asset filters enable fine-grained access cont...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: o --domain-identifier must refer to an existing domain. o --owning-project-identifier must be a valid project within the do- main. o Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . o --type-revision (if used) must match a valid revision of the asset type. o formsInput is require...
+    /// Creates an asset in Amazon DataZone catalog. Before creating assets, make sure that the following requirements are met: • --domain-identifier must refer to an existing domain. • --owning-project-identifier must be a valid project within the domain. • Asset type must be created beforehand using create-asset-type , or be a supported system-defined type. For more information, see create-asset-type . • --type-revision (if used) must match a valid revision of the asset type. • formsInput is required ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, un- derstand their impact, and roll back if necessary. Prerequisites: o Asset must already exist in the domain with ...
+    /// Creates a revision of the asset. Asset revisions represent new versions of existing assets, capturing changes to either the underlying data or its metadata. They maintain a historical record of how assets evolve over time, who made changes, and when those changes occurred. This versioning capability is crucial for governance and compliance, allowing organizations to track changes, understand their impact, and roll back if necessary. Prerequisites: • Asset must already exist in the domain with id...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a custom asset type. Prerequisites: o The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}) . o You must have CreateAssetType permissions. o The domain-identifier and owning-project-identifier must be valid and active. o The name of the asset type must be unique within the domain dupli- cate names will cause failure. o JSON input must be valid incorrect formatting causes Invalid JSON errors. See also: AWS API Documentation
+    /// Creates a custom asset type. Prerequisites: • The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}) . • You must have CreateAssetType permissions. • The domain-identifier and owning-project-identifier must be valid and active. • The name of the asset type must be unique within the domain duplicate names will cause failure. • JSON input must be valid incorrect formatting causes Invalid JSON errors. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to ex- ternal resources and services. See also: AWS API Documentation
+    /// Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a data product revision. Prerequisites: o The original data product must exist in the given domain. o User must have permissions on the data product. o The domain must be valid and accessible. o The new revision name must comply with naming constraints (if re- quired). See also: AWS API Documentation
+    /// Creates a data product revision. Prerequisites: • The original data product must exist in the given domain. • User must have permissions on the data product. • The domain must be valid and accessible. • The new revision name must comply with naming constraints (if required). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a metadata form type. Prerequisites: o The domain must exist and be in an ENABLED state. o The owning project must exist and be accessible. o The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
+    /// Creates a metadata form type. Prerequisites: • The domain must exist and be in an ENABLED state. • The owning project must exist and be accessible. • The name must be unique within the domain. For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable . By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a fi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -422,7 +422,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing mis- communication and ensuring consistent interpretation of business con- cepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets,...
+    /// Creates an Amazon DataZone business glossary. Specifies that this is a create glossary policy. A glossary serves as the central repository for business terminology and definitions within an organization. It helps establish and maintain a common language across different departments and teams, reducing miscommunication and ensuring consistent interpretation of business concepts. Glossaries can include hierarchical relationships between terms, cross-references, and links to actual data assets, mak...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a business glossary term. A glossary term represents an individual entry within the Amazon Data- Zone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage exam- ples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of d...
+    /// Creates a business glossary term. A glossary term represents an individual entry within the Amazon DataZone glossary, serving as a standardized definition for a specific business concept or data element. Each term can include rich metadata such as detailed definitions, synonyms, related terms, and usage examples. Glossary terms can be linked directly to data assets, providing business context to technical data elements. This linking capability helps users understand the business meaning of data ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -542,7 +542,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain con- sistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a...
+    /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes an asset filter. Prerequisites: o The asset filter must exist. o The domain and asset must not have been deleted. o Ensure the --identifier refers to a valid filter ID. See also: AWS API Documentation
+    /// Deletes an asset filter. Prerequisites: • The asset filter must exist. • The domain and asset must not have been deleted. • Ensure the --identifier refers to a valid filter ID. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes an asset in Amazon DataZone. o --domain-identifier must refer to a valid and existing domain. o --identifier must refer to an existing asset in the specified domain. o Asset must not be referenced in any existing asset filters. o Asset must not be linked to any draft or published data product. o User must have delete permissions for the domain and project. See also: AWS API Documentation
+    /// Deletes an asset in Amazon DataZone. • --domain-identifier must refer to a valid and existing domain. • --identifier must refer to an existing asset in the specified domain. • Asset must not be referenced in any existing asset filters. • Asset must not be linked to any draft or published data product. • User must have delete permissions for the domain and project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes an asset type in Amazon DataZone. Prerequisites: o The asset type must exist in the domain. o You must have DeleteAssetType permission. o The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail. o You should retrieve the asset type using get-asset-type to confirm its presence before deletion. See also: AWS API Documentation
+    /// Deletes an asset type in Amazon DataZone. Prerequisites: • The asset type must exist in the domain. • You must have DeleteAssetType permission. • The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail. • You should retrieve the asset type using get-asset-type to confirm its presence before deletion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to exter- nal resources and services. See also: AWS API Documentation
+    /// Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes data export configuration for a domain. This operation does not delete the S3 table created by the PutDataEx- portConfiguration operation. To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the --no-enable-export flag instead. This allows you to re-enable export for the same domain using the --enable-export flag without deleting S3 table. See also: AWS API Documentation
+    /// Deletes data export configuration for a domain. This operation does not delete the S3 table created by the PutDataExportConfiguration operation. To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the --no-enable-export flag instead. This allows you to re-enable export for the same domain using the --enable-export flag without deleting S3 table. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes a data product in Amazon DataZone. Prerequisites: o The data product must exist and not be deleted or archived. o The user must have delete permissions for the data product. o Domain and project must be active. See also: AWS API Documentation
+    /// Deletes a data product in Amazon DataZone. Prerequisites: • The data product must exist and not be deleted or archived. • The user must have delete permissions for the data product. • Domain and project must be active. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes and metadata form type in Amazon DataZone. Prerequisites: o The form type must exist in the domain. o The form type must not be in use by any asset types or assets. o The domain must be valid and accessible. o User must have delete permissions on the form type. o Any dependencies (such as linked asset types) must be removed first. See also: AWS API Documentation
+    /// Deletes and metadata form type in Amazon DataZone. Prerequisites: • The form type must exist in the domain. • The form type must not be in use by any asset types or assets. • The domain must be valid and accessible. • User must have delete permissions on the form type. • Any dependencies (such as linked asset types) must be removed first. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes a business glossary in Amazon DataZone. Prerequisites: o The glossary must be in DISABLED state. o The glossary must not have any glossary terms associated with it. o The glossary must exist in the specified domain. o The caller must have the datazone:DeleteGlossary permission in the domain and glossary. o Glossary should not be linked to any active metadata forms. See also: AWS API Documentation
+    /// Deletes a business glossary in Amazon DataZone. Prerequisites: • The glossary must be in DISABLED state. • The glossary must not have any glossary terms associated with it. • The glossary must exist in the specified domain. • The caller must have the datazone:DeleteGlossary permission in the domain and glossary. • Glossary should not be linked to any active metadata forms. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes a business glossary term in Amazon DataZone. Prerequisites: o Glossary term must exist and be active. o The term must not be linked to other assets or child terms. o Caller must have delete permissions in the domain/glossary. o Ensure all associations (such as to assets or parent terms) are re- moved before deletion. See also: AWS API Documentation
+    /// Deletes a business glossary term in Amazon DataZone. Prerequisites: • Glossary term must exist and be active. • The term must not be linked to other assets or child terms. • Caller must have delete permissions in the domain/glossary. • Ensure all associations (such as to assets or parent terms) are removed before deletion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain con- sistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a...
+    /// Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a d...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1097,7 +1097,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets an asset filter. Prerequisites: o Domain (--domain-identifier ), asset (--asset-identifier ), and fil- ter (--identifier ) must all exist. o The asset filter should not have been deleted. o The asset must still exist (since the filter is linked to it). See also: AWS API Documentation
+    /// Gets an asset filter. Prerequisites: • Domain (--domain-identifier ), asset (--asset-identifier ), and filter (--identifier ) must all exist. • The asset filter should not have been deleted. • The asset must still exist (since the filter is linked to it). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1112,7 +1112,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets an Amazon DataZone asset. An asset is the fundamental building block in Amazon DataZone, repre- senting any data resource that needs to be cataloged and managed. It can take many forms, from Amazon S3 buckets and database tables to dashboards and machine learning models. Each asset contains comprehen- sive metadata about the resource, including its location, schema, own- ership, and lineage information. Assets are essential for organizing and managing data resources across an organization, ...
+    /// Gets an Amazon DataZone asset. An asset is the fundamental building block in Amazon DataZone, representing any data resource that needs to be cataloged and managed. It can take many forms, from Amazon S3 buckets and database tables to dashboards and machine learning models. Each asset contains comprehensive metadata about the resource, including its location, schema, ownership, and lineage information. Assets are essential for organizing and managing data resources across an organization, making...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1127,7 +1127,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what meta- data fields are required, what operations are possible, and how the as- set integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Ser- vices Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucia...
+    /// Gets an Amazon DataZone asset type. Asset types define the categories and characteristics of different kinds of data assets within Amazon DataZone.. They determine what metadata fields are required, what operations are possible, and how the asset integrates with other Amazon Web Services services. Asset types can range from built-in types like Amazon S3 buckets and Amazon Web Services Glue tables to custom types defined for specific organizational needs. Understanding asset types is crucial for ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1142,7 +1142,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets a connection. In Amazon DataZone, a connection enables you to con- nect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation
+    /// Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1172,7 +1172,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets the data product. Prerequisites: o The data product ID must exist. o The domain must be valid and accessible. o User must have read or discovery permissions for the data product. See also: AWS API Documentation
+    /// Gets the data product. Prerequisites: • The data product ID must exist. • The domain must be valid and accessible. • User must have read or discovery permissions for the data product. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1337,7 +1337,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets a metadata form type in Amazon DataZone. Form types define the structure and validation rules for collecting metadata about assets in Amazon DataZone. They act as templates that ensure consistent metadata capture across similar types of assets, while allowing for customization to meet specific organizational needs. Form types can include required fields, validation rules, and dependen- cies, helping maintain high-quality metadata that makes data assets more discoverable and usable. o The fo...
+    /// Gets a metadata form type in Amazon DataZone. Form types define the structure and validation rules for collecting metadata about assets in Amazon DataZone. They act as templates that ensure consistent metadata capture across similar types of assets, while allowing for customization to meet specific organizational needs. Form types can include required fields, validation rules, and dependencies, helping maintain high-quality metadata that makes data assets more discoverable and usable. • The form...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1352,7 +1352,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets a business glossary in Amazon DataZone. Prerequisites: o The specified glossary ID must exist and be associated with the given domain. o The caller must have the datazone:GetGlossary permission on the do- main. See also: AWS API Documentation
+    /// Gets a business glossary in Amazon DataZone. Prerequisites: • The specified glossary ID must exist and be associated with the given domain. • The caller must have the datazone:GetGlossary permission on the domain. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1367,7 +1367,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets a business glossary term in Amazon DataZone. Prerequisites: o Glossary term with identifier must exist in the domain. o User must have permission on the glossary term. o Domain must be accessible and active. See also: AWS API Documentation
+    /// Gets a business glossary term in Amazon DataZone. Prerequisites: • Glossary term with identifier must exist in the domain. • User must have permission on the glossary term. • Domain must be accessible and active. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1457,7 +1457,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are re- turned. See also: AWS API Documentation
+    /// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1472,7 +1472,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets a metadata generation run in Amazon DataZone. Prerequisites: o Valid domain and run identifier. o The metadata generation run must exist. o User must have read access to the metadata run. See also: AWS API Documentation
+    /// Gets a metadata generation run in Amazon DataZone. Prerequisites: • Valid domain and run identifier. • The metadata generation run must exist. • User must have read access to the metadata run. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1487,7 +1487,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets the details of a notebook export in Amazon SageMaker Unified Stu- dio. See also: AWS API Documentation
+    /// Gets the details of a notebook export in Amazon SageMaker Unified Studio. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1562,7 +1562,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, cre- ating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata en- forcement rule can specify the required information for creating a sub- scription request...
+    /// Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or pu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1682,7 +1682,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists the accounts in the specified account pool. See also: AWS API Documentation list-accounts-in-account-pool is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists the accounts in the specified account pool. See also: AWS API Documentation list-accounts-in-account-pool is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1697,7 +1697,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists asset filters. Prerequisites: o A valid domain and asset must exist. o The asset must have at least one filter created to return results. See also: AWS API Documentation list-asset-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
+    /// Lists asset filters. Prerequisites: • A valid domain and asset must exist. • The asset must have at least one filter created to return results. See also: AWS API Documentation list-asset-filters is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1712,7 +1712,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists the revisions for the asset. Prerequisites: o The asset must exist in the domain. o There must be at least one revision of the asset (which happens auto- matically after creation). o The domain must be valid and active. o User must have permissions on the asset and domain. See also: AWS API Documentation list-asset-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
+    /// Lists the revisions for the asset. Prerequisites: • The asset must exist in the domain. • There must be at least one revision of the asset (which happens automatically after creation). • The domain must be valid and active. • User must have permissions on the asset and domain. See also: AWS API Documentation list-asset-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1727,7 +1727,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists connections. In Amazon DataZone, a connection enables you to con- nect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extr...
+    /// Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation list-connections is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extrac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1742,7 +1742,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists data product revisions. Prerequisites: o The data product ID must exist within the domain. o User must have view permissions on the data product. o The domain must be in a valid and accessible state. See also: AWS API Documentation list-data-product-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument ...
+    /// Lists data product revisions. Prerequisites: • The data product ID must exist within the domain. • User must have view permissions on the data product. • The domain must be in a valid and accessible state. See also: AWS API Documentation list-data-product-revisions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1757,7 +1757,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists data source run activities. See also: AWS API Documentation list-data-source-run-activities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists data source run activities. See also: AWS API Documentation list-data-source-run-activities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1802,22 +1802,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists Amazon DataZone domains. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDomainsAsync(
-        AwsDatazoneListDomainsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDatazoneListDomainsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists child domain units for the specified parent domain unit. See also: AWS API Documentation list-domain-units-for-parent is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists child domain units for the specified parent domain unit. See also: AWS API Documentation list-domain-units-for-parent is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1829,6 +1814,21 @@ public class AwsDatazone : IAwsDatazone
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists Amazon DataZone domains. See also: AWS API Documentation list-domains is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDomainsAsync(
+        AwsDatazoneListDomainsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsDatazoneListDomainsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -1847,7 +1847,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists existing environment actions. See also: AWS API Documentation list-environment-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists existing environment actions. See also: AWS API Documentation list-environment-actions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1862,7 +1862,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists blueprint configurations for a Amazon DataZone environment. See also: AWS API Documentation list-environment-blueprint-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expressions: items
+    /// Lists blueprint configurations for a Amazon DataZone environment. See also: AWS API Documentation list-environment-blueprint-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1877,7 +1877,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists blueprints in an Amazon DataZone environment. See also: AWS API Documentation list-environment-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists blueprints in an Amazon DataZone environment. See also: AWS API Documentation list-environment-blueprints is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1892,7 +1892,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists Amazon DataZone environment profiles. See also: AWS API Documentation list-environment-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists Amazon DataZone environment profiles. See also: AWS API Documentation list-environment-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1922,7 +1922,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists job runs. See also: AWS API Documentation list-job-runs is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists job runs. See also: AWS API Documentation list-job-runs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1952,7 +1952,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists the history of the specified data lineage node. See also: AWS API Documentation list-lineage-node-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: nodes
+    /// Lists the history of the specified data lineage node. See also: AWS API Documentation list-lineage-node-history is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: nodes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1967,7 +1967,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists all metadata generation runs. Metadata generation runs represent automated processes that leverage AI/ML capabilities to create or enhance asset metadata at scale. This feature helps organizations maintain comprehensive and consistent meta- data across large numbers of assets without manual intervention. It can automatically generate business descriptions, tags, and other metadata elements, significantly reducing the time and effort required for meta- data management while improving consis...
+    /// Lists all metadata generation runs. Metadata generation runs represent automated processes that leverage AI/ML capabilities to create or enhance asset metadata at scale. This feature helps organizations maintain comprehensive and consistent metadata across large numbers of assets without manual intervention. It can automatically generate business descriptions, tags, and other metadata elements, significantly reducing the time and effort required for metadata management while improving consistenc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1997,7 +1997,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists notebooks in Amazon SageMaker Unified Studio. See also: AWS API Documentation list-notebooks is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists notebooks in Amazon SageMaker Unified Studio. See also: AWS API Documentation list-notebooks is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2042,7 +2042,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists all members of the specified project. See also: AWS API Documentation list-project-memberships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: members
+    /// Lists all members of the specified project. See also: AWS API Documentation list-project-memberships is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: members
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2072,7 +2072,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists Amazon DataZone projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists Amazon DataZone projects. See also: AWS API Documentation list-projects is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2087,7 +2087,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., pub- lishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance stan- dards in data management processes. For instance, a metadata enforce- ment rule can specify the required information for creating a subscrip- tion request or...
+    /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publish...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2102,7 +2102,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists subscription grants. See also: AWS API Documentation list-subscription-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists subscription grants. See also: AWS API Documentation list-subscription-grants is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2117,7 +2117,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists Amazon DataZone subscription requests. See also: AWS API Documentation list-subscription-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
+    /// Lists Amazon DataZone subscription requests. See also: AWS API Documentation list-subscription-requests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2125,6 +2125,21 @@ public class AwsDatazone : IAwsDatazone
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSubscriptionRequestsAsync(
         AwsDatazoneListSubscriptionRequestsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists subscription targets in Amazon DataZone. See also: AWS API Documentation list-subscription-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListSubscriptionTargetsAsync(
+        AwsDatazoneListSubscriptionTargetsOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -2147,21 +2162,6 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists subscription targets in Amazon DataZone. See also: AWS API Documentation list-subscription-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: items
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListSubscriptionTargetsAsync(
-        AwsDatazoneListSubscriptionTargetsOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Lists tags for the specified resource in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -2177,7 +2177,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Lists time series data points. See also: AWS API Documentation list-time-series-data-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
+    /// Lists time series data points. See also: AWS API Documentation list-time-series-data-points is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2207,7 +2207,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Posts time series data points to Amazon DataZone for the specified as- set. See also: AWS API Documentation
+    /// Posts time series data points to Amazon DataZone for the specified asset. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2222,7 +2222,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: o Delete the export configuratio...
+    /// Creates data export configuration details. If you want to temporarily disable export and later re-enable it for the same domain, use the --no-enable-export flag to disable and the --enable-export flag to re-enable. This preserves the configuration and allows you to re-enable export without deleting S3 table. NOTE: You can enable asset metadata export for only one domain per account per Region. To enable export for a different domain, complete the following steps: • Delete the export configuratio...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2252,7 +2252,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Queries entities in the graph store. See also: AWS API Documentation query-graph is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: items
+    /// Queries entities in the graph store. See also: AWS API Documentation query-graph is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: items
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2357,7 +2357,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organiza- tion. It provides both basic and advanced search functionality, allow- ing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resou...
+    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2372,7 +2372,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, de- scriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data prod- ucts) and can be filtered using various c...
+    /// Searches for assets in Amazon DataZone. Search in Amazon DataZone is a powerful capability that enables users to discover and explore data assets, glossary terms, and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. Search can be scoped to specific types of resources (like assets, glossary terms, or data products) and can be filtered using various crite...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2387,7 +2387,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Searches for types in Amazon DataZone. Prerequisites: o The --domain-identifier must refer to an existing Amazon DataZone do- main. o --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE. o The --managed flag must be present without a value. o The user must have permissions for form or asset types in the domain. o If using --filters, ensure that the JSON is valid. o Filters contain correct structure (attribute, value, operator). See also: AW...
+    /// Searches for types in Amazon DataZone. Prerequisites: • The --domain-identifier must refer to an existing Amazon DataZone domain. • --search-scope must be one of the valid values including: ASSET_TYPE, GLOSSARY_TERM_TYPE, DATA_PRODUCT_TYPE. • The --managed flag must be present without a value. • The user must have permissions for form or asset types in the domain. • If using --filters, ensure that the JSON is valid. • Filters contain correct structure (attribute, value, operator). See also: AWS ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2432,7 +2432,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Starts the metadata generation run. Prerequisites: o Asset must be created and belong to the specified domain and project. o Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table). o Asset must have a structured schema with valid rows and columns. o Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSI- NESS_GLOSSARY_ASSOCIATIONS. o The user must have permission to run metadata generation in the do- main/project. See also: AWS API Documentation
+    /// Starts the metadata generation run. Prerequisites: • Asset must be created and belong to the specified domain and project. • Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table). • Asset must have a structured schema with valid rows and columns. • Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSINESS_GLOSSARY_ASSOCIATIONS. • The user must have permission to run metadata generation in the domain/project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2447,7 +2447,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Starts a notebook export in Amazon SageMaker Unified Studio. This oper- ation exports a notebook to a specified file format and stores the out- put in Amazon Simple Storage Service. See also: AWS API Documentation
+    /// Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2462,7 +2462,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Starts a notebook import in Amazon SageMaker Unified Studio. This oper- ation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
+    /// Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2492,7 +2492,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Starts a notebook sync in Amazon SageMaker Unified Studio. This opera- tion syncs a notebook from a Git repository into a project. See also: AWS API Documentation
+    /// Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2567,7 +2567,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Updates an asset filter. Prerequisites: o The domain, asset, and asset filter identifier must all exist. o The asset must contain the columns being referenced in the update. o If applying a row filter, ensure the column referenced in the expres- sion exists in the asset schema. See also: AWS API Documentation
+    /// Updates an asset filter. Prerequisites: • The domain, asset, and asset filter identifier must all exist. • The asset must contain the columns being referenced in the update. • If applying a row filter, ensure the column referenced in the expression exists in the asset schema. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2582,7 +2582,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to exter- nal resources and services. See also: AWS API Documentation
+    /// Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2702,7 +2702,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Updates the business glossary in Amazon DataZone. Prerequisites: o The glossary must exist in the given domain. o The caller must have the datazone:UpdateGlossary permission to update it. o When updating the name, the new name must be unique within the do- main. o The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
+    /// Updates the business glossary in Amazon DataZone. Prerequisites: • The glossary must exist in the given domain. • The caller must have the datazone:UpdateGlossary permission to update it. • When updating the name, the new name must be unique within the domain. • The glossary must not be deleted or in a terminal state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2717,7 +2717,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Updates a business glossary term in Amazon DataZone. Prerequisites: o Glossary term must exist in the specified domain. o New name must not conflict with existing terms in the same glossary. o User must have permissions on the term. o The term must not be in DELETED status. See also: AWS API Documentation
+    /// Updates a business glossary term in Amazon DataZone. Prerequisites: • Glossary term must exist in the specified domain. • New name must not conflict with existing terms in the same glossary. • User must have permissions on the term. • The term must not be in DELETED status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -2807,7 +2807,7 @@ public class AwsDatazone : IAwsDatazone
     }
 
     /// <summary>
-    /// Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain con- sistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing ...
+    /// Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

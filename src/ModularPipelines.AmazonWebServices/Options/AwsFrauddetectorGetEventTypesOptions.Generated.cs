@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults , this action re- trieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, pro- vide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the be- ginning. See also: AWS API Documentation
+/// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsFrauddetectorGetEventTypesOptions : AwsOptions
 {
     /// <summary>
-    /// The name. Constraints: o min: 1 o max: 64 o pattern: ^[0-9a-z_-]+$
+    /// The name. Constraints: • min: 1 • max: 64 • pattern: ^[0-9a-z_-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
@@ -36,7 +36,7 @@ public record AwsFrauddetectorGetEventTypesOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of objects to return for the request. Constraints: o min: 5 o max: 10
+    /// The maximum number of objects to return for the request. Constraints: • min: 5 • max: 10
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsFrauddetectorGetEventTypesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

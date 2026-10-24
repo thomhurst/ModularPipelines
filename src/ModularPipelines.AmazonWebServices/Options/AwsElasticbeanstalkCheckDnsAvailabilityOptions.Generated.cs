@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsElasticbeanstalkCheckDnsAvailabilityOptions : AwsOptions, IVali
     /// <summary>
     /// Checks if the specified CNAME is available. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CnamePrefix">The prefix used when this CNAME is reserved. Constraints: o min: 4 o max: 63</param>
+    /// <param name="CnamePrefix">The prefix used when this CNAME is reserved. Constraints: • min: 4 • max: 63</param>
     public AwsElasticbeanstalkCheckDnsAvailabilityOptions(
         string CnamePrefix
     )
@@ -56,7 +57,7 @@ public record AwsElasticbeanstalkCheckDnsAvailabilityOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The prefix used when this CNAME is reserved. Constraints: o min: 4 o max: 63
+    /// The prefix used when this CNAME is reserved. Constraints: • min: 4 • max: 63
     /// </summary>
     [CliOption("--cname-prefix")]
     public string? CnamePrefix { get; private init; }
@@ -82,6 +83,15 @@ public record AwsElasticbeanstalkCheckDnsAvailabilityOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , or STOPPED . Restoring a WorkSpace is a potentially destructive action that can re- sult in the loss of data. For more information, see Restore a WorkSpace . This operation is asynchronous and returns before the WorkSpace is com- pletely restored. See also: AWS API Documentation
+/// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , or STOPPED . Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Restore a WorkSpace . This operation is asynchronous and returns before the WorkSpace is completely restored. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWorkspacesRestoreWorkspaceOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , or STOPPED . Restoring a WorkSpace is a potentially destructive action that can re- sult in the loss of data. For more information, see Restore a WorkSpace . This operation is asynchronous and returns before the WorkSpace is com- pletely restored. See also: AWS API Documentation
+    /// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is AVAILABLE , ERROR , UNHEALTHY , or STOPPED . Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Restore a WorkSpace . This operation is asynchronous and returns before the WorkSpace is completely restored. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$</param>
+    /// <param name="WorkspaceId">The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$</param>
     public AwsWorkspacesRestoreWorkspaceOptions(
         string WorkspaceId
     )
@@ -56,7 +57,7 @@ public record AwsWorkspacesRestoreWorkspaceOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the WorkSpace. Constraints: o pattern: ^ws-[0-9a-z]{8,63}$
+    /// The identifier of the WorkSpace. Constraints: • pattern: ^ws-[0-9a-z]{8,63}$
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWorkspacesRestoreWorkspaceOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

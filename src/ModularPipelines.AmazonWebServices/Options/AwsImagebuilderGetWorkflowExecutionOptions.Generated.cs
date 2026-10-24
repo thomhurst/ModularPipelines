@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsImagebuilderGetWorkflowExecutionOptions : AwsOptions, IValidata
     /// <summary>
     /// Retrieves runtime information for a specific runtime instance of the workflow. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowExecutionId">Use the unique identifier for a runtime instance of the workflow to get runtime details. Constraints: o pattern: ^wf-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    /// <param name="WorkflowExecutionId">Use the unique identifier for a runtime instance of the workflow to get runtime details. Constraints: • pattern: ^wf-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
     public AwsImagebuilderGetWorkflowExecutionOptions(
         string WorkflowExecutionId
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderGetWorkflowExecutionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Use the unique identifier for a runtime instance of the workflow to get runtime details. Constraints: o pattern: ^wf-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// Use the unique identifier for a runtime instance of the workflow to get runtime details. Constraints: • pattern: ^wf-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--workflow-execution-id")]
     public string? WorkflowExecutionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderGetWorkflowExecutionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

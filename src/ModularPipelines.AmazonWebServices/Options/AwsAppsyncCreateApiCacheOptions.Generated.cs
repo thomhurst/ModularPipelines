@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,11 +31,11 @@ public record AwsAppsyncCreateApiCacheOptions : AwsOptions, IValidatableObject
     /// </summary>
     /// <param name="ApiId">The GraphQL API ID.</param>
     /// <param name="Ttl">TTL in seconds for cache entries. Valid values are 13,600 seconds.</param>
-    /// <param name="ApiCachingBehavior">Caching behavior. o FULL_REQUEST_CACHING : All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache. o PER_RESOLVER_CACHING : Individual resolvers that you specify are cached. o OPERATION_LEVEL_CACHING : Full requests are cached together and returned without executing resolvers. Possible values: o FULL_REQUEST_CACHING o PER_RESOLVER_CACHING o OPERATION_LEVEL_CACHING</param>
-    /// <param name="Type">The cache instance type. Valid values are o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X (not available in all regions) o LARGE_12X Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged: o T2_SMALL : A t2.small instance type. o T2_MEDIUM : A t2.medium instance type. o R4_LARGE : A r4.large instance type. o R4_XLARGE : A r4.xlarge instance type. o R4_2XLARGE : A r4.2xlarge instance type. o R4_4XLARGE : A r4.4xlarge instance type. o R4_8XLARGE : A r4.8xlarge instance type. Possible values: o T2_SMALL o T2_MEDIUM o R4_LARGE o R4_XLARGE o R4_2XLARGE o R4_4XLARGE o R4_8XLARGE o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X o LARGE_12X</param>
+    /// <param name="ApiCachingBehavior">Caching behavior. • FULL_REQUEST_CACHING : All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache. • PER_RESOLVER_CACHING : Individual resolvers that you specify are cached. • OPERATION_LEVEL_CACHING : Full requests are cached together and returned without executing resolvers. Possible values: • FULL_REQUEST_CACHING • PER_RESOLVER_CACHING • OPERATION_LEVEL_CACHING</param>
+    /// <param name="Type">The cache instance type. Valid values are • SMALL • MEDIUM • LARGE • XLARGE • LARGE_2X • LARGE_4X • LARGE_8X (not available in all regions) • LARGE_12X Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged: • T2_SMALL : A t2.small instance type. • T2_MEDIUM : A t2.medium instance type. • R4_LARGE : A r4.large instance type. • R4_XLARGE : A r4.xlarge instance type. • R4_2XLARGE : A r4.2xlarge instance type. • R4_4XLARGE : A r4.4xlarge instance type. • R4_8XLARGE : A r4.8xlarge instance type. Possible values: • T2_SMALL • T2_MEDIUM • R4_LARGE • R4_XLARGE • R4_2XLARGE • R4_4XLARGE • R4_8XLARGE • SMALL • MEDIUM • LARGE • XLARGE • LARGE_2X • LARGE_4X • LARGE_8X • LARGE_12X</param>
     public AwsAppsyncCreateApiCacheOptions(
         string ApiId,
-        int Ttl,
+        long Ttl,
         AwsAppsyncCreateApiCacheApiCachingBehavior ApiCachingBehavior,
         AwsAppsyncCreateApiCacheType Type
     )
@@ -75,16 +76,16 @@ public record AwsAppsyncCreateApiCacheOptions : AwsOptions, IValidatableObject
     /// TTL in seconds for cache entries. Valid values are 13,600 seconds.
     /// </summary>
     [CliOption("--ttl")]
-    public int? Ttl { get; private init; }
+    public long? Ttl { get; private init; }
 
     /// <summary>
-    /// Caching behavior. o FULL_REQUEST_CACHING : All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache. o PER_RESOLVER_CACHING : Individual resolvers that you specify are cached. o OPERATION_LEVEL_CACHING : Full requests are cached together and returned without executing resolvers. Possible values: o FULL_REQUEST_CACHING o PER_RESOLVER_CACHING o OPERATION_LEVEL_CACHING
+    /// Caching behavior. • FULL_REQUEST_CACHING : All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache. • PER_RESOLVER_CACHING : Individual resolvers that you specify are cached. • OPERATION_LEVEL_CACHING : Full requests are cached together and returned without executing resolvers. Possible values: • FULL_REQUEST_CACHING • PER_RESOLVER_CACHING • OPERATION_LEVEL_CACHING
     /// </summary>
     [CliOption("--api-caching-behavior")]
     public AwsAppsyncCreateApiCacheApiCachingBehavior? ApiCachingBehavior { get; private init; }
 
     /// <summary>
-    /// The cache instance type. Valid values are o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X (not available in all regions) o LARGE_12X Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged: o T2_SMALL : A t2.small instance type. o T2_MEDIUM : A t2.medium instance type. o R4_LARGE : A r4.large instance type. o R4_XLARGE : A r4.xlarge instance type. o R4_2XLARGE : A r4.2xlarge instance type. o R4_4XLARGE : A r4.4xlarge instance type. o R4_8XLARGE : A r4.8xlarge instance type. Possible values: o T2_SMALL o T2_MEDIUM o R4_LARGE o R4_XLARGE o R4_2XLARGE o R4_4XLARGE o R4_8XLARGE o SMALL o MEDIUM o LARGE o XLARGE o LARGE_2X o LARGE_4X o LARGE_8X o LARGE_12X
+    /// The cache instance type. Valid values are • SMALL • MEDIUM • LARGE • XLARGE • LARGE_2X • LARGE_4X • LARGE_8X (not available in all regions) • LARGE_12X Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged: • T2_SMALL : A t2.small instance type. • T2_MEDIUM : A t2.medium instance type. • R4_LARGE : A r4.large instance type. • R4_XLARGE : A r4.xlarge instance type. • R4_2XLARGE : A r4.2xlarge instance type. • R4_4XLARGE : A r4.4xlarge instance type. • R4_8XLARGE : A r4.8xlarge instance type. Possible values: • T2_SMALL • T2_MEDIUM • R4_LARGE • R4_XLARGE • R4_2XLARGE • R4_4XLARGE • R4_8XLARGE • SMALL • MEDIUM • LARGE • XLARGE • LARGE_2X • LARGE_4X • LARGE_8X • LARGE_12X
     /// </summary>
     [CliOption("--type")]
     public AwsAppsyncCreateApiCacheType? Type { get; private init; }
@@ -102,7 +103,7 @@ public record AwsAppsyncCreateApiCacheOptions : AwsOptions, IValidatableObject
     public bool? AtRestEncryptionEnabled { get; set; }
 
     /// <summary>
-    /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include: o NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configura- tion. o EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration. Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED . Possible values: o ENABLED o DISABLED
+    /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include: • NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration. • EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration. Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED . Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--health-metrics-config")]
     public AwsAppsyncCreateApiCacheHealthMetricsConfig? HealthMetricsConfig { get; set; }
@@ -128,6 +129,15 @@ public record AwsAppsyncCreateApiCacheOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

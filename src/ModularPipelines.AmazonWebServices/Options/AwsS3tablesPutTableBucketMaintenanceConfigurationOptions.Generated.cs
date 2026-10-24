@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration per- mission to use this operation. See also: AWS API Documentation
+/// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsS3tablesPutTableBucketMaintenanceConfigurationOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new maintenance configuration or replaces an existing mainte- nance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration per- mission to use this operation. See also: AWS API Documentation
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Type">The type of the maintenance configuration. Possible values: o icebergUnreferencedFileRemoval</param>
-    /// <param name="Value">Defines the values of the maintenance configuration for the table bucket. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings of the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergUnreferencedFileRemoval. icebergUnreferencedFileRemoval -&gt; (structure) The unreferenced file removal settings for the table bucket. unreferencedDays -&gt; (integer) The number of days an object has to be unreferenced be- fore it is marked as non-current. Constraints: o min: 1 o max: 2147483647 nonCurrentDays -&gt; (integer) The number of days an object has to be non-current before it is deleted. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergUnreferencedFileRemoval={unreferencedDays=integer,nonCurrentDays=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergUnreferencedFileRemoval": { "unreferencedDays": integer, "nonCurrentDays": integer } } }</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Type">The type of the maintenance configuration. Possible values: • icebergUnreferencedFileRemoval</param>
+    /// <param name="Value">Defines the values of the maintenance configuration for the table bucket. status -&gt; (string) The status of the maintenance configuration. Possible values: • enabled • disabled settings -&gt; (tagged union structure) Contains details about the settings of the maintenance configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergUnreferencedFileRemoval. icebergUnreferencedFileRemoval -&gt; (structure) The unreferenced file removal settings for the table bucket. unreferencedDays -&gt; (integer) The number of days an object has to be unreferenced before it is marked as non-current. Constraints: • min: 1 • max: 2147483647 nonCurrentDays -&gt; (integer) The number of days an object has to be non-current before it is deleted. Constraints: • min: 1 • max: 2147483647 Shorthand Syntax: status=string,settings={icebergUnreferencedFileRemoval={unreferencedDays=integer,nonCurrentDays=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergUnreferencedFileRemoval": { "unreferencedDays": integer, "nonCurrentDays": integer } } }</param>
     public AwsS3tablesPutTableBucketMaintenanceConfigurationOptions(
         string TableBucketArn,
         string Type,
@@ -64,19 +65,19 @@ public record AwsS3tablesPutTableBucketMaintenanceConfigurationOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The type of the maintenance configuration. Possible values: o icebergUnreferencedFileRemoval
+    /// The type of the maintenance configuration. Possible values: • icebergUnreferencedFileRemoval
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; private init; }
 
     /// <summary>
-    /// Defines the values of the maintenance configuration for the table bucket. status -&gt; (string) The status of the maintenance configuration. Possible values: o enabled o disabled settings -&gt; (tagged union structure) Contains details about the settings of the maintenance configu- ration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergUnreferencedFileRemoval. icebergUnreferencedFileRemoval -&gt; (structure) The unreferenced file removal settings for the table bucket. unreferencedDays -&gt; (integer) The number of days an object has to be unreferenced be- fore it is marked as non-current. Constraints: o min: 1 o max: 2147483647 nonCurrentDays -&gt; (integer) The number of days an object has to be non-current before it is deleted. Constraints: o min: 1 o max: 2147483647 Shorthand Syntax: status=string,settings={icebergUnreferencedFileRemoval={unreferencedDays=integer,nonCurrentDays=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergUnreferencedFileRemoval": { "unreferencedDays": integer, "nonCurrentDays": integer } } }
+    /// Defines the values of the maintenance configuration for the table bucket. status -&gt; (string) The status of the maintenance configuration. Possible values: • enabled • disabled settings -&gt; (tagged union structure) Contains details about the settings of the maintenance configuration. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: icebergUnreferencedFileRemoval. icebergUnreferencedFileRemoval -&gt; (structure) The unreferenced file removal settings for the table bucket. unreferencedDays -&gt; (integer) The number of days an object has to be unreferenced before it is marked as non-current. Constraints: • min: 1 • max: 2147483647 nonCurrentDays -&gt; (integer) The number of days an object has to be non-current before it is deleted. Constraints: • min: 1 • max: 2147483647 Shorthand Syntax: status=string,settings={icebergUnreferencedFileRemoval={unreferencedDays=integer,nonCurrentDays=integer}} JSON Syntax: { "status": "enabled"|"disabled", "settings": { "icebergUnreferencedFileRemoval": { "unreferencedDays": integer, "nonCurrentDays": integer } } }
     /// </summary>
     [CliOption("--value")]
     public string? Value { get; private init; }
@@ -102,6 +103,15 @@ public record AwsS3tablesPutTableBucketMaintenanceConfigurationOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

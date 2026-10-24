@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
+/// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSesv2DeleteConfigurationSetEventDestinationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send in- formation about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
+    /// Delete an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destina- tion to delete.</param>
+    /// <param name="ConfigurationSetName">The name of the configuration set that contains the event destination to delete.</param>
     /// <param name="EventDestinationName">The name of the event destination to delete.</param>
     public AwsSesv2DeleteConfigurationSetEventDestinationOptions(
         string ConfigurationSetName,
@@ -60,7 +61,7 @@ public record AwsSesv2DeleteConfigurationSetEventDestinationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the configuration set that contains the event destina- tion to delete.
+    /// The name of the configuration set that contains the event destination to delete.
     /// </summary>
     [CliOption("--configuration-set-name")]
     public string? ConfigurationSetName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSesv2DeleteConfigurationSetEventDestinationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

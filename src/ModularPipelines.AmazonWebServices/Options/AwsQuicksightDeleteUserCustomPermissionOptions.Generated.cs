@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQuicksightDeleteUserCustomPermissionOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a custom permissions profile from a user. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserName">The username of the user that you want to remove custom permissions from. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+</param>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="Namespace">The namespace that the user belongs to. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="UserName">The username of the user that you want to remove custom permissions from. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="Namespace">The namespace that the user belongs to. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsQuicksightDeleteUserCustomPermissionOptions(
         string UserName,
         string AwsAccountId,
@@ -64,19 +65,19 @@ public record AwsQuicksightDeleteUserCustomPermissionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The username of the user that you want to remove custom permissions from. Constraints: o min: 1 o pattern: [\u0020-\u00FF]+
+    /// The username of the user that you want to remove custom permissions from. Constraints: • min: 1 • pattern: [\u0020-\u00FF]+
     /// </summary>
     [CliOption("--user-name")]
     public string? UserName { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the custom permission configuration that you want to delete. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The namespace that the user belongs to. Constraints: o max: 64 o pattern: ^[a-zA-Z0-9._-]*$
+    /// The namespace that the user belongs to. Constraints: • max: 64 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
@@ -102,6 +103,15 @@ public record AwsQuicksightDeleteUserCustomPermissionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

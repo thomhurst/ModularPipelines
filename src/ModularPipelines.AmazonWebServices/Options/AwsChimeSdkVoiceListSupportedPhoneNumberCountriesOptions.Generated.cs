@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions : AwsOpti
     /// <summary>
     /// Lists the countries that you can order phone numbers from. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProductType">The phone number product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn</param>
+    /// <param name="ProductType">The phone number product type. Possible values: • VoiceConnector • SipMediaApplicationDialIn</param>
     public AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions(
         AwsChimeSdkVoiceListSupportedPhoneNumberCountriesProductType ProductType
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The phone number product type. Possible values: o VoiceConnector o SipMediaApplicationDialIn
+    /// The phone number product type. Possible values: • VoiceConnector • SipMediaApplicationDialIn
     /// </summary>
     [CliOption("--product-type")]
     public AwsChimeSdkVoiceListSupportedPhoneNumberCountriesProductType? ProductType { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceListSupportedPhoneNumberCountriesOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

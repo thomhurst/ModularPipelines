@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Docume...
+/// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Document...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is sub- ject to change. See also: AWS API Docume...
+    /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. NOTE: Flow executions is in preview release for Amazon Bedrock and is subject to change. See also: AWS API Document...
     /// </summary>
-    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias to use for the flow execu- tion. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$</param>
-    /// <param name="FlowIdentifier">The unique identifier of the flow to execute. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
-    /// <param name="Inputs">The input data required for the flow execution. This must match the input schema defined in the flow. Constraints: o min: 1 o max: 1 (structure) Contains information about an input into the prompt flow and where to send it. content -&gt; (tagged union structure) [required] Contains information about an input into the prompt flow. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: document. document -&gt; (document) The input to send to the prompt flow input node. nodeInputName -&gt; (string) The name of the input from the flow input node. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeName -&gt; (string) [required] The name of the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeOutputName -&gt; (string) The name of the output from the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ Shorthand Syntax: content={},nodeInputName=string,nodeName=string,nodeOutputName=string ... JSON Syntax: [ { "content": { "document": {...} }, "nodeInputName": "string", "nodeName": "string", "nodeOutputName": "string" } ... ]</param>
+    /// <param name="FlowAliasIdentifier">The unique identifier of the flow alias to use for the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="FlowIdentifier">The unique identifier of the flow to execute. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$</param>
+    /// <param name="Inputs">The input data required for the flow execution. This must match the input schema defined in the flow. Constraints: • min: 1 • max: 1 (structure) Contains information about an input into the prompt flow and where to send it. content -&gt; (tagged union structure) [required] Contains information about an input into the prompt flow. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: document. document -&gt; (document) The input to send to the prompt flow input node. nodeInputName -&gt; (string) The name of the input from the flow input node. Constraints: • pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeName -&gt; (string) [required] The name of the flow input node that begins the prompt flow. Constraints: • pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeOutputName -&gt; (string) The name of the output from the flow input node that begins the prompt flow. Constraints: • pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ Shorthand Syntax: content={},nodeInputName=string,nodeName=string,nodeOutputName=string ... JSON Syntax: [ { "content": { "document": {...} }, "nodeInputName": "string", "nodeName": "string", "nodeOutputName": "string" } ... ]</param>
     public AwsBedrockAgentRuntimeStartFlowExecutionOptions(
         string FlowAliasIdentifier,
         string FlowIdentifier,
@@ -75,31 +76,31 @@ public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the flow alias to use for the flow execu- tion. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bT- STALIASID\b|[0-9a-zA-Z]+)$
+    /// The unique identifier of the flow alias to use for the flow execution. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--flow-alias-identifier")]
     public string? FlowAliasIdentifier { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the flow to execute. Constraints: o min: 0 o max: 2048 o pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
+    /// The unique identifier of the flow to execute. Constraints: • min: 0 • max: 2048 • pattern: ^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10})|([0-9a-zA-Z]{10})$
     /// </summary>
     [CliOption("--flow-identifier")]
     public string? FlowIdentifier { get; private init; }
 
     /// <summary>
-    /// The input data required for the flow execution. This must match the input schema defined in the flow. Constraints: o min: 1 o max: 1 (structure) Contains information about an input into the prompt flow and where to send it. content -&gt; (tagged union structure) [required] Contains information about an input into the prompt flow. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: document. document -&gt; (document) The input to send to the prompt flow input node. nodeInputName -&gt; (string) The name of the input from the flow input node. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeName -&gt; (string) [required] The name of the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeOutputName -&gt; (string) The name of the output from the flow input node that begins the prompt flow. Constraints: o pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ Shorthand Syntax: content={},nodeInputName=string,nodeName=string,nodeOutputName=string ... JSON Syntax: [ { "content": { "document": {...} }, "nodeInputName": "string", "nodeName": "string", "nodeOutputName": "string" } ... ]
+    /// The input data required for the flow execution. This must match the input schema defined in the flow. Constraints: • min: 1 • max: 1 (structure) Contains information about an input into the prompt flow and where to send it. content -&gt; (tagged union structure) [required] Contains information about an input into the prompt flow. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: document. document -&gt; (document) The input to send to the prompt flow input node. nodeInputName -&gt; (string) The name of the input from the flow input node. Constraints: • pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeName -&gt; (string) [required] The name of the flow input node that begins the prompt flow. Constraints: • pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ nodeOutputName -&gt; (string) The name of the output from the flow input node that begins the prompt flow. Constraints: • pattern: ^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$ Shorthand Syntax: content={},nodeInputName=string,nodeName=string,nodeOutputName=string ... JSON Syntax: [ { "content": { "document": {...} }, "nodeInputName": "string", "nodeName": "string", "nodeOutputName": "string" } ... ]
     /// </summary>
     [CliOption("--inputs", GroupValues = true)]
     public IEnumerable<string>? Inputs { get; private init; }
 
     /// <summary>
-    /// The unique name for the flow execution. If you don't provide one, a system-generated name is used. Constraints: o min: 0 o max: 36 o pattern: ^[a-zA-Z0-9-]{1,36}$
+    /// The unique name for the flow execution. If you don't provide one, a system-generated name is used. Constraints: • min: 0 • max: 36 • pattern: ^[a-zA-Z0-9-]{1,36}$
     /// </summary>
     [CliOption("--flow-execution-name")]
     public string? FlowExecutionName { get; set; }
 
     /// <summary>
-    /// The performance settings for the foundation model used in the flow execution. performanceConfig -&gt; (structure) The latency configuration for the model. latency -&gt; (string) To use a latency-optimized version of the model, set to opti- mized . Possible values: o standard o optimized Shorthand Syntax: performanceConfig={latency=string} JSON Syntax: { "performanceConfig": { "latency": "standard"|"optimized" } }
+    /// The performance settings for the foundation model used in the flow execution. performanceConfig -&gt; (structure) The latency configuration for the model. latency -&gt; (string) To use a latency-optimized version of the model, set to optimized . Possible values: • standard • optimized Shorthand Syntax: performanceConfig={latency=string} JSON Syntax: { "performanceConfig": { "latency": "standard"|"optimized" } }
     /// </summary>
     [CliOption("--model-performance-configuration")]
     public string? ModelPerformanceConfiguration { get; set; }
@@ -125,6 +126,15 @@ public record AwsBedrockAgentRuntimeStartFlowExecutionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

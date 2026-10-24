@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Given a user pool ID, returns the signing certificate for SAML 2.0 fed- eration. Issued certificates are valid for 10 years from the date of issue. Ama- zon Cognito issues and assigns a new signing certificate annually. This renewal process returns a new value in the response to GetSigningCer- tificate , but doesn't invalidate the original certificate. For more information, see Signing SAML requests . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for ...
+/// Given a user pool ID, returns the signing certificate for SAML 2.0 federation. Issued certificates are valid for 10 years from the date of issue. Amazon Cognito issues and assigns a new signing certificate annually. This renewal process returns a new value in the response to GetSigningCertificate , but doesn't invalidate the original certificate. For more information, see Signing SAML requests . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCognitoIdpGetSigningCertificateOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Given a user pool ID, returns the signing certificate for SAML 2.0 fed- eration. Issued certificates are valid for 10 years from the date of issue. Ama- zon Cognito issues and assigns a new signing certificate annually. This renewal process returns a new value in the response to GetSigningCer- tificate , but doesn't invalidate the original certificate. For more information, see Signing SAML requests . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for ...
+    /// Given a user pool ID, returns the signing certificate for SAML 2.0 federation. Issued certificates are valid for 10 years from the date of issue. Amazon Cognito issues and assigns a new signing certificate annually. This renewal process returns a new value in the response to GetSigningCertificate , but doesn't invalidate the original certificate. For more information, see Signing SAML requests . NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API...
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to view the signing certifi- cate. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to view the signing certificate. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
     public AwsCognitoIdpGetSigningCertificateOptions(
         string UserPoolId
     )
@@ -56,7 +57,7 @@ public record AwsCognitoIdpGetSigningCertificateOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to view the signing certifi- cate. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to view the signing certificate. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCognitoIdpGetSigningCertificateOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

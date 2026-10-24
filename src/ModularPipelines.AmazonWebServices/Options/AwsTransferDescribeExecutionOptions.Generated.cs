@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsTransferDescribeExecutionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// You can use DescribeExecution to check the details of the execution of the specified workflow. NOTE: This API call only returns details for in-progress workflows. If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a ResourceNotFound exception. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionId">A unique identifier for the execution of a workflow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
-    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})</param>
+    /// <param name="ExecutionId">A unique identifier for the execution of a workflow. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})</param>
     public AwsTransferDescribeExecutionOptions(
         string ExecutionId,
         string WorkflowId
@@ -60,13 +61,13 @@ public record AwsTransferDescribeExecutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the execution of a workflow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// A unique identifier for the execution of a workflow. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})
+    /// A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsTransferDescribeExecutionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

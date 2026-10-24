@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPool
     /// <summary>
     /// Updates an Amazon Kinesis Video Stream pool in a media pipeline. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The unique identifier of the requested resource. Valid values in- clude the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: o max: 1024 o pattern: .*\S.*</param>
+    /// <param name="Identifier">The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: • max: 1024 • pattern: .*\S.*</param>
     public AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPoolOptions(
         string Identifier
     )
@@ -56,13 +57,13 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPool
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the requested resource. Valid values in- clude the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: o max: 1024 o pattern: .*\S.*
+    /// The unique identifier of the requested resource. Valid values include the name and ARN of the media pipeline Kinesis Video Stream pool. Constraints: • max: 1024 • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The configuration settings for the video stream. DataRetentionInHours -&gt; (integer) The updated time that data is retained. Constraints: o min: 1 Shorthand Syntax: DataRetentionInHours=integer JSON Syntax: { "DataRetentionInHours": integer }
+    /// The configuration settings for the video stream. DataRetentionInHours -&gt; (integer) The updated time that data is retained. Constraints: • min: 1 Shorthand Syntax: DataRetentionInHours=integer JSON Syntax: { "DataRetentionInHours": integer }
     /// </summary>
     [CliOption("--stream-configuration")]
     public string? StreamConfiguration { get; set; }
@@ -88,6 +89,15 @@ public record AwsChimeSdkMediaPipelinesUpdateMediaPipelineKinesisVideoStreamPool
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

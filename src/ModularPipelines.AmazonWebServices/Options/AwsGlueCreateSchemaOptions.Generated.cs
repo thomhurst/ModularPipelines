@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +29,8 @@ public record AwsGlueCreateSchemaOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the Regis...
     /// </summary>
-    /// <param name="SchemaName">Name of the schema to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+</param>
-    /// <param name="DataFormat">The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: o AVRO o JSON o PROTOBUF</param>
+    /// <param name="SchemaName">Name of the schema to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+</param>
+    /// <param name="DataFormat">The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: • AVRO • JSON • PROTOBUF</param>
     public AwsGlueCreateSchemaOptions(
         string SchemaName,
         AwsGlueCreateSchemaDataFormat DataFormat
@@ -61,43 +61,43 @@ public record AwsGlueCreateSchemaOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the schema to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+
+    /// Name of the schema to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+
     /// </summary>
     [CliOption("--schema-name")]
     public string? SchemaName { get; private init; }
 
     /// <summary>
-    /// The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: o AVRO o JSON o PROTOBUF
+    /// The data format of the schema definition. Currently AVRO , JSON and PROTOBUF are supported. Possible values: • AVRO • JSON • PROTOBUF
     /// </summary>
     [CliOption("--data-format")]
     public AwsGlueCreateSchemaDataFormat? DataFormat { get; private init; }
 
     /// <summary>
-    /// This is a wrapper shape to contain the registry identity fields. If this is not provided, the default registry will be used. The ARN format for the same will be: arn:aws:glue:us-east-2:&lt;customer id&gt;:registry/default-registry:random-5-letter-id . RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or Reg- istryName has to be provided. Constraints: o min: 1 o max: 10240 o pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
+    /// This is a wrapper shape to contain the registry identity fields. If this is not provided, the default registry will be used. The ARN format for the same will be: arn:aws:glue:us-east-2:&lt;customer id&gt;:registry/default-registry:random-5-letter-id . RegistryName -&gt; (string) Name of the registry. Used only for lookup. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9-_$#.]+ RegistryArn -&gt; (string) Arn of the registry to be updated. One of RegistryArn or RegistryName has to be provided. Constraints: • min: 1 • max: 10240 • pattern: arn:aws(-(cn|us-gov|iso(-[bef])?))?:glue:.* Shorthand Syntax: RegistryName=string,RegistryArn=string JSON Syntax: { "RegistryName": "string", "RegistryArn": "string" }
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; set; }
 
     /// <summary>
-    /// The compatibility mode of the schema. The possible values are: o NONE : No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check. o DISABLED : This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future ver- sioning of a schema. o BACKWARD : This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version. o BACKWARD_ALL : This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema ver- sions. o FORWARD : This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version. o FORWARD_ALL : This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema ver- sions. o FULL : This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version. o FULL_ALL : This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema ver- sions. Possible values: o NONE o DISABLED o BACKWARD o BACKWARD_ALL o FORWARD o FORWARD_ALL o FULL o FULL_ALL
+    /// The compatibility mode of the schema. The possible values are: • NONE : No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check. • DISABLED : This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future versioning of a schema. • BACKWARD : This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version. • BACKWARD_ALL : This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema versions. • FORWARD : This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version. • FORWARD_ALL : This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema versions. • FULL : This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version. • FULL_ALL : This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema versions. Possible values: • NONE • DISABLED • BACKWARD • BACKWARD_ALL • FORWARD • FORWARD_ALL • FULL • FULL_ALL
     /// </summary>
     [CliOption("--compatibility")]
     public AwsGlueCreateSchemaCompatibility? Compatibility { get; set; }
 
     /// <summary>
-    /// An optional description of the schema. If description is not pro- vided, there will not be any automatic default value for this. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// An optional description of the schema. If description is not provided, there will not be any automatic default value for this. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Amazon Web Services tags that contain a key value pair and may be searched by console, command line, or API. If specified, follows the Amazon Web Services tags-on-create pattern. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Amazon Web Services tags that contain a key value pair and may be searched by console, command line, or API. If specified, follows the Amazon Web Services tags-on-create pattern. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The schema definition using the DataFormat setting for SchemaName . Constraints: o min: 1 o max: 170000 o pattern: .*\S.*
+    /// The schema definition using the DataFormat setting for SchemaName . Constraints: • min: 1 • max: 170000 • pattern: .*\S.*
     /// </summary>
     [CliOption("--schema-definition")]
     public string? SchemaDefinition { get; set; }
@@ -123,6 +123,15 @@ public record AwsGlueCreateSchemaOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

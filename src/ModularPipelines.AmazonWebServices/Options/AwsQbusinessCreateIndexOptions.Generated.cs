@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to AC- TIVE when the index is ready to use. Once the index is active, you can index your documents using the ` BatchPutDocument https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html`__ API or the ` CreateDataSource https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html`__ A...
+/// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the ` BatchPutDocument https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html`__ API or the ` CreateDataSource https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html`__ API...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsQbusinessCreateIndexOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to AC- TIVE when the index is ready to use. Once the index is active, you can index your documents using the ` BatchPutDocument https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html`__ API or the ` CreateDataSource https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html`__ A...
+    /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex . The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the ` BatchPutDocument https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html`__ API or the ` CreateDataSource https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html`__ API...
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application using the index. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="DisplayName">A name for the Amazon Q Business index. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application using the index. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="DisplayName">A name for the Amazon Q Business index. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*</param>
     public AwsQbusinessCreateIndexOptions(
         string ApplicationId,
         string DisplayName
@@ -62,43 +63,43 @@ public record AwsQbusinessCreateIndexOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application using the index. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application using the index. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// A name for the Amazon Q Business index. Constraints: o min: 1 o max: 1000 o pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
+    /// A name for the Amazon Q Business index. Constraints: • min: 1 • max: 1000 • pattern: [a-zA-Z0-9][a-zA-Z0-9_-]*
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// A description for the Amazon Q Business index. Constraints: o min: 0 o max: 1000 o pattern: [\s\S]*
+    /// A description for the Amazon Q Business index. Constraints: • min: 0 • max: 1000 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The index type that's suitable for your needs. For more information on what's included in each type of index, see Amazon Q Business tiers . Possible values: o ENTERPRISE o STARTER
+    /// The index type that's suitable for your needs. For more information on what's included in each type of index, see Amazon Q Business tiers . Possible values: • ENTERPRISE • STARTER
     /// </summary>
     [CliOption("--type")]
     public AwsQbusinessCreateIndexType? Type { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: o min: 0 o max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, dig- its, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of key-value pairs that identify or categorize the index. You can also use tags to help control access to the index. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. Constraints: • min: 0 • max: 200 (structure) A list of key/value pairs that identify an index, FAQ, or data source. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @. key -&gt; (string) [required] The key for the tag. Keys are not case sensitive and must be unique for the Amazon Q Business application or data source. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value associated with the tag. The value may be an empty string but it can't be null. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The capacity units you want to provision for your index. You can add and remove capacity to fit your usage needs. units -&gt; (integer) The number of storage units configured for an Amazon Q Business index. Constraints: o min: 1 Shorthand Syntax: units=integer JSON Syntax: { "units": integer }
+    /// The capacity units you want to provision for your index. You can add and remove capacity to fit your usage needs. units -&gt; (integer) The number of storage units configured for an Amazon Q Business index. Constraints: • min: 1 Shorthand Syntax: units=integer JSON Syntax: { "units": integer }
     /// </summary>
     [CliOption("--capacity-configuration")]
     public string? CapacityConfiguration { get; set; }
 
     /// <summary>
-    /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex API with the same client token will create only one index. Constraints: o min: 1 o max: 100
+    /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex API with the same client token will create only one index. Constraints: • min: 1 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -125,6 +126,15 @@ public record AwsQbusinessCreateIndexOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

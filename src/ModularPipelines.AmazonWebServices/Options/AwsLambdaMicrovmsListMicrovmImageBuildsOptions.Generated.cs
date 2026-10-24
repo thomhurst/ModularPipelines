@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists builds for a MicroVM image version with optional filtering by ar- chitecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
+/// Lists builds for a MicroVM image version with optional filtering by architecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsLambdaMicrovmsListMicrovmImageBuildsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists builds for a MicroVM image version with optional filtering by ar- chitecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response...
+    /// Lists builds for a MicroVM image version with optional filtering by architecture and chipset. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation list-microvm-image-builds is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, ...
     /// </summary>
-    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ImageVersion">The version of the MicroVM image to list builds for. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+</param>
+    /// <param name="ImageIdentifier">The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ImageVersion">The version of the MicroVM image to list builds for. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+</param>
     public AwsLambdaMicrovmsListMicrovmImageBuildsOptions(
         string ImageIdentifier,
         string ImageVersion
@@ -61,40 +62,37 @@ public record AwsLambdaMicrovmsListMicrovmImageBuildsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: o min: 1 o max: 256
+    /// The unique identifier (ARN or ID) of the MicroVM image. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--image-identifier")]
     public string? ImageIdentifier { get; private init; }
 
     /// <summary>
-    /// The version of the MicroVM image to list builds for. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// The version of the MicroVM image to list builds for. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--image-version")]
     public string? ImageVersion { get; private init; }
 
     /// <summary>
-    /// Filters builds by target CPU architecture. Possible values: o ARM_64
+    /// Filters builds by target CPU architecture. Possible values: • ARM_64
     /// </summary>
     [CliOption("--architecture")]
     public string? Architecture { get; set; }
 
     /// <summary>
-    /// Filters builds by target chipset. Possible values: o GRAVITON
+    /// Filters builds by target chipset. Possible values: • GRAVITON
     /// </summary>
     [CliOption("--chipset")]
     public string? Chipset { get; set; }
 
     /// <summary>
-    /// Filters builds by target chipset generation. Constraints: o min: 1 o max: 2048 o pattern: [^\s]+
+    /// Filters builds by target chipset generation. Constraints: • min: 1 • max: 2048 • pattern: [^\s]+
     /// </summary>
     [CliOption("--chipset-generation")]
     public string? ChipsetGeneration { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -104,16 +102,19 @@ public record AwsLambdaMicrovmsListMicrovmImageBuildsOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -130,6 +131,15 @@ public record AwsLambdaMicrovmsListMicrovmImageBuildsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

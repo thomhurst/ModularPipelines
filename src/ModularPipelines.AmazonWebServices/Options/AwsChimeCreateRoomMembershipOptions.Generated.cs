@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsChimeCreateRoomMembershipOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RoomId">The room ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="MemberId">The Amazon Chime member ID (user ID or bot ID). Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RoomId">The room ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="MemberId">The Amazon Chime member ID (user ID or bot ID). Constraints: • pattern: .*\S.*</param>
     public AwsChimeCreateRoomMembershipOptions(
         string AccountId,
         string RoomId,
@@ -65,25 +66,25 @@ public record AwsChimeCreateRoomMembershipOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The room ID. Constraints: o pattern: .*\S.*
+    /// The room ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--room-id")]
     public string? RoomId { get; private init; }
 
     /// <summary>
-    /// The Amazon Chime member ID (user ID or bot ID). Constraints: o pattern: .*\S.*
+    /// The Amazon Chime member ID (user ID or bot ID). Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }
 
     /// <summary>
-    /// The role of the member. Possible values: o Administrator o Member
+    /// The role of the member. Possible values: • Administrator • Member
     /// </summary>
     [CliOption("--role")]
     public AwsChimeCreateRoomMembershipRole? Role { get; set; }
@@ -109,6 +110,15 @@ public record AwsChimeCreateRoomMembershipOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

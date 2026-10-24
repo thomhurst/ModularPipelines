@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsKmsGenerateRandomOptions : AwsOptions
 {
     /// <summary>
-    /// The length of the random byte string. This parameter is required. Constraints: o min: 1 o max: 1024
+    /// The length of the random byte string. This parameter is required. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--number-of-bytes")]
     public int? NumberOfBytes { get; set; }
 
     /// <summary>
-    /// Generates the random byte string in the CloudHSM cluster that is as- sociated with the specified CloudHSM key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. External key store IDs are not valid for this parameter. If you specify the ID of an external key store, GenerateRandom throws an UnsupportedOperationException . Constraints: o min: 1 o max: 64
+    /// Generates the random byte string in the CloudHSM cluster that is associated with the specified CloudHSM key store. To find the ID of a custom key store, use the DescribeCustomKeyStores operation. External key store IDs are not valid for this parameter. If you specify the ID of an external key store, GenerateRandom throws an UnsupportedOperationException . Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--custom-key-store-id")]
     public string? CustomKeyStoreId { get; set; }
 
     /// <summary>
-    /// A signed attestation document from an Amazon Web Services Nitro en- clave or NitroTPM, and the encryption algorithm to use with the pub- lic key in the attestation document. The only valid encryption algo- rithm is RSAES_OAEP_SHA_256 . This parameter supports the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK for Amazon Web Services Nitro En- claves. It supports any Amazon Web Services SDK for Amazon Web Ser- vices NitroTPM. When you use this parameter, instead of returning plaintext bytes, KMS encrypts the plaintext bytes under the public key in the attes- tation document, and returns the resulting ciphertext in the Cipher- textForRecipient field in the response. This ciphertext can be de- crypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Ser- vice Developer Guide . KeyEncryptionAlgorithm -&gt; (string) The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave or NitroTPM to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256 . Possible values: o RSAES_OAEP_SHA_256 AttestationDocument -&gt; (blob) The attestation document for an Amazon Web Services Nitro En- clave or a NitroTPM. This document includes the enclave's public key. Constraints: o min: 1 o max: 262144 Shorthand Syntax: KeyEncryptionAlgorithm=string,AttestationDocument=blob JSON Syntax: { "KeyEncryptionAlgorithm": "RSAES_OAEP_SHA_256", "AttestationDocument": blob }
+    /// A signed attestation document from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256 . This parameter supports the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM. When you use this parameter, instead of returning plaintext bytes, KMS encrypts the plaintext bytes under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Service Developer Guide . KeyEncryptionAlgorithm -&gt; (string) The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave or NitroTPM to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256 . Possible values: • RSAES_OAEP_SHA_256 AttestationDocument -&gt; (blob) The attestation document for an Amazon Web Services Nitro Enclave or a NitroTPM. This document includes the enclave's public key. Constraints: • min: 1 • max: 262144 Shorthand Syntax: KeyEncryptionAlgorithm=string,AttestationDocument=blob JSON Syntax: { "KeyEncryptionAlgorithm": "RSAES_OAEP_SHA_256", "AttestationDocument": blob }
     /// </summary>
     [CliOption("--recipient")]
     public string? Recipient { get; set; }
@@ -44,5 +44,14 @@ public record AwsKmsGenerateRandomOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

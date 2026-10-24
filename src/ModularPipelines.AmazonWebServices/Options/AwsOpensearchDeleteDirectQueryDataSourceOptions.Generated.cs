@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchDeleteDirectQueryDataSourceOptions : AwsOptions, IVal
     /// <summary>
     /// Deletes a previously configured direct query data source from Amazon OpenSearch Service. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceName">A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+</param>
+    /// <param name="DataSourceName">A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+</param>
     public AwsOpensearchDeleteDirectQueryDataSourceOptions(
         string DataSourceName
     )
@@ -56,7 +57,7 @@ public record AwsOpensearchDeleteDirectQueryDataSourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: o min: 3 o max: 80 o pattern: [a-z][a-z0-9_]+
+    /// A unique, user-defined label to identify the data source within your OpenSearch Service environment. Constraints: • min: 3 • max: 80 • pattern: [a-z][a-z0-9_]+
     /// </summary>
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOpensearchDeleteDirectQueryDataSourceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

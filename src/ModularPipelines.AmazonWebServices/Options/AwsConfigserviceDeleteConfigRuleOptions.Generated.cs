@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is com- plete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will re- ceive a ResourceInUseException . You can check the state of a rule by using the DescribeConfigRules re- quest. NOTE: Recommendation: Consider excluding the ``AWS::Config::Resource- Compliance`` resource type from recor...
+/// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException . You can check the state of a rule by using the DescribeConfigRules request. NOTE: Recommendation: Consider excluding the ``AWS::Config::ResourceCompliance`` resource type from recording bef...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConfigserviceDeleteConfigRuleOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is com- plete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will re- ceive a ResourceInUseException . You can check the state of a rule by using the DescribeConfigRules re- quest. NOTE: Recommendation: Consider excluding the ``AWS::Config::Resource- Compliance`` resource type from recor...
+    /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException . You can check the state of a rule by using the DescribeConfigRules request. NOTE: Recommendation: Consider excluding the ``AWS::Config::ResourceCompliance`` resource type from recording bef...
     /// </summary>
-    /// <param name="ConfigRuleName">The name of the Config rule that you want to delete. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
+    /// <param name="ConfigRuleName">The name of the Config rule that you want to delete. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
     public AwsConfigserviceDeleteConfigRuleOptions(
         string ConfigRuleName
     )
@@ -56,7 +57,7 @@ public record AwsConfigserviceDeleteConfigRuleOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Config rule that you want to delete. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the Config rule that you want to delete. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--config-rule-name")]
     public string? ConfigRuleName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsConfigserviceDeleteConfigRuleOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

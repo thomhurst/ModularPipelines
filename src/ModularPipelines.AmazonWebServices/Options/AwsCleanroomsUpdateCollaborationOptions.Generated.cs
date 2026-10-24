@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates collaboration metadata and can only be called by the collabora- tion owner. See also: AWS API Documentation
+/// Updates collaboration metadata and can only be called by the collaboration owner. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsCleanroomsUpdateCollaborationOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates collaboration metadata and can only be called by the collabora- tion owner. See also: AWS API Documentation
+    /// Updates collaboration metadata and can only be called by the collaboration owner. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CollaborationIdentifier">The identifier for the collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="CollaborationIdentifier">The identifier for the collaboration. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
     public AwsCleanroomsUpdateCollaborationOptions(
         string CollaborationIdentifier
     )
@@ -57,25 +58,25 @@ public record AwsCleanroomsUpdateCollaborationOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the collaboration. Constraints: o min: 36 o max: 36 o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The identifier for the collaboration. Constraints: • min: 36 • max: 36 • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--collaboration-identifier")]
     public string? CollaborationIdentifier { get; private init; }
 
     /// <summary>
-    /// A human-readable identifier provided by the collaboration owner. Display names are not unique. Constraints: o min: 1 o max: 100 o pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
+    /// A human-readable identifier provided by the collaboration owner. Display names are not unique. Constraints: • min: 1 • max: 100 • pattern: (?!\s*$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description of the collaboration. Constraints: o min: 0 o max: 255 o pattern: (?!\s+$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
+    /// A description of the collaboration. Constraints: • min: 0 • max: 255 • pattern: (?!\s+$)[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\t\r\n]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The analytics engine. NOTE: After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available. Possible values: o SPARK o CLEAN_ROOMS_SQL
+    /// The analytics engine. NOTE: After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available. Possible values: • SPARK • CLEAN_ROOMS_SQL
     /// </summary>
     [CliOption("--analytics-engine")]
     public AwsCleanroomsUpdateCollaborationAnalyticsEngine? AnalyticsEngine { get; set; }
@@ -101,6 +102,15 @@ public record AwsCleanroomsUpdateCollaborationOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

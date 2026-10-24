@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --...
+/// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOpti
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --...
+    /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation. See also: AWS API Documentation list-resource-scan-related-resources is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --quer...
     /// </summary>
     /// <param name="ResourceScanId">The Amazon Resource Name (ARN) of the resource scan.</param>
-    /// <param name="Resources">The list of resources for which you want to get the related re- sources. Up to 100 resources can be provided. (structure) Identifies a scanned resource. This is used with the ListRe- sourceScanRelatedResources API action. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection In the CloudFormation User Guide . Constraints: o min: 1 o max: 256 ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ResourceType=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]</param>
+    /// <param name="Resources">The list of resources for which you want to get the related resources. Up to 100 resources can be provided. (structure) Identifies a scanned resource. This is used with the ListResourceScanRelatedResources API action. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection In the CloudFormation User Guide . Constraints: • min: 1 • max: 256 ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Interface (CLI) User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ResourceType=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]</param>
     public AwsCloudformationListResourceScanRelatedResourcesOptions(
         string ResourceScanId,
         IEnumerable<string> Resources
@@ -78,16 +79,13 @@ public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOpti
     public string? ResourceScanId { get; private init; }
 
     /// <summary>
-    /// The list of resources for which you want to get the related re- sources. Up to 100 resources can be provided. (structure) Identifies a scanned resource. This is used with the ListRe- sourceScanRelatedResources API action. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection In the CloudFormation User Guide . Constraints: o min: 1 o max: 256 ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are speci- fied in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For exam- ple, for a AWS::DynamoDB::Table resource, the primary identi- fiers is TableName so the key-value pair could be "Table- Name": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Inter- face (CLI) User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ResourceType=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
+    /// The list of resources for which you want to get the related resources. Up to 100 resources can be provided. (structure) Identifies a scanned resource. This is used with the ListResourceScanRelatedResources API action. ResourceType -&gt; (string) [required] The type of the resource, such as AWS::DynamoDB::Table . For the list of supported resources, see Resource type support for imports and drift detection In the CloudFormation User Guide . Constraints: • min: 1 • max: 256 ResourceIdentifier -&gt; (map) [required] A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable" . For more information, see primaryIdentifier in the CloudFormation Command Line Interface (CLI) User Guide . key -&gt; (string) value -&gt; (string) Shorthand Syntax: ResourceType=string,ResourceIdentifier={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "ResourceType": "string", "ResourceIdentifier": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--resources", GroupValues = true)]
     public IEnumerable<string>? Resources { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -97,16 +95,19 @@ public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOpti
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -123,6 +124,15 @@ public record AwsCloudformationListResourceScanRelatedResourcesOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

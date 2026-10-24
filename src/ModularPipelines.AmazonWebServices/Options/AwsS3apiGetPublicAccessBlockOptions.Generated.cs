@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. This operation returns the bucket-level configuration only. To under- stand the effective public access behavior, you must also consider ac- count-level settings (which may inherit from organization-level poli- cies). To use this operation, you must have the s3:GetBucketPublicAc- cessBlock permission. For more information about Amazon S3 permissions, see Specifying ...
+/// NOTE: This operation is not supported for directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. This operation returns the bucket-level configuration only. To understand the effective public access behavior, you must also consider account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:GetBucketPublicAccessBlock permission. For more information about Amazon S3 permissions, see Specifying Permissi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsS3apiGetPublicAccessBlockOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. This operation returns the bucket-level configuration only. To under- stand the effective public access behavior, you must also consider ac- count-level settings (which may inherit from organization-level poli- cies). To use this operation, you must have the s3:GetBucketPublicAc- cessBlock permission. For more information about Amazon S3 permissions, see Specifying ...
+    /// NOTE: This operation is not supported for directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. This operation returns the bucket-level configuration only. To understand the effective public access behavior, you must also consider account-level settings (which may inherit from organization-level policies). To use this operation, you must have the s3:GetBucketPublicAccessBlock permission. For more information about Amazon S3 permissions, see Specifying Permissi...
     /// </summary>
-    /// <param name="Bucket">The name of the Amazon S3 bucket whose PublicAccessBlock configura- tion you want to retrieve.</param>
+    /// <param name="Bucket">The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve.</param>
     public AwsS3apiGetPublicAccessBlockOptions(
         string Bucket
     )
@@ -56,13 +57,13 @@ public record AwsS3apiGetPublicAccessBlockOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon S3 bucket whose PublicAccessBlock configura- tion you want to retrieve.
+    /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -88,6 +89,15 @@ public record AwsS3apiGetPublicAccessBlockOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

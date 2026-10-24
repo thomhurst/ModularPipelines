@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a set of short term credentials you can use to perform privi- leged tasks on a member account in your organization. You must use cre- dentials from an Organizations management account or a delegated admin- istrator account for IAM to call AssumeRoot . You cannot use root user credentials to make this call. Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see Centralize root access for member accounts...
+/// Returns a set of short term credentials you can use to perform privileged tasks on a member account in your organization. You must use credentials from an Organizations management account or a delegated administrator account for IAM to call AssumeRoot . You cannot use root user credentials to make this call. Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see Centralize root access for member accounts in th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsStsAssumeRootOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a set of short term credentials you can use to perform privi- leged tasks on a member account in your organization. You must use cre- dentials from an Organizations management account or a delegated admin- istrator account for IAM to call AssumeRoot . You cannot use root user credentials to make this call. Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see Centralize root access for member accounts...
+    /// Returns a set of short term credentials you can use to perform privileged tasks on a member account in your organization. You must use credentials from an Organizations management account or a delegated administrator account for IAM to call AssumeRoot . You cannot use root user credentials to make this call. Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see Centralize root access for member accounts in th...
     /// </summary>
-    /// <param name="TargetPrincipal">The member account principal ARN or account ID. Constraints: o min: 12 o max: 2048</param>
-    /// <param name="TaskPolicyArn">The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions: o IAMAuditRootUserCredentials o IAMCreateRootUserPassword o IAMDeleteRootUserCredentials o S3UnlockBucketPolicy o SQSUnlockQueuePolicy arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }</param>
+    /// <param name="TargetPrincipal">The member account principal ARN or account ID. Constraints: • min: 12 • max: 2048</param>
+    /// <param name="TaskPolicyArn">The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions: • IAMAuditRootUserCredentials • IAMCreateRootUserPassword • IAMDeleteRootUserCredentials • S3UnlockBucketPolicy • SQSUnlockQueuePolicy arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }</param>
     public AwsStsAssumeRootOptions(
         string TargetPrincipal,
         string TaskPolicyArn
@@ -60,19 +61,19 @@ public record AwsStsAssumeRootOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The member account principal ARN or account ID. Constraints: o min: 12 o max: 2048
+    /// The member account principal ARN or account ID. Constraints: • min: 12 • max: 2048
     /// </summary>
     [CliOption("--target-principal")]
     public string? TargetPrincipal { get; private init; }
 
     /// <summary>
-    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions: o IAMAuditRootUserCredentials o IAMCreateRootUserPassword o IAMDeleteRootUserCredentials o S3UnlockBucketPolicy o SQSUnlockQueuePolicy arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: o min: 20 o max: 2048 o pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }
+    /// The identity based policy that scopes the session to the privileged tasks that can be performed. You must use one of following Amazon Web Services managed policies to scope root session actions: • IAMAuditRootUserCredentials • IAMCreateRootUserPassword • IAMDeleteRootUserCredentials • S3UnlockBucketPolicy • SQSUnlockQueuePolicy arn -&gt; (string) The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference . Constraints: • min: 20 • max: 2048 • pattern: [\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]+ Shorthand Syntax: arn=string JSON Syntax: { "arn": "string" }
     /// </summary>
     [CliOption("--task-policy-arn")]
     public string? TaskPolicyArn { get; private init; }
 
     /// <summary>
-    /// The duration, in seconds, of the privileged session. The value can range from 0 seconds up to the maximum session duration of 900 sec- onds (15 minutes). If you specify a value higher than this setting, the operation fails. By default, the value is set to 900 seconds. Constraints: o min: 0 o max: 900
+    /// The duration, in seconds, of the privileged session. The value can range from 0 seconds up to the maximum session duration of 900 seconds (15 minutes). If you specify a value higher than this setting, the operation fails. By default, the value is set to 900 seconds. Constraints: • min: 0 • max: 900
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
@@ -101,6 +102,15 @@ public record AwsStsAssumeRootOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

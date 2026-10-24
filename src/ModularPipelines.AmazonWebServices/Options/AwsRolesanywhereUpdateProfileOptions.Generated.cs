@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates a profile , a list of the roles that IAM Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies. Required permissions: rolesanywhere:UpdateProfile . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="ProfileId">The unique identifier of the profile. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
     public AwsRolesanywhereUpdateProfileOptions(
         string ProfileId
     )
@@ -56,37 +57,37 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the profile. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The name of the profile. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// The name of the profile. Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A session policy that applies to the trust boundary of the vended session credentials. Constraints: o min: 1 o max: 100000
+    /// A session policy that applies to the trust boundary of the vended session credentials. Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--session-policy")]
     public string? SessionPolicy { get; set; }
 
     /// <summary>
-    /// A list of IAM roles that this profile can assume in a temporary cre- dential request. Constraints: o min: 0 o max: 250 (string) Constraints: o min: 1 o max: 1011 o pattern: arn:aws(-[^:]+)?:iam(:.*){2}(:role.*) Syntax: "string" "string" ...
+    /// A list of IAM roles that this profile can assume in a temporary credential request. Constraints: • min: 0 • max: 250 (string) Constraints: • min: 1 • max: 1011 • pattern: arn:aws(-[^:]+)?:iam(:.*){2}(:role.*) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--role-arns", GroupValues = true)]
     public IEnumerable<string>? RoleArns { get; set; }
 
     /// <summary>
-    /// A list of managed policy ARNs that apply to the vended session cre- dentials. Constraints: o min: 0 o max: 50 (string) Constraints: o min: 1 o max: 200 Syntax: "string" "string" ...
+    /// A list of managed policy ARNs that apply to the vended session credentials. Constraints: • min: 0 • max: 50 (string) Constraints: • min: 1 • max: 200 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--managed-policy-arns", GroupValues = true)]
     public IEnumerable<string>? ManagedPolicyArns { get; set; }
 
     /// <summary>
-    /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API docu- mentation page for more details. In requests, if this value is not provided, the default value will be 3600. Constraints: o min: 900 o max: 43200
+    /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
@@ -118,6 +119,15 @@ public record AwsRolesanywhereUpdateProfileOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastruc- ture (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
+/// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +27,14 @@ public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastruc- ture (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
+    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry. See also: AWS API Documentation
     /// </summary>
     /// <param name="IpamInternetRegistryAssociationId">The ID of the IPAM internet registry association to enable.</param>
     /// <param name="RpkiVersion">The RPKI version to use from the Parent Response XML.</param>
-    /// <param name="ServiceUri">The RPKI service URI for the publication point from the Parent Re- sponse XML.</param>
+    /// <param name="ServiceUri">The RPKI service URI for the publication point from the Parent Response XML.</param>
     /// <param name="ChildHandle">The child handle for the BPKI certificate hierarchy from the Parent Response XML.</param>
     /// <param name="ParentHandle">The parent handle for the BPKI certificate hierarchy from the Parent Response XML.</param>
-    /// <param name="ParentBpkiTa">The parent BPKI Trust Anchor certificate in PEM format from the Par- ent Response XML.</param>
+    /// <param name="ParentBpkiTa">The parent BPKI Trust Anchor certificate in PEM format from the Parent Response XML.</param>
     public AwsEc2EnableIpamInternetRegistryAssociationOptions(
         string IpamInternetRegistryAssociationId,
         string RpkiVersion,
@@ -89,7 +90,7 @@ public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions, I
     public string? RpkiVersion { get; private init; }
 
     /// <summary>
-    /// The RPKI service URI for the publication point from the Parent Re- sponse XML.
+    /// The RPKI service URI for the publication point from the Parent Response XML.
     /// </summary>
     [CliOption("--service-uri")]
     public string? ServiceUri { get; private init; }
@@ -107,13 +108,13 @@ public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions, I
     public string? ParentHandle { get; private init; }
 
     /// <summary>
-    /// The parent BPKI Trust Anchor certificate in PEM format from the Par- ent Response XML.
+    /// The parent BPKI Trust Anchor certificate in PEM format from the Parent Response XML.
     /// </summary>
     [CliOption("--parent-bpki-ta")]
     public string? ParentBpkiTa { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -146,6 +147,15 @@ public record AwsEc2EnableIpamInternetRegistryAssociationOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

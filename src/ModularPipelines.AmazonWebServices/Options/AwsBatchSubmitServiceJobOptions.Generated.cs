@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,9 +30,9 @@ public record AwsBatchSubmitServiceJobOptions : AwsOptions, IValidatableObject
     /// Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI. See also: AWS API Documentation
     /// </summary>
     /// <param name="JobName">The name of the service job. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).</param>
-    /// <param name="JobQueue">The job queue into which the service job is submitted. You can spec- ify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING .</param>
-    /// <param name="ServiceRequestPayload">The request, in JSON, for the service that the SubmitServiceJob op- eration is queueing.</param>
-    /// <param name="ServiceJobType">The type of service job. For SageMaker Training jobs, specify SAGE- MAKER_TRAINING . Possible values: o SAGEMAKER_TRAINING</param>
+    /// <param name="JobQueue">The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING .</param>
+    /// <param name="ServiceRequestPayload">The request, in JSON, for the service that the SubmitServiceJob operation is queueing.</param>
+    /// <param name="ServiceJobType">The type of service job. For SageMaker Training jobs, specify SAGEMAKER_TRAINING . Possible values: • SAGEMAKER_TRAINING</param>
     public AwsBatchSubmitServiceJobOptions(
         string JobName,
         string JobQueue,
@@ -76,37 +76,37 @@ public record AwsBatchSubmitServiceJobOptions : AwsOptions, IValidatableObject
     public string? JobName { get; private init; }
 
     /// <summary>
-    /// The job queue into which the service job is submitted. You can spec- ify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING .
+    /// The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING .
     /// </summary>
     [CliOption("--job-queue")]
     public string? JobQueue { get; private init; }
 
     /// <summary>
-    /// The request, in JSON, for the service that the SubmitServiceJob op- eration is queueing.
+    /// The request, in JSON, for the service that the SubmitServiceJob operation is queueing.
     /// </summary>
     [CliOption("--service-request-payload")]
     public string? ServiceRequestPayload { get; private init; }
 
     /// <summary>
-    /// The type of service job. For SageMaker Training jobs, specify SAGE- MAKER_TRAINING . Possible values: o SAGEMAKER_TRAINING
+    /// The type of service job. For SageMaker Training jobs, specify SAGEMAKER_TRAINING . Possible values: • SAGEMAKER_TRAINING
     /// </summary>
     [CliOption("--service-job-type")]
     public string? ServiceJobType { get; private init; }
 
     /// <summary>
-    /// The retry strategy to use for failed service jobs that are submitted with this service job request. attempts -&gt; (integer) [required] The number of times to move a service job to RUNNABLE status. You can specify between 1 and 10 attempts. evaluateOnExit -&gt; (list) Array of ServiceJobEvaluateOnExit objects that specify condi- tions under which the service job should be retried or failed. (structure) Specifies conditions for when to exit or retry a service job based on the exit status or status reason. action -&gt; (string) The action to take if the service job exits with the specified condition. Valid values are RETRY and EXIT . Possible values: o RETRY o EXIT onStatusReason -&gt; (string) Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters and can contain all printable characters. It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match. Shorthand Syntax: attempts=integer,evaluateOnExit=[{action=string,onStatusReason=string},{action=string,onStatusReason=string}] JSON Syntax: { "attempts": integer, "evaluateOnExit": [ { "action": "RETRY"|"EXIT", "onStatusReason": "string" } ... ] }
+    /// The retry strategy to use for failed service jobs that are submitted with this service job request. attempts -&gt; (integer) [required] The number of times to move a service job to RUNNABLE status. You can specify between 1 and 10 attempts. evaluateOnExit -&gt; (list) Array of ServiceJobEvaluateOnExit objects that specify conditions under which the service job should be retried or failed. (structure) Specifies conditions for when to exit or retry a service job based on the exit status or status reason. action -&gt; (string) The action to take if the service job exits with the specified condition. Valid values are RETRY and EXIT . Possible values: • RETRY • EXIT onStatusReason -&gt; (string) Contains a glob pattern to match against the StatusReason returned for a job. The pattern can contain up to 512 characters and can contain all printable characters. It can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match. Shorthand Syntax: attempts=integer,evaluateOnExit=[{action=string,onStatusReason=string},{action=string,onStatusReason=string}] JSON Syntax: { "attempts": integer, "evaluateOnExit": [ { "action": "RETRY"|"EXIT", "onStatusReason": "string" } ... ] }
     /// </summary>
     [CliOption("--retry-strategy")]
     public string? RetryStrategy { get; set; }
 
     /// <summary>
-    /// The scheduling priority of the service job. Valid values are inte- gers between 0 and 9999.
+    /// The scheduling priority of the service job. Valid values are integers between 0 and 9999.
     /// </summary>
     [CliOption("--scheduling-priority")]
     public int? SchedulingPriority { get; set; }
 
     /// <summary>
-    /// The share identifier for the service job. Don't specify this parame- ter if the job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share scheduling policy, then this parame- ter must be specified.
+    /// The share identifier for the service job. Don't specify this parameter if the job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share scheduling policy, then this parameter must be specified.
     /// </summary>
     [CliOption("--share-identifier")]
     public string? ShareIdentifier { get; set; }
@@ -124,19 +124,19 @@ public record AwsBatchSubmitServiceJobOptions : AwsOptions, IValidatableObject
     public string? PreemptionConfiguration { get; set; }
 
     /// <summary>
-    /// The timeout configuration for the service job. If none is specified, Batch defers to the default timeout of the underlying service han- dling the job. attemptDurationSeconds -&gt; (integer) The maximum duration in seconds that a service job attempt can run. After this time is reached, Batch terminates the service job attempt. Shorthand Syntax: attemptDurationSeconds=integer JSON Syntax: { "attemptDurationSeconds": integer }
+    /// The timeout configuration for the service job. If none is specified, Batch defers to the default timeout of the underlying service handling the job. attemptDurationSeconds -&gt; (integer) The maximum duration in seconds that a service job attempt can run. After this time is reached, Batch terminates the service job attempt. Shorthand Syntax: attemptDurationSeconds=integer JSON Syntax: { "attemptDurationSeconds": integer }
     /// </summary>
     [CliOption("--timeout-config")]
     public string? TimeoutConfig { get; set; }
 
     /// <summary>
-    /// The tags that you apply to the service job request. Each tag con- sists of a key and an optional value. For more information, see Tagging your Batch resources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags that you apply to the service job request. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. This token is used to ensure idempotency of requests. If this parameter is specified and two sub- mit requests with identical payloads and clientToken s are received, these requests are considered the same request and the second re- quest is rejected. Constraints: o min: 1 o max: 64
+    /// A unique identifier for the request. This token is used to ensure idempotency of requests. If this parameter is specified and two submit requests with identical payloads and clientToken s are received, these requests are considered the same request and the second request is rejected. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -163,6 +163,15 @@ public record AwsBatchSubmitServiceJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

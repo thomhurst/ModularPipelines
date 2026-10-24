@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -73,7 +74,7 @@ public record AwsApigatewayImportDocumentationPartsOptions : AwsOptions, IValida
     public string? Body { get; private init; }
 
     /// <summary>
-    /// A query parameter to indicate whether to overwrite (overwrite ) any existing DocumentationParts definition or to merge (merge ) the new definition into the existing one. The default value is merge . Possible values: o merge o overwrite
+    /// A query parameter to indicate whether to overwrite (overwrite ) any existing DocumentationParts definition or to merge (merge ) the new definition into the existing one. The default value is merge . Possible values: • merge • overwrite
     /// </summary>
     [CliOption("--mode")]
     public AwsApigatewayImportDocumentationPartsMode? Mode { get; set; }
@@ -105,6 +106,15 @@ public record AwsApigatewayImportDocumentationPartsOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

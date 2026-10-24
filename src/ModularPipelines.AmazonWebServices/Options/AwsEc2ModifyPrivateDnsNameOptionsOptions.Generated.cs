@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -63,25 +64,25 @@ public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions, IValidatabl
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the in- stance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID. Possible values: o ip-name o resource-name
+    /// The type of hostname for EC2 instances. For IPv4 only subnets, an instance DNS name must be based on the instance IPv4 address. For IPv6 only subnets, an instance DNS name must be based on the instance ID. For dual-stack subnets, you can specify whether DNS names use the instance IPv4 address or the instance ID. Possible values: • ip-name • resource-name
     /// </summary>
     [CliOption("--private-dns-hostname-type")]
     public AwsEc2ModifyPrivateDnsNameOptionsPrivateDnsHostnameType? PrivateDnsHostnameType { get; set; }
 
     /// <summary>
-    /// source-name-dns-a-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
+    /// Indicates whether to respond to DNS queries for instance hostnames with DNS A records.
     /// </summary>
     [CliFlag("--enable-resource-name-dns-a-record", NegatedName = "--no-enable-resource-name-dns-a-record")]
     public bool? EnableResourceNameDnsARecord { get; set; }
 
     /// <summary>
-    /// source-name-dns-aaaa-record (boolean) Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
+    /// Indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.
     /// </summary>
     [CliFlag("--enable-resource-name-dns-aaaa-record", NegatedName = "--no-enable-resource-name-dns-aaaa-record")]
     public bool? EnableResourceNameDnsAaaaRecord { get; set; }
@@ -107,6 +108,15 @@ public record AwsEc2ModifyPrivateDnsNameOptionsOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

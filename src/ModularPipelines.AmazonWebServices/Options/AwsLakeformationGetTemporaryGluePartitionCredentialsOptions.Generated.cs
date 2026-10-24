@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions : AwsO
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix. See also: AWS API Documentation
     /// </summary>
     /// <param name="TableArn">The ARN of the partitions' table.</param>
-    /// <param name="Partition">A list of partition values identifying a single partition. Values -&gt; (list) [required] The list of partition values. Constraints: o min: 1 (string) Shorthand Syntax: Values=string,string JSON Syntax: { "Values": ["string", ...] }</param>
+    /// <param name="Partition">A list of partition values identifying a single partition. Values -&gt; (list) [required] The list of partition values. Constraints: • min: 1 (string) Shorthand Syntax: Values=string,string JSON Syntax: { "Values": ["string", ...] }</param>
     public AwsLakeformationGetTemporaryGluePartitionCredentialsOptions(
         string TableArn,
         string Partition
@@ -66,31 +67,31 @@ public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions : AwsO
     public string? TableArn { get; private init; }
 
     /// <summary>
-    /// A list of partition values identifying a single partition. Values -&gt; (list) [required] The list of partition values. Constraints: o min: 1 (string) Shorthand Syntax: Values=string,string JSON Syntax: { "Values": ["string", ...] }
+    /// A list of partition values identifying a single partition. Values -&gt; (list) [required] The list of partition values. Constraints: • min: 1 (string) Shorthand Syntax: Values=string,string JSON Syntax: { "Values": ["string", ...] }
     /// </summary>
     [CliOption("--partition")]
     public string? Partition { get; private init; }
 
     /// <summary>
-    /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: o ALL o SELECT o ALTER o DROP o DELETE o INSERT o DESCRIBE o CREATE_DATABASE o CREATE_TABLE o DATA_LOCATION_ACCESS o CREATE_LF_TAG o ASSOCIATE o GRANT_WITH_LF_TAG_EXPRESSION o CREATE_LF_TAG_EXPRESSION o CREATE_CATALOG o SUPER_USER Syntax: "string" "string" ...
+    /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s). (string) Possible values: • ALL • SELECT • ALTER • DROP • DELETE • INSERT • DESCRIBE • CREATE_DATABASE • CREATE_TABLE • DATA_LOCATION_ACCESS • CREATE_LF_TAG • ASSOCIATE • GRANT_WITH_LF_TAG_EXPRESSION • CREATE_LF_TAG_EXPRESSION • CREATE_CATALOG • SUPER_USER Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--permissions", GroupValues = true)]
     public IEnumerable<string>? Permissions { get; set; }
 
     /// <summary>
-    /// The time period, between 900 and 21,600 seconds, for the timeout of the temporary credentials. Constraints: o min: 900 o max: 43200
+    /// The time period, between 900 and 21,600 seconds, for the timeout of the temporary credentials. Constraints: • min: 900 • max: 43200
     /// </summary>
     [CliOption("--duration-seconds")]
     public int? DurationSeconds { get; set; }
 
     /// <summary>
-    /// A structure representing context to access a resource (column names, query ID, etc). AdditionalAuditContext -&gt; (string) The filter engine can populate the 'AdditionalAuditContext' in- formation with the request ID for you to track. This information will be displayed in CloudTrail log in your account. Constraints: o min: 0 o max: 2048 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: AdditionalAuditContext=string JSON Syntax: { "AdditionalAuditContext": "string" }
+    /// A structure representing context to access a resource (column names, query ID, etc). AdditionalAuditContext -&gt; (string) The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account. Constraints: • min: 0 • max: 2048 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]* Shorthand Syntax: AdditionalAuditContext=string JSON Syntax: { "AdditionalAuditContext": "string" }
     /// </summary>
     [CliOption("--audit-context")]
     public string? AuditContext { get; set; }
 
     /// <summary>
-    /// A list of supported permission types for the partition. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION . Constraints: o min: 1 o max: 255 (string) Possible values: o COLUMN_PERMISSION o CELL_FILTER_PERMISSION o NESTED_PERMISSION o NESTED_CELL_PERMISSION Syntax: "string" "string" ...
+    /// A list of supported permission types for the partition. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION . Constraints: • min: 1 • max: 255 (string) Possible values: • COLUMN_PERMISSION • CELL_FILTER_PERMISSION • NESTED_PERMISSION • NESTED_CELL_PERMISSION Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--supported-permission-types", GroupValues = true)]
     public IEnumerable<string>? SupportedPermissionTypes { get; set; }
@@ -116,6 +117,15 @@ public record AwsLakeformationGetTemporaryGluePartitionCredentialsOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

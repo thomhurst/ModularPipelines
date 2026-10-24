@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCognitoIdpDeleteUserPoolClientOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes a user pool app client. After you delete an app client, users can no longer sign in to the associated application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="UserPoolId">The ID of the user pool where you want to delete the client. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+</param>
-    /// <param name="ClientId">The ID of the user pool app client that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [\w+]+</param>
+    /// <param name="UserPoolId">The ID of the user pool where you want to delete the client. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+</param>
+    /// <param name="ClientId">The ID of the user pool app client that you want to delete. Constraints: • min: 1 • max: 128 • pattern: [\w+]+</param>
     public AwsCognitoIdpDeleteUserPoolClientOptions(
         string UserPoolId,
         string ClientId
@@ -60,13 +61,13 @@ public record AwsCognitoIdpDeleteUserPoolClientOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the user pool where you want to delete the client. Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-zA-Z]+
+    /// The ID of the user pool where you want to delete the client. Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-zA-Z]+
     /// </summary>
     [CliOption("--user-pool-id")]
     public string? UserPoolId { get; private init; }
 
     /// <summary>
-    /// The ID of the user pool app client that you want to delete. Constraints: o min: 1 o max: 128 o pattern: [\w+]+
+    /// The ID of the user pool app client that you want to delete. Constraints: • min: 1 • max: 128 • pattern: [\w+]+
     /// </summary>
     [CliOption("--client-id")]
     public string? ClientId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCognitoIdpDeleteUserPoolClientOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

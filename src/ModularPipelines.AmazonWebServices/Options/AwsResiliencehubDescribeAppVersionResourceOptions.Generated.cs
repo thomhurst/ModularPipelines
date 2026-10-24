@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: o resourceName o logicalResourceId o physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
+/// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: • resourceName • logicalResourceId • physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsResiliencehubDescribeAppVersionResourceOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: o resourceName o logicalResourceId o physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
+    /// Describes a resource of the Resilience Hub application. NOTE: This API accepts only one of the following parameters to describe the resource: • resourceName • logicalResourceId • physicalResourceId (Along with physicalResourceId , you can also provide awsAccountId , and awsRegion ) See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
-    /// <param name="AppVersion">Resilience Hub application version. Constraints: o pattern: ^\S{1,50}$</param>
+    /// <param name="AppArn">Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$</param>
+    /// <param name="AppVersion">Resilience Hub application version. Constraints: • pattern: ^\S{1,50}$</param>
     public AwsResiliencehubDescribeAppVersionResourceOptions(
         string AppArn,
         string AppVersion
@@ -60,43 +61,43 @@ public record AwsResiliencehubDescribeAppVersionResourceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; private init; }
 
     /// <summary>
-    /// Resilience Hub application version. Constraints: o pattern: ^\S{1,50}$
+    /// Resilience Hub application version. Constraints: • pattern: ^\S{1,50}$
     /// </summary>
     [CliOption("--app-version")]
     public string? AppVersion { get; private init; }
 
     /// <summary>
-    /// Amazon Web Services account that owns the physical resource. Constraints: o pattern: ^[0-9]{12}$
+    /// Amazon Web Services account that owns the physical resource. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; set; }
 
     /// <summary>
-    /// Amazon Web Services region that owns the physical resource. Constraints: o pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$
+    /// Amazon Web Services region that owns the physical resource. Constraints: • pattern: ^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]$
     /// </summary>
     [CliOption("--aws-region")]
     public string? AwsRegion { get; set; }
 
     /// <summary>
-    /// Logical identifier of the resource. eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and name- space this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/namespace" for- mat. Constraints: o min: 1 o max: 255 identifier -&gt; (string) [required] Identifier of the resource. Constraints: o min: 1 o max: 255 logicalStackName -&gt; (string) The name of the CloudFormation stack this resource belongs to. Constraints: o min: 1 o max: 255 resourceGroupName -&gt; (string) The name of the resource group that this resource belongs to. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) The name of the Terraform S3 state file this resource belongs to. Constraints: o min: 1 o max: 255 Shorthand Syntax: eksSourceName=string,identifier=string,logicalStackName=string,resourceGroupName=string,terraformSourceName=string JSON Syntax: { "eksSourceName": "string", "identifier": "string", "logicalStackName": "string", "resourceGroupName": "string", "terraformSourceName": "string" }
+    /// Logical identifier of the resource. eksSourceName -&gt; (string) Name of the Amazon Elastic Kubernetes Service cluster and namespace this resource belongs to. NOTE: This parameter accepts values in "eks-cluster/namespace" format. Constraints: • min: 1 • max: 255 identifier -&gt; (string) [required] Identifier of the resource. Constraints: • min: 1 • max: 255 logicalStackName -&gt; (string) The name of the CloudFormation stack this resource belongs to. Constraints: • min: 1 • max: 255 resourceGroupName -&gt; (string) The name of the resource group that this resource belongs to. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$ terraformSourceName -&gt; (string) The name of the Terraform S3 state file this resource belongs to. Constraints: • min: 1 • max: 255 Shorthand Syntax: eksSourceName=string,identifier=string,logicalStackName=string,resourceGroupName=string,terraformSourceName=string JSON Syntax: { "eksSourceName": "string", "identifier": "string", "logicalStackName": "string", "resourceGroupName": "string", "terraformSourceName": "string" }
     /// </summary>
     [CliOption("--logical-resource-id")]
     public string? LogicalResourceId { get; set; }
 
     /// <summary>
-    /// Physical identifier of the resource. Constraints: o min: 1 o max: 2048
+    /// Physical identifier of the resource. Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--physical-resource-id")]
     public string? PhysicalResourceId { get; set; }
 
     /// <summary>
-    /// Name of the resource. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// Name of the resource. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; set; }
@@ -122,6 +123,15 @@ public record AwsResiliencehubDescribeAppVersionResourceOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

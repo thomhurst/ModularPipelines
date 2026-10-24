@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds the specified tags to the specified resource. The following re- sources support tagging in License Manager: o Licenses o Grants o License configurations o Report generators See also: AWS API Documentation
+/// Adds the specified tags to the specified resource. The following resources support tagging in License Manager: • Licenses • Grants • License configurations • Report generators See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLicenseManagerTagResourceOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds the specified tags to the specified resource. The following re- sources support tagging in License Manager: o Licenses o Grants o License configurations o Report generators See also: AWS API Documentation
+    /// Adds the specified tags to the specified resource. The following resources support tagging in License Manager: • Licenses • Grants • License configurations • Report generators See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Man- ager: o Licenses - arn:aws:license-manager::111122223333:license:l-EXAM- PLE2da7646d6861033667f20e895 o Grants - arn:aws:license-manager::111122223333:grant:g-EXAM- PLE7b19f4a0ab73679b0beb52707 o License configurations - arn:aws:license-man- ager:us-east-1:111122223333:license-configuration:lic-EXAM- PLE6a788d4c8acd4264ff0ecf2ed2d o Report generators - arn:aws:license-man- ager:us-east-1:111122223333:report-generator:r-EXAM- PLE825b4a4f8fe5a3e0c88824e5fc6</param>
+    /// <param name="ResourceArn">Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Manager: • Licenses - arn:aws:license-manager::111122223333:license:l-EXAMPLE2da7646d6861033667f20e895 • Grants - arn:aws:license-manager::111122223333:grant:g-EXAMPLE7b19f4a0ab73679b0beb52707 • License configurations - arn:aws:license-manager:us-east-1:111122223333:license-configuration:lic-EXAMPLE6a788d4c8acd4264ff0ecf2ed2d • Report generators - arn:aws:license-manager:us-east-1:111122223333:report-generator:r-EXAMPLE825b4a4f8fe5a3e0c88824e5fc6</param>
     /// <param name="Tags">One or more tags. (structure) Details about the tags for a resource. For more information about tagging support in License Manager, see the TagResource operation. Key -&gt; (string) The tag key. Value -&gt; (string) The tag value. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]</param>
     public AwsLicenseManagerTagResourceOptions(
         string ResourceArn,
@@ -71,7 +72,7 @@ public record AwsLicenseManagerTagResourceOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Man- ager: o Licenses - arn:aws:license-manager::111122223333:license:l-EXAM- PLE2da7646d6861033667f20e895 o Grants - arn:aws:license-manager::111122223333:grant:g-EXAM- PLE7b19f4a0ab73679b0beb52707 o License configurations - arn:aws:license-man- ager:us-east-1:111122223333:license-configuration:lic-EXAM- PLE6a788d4c8acd4264ff0ecf2ed2d o Report generators - arn:aws:license-man- ager:us-east-1:111122223333:report-generator:r-EXAM- PLE825b4a4f8fe5a3e0c88824e5fc6
+    /// Amazon Resource Name (ARN) of the resource. The following examples provide an example ARN for each supported resource in License Manager: • Licenses - arn:aws:license-manager::111122223333:license:l-EXAMPLE2da7646d6861033667f20e895 • Grants - arn:aws:license-manager::111122223333:grant:g-EXAMPLE7b19f4a0ab73679b0beb52707 • License configurations - arn:aws:license-manager:us-east-1:111122223333:license-configuration:lic-EXAMPLE6a788d4c8acd4264ff0ecf2ed2d • Report generators - arn:aws:license-manager:us-east-1:111122223333:report-generator:r-EXAMPLE825b4a4f8fe5a3e0c88824e5fc6
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -103,6 +104,15 @@ public record AwsLicenseManagerTagResourceOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

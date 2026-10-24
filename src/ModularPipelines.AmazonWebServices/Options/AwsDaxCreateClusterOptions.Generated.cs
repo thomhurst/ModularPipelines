@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a DAX cluster. All nodes in the cluster run the same DAX caching software. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The cluster identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 20 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.</param>
+    /// <param name="ClusterName">The cluster identifier. This parameter is stored as a lowercase string. Constraints: • A name must contain from 1 to 20 alphanumeric characters or hyphens. • The first character must be a letter. • A name cannot end with a hyphen or contain two consecutive hyphens.</param>
     /// <param name="NodeType">The compute and memory capacity of the nodes in the cluster.</param>
     /// <param name="ReplicationFactor">The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor . NOTE: Amazon Web Services recommends that you have at least two read replicas per cluster.</param>
     /// <param name="IamRoleArn">A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime, DAX will assume this role and use the role's permissions to access DynamoDB on your behalf.</param>
@@ -68,7 +69,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The cluster identifier. This parameter is stored as a lowercase string. Constraints: o A name must contain from 1 to 20 alphanumeric characters or hy- phens. o The first character must be a letter. o A name cannot end with a hyphen or contain two consecutive hy- phens.
+    /// The cluster identifier. This parameter is stored as a lowercase string. Constraints: • A name must contain from 1 to 20 alphanumeric characters or hyphens. • The first character must be a letter. • A name cannot end with a hyphen or contain two consecutive hyphens.
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
@@ -98,7 +99,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
     public string? Description { get; set; }
 
     /// <summary>
-    /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availabil- ity Zones for the highest availability. (string) Syntax: "string" "string" ...
+    /// The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated. If provided, the length of this list must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the nodes across Availability Zones for the highest availability. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--availability-zones", GroupValues = true)]
     public IEnumerable<string>? AvailabilityZones { get; set; }
@@ -110,19 +111,19 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
     public string? SubnetGroupName { get; set; }
 
     /// <summary>
-    /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC se- curity group to each node. (string) Syntax: "string" "string" ...
+    /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: o sun o mon o tue o wed o thu o fri o sat Example: sun:05:00-sun:09:00 NOTE: If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute main- tenance window on a randomly selected day of the week.
+    /// Specifies the weekly time range during which maintenance on the DAX cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: • sun • mon • tue • wed • thu • fri • sat Example: sun:05:00-sun:09:00 NOTE: If you don't specify a preferred maintenance window when you create or modify a cache cluster, DAX assigns a 60-minute maintenance window on a randomly selected day of the week.
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which no- tifications will be sent. NOTE: The Amazon SNS topic owner must be same as the DAX cluster owner.
+    /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications will be sent. NOTE: The Amazon SNS topic owner must be same as the DAX cluster owner.
     /// </summary>
     [CliOption("--notification-topic-arn")]
     public string? NotificationTopicArn { get; set; }
@@ -134,7 +135,7 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
     public string? ParameterGroupName { get; set; }
 
     /// <summary>
-    /// A set of tags to associate with the DAX cluster. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automati- cally assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A set of tags to associate with the DAX cluster. (structure) A description of a tag. Every tag is a key-value pair. You can add up to 50 tags to a single DAX cluster. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: . You cannot backdate the application of a tag. Key -&gt; (string) The key for the tag. Tag keys are case sensitive. Every DAX cluster can only have one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value. Value -&gt; (string) The value of the tag. Tag values are case-sensitive and can be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -146,13 +147,13 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
     public string? SseSpecification { get; set; }
 
     /// <summary>
-    /// The type of encryption the cluster's endpoint should support. Values are: o NONE for no encryption o TLS for Transport Layer Security Possible values: o NONE o TLS
+    /// The type of encryption the cluster's endpoint should support. Values are: • NONE for no encryption • TLS for Transport Layer Security Possible values: • NONE • TLS
     /// </summary>
     [CliOption("--cluster-endpoint-encryption-type")]
     public AwsDaxCreateClusterClusterEndpointEncryptionType? ClusterEndpointEncryptionType { get; set; }
 
     /// <summary>
-    /// Specifies the IP protocol(s) the cluster uses for network communica- tions. Values are: o ipv4 - The cluster is accessible only through IPv4 addresses o ipv6 - The cluster is accessible only through IPv6 addresses o dual_stack - The cluster is accessible through both IPv4 and IPv6 addresses. NOTE: If no explicit NetworkType is provided, the network type is de- rived based on the subnet group's configuration. Possible values: o ipv4 o ipv6 o dual_stack
+    /// Specifies the IP protocol(s) the cluster uses for network communications. Values are: • ipv4 - The cluster is accessible only through IPv4 addresses • ipv6 - The cluster is accessible only through IPv6 addresses • dual_stack - The cluster is accessible through both IPv4 and IPv6 addresses. NOTE: If no explicit NetworkType is provided, the network type is derived based on the subnet group's configuration. Possible values: • ipv4 • ipv6 • dual_stack
     /// </summary>
     [CliOption("--network-type")]
     public AwsDaxCreateClusterNetworkType? NetworkType { get; set; }
@@ -178,6 +179,15 @@ public record AwsDaxCreateClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

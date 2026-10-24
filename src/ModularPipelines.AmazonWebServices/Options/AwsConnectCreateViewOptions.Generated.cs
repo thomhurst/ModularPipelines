@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is re- turned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS ...
+/// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS AP...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,12 +28,12 @@ public record AwsConnectCreateViewOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is re- turned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS ...
+    /// Creates a new view with the possible status of SAVED or PUBLISHED . The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED . An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided. See also: AWS AP...
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
-    /// <param name="Status">Indicates the view status as either SAVED or PUBLISHED . The PUB- LISHED status will initiate validation on the content. Possible values: o PUBLISHED o SAVED</param>
-    /// <param name="Content">View content containing all content necessary to render a view ex- cept for runtime input data. The total uncompressed content has a maximum file size of 400kB. Template -&gt; (string) The view template representing the structure of the view. Actions -&gt; (list) A list of possible actions from the view. (string) Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$ Shorthand Syntax: Template=string,Actions=string,string JSON Syntax: { "Template": "string", "Actions": ["string", ...] }</param>
-    /// <param name="Name">The name of the view. Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$</param>
+    /// <param name="Status">Indicates the view status as either SAVED or PUBLISHED . The PUBLISHED status will initiate validation on the content. Possible values: • PUBLISHED • SAVED</param>
+    /// <param name="Content">View content containing all content necessary to render a view except for runtime input data. The total uncompressed content has a maximum file size of 400kB. Template -&gt; (string) The view template representing the structure of the view. Actions -&gt; (list) A list of possible actions from the view. (string) Constraints: • min: 1 • max: 255 • pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$ Shorthand Syntax: Template=string,Actions=string,string JSON Syntax: { "Template": "string", "Actions": ["string", ...] }</param>
+    /// <param name="Name">The name of the view. Constraints: • min: 1 • max: 255 • pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$</param>
     public AwsConnectCreateViewOptions(
         string InstanceId,
         AwsConnectCreateViewStatus Status,
@@ -70,44 +70,44 @@ public record AwsConnectCreateViewOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9\_\-:\/]+$
+    /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9\_\-:\/]+$
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// Indicates the view status as either SAVED or PUBLISHED . The PUB- LISHED status will initiate validation on the content. Possible values: o PUBLISHED o SAVED
+    /// Indicates the view status as either SAVED or PUBLISHED . The PUBLISHED status will initiate validation on the content. Possible values: • PUBLISHED • SAVED
     /// </summary>
     [CliOption("--status")]
     public AwsConnectCreateViewStatus? Status { get; private init; }
 
     /// <summary>
-    /// View content containing all content necessary to render a view ex- cept for runtime input data. The total uncompressed content has a maximum file size of 400kB. Template -&gt; (string) The view template representing the structure of the view. Actions -&gt; (list) A list of possible actions from the view. (string) Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$ Shorthand Syntax: Template=string,Actions=string,string JSON Syntax: { "Template": "string", "Actions": ["string", ...] }
+    /// View content containing all content necessary to render a view except for runtime input data. The total uncompressed content has a maximum file size of 400kB. Template -&gt; (string) The view template representing the structure of the view. Actions -&gt; (list) A list of possible actions from the view. (string) Constraints: • min: 1 • max: 255 • pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$ Shorthand Syntax: Template=string,Actions=string,string JSON Syntax: { "Template": "string", "Actions": ["string", ...] }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The name of the view. Constraints: o min: 1 o max: 255 o pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$
+    /// The name of the view. Constraints: • min: 1 • max: 255 • pattern: ^([\p{L}\p{N}_.:\/=+\-@()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@()']*)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is pro- vided. Constraints: o max: 500 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$
+    /// A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is provided. Constraints: • max: 500 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@]*)$
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The description of the view. Constraints: o min: 1 o max: 4096 o pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
+    /// The description of the view. Constraints: • min: 1 • max: 4096 • pattern: ^([\p{L}\p{N}_.:\/=+\-@,()']+[\p{L}\p{Z}\p{N}_.:\/=+\-@,()']*)$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control ac- cess for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -133,6 +133,15 @@ public record AwsConnectCreateViewOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

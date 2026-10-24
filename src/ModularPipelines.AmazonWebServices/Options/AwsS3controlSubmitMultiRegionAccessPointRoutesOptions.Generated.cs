@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported by directory buckets. Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indi- cates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be ...
+/// NOTE: This operation is not supported by directory buckets. Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be ac...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsS3controlSubmitMultiRegionAccessPointRoutesOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported by directory buckets. Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indi- cates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be ...
+    /// NOTE: This operation is not supported by directory buckets. Submits an updated route configuration for a Multi-Region Access Point. This API operation updates the routing status for the specified Regions from active to passive, or from passive to active. A value of 0 indicates a passive status, which means that traffic won't be routed to the specified Region. A value of 100 indicates an active status, which means that traffic will be routed to the specified Region. At least one Region must be ac...
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$</param>
-    /// <param name="Mrap">The Multi-Region Access Point ARN. Constraints: o max: 200 o pattern: ^[a-zA-Z0-9\:.-]{3,200}$</param>
-    /// <param name="RouteUpdates">The different routes that make up the new route configuration. Ac- tive routes return a value of 100 , and passive routes return a value of 0 . (structure) A structure for a Multi-Region Access Point that indicates where Amazon S3 traffic can be routed. Routes can be either active or passive. Active routes can process Amazon S3 requests through the Multi-Region Access Point, but passive routes are not eligi- ble to process Amazon S3 requests. Each route contains the Amazon S3 bucket name and the Amazon Web Services Region that the bucket is located in. The route also includes the TrafficDialPercentage value, which shows whether the bucket and Region are active (indicated by a value of 100 ) or passive (indicated by a value of 0 ). Bucket -&gt; (string) The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: o min: 3 o max: 255 Region -&gt; (string) The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Re- gion value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: o min: 1 o max: 64 TrafficDialPercentage -&gt; (integer) [required] The traffic state for the specified bucket or Amazon Web Ser- vices Region. A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region. A value of 100 indicates an active state, which means that traffic will be routed to the specified Region. When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure sta- tus is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error. Constraints: o min: 0 o max: 100 Shorthand Syntax: Bucket=string,Region=string,TrafficDialPercentage=integer ... JSON Syntax: [ { "Bucket": "string", "Region": "string", "TrafficDialPercentage": integer } ... ]</param>
+    /// <param name="AccountId">The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$</param>
+    /// <param name="Mrap">The Multi-Region Access Point ARN. Constraints: • max: 200 • pattern: ^[a-zA-Z0-9\:.-]{3,200}$</param>
+    /// <param name="RouteUpdates">The different routes that make up the new route configuration. Active routes return a value of 100 , and passive routes return a value of 0 . (structure) A structure for a Multi-Region Access Point that indicates where Amazon S3 traffic can be routed. Routes can be either active or passive. Active routes can process Amazon S3 requests through the Multi-Region Access Point, but passive routes are not eligible to process Amazon S3 requests. Each route contains the Amazon S3 bucket name and the Amazon Web Services Region that the bucket is located in. The route also includes the TrafficDialPercentage value, which shows whether the bucket and Region are active (indicated by a value of 100 ) or passive (indicated by a value of 0 ). Bucket -&gt; (string) The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: • min: 3 • max: 255 Region -&gt; (string) The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: • min: 1 • max: 64 TrafficDialPercentage -&gt; (integer) [required] The traffic state for the specified bucket or Amazon Web Services Region. A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region. A value of 100 indicates an active state, which means that traffic will be routed to the specified Region. When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure status is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error. Constraints: • min: 0 • max: 100 Shorthand Syntax: Bucket=string,Region=string,TrafficDialPercentage=integer ... JSON Syntax: [ { "Bucket": "string", "Region": "string", "TrafficDialPercentage": integer } ... ]</param>
     public AwsS3controlSubmitMultiRegionAccessPointRoutesOptions(
         string AccountId,
         string Mrap,
@@ -75,19 +76,19 @@ public record AwsS3controlSubmitMultiRegionAccessPointRoutesOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: o max: 64 o pattern: ^\d{12}$
+    /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point. Constraints: • max: 64 • pattern: ^\d{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The Multi-Region Access Point ARN. Constraints: o max: 200 o pattern: ^[a-zA-Z0-9\:.-]{3,200}$
+    /// The Multi-Region Access Point ARN. Constraints: • max: 200 • pattern: ^[a-zA-Z0-9\:.-]{3,200}$
     /// </summary>
     [CliOption("--mrap")]
     public string? Mrap { get; private init; }
 
     /// <summary>
-    /// The different routes that make up the new route configuration. Ac- tive routes return a value of 100 , and passive routes return a value of 0 . (structure) A structure for a Multi-Region Access Point that indicates where Amazon S3 traffic can be routed. Routes can be either active or passive. Active routes can process Amazon S3 requests through the Multi-Region Access Point, but passive routes are not eligi- ble to process Amazon S3 requests. Each route contains the Amazon S3 bucket name and the Amazon Web Services Region that the bucket is located in. The route also includes the TrafficDialPercentage value, which shows whether the bucket and Region are active (indicated by a value of 100 ) or passive (indicated by a value of 0 ). Bucket -&gt; (string) The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: o min: 3 o max: 255 Region -&gt; (string) The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Re- gion value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: o min: 1 o max: 64 TrafficDialPercentage -&gt; (integer) [required] The traffic state for the specified bucket or Amazon Web Ser- vices Region. A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region. A value of 100 indicates an active state, which means that traffic will be routed to the specified Region. When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure sta- tus is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error. Constraints: o min: 0 o max: 100 Shorthand Syntax: Bucket=string,Region=string,TrafficDialPercentage=integer ... JSON Syntax: [ { "Bucket": "string", "Region": "string", "TrafficDialPercentage": integer } ... ]
+    /// The different routes that make up the new route configuration. Active routes return a value of 100 , and passive routes return a value of 0 . (structure) A structure for a Multi-Region Access Point that indicates where Amazon S3 traffic can be routed. Routes can be either active or passive. Active routes can process Amazon S3 requests through the Multi-Region Access Point, but passive routes are not eligible to process Amazon S3 requests. Each route contains the Amazon S3 bucket name and the Amazon Web Services Region that the bucket is located in. The route also includes the TrafficDialPercentage value, which shows whether the bucket and Region are active (indicated by a value of 100 ) or passive (indicated by a value of 0 ). Bucket -&gt; (string) The name of the Amazon S3 bucket for which you'll submit a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: • min: 3 • max: 255 Region -&gt; (string) The Amazon Web Services Region to which you'll be submitting a routing configuration change. Either the Bucket or the Region value must be provided. If both are provided, the bucket must be in the specified Region. Constraints: • min: 1 • max: 64 TrafficDialPercentage -&gt; (integer) [required] The traffic state for the specified bucket or Amazon Web Services Region. A value of 0 indicates a passive state, which means that no new traffic will be routed to the Region. A value of 100 indicates an active state, which means that traffic will be routed to the specified Region. When the routing configuration for a Region is changed from active to passive, any in-progress operations (uploads, copies, deletes, and so on) to the formerly active Region will continue to run to until a final success or failure status is reached. If all Regions in the routing configuration are designated as passive, you'll receive an InvalidRequest error. Constraints: • min: 0 • max: 100 Shorthand Syntax: Bucket=string,Region=string,TrafficDialPercentage=integer ... JSON Syntax: [ { "Bucket": "string", "Region": "string", "TrafficDialPercentage": integer } ... ]
     /// </summary>
     [CliOption("--route-updates", GroupValues = true)]
     public IEnumerable<string>? RouteUpdates { get; private init; }
@@ -113,6 +114,15 @@ public record AwsS3controlSubmitMultiRegionAccessPointRoutesOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: Pa- rameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immedi- ately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. Yo...
+/// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You mu...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsNeptuneResetDbClusterParameterGroupOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: Pa- rameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immedi- ately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. Yo...
+    /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod . To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request. You mu...
     /// </summary>
     /// <param name="DbClusterParameterGroupName">The name of the DB cluster parameter group to reset.</param>
     public AwsNeptuneResetDbClusterParameterGroupOptions(
@@ -62,13 +63,13 @@ public record AwsNeptuneResetDbClusterParameterGroupOptions : AwsOptions, IValid
     public string? DbClusterParameterGroupName { get; private init; }
 
     /// <summary>
-    /// A value that is set to true to reset all parameters in the DB clus- ter parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
+    /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
     /// </summary>
     [CliFlag("--reset-all-parameters", NegatedName = "--no-reset-all-parameters")]
     public bool? ResetAllParameters { get; set; }
 
     /// <summary>
-    /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAll- Parameters parameter is set to true . (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational im- plications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: o immediate o pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
+    /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true . (structure) Specifies a parameter. ParameterName -&gt; (string) Specifies the name of the parameter. ParameterValue -&gt; (string) Specifies the value of the parameter. Description -&gt; (string) Provides a description of the parameter. Source -&gt; (string) Indicates the source of the parameter value. ApplyType -&gt; (string) Specifies the engine specific parameters type. DataType -&gt; (string) Specifies the valid data type for the parameter. AllowedValues -&gt; (string) Specifies the valid range of values for the parameter. IsModifiable -&gt; (boolean) Indicates whether (true ) or not (false ) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. MinimumEngineVersion -&gt; (string) The earliest engine version to which the parameter can apply. ApplyMethod -&gt; (string) Indicates when to apply parameter updates. Possible values: • immediate • pending-reboot Shorthand Syntax: ParameterName=string,ParameterValue=string,Description=string,Source=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,MinimumEngineVersion=string,ApplyMethod=string ... JSON Syntax: [ { "ParameterName": "string", "ParameterValue": "string", "Description": "string", "Source": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "MinimumEngineVersion": "string", "ApplyMethod": "immediate"|"pending-reboot" } ... ]
     /// </summary>
     [CliOption("--parameters", GroupValues = true)]
     public IEnumerable<string>? Parameters { get; set; }
@@ -94,6 +95,15 @@ public record AwsNeptuneResetDbClusterParameterGroupOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

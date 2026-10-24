@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSecuritylakeUpdateDataLakeExceptionSubscriptionOptions : AwsOpt
     /// <summary>
     /// Updates the specified notification subscription in Amazon Security Lake for the organization you specify. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NotificationEndpoint">The account that is subscribed to receive exception notifications. Constraints: o pattern: ^[\\\w\-_:/.@=+]*$</param>
-    /// <param name="SubscriptionProtocol">The subscription protocol to which exception messages are posted. Constraints: o pattern: ^[a-z\-]*$</param>
+    /// <param name="NotificationEndpoint">The account that is subscribed to receive exception notifications. Constraints: • pattern: ^[\\\w\-_:/.@=+]*$</param>
+    /// <param name="SubscriptionProtocol">The subscription protocol to which exception messages are posted. Constraints: • pattern: ^[a-z\-]*$</param>
     public AwsSecuritylakeUpdateDataLakeExceptionSubscriptionOptions(
         string NotificationEndpoint,
         string SubscriptionProtocol
@@ -60,22 +61,22 @@ public record AwsSecuritylakeUpdateDataLakeExceptionSubscriptionOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The account that is subscribed to receive exception notifications. Constraints: o pattern: ^[\\\w\-_:/.@=+]*$
+    /// The account that is subscribed to receive exception notifications. Constraints: • pattern: ^[\\\w\-_:/.@=+]*$
     /// </summary>
     [CliOption("--notification-endpoint")]
     public string? NotificationEndpoint { get; private init; }
 
     /// <summary>
-    /// The subscription protocol to which exception messages are posted. Constraints: o pattern: ^[a-z\-]*$
+    /// The subscription protocol to which exception messages are posted. Constraints: • pattern: ^[a-z\-]*$
     /// </summary>
     [CliOption("--subscription-protocol")]
     public string? SubscriptionProtocol { get; private init; }
 
     /// <summary>
-    /// The time-to-live (TTL) for the exception message to remain. It is the duration of time until which the exception message remains. Constraints: o min: 1
+    /// The time-to-live (TTL) for the exception message to remain. It is the duration of time until which the exception message remains. Constraints: • min: 1
     /// </summary>
     [CliOption("--exception-time-to-live")]
-    public int? ExceptionTimeToLive { get; set; }
+    public long? ExceptionTimeToLive { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -98,6 +99,15 @@ public record AwsSecuritylakeUpdateDataLakeExceptionSubscriptionOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

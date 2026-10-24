@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifa
     /// <summary>
     /// Associates multiple self-service actions with provisioning artifacts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceActionAssociations">One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. Constraints: o min: 1 o max: 50 (structure) A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. ServiceActionId -&gt; (string) [required] The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProductId -&gt; (string) [required] The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) [required] The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* Shorthand Syntax: ServiceActionId=string,ProductId=string,ProvisioningArtifactId=string ... JSON Syntax: [ { "ServiceActionId": "string", "ProductId": "string", "ProvisioningArtifactId": "string" } ... ]</param>
+    /// <param name="ServiceActionAssociations">One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. Constraints: • min: 1 • max: 50 (structure) A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. ServiceActionId -&gt; (string) [required] The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]* ProductId -&gt; (string) [required] The product identifier. For example, prod-abcdzk7xy33qa . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) [required] The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]* Shorthand Syntax: ServiceActionId=string,ProductId=string,ProvisioningArtifactId=string ... JSON Syntax: [ { "ServiceActionId": "string", "ProductId": "string", "ProvisioningArtifactId": "string" } ... ]</param>
     public AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifactOptions(
         IEnumerable<string> ServiceActionAssociations
     )
@@ -67,13 +68,13 @@ public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. Constraints: o min: 1 o max: 50 (structure) A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. ServiceActionId -&gt; (string) [required] The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProductId -&gt; (string) [required] The product identifier. For example, prod-abcdzk7xy33qa . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) [required] The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]* Shorthand Syntax: ServiceActionId=string,ProductId=string,ProvisioningArtifactId=string ... JSON Syntax: [ { "ServiceActionId": "string", "ProductId": "string", "ProvisioningArtifactId": "string" } ... ]
+    /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. Constraints: • min: 1 • max: 50 (structure) A self-service action association consisting of the Action ID, the Product ID, and the Provisioning Artifact ID. ServiceActionId -&gt; (string) [required] The self-service action identifier. For example, act-fs7abcd89wxyz . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]* ProductId -&gt; (string) [required] The product identifier. For example, prod-abcdzk7xy33qa . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]* ProvisioningArtifactId -&gt; (string) [required] The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne . Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]* Shorthand Syntax: ServiceActionId=string,ProductId=string,ProvisioningArtifactId=string ... JSON Syntax: [ { "ServiceActionId": "string", "ProductId": "string", "ProvisioningArtifactId": "string" } ... ]
     /// </summary>
     [CliOption("--service-action-associations", GroupValues = true)]
     public IEnumerable<string>? ServiceActionAssociations { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
@@ -99,6 +100,15 @@ public record AwsServicecatalogBatchAssociateServiceActionWithProvisioningArtifa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

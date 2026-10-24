@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPartnercentralSellingStopResourceSnapshotJobOptions : AwsOption
     /// <summary>
     /// Stops a resource snapshot job. The job must be started prior to being stopped. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: o AWS: Stops the request from the production AWS environment. o Sandbox: Stops the request from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="ResourceSnapshotJobIdentifier">The identifier of the job to stop. Constraints: o pattern: job-[0-9a-z]{13}</param>
+    /// <param name="Catalog">Specifies the catalog related to the request. Valid values are: • AWS: Stops the request from the production AWS environment. • Sandbox: Stops the request from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="ResourceSnapshotJobIdentifier">The identifier of the job to stop. Constraints: • pattern: job-[0-9a-z]{13}</param>
     public AwsPartnercentralSellingStopResourceSnapshotJobOptions(
         string Catalog,
         string ResourceSnapshotJobIdentifier
@@ -60,13 +61,13 @@ public record AwsPartnercentralSellingStopResourceSnapshotJobOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the request. Valid values are: o AWS: Stops the request from the production AWS environment. o Sandbox: Stops the request from a sandbox environment used for testing or development purposes. Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the request. Valid values are: • AWS: Stops the request from the production AWS environment. • Sandbox: Stops the request from a sandbox environment used for testing or development purposes. Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The identifier of the job to stop. Constraints: o pattern: job-[0-9a-z]{13}
+    /// The identifier of the job to stop. Constraints: • pattern: job-[0-9a-z]{13}
     /// </summary>
     [CliOption("--resource-snapshot-job-identifier")]
     public string? ResourceSnapshotJobIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPartnercentralSellingStopResourceSnapshotJobOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

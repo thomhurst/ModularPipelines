@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsCloudfrontDisassociateDistributionTenantWebAclOptions : AwsOpti
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The current version of the distribution tenant that you're disasso- ciating from the WAF web ACL. This is the ETag value returned in the response to the GetDistributionTenant API operation.
+    /// The current version of the distribution tenant that you're disassociating from the WAF web ACL. This is the ETag value returned in the response to the GetDistributionTenant API operation.
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }
@@ -88,6 +89,15 @@ public record AwsCloudfrontDisassociateDistributionTenantWebAclOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,22 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsConfigserviceDescribeConfigRulesOptions : AwsOptions
 {
     /// <summary>
-    /// The names of the Config rules for which you want details. If you do not specify any names, Config returns details for all your rules. Constraints: o min: 0 o max: 25 (string) Constraints: o min: 1 o max: 128 o pattern: .*\S.* Syntax: "string" "string" ...
+    /// The names of the Config rules for which you want details. If you do not specify any names, Config returns details for all your rules. Constraints: • min: 0 • max: 25 (string) Constraints: • min: 1 • max: 128 • pattern: .*\S.* Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--config-rule-names", GroupValues = true)]
     public IEnumerable<string>? ConfigRuleNames { get; set; }
 
     /// <summary>
-    /// Returns a list of Detective or Proactive Config rules. By default, this API returns an unfiltered list. For more information on Detec- tive or Proactive Config rules, see ` Evaluation Mode https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html`__ in the Config Developer Guide . EvaluationMode -&gt; (string) The mode of an evaluation. The valid values are Detective or Proactive. Possible values: o DETECTIVE o PROACTIVE RuleEvaluationVisibility -&gt; (string) Filters the results by RuleEvaluationVisibility . Possible values: o EXTERNAL o INTERNAL Shorthand Syntax: EvaluationMode=string,RuleEvaluationVisibility=string JSON Syntax: { "EvaluationMode": "DETECTIVE"|"PROACTIVE", "RuleEvaluationVisibility": "EXTERNAL"|"INTERNAL" }
+    /// Returns a list of Detective or Proactive Config rules. By default, this API returns an unfiltered list. For more information on Detective or Proactive Config rules, see ` Evaluation Mode https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config-rules.html`__ in the Config Developer Guide . EvaluationMode -&gt; (string) The mode of an evaluation. The valid values are Detective or Proactive. Possible values: • DETECTIVE • PROACTIVE RuleEvaluationVisibility -&gt; (string) Filters the results by RuleEvaluationVisibility . Possible values: • EXTERNAL • INTERNAL Shorthand Syntax: EvaluationMode=string,RuleEvaluationVisibility=string JSON Syntax: { "EvaluationMode": "DETECTIVE"|"PROACTIVE", "RuleEvaluationVisibility": "EXTERNAL"|"INTERNAL" }
     /// </summary>
     [CliOption("--filters")]
     public string? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -48,9 +45,21 @@ public record AwsConfigserviceDescribeConfigRulesOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

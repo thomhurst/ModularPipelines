@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsInspectorRemoveAttributesFromFindingsOptions : AwsOptions, IVal
     /// <summary>
     /// Removes entire attributes (key and value pairs) from the findings that are specified by the ARNs of the findings where an attribute with the specified key exists. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingArns">The ARNs that specify the findings that you want to remove attrib- utes from. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
-    /// <param name="AttributeKeys">The array of attribute keys that you want to remove from specified findings. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="FindingArns">The ARNs that specify the findings that you want to remove attributes from. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="AttributeKeys">The array of attribute keys that you want to remove from specified findings. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
     public AwsInspectorRemoveAttributesFromFindingsOptions(
         IEnumerable<string> FindingArns,
         IEnumerable<string> AttributeKeys
@@ -82,13 +83,13 @@ public record AwsInspectorRemoveAttributesFromFindingsOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARNs that specify the findings that you want to remove attrib- utes from. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARNs that specify the findings that you want to remove attributes from. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; private init; }
 
     /// <summary>
-    /// The array of attribute keys that you want to remove from specified findings. Constraints: o min: 0 o max: 10 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// The array of attribute keys that you want to remove from specified findings. Constraints: • min: 0 • max: 10 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--attribute-keys", GroupValues = true)]
     public IEnumerable<string>? AttributeKeys { get; private init; }
@@ -114,6 +115,15 @@ public record AwsInspectorRemoveAttributesFromFindingsOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

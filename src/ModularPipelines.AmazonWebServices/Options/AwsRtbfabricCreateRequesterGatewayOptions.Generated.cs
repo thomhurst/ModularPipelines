@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,9 +29,9 @@ public record AwsRtbfabricCreateRequesterGatewayOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a requester gateway. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VpcId">The unique identifier of the Virtual Private Cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8,17}</param>
-    /// <param name="SubnetIds">The unique identifiers of the subnets. Constraints: o min: 1 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8,17} Syntax: "string" "string" ...</param>
-    /// <param name="SecurityGroupIds">The unique identifiers of the security groups. Constraints: o min: 1 (string) Constraints: o min: 11 o max: 43 o pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...</param>
+    /// <param name="VpcId">The unique identifier of the Virtual Private Cloud (VPC). Constraints: • min: 12 • max: 21 • pattern: vpc-[a-f0-9]{8,17}</param>
+    /// <param name="SubnetIds">The unique identifiers of the subnets. Constraints: • min: 1 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8,17} Syntax: "string" "string" ...</param>
+    /// <param name="SecurityGroupIds">The unique identifiers of the security groups. Constraints: • min: 1 (string) Constraints: • min: 11 • max: 43 • pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...</param>
     public AwsRtbfabricCreateRequesterGatewayOptions(
         string VpcId,
         IEnumerable<string> SubnetIds,
@@ -88,38 +88,38 @@ public record AwsRtbfabricCreateRequesterGatewayOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Virtual Private Cloud (VPC). Constraints: o min: 12 o max: 21 o pattern: vpc-[a-f0-9]{8,17}
+    /// The unique identifier of the Virtual Private Cloud (VPC). Constraints: • min: 12 • max: 21 • pattern: vpc-[a-f0-9]{8,17}
     /// </summary>
     [CliOption("--vpc-id")]
     public string? VpcId { get; private init; }
 
     /// <summary>
-    /// The unique identifiers of the subnets. Constraints: o min: 1 (string) Constraints: o min: 15 o max: 24 o pattern: subnet-\w{8,17} Syntax: "string" "string" ...
+    /// The unique identifiers of the subnets. Constraints: • min: 1 (string) Constraints: • min: 15 • max: 24 • pattern: subnet-\w{8,17} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// The unique identifiers of the security groups. Constraints: o min: 1 (string) Constraints: o min: 11 o max: 43 o pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
+    /// The unique identifiers of the security groups. Constraints: • min: 1 (string) Constraints: • min: 11 • max: 43 • pattern: sg-[0-9a-f]{8,40} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--security-group-ids", GroupValues = true)]
     public IEnumerable<string>? SecurityGroupIds { get; private init; }
 
     /// <summary>
-    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with dif- ferent parameters, the retry fails with an IdempotentParameterMis- match error.
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value . If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken , but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An optional description for the requester gateway. Constraints: o min: 0 o max: 255 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*)
+    /// An optional description for the requester gateway. Constraints: • min: 0 • max: 255 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*)
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A map of the key-value pairs of the tag or tags to assign to the re- source. key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: o min: 0 o max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of the key-value pairs of the tag or tags to assign to the resource. key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (resourceArn|internalId|[a-zA-Z0-9+\-=._:/@]+) value -&gt; (string) Constraints: • min: 0 • max: 1600 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -145,6 +145,15 @@ public record AwsRtbfabricCreateRequesterGatewayOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

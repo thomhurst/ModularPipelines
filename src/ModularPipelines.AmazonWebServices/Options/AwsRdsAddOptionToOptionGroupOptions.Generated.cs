@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Modifies an existing option group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OptionGroupName">The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Secu- rity TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance</param>
+    /// <param name="OptionGroupName">The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance</param>
     public AwsRdsAddOptionToOptionGroupOptions(
         string OptionGroupName
     )
@@ -56,7 +57,7 @@ public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Secu- rity TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
+    /// The name of the option group to be modified. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
     /// </summary>
     [CliOption("--option-group-name")]
     public string? OptionGroupName { get; private init; }
@@ -68,7 +69,7 @@ public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions, IValidatableObje
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration. (structure) A list of all available options for an option group. OptionName -&gt; (string) [required] The configuration of options to include in a group. Port -&gt; (integer) The optional port for the option. OptionVersion -&gt; (string) The version for the option. DBSecurityGroupMemberships -&gt; (list) A list of DB security groups used for this option. (string) VpcSecurityGroupMemberships -&gt; (list) A list of VPC security group names used for this option. (string) OptionSettings -&gt; (list) The option settings to include in an option group. (structure) Option settings are the actual settings being applied or configured for that option. It is used when you modify an option group or describe option groups. For example, the NATIVE_NETWORK_ENCRYPTION option has a setting called SQLNET.ENCRYPTION_SERVER that can have several different values. Name -&gt; (string) The name of the option that has settings that you can set. Value -&gt; (string) The current value of the option setting. DefaultValue -&gt; (string) The default value of the option setting. Description -&gt; (string) The description of the option setting. ApplyType -&gt; (string) The DB engine specific parameter type. DataType -&gt; (string) The data type of the option setting. AllowedValues -&gt; (string) The allowed values of the option setting. IsModifiable -&gt; (boolean) Indicates whether the option setting can be modified from the default. IsCollection -&gt; (boolean) Indicates whether the option setting is part of a col- lection. Shorthand Syntax: OptionName=string,Port=integer,OptionVersion=string,DBSecurityGroupMemberships=string,string,VpcSecurityGroupMemberships=string,string,OptionSettings=[{Name=string,Value=string,DefaultValue=string,Description=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,IsCollection=boolean},{Name=string,Value=string,DefaultValue=string,Description=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,IsCollection=boolean}] ... JSON Syntax: [ { "OptionName": "string", "Port": integer, "OptionVersion": "string", "DBSecurityGroupMemberships": ["string", ...], "VpcSecurityGroupMemberships": ["string", ...], "OptionSettings": [ { "Name": "string", "Value": "string", "DefaultValue": "string", "Description": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "IsCollection": true|false } ... ] } ... ]
+    /// Options in this list are added to the option group or, if already present, the specified configuration is used to update the existing configuration. (structure) A list of all available options for an option group. OptionName -&gt; (string) [required] The configuration of options to include in a group. Port -&gt; (integer) The optional port for the option. OptionVersion -&gt; (string) The version for the option. DBSecurityGroupMemberships -&gt; (list) A list of DB security groups used for this option. (string) VpcSecurityGroupMemberships -&gt; (list) A list of VPC security group names used for this option. (string) OptionSettings -&gt; (list) The option settings to include in an option group. (structure) Option settings are the actual settings being applied or configured for that option. It is used when you modify an option group or describe option groups. For example, the NATIVE_NETWORK_ENCRYPTION option has a setting called SQLNET.ENCRYPTION_SERVER that can have several different values. Name -&gt; (string) The name of the option that has settings that you can set. Value -&gt; (string) The current value of the option setting. DefaultValue -&gt; (string) The default value of the option setting. Description -&gt; (string) The description of the option setting. ApplyType -&gt; (string) The DB engine specific parameter type. DataType -&gt; (string) The data type of the option setting. AllowedValues -&gt; (string) The allowed values of the option setting. IsModifiable -&gt; (boolean) Indicates whether the option setting can be modified from the default. IsCollection -&gt; (boolean) Indicates whether the option setting is part of a collection. Shorthand Syntax: OptionName=string,Port=integer,OptionVersion=string,DBSecurityGroupMemberships=string,string,VpcSecurityGroupMemberships=string,string,OptionSettings=[{Name=string,Value=string,DefaultValue=string,Description=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,IsCollection=boolean},{Name=string,Value=string,DefaultValue=string,Description=string,ApplyType=string,DataType=string,AllowedValues=string,IsModifiable=boolean,IsCollection=boolean}] ... JSON Syntax: [ { "OptionName": "string", "Port": integer, "OptionVersion": "string", "DBSecurityGroupMemberships": ["string", ...], "VpcSecurityGroupMemberships": ["string", ...], "OptionSettings": [ { "Name": "string", "Value": "string", "DefaultValue": "string", "Description": "string", "ApplyType": "string", "DataType": "string", "AllowedValues": "string", "IsModifiable": true|false, "IsCollection": true|false } ... ] } ... ]
     /// </summary>
     [CliOption("--options", GroupValues = true)]
     public IEnumerable<string>? Options { get; set; }
@@ -94,6 +95,15 @@ public record AwsRdsAddOptionToOptionGroupOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

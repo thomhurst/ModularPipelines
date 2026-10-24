@@ -11,12 +11,12 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance re- quest, Amazon Web Services Supply Chain immediately returns the in- stance resource, instance ID, and the initializing state while simulta- neously creating all required Amazon Web Services resources for an in- stance creation. ...
+/// Enables you to programmatically create an Amazon Web Services Supply Chain instance by applying KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,37 +24,37 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSupplychainCreateInstanceOptions : AwsOptions
 {
     /// <summary>
-    /// The AWS Supply Chain instance name. Constraints: o min: 0 o max: 63 o pattern: (?![ _'%-])[a-zA-Z0-9 _'%-]{0,62}[a-zA-Z0-9]
+    /// The AWS Supply Chain instance name. Constraints: • min: 0 • max: 63 • pattern: (?![ _'%-])[a-zA-Z0-9 _'%-]{0,62}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--instance-name")]
     public string? InstanceName { get; set; }
 
     /// <summary>
-    /// The AWS Supply Chain instance description. Constraints: o min: 0 o max: 501 o pattern: ([a-zA-Z0-9., _'%-]){0,500}
+    /// The AWS Supply Chain instance description. Constraints: • min: 0 • max: 501 • pattern: ([a-zA-Z0-9., _'%-]){0,500}
     /// </summary>
     [CliOption("--instance-description")]
     public string? InstanceDescription { get; set; }
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon Web Services owned KMS key. If you don't provide anything here, AWS Supply Chain uses the Amazon Web Services owned KMS key. Constraints: o min: 0 o max: 2048 o pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:kms:([a-z0-9][-.a-z0-9]{0,62})?:([a-z0-9][-.a-z0-9]{0,62})?:key/.{0,1019}
+    /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon Web Services owned KMS key. If you don't provide anything here, AWS Supply Chain uses the Amazon Web Services owned KMS key. Constraints: • min: 0 • max: 2048 • pattern: arn:[a-z0-9][-.a-z0-9]{0,62}:kms:([a-z0-9][-.a-z0-9]{0,62})?:([a-z0-9][-.a-z0-9]{0,62})?:key/.{0,1019}
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The DNS subdomain of the web app. This would be "example" in the URL "example.scn.global.on.aws". You can set this to a custom value, as long as the domain isn't already being used by someone else. The name may only include alphanumeric characters and hyphens. Constraints: o pattern: (?![-])[a-zA-Z0-9-]{1,62}[a-zA-Z0-9]
+    /// The DNS subdomain of the web app. This would be "example" in the URL "example.scn.global.on.aws". You can set this to a custom value, as long as the domain isn't already being used by someone else. The name may only include alphanumeric characters and hyphens. Constraints: • pattern: (?![-])[a-zA-Z0-9-]{1,62}[a-zA-Z0-9]
     /// </summary>
     [CliOption("--web-app-dns-domain")]
     public string? WebAppDnsDomain { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services tags of an instance to be created. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The Amazon Web Services tags of an instance to be created. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The client token for idempotency. Constraints: o min: 33 o max: 126
+    /// The client token for idempotency. Constraints: • min: 33 • max: 126
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -65,5 +65,14 @@ public record AwsSupplychainCreateInstanceOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

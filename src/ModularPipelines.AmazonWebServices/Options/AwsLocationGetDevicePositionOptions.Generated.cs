@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLocationGetDevicePositionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Retrieves a device's most recent position according to its sample time. NOTE: Device positions are deleted after 30 days. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackerName">The tracker resource receiving the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+</param>
-    /// <param name="DeviceId">The device whose position you want to retrieve. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+</param>
+    /// <param name="TrackerName">The tracker resource receiving the position update. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+</param>
+    /// <param name="DeviceId">The device whose position you want to retrieve. Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+</param>
     public AwsLocationGetDevicePositionOptions(
         string TrackerName,
         string DeviceId
@@ -60,13 +61,13 @@ public record AwsLocationGetDevicePositionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The tracker resource receiving the position update. Constraints: o min: 1 o max: 100 o pattern: [-._\w]+
+    /// The tracker resource receiving the position update. Constraints: • min: 1 • max: 100 • pattern: [-._\w]+
     /// </summary>
     [CliOption("--tracker-name")]
     public string? TrackerName { get; private init; }
 
     /// <summary>
-    /// The device whose position you want to retrieve. Constraints: o min: 1 o max: 100 o pattern: [-._\p{L}\p{N}]+
+    /// The device whose position you want to retrieve. Constraints: • min: 1 • max: 100 • pattern: [-._\p{L}\p{N}]+
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLocationGetDevicePositionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

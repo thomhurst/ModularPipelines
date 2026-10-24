@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,8 +30,8 @@ public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. Tha...
     /// </summary>
-    /// <param name="GlobalResolverId">The ID of the Route 53 Global Resolver to associate with this DNS view. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
-    /// <param name="Name">A descriptive name for the DNS view. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
+    /// <param name="GlobalResolverId">The ID of the Route 53 Global Resolver to associate with this DNS view. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Name">A descriptive name for the DNS view. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)</param>
     public AwsRoute53globalresolverCreateDnsViewOptions(
         string GlobalResolverId,
         string Name
@@ -63,50 +63,50 @@ public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Route 53 Global Resolver to associate with this DNS view. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The ID of the Route 53 Global Resolver to associate with this DNS view. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--global-resolver-id")]
     public string? GlobalResolverId { get; private init; }
 
     /// <summary>
-    /// A descriptive name for the DNS view. Constraints: o min: 1 o max: 64 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// A descriptive name for the DNS view. Constraints: • min: 1 • max: 64 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and ensures idempotency. Constraints: o min: 1 o max: 256
+    /// A unique string that identifies the request and ensures idempotency. Constraints: • min: 1 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Whether to enable DNSSEC validation for DNS queries in this DNS view. When enabled, the resolver verifies the authenticity and in- tegrity of DNS responses from public name servers for DNSSEC-signed domains. Possible values: o ENABLED o DISABLED
+    /// Whether to enable DNSSEC validation for DNS queries in this DNS view. When enabled, the resolver verifies the authenticity and integrity of DNS responses from public name servers for DNSSEC-signed domains. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--dnssec-validation")]
     public AwsRoute53globalresolverCreateDnsViewDnssecValidation? DnssecValidation { get; set; }
 
     /// <summary>
-    /// Whether to enable EDNS Client Subnet injection for DNS queries in this DNS view. When enabled, client subnet information is forwarded to provide more accurate geographic-based DNS responses. Possible values: o ENABLED o DISABLED
+    /// Whether to enable EDNS Client Subnet injection for DNS queries in this DNS view. When enabled, client subnet information is forwarded to provide more accurate geographic-based DNS responses. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--edns-client-subnet")]
     public AwsRoute53globalresolverCreateDnsViewEdnsClientSubnet? EdnsClientSubnet { get; set; }
 
     /// <summary>
-    /// Determines the behavior when Route 53 Global Resolver cannot apply DNS firewall rules due to service impairment. When enabled, DNS queries are allowed through; when disabled, queries are blocked. Possible values: o ENABLED o DISABLED
+    /// Determines the behavior when Route 53 Global Resolver cannot apply DNS firewall rules due to service impairment. When enabled, DNS queries are allowed through; when disabled, queries are blocked. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--firewall-rules-fail-open")]
     public AwsRoute53globalresolverCreateDnsViewFirewallRulesFailOpen? FirewallRulesFailOpen { get; set; }
 
     /// <summary>
-    /// An optional description for the DNS view. Constraints: o min: 1 o max: 256
+    /// An optional description for the DNS view. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Tags to associate with the DNS view. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to associate with the DNS view. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -132,6 +132,15 @@ public record AwsRoute53globalresolverCreateDnsViewOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

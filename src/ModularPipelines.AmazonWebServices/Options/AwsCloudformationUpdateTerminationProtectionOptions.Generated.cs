@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates termination protection for the specified stack. If a user at- tempts to delete a stack with termination protection enabled, the oper- ation fails and the stack remains unchanged. For more information, see Protect a CloudFormation stack from being deleted in the CloudFormation User Guide . For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack. See also: AWS API Documentation
+/// Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protect a CloudFormation stack from being deleted in the CloudFormation User Guide . For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCloudformationUpdateTerminationProtectionOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates termination protection for the specified stack. If a user at- tempts to delete a stack with termination protection enabled, the oper- ation fails and the stack remains unchanged. For more information, see Protect a CloudFormation stack from being deleted in the CloudFormation User Guide . For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack. See also: AWS API Documentation
+    /// Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protect a CloudFormation stack from being deleted in the CloudFormation User Guide . For nested stacks , termination protection is set on the root stack and can't be changed directly on the nested stack. See also: AWS API Documentation
     /// </summary>
     /// <param name="EnableTerminationProtection">Whether to enable termination protection on the specified stack.</param>
-    /// <param name="StackName">The name or unique ID of the stack for which you want to set termi- nation protection. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
+    /// <param name="StackName">The name or unique ID of the stack for which you want to set termination protection. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)</param>
     public AwsCloudformationUpdateTerminationProtectionOptions(
         bool EnableTerminationProtection,
         string StackName
@@ -65,7 +66,7 @@ public record AwsCloudformationUpdateTerminationProtectionOptions : AwsOptions, 
     public bool? EnableTerminationProtection { get; private init; }
 
     /// <summary>
-    /// The name or unique ID of the stack for which you want to set termi- nation protection. Constraints: o min: 1 o pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
+    /// The name or unique ID of the stack for which you want to set termination protection. Constraints: • min: 1 • pattern: ([a-zA-Z][-a-zA-Z0-9]*)|(arn:\b(aws|aws-us-gov|aws-cn)\b:[-a-zA-Z0-9:/._+]*)
     /// </summary>
     [CliOption("--stack-name")]
     public string? StackName { get; private init; }
@@ -91,6 +92,15 @@ public record AwsCloudformationUpdateTerminationProtectionOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

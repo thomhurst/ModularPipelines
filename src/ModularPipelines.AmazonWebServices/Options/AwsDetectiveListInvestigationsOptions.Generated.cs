@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a se- curity incident. ListInvestigations lists all active Detective investi- gations. See also: AWS API Documentation
+/// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. ListInvestigations lists all active Detective investigations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDetectiveListInvestigationsOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a se- curity incident. ListInvestigations lists all active Detective investi- gations. See also: AWS API Documentation
+    /// Detective investigations lets you investigate IAM users and IAM roles using indicators of compromise. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. ListInvestigations lists all active Detective investigations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
+    /// <param name="GraphArn">The Amazon Resource Name (ARN) of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$</param>
     public AwsDetectiveListInvestigationsOptions(
         string GraphArn
     )
@@ -57,32 +58,32 @@ public record AwsDetectiveListInvestigationsOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: o pattern: ^arn:aws[-\w]{0,10}?:detec- tive:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
+    /// The Amazon Resource Name (ARN) of the behavior graph. Constraints: • pattern: ^arn:aws[-\w]{0,10}?:detective:[-\w]{2,20}?:\d{12}?:graph:[abcdef\d]{32}?$
     /// </summary>
     [CliOption("--graph-arn")]
     public string? GraphArn { get; private init; }
 
     /// <summary>
-    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagi- nation token will return a Validation Exception error. Constraints: o min: 1 o max: 2048
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Lists the maximum number of investigations in a page. Constraints: o min: 1 o max: 100
+    /// Lists the maximum number of investigations in a page. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filters the investigation results based on a criteria. Severity -&gt; (structure) Filter the investigation results based on the severity. Value -&gt; (string) [required] The string filter value. Constraints: o min: 1 o max: 500 Status -&gt; (structure) Filter the investigation results based on the status. Value -&gt; (string) [required] The string filter value. Constraints: o min: 1 o max: 500 State -&gt; (structure) Filter the investigation results based on the state. Value -&gt; (string) [required] The string filter value. Constraints: o min: 1 o max: 500 EntityArn -&gt; (structure) Filter the investigation results based on the Amazon Resource Name (ARN) of the entity. Value -&gt; (string) [required] The string filter value. Constraints: o min: 1 o max: 500 CreatedTime -&gt; (structure) Filter the investigation results based on when the investigation was created. StartInclusive -&gt; (timestamp) [required] A timestamp representing the start of the time period from when data is filtered, including the start date. EndInclusive -&gt; (timestamp) [required] A timestamp representing the end date of the time period un- til when data is filtered, including the end date. Shorthand Syntax: Severity={Value=string},Status={Value=string},State={Value=string},EntityArn={Value=string},CreatedTime={StartInclusive=timestamp,EndInclusive=timestamp} JSON Syntax: { "Severity": { "Value": "string" }, "Status": { "Value": "string" }, "State": { "Value": "string" }, "EntityArn": { "Value": "string" }, "CreatedTime": { "StartInclusive": timestamp, "EndInclusive": timestamp } }
+    /// Filters the investigation results based on a criteria. Severity -&gt; (structure) Filter the investigation results based on the severity. Value -&gt; (string) [required] The string filter value. Constraints: • min: 1 • max: 500 Status -&gt; (structure) Filter the investigation results based on the status. Value -&gt; (string) [required] The string filter value. Constraints: • min: 1 • max: 500 State -&gt; (structure) Filter the investigation results based on the state. Value -&gt; (string) [required] The string filter value. Constraints: • min: 1 • max: 500 EntityArn -&gt; (structure) Filter the investigation results based on the Amazon Resource Name (ARN) of the entity. Value -&gt; (string) [required] The string filter value. Constraints: • min: 1 • max: 500 CreatedTime -&gt; (structure) Filter the investigation results based on when the investigation was created. StartInclusive -&gt; (timestamp) [required] A timestamp representing the start of the time period from when data is filtered, including the start date. EndInclusive -&gt; (timestamp) [required] A timestamp representing the end date of the time period until when data is filtered, including the end date. Shorthand Syntax: Severity={Value=string},Status={Value=string},State={Value=string},EntityArn={Value=string},CreatedTime={StartInclusive=timestamp,EndInclusive=timestamp} JSON Syntax: { "Severity": { "Value": "string" }, "Status": { "Value": "string" }, "State": { "Value": "string" }, "EntityArn": { "Value": "string" }, "CreatedTime": { "StartInclusive": timestamp, "EndInclusive": timestamp } }
     /// </summary>
     [CliOption("--filter-criteria")]
     public string? FilterCriteria { get; set; }
 
     /// <summary>
-    /// Sorts the investigation results based on a criteria. Field -&gt; (string) Represents the Field attribute to sort investigations. Possible values: o SEVERITY o STATUS o CREATED_TIME SortOrder -&gt; (string) The order by which the sorted findings are displayed. Possible values: o ASC o DESC Shorthand Syntax: Field=string,SortOrder=string JSON Syntax: { "Field": "SEVERITY"|"STATUS"|"CREATED_TIME", "SortOrder": "ASC"|"DESC" }
+    /// Sorts the investigation results based on a criteria. Field -&gt; (string) Represents the Field attribute to sort investigations. Possible values: • SEVERITY • STATUS • CREATED_TIME SortOrder -&gt; (string) The order by which the sorted findings are displayed. Possible values: • ASC • DESC Shorthand Syntax: Field=string,SortOrder=string JSON Syntax: { "Field": "SEVERITY"|"STATUS"|"CREATED_TIME", "SortOrder": "ASC"|"DESC" }
     /// </summary>
     [CliOption("--sort-criteria")]
     public string? SortCriteria { get; set; }
@@ -108,6 +109,15 @@ public record AwsDetectiveListInvestigationsOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

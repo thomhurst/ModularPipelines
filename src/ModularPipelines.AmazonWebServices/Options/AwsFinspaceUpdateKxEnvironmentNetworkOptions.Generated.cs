@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates environment network to connect to your internal network by us- ing a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network. See also: AWS API Documentation
+/// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates environment network to connect to your internal network by us- ing a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network. See also: AWS API Documentation
+    /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$</param>
+    /// <param name="EnvironmentId">A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$</param>
     public AwsFinspaceUpdateKxEnvironmentNetworkOptions(
         string EnvironmentId
     )
@@ -57,25 +58,25 @@ public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the kdb environment. Constraints: o min: 1 o max: 26 o pattern: ^[a-zA-Z0-9]{1,26}$
+    /// A unique identifier for the kdb environment. Constraints: • min: 1 • max: 26 • pattern: ^[a-zA-Z0-9]{1,26}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network. transitGatewayID -&gt; (string) [required] The identifier of the transit gateway created by the customer to connect outbound traffics from kdb network to your internal net- work. Constraints: o min: 1 o max: 32 routableCIDRSpace -&gt; (string) [required] The routing CIDR on behalf of kdb environment. It could be any "/26 range in the 100.64.0.0 CIDR space. After providing, it will be added to the customer's transit gateway routing table so that the traffics could be routed to kdb network. attachmentNetworkAclConfiguration -&gt; (list) The rules that define how you manage the outbound traffic from kdb network to your internal network. Constraints: o min: 1 o max: 100 (structure) The network access control list (ACL) is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. The entry is a set of numbered ingress and egress rules that determine whether a packet should be allowed in or out of a subnet associated with the ACL. We process the entries in the ACL according to the rule numbers, in ascending order. ruleNumber -&gt; (integer) [required] The rule number for the entry. For example 100 . All the network ACL entries are processed in ascending order by rule number. Constraints: o min: 1 o max: 32766 protocol -&gt; (string) [required] The protocol number. A value of -1 means all the proto- cols. Constraints: o min: 1 o max: 5 o pattern: ^-1|[0-9]+$ ruleAction -&gt; (string) [required] Indicates whether to allow or deny the traffic that matches the rule. Possible values: o allow o deny portRange -&gt; (structure) The range of ports the rule applies to. from -&gt; (integer) [required] The first port in the range. Constraints: o min: 0 o max: 65535 to -&gt; (integer) [required] The last port in the range. Constraints: o min: 0 o max: 65535 icmpTypeCode -&gt; (structure) Defines the ICMP protocol that consists of the ICMP type and code. type -&gt; (integer) [required] The ICMP type. A value of -1 means all types. code -&gt; (integer) [required] The ICMP code. A value of -1 means all codes for the specified ICMP type. cidrBlock -&gt; (string) [required] The IPv4 network range to allow or deny, in CIDR nota- tion. For example, 172.16.0.0/24 . We modify the speci- fied CIDR block to its canonical form. For example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 . Constraints: o min: 1 o max: 18 o pattern: ^(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:3[0-2]|[12]\d|\d))$ JSON Syntax: { "transitGatewayID": "string", "routableCIDRSpace": "string", "attachmentNetworkAclConfiguration": [ { "ruleNumber": integer, "protocol": "string", "ruleAction": "allow"|"deny", "portRange": { "from": integer, "to": integer }, "icmpTypeCode": { "type": integer, "code": integer }, "cidrBlock": "string" } ... ] }
+    /// Specifies the transit gateway and network configuration to connect the kdb environment to an internal network. transitGatewayID -&gt; (string) [required] The identifier of the transit gateway created by the customer to connect outbound traffics from kdb network to your internal network. Constraints: • min: 1 • max: 32 routableCIDRSpace -&gt; (string) [required] The routing CIDR on behalf of kdb environment. It could be any "/26 range in the 100.64.0.0 CIDR space. After providing, it will be added to the customer's transit gateway routing table so that the traffics could be routed to kdb network. attachmentNetworkAclConfiguration -&gt; (list) The rules that define how you manage the outbound traffic from kdb network to your internal network. Constraints: • min: 1 • max: 100 (structure) The network access control list (ACL) is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. The entry is a set of numbered ingress and egress rules that determine whether a packet should be allowed in or out of a subnet associated with the ACL. We process the entries in the ACL according to the rule numbers, in ascending order. ruleNumber -&gt; (integer) [required] The rule number for the entry. For example 100 . All the network ACL entries are processed in ascending order by rule number. Constraints: • min: 1 • max: 32766 protocol -&gt; (string) [required] The protocol number. A value of -1 means all the protocols. Constraints: • min: 1 • max: 5 • pattern: ^-1|[0-9]+$ ruleAction -&gt; (string) [required] Indicates whether to allow or deny the traffic that matches the rule. Possible values: • allow • deny portRange -&gt; (structure) The range of ports the rule applies to. from -&gt; (integer) [required] The first port in the range. Constraints: • min: 0 • max: 65535 to -&gt; (integer) [required] The last port in the range. Constraints: • min: 0 • max: 65535 icmpTypeCode -&gt; (structure) Defines the ICMP protocol that consists of the ICMP type and code. type -&gt; (integer) [required] The ICMP type. A value of -1 means all types. code -&gt; (integer) [required] The ICMP code. A value of -1 means all codes for the specified ICMP type. cidrBlock -&gt; (string) [required] The IPv4 network range to allow or deny, in CIDR notation. For example, 172.16.0.0/24 . We modify the specified CIDR block to its canonical form. For example, if you specify 100.68.0.18/18 , we modify it to 100.68.0.0/18 . Constraints: • min: 1 • max: 18 • pattern: ^(?:\d{1,3}\.){3}\d{1,3}(?:\/(?:3[0-2]|[12]\d|\d))$ JSON Syntax: { "transitGatewayID": "string", "routableCIDRSpace": "string", "attachmentNetworkAclConfiguration": [ { "ruleNumber": integer, "protocol": "string", "ruleAction": "allow"|"deny", "portRange": { "from": integer, "to": integer }, "icmpTypeCode": { "type": integer, "code": integer }, "cidrBlock": "string" } ... ] }
     /// </summary>
     [CliOption("--transit-gateway-configuration")]
     public string? TransitGatewayConfiguration { get; set; }
 
     /// <summary>
-    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers. (structure) A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers. customDNSServerName -&gt; (string) [required] The name of the DNS server. Constraints: o min: 3 o max: 255 o pattern: ^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$ customDNSServerIP -&gt; (string) [required] The IP address of the DNS server. Constraints: o pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Shorthand Syntax: customDNSServerName=string,customDNSServerIP=string ... JSON Syntax: [ { "customDNSServerName": "string", "customDNSServerIP": "string" } ... ]
+    /// A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers. (structure) A list of DNS server name and server IP. This is used to set up Route-53 outbound resolvers. customDNSServerName -&gt; (string) [required] The name of the DNS server. Constraints: • min: 3 • max: 255 • pattern: ^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$ customDNSServerIP -&gt; (string) [required] The IP address of the DNS server. Constraints: • pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$ Shorthand Syntax: customDNSServerName=string,customDNSServerIP=string ... JSON Syntax: [ { "customDNSServerName": "string", "customDNSServerIP": "string" } ... ]
     /// </summary>
     [CliOption("--custom-dns-configuration", GroupValues = true)]
     public IEnumerable<string>? CustomDnsConfiguration { get; set; }
 
     /// <summary>
-    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: o min: 1 o max: 36 o pattern: .*\S.*
+    /// A token that ensures idempotency. This token expires in 10 minutes. Constraints: • min: 1 • max: 36 • pattern: .*\S.*
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -102,6 +103,15 @@ public record AwsFinspaceUpdateKxEnvironmentNetworkOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

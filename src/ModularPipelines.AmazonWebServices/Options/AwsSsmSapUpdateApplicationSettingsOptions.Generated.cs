@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the settings of an application registered with AWS Systems Man- ager for SAP. See also: AWS API Documentation
+/// Updates the settings of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsSsmSapUpdateApplicationSettingsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the settings of an application registered with AWS Systems Man- ager for SAP. See also: AWS API Documentation
+    /// Updates the settings of an application registered with AWS Systems Manager for SAP. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+</param>
+    /// <param name="ApplicationId">The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+</param>
     public AwsSsmSapUpdateApplicationSettingsOptions(
         string ApplicationId
     )
@@ -57,33 +58,33 @@ public record AwsSsmSapUpdateApplicationSettingsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the application. Constraints: o min: 1 o max: 60 o pattern: [\w\d\.-]+
+    /// The ID of the application. Constraints: • min: 1 • max: 60 • pattern: [\w\d\.-]+
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The credentials to be added or updated. Constraints: o min: 0 o max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: o min: 1 o max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: o ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: o min: 1 o max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
+    /// The credentials to be added or updated. Constraints: • min: 0 • max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: • min: 1 • max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: • ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: • min: 1 • max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--credentials-to-add-or-update", GroupValues = true)]
     public IEnumerable<string>? CredentialsToAddOrUpdate { get; set; }
 
     /// <summary>
-    /// The credentials to be removed. Constraints: o min: 0 o max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: o min: 1 o max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: o ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: o min: 1 o max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
+    /// The credentials to be removed. Constraints: • min: 0 • max: 20 (structure) The credentials of your SAP application. DatabaseName -&gt; (string) [required] The name of the SAP HANA database. Constraints: • min: 1 • max: 100 CredentialType -&gt; (string) [required] The type of the application credentials. Possible values: • ADMIN SecretId -&gt; (string) [required] The secret ID created in AWS Secrets Manager to store the credentials of the SAP application. Constraints: • min: 1 • max: 100 Shorthand Syntax: DatabaseName=string,CredentialType=string,SecretId=string ... JSON Syntax: [ { "DatabaseName": "string", "CredentialType": "ADMIN", "SecretId": "string" } ... ]
     /// </summary>
     [SecretValue]
     [CliOption("--credentials-to-remove", GroupValues = true)]
     public IEnumerable<string>? CredentialsToRemove { get; set; }
 
     /// <summary>
-    /// Installation of AWS Backint Agent for SAP HANA. BackintMode -&gt; (string) [required] AWS service for your database backup. Possible values: o AWSBackup EnsureNoBackupInProcess -&gt; (boolean) [required] Shorthand Syntax: BackintMode=string,EnsureNoBackupInProcess=boolean JSON Syntax: { "BackintMode": "AWSBackup", "EnsureNoBackupInProcess": true|false }
+    /// Installation of AWS Backint Agent for SAP HANA. BackintMode -&gt; (string) [required] AWS service for your database backup. Possible values: • AWSBackup EnsureNoBackupInProcess -&gt; (boolean) [required] Shorthand Syntax: BackintMode=string,EnsureNoBackupInProcess=boolean JSON Syntax: { "BackintMode": "AWSBackup", "EnsureNoBackupInProcess": true|false }
     /// </summary>
     [CliOption("--backint")]
     public string? Backint { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name of the SAP HANA database that replaces the current SAP HANA connection with the SAP_ABAP application. Constraints: o pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
+    /// The Amazon Resource Name of the SAP HANA database that replaces the current SAP HANA connection with the SAP_ABAP application. Constraints: • pattern: arn:(.+:){2,4}.+$|^arn:(.+:){1,3}.+\/.+
     /// </summary>
     [CliOption("--database-arn")]
     public string? DatabaseArn { get; set; }
@@ -109,6 +110,15 @@ public record AwsSsmSapUpdateApplicationSettingsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

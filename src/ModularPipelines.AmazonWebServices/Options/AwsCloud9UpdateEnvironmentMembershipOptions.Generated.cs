@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsCloud9UpdateEnvironmentMembershipOptions : AwsOptions, IValidat
     /// <summary>
     /// Changes the settings of an existing environment member for an Cloud9 development environment. WARNING: Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. Learn more" See also: AWS API Documentation
     /// </summary>
-    /// <param name="EnvironmentId">The ID of the environment for the environment member whose settings you want to change. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$</param>
-    /// <param name="UserArn">The Amazon Resource Name (ARN) of the environment member whose set- tings you want to change. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$</param>
-    /// <param name="Permissions">The replacement type of environment member permissions you want to associate with this environment member. Available values include: o read-only : Has read-only access to the environment. o read-write : Has read-write access to the environment. Possible values: o read-write o read-only</param>
+    /// <param name="EnvironmentId">The ID of the environment for the environment member whose settings you want to change. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$</param>
+    /// <param name="UserArn">The Amazon Resource Name (ARN) of the environment member whose settings you want to change. Constraints: • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$</param>
+    /// <param name="Permissions">The replacement type of environment member permissions you want to associate with this environment member. Available values include: • read-only : Has read-only access to the environment. • read-write : Has read-write access to the environment. Possible values: • read-write • read-only</param>
     public AwsCloud9UpdateEnvironmentMembershipOptions(
         string EnvironmentId,
         string UserArn,
@@ -64,19 +65,19 @@ public record AwsCloud9UpdateEnvironmentMembershipOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the environment for the environment member whose settings you want to change. Constraints: o pattern: ^[a-zA-Z0-9]{8,32}$
+    /// The ID of the environment for the environment member whose settings you want to change. Constraints: • pattern: ^[a-zA-Z0-9]{8,32}$
     /// </summary>
     [CliOption("--environment-id")]
     public string? EnvironmentId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the environment member whose set- tings you want to change. Constraints: o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|fed- erated-user\/[\w+=/:,.@-]{2,32}|as- sumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
+    /// The Amazon Resource Name (ARN) of the environment member whose settings you want to change. Constraints: • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(iam|sts)::\d+:(root|(user\/[\w+=/:,.@-]{1,64}|federated-user\/[\w+=/:,.@-]{2,32}|assumed-role\/[\w+=:,.@-]{1,64}\/[\w+=,.@-]{1,64}))$
     /// </summary>
     [CliOption("--user-arn")]
     public string? UserArn { get; private init; }
 
     /// <summary>
-    /// The replacement type of environment member permissions you want to associate with this environment member. Available values include: o read-only : Has read-only access to the environment. o read-write : Has read-write access to the environment. Possible values: o read-write o read-only
+    /// The replacement type of environment member permissions you want to associate with this environment member. Available values include: • read-only : Has read-only access to the environment. • read-write : Has read-write access to the environment. Possible values: • read-write • read-only
     /// </summary>
     [CliOption("--permissions")]
     public AwsCloud9UpdateEnvironmentMembershipPermissions? Permissions { get; private init; }
@@ -102,6 +103,15 @@ public record AwsCloud9UpdateEnvironmentMembershipOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -23,31 +23,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLexv2ModelsListImportsOptions : AwsOptions
 {
     /// <summary>
-    /// The unique identifier that Amazon Lex assigned to the bot. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier that Amazon Lex assigned to the bot. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; set; }
 
     /// <summary>
-    /// The version of the bot to list imports for. Constraints: o min: 5 o max: 5 o pattern: ^DRAFT$
+    /// The version of the bot to list imports for. Constraints: • min: 5 • max: 5 • pattern: ^DRAFT$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
 
     /// <summary>
-    /// Determines the field that the list of imports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending or- der. attribute -&gt; (string) [required] The export field to use for sorting. Possible values: o LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "LastUpdatedDateTime", "order": "Ascending"|"Descending" }
+    /// Determines the field that the list of imports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order. attribute -&gt; (string) [required] The export field to use for sorting. Possible values: • LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "LastUpdatedDateTime", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters the response from the ListImports operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: o ImportResourceType values -&gt; (list) [required] The values to use to filter the response. The values must be Bot , BotLocale , or CustomVocabulary . Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListImports operation should return only resource types that equal the specified value. Specify CO when the ListImports operation should return resource types that contain the spec- ified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "ImportResourceType", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
+    /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on. Constraints: • min: 1 • max: 1 (structure) Filters the response from the ListImports operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: • ImportResourceType values -&gt; (list) [required] The values to use to filter the response. The values must be Bot , BotLocale , or CustomVocabulary . Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListImports operation should return only resource types that equal the specified value. Specify CO when the ListImports operation should return resource types that contain the specified value. Possible values: • CO • EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "ImportResourceType", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of imports to return in each page of results. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of imports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -70,5 +70,14 @@ public record AwsLexv2ModelsListImportsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

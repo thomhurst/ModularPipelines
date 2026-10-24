@@ -22,13 +22,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsRoute53RecoveryControlConfigUpdateSafetyRuleOptions : AwsOptions
 {
     /// <summary>
-    /// The assertion rule to update. Name -&gt; (string) [required] The name of the assertion rule. You can use any non-white space character in the name. Constraints: o min: 1 o max: 64 o pattern: ^\S+$ SafetyRuleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the assertion rule. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$ WaitPeriodMs -&gt; (integer) [required] An evaluation period, in milliseconds (ms), during which any re- quest against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by de- fault, but you can choose a custom value. Shorthand Syntax: Name=string,SafetyRuleArn=string,WaitPeriodMs=integer JSON Syntax: { "Name": "string", "SafetyRuleArn": "string", "WaitPeriodMs": integer }
+    /// The assertion rule to update. Name -&gt; (string) [required] The name of the assertion rule. You can use any non-white space character in the name. Constraints: • min: 1 • max: 64 • pattern: ^\S+$ SafetyRuleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the assertion rule. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$ WaitPeriodMs -&gt; (integer) [required] An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value. Shorthand Syntax: Name=string,SafetyRuleArn=string,WaitPeriodMs=integer JSON Syntax: { "Name": "string", "SafetyRuleArn": "string", "WaitPeriodMs": integer }
     /// </summary>
     [CliOption("--assertion-rule-update")]
     public string? AssertionRuleUpdate { get; set; }
 
     /// <summary>
-    /// The gating rule to update. Name -&gt; (string) [required] The name for the gating rule. You can use any non-white space character in the name. Constraints: o min: 1 o max: 64 o pattern: ^\S+$ SafetyRuleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the gating rule. Constraints: o min: 1 o max: 256 o pattern: ^[A-Za-z0-9:\/_-]*$ WaitPeriodMs -&gt; (integer) [required] An evaluation period, in milliseconds (ms), during which any re- quest against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by de- fault, but you can choose a custom value. Shorthand Syntax: Name=string,SafetyRuleArn=string,WaitPeriodMs=integer JSON Syntax: { "Name": "string", "SafetyRuleArn": "string", "WaitPeriodMs": integer }
+    /// The gating rule to update. Name -&gt; (string) [required] The name for the gating rule. You can use any non-white space character in the name. Constraints: • min: 1 • max: 64 • pattern: ^\S+$ SafetyRuleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the gating rule. Constraints: • min: 1 • max: 256 • pattern: ^[A-Za-z0-9:\/_-]*$ WaitPeriodMs -&gt; (integer) [required] An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value. Shorthand Syntax: Name=string,SafetyRuleArn=string,WaitPeriodMs=integer JSON Syntax: { "Name": "string", "SafetyRuleArn": "string", "WaitPeriodMs": integer }
     /// </summary>
     [CliOption("--gating-rule-update")]
     public string? GatingRuleUpdate { get; set; }
@@ -38,5 +38,14 @@ public record AwsRoute53RecoveryControlConfigUpdateSafetyRuleOptions : AwsOption
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsPcsCreateQueueOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">The name or ID of the cluster for which to create a queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
-    /// <param name="QueueName">A name to identify the queue. Constraints: o min: 3 o max: 25 o pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+</param>
+    /// <param name="ClusterIdentifier">The name or ID of the cluster for which to create a queue. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})</param>
+    /// <param name="QueueName">A name to identify the queue. Constraints: • min: 3 • max: 25 • pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+</param>
     public AwsPcsCreateQueueOptions(
         string ClusterIdentifier,
         string QueueName
@@ -62,38 +62,38 @@ public record AwsPcsCreateQueueOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or ID of the cluster for which to create a queue. Constraints: o pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
+    /// The name or ID of the cluster for which to create a queue. Constraints: • pattern: (pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// A name to identify the queue. Constraints: o min: 3 o max: 25 o pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+
+    /// A name to identify the queue. Constraints: • min: 3 • max: 25 • pattern: (?!pcs_)^[A-Za-z][A-Za-z0-9-]+
     /// </summary>
     [CliOption("--queue-name")]
     public string? QueueName { get; private init; }
 
     /// <summary>
-    /// The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups. (structure) The compute node group configuration for a queue. computeNodeGroupId -&gt; (string) The compute node group ID for the compute node group configu- ration. Shorthand Syntax: computeNodeGroupId=string ... JSON Syntax: [ { "computeNodeGroupId": "string" } ... ]
+    /// The list of compute node group configurations to associate with the queue. Queues assign jobs to associated compute node groups. (structure) The compute node group configuration for a queue. computeNodeGroupId -&gt; (string) The compute node group ID for the compute node group configuration. Shorthand Syntax: computeNodeGroupId=string ... JSON Syntax: [ { "computeNodeGroupId": "string" } ... ]
     /// </summary>
     [CliOption("--compute-node-group-configurations", GroupValues = true)]
     public IEnumerable<string>? ComputeNodeGroupConfigurations { get; set; }
 
     /// <summary>
-    /// Additional options related to the Slurm scheduler. slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more infor- mation, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. Shorthand Syntax: slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}] JSON Syntax: { "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ] }
+    /// Additional options related to the Slurm scheduler. slurmCustomSettings -&gt; (list) Additional Slurm-specific configuration that directly maps to Slurm settings. (structure) Additional settings that directly map to Slurm settings. WARNING: PCS supports a subset of Slurm settings. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterName -&gt; (string) [required] PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see Configuring custom Slurm settings in PCS in the PCS User Guide . parameterValue -&gt; (string) [required] The values for the configured Slurm settings. Shorthand Syntax: slurmCustomSettings=[{parameterName=string,parameterValue=string},{parameterName=string,parameterValue=string}] JSON Syntax: { "slurmCustomSettings": [ { "parameterName": "string", "parameterValue": "string" } ... ] }
     /// </summary>
     [CliOption("--slurm-configuration")]
     public string? SlurmConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original re- quest completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you. Constraints: o min: 8 o max: 100
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you. Constraints: • min: 8 • max: 100
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -119,6 +119,15 @@ public record AwsPcsCreateQueueOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

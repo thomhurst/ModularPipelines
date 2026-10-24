@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCloudsearchDescribeDomainsOptions : AwsOptions
 {
     /// <summary>
-    /// The names of the domains you want to include in the response. (string) A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS re- gion. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...
+    /// The names of the domains you want to include in the response. (string) A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen). Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; set; }
@@ -32,5 +32,14 @@ public record AwsCloudsearchDescribeDomainsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

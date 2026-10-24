@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target re- source during execution of a custom step of a workflow. You must in- clude those with their callback as well as providing a status. See also: AWS API Documentation
+/// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +28,12 @@ public record AwsTransferSendWorkflowStepStateOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target re- source during execution of a custom step of a workflow. You must in- clude those with their callback as well as providing a status. See also: AWS API Documentation
+    /// Sends a callback for asynchronous custom steps. The ExecutionId , WorkflowId , and Token are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})</param>
-    /// <param name="ExecutionId">A unique identifier for the execution of a workflow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
-    /// <param name="Token">Used to distinguish between multiple callbacks for multiple Lambda steps within the same execution. Constraints: o min: 1 o max: 64 o pattern: \w+</param>
-    /// <param name="Status">Indicates whether the specified step succeeded or failed. Possible values: o SUCCESS o FAILURE</param>
+    /// <param name="WorkflowId">A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})</param>
+    /// <param name="ExecutionId">A unique identifier for the execution of a workflow. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}</param>
+    /// <param name="Token">Used to distinguish between multiple callbacks for multiple Lambda steps within the same execution. Constraints: • min: 1 • max: 64 • pattern: \w+</param>
+    /// <param name="Status">Indicates whether the specified step succeeded or failed. Possible values: • SUCCESS • FAILURE</param>
     public AwsTransferSendWorkflowStepStateOptions(
         string WorkflowId,
         string ExecutionId,
@@ -69,26 +70,26 @@ public record AwsTransferSendWorkflowStepStateOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the workflow. Constraints: o min: 19 o max: 19 o pattern: w-([a-z0-9]{17})
+    /// A unique identifier for the workflow. Constraints: • min: 19 • max: 19 • pattern: w-([a-z0-9]{17})
     /// </summary>
     [CliOption("--workflow-id")]
     public string? WorkflowId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for the execution of a workflow. Constraints: o min: 36 o max: 36 o pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
+    /// A unique identifier for the execution of a workflow. Constraints: • min: 36 • max: 36 • pattern: [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--execution-id")]
     public string? ExecutionId { get; private init; }
 
     /// <summary>
-    /// Used to distinguish between multiple callbacks for multiple Lambda steps within the same execution. Constraints: o min: 1 o max: 64 o pattern: \w+
+    /// Used to distinguish between multiple callbacks for multiple Lambda steps within the same execution. Constraints: • min: 1 • max: 64 • pattern: \w+
     /// </summary>
     [SecretValue]
     [CliOption("--token")]
     public string? Token { get; private init; }
 
     /// <summary>
-    /// Indicates whether the specified step succeeded or failed. Possible values: o SUCCESS o FAILURE
+    /// Indicates whether the specified step succeeded or failed. Possible values: • SUCCESS • FAILURE
     /// </summary>
     [CliOption("--status")]
     public AwsTransferSendWorkflowStepStateStatus? Status { get; private init; }
@@ -114,6 +115,15 @@ public record AwsTransferSendWorkflowStepStateOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

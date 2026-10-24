@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieve information about one or more parameters under a specified level in a hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults . If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken . You ...
     /// </summary>
-    /// <param name="Path">The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Fi- nance/Prod/IAD/WinServ2016/license33 Constraints: o min: 1 o max: 2048</param>
+    /// <param name="Path">The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33 Constraints: • min: 1 • max: 2048</param>
     public AwsSsmGetParametersByPathOptions(
         string Path
     )
@@ -57,19 +58,19 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Fi- nance/Prod/IAD/WinServ2016/license33 Constraints: o min: 1 o max: 2048
+    /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33 Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--path")]
     public string? Path { get; private init; }
 
     /// <summary>
-    /// Retrieve all parameters within a hierarchy. WARNING: If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a , then the user can also access /a/b . Even if a user has explicitly been denied access in IAM for parameter /a/b , they can still call the GetParametersByPath API operation re- cursively for /a and view /a/b .
+    /// Retrieve all parameters within a hierarchy. WARNING: If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a , then the user can also access /a/b . Even if a user has explicitly been denied access in IAM for parameter /a/b , they can still call the GetParametersByPath API operation recursively for /a and view /a/b .
     /// </summary>
     [CliFlag("--recursive", NegatedName = "--no-recursive")]
     public bool? Recursive { get; set; }
 
     /// <summary>
-    /// Filters to limit the request results. NOTE: The following Key values are supported for GetParametersByPath : Type , KeyId , and Label . The following Key values aren't supported for GetParametersBy- Path : tag , DataType , Name , Path , and Tier . (structure) One or more filters. Use a filter to return a more specific list of results. Key -&gt; (string) [required] The name of the filter. The ParameterStringFilter object is used by the DescribePa- rameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeParameters , all of the listed patterns are valid except Label . For GetParametersByPath , the following patterns listed for Key aren't valid: tag , DataType , Name , Path , and Tier . For examples of Amazon Web Services CLI commands demonstrat- ing valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide . Constraints: o min: 1 o max: 132 o pattern: ^(tag:.+|Name|Type|KeyId|Path|La- bel|Tier|DataType)$ Option -&gt; (string) For all filters used with DescribeParameters , valid options include Equals and BeginsWith . The Name filter additionally supports the Contains option. (Exception: For filters using the key Path , valid options include Recursive and OneLevel .) For filters used with GetParametersByPath , valid options include Equals and BeginsWith . (Exception: For filters using Label as the Key name, the only valid option is Equals .) Constraints: o min: 1 o max: 10 Values -&gt; (list) The value you want to search for. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 1024 Shorthand Syntax: Key=string,Option=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Option": "string", "Values": ["string", ...] } ... ]
+    /// Filters to limit the request results. NOTE: The following Key values are supported for GetParametersByPath : Type , KeyId , and Label . The following Key values aren't supported for GetParametersByPath : tag , DataType , Name , Path , and Tier . (structure) One or more filters. Use a filter to return a more specific list of results. Key -&gt; (string) [required] The name of the filter. The ParameterStringFilter object is used by the DescribeParameters and GetParametersByPath API operations. However, not all of the pattern values listed for Key can be used with both operations. For DescribeParameters , all of the listed patterns are valid except Label . For GetParametersByPath , the following patterns listed for Key aren't valid: tag , DataType , Name , Path , and Tier . For examples of Amazon Web Services CLI commands demonstrating valid parameter filter constructions, see Searching for Systems Manager parameters in the Amazon Web Services Systems Manager User Guide . Constraints: • min: 1 • max: 132 • pattern: ^(tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType)$ Option -&gt; (string) For all filters used with DescribeParameters , valid options include Equals and BeginsWith . The Name filter additionally supports the Contains option. (Exception: For filters using the key Path , valid options include Recursive and OneLevel .) For filters used with GetParametersByPath , valid options include Equals and BeginsWith . (Exception: For filters using Label as the Key name, the only valid option is Equals .) Constraints: • min: 1 • max: 10 Values -&gt; (list) The value you want to search for. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 1024 Shorthand Syntax: Key=string,Option=string,Values=string,string ... JSON Syntax: [ { "Key": "string", "Option": "string", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--parameter-filters", GroupValues = true)]
     public IEnumerable<string>? ParameterFilters { get; set; }
@@ -83,9 +84,6 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -94,16 +92,19 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 10
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 10
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -120,6 +121,15 @@ public record AwsSsmGetParametersByPathOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

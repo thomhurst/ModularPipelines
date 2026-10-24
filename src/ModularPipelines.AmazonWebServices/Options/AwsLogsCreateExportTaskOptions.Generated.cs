@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is sup- ported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with A...
+/// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,16 +26,16 @@ public record AwsLogsCreateExportTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is sup- ported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with A...
+    /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES...
     /// </summary>
-    /// <param name="LogGroupName">The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+</param>
-    /// <param name="From">The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a time- stamp earlier than this time are not exported. Constraints: o min: 0</param>
-    /// <param name="To">The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a time- stamp later than this time are not exported. You must specify a time that is not earlier than when this log group was created. Constraints: o min: 0</param>
-    /// <param name="Destination">The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region. Constraints: o min: 1 o max: 512</param>
+    /// <param name="LogGroupName">The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+</param>
+    /// <param name="From">The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp earlier than this time are not exported. Constraints: • min: 0</param>
+    /// <param name="To">The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp later than this time are not exported. You must specify a time that is not earlier than when this log group was created. Constraints: • min: 0</param>
+    /// <param name="Destination">The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region. Constraints: • min: 1 • max: 512</param>
     public AwsLogsCreateExportTaskOptions(
         string LogGroupName,
-        int From,
-        int To,
+        long From,
+        long To,
         string Destination
     )
     {
@@ -66,43 +67,43 @@ public record AwsLogsCreateExportTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the log group. Constraints: o min: 1 o max: 512 o pattern: [\.\-_/#A-Za-z0-9]+
+    /// The name of the log group. Constraints: • min: 1 • max: 512 • pattern: [\.\-_/#A-Za-z0-9]+
     /// </summary>
     [CliOption("--log-group-name")]
     public string? LogGroupName { get; private init; }
 
     /// <summary>
-    /// The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a time- stamp earlier than this time are not exported. Constraints: o min: 0
+    /// The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp earlier than this time are not exported. Constraints: • min: 0
     /// </summary>
     [CliOption("--from")]
-    public int? From { get; private init; }
+    public long? From { get; private init; }
 
     /// <summary>
-    /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a time- stamp later than this time are not exported. You must specify a time that is not earlier than when this log group was created. Constraints: o min: 0
+    /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC . Events with a timestamp later than this time are not exported. You must specify a time that is not earlier than when this log group was created. Constraints: • min: 0
     /// </summary>
     [CliOption("--to")]
-    public int? To { get; private init; }
+    public long? To { get; private init; }
 
     /// <summary>
-    /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region. Constraints: o min: 1 o max: 512
+    /// The name of S3 bucket for the exported log data. The bucket must be in the same Amazon Web Services Region. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// The name of the export task. Constraints: o min: 1 o max: 512
+    /// The name of the export task. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--task-name")]
     public string? TaskName { get; set; }
 
     /// <summary>
-    /// Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied. Constraints: o min: 1 o max: 512 o pattern: [^:*]*
+    /// Export only log streams that match the provided prefix. If you don't specify a value, no prefix filter is applied. Constraints: • min: 1 • max: 512 • pattern: [^:*]*
     /// </summary>
     [CliOption("--log-stream-name-prefix")]
     public string? LogStreamNamePrefix { get; set; }
 
     /// <summary>
-    /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs . The length of this parameter must comply with the S3 object key name length limits. The object key name is a sequence of Unicode charac- ters with UTF-8 encoding, and can be up to 1,024 bytes.
+    /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs . The length of this parameter must comply with the S3 object key name length limits. The object key name is a sequence of Unicode characters with UTF-8 encoding, and can be up to 1,024 bytes.
     /// </summary>
     [CliOption("--destination-prefix")]
     public string? DestinationPrefix { get; set; }
@@ -128,6 +129,15 @@ public record AwsLogsCreateExportTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

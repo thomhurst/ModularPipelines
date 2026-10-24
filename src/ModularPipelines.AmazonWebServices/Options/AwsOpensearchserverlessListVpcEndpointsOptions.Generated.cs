@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the OpenSearch Serverless-managed interface VPC endpoints asso- ciated with the current account. For more information, see Access Ama- zon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
+/// Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,7 +23,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsOpensearchserverlessListVpcEndpointsOptions : AwsOptions
 {
     /// <summary>
-    /// Filter the results according to the current status of the VPC end- point. Possible statuses are CREATING , DELETING , UPDATING , ACTIVE , and FAILED . status -&gt; (string) The current status of the endpoint. Possible values: o PENDING o DELETING o ACTIVE o FAILED Shorthand Syntax: status=string JSON Syntax: { "status": "PENDING"|"DELETING"|"ACTIVE"|"FAILED" }
+    /// Filter the results according to the current status of the VPC endpoint. Possible statuses are CREATING , DELETING , UPDATING , ACTIVE , and FAILED . status -&gt; (string) The current status of the endpoint. Possible values: • PENDING • DELETING • ACTIVE • FAILED Shorthand Syntax: status=string JSON Syntax: { "status": "PENDING"|"DELETING"|"ACTIVE"|"FAILED" }
     /// </summary>
     [CliOption("--vpc-endpoint-filters")]
     public string? VpcEndpointFilters { get; set; }
@@ -36,7 +36,7 @@ public record AwsOpensearchserverlessListVpcEndpointsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: o min: 1 o max: 100
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results. The default is 20. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -46,5 +46,14 @@ public record AwsOpensearchserverlessListVpcEndpointsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

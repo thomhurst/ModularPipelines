@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a country rule set to ALLOW , BLOCK , MONITOR , or FILTER mes- sages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type. See also: AWS API Documentation
+/// Update a country rule set to ALLOW , BLOCK , MONITOR , or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a country rule set to ALLOW , BLOCK , MONITOR , or FILTER mes- sages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type. See also: AWS API Documentation
+    /// Update a country rule set to ALLOW , BLOCK , MONITOR , or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="NumberCapability">The number capability to apply the CountryRuleSetUpdates updates to. Possible values: o SMS o VOICE o MMS o RCS</param>
-    /// <param name="CountryRuleSetUpdates">A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "Coun- tryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } } Constraints: o min: 1 o max: 300 key -&gt; (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} value -&gt; (structure) The types of statuses that can be used. ProtectStatus -&gt; (string) [required] The types of protection that can be used. Possible values: o ALLOW o BLOCK o MONITOR o FILTER Shorthand Syntax: KeyName1={ProtectStatus=string},KeyName2={ProtectStatus=string} JSON Syntax: {"string": { "ProtectStatus": "ALLOW"|"BLOCK"|"MONITOR"|"FILTER" } ...}</param>
+    /// <param name="ProtectConfigurationId">The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="NumberCapability">The number capability to apply the CountryRuleSetUpdates updates to. Possible values: • SMS • VOICE • MMS • RCS</param>
+    /// <param name="CountryRuleSetUpdates">A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } } Constraints: • min: 1 • max: 300 key -&gt; (string) Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2} value -&gt; (structure) The types of statuses that can be used. ProtectStatus -&gt; (string) [required] The types of protection that can be used. Possible values: • ALLOW • BLOCK • MONITOR • FILTER Shorthand Syntax: KeyName1={ProtectStatus=string},KeyName2={ProtectStatus=string} JSON Syntax: {"string": { "ProtectStatus": "ALLOW"|"BLOCK"|"MONITOR"|"FILTER" } ...}</param>
     public AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptions(
         string ProtectConfigurationId,
         AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetNumberCapability NumberCapability,
@@ -76,19 +76,19 @@ public record AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the protect configuration. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier for the protect configuration. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--protect-configuration-id")]
     public string? ProtectConfigurationId { get; private init; }
 
     /// <summary>
-    /// The number capability to apply the CountryRuleSetUpdates updates to. Possible values: o SMS o VOICE o MMS o RCS
+    /// The number capability to apply the CountryRuleSetUpdates updates to. Possible values: • SMS • VOICE • MMS • RCS
     /// </summary>
     [CliOption("--number-capability")]
     public AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetNumberCapability? NumberCapability { get; private init; }
 
     /// <summary>
-    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "Coun- tryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } } Constraints: o min: 1 o max: 300 key -&gt; (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} value -&gt; (structure) The types of statuses that can be used. ProtectStatus -&gt; (string) [required] The types of protection that can be used. Possible values: o ALLOW o BLOCK o MONITOR o FILTER Shorthand Syntax: KeyName1={ProtectStatus=string},KeyName2={ProtectStatus=string} JSON Syntax: {"string": { "ProtectStatus": "ALLOW"|"BLOCK"|"MONITOR"|"FILTER" } ...}
+    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } } Constraints: • min: 1 • max: 300 key -&gt; (string) Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2} value -&gt; (structure) The types of statuses that can be used. ProtectStatus -&gt; (string) [required] The types of protection that can be used. Possible values: • ALLOW • BLOCK • MONITOR • FILTER Shorthand Syntax: KeyName1={ProtectStatus=string},KeyName2={ProtectStatus=string} JSON Syntax: {"string": { "ProtectStatus": "ALLOW"|"BLOCK"|"MONITOR"|"FILTER" } ...}
     /// </summary>
     [CliOption("--country-rule-set-updates", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? CountryRuleSetUpdates { get; private init; }
@@ -114,6 +114,15 @@ public record AwsPinpointSmsVoiceV2UpdateProtectConfigurationCountryRuleSetOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

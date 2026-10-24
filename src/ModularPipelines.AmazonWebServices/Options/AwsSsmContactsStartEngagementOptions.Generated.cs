@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsSsmContactsStartEngagementOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact being engaged. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
-    /// <param name="Sender">The user that started the engagement. Constraints: o max: 255 o pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$</param>
-    /// <param name="Subject">The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$</param>
-    /// <param name="Content">The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 8192 o pattern: ^[.\s\S]*$</param>
+    /// <param name="ContactId">The Amazon Resource Name (ARN) of the contact being engaged. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*</param>
+    /// <param name="Sender">The user that started the engagement. Constraints: • max: 255 • pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$</param>
+    /// <param name="Subject">The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: • min: 1 • max: 2048 • pattern: ^[.\s\S]*$</param>
+    /// <param name="Content">The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: • min: 1 • max: 8192 • pattern: ^[.\s\S]*$</param>
     public AwsSsmContactsStartEngagementOptions(
         string ContactId,
         string Sender,
@@ -69,49 +70,49 @@ public record AwsSsmContactsStartEngagementOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the contact being engaged. Constraints: o min: 1 o max: 2048 o pattern: arn:(aws|aws-cn|aws-us-gov):ssm-con- tacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
+    /// The Amazon Resource Name (ARN) of the contact being engaged. Constraints: • min: 1 • max: 2048 • pattern: arn:(aws|aws-cn|aws-us-gov):ssm-contacts:[-\w+=\/,.@]*:[0-9]+:([\w+=\/,.@:-]+)*
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The user that started the engagement. Constraints: o max: 255 o pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$
+    /// The user that started the engagement. Constraints: • max: 255 • pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$
     /// </summary>
     [CliOption("--sender")]
     public string? Sender { get; private init; }
 
     /// <summary>
-    /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$
+    /// The secure subject of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: • min: 1 • max: 2048 • pattern: ^[.\s\S]*$
     /// </summary>
     [CliOption("--subject")]
     public string? Subject { get; private init; }
 
     /// <summary>
-    /// The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: o min: 1 o max: 8192 o pattern: ^[.\s\S]*$
+    /// The secure content of the message that was sent to the contact. Use this field for engagements to VOICE or EMAIL . Constraints: • min: 1 • max: 8192 • pattern: ^[.\s\S]*$
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; private init; }
 
     /// <summary>
-    /// The insecure subject of the message that was sent to the contact. Use this field for engagements to SMS . Constraints: o min: 1 o max: 2048 o pattern: ^[.\s\S]*$
+    /// The insecure subject of the message that was sent to the contact. Use this field for engagements to SMS . Constraints: • min: 1 • max: 2048 • pattern: ^[.\s\S]*$
     /// </summary>
     [CliOption("--public-subject")]
     public string? PublicSubject { get; set; }
 
     /// <summary>
-    /// The insecure content of the message that was sent to the contact. Use this field for engagements to SMS . Constraints: o min: 1 o max: 8192 o pattern: ^[.\s\S]*$
+    /// The insecure content of the message that was sent to the contact. Use this field for engagements to SMS . Constraints: • min: 1 • max: 8192 • pattern: ^[.\s\S]*$
     /// </summary>
     [CliOption("--public-content")]
     public string? PublicContent { get; set; }
 
     /// <summary>
-    /// The ARN of the incident that the engagement is part of. Constraints: o max: 1024 o pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$
+    /// The ARN of the incident that the engagement is part of. Constraints: • max: 1024 • pattern: ^[\\a-zA-Z0-9_@#%*+=:?.\/!\s-]*$
     /// </summary>
     [CliOption("--incident-id")]
     public string? IncidentId { get; set; }
 
     /// <summary>
-    /// A token ensuring that the operation is called only once with the specified details. Constraints: o max: 2048 o pattern: ^[\\\/a-zA-Z0-9_+=\-]*$
+    /// A token ensuring that the operation is called only once with the specified details. Constraints: • max: 2048 • pattern: ^[\\\/a-zA-Z0-9_+=\-]*$
     /// </summary>
     [SecretValue]
     [CliOption("--idempotency-token")]
@@ -138,6 +139,15 @@ public record AwsSsmContactsStartEngagementOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

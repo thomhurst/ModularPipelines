@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the list of behavior graphs that the calling account is an ad- ministrator account of. This operation can only be called by an admin- istrator account. Because an account can currently only be the administrator of one be- havior graph within a Region, the results always contain a single be- havior graph. See also: AWS API Documentation
+/// Returns the list of behavior graphs that the calling account is an administrator account of. This operation can only be called by an administrator account. Because an account can currently only be the administrator of one behavior graph within a Region, the results always contain a single behavior graph. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDetectiveListGraphsOptions : AwsOptions
 {
     /// <summary>
-    /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial re- quest does not include a pagination token. Constraints: o min: 1 o max: 1024
+    /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of graphs to return at a time. The total must be less than the overall limit on the number of results to return, which is currently 200. Constraints: o min: 1 o max: 200
+    /// The maximum number of graphs to return at a time. The total must be less than the overall limit on the number of results to return, which is currently 200. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsDetectiveListGraphsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

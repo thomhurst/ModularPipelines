@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSocialmessagingDeleteWhatsappMessageTemplateOptions : AwsOption
     /// <summary>
     /// Deletes a WhatsApp message template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of the WhatsApp Business Account associated with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
-    /// <param name="TemplateName">The name of the template to delete. Constraints: o min: 1 o max: 512</param>
+    /// <param name="Id">The ID of the WhatsApp Business Account associated with this template. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*</param>
+    /// <param name="TemplateName">The name of the template to delete. Constraints: • min: 1 • max: 512</param>
     public AwsSocialmessagingDeleteWhatsappMessageTemplateOptions(
         string Id,
         string TemplateName
@@ -60,19 +61,19 @@ public record AwsSocialmessagingDeleteWhatsappMessageTemplateOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the WhatsApp Business Account associated with this tem- plate. Constraints: o min: 1 o max: 115 o pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
+    /// The ID of the WhatsApp Business Account associated with this template. Constraints: • min: 1 • max: 115 • pattern: .*(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The name of the template to delete. Constraints: o min: 1 o max: 512
+    /// The name of the template to delete. Constraints: • min: 1 • max: 512
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; private init; }
 
     /// <summary>
-    /// The numeric ID of the template assigned by Meta. Constraints: o min: 1 o max: 100 o pattern: [0-9]+
+    /// The numeric ID of the template assigned by Meta. Constraints: • min: 1 • max: 100 • pattern: [0-9]+
     /// </summary>
     [CliOption("--meta-template-id")]
     public string? MetaTemplateId { get; set; }
@@ -104,6 +105,15 @@ public record AwsSocialmessagingDeleteWhatsappMessageTemplateOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

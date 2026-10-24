@@ -22,19 +22,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotUpdateThingGroupsForThingOptions : AwsOptions
 {
     /// <summary>
-    /// The thing whose group memberships will be updated. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+
+    /// The thing whose group memberships will be updated. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+
     /// </summary>
     [CliOption("--thing-name")]
     public string? ThingName { get; set; }
 
     /// <summary>
-    /// The groups to which the thing will be added. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Syntax: "string" "string" ...
+    /// The groups to which the thing will be added. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--thing-groups-to-add", GroupValues = true)]
     public IEnumerable<string>? ThingGroupsToAdd { get; set; }
 
     /// <summary>
-    /// The groups from which the thing will be removed. (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9:_-]+ Syntax: "string" "string" ...
+    /// The groups from which the thing will be removed. (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9:_-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--thing-groups-to-remove", GroupValues = true)]
     public IEnumerable<string>? ThingGroupsToRemove { get; set; }
@@ -50,5 +50,14 @@ public record AwsIotUpdateThingGroupsForThingOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

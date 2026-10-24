@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the IdNamespace with a given name. This operation returns a Re- sourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
+/// Deletes the IdNamespace with a given name. This operation returns a ResourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEntityresolutionDeleteIdNamespaceOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the IdNamespace with a given name. This operation returns a Re- sourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
+    /// Deletes the IdNamespace with a given name. This operation returns a ResourceNotFoundException if an ID namespace with the given name does not exist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdNamespaceName">The name of the ID namespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*</param>
+    /// <param name="IdNamespaceName">The name of the ID namespace. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*</param>
     public AwsEntityresolutionDeleteIdNamespaceOptions(
         string IdNamespaceName
     )
@@ -56,7 +57,7 @@ public record AwsEntityresolutionDeleteIdNamespaceOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the ID namespace. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z_0-9-]*
+    /// The name of the ID namespace. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z_0-9-]*
     /// </summary>
     [CliOption("--id-namespace-name")]
     public string? IdNamespaceName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEntityresolutionDeleteIdNamespaceOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +29,10 @@ public record AwsSignerDataGetRevocationStatusOptions : AwsOptions, IValidatable
     /// Retrieves the revocation status for a signed artifact by checking if the signing profile, job, or certificate has been revoked. See also: AWS API Documentation
     /// </summary>
     /// <param name="SignatureTimestamp">The timestamp when the artifact was signed, in ISO 8601 format.</param>
-    /// <param name="PlatformId">The platform identifier for the signing platform used. Constraints: o pattern: [a-zA-Z0-9_-]+</param>
-    /// <param name="ProfileVersionArn">The ARN of the signing profile version used to sign the artifact. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="JobArn">The ARN of the signing job that produced the signature. Constraints: o min: 20 o max: 2048</param>
-    /// <param name="CertificateHashes">List of certificate hashes to check for revocation. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...</param>
+    /// <param name="PlatformId">The platform identifier for the signing platform used. Constraints: • pattern: [a-zA-Z0-9_-]+</param>
+    /// <param name="ProfileVersionArn">The ARN of the signing profile version used to sign the artifact. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="JobArn">The ARN of the signing job that produced the signature. Constraints: • min: 20 • max: 2048</param>
+    /// <param name="CertificateHashes">List of certificate hashes to check for revocation. (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...</param>
     public AwsSignerDataGetRevocationStatusOptions(
         string SignatureTimestamp,
         string PlatformId,
@@ -89,25 +90,25 @@ public record AwsSignerDataGetRevocationStatusOptions : AwsOptions, IValidatable
     public string? SignatureTimestamp { get; private init; }
 
     /// <summary>
-    /// The platform identifier for the signing platform used. Constraints: o pattern: [a-zA-Z0-9_-]+
+    /// The platform identifier for the signing platform used. Constraints: • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--platform-id")]
     public string? PlatformId { get; private init; }
 
     /// <summary>
-    /// The ARN of the signing profile version used to sign the artifact. Constraints: o min: 20 o max: 2048
+    /// The ARN of the signing profile version used to sign the artifact. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--profile-version-arn")]
     public string? ProfileVersionArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the signing job that produced the signature. Constraints: o min: 20 o max: 2048
+    /// The ARN of the signing job that produced the signature. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--job-arn")]
     public string? JobArn { get; private init; }
 
     /// <summary>
-    /// List of certificate hashes to check for revocation. (string) Constraints: o min: 1 o max: 2048 Syntax: "string" "string" ...
+    /// List of certificate hashes to check for revocation. (string) Constraints: • min: 1 • max: 2048 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--certificate-hashes", GroupValues = true)]
     public IEnumerable<string>? CertificateHashes { get; private init; }
@@ -133,6 +134,15 @@ public record AwsSignerDataGetRevocationStatusOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

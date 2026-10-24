@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are re- played from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine th...
+/// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,13 +26,13 @@ public record AwsEventsStartReplayOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are re- played from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine th...
+    /// Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the ...
     /// </summary>
-    /// <param name="ReplayName">The name of the replay to start. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+</param>
-    /// <param name="EventSourceArn">The ARN of the archive to replay events from. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$</param>
-    /// <param name="EventStartTime">A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are re- played.</param>
+    /// <param name="ReplayName">The name of the replay to start. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+</param>
+    /// <param name="EventSourceArn">The ARN of the archive to replay events from. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$</param>
+    /// <param name="EventStartTime">A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.</param>
     /// <param name="EventEndTime">A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.</param>
-    /// <param name="Destination">A ReplayDestination object that includes details about the destina- tion for the replay. Arn -&gt; (string) [required] The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive. Constraints: o min: 1 o max: 1600 FilterArns -&gt; (list) A list of ARNs for rules to replay events to. (string) Constraints: o min: 1 o max: 1600 Shorthand Syntax: Arn=string,FilterArns=string,string JSON Syntax: { "Arn": "string", "FilterArns": ["string", ...] }</param>
+    /// <param name="Destination">A ReplayDestination object that includes details about the destination for the replay. Arn -&gt; (string) [required] The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive. Constraints: • min: 1 • max: 1600 FilterArns -&gt; (list) A list of ARNs for rules to replay events to. (string) Constraints: • min: 1 • max: 1600 Shorthand Syntax: Arn=string,FilterArns=string,string JSON Syntax: { "Arn": "string", "FilterArns": ["string", ...] }</param>
     public AwsEventsStartReplayOptions(
         string ReplayName,
         string EventSourceArn,
@@ -72,19 +73,19 @@ public record AwsEventsStartReplayOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the replay to start. Constraints: o min: 1 o max: 64 o pattern: [\.\-_A-Za-z0-9]+
+    /// The name of the replay to start. Constraints: • min: 1 • max: 64 • pattern: [\.\-_A-Za-z0-9]+
     /// </summary>
     [CliOption("--replay-name")]
     public string? ReplayName { get; private init; }
 
     /// <summary>
-    /// The ARN of the archive to replay events from. Constraints: o min: 1 o max: 1600 o pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
+    /// The ARN of the archive to replay events from. Constraints: • min: 1 • max: 1600 • pattern: ^arn:aws([a-z]|\-)*:events:([a-z]|\d|\-)*:([0-9]{12})?:.+\/.+$
     /// </summary>
     [CliOption("--event-source-arn")]
     public string? EventSourceArn { get; private init; }
 
     /// <summary>
-    /// A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are re- played.
+    /// A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
     /// </summary>
     [CliOption("--event-start-time")]
     public string? EventStartTime { get; private init; }
@@ -96,13 +97,13 @@ public record AwsEventsStartReplayOptions : AwsOptions, IValidatableObject
     public string? EventEndTime { get; private init; }
 
     /// <summary>
-    /// A ReplayDestination object that includes details about the destina- tion for the replay. Arn -&gt; (string) [required] The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive. Constraints: o min: 1 o max: 1600 FilterArns -&gt; (list) A list of ARNs for rules to replay events to. (string) Constraints: o min: 1 o max: 1600 Shorthand Syntax: Arn=string,FilterArns=string,string JSON Syntax: { "Arn": "string", "FilterArns": ["string", ...] }
+    /// A ReplayDestination object that includes details about the destination for the replay. Arn -&gt; (string) [required] The ARN of the event bus to replay event to. You can replay events only to the event bus specified to create the archive. Constraints: • min: 1 • max: 1600 FilterArns -&gt; (list) A list of ARNs for rules to replay events to. (string) Constraints: • min: 1 • max: 1600 Shorthand Syntax: Arn=string,FilterArns=string,string JSON Syntax: { "Arn": "string", "FilterArns": ["string", ...] }
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// A description for the replay to start. Constraints: o max: 512 o pattern: .*
+    /// A description for the replay to start. Constraints: • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -128,6 +129,15 @@ public record AwsEventsStartReplayOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

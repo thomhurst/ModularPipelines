@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new daemon in the specified cluster and capacity providers. A daemon deploys cross-cutting software agents such as security monitor- ing, telemetry, and logging independently across your Amazon ECS infra- structure. Amazon ECS deploys exactly one daemon task on each container instance of the specified capacity providers. When a container instance regis- ters with the cluster, Amazon ECS automatically starts daemon tasks. Amazon ECS starts a daemon task before scheduling other tasks. Da...
+/// Creates a new daemon in the specified cluster and capacity providers. A daemon deploys cross-cutting software agents such as security monitoring, telemetry, and logging independently across your Amazon ECS infrastructure. Amazon ECS deploys exactly one daemon task on each container instance of the specified capacity providers. When a container instance registers with the cluster, Amazon ECS automatically starts daemon tasks. Amazon ECS starts a daemon task before scheduling other tasks. Daemons ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsEcsCreateDaemonOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new daemon in the specified cluster and capacity providers. A daemon deploys cross-cutting software agents such as security monitor- ing, telemetry, and logging independently across your Amazon ECS infra- structure. Amazon ECS deploys exactly one daemon task on each container instance of the specified capacity providers. When a container instance regis- ters with the cluster, Amazon ECS automatically starts daemon tasks. Amazon ECS starts a daemon task before scheduling other tasks. Da...
+    /// Creates a new daemon in the specified cluster and capacity providers. A daemon deploys cross-cutting software agents such as security monitoring, telemetry, and logging independently across your Amazon ECS infrastructure. Amazon ECS deploys exactly one daemon task on each container instance of the specified capacity providers. When a container instance registers with the cluster, Amazon ECS automatically starts daemon tasks. Amazon ECS starts a daemon task before scheduling other tasks. Daemons ...
     /// </summary>
     /// <param name="DaemonName">The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.</param>
     /// <param name="DaemonTaskDefinitionArn">The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.</param>
-    /// <param name="CapacityProviderArns">The Amazon Resource Names (ARNs) of the capacity providers to asso- ciate with the daemon. The daemon deploys tasks on container in- stances managed by these capacity providers. (string) Syntax: "string" "string" ...</param>
+    /// <param name="CapacityProviderArns">The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers. (string) Syntax: "string" "string" ...</param>
     public AwsEcsCreateDaemonOptions(
         string DaemonName,
         string DaemonTaskDefinitionArn,
@@ -89,7 +90,7 @@ public record AwsEcsCreateDaemonOptions : AwsOptions, IValidatableObject
     public string? DaemonTaskDefinitionArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the capacity providers to asso- ciate with the daemon. The daemon deploys tasks on container in- stances managed by these capacity providers. (string) Syntax: "string" "string" ...
+    /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--capacity-provider-arns", GroupValues = true)]
     public IEnumerable<string>? CapacityProviderArns { get; private init; }
@@ -101,25 +102,25 @@ public record AwsEcsCreateDaemonOptions : AwsOptions, IValidatableObject
     public string? ClusterArn { get; set; }
 
     /// <summary>
-    /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time. drainPercent -&gt; (double) The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0. Constraints: o min: 0.0 o max: 100.0 alarms -&gt; (structure) The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back. alarmNames -&gt; (list) The CloudWatch alarm names to monitor during a daemon deploy- ment. (string) enable -&gt; (boolean) Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false . bakeTimeInMinutes -&gt; (integer) The amount of time (in minutes) to wait after a successful de- ployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0. Shorthand Syntax: drainPercent=double,alarms={alarmNames=[string,string],enable=boolean},bakeTimeInMinutes=integer JSON Syntax: { "drainPercent": double, "alarms": { "alarmNames": ["string", ...], "enable": true|false }, "bakeTimeInMinutes": integer }
+    /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time. drainPercent -&gt; (double) The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0. Constraints: • min: 0.0 • max: 100.0 alarms -&gt; (structure) The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back. alarmNames -&gt; (list) The CloudWatch alarm names to monitor during a daemon deployment. (string) enable -&gt; (boolean) Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false . bakeTimeInMinutes -&gt; (integer) The amount of time (in minutes) to wait after a successful deployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0. Shorthand Syntax: drainPercent=double,alarms={alarmNames=[string,string],enable=boolean},bakeTimeInMinutes=integer JSON Syntax: { "drainPercent": double, "alarms": { "alarmNames": ["string", ...], "enable": true|false }, "bakeTimeInMinutes": integer }
     /// </summary>
     [CliOption("--deployment-configuration")]
     public string? DeploymentConfiguration { get; set; }
 
     /// <summary>
-    /// The metadata that you apply to the daemon to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50 o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8 o Maximum value length - 256 Unicode characters in UTF-8 o If your tagging schema is used across multiple services and re- sources, remember that other services may have restrictions on al- lowed characters. Generally allowed characters are: letters, num- bers, and spaces representable in UTF-8, and the following charac- ters: + - = . _ : / @. o Tag keys and values are case-sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. Constraints: o min: 0 o max: 50 (structure) The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50 o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8 o Maximum value length - 256 Unicode characters in UTF-8 o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case-sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is re- served for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The metadata that you apply to the daemon to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50 • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8 • Maximum value length - 256 Unicode characters in UTF-8 • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case-sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. Constraints: • min: 0 • max: 50 (structure) The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50 • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8 • Maximum value length - 256 Unicode characters in UTF-8 • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case-sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit. key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Specifies whether to propagate the tags from the daemon to the dae- mon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. To add tags to a task after task creation, use the TagResource API ac- tion. Possible values: o DAEMON o NONE
+    /// Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. To add tags to a task after task creation, use the TagResource API action. Possible values: • DAEMON • NONE
     /// </summary>
     [CliOption("--propagate-tags")]
     public AwsEcsCreateDaemonPropagateTags? PropagateTags { get; set; }
 
     /// <summary>
-    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS re- sources in the Amazon Elastic Container Service Developer Guide .
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide .
     /// </summary>
     [CliFlag("--enable-ecs-managed-tags", NegatedName = "--no-enable-ecs-managed-tags")]
     public bool? EnableEcsManagedTags { get; set; }
@@ -131,14 +132,14 @@ public record AwsEcsCreateDaemonOptions : AwsOptions, IValidatableObject
     public bool? EnableExecuteCommand { get; set; }
 
     /// <summary>
-    /// An identifier that you provide to ensure the idempotency of the re- quest. It must be unique and is case sensitive. Up to 36 ASCII char- acters in the range of 33-126 (inclusive) are allowed.
+    /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// If the critical parameter of a daemon is true , and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false , the daemon task failure doesn't affect the other tasks on the instance. The default value is true . A non-critical daemon doesn't block instance registration. The con- tainer instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+    /// If the critical parameter of a daemon is true , and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false , the daemon task failure doesn't affect the other tasks on the instance. The default value is true . A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
     /// </summary>
     [CliFlag("--critical", NegatedName = "--no-critical")]
     public bool? Critical { get; set; }
@@ -164,6 +165,15 @@ public record AwsEcsCreateDaemonOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

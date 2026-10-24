@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions : 
     /// <summary>
     /// Fetch the possible attribute values given the attribute name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="ProfileIds">List of unique identifiers for customer profiles to retrieve. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
+    /// <param name="CalculatedAttributeName">The unique name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="ProfileIds">List of unique identifiers for customer profiles to retrieve. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [a-f0-9]{32} Syntax: "string" "string" ...</param>
     public AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions(
         string CalculatedAttributeName,
         string DomainName,
@@ -75,25 +76,25 @@ public record AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the calculated attribute. Constraints: o min: 1 o max: 255 o pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
+    /// The unique name of the calculated attribute. Constraints: • min: 1 • max: 255 • pattern: ^[a-zA-Z_][a-zA-Z_0-9-]*$
     /// </summary>
     [CliOption("--calculated-attribute-name")]
     public string? CalculatedAttributeName { get; private init; }
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// List of unique identifiers for customer profiles to retrieve. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [a-f0-9]{32} Syntax: "string" "string" ...
+    /// List of unique identifiers for customer profiles to retrieve. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [a-f0-9]{32} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--profile-ids", GroupValues = true)]
     public IEnumerable<string>? ProfileIds { get; private init; }
 
     /// <summary>
-    /// Overrides the condition block within the original calculated at- tribute definition. Range -&gt; (structure) The relative time period over which data is included in the ag- gregation for this override. Start -&gt; (integer) [required] The start time of when to include objects. End -&gt; (integer) The end time of when to include objects. Unit -&gt; (string) [required] The unit for start and end. Possible values: o DAYS Shorthand Syntax: Range={Start=integer,End=integer,Unit=string} JSON Syntax: { "Range": { "Start": integer, "End": integer, "Unit": "DAYS" } }
+    /// Overrides the condition block within the original calculated attribute definition. Range -&gt; (structure) The relative time period over which data is included in the aggregation for this override. Start -&gt; (integer) [required] The start time of when to include objects. End -&gt; (integer) The end time of when to include objects. Unit -&gt; (string) [required] The unit for start and end. Possible values: • DAYS Shorthand Syntax: Range={Start=integer,End=integer,Unit=string} JSON Syntax: { "Range": { "Start": integer, "End": integer, "Unit": "DAYS" } }
     /// </summary>
     [CliOption("--condition-overrides")]
     public string? ConditionOverrides { get; set; }
@@ -119,6 +120,15 @@ public record AwsCustomerProfilesBatchGetCalculatedAttributeForProfileOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

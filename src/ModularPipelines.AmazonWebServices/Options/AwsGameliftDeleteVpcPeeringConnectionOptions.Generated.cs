@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete.. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task S...
+/// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task Se...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftDeleteVpcPeeringConnectionOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete.. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task S...
+    /// This API works with the following fleet types: EC2 Removes a VPC peering connection. To delete the connection, you must have a valid authorization for the VPC peering connection that you want to delete. Once a valid authorization exists, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID and fleet ID. If successful, the connection is removed. Related actions All APIs by task Se...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="VpcPeeringConnectionId">A unique identifier for a VPC peering connection. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="FleetId">A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 128 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="VpcPeeringConnectionId">A unique identifier for a VPC peering connection. Constraints: • min: 1 • max: 1024</param>
     public AwsGameliftDeleteVpcPeeringConnectionOptions(
         string FleetId,
         string VpcPeeringConnectionId
@@ -60,13 +61,13 @@ public record AwsGameliftDeleteVpcPeeringConnectionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 128 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet. This fleet specified must match the fleet referenced in the VPC peering connection record. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 128 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a VPC peering connection. Constraints: o min: 1 o max: 1024
+    /// A unique identifier for a VPC peering connection. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--vpc-peering-connection-id")]
     public string? VpcPeeringConnectionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsGameliftDeleteVpcPeeringConnectionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

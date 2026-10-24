@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes success- fully. See also: AWS API Documentation
+/// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKinesisUntagResourceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes success- fully. See also: AWS API Documentation
+    /// Removes tags from the specified Kinesis resource. Removed tags are deleted and can't be recovered after this operation completes successfully. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TagKeys">A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis re- source. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+</param>
+    /// <param name="TagKeys">A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+</param>
     public AwsKinesisUntagResourceOptions(
         IEnumerable<string> TagKeys,
         string ResourceArn
@@ -71,19 +72,19 @@ public record AwsKinesisUntagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis re- source. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 Syntax: "string" "string" ...
+    /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+
+    /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:.*(stream|channel)/\S+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -109,6 +110,15 @@ public record AwsKinesisUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

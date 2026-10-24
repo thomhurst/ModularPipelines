@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGlueDeleteAttachmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes a form attachment from an asset in Glue Data Catalog. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AssetIdentifier">The unique identifier of the asset from which to delete the attach- ment. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
-    /// <param name="AttachmentName">The name of the attachment to delete. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$</param>
+    /// <param name="AssetIdentifier">The unique identifier of the asset from which to delete the attachment. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+</param>
+    /// <param name="AttachmentName">The name of the attachment to delete. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*$</param>
     public AwsGlueDeleteAttachmentOptions(
         string AssetIdentifier,
         string AttachmentName
@@ -60,25 +61,25 @@ public record AwsGlueDeleteAttachmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the asset from which to delete the attach- ment. Constraints: o min: 1 o max: 1087 o pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
+    /// The unique identifier of the asset from which to delete the attachment. Constraints: • min: 1 • max: 1087 • pattern: [a-zA-Z0-9\-\:\/\.\_\*]+
     /// </summary>
     [CliOption("--asset-identifier")]
     public string? AssetIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the attachment to delete. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
+    /// The name of the attachment to delete. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*$
     /// </summary>
     [CliOption("--attachment-name")]
     public string? AttachmentName { get; private init; }
 
     /// <summary>
-    /// The name of the iterable form. When specified along with itemIdenti- fier , the attachment is deleted from an item within the iterable form rather than from the asset itself. Constraints: o min: 1 o max: 256 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
+    /// The name of the iterable form. When specified along with itemIdentifier , the attachment is deleted from an item within the iterable form rather than from the asset itself. Constraints: • min: 1 • max: 256 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$
     /// </summary>
     [CliOption("--iterable-form-name")]
     public string? IterableFormName { get; set; }
 
     /// <summary>
-    /// The identifier of the item within the iterable form. Required when iterableFormName is specified. Constraints: o min: 1 o max: 1087
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified. Constraints: • min: 1 • max: 1087
     /// </summary>
     [CliOption("--item-identifier")]
     public string? ItemIdentifier { get; set; }
@@ -104,6 +105,15 @@ public record AwsGlueDeleteAttachmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

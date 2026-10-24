@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these para- meters and the new values in the request. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
+/// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these para- meters and the new values in the request. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
+    /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see What is Amazon Aurora? in the Amazon Aurora User Guide . For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon RDS User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The DB cluster identifier for the cluster being modified. This para- meter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Must match the identifier of an existing DB cluster.</param>
+    /// <param name="DbClusterIdentifier">The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • Must match the identifier of an existing DB cluster.</param>
     public AwsRdsModifyDbClusterOptions(
         string DbClusterIdentifier
     )
@@ -58,31 +59,31 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The DB cluster identifier for the cluster being modified. This para- meter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Must match the identifier of an existing DB cluster.
+    /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • Must match the identifier of an existing DB cluster.
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster2
+    /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Example: my-cluster2
     /// </summary>
     [CliOption("--new-db-cluster-identifier")]
     public string? NewDbClusterIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies whether the modifications in this request are asynchro- nously applied as soon as possible, regardless of the PreferredMain- tenanceWindow setting for the DB cluster. If this parameter is dis- abled, changes to the DB cluster are applied during the next mainte- nance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediatelyregardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as turning on deletion protection and changing the master password, are applied immediatelyregardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. Specify a minimum value of 1 . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: 1 Constraints: o Must be a value from 1 to 35.
+    /// The number of days for which automated backups are retained. Specify a minimum value of 1 . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: 1 Constraints: • Must be a value from 1 to 35.
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The name of the DB cluster parameter group to use for the DB clus- ter. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// The name of the DB cluster parameter group to use for the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
@@ -100,7 +101,7 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public int? Port { get; set; }
 
     /// <summary>
-    /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Must contain from 8 to 41 characters. o Can contain any printable ASCII character except "/", """, or "@". o Can't be specified if ManageMasterUserPassword is turned on.
+    /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • Must contain from 8 to 41 characters. • Can contain any printable ASCII character except "/", """, or "@". • Can't be specified if ManageMasterUserPassword is turned on.
     /// </summary>
     [SecretValue]
     [CliOption("--master-user-password")]
@@ -113,67 +114,67 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? OptionGroupName { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see Backup window in the Amazon Aurora User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see Backup window in the Amazon Aurora User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
     /// <summary>
-    /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. To see the time blocks available, see Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide . Constraints: o Must be in the format ddd:hh24:mi-ddd:hh24:mi . o Days must be one of Mon | Tue | Wed | Thu | Fri | Sat | Sun . o Must be in Universal Coordinated Time (UTC). o Must be at least 30 minutes.
+    /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. To see the time blocks available, see Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide . Constraints: • Must be in the format ddd:hh24:mi-ddd:hh24:mi . • Days must be one of Mon | Tue | Wed | Thu | Fri | Sat | Sun . • Must be in Universal Coordinated Time (UTC). • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
-    /// The target backtrack window, in seconds. To disable backtracking, set this value to 0 . Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0 Constraints: o If specified, this value must be set to a number from 0 to 259,200 (72 hours).
+    /// The target backtrack window, in seconds. To disable backtracking, set this value to 0 . Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0 Constraints: • If specified, this value must be set to a number from 0 to 259,200 (72 hours).
     /// </summary>
     [CliOption("--backtrack-window")]
-    public int? BacktrackWindow { get; set; }
+    public long? BacktrackWindow { get; set; }
 
     /// <summary>
-    /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine: o Aurora MySQL - audit | error | general | instance | slowquery | iam-db-auth-error o Aurora PostgreSQL - instance | postgresql | iam-db-auth-error o RDS for MySQL - error | general | slowquery | iam-db-auth-error o RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Au- rora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . EnableLogTypes -&gt; (list) The list of log types to enable. The following values are valid for each DB engine: o Aurora MySQL - audit | error | general | slowquery o Aurora PostgreSQL - postgresql o RDS for MySQL - error | general | slowquery o RDS for PostgreSQL - postgresql | upgrade (string) DisableLogTypes -&gt; (list) The list of log types to disable. The following values are valid for each DB engine: o Aurora MySQL - audit | error | general | slowquery o Aurora PostgreSQL - postgresql o RDS for MySQL - error | general | slowquery o RDS for PostgreSQL - postgresql | upgrade (string) Shorthand Syntax: EnableLogTypes=string,string,DisableLogTypes=string,string JSON Syntax: { "EnableLogTypes": ["string", ...], "DisableLogTypes": ["string", ...] }
+    /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine: • Aurora MySQL - audit | error | general | instance | slowquery | iam-db-auth-error • Aurora PostgreSQL - instance | postgresql | iam-db-auth-error • RDS for MySQL - error | general | slowquery | iam-db-auth-error • RDS for PostgreSQL - postgresql | upgrade | iam-db-auth-error For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . EnableLogTypes -&gt; (list) The list of log types to enable. The following values are valid for each DB engine: • Aurora MySQL - audit | error | general | slowquery • Aurora PostgreSQL - postgresql • RDS for MySQL - error | general | slowquery • RDS for PostgreSQL - postgresql | upgrade (string) DisableLogTypes -&gt; (list) The list of log types to disable. The following values are valid for each DB engine: • Aurora MySQL - audit | error | general | slowquery • Aurora PostgreSQL - postgresql • RDS for MySQL - error | general | slowquery • RDS for PostgreSQL - postgresql | upgrade (string) Shorthand Syntax: EnableLogTypes=string,string,DisableLogTypes=string,string JSON Syntax: { "EnableLogTypes": ["string", ...], "DisableLogTypes": ["string", ...] }
     /// </summary>
     [CliOption("--cloudwatch-logs-export-configuration")]
     public string? CloudwatchLogsExportConfiguration { get; set; }
 
     /// <summary>
-    /// The version number of the database engine to which you want to up- grade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. If the cluster that you're modifying has one or more read replicas, all replicas must be running an engine version that's the same or later than the version you specify. To list all of the available engine versions for Aurora MySQL, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. If the cluster that you're modifying has one or more read replicas, all replicas must be running an engine version that's the same or later than the version you specify. To list all of the available engine versions for Aurora MySQL, use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for Aurora PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for MySQL, use the following command: aws rds describe-db-engine-versions --engine mysql --query "DBEngineVersions[].EngineVersion" To list all of the available engine versions for RDS for PostgreSQL, use the following command: aws rds describe-db-engine-versions --engine postgres --query "DBEngineVersions[].EngineVersion" Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--engine-version")]
     public string? EngineVersion { get; set; }
 
     /// <summary>
-    /// Specifies whether major version upgrades are allowed. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+    /// Specifies whether major version upgrades are allowed. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
     /// </summary>
     [CliFlag("--allow-major-version-upgrade", NegatedName = "--no-allow-major-version-upgrade")]
     public bool? AllowMajorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// The name of the DB parameter group to apply to all instances of the DB cluster. NOTE: When you apply a parameter group using the DBInstanceParameter- GroupName parameter, the DB cluster isn't rebooted automati- cally. Also, parameter changes are applied immediately rather than during the next maintenance window. Valid for Cluster Type: Aurora DB clusters only Default: The existing name setting Constraints: o The DB parameter group must be in the same DB parameter group fam- ily as this DB cluster. o The DBInstanceParameterGroupName parameter is valid in combination with the AllowMajorVersionUpgrade parameter for a major version upgrade only.
+    /// The name of the DB parameter group to apply to all instances of the DB cluster. NOTE: When you apply a parameter group using the DBInstanceParameterGroupName parameter, the DB cluster isn't rebooted automatically. Also, parameter changes are applied immediately rather than during the next maintenance window. Valid for Cluster Type: Aurora DB clusters only Default: The existing name setting Constraints: • The DB parameter group must be in the same DB parameter group family as this DB cluster. • The DBInstanceParameterGroupName parameter is valid in combination with the AllowMajorVersionUpgrade parameter for a major version upgrade only.
     /// </summary>
     [CliOption("--db-instance-parameter-group-name")]
     public string? DbInstanceParameterGroupName { get; set; }
 
     /// <summary>
-    /// The Active Directory directory ID to move the DB cluster to. Specify none to remove the cluster from its current domain. The domain must be created prior to this operation. For more information, see Kerberos Authentication in the Amazon Au- rora User Guide . Valid for Cluster Type: Aurora DB clusters only
+    /// The Active Directory directory ID to move the DB cluster to. Specify none to remove the cluster from its current domain. The domain must be created prior to this operation. For more information, see Kerberos Authentication in the Amazon Aurora User Guide . Valid for Cluster Type: Aurora DB clusters only
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
     /// <summary>
-    /// The name of the IAM role to use when making API calls to the Direc- tory Service. Valid for Cluster Type: Aurora DB clusters only
+    /// The name of the IAM role to use when making API calls to the Directory Service. Valid for Cluster Type: Aurora DB clusters only
     /// </summary>
     [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
 
     /// <summary>
-    /// The scaling properties of the DB cluster. You can only modify scal- ing properties for DB clusters in serverless DB engine mode. Valid for Cluster Type: Aurora DB clusters only MinCapacity -&gt; (integer) The minimum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The minimum capacity must be less than or equal to the maximum capacity. MaxCapacity -&gt; (integer) The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The maximum capacity must be greater than or equal to the mini- mum capacity. AutoPause -&gt; (boolean) Indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections). NOTE: If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it. SecondsUntilAutoPause -&gt; (integer) The time, in seconds, before an Aurora DB cluster in serverless mode is paused. Specify a value between 300 and 86,400 seconds. TimeoutAction -&gt; (string) The action to take when the timeout is reached, either ForceAp- plyCapacityChange or RollbackCapacityChange . ForceApplyCapacityChange sets the capacity to the specified value as soon as possible. RollbackCapacityChange , the default, ignores the capacity change if a scaling point isn't found in the timeout period. WARNING: If you specify ForceApplyCapacityChange , connections that prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information, see Autoscaling for Aurora Serverless v1 in the Amazon Aurora User Guide . SecondsBeforeTimeout -&gt; (integer) The amount of time, in seconds, that Aurora Serverless v1 tries to find a scaling point to perform seamless scaling before en- forcing the timeout action. The default is 300. Specify a value between 60 and 600 seconds. Shorthand Syntax: MinCapacity=integer,MaxCapacity=integer,AutoPause=boolean,SecondsUntilAutoPause=integer,TimeoutAction=string,SecondsBeforeTimeout=integer JSON Syntax: { "MinCapacity": integer, "MaxCapacity": integer, "AutoPause": true|false, "SecondsUntilAutoPause": integer, "TimeoutAction": "string", "SecondsBeforeTimeout": integer }
+    /// The scaling properties of the DB cluster. You can only modify scaling properties for DB clusters in serverless DB engine mode. Valid for Cluster Type: Aurora DB clusters only MinCapacity -&gt; (integer) The minimum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The minimum capacity must be less than or equal to the maximum capacity. MaxCapacity -&gt; (integer) The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The maximum capacity must be greater than or equal to the minimum capacity. AutoPause -&gt; (boolean) Indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections). NOTE: If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it. SecondsUntilAutoPause -&gt; (integer) The time, in seconds, before an Aurora DB cluster in serverless mode is paused. Specify a value between 300 and 86,400 seconds. TimeoutAction -&gt; (string) The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange . ForceApplyCapacityChange sets the capacity to the specified value as soon as possible. RollbackCapacityChange , the default, ignores the capacity change if a scaling point isn't found in the timeout period. WARNING: If you specify ForceApplyCapacityChange , connections that prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information, see Autoscaling for Aurora Serverless v1 in the Amazon Aurora User Guide . SecondsBeforeTimeout -&gt; (integer) The amount of time, in seconds, that Aurora Serverless v1 tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300. Specify a value between 60 and 600 seconds. Shorthand Syntax: MinCapacity=integer,MaxCapacity=integer,AutoPause=boolean,SecondsUntilAutoPause=integer,TimeoutAction=string,SecondsBeforeTimeout=integer JSON Syntax: { "MinCapacity": integer, "MaxCapacity": integer, "AutoPause": true|false, "SecondsUntilAutoPause": integer, "TimeoutAction": "string", "SecondsBeforeTimeout": integer }
     /// </summary>
     [CliOption("--scaling-configuration")]
     public string? ScalingConfiguration { get; set; }
@@ -185,7 +186,7 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public bool? DeletionProtection { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable the HTTP endpoint for an Aurora Server- less v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web ser- vice API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from in- side the RDS console with the RDS query editor. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable the HTTP endpoint for an Aurora Serverless v1 DB cluster. By default, the HTTP endpoint isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the Aurora Serverless v1 DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the Amazon Aurora User Guide . NOTE: This parameter applies only to Aurora Serverless v1 DB clusters. To enable or disable the HTTP endpoint for an Aurora Serverless v2 or provisioned DB cluster, use the EnableHttpEndpoint and DisableHttpEndpoint operations. Valid for Cluster Type: Aurora DB clusters only
     /// </summary>
     [CliFlag("--enable-http-endpoint", NegatedName = "--no-enable-http-endpoint")]
     public bool? EnableHttpEndpoint { get; set; }
@@ -197,37 +198,37 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable this DB cluster to forward write opera- tions to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a sec- ondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
+    /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
     /// </summary>
     [CliFlag("--enable-global-write-forwarding", NegatedName = "--no-enable-global-write-forwarding")]
     public bool? EnableGlobalWriteForwarding { get; set; }
 
     /// <summary>
-    /// The compute and memory capacity of each DB instance in the Multi-AZ DB cluster, for example db.m6gd.xlarge . Not all DB instance classes are available in all Amazon Web Services Regions, or for all data- base engines. For the full list of DB instance classes and availability for your engine, see DB Instance Class in the Amazon RDS User Guide . Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The compute and memory capacity of each DB instance in the Multi-AZ DB cluster, for example db.m6gd.xlarge . Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes and availability for your engine, see DB Instance Class in the Amazon RDS User Guide . Valid for Cluster Type: Multi-AZ DB clusters only
     /// </summary>
     [CliOption("--db-cluster-instance-class")]
     public string? DbClusterInstanceClass { get; set; }
 
     /// <summary>
-    /// The amount of storage in gibibytes (GiB) to allocate to each DB in- stance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only
     /// </summary>
     [CliOption("--allocated-storage")]
     public int? AllocatedStorage { get; set; }
 
     /// <summary>
-    /// The storage type to associate with the DB cluster. For information on storage types for Aurora DB clusters, see Storage configurations for Amazon Aurora DB clusters . For information on storage types for Multi-AZ DB clusters, see Settings for creating Multi-AZ DB clusters . When specified for a Multi-AZ DB cluster, a value for the Iops para- meter is required. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: o Aurora DB clusters - aurora | aurora-iopt1 o Multi-AZ DB clusters - io1 | io2 | gp3 Default: o Aurora DB clusters - aurora o Multi-AZ DB clusters - io1
+    /// The storage type to associate with the DB cluster. For information on storage types for Aurora DB clusters, see Storage configurations for Amazon Aurora DB clusters . For information on storage types for Multi-AZ DB clusters, see Settings for creating Multi-AZ DB clusters . When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: • Aurora DB clusters - aurora | aurora-iopt1 • Multi-AZ DB clusters - io1 | io2 | gp3 Default: • Aurora DB clusters - aurora • Multi-AZ DB clusters - io1
     /// </summary>
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide . Valid for Cluster Type: Multi-AZ DB clusters only Constraints: o Must be a multiple between .5 and 50 of the storage amount for the DB cluster.
+    /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see Amazon RDS Provisioned IOPS storage in the Amazon RDS User Guide . Valid for Cluster Type: Multi-AZ DB clusters only Constraints: • Must be a multiple between .5 and 50 of the storage amount for the DB cluster.
     /// </summary>
     [CliOption("--iops")]
     public int? Iops { get; set; }
 
     /// <summary>
-    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor en- gine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
+    /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version .
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
@@ -239,55 +240,55 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? NetworkType { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora ver- sions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the spe- cific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB in- stance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
+    /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting En- hanced Monitoring metrics, specify 0 . If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0 . Valid for Cluster Type: Multi-AZ DB clusters only Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0 . If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0 . Valid for Cluster Type: Multi-AZ DB clusters only Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
     /// </summary>
     [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An exam- ple is arn:aws:iam:123456789012:role/emaccess . For information on creating a monitoring role, see To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0 , supply a Mon- itoringRoleArn value. Valid for Cluster Type: Multi-AZ DB clusters only
+    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess . For information on creating a monitoring role, see To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0 , supply a MonitoringRoleArn value. Valid for Cluster Type: Multi-AZ DB clusters only
     /// </summary>
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies the mode of Database Insights to enable for the DB clus- ter. If you change the value from standard to advanced , you must set the PerformanceInsightsEnabled parameter to true and the PerformanceIn- sightsRetentionPeriod parameter to 465. If you change the value from advanced to standard , you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Possible values: o standard o advanced
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced , you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard , you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Possible values: • standard • advanced
     /// </summary>
     [CliOption("--database-insights-mode")]
     public AwsRdsModifyDbClusterDatabaseInsightsMode? DatabaseInsightsMode { get; set; }
 
     /// <summary>
-    /// Specifies whether to turn on Performance Insights for the DB clus- ter. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier for encryption of Perfor- mance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId , then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId , then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
     /// <summary>
-    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: o 7 o month * 31, where month is a number of months from 1-23. Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31) o 731 Default: 7 days If you specify a retention period that isn't valid, such as 94 , Amazon RDS issues an error.
+    /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: • 7 • month * 31, where month is a number of months from 1-23. Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31) • 731 Default: 7 days If you specify a retention period that isn't valid, such as 94 , Amazon RDS issues an error.
     /// </summary>
     [CliOption("--performance-insights-retention-period")]
     public int? PerformanceInsightsRetentionPeriod { get; set; }
 
     /// <summary>
-    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Ama- zon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword . If the DB cluster already manages the master user password with Ama- zon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Man- ager, then you must specify MasterUserPassword . In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword . For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword . If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword . In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword . For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliFlag("--manage-master-user-password", NegatedName = "--no-manage-master-user-password")]
     public bool? ManageMasterUserPassword { get; set; }
 
     /// <summary>
-    /// Specifies whether to rotate the secret managed by Amazon Web Ser- vices Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see Password management with Amazon Web Ser- vices Secrets Manager in the Amazon RDS User Guide and Password man- agement with Amazon Web Services Secrets Manager in the Amazon Au- rora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o You must apply the change immediately when rotating the master user password.
+    /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • You must apply the change immediately when rotating the master user password.
     /// </summary>
     [CliFlag("--rotate-master-user-password", NegatedName = "--no-rotate-master-user-password")]
     public bool? RotateMasterUserPassword { get; set; }
@@ -299,31 +300,31 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public bool? EnableLocalWriteForwarding { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Se- crets Manager. This setting is valid only if both of the following conditions are met: o The DB cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret. o You are turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUser- SecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met: • The DB cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret. • You are turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId , then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--master-user-secret-kms-key-id")]
     public string? MasterUserSecretKmsKeyId { get; set; }
 
     /// <summary>
-    /// The DB engine mode of the DB cluster, either provisioned or server- less . NOTE: The DB engine mode can be modified only from serverless to pro- visioned . For more information, see CreateDBCluster . Valid for Cluster Type: Aurora DB clusters only
+    /// The DB engine mode of the DB cluster, either provisioned or serverless . NOTE: The DB engine mode can be modified only from serverless to provisioned . For more information, see CreateDBCluster . Valid for Cluster Type: Aurora DB clusters only
     /// </summary>
     [CliOption("--engine-mode")]
     public string? EngineMode { get; set; }
 
     /// <summary>
-    /// Specifies whether engine mode changes from serverless to provisioned are allowed. Valid for Cluster Type: Aurora Serverless v1 DB clusters only Constraints: o You must allow engine mode changes when specifying a different value for the EngineMode parameter from the DB cluster's current engine mode.
+    /// Specifies whether engine mode changes from serverless to provisioned are allowed. Valid for Cluster Type: Aurora Serverless v1 DB clusters only Constraints: • You must allow engine mode changes when specifying a different value for the EngineMode parameter from the DB cluster's current engine mode.
     /// </summary>
     [CliFlag("--allow-engine-mode-change", NegatedName = "--no-allow-engine-mode-change")]
     public bool? AllowEngineModeChange { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup. Constraints: o min: 43 o max: 350 o pattern: arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\-]+:)?[a-z][a-z0-9\-]{0,255}
+    /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup. Constraints: • min: 43 • max: 350 • pattern: arn:aws[a-z-]*:backup:[-a-z0-9]+:[0-9]{12}:[-a-z]+:([a-z0-9\-]+:)?[a-z][a-z0-9\-]{0,255}
     /// </summary>
     [CliOption("--aws-backup-recovery-point-arn")]
     public string? AwsBackupRecoveryPointArn { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable Aurora Limitless Database. You must en- able Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only NOTE: This setting is no longer used. Instead use the ClusterScalabil- ityType setting when you create your Aurora Limitless Database DB cluster.
+    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only NOTE: This setting is no longer used. Instead use the ClusterScalabilityType setting when you create your Aurora Limitless Database DB cluster.
     /// </summary>
     [CliFlag("--enable-limitless-database", NegatedName = "--no-enable-limitless-database")]
     public bool? EnableLimitlessDatabase { get; set; }
@@ -335,13 +336,13 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
     public string? CaCertificateIdentifier { get; set; }
 
     /// <summary>
-    /// Specifies the authentication type for the master user. With IAM mas- ter user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values: o password - Use standard database authentication with a password. o iam-db-auth - Use IAM database authentication for the master user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora Post- greSQL engines. Possible values: o password o iam-db-auth
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values: • password - Use standard database authentication with a password. • iam-db-auth - Use IAM database authentication for the master user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines. Possible values: • password • iam-db-auth
     /// </summary>
     [CliOption("--master-user-authentication-type")]
     public AwsRdsModifyDbClusterMasterUserAuthenticationType? MasterUserAuthenticationType { get; set; }
 
     /// <summary>
-    /// The lifecycle type for this DB cluster. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support or to opt out. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more informa- tion, see the following sections: o Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide o Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-ex- tended-support-disabled
+    /// The lifecycle type for this DB cluster. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support or to opt out. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections: • Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide • Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled
     /// </summary>
     [CliOption("--engine-lifecycle-support")]
     public string? EngineLifecycleSupport { get; set; }
@@ -367,6 +368,15 @@ public record AwsRdsModifyDbClusterOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

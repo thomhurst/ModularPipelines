@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsTnbValidateSolNetworkPackageContentOptions : AwsOptions, IValid
     /// Validates network package content. This can be used as a dry run before uploading network package content with PutSolNetworkPackageContent . A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. See also: AWS API Documentation
     /// </summary>
     /// <param name="File">Network package file.</param>
-    /// <param name="NsdInfoId">Network service descriptor file. Constraints: o pattern: ^np-[a-f0-9]{17}$</param>
+    /// <param name="NsdInfoId">Network service descriptor file. Constraints: • pattern: ^np-[a-f0-9]{17}$</param>
     public AwsTnbValidateSolNetworkPackageContentOptions(
         string File,
         string NsdInfoId
@@ -66,13 +67,13 @@ public record AwsTnbValidateSolNetworkPackageContentOptions : AwsOptions, IValid
     public string? File { get; private init; }
 
     /// <summary>
-    /// Network service descriptor file. Constraints: o pattern: ^np-[a-f0-9]{17}$
+    /// Network service descriptor file. Constraints: • pattern: ^np-[a-f0-9]{17}$
     /// </summary>
     [CliOption("--nsd-info-id")]
     public string? NsdInfoId { get; private init; }
 
     /// <summary>
-    /// Network package content type. Possible values: o application/zip
+    /// Network package content type. Possible values: • application/zip
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; set; }
@@ -98,6 +99,15 @@ public record AwsTnbValidateSolNetworkPackageContentOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

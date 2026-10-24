@@ -23,32 +23,32 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIvschatListRoomsOptions : AwsOptions
 {
     /// <summary>
-    /// Filters the list to match the specified room name. Constraints: o min: 0 o max: 128 o pattern: [a-zA-Z0-9-_]*
+    /// Filters the list to match the specified room name. Constraints: • min: 0 • max: 128 • pattern: [a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The first room to retrieve. This is used for pagination; see the nextToken response field. Constraints: o min: 0 o max: 1024
+    /// The first room to retrieve. This is used for pagination; see the nextToken response field. Constraints: • min: 0 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// Maximum number of rooms to return. Default: 50. Constraints: o min: 1 o max: 50
+    /// Maximum number of rooms to return. Default: 50. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Filters the list to match the specified message review handler URI. Constraints: o min: 0 o max: 170 o pattern: $|^arn:aws:lambda:[a-z0-9-]+:[0-9]{12}:function:.+.*
+    /// Filters the list to match the specified message review handler URI. Constraints: • min: 0 • max: 170 • pattern: $|^arn:aws:lambda:[a-z0-9-]+:[0-9]{12}:function:.+.*
     /// </summary>
     [CliOption("--message-review-handler-uri")]
     public string? MessageReviewHandlerUri { get; set; }
 
     /// <summary>
-    /// Logging-configuration identifier. Constraints: o min: 1 o max: 128 o pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configura- tion/[a-zA-Z0-9-]+
+    /// Logging-configuration identifier. Constraints: • min: 1 • max: 128 • pattern: arn:aws:ivschat:[a-z0-9-]+:[0-9]+:logging-configuration/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--logging-configuration-identifier")]
     public string? LoggingConfigurationIdentifier { get; set; }
@@ -58,5 +58,14 @@ public record AwsIvschatListRoomsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

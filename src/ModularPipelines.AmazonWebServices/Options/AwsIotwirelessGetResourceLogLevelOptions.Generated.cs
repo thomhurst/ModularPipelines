@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Fetches the log-level override, if any, for a given resource ID and re- source type.. See also: AWS API Documentation
+/// Fetches the log-level override, if any, for a given resource ID and resource type.. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsIotwirelessGetResourceLogLevelOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Fetches the log-level override, if any, for a given resource ID and re- source type.. See also: AWS API Documentation
+    /// Fetches the log-level override, if any, for a given resource ID and resource type.. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256</param>
+    /// <param name="ResourceIdentifier">The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: • max: 256</param>
     /// <param name="ResourceType">The type of resource, which can be WirelessDevice , WirelessGateway , or FuotaTask .</param>
     public AwsIotwirelessGetResourceLogLevelOptions(
         string ResourceIdentifier,
@@ -60,7 +61,7 @@ public record AwsIotwirelessGetResourceLogLevelOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: • max: 256
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotwirelessGetResourceLogLevelOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

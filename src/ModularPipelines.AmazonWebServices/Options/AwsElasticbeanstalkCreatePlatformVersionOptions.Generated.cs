@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +30,7 @@ public record AwsElasticbeanstalkCreatePlatformVersionOptions : AwsOptions, IVal
     /// </summary>
     /// <param name="PlatformName">The name of your custom platform.</param>
     /// <param name="PlatformVersion">The number, such as 1.0.2, for the new platform version.</param>
-    /// <param name="PlatformDefinitionBundle">The location of the platform definition archive in Amazon S3. S3Bucket -&gt; (string) The Amazon S3 bucket where the data is located. Constraints: o max: 255 S3Key -&gt; (string) The Amazon S3 key where the data is located. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="PlatformDefinitionBundle">The location of the platform definition archive in Amazon S3. S3Bucket -&gt; (string) The Amazon S3 bucket where the data is located. Constraints: • max: 255 S3Key -&gt; (string) The Amazon S3 key where the data is located. Constraints: • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
     public AwsElasticbeanstalkCreatePlatformVersionOptions(
         string PlatformName,
         string PlatformVersion,
@@ -76,25 +77,25 @@ public record AwsElasticbeanstalkCreatePlatformVersionOptions : AwsOptions, IVal
     public string? PlatformVersion { get; private init; }
 
     /// <summary>
-    /// The location of the platform definition archive in Amazon S3. S3Bucket -&gt; (string) The Amazon S3 bucket where the data is located. Constraints: o max: 255 S3Key -&gt; (string) The Amazon S3 key where the data is located. Constraints: o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The location of the platform definition archive in Amazon S3. S3Bucket -&gt; (string) The Amazon S3 bucket where the data is located. Constraints: • max: 255 S3Key -&gt; (string) The Amazon S3 key where the data is located. Constraints: • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--platform-definition-bundle")]
     public string? PlatformDefinitionBundle { get; private init; }
 
     /// <summary>
-    /// The name of the builder environment. Constraints: o min: 4 o max: 40
+    /// The name of the builder environment. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
 
     /// <summary>
-    /// The configuration option settings to apply to the builder environ- ment. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: o min: 1 o max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
+    /// The configuration option settings to apply to the builder environment. (structure) A specification identifying an individual configuration option along with its current value. For a list of possible namespaces and option values, see Option Values in the Elastic Beanstalk Developer Guide . ResourceName -&gt; (string) A unique resource name for the option setting. Use it for a timebased scaling configuration option. Constraints: • min: 1 • max: 256 Namespace -&gt; (string) A unique namespace that identifies the option's associated Amazon Web Services resource. OptionName -&gt; (string) The name of the configuration option. Value -&gt; (string) The current value for the configuration option. Shorthand Syntax: ResourceName=string,Namespace=string,OptionName=string,Value=string ... JSON Syntax: [ { "ResourceName": "string", "Namespace": "string", "OptionName": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--option-settings", GroupValues = true)]
     public IEnumerable<string>? OptionSettings { get; set; }
 
     /// <summary>
-    /// Specifies the tags applied to the new platform version. Elastic Beanstalk applies these tags only to the platform version. Environments that you create using the platform version don't in- herit the tags. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: o min: 1 o max: 128 Value -&gt; (string) The value of the tag. Constraints: o min: 1 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// Specifies the tags applied to the new platform version. Elastic Beanstalk applies these tags only to the platform version. Environments that you create using the platform version don't inherit the tags. (structure) Describes a tag applied to a resource in an environment. Key -&gt; (string) The key of the tag. Constraints: • min: 1 • max: 128 Value -&gt; (string) The value of the tag. Constraints: • min: 1 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -120,6 +121,15 @@ public record AwsElasticbeanstalkCreatePlatformVersionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The process of detecting profile object type mapping by using given ob- jects. See also: AWS API Documentation
+/// The process of detecting profile object type mapping by using given objects. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsCustomerProfilesDetectProfileObjectTypeOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The process of detecting profile object type mapping by using given ob- jects. See also: AWS API Documentation
+    /// The process of detecting profile object type mapping by using given objects. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Objects">A string that is serialized from a JSON object. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256000 Syntax: "string" "string" ...</param>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="Objects">A string that is serialized from a JSON object. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 256000 Syntax: "string" "string" ...</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
     public AwsCustomerProfilesDetectProfileObjectTypeOptions(
         IEnumerable<string> Objects,
         string DomainName
@@ -71,13 +72,13 @@ public record AwsCustomerProfilesDetectProfileObjectTypeOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A string that is serialized from a JSON object. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 256000 Syntax: "string" "string" ...
+    /// A string that is serialized from a JSON object. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 256000 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--objects", GroupValues = true)]
     public IEnumerable<string>? Objects { get; private init; }
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCustomerProfilesDetectProfileObjectTypeOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

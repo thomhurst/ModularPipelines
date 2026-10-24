@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,11 +29,11 @@ public record AwsDeadlineUpdateSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates a session. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FarmId">The farm ID to update in the session. Constraints: o pattern: farm-[0-9a-f]{32}</param>
-    /// <param name="QueueId">The queue ID to update in the session. Constraints: o pattern: queue-[0-9a-f]{32}</param>
-    /// <param name="JobId">The job ID to update in the session. Constraints: o pattern: job-[0-9a-f]{32}</param>
-    /// <param name="SessionId">The session ID to update. Constraints: o pattern: session-[0-9a-f]{32}</param>
-    /// <param name="TargetLifecycleStatus">The life cycle status to update in the session. Possible values: o ENDED</param>
+    /// <param name="FarmId">The farm ID to update in the session. Constraints: • pattern: farm-[0-9a-f]{32}</param>
+    /// <param name="QueueId">The queue ID to update in the session. Constraints: • pattern: queue-[0-9a-f]{32}</param>
+    /// <param name="JobId">The job ID to update in the session. Constraints: • pattern: job-[0-9a-f]{32}</param>
+    /// <param name="SessionId">The session ID to update. Constraints: • pattern: session-[0-9a-f]{32}</param>
+    /// <param name="TargetLifecycleStatus">The life cycle status to update in the session. Possible values: • ENDED</param>
     public AwsDeadlineUpdateSessionOptions(
         string FarmId,
         string QueueId,
@@ -73,37 +74,37 @@ public record AwsDeadlineUpdateSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The farm ID to update in the session. Constraints: o pattern: farm-[0-9a-f]{32}
+    /// The farm ID to update in the session. Constraints: • pattern: farm-[0-9a-f]{32}
     /// </summary>
     [CliOption("--farm-id")]
     public string? FarmId { get; private init; }
 
     /// <summary>
-    /// The queue ID to update in the session. Constraints: o pattern: queue-[0-9a-f]{32}
+    /// The queue ID to update in the session. Constraints: • pattern: queue-[0-9a-f]{32}
     /// </summary>
     [CliOption("--queue-id")]
     public string? QueueId { get; private init; }
 
     /// <summary>
-    /// The job ID to update in the session. Constraints: o pattern: job-[0-9a-f]{32}
+    /// The job ID to update in the session. Constraints: • pattern: job-[0-9a-f]{32}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
 
     /// <summary>
-    /// The session ID to update. Constraints: o pattern: session-[0-9a-f]{32}
+    /// The session ID to update. Constraints: • pattern: session-[0-9a-f]{32}
     /// </summary>
     [CliOption("--session-id")]
     public string? SessionId { get; private init; }
 
     /// <summary>
-    /// The life cycle status to update in the session. Possible values: o ENDED
+    /// The life cycle status to update in the session. Possible values: • ENDED
     /// </summary>
     [CliOption("--target-lifecycle-status")]
     public string? TargetLifecycleStatus { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -130,6 +131,15 @@ public record AwsDeadlineUpdateSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

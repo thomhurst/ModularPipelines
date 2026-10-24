@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsManagedblockchainCreateNodeOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network for the node. Ethereum public networks have the following NetworkId s: o n-ethereum-mainnet Constraints: o min: 1 o max: 32</param>
-    /// <param name="NodeConfiguration">The properties of a node configuration. InstanceType -&gt; (string) [required] The Amazon Managed Blockchain instance type for the node. AvailabilityZone -&gt; (string) The Availability Zone in which the node exists. Required for Ethereum nodes. LogPublishingConfiguration -&gt; (structure) Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain net- work using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. StateDB -&gt; (string) The state database that the node uses. Values are LevelDB or CouchDB . When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB . Applies only to Hyperledger Fabric. Possible values: o LevelDB o CouchDB JSON Syntax: { "InstanceType": "string", "AvailabilityZone": "string", "LogPublishingConfiguration": { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }, "StateDB": "LevelDB"|"CouchDB" }</param>
+    /// <param name="NetworkId">The unique identifier of the network for the node. Ethereum public networks have the following NetworkId s: • n-ethereum-mainnet Constraints: • min: 1 • max: 32</param>
+    /// <param name="NodeConfiguration">The properties of a node configuration. InstanceType -&gt; (string) [required] The Amazon Managed Blockchain instance type for the node. AvailabilityZone -&gt; (string) The Availability Zone in which the node exists. Required for Ethereum nodes. LogPublishingConfiguration -&gt; (structure) Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. StateDB -&gt; (string) The state database that the node uses. Values are LevelDB or CouchDB . When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB . Applies only to Hyperledger Fabric. Possible values: • LevelDB • CouchDB JSON Syntax: { "InstanceType": "string", "AvailabilityZone": "string", "LogPublishingConfiguration": { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }, "StateDB": "LevelDB"|"CouchDB" }</param>
     public AwsManagedblockchainCreateNodeOptions(
         string NetworkId,
         string NodeConfiguration
@@ -62,32 +62,32 @@ public record AwsManagedblockchainCreateNodeOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkId s: o n-ethereum-mainnet Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network for the node. Ethereum public networks have the following NetworkId s: • n-ethereum-mainnet Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The properties of a node configuration. InstanceType -&gt; (string) [required] The Amazon Managed Blockchain instance type for the node. AvailabilityZone -&gt; (string) The Availability Zone in which the node exists. Required for Ethereum nodes. LogPublishingConfiguration -&gt; (structure) Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain net- work using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. StateDB -&gt; (string) The state database that the node uses. Values are LevelDB or CouchDB . When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB . Applies only to Hyperledger Fabric. Possible values: o LevelDB o CouchDB JSON Syntax: { "InstanceType": "string", "AvailabilityZone": "string", "LogPublishingConfiguration": { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }, "StateDB": "LevelDB"|"CouchDB" }
+    /// The properties of a node configuration. InstanceType -&gt; (string) [required] The Amazon Managed Blockchain instance type for the node. AvailabilityZone -&gt; (string) The Availability Zone in which the node exists. Required for Ethereum nodes. LogPublishingConfiguration -&gt; (structure) Configuration properties for logging events associated with a peer node on a Hyperledger Fabric network on Managed Blockchain. Fabric -&gt; (structure) Configuration properties for logging events associated with a node that is owned by a member of a Managed Blockchain network using the Hyperledger Fabric framework. ChaincodeLogs -&gt; (structure) Configuration properties for logging events associated with chaincode execution on a peer node. Chaincode logs contain the results of instantiating, invoking, and querying the chaincode. A peer can run multiple instances of chaincode. When enabled, a log stream is created for all chaincodes, with an individual log stream for each chaincode. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. PeerLogs -&gt; (structure) Configuration properties for a peer node log. Peer node logs contain messages generated when your client submits transaction proposals to peer nodes, requests to join channels, enrolls an admin peer, and lists the chaincode instances on a peer node. Cloudwatch -&gt; (structure) Parameters for publishing logs to Amazon CloudWatch Logs. Enabled -&gt; (boolean) Indicates whether logging is enabled. StateDB -&gt; (string) The state database that the node uses. Values are LevelDB or CouchDB . When using an Amazon Managed Blockchain network with Hyperledger Fabric version 1.4 or later, the default is CouchDB . Applies only to Hyperledger Fabric. Possible values: • LevelDB • CouchDB JSON Syntax: { "InstanceType": "string", "AvailabilityZone": "string", "LogPublishingConfiguration": { "Fabric": { "ChaincodeLogs": { "Cloudwatch": { "Enabled": true|false } }, "PeerLogs": { "Cloudwatch": { "Enabled": true|false } } } }, "StateDB": "LevelDB"|"CouchDB" }
     /// </summary>
     [CliOption("--node-configuration")]
     public string? NodeConfiguration { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated auto- matically if you use an Amazon Web Services SDK or the CLI. Constraints: o min: 1 o max: 64
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the CLI. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; set; }
 
     /// <summary>
-    /// Tags to assign to the node. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to assign to the node. Each tag consists of a key and an optional value. You can specify multiple key-value pairs in a single request with an overall maximum of 50 tags allowed per resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide , or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide . Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -113,6 +113,15 @@ public record AwsManagedblockchainCreateNodeOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

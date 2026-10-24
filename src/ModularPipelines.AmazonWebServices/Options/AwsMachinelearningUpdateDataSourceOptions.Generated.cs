@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the DataSourceName of a DataSource . You can use the GetDataSource operation to view the contents of the up- dated data element. See also: AWS API Documentation
+/// Updates the DataSourceName of a DataSource . You can use the GetDataSource operation to view the contents of the updated data element. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMachinelearningUpdateDataSourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the DataSourceName of a DataSource . You can use the GetDataSource operation to view the contents of the up- dated data element. See also: AWS API Documentation
+    /// Updates the DataSourceName of a DataSource . You can use the GetDataSource operation to view the contents of the updated data element. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSourceId">The ID assigned to the DataSource during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="DataSourceName">A new user-supplied name or description of the DataSource that will replace the current description. Constraints: o max: 1024 o pattern: .*\S.*|^$</param>
+    /// <param name="DataSourceId">The ID assigned to the DataSource during creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="DataSourceName">A new user-supplied name or description of the DataSource that will replace the current description. Constraints: • max: 1024 • pattern: .*\S.*|^$</param>
     public AwsMachinelearningUpdateDataSourceOptions(
         string DataSourceId,
         string DataSourceName
@@ -60,13 +61,13 @@ public record AwsMachinelearningUpdateDataSourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the DataSource during creation. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// The ID assigned to the DataSource during creation. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--data-source-id")]
     public string? DataSourceId { get; private init; }
 
     /// <summary>
-    /// A new user-supplied name or description of the DataSource that will replace the current description. Constraints: o max: 1024 o pattern: .*\S.*|^$
+    /// A new user-supplied name or description of the DataSource that will replace the current description. Constraints: • max: 1024 • pattern: .*\S.*|^$
     /// </summary>
     [CliOption("--data-source-name")]
     public string? DataSourceName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMachinelearningUpdateDataSourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions : AwsOptio
     /// <summary>
     /// Returns information about a snapshot of application state data. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationName">The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="SnapshotName">The identifier of an application snapshot. You can retrieve this value using . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ApplicationName">The name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="SnapshotName">The identifier of an application snapshot. You can retrieve this value using . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions(
         string ApplicationName,
         string SnapshotName
@@ -60,13 +61,13 @@ public record AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of an existing application. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of an existing application. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The identifier of an application snapshot. You can retrieve this value using . Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9_.-]+
+    /// The identifier of an application snapshot. You can retrieve this value using . Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--snapshot-name")]
     public string? SnapshotName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKinesisanalyticsv2DescribeApplicationSnapshotOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

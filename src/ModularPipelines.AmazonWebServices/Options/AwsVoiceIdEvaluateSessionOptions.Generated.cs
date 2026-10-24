@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsVoiceIdEvaluateSessionOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The identifier of the domain where the session started. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$</param>
-    /// <param name="SessionNameOrId">The session identifier, or name of the session, that you want to evaluate. In Voice ID integration, this is the Contact-Id. Constraints: o min: 1 o max: 36 o pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$</param>
+    /// <param name="DomainId">The identifier of the domain where the session started. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$</param>
+    /// <param name="SessionNameOrId">The session identifier, or name of the session, that you want to evaluate. In Voice ID integration, this is the Contact-Id. Constraints: • min: 1 • max: 36 • pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$</param>
     public AwsVoiceIdEvaluateSessionOptions(
         string DomainId,
         string SessionNameOrId
@@ -60,13 +61,13 @@ public record AwsVoiceIdEvaluateSessionOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the domain where the session started. Constraints: o min: 22 o max: 22 o pattern: ^[a-zA-Z0-9]{22}$
+    /// The identifier of the domain where the session started. Constraints: • min: 22 • max: 22 • pattern: ^[a-zA-Z0-9]{22}$
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// The session identifier, or name of the session, that you want to evaluate. In Voice ID integration, this is the Contact-Id. Constraints: o min: 1 o max: 36 o pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$
+    /// The session identifier, or name of the session, that you want to evaluate. In Voice ID integration, this is the Contact-Id. Constraints: • min: 1 • max: 36 • pattern: ^(id#[a-zA-Z0-9]{22}|[a-zA-Z0-9][a-zA-Z0-9_-]*)$
     /// </summary>
     [CliOption("--session-name-or-id")]
     public string? SessionNameOrId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsVoiceIdEvaluateSessionOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows you to update the failback replication configuration of a Recov- ery Instance by ID. See also: AWS API Documentation
+/// Allows you to update the failback replication configuration of a Recovery Instance by ID. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows you to update the failback replication configuration of a Recov- ery Instance by ID. See also: AWS API Documentation
+    /// Allows you to update the failback replication configuration of a Recovery Instance by ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}</param>
+    /// <param name="RecoveryInstanceId">The ID of the Recovery Instance. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}</param>
     public AwsDrsUpdateFailbackReplicationConfigurationOptions(
         string RecoveryInstanceId
     )
@@ -57,31 +58,31 @@ public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Recovery Instance. Constraints: o min: 10 o max: 19 o pattern: i-[0-9a-fA-F]{8,}
+    /// The ID of the Recovery Instance. Constraints: • min: 10 • max: 19 • pattern: i-[0-9a-fA-F]{8,}
     /// </summary>
     [CliOption("--recovery-instance-id")]
     public string? RecoveryInstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the Failback Replication Configuration. Constraints: o min: 0 o max: 256
+    /// The name of the Failback Replication Configuration. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps. Constraints: o min: 0
+    /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps. Constraints: • min: 0
     /// </summary>
     [CliOption("--bandwidth-throttling")]
-    public int? BandwidthThrottling { get; set; }
+    public long? BandwidthThrottling { get; set; }
 
     /// <summary>
-    /// Whether to use Private IP for the failback replication of the Recov- ery Instance.
+    /// Whether to use Private IP for the failback replication of the Recovery Instance.
     /// </summary>
     [CliFlag("--use-private-ip", NegatedName = "--no-use-private-ip")]
     public bool? UsePrivateIp { get; set; }
 
     /// <summary>
-    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6) Possible values: o IPV4 o IPV6
+    /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6) Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--internet-protocol")]
     public AwsDrsUpdateFailbackReplicationConfigurationInternetProtocol? InternetProtocol { get; set; }
@@ -107,6 +108,15 @@ public record AwsDrsUpdateFailbackReplicationConfigurationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsEc2ResetInstanceAttributeOptions : AwsOptions, IValidatableObje
     /// Resets an attribute of an instance to its default value. To reset the kernel or ramdisk , the instance must be in a stopped state. To reset the sourceDestCheck , the instance can be either running or stopped. The sourceDestCheck attribute controls whether source/destination checking is enabled. The default value is true , which means checking is enabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT instances in the Amazon VPC User Guide . See also: AW...
     /// </summary>
     /// <param name="InstanceId">The ID of the instance.</param>
-    /// <param name="Attribute">The attribute to reset. WARNING: You can only reset the following attributes: kernel | ramdisk | sourceDestCheck . Possible values: o instanceType o kernel o ramdisk o userData o disableApiTermination o instanceInitiatedShutdownBehavior o rootDeviceName o blockDeviceMapping o productCodes o sourceDestCheck o groupSet o ebsOptimized o sriovNetSupport o enaSupport o enclaveOptions o disableApiStop</param>
+    /// <param name="Attribute">The attribute to reset. WARNING: You can only reset the following attributes: kernel | ramdisk | sourceDestCheck . Possible values: • instanceType • kernel • ramdisk • userData • disableApiTermination • instanceInitiatedShutdownBehavior • rootDeviceName • blockDeviceMapping • productCodes • sourceDestCheck • groupSet • ebsOptimized • sriovNetSupport • enaSupport • enclaveOptions • disableApiStop</param>
     public AwsEc2ResetInstanceAttributeOptions(
         string InstanceId,
         AwsEc2ResetInstanceAttributeAttribute Attribute
@@ -66,13 +67,13 @@ public record AwsEc2ResetInstanceAttributeOptions : AwsOptions, IValidatableObje
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The attribute to reset. WARNING: You can only reset the following attributes: kernel | ramdisk | sourceDestCheck . Possible values: o instanceType o kernel o ramdisk o userData o disableApiTermination o instanceInitiatedShutdownBehavior o rootDeviceName o blockDeviceMapping o productCodes o sourceDestCheck o groupSet o ebsOptimized o sriovNetSupport o enaSupport o enclaveOptions o disableApiStop
+    /// The attribute to reset. WARNING: You can only reset the following attributes: kernel | ramdisk | sourceDestCheck . Possible values: • instanceType • kernel • ramdisk • userData • disableApiTermination • instanceInitiatedShutdownBehavior • rootDeviceName • blockDeviceMapping • productCodes • sourceDestCheck • groupSet • ebsOptimized • sriovNetSupport • enaSupport • enclaveOptions • disableApiStop
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2ResetInstanceAttributeAttribute? Attribute { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2ResetInstanceAttributeOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

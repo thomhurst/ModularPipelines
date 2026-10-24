@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms sup- ported by IoT . See also: AWS API Documentation
+/// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms supported by IoT . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsIotRegisterCertificateWithoutCaOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms sup- ported by IoT . See also: AWS API Documentation
+    /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult Certificate signing algorithms supported by IoT . See also: AWS API Documentation
     /// </summary>
-    /// <param name="CertificatePem">The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*</param>
+    /// <param name="CertificatePem">The certificate data, in PEM format. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*</param>
     public AwsIotRegisterCertificateWithoutCaOptions(
         string CertificatePem
     )
@@ -57,13 +58,13 @@ public record AwsIotRegisterCertificateWithoutCaOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The certificate data, in PEM format. Constraints: o min: 1 o max: 65536 o pattern: [\s\S]*
+    /// The certificate data, in PEM format. Constraints: • min: 1 • max: 65536 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--certificate-pem")]
     public string? CertificatePem { get; private init; }
 
     /// <summary>
-    /// The status of the register certificate request. Possible values: o ACTIVE o INACTIVE o REVOKED o PENDING_TRANSFER o REGISTER_INACTIVE o PENDING_ACTIVATION
+    /// The status of the register certificate request. Possible values: • ACTIVE • INACTIVE • REVOKED • PENDING_TRANSFER • REGISTER_INACTIVE • PENDING_ACTIVATION
     /// </summary>
     [CliOption("--status")]
     public AwsIotRegisterCertificateWithoutCaStatus? Status { get; set; }
@@ -89,6 +90,15 @@ public record AwsIotRegisterCertificateWithoutCaOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

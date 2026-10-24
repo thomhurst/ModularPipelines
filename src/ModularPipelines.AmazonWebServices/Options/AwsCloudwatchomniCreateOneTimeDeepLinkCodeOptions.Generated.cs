@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a one-time code for deep-link authentication. Direct the user's browser to the returned deepLinkUrl before it ex- pires. The code is exchanged for an authenticated, domain-scoped ses- sion and can be used only once. See also: AWS API Documentation
+/// Generates a one-time code for deep-link authentication. Direct the user's browser to the returned deepLinkUrl before it expires. The code is exchanged for an authenticated, domain-scoped session and can be used only once. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudwatchomniCreateOneTimeDeepLinkCodeOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a one-time code for deep-link authentication. Direct the user's browser to the returned deepLinkUrl before it ex- pires. The code is exchanged for an authenticated, domain-scoped ses- sion and can be used only once. See also: AWS API Documentation
+    /// Generates a one-time code for deep-link authentication. Direct the user's browser to the returned deepLinkUrl before it expires. The code is exchanged for an authenticated, domain-scoped session and can be used only once. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainId">The ID of the domain to generate the code for. Constraints: o pattern: d-[0-9a-z]{1,25}</param>
+    /// <param name="DomainId">The ID of the domain to generate the code for. Constraints: • pattern: d-[0-9a-z]{1,25}</param>
     public AwsCloudwatchomniCreateOneTimeDeepLinkCodeOptions(
         string DomainId
     )
@@ -56,19 +57,19 @@ public record AwsCloudwatchomniCreateOneTimeDeepLinkCodeOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the domain to generate the code for. Constraints: o pattern: d-[0-9a-z]{1,25}
+    /// The ID of the domain to generate the code for. Constraints: • pattern: d-[0-9a-z]{1,25}
     /// </summary>
     [CliOption("--domain-id")]
     public string? DomainId { get; private init; }
 
     /// <summary>
-    /// How long the code remains valid, in seconds. Defaults to 300. Constraints: o min: 60 o max: 600
+    /// How long the code remains valid, in seconds. Defaults to 300. Constraints: • min: 60 • max: 600
     /// </summary>
     [CliOption("--ttl-seconds")]
     public int? TtlSeconds { get; set; }
 
     /// <summary>
-    /// The URL to redirect to after the deep-link code is used. Must be an HTTPS URL in the domain with a path of /auth/callback, and cannot include a query string or fragment. If omitted, no redirect is ap- plied.
+    /// The URL to redirect to after the deep-link code is used. Must be an HTTPS URL in the domain with a path of /auth/callback, and cannot include a query string or fragment. If omitted, no redirect is applied.
     /// </summary>
     [CliOption("--redirect-url")]
     public string? RedirectUrl { get; set; }
@@ -94,6 +95,15 @@ public record AwsCloudwatchomniCreateOneTimeDeepLinkCodeOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

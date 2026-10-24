@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an application. Applications are a WorkSpaces Applications resource that stores the de- tails about how to launch applications on Elastic fleet streaming in- stances. An application consists of the launch details, icon, and dis- play name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Docu...
+/// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Documentat...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +26,14 @@ public record AwsAppstreamCreateApplicationOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the de- tails about how to launch applications on Elastic fleet streaming in- stances. An application consists of the launch details, icon, and dis- play name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Docu...
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets. See also: AWS API Documentat...
     /// </summary>
-    /// <param name="Name">The name of the application. This name is visible to users when dis- play name is not specified. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="IconS3Location">The location in S3 of the application icon. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
-    /// <param name="LaunchPath">The launch path of the application. Constraints: o min: 1</param>
-    /// <param name="Platforms">The platforms the application supports. WINDOWS_SERVER_2019, AMA- ZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Constraints: o max: 4 (string) Possible values: o WINDOWS o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o AMAZON_LINUX2 o RHEL8 o ROCKY_LINUX8 o UBUNTU_PRO_2404 Syntax: "string" "string" ...</param>
-    /// <param name="InstanceFamilies">The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4. (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
-    /// <param name="AppBlockArn">The app block ARN to which the application should be associated Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
+    /// <param name="Name">The name of the application. This name is visible to users when display name is not specified. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="IconS3Location">The location in S3 of the application icon. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: • IconS3Location (Actions: CreateApplication and UpdateApplication) • SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) • ScriptDetails (Actions: CreateAppBlock) • SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) • SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }</param>
+    /// <param name="LaunchPath">The launch path of the application. Constraints: • min: 1</param>
+    /// <param name="Platforms">The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Constraints: • max: 4 (string) Possible values: • WINDOWS • WINDOWS_SERVER_2016 • WINDOWS_SERVER_2019 • WINDOWS_SERVER_2022 • WINDOWS_SERVER_2025 • AMAZON_LINUX2 • RHEL8 • ROCKY_LINUX8 • UBUNTU_PRO_2404 Syntax: "string" "string" ...</param>
+    /// <param name="InstanceFamilies">The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4. (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="AppBlockArn">The app block ARN to which the application should be associated Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$</param>
     public AwsAppstreamCreateApplicationOptions(
         string Name,
         string IconS3Location,
@@ -99,67 +99,67 @@ public record AwsAppstreamCreateApplicationOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the application. This name is visible to users when dis- play name is not specified. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the application. This name is visible to users when display name is not specified. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The location in S3 of the application icon. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: o min: 3 o max: 63 o pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: o IconS3Location (Actions: CreateApplication and UpdateApplica- tion) o SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) o ScriptDetails (Actions: CreateAppBlock) o SourceS3Location when creating an app block with CUSTOM Pack- agingType (Actions: CreateAppBlock) o SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: o min: 1 o max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
+    /// The location in S3 of the application icon. S3Bucket -&gt; (string) [required] The S3 bucket of the S3 object. Constraints: • min: 3 • max: 63 • pattern: ^[0-9a-z\.\-]*(?&lt;!\.)$ S3Key -&gt; (string) The S3 key of the S3 object. This is required when used for the following: • IconS3Location (Actions: CreateApplication and UpdateApplication) • SessionScriptS3Location (Actions: CreateFleet and UpdateFleet) • ScriptDetails (Actions: CreateAppBlock) • SourceS3Location when creating an app block with CUSTOM PackagingType (Actions: CreateAppBlock) • SourceS3Location when creating an app block with APPSTREAM2 PackagingType, and using an existing application package (VHD file). In this case, S3Key refers to the VHD file. If a new application package is required, then S3Key is not required. (Actions: CreateAppBlock) Constraints: • min: 1 • max: 1024 Shorthand Syntax: S3Bucket=string,S3Key=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string" }
     /// </summary>
     [CliOption("--icon-s3-location")]
     public string? IconS3Location { get; private init; }
 
     /// <summary>
-    /// The launch path of the application. Constraints: o min: 1
+    /// The launch path of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--launch-path")]
     public string? LaunchPath { get; private init; }
 
     /// <summary>
-    /// The platforms the application supports. WINDOWS_SERVER_2019, AMA- ZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Constraints: o max: 4 (string) Possible values: o WINDOWS o WINDOWS_SERVER_2016 o WINDOWS_SERVER_2019 o WINDOWS_SERVER_2022 o WINDOWS_SERVER_2025 o AMAZON_LINUX2 o RHEL8 o ROCKY_LINUX8 o UBUNTU_PRO_2404 Syntax: "string" "string" ...
+    /// The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets. Constraints: • max: 4 (string) Possible values: • WINDOWS • WINDOWS_SERVER_2016 • WINDOWS_SERVER_2019 • WINDOWS_SERVER_2022 • WINDOWS_SERVER_2025 • AMAZON_LINUX2 • RHEL8 • ROCKY_LINUX8 • UBUNTU_PRO_2404 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--platforms", GroupValues = true)]
     public IEnumerable<string>? Platforms { get; private init; }
 
     /// <summary>
-    /// The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4. (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The instance families the application supports. Valid values are GENERAL_PURPOSE and GRAPHICS_G4. (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instance-families", GroupValues = true)]
     public IEnumerable<string>? InstanceFamilies { get; private init; }
 
     /// <summary>
-    /// The app block ARN to which the application should be associated Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The app block ARN to which the application should be associated Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--app-block-arn")]
     public string? AppBlockArn { get; private init; }
 
     /// <summary>
-    /// The display name of the application. This name is visible to users in the application catalog. Constraints: o max: 100
+    /// The display name of the application. This name is visible to users in the application catalog. Constraints: • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The description of the application. Constraints: o max: 256
+    /// The description of the application. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The working directory of the application. Constraints: o min: 1
+    /// The working directory of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--working-directory")]
     public string? WorkingDirectory { get; set; }
 
     /// <summary>
-    /// The launch parameters of the application. Constraints: o min: 1
+    /// The launch parameters of the application. Constraints: • min: 1
     /// </summary>
     [CliOption("--launch-parameters")]
     public string? LaunchParameters { get; set; }
 
     /// <summary>
-    /// The tags assigned to the application. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags assigned to the application. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -185,6 +185,15 @@ public record AwsAppstreamCreateApplicationOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

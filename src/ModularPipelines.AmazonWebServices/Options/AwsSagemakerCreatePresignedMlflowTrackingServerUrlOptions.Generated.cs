@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions : AwsOpt
     /// <summary>
     /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL . See also: AWS API Documentation
     /// </summary>
-    /// <param name="TrackingServerName">The name of the tracking server to connect to your MLflow UI. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
+    /// <param name="TrackingServerName">The name of the tracking server to connect to your MLflow UI. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}</param>
     public AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions(
         string TrackingServerName
     )
@@ -56,19 +57,19 @@ public record AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tracking server to connect to your MLflow UI. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
+    /// The name of the tracking server to connect to your MLflow UI. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}
     /// </summary>
     [CliOption("--tracking-server-name")]
     public string? TrackingServerName { get; private init; }
 
     /// <summary>
-    /// The duration in seconds that your presigned URL is valid. The pre- signed URL can be used only once. Constraints: o min: 5 o max: 300
+    /// The duration in seconds that your presigned URL is valid. The presigned URL can be used only once. Constraints: • min: 5 • max: 300
     /// </summary>
     [CliOption("--expires-in-seconds")]
     public int? ExpiresInSeconds { get; set; }
 
     /// <summary>
-    /// The duration in seconds that your MLflow UI session is valid. Constraints: o min: 1800 o max: 43200
+    /// The duration in seconds that your MLflow UI session is valid. Constraints: • min: 1800 • max: 43200
     /// </summary>
     [CliOption("--session-expiration-duration-in-seconds")]
     public int? SessionExpirationDurationInSeconds { get; set; }
@@ -94,6 +95,15 @@ public record AwsSagemakerCreatePresignedMlflowTrackingServerUrlOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

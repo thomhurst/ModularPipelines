@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,8 +29,8 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions, IValidata
     /// <summary>
     /// Creates an EKS Anywhere subscription. When a subscription is created, it is a contract agreement for the length of the term specified in the request. Licenses that are used to validate support are provisioned in Amazon Web Services License Manager and the caller account is granted access to EKS Anywhere Curated Packages. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 charac- ters. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
-    /// <param name="Term">An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term dura- tion, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription. duration -&gt; (integer) The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription. unit -&gt; (string) The term unit of the subscription. Valid value is MONTHS . Possible values: o MONTHS Shorthand Syntax: duration=integer,unit=string JSON Syntax: { "duration": integer, "unit": "MONTHS" }</param>
+    /// <param name="Name">The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 characters. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*</param>
+    /// <param name="Term">An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription. duration -&gt; (integer) The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription. unit -&gt; (string) The term unit of the subscription. Valid value is MONTHS . Possible values: • MONTHS Shorthand Syntax: duration=integer,unit=string JSON Syntax: { "duration": integer, "unit": "MONTHS" }</param>
     public AwsEksCreateEksAnywhereSubscriptionOptions(
         string Name,
         string Term
@@ -62,25 +62,25 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 charac- ters. Constraints: o min: 1 o max: 100 o pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
+    /// The unique name for your subscription. It must be unique in your Amazon Web Services account in the Amazon Web Services Region you're creating the subscription in. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphabetic character and can't be longer than 100 characters. Constraints: • min: 1 • max: 100 • pattern: ^[0-9A-Za-z][A-Za-z0-9\-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term dura- tion, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription. duration -&gt; (integer) The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription. unit -&gt; (string) The term unit of the subscription. Valid value is MONTHS . Possible values: o MONTHS Shorthand Syntax: duration=integer,unit=string JSON Syntax: { "duration": integer, "unit": "MONTHS" }
+    /// An object representing the term duration and term unit type of your subscription. This determines the term length of your subscription. Valid values are MONTHS for term unit and 12 or 36 for term duration, indicating a 12 month or 36 month subscription. This value cannot be changed after creating the subscription. duration -&gt; (integer) The duration of the subscription term. Valid values are 12 and 36, indicating a 12 month or 36 month subscription. unit -&gt; (string) The term unit of the subscription. Valid value is MONTHS . Possible values: • MONTHS Shorthand Syntax: duration=integer,unit=string JSON Syntax: { "duration": integer, "unit": "MONTHS" }
     /// </summary>
     [CliOption("--term")]
     public string? Term { get; private init; }
 
     /// <summary>
-    /// The number of licenses to purchase with the subscription. Valid val- ues are between 1 and 100. This value can't be changed after creat- ing the subscription.
+    /// The number of licenses to purchase with the subscription. Valid values are between 1 and 100. This value can't be changed after creating the subscription.
     /// </summary>
     [CliOption("--license-quantity")]
     public int? LicenseQuantity { get; set; }
 
     /// <summary>
-    /// The license type for all licenses in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers sup- port for a single EKS Anywhere cluster. Possible values: o Cluster
+    /// The license type for all licenses in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster. Possible values: • Cluster
     /// </summary>
     [CliOption("--license-type")]
     public string? LicenseType { get; set; }
@@ -99,7 +99,7 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions, IValidata
     public string? ClientRequestToken { get; set; }
 
     /// <summary>
-    /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Sub- scription tags don't propagate to any other resources associated with the subscription. Constraints: o min: 1 o max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a gen- eral label that acts like a category for more specific tag val- ues. Constraints: o min: 1 o max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata for a subscription to assist with categorization and organization. Each tag consists of a key and an optional value. Subscription tags don't propagate to any other resources associated with the subscription. Constraints: • min: 1 • max: 50 key -&gt; (string) One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 value -&gt; (string) The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key). Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -125,6 +125,15 @@ public record AwsEksCreateEksAnywhereSubscriptionOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -36,40 +36,37 @@ public record AwsBedrockListEvaluationJobsOptions : AwsOptions
     public string? CreationTimeBefore { get; set; }
 
     /// <summary>
-    /// A filter to only list evaluation jobs that are of a certain status. Possible values: o InProgress o Completed o Failed o Stopping o Stopped o Deleting
+    /// A filter to only list evaluation jobs that are of a certain status. Possible values: • InProgress • Completed • Failed • Stopping • Stopped • Deleting
     /// </summary>
     [CliOption("--status-equals")]
     public AwsBedrockListEvaluationJobsStatusEquals? StatusEquals { get; set; }
 
     /// <summary>
-    /// A filter to only list evaluation jobs that are either model evalua- tions or knowledge base evaluations. Possible values: o ModelEvaluation o RagEvaluation
+    /// A filter to only list evaluation jobs that are either model evaluations or knowledge base evaluations. Possible values: • ModelEvaluation • RagEvaluation
     /// </summary>
     [CliOption("--application-type-equals")]
     public AwsBedrockListEvaluationJobsApplicationTypeEquals? ApplicationTypeEquals { get; set; }
 
     /// <summary>
-    /// A filter to only list evaluation jobs that contain a specified string in the job name. Constraints: o min: 1 o max: 63 o pattern: [a-z0-9](-*[a-z0-9]){0,62}
+    /// A filter to only list evaluation jobs that contain a specified string in the job name. Constraints: • min: 1 • max: 63 • pattern: [a-z0-9](-*[a-z0-9]){0,62}
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
 
     /// <summary>
-    /// Specifies a creation time to sort the list of evaluation jobs by when they were created. Possible values: o CreationTime
+    /// Specifies a creation time to sort the list of evaluation jobs by when they were created. Possible values: • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Specifies whether to sort the list of evaluation jobs by either as- cending or descending order. Possible values: o Ascending o Descending
+    /// Specifies whether to sort the list of evaluation jobs by either ascending or descending order. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsBedrockListEvaluationJobsSortOrder? SortOrder { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -79,15 +76,27 @@ public record AwsBedrockListEvaluationJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

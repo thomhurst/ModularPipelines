@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+/// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsDsCreateDirectoryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required per- missions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory opera- tion, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
+    /// Creates a Simple AD directory. For more information, see Simple Active Directory in the Directory Service Admin Guide . Before you call CreateDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The fully qualified name for the directory, such as corp.example.com . Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
-    /// <param name="Password">The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following condi- tions: o Length (?=^.{8,64}$) Must be between 8 and 64 characters AND any 3 of the following password complexity rules required by Ac- tive Directory: o Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z]) o Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z]) o Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z]) o Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s]) For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Mi- crosoft website. Constraints: o pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*</param>
-    /// <param name="Size">The size of the directory. Possible values: o Small o Large</param>
+    /// <param name="Name">The fully qualified name for the directory, such as corp.example.com . Constraints: • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$</param>
+    /// <param name="Password">The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following conditions: • Length (?=^.{8,64}$) Must be between 8 and 64 characters AND any 3 of the following password complexity rules required by Active Directory: • Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z]) • Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z]) • Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z]) • Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s]) For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Microsoft website. Constraints: • pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*</param>
+    /// <param name="Size">The size of the directory. Possible values: • Small • Large</param>
     public AwsDsCreateDirectoryOptions(
         string Name,
         string Password,
@@ -65,50 +66,50 @@ public record AwsDsCreateDirectoryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The fully qualified name for the directory, such as corp.example.com . Constraints: o pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
+    /// The fully qualified name for the directory, such as corp.example.com . Constraints: • pattern: ^([a-zA-Z0-9]+[\\.-])+([a-zA-Z0-9])+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following condi- tions: o Length (?=^.{8,64}$) Must be between 8 and 64 characters AND any 3 of the following password complexity rules required by Ac- tive Directory: o Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z]) o Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z]) o Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z]) o Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s]) For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Mi- crosoft website. Constraints: o pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*
+    /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following conditions: • Length (?=^.{8,64}$) Must be between 8 and 64 characters AND any 3 of the following password complexity rules required by Active Directory: • Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z]) • Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z]) • Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z]) • Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s]) For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Microsoft website. Constraints: • pattern: (?=^.{8,64}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])|(?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s]))^.*
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; private init; }
 
     /// <summary>
-    /// The size of the directory. Possible values: o Small o Large
+    /// The size of the directory. Possible values: • Small • Large
     /// </summary>
     [CliOption("--size")]
     public AwsDsCreateDirectorySize? Size { get; private init; }
 
     /// <summary>
-    /// The NetBIOS name of the directory, such as CORP . Constraints: o pattern: ^[^\\/:*?"&lt;&gt;|.]+[^\\/:*?"&lt;&gt;|]*$
+    /// The NetBIOS name of the directory, such as CORP . Constraints: • pattern: ^[^\\/:*?"&lt;&gt;|.]+[^\\/:*?"&lt;&gt;|]*$
     /// </summary>
     [CliOption("--short-name")]
     public string? ShortName { get; set; }
 
     /// <summary>
-    /// A description for the directory. Constraints: o min: 0 o max: 128 o pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
+    /// A description for the directory. Constraints: • min: 0 • max: 128 • pattern: ^([a-zA-Z0-9_])[\\a-zA-Z0-9_@#%*+=:?./!\s-]*$
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A DirectoryVpcSettings object that contains additional information for the operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: o pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: o pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }
+    /// A DirectoryVpcSettings object that contains additional information for the operation. VpcId -&gt; (string) [required] The identifier of the VPC in which to create the directory. Constraints: • pattern: ^(vpc-[0-9a-f]{8}|vpc-[0-9a-f]{17})$ SubnetIds -&gt; (list) [required] The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets. (string) Constraints: • pattern: ^(subnet-[0-9a-f]{8}|subnet-[0-9a-f]{17})$ Shorthand Syntax: VpcId=string,SubnetIds=string,string JSON Syntax: { "VpcId": "string", "SubnetIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-settings")]
     public string? VpcSettings { get; set; }
 
     /// <summary>
-    /// The tags to be assigned to the Simple AD directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Uni- code characters. The string can contain only the set of Uni- code letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to be assigned to the Simple AD directory. (structure) Metadata assigned to a directory consisting of a key-value pair. Key -&gt; (string) [required] Required name of the tag. The string value can be Unicode characters and cannot be prefixed with "aws:". The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@'(Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-', ':', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The network type for your directory. Simple AD supports IPv4 and Dual-stack only. Possible values: o Dual-stack o IPv4 o IPv6
+    /// The network type for your directory. Simple AD supports IPv4 and Dual-stack only. Possible values: • Dual-stack • IPv4 • IPv6
     /// </summary>
     [CliOption("--network-type")]
     public AwsDsCreateDirectoryNetworkType? NetworkType { get; set; }
@@ -134,6 +135,15 @@ public record AwsDsCreateDirectoryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

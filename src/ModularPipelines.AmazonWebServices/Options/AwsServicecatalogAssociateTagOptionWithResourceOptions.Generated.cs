@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associate the specified TagOption with the specified portfolio or prod- uct. See also: AWS API Documentation
+/// Associate the specified TagOption with the specified portfolio or product. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsServicecatalogAssociateTagOptionWithResourceOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associate the specified TagOption with the specified portfolio or prod- uct. See also: AWS API Documentation
+    /// Associate the specified TagOption with the specified portfolio or product. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceId">The resource identifier.</param>
-    /// <param name="TagOptionId">The TagOption identifier. Constraints: o min: 1 o max: 100</param>
+    /// <param name="TagOptionId">The TagOption identifier. Constraints: • min: 1 • max: 100</param>
     public AwsServicecatalogAssociateTagOptionWithResourceOptions(
         string ResourceId,
         string TagOptionId
@@ -66,7 +67,7 @@ public record AwsServicecatalogAssociateTagOptionWithResourceOptions : AwsOption
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The TagOption identifier. Constraints: o min: 1 o max: 100
+    /// The TagOption identifier. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--tag-option-id")]
     public string? TagOptionId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsServicecatalogAssociateTagOptionWithResourceOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

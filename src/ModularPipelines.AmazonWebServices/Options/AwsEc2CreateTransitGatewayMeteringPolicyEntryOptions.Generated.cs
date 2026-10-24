@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -30,7 +31,7 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions,
     /// </summary>
     /// <param name="TransitGatewayMeteringPolicyId">The ID of the transit gateway metering policy to add the entry to.</param>
     /// <param name="PolicyRuleNumber">The rule number for the metering policy entry. Rules are processed in order from lowest to highest number.</param>
-    /// <param name="MeteredAccount">The Amazon Web Services account ID to which the metered traffic should be attributed. Possible values: o source-attachment-owner o destination-attachment-owner o transit-gateway-owner</param>
+    /// <param name="MeteredAccount">The Amazon Web Services account ID to which the metered traffic should be attributed. Possible values: • source-attachment-owner • destination-attachment-owner • transit-gateway-owner</param>
     public AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions(
         string TransitGatewayMeteringPolicyId,
         int PolicyRuleNumber,
@@ -75,19 +76,19 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions,
     public int? PolicyRuleNumber { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID to which the metered traffic should be attributed. Possible values: o source-attachment-owner o destination-attachment-owner o transit-gateway-owner
+    /// The Amazon Web Services account ID to which the metered traffic should be attributed. Possible values: • source-attachment-owner • destination-attachment-owner • transit-gateway-owner
     /// </summary>
     [CliOption("--metered-account")]
     public AwsEc2CreateTransitGatewayMeteringPolicyEntryMeteredAccount? MeteredAccount { get; private init; }
 
     /// <summary>
-    /// The ID of the source transit gateway attachment for traffic match- ing.
+    /// The ID of the source transit gateway attachment for traffic matching.
     /// </summary>
     [CliOption("--source-transit-gateway-attachment-id")]
     public string? SourceTransitGatewayAttachmentId { get; set; }
 
     /// <summary>
-    /// The type of the source transit gateway attachment for traffic match- ing. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attach- ment type. Possible values: o vpc o vpn o vpn-concentrator o direct-connect-gateway o connect o peering o tgw-peering o network-function o client-vpn
+    /// The type of the source transit gateway attachment for traffic matching. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attachment type. Possible values: • vpc • vpn • vpn-concentrator • direct-connect-gateway • connect • peering • tgw-peering • network-function • client-vpn
     /// </summary>
     [CliOption("--source-transit-gateway-attachment-type")]
     public AwsEc2CreateTransitGatewayMeteringPolicyEntrySourceTransitGatewayAttachmentType? SourceTransitGatewayAttachmentType { get; set; }
@@ -111,7 +112,7 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions,
     public string? DestinationTransitGatewayAttachmentId { get; set; }
 
     /// <summary>
-    /// The type of the destination transit gateway attachment for traffic matching. Note that the tgw-peering resource type has been depre- cated. To configure metering policies for Connect, use the transport attachment type. Possible values: o vpc o vpn o vpn-concentrator o direct-connect-gateway o connect o peering o tgw-peering o network-function o client-vpn
+    /// The type of the destination transit gateway attachment for traffic matching. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attachment type. Possible values: • vpc • vpn • vpn-concentrator • direct-connect-gateway • connect • peering • tgw-peering • network-function • client-vpn
     /// </summary>
     [CliOption("--destination-transit-gateway-attachment-type")]
     public AwsEc2CreateTransitGatewayMeteringPolicyEntryDestinationTransitGatewayAttachmentType? DestinationTransitGatewayAttachmentType { get; set; }
@@ -135,7 +136,7 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions,
     public string? Protocol { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -161,6 +162,15 @@ public record AwsEc2CreateTransitGatewayMeteringPolicyEntryOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

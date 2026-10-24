@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified report definition in AWS Application Cost Pro- filer. This stops the report from being generated. See also: AWS API Documentation
+/// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsApplicationcostprofilerDeleteReportDefinitionOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified report definition in AWS Application Cost Pro- filer. This stops the report from being generated. See also: AWS API Documentation
+    /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ReportId">Required. ID of the report to delete. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$</param>
+    /// <param name="ReportId">Required. ID of the report to delete. Constraints: • min: 1 • max: 255 • pattern: ^[0-9A-Za-z\.\-_]+$</param>
     public AwsApplicationcostprofilerDeleteReportDefinitionOptions(
         string ReportId
     )
@@ -56,7 +57,7 @@ public record AwsApplicationcostprofilerDeleteReportDefinitionOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required. ID of the report to delete. Constraints: o min: 1 o max: 255 o pattern: ^[0-9A-Za-z\.\-_]+$
+    /// Required. ID of the report to delete. Constraints: • min: 1 • max: 255 • pattern: ^[0-9A-Za-z\.\-_]+$
     /// </summary>
     [CliOption("--report-id")]
     public string? ReportId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApplicationcostprofilerDeleteReportDefinitionOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

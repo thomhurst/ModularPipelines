@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBraketDeleteSpendingLimitOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SpendingLimitArn">The Amazon Resource Name (ARN) of the spending limit to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spend- ing-limit/.*</param>
+    /// <param name="SpendingLimitArn">The Amazon Resource Name (ARN) of the spending limit to delete. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spending-limit/.*</param>
     public AwsBraketDeleteSpendingLimitOptions(
         string SpendingLimitArn
     )
@@ -56,7 +57,7 @@ public record AwsBraketDeleteSpendingLimitOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the spending limit to delete. Constraints: o min: 0 o max: 256 o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spend- ing-limit/.*
+    /// The Amazon Resource Name (ARN) of the spending limit to delete. Constraints: • min: 0 • max: 256 • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:spending-limit/.*
     /// </summary>
     [CliOption("--spending-limit-arn")]
     public string? SpendingLimitArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBraketDeleteSpendingLimitOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

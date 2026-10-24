@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: Container Retrieves the properties of a container group definition, including all container definitions in the group. Request options: o Retrieve the latest version of a container group definition. Specify the container group definition name only, or use an ARN value without a version number. o Retrieve a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. Resu...
+/// This API works with the following fleet types: Container Retrieves the properties of a container group definition, including all container definitions in the group. Request options: • Retrieve the latest version of a container group definition. Specify the container group definition name only, or use an ARN value without a version number. • Retrieve a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the version number. Result...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGameliftDescribeContainerGroupDefinitionOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: Container Retrieves the properties of a container group definition, including all container definitions in the group. Request options: o Retrieve the latest version of a container group definition. Specify the container group definition name only, or use an ARN value without a version number. o Retrieve a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the ver- sion number. Resu...
+    /// This API works with the following fleet types: Container Retrieves the properties of a container group definition, including all container definitions in the group. Request options: • Retrieve the latest version of a container group definition. Specify the container group definition name only, or use an ARN value without a version number. • Retrieve a particular version. Specify the container group definition name and a version number, or use an ARN value that includes the version number. Result...
     /// </summary>
-    /// <param name="Name">The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$</param>
+    /// <param name="Name">The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefinition\/[a-zA-Z0-9\-]+(:[0-9]+)?$</param>
     public AwsGameliftDescribeContainerGroupDefinitionOptions(
         string Name
     )
@@ -56,13 +57,13 @@ public record AwsGameliftDescribeContainerGroupDefinitionOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefini- tion\/[a-zA-Z0-9\-]+(:[0-9]+)?$
+    /// The unique identifier for the container group definition to retrieve properties for. You can use either the Name or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-zA-Z0-9\-]+$|^arn:.*:containergroupdefinition\/[a-zA-Z0-9\-]+(:[0-9]+)?$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The specific version to retrieve. Constraints: o min: 1
+    /// The specific version to retrieve. Constraints: • min: 1
     /// </summary>
     [CliOption("--version-number")]
     public int? VersionNumber { get; set; }
@@ -88,6 +89,15 @@ public record AwsGameliftDescribeContainerGroupDefinitionOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

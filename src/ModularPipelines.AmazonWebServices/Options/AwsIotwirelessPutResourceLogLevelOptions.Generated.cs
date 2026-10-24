@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIdentifier">The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256</param>
+    /// <param name="ResourceIdentifier">The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: • max: 256</param>
     /// <param name="ResourceType">The type of resource, which can be WirelessDevice , WirelessGateway , or FuotaTask .</param>
-    /// <param name="LogLevel">The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error in- formation, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED</param>
+    /// <param name="LogLevel">The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs. Possible values: • INFO • ERROR • DISABLED</param>
     public AwsIotwirelessPutResourceLogLevelOptions(
         string ResourceIdentifier,
         string ResourceType,
@@ -64,7 +65,7 @@ public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: o max: 256
+    /// The unique identifier of the resource, which can be the wireless gateway ID, the wireless device ID, or the FUOTA task ID. Constraints: • max: 256
     /// </summary>
     [CliOption("--resource-identifier")]
     public string? ResourceIdentifier { get; private init; }
@@ -76,7 +77,7 @@ public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions, IValidatabl
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error in- formation, or to INFO for more detailed logs. Possible values: o INFO o ERROR o DISABLED
+    /// The log level for a log message. The log levels can be disabled, or set to ERROR to display less verbose logs containing only error information, or to INFO for more detailed logs. Possible values: • INFO • ERROR • DISABLED
     /// </summary>
     [CliOption("--log-level")]
     public AwsIotwirelessPutResourceLogLevelLogLevel? LogLevel { get; private init; }
@@ -102,6 +103,15 @@ public record AwsIotwirelessPutResourceLogLevelOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

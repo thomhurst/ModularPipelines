@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,10 +28,10 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates an app block builder. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The unique name for the app block builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="Platform">The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: o WINDOWS_SERVER_2019</param>
-    /// <param name="InstanceType">The instance type to use when launching the app block builder. The following instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge Constraints: o min: 1</param>
-    /// <param name="VpcConfig">The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    /// <param name="Name">The unique name for the app block builder. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Platform">The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: • WINDOWS_SERVER_2019</param>
+    /// <param name="InstanceType">The instance type to use when launching the app block builder. The following instance types are available: • stream.standard.small • stream.standard.medium • stream.standard.large • stream.standard.xlarge • stream.standard.2xlarge Constraints: • min: 1</param>
+    /// <param name="VpcConfig">The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: • min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: • max: 5 (string) Constraints: • min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
     public AwsAppstreamCreateAppBlockBuilderOptions(
         string Name,
         string Platform,
@@ -69,43 +69,43 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name for the app block builder. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The unique name for the app block builder. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: o WINDOWS_SERVER_2019
+    /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value. Possible values: • WINDOWS_SERVER_2019
     /// </summary>
     [CliOption("--platform")]
     public string? Platform { get; private init; }
 
     /// <summary>
-    /// The instance type to use when launching the app block builder. The following instance types are available: o stream.standard.small o stream.standard.medium o stream.standard.large o stream.standard.xlarge o stream.standard.2xlarge Constraints: o min: 1
+    /// The instance type to use when launching the app block builder. The following instance types are available: • stream.standard.small • stream.standard.medium • stream.standard.large • stream.standard.xlarge • stream.standard.2xlarge Constraints: • min: 1
     /// </summary>
     [CliOption("--instance-type")]
     public string? InstanceType { get; private init; }
 
     /// <summary>
-    /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: o min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: o max: 5 (string) Constraints: o min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones. SubnetIds -&gt; (list) The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet. (string) Constraints: • min: 1 SecurityGroupIds -&gt; (list) The identifiers of the security groups for the fleet or image builder. Constraints: • max: 5 (string) Constraints: • min: 1 Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--vpc-config")]
     public string? VpcConfig { get; private init; }
 
     /// <summary>
-    /// The description of the app block builder. Constraints: o max: 256
+    /// The description of the app block builder. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The display name of the app block builder. Constraints: o max: 100
+    /// The display name of the app block builder. Constraints: • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environ- ment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces rep- resentable in UTF-8, and the following special characters: _ . : / = + - @ For more information, see Tagging Your Resources in the Amazon Work- Spaces Applications Administration Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + - @ For more information, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -117,13 +117,13 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatabl
     public bool? EnableDefaultInternetAccess { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the tempo- rary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Stream- ing Instances in the Amazon WorkSpaces Applications Administration Guide . Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide . Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\-]{0,1023}$
     /// </summary>
     [CliOption("--iam-role-arn")]
     public string? IamRoleArn { get; set; }
 
     /// <summary>
-    /// The list of interface VPC endpoint (interface endpoint) objects. Ad- ministrators can connect to the app block builder only through the specified endpoints. Constraints: o min: 1 o max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: o STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface end- point is used. Constraints: o min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
+    /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints. Constraints: • min: 1 • max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: • STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface endpoint is used. Constraints: • min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
     /// </summary>
     [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
@@ -155,6 +155,15 @@ public record AwsAppstreamCreateAppBlockBuilderOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

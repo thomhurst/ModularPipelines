@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSupplychainDeleteDataLakeNamespaceOptions : AwsOptions, IValida
     /// <summary>
     /// Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Name">The name of the namespace. Noted you cannot delete pre-defined name- space like asc , default which are only deleted through instance deletion. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+</param>
+    /// <param name="InstanceId">The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Name">The name of the namespace. Noted you cannot delete pre-defined namespace like asc , default which are only deleted through instance deletion. Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+</param>
     public AwsSupplychainDeleteDataLakeNamespaceOptions(
         string InstanceId,
         string Name
@@ -60,13 +61,13 @@ public record AwsSupplychainDeleteDataLakeNamespaceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AWS Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The AWS Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The name of the namespace. Noted you cannot delete pre-defined name- space like asc , default which are only deleted through instance deletion. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+
+    /// The name of the namespace. Noted you cannot delete pre-defined namespace like asc , default which are only deleted through instance deletion. Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSupplychainDeleteDataLakeNamespaceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

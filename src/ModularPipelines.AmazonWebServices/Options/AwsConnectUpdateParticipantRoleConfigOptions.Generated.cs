@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: o Customer idle timeout o Customer auto-disconnect timeout o Agent idle timeout o Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
+/// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: • Customer idle timeout • Customer auto-disconnect timeout • Agent idle timeout • Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectUpdateParticipantRoleConfigOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: o Customer idle timeout o Customer auto-disconnect timeout o Agent idle timeout o Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
+    /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers: • Customer idle timeout • Customer auto-disconnect timeout • Agent idle timeout • Agent auto-disconnect timeout For more information about how chat timeouts work, see Set up chat timeouts for human participants . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ChannelConfiguration">The Connect Customer channel you want to configure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Chat. Chat -&gt; (structure) Configuration information for the chat participant role. ParticipantTimerConfigList -&gt; (list) [required] A list of participant timers. You can specify any unique com- bination of role and timer type. Duplicate entries error out the request with a 400. Constraints: o min: 1 o max: 6 (structure) Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see Set up chat timeouts for human participants . ParticipantRole -&gt; (string) [required] The role of the participant in the chat conversation. Possible values: o CUSTOMER o AGENT TimerType -&gt; (string) [required] The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DIS- CONNECT_NONCUSTOMER indicates the timer applies to au- tomatically disconnecting a chat participant due to idleness. Possible values: o IDLE o DISCONNECT_NONCUSTOMER TimerValue -&gt; (tagged union structure) [required] The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Participant- TimerAction, ParticipantTimerDurationInMinutes. ParticipantTimerAction -&gt; (string) The timer action. Currently only one value is al- lowed: Unset . It deletes a timer. Possible values: o Unset ParticipantTimerDurationInMinutes -&gt; (integer) The duration of a timer, in minutes. Constraints: o min: 2 o max: 480 JSON Syntax: { "Chat": { "ParticipantTimerConfigList": [ { "ParticipantRole": "CUSTOMER"|"AGENT", "TimerType": "IDLE"|"DISCONNECT_NONCUSTOMER", "TimerValue": { "ParticipantTimerAction": "Unset", "ParticipantTimerDurationInMinutes": integer } } ... ] } }</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ContactId">The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ChannelConfiguration">The Connect Customer channel you want to configure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Chat. Chat -&gt; (structure) Configuration information for the chat participant role. ParticipantTimerConfigList -&gt; (list) [required] A list of participant timers. You can specify any unique combination of role and timer type. Duplicate entries error out the request with a 400. Constraints: • min: 1 • max: 6 (structure) Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see Set up chat timeouts for human participants . ParticipantRole -&gt; (string) [required] The role of the participant in the chat conversation. Possible values: • CUSTOMER • AGENT TimerType -&gt; (string) [required] The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DISCONNECT_NONCUSTOMER indicates the timer applies to automatically disconnecting a chat participant due to idleness. Possible values: • IDLE • DISCONNECT_NONCUSTOMER TimerValue -&gt; (tagged union structure) [required] The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ParticipantTimerAction, ParticipantTimerDurationInMinutes. ParticipantTimerAction -&gt; (string) The timer action. Currently only one value is allowed: Unset . It deletes a timer. Possible values: • Unset ParticipantTimerDurationInMinutes -&gt; (integer) The duration of a timer, in minutes. Constraints: • min: 2 • max: 480 JSON Syntax: { "Chat": { "ParticipantTimerConfigList": [ { "ParticipantRole": "CUSTOMER"|"AGENT", "TimerType": "IDLE"|"DISCONNECT_NONCUSTOMER", "TimerValue": { "ParticipantTimerAction": "Unset", "ParticipantTimerDurationInMinutes": integer } } ... ] } }</param>
     public AwsConnectUpdateParticipantRoleConfigOptions(
         string InstanceId,
         string ContactId,
@@ -64,19 +65,19 @@ public record AwsConnectUpdateParticipantRoleConfigOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the contact in this instance of Connect Customer. Constraints: o min: 1 o max: 256
+    /// The identifier of the contact in this instance of Connect Customer. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--contact-id")]
     public string? ContactId { get; private init; }
 
     /// <summary>
-    /// The Connect Customer channel you want to configure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Chat. Chat -&gt; (structure) Configuration information for the chat participant role. ParticipantTimerConfigList -&gt; (list) [required] A list of participant timers. You can specify any unique com- bination of role and timer type. Duplicate entries error out the request with a 400. Constraints: o min: 1 o max: 6 (structure) Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see Set up chat timeouts for human participants . ParticipantRole -&gt; (string) [required] The role of the participant in the chat conversation. Possible values: o CUSTOMER o AGENT TimerType -&gt; (string) [required] The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DIS- CONNECT_NONCUSTOMER indicates the timer applies to au- tomatically disconnecting a chat participant due to idleness. Possible values: o IDLE o DISCONNECT_NONCUSTOMER TimerValue -&gt; (tagged union structure) [required] The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Participant- TimerAction, ParticipantTimerDurationInMinutes. ParticipantTimerAction -&gt; (string) The timer action. Currently only one value is al- lowed: Unset . It deletes a timer. Possible values: o Unset ParticipantTimerDurationInMinutes -&gt; (integer) The duration of a timer, in minutes. Constraints: o min: 2 o max: 480 JSON Syntax: { "Chat": { "ParticipantTimerConfigList": [ { "ParticipantRole": "CUSTOMER"|"AGENT", "TimerType": "IDLE"|"DISCONNECT_NONCUSTOMER", "TimerValue": { "ParticipantTimerAction": "Unset", "ParticipantTimerDurationInMinutes": integer } } ... ] } }
+    /// The Connect Customer channel you want to configure. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Chat. Chat -&gt; (structure) Configuration information for the chat participant role. ParticipantTimerConfigList -&gt; (list) [required] A list of participant timers. You can specify any unique combination of role and timer type. Duplicate entries error out the request with a 400. Constraints: • min: 1 • max: 6 (structure) Configuration information for the timer. After the timer configuration is set, it persists for the duration of the chat. It persists across new contacts in the chain, for example, transfer contacts. For more information about how chat timeouts work, see Set up chat timeouts for human participants . ParticipantRole -&gt; (string) [required] The role of the participant in the chat conversation. Possible values: • CUSTOMER • AGENT TimerType -&gt; (string) [required] The type of timer. IDLE indicates the timer applies for considering a human chat participant as idle. DISCONNECT_NONCUSTOMER indicates the timer applies to automatically disconnecting a chat participant due to idleness. Possible values: • IDLE • DISCONNECT_NONCUSTOMER TimerValue -&gt; (tagged union structure) [required] The value of the timer. Either the timer action (Unset to delete the timer), or the duration of the timer in minutes. Only one value can be set. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: ParticipantTimerAction, ParticipantTimerDurationInMinutes. ParticipantTimerAction -&gt; (string) The timer action. Currently only one value is allowed: Unset . It deletes a timer. Possible values: • Unset ParticipantTimerDurationInMinutes -&gt; (integer) The duration of a timer, in minutes. Constraints: • min: 2 • max: 480 JSON Syntax: { "Chat": { "ParticipantTimerConfigList": [ { "ParticipantRole": "CUSTOMER"|"AGENT", "TimerType": "IDLE"|"DISCONNECT_NONCUSTOMER", "TimerValue": { "ParticipantTimerAction": "Unset", "ParticipantTimerDurationInMinutes": integer } } ... ] } }
     /// </summary>
     [CliOption("--channel-configuration")]
     public string? ChannelConfiguration { get; private init; }
@@ -102,6 +103,15 @@ public record AwsConnectUpdateParticipantRoleConfigOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

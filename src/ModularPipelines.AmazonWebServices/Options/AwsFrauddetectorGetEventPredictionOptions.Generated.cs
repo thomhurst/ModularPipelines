@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -30,10 +30,10 @@ public record AwsFrauddetectorGetEventPredictionOptions : AwsOptions, IValidatab
     /// </summary>
     /// <param name="DetectorId">The detector ID.</param>
     /// <param name="EventId">The unique ID used to identify the event.</param>
-    /// <param name="EventTypeName">The event type associated with the detector specified for the pre- diction.</param>
-    /// <param name="Entities">The entity type (associated with the detector's event type) and spe- cific entity ID representing who performed the event. If an entity id is not available, use "UNKNOWN." (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]</param>
-    /// <param name="EventTimestamp">Timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30</param>
-    /// <param name="EventVariables">Names of the event type's variables you defined in Amazon Fraud De- tector to represent data elements and their corresponding values for the event you are sending for evaluation. WARNING: You must provide at least one eventVariable To ensure most accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing vari- ables or values as follows: For Amazon Fraud Detector trained models: If a null value is provided explicitly for a variable or if a vari- able is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map) with calcu- lated default mean/medians for numeric variables and with special values for categorical variables. For imported SageMaker models: If a null value is provided explicitly for a variable, the model and rules will use null as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules will use the default value that is provided for the variable. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="EventTypeName">The event type associated with the detector specified for the prediction.</param>
+    /// <param name="Entities">The entity type (associated with the detector's event type) and specific entity ID representing who performed the event. If an entity id is not available, use "UNKNOWN." (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]</param>
+    /// <param name="EventTimestamp">Timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: • min: 10 • max: 30</param>
+    /// <param name="EventVariables">Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation. WARNING: You must provide at least one eventVariable To ensure most accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing variables or values as follows: For Amazon Fraud Detector trained models: If a null value is provided explicitly for a variable or if a variable is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map) with calculated default mean/medians for numeric variables and with special values for categorical variables. For imported SageMaker models: If a null value is provided explicitly for a variable, the model and rules will use null as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules will use the default value that is provided for the variable. Constraints: • min: 1 key -&gt; (string) Constraints: • min: 1 • max: 64 value -&gt; (string) Constraints: • min: 1 • max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsFrauddetectorGetEventPredictionOptions(
         string DetectorId,
         string EventId,
@@ -111,37 +111,37 @@ public record AwsFrauddetectorGetEventPredictionOptions : AwsOptions, IValidatab
     public string? EventId { get; private init; }
 
     /// <summary>
-    /// The event type associated with the detector specified for the pre- diction.
+    /// The event type associated with the detector specified for the prediction.
     /// </summary>
     [CliOption("--event-type-name")]
     public string? EventTypeName { get; private init; }
 
     /// <summary>
-    /// The entity type (associated with the detector's event type) and spe- cific entity ID representing who performed the event. If an entity id is not available, use "UNKNOWN." (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: o min: 1 o max: 256 o pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]
+    /// The entity type (associated with the detector's event type) and specific entity ID representing who performed the event. If an entity id is not available, use "UNKNOWN." (structure) The entity details. entityType -&gt; (string) [required] The entity type. entityId -&gt; (string) [required] The entity ID. If you do not know the entityId , you can pass unknown , which is areserved string literal. Constraints: • min: 1 • max: 256 • pattern: ^[0-9A-Za-z_.@+-]+$ Shorthand Syntax: entityType=string,entityId=string ... JSON Syntax: [ { "entityType": "string", "entityId": "string" } ... ]
     /// </summary>
     [CliOption("--entities", GroupValues = true)]
     public IEnumerable<string>? Entities { get; private init; }
 
     /// <summary>
-    /// Timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: o min: 10 o max: 30
+    /// Timestamp that defines when the event under evaluation occurred. The timestamp must be specified using ISO 8601 standard in UTC. Constraints: • min: 10 • max: 30
     /// </summary>
     [CliOption("--event-timestamp")]
     public string? EventTimestamp { get; private init; }
 
     /// <summary>
-    /// Names of the event type's variables you defined in Amazon Fraud De- tector to represent data elements and their corresponding values for the event you are sending for evaluation. WARNING: You must provide at least one eventVariable To ensure most accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing vari- ables or values as follows: For Amazon Fraud Detector trained models: If a null value is provided explicitly for a variable or if a vari- able is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map) with calcu- lated default mean/medians for numeric variables and with special values for categorical variables. For imported SageMaker models: If a null value is provided explicitly for a variable, the model and rules will use null as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules will use the default value that is provided for the variable. Constraints: o min: 1 key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 1 o max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation. WARNING: You must provide at least one eventVariable To ensure most accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will replace all missing variables or values as follows: For Amazon Fraud Detector trained models: If a null value is provided explicitly for a variable or if a variable is missing, model will replace the null value or the missing variable (no variable name in the eventVariables map) with calculated default mean/medians for numeric variables and with special values for categorical variables. For imported SageMaker models: If a null value is provided explicitly for a variable, the model and rules will use null as the value. If a variable is not provided (no variable name in the eventVariables map), model and rules will use the default value that is provided for the variable. Constraints: • min: 1 key -&gt; (string) Constraints: • min: 1 • max: 64 value -&gt; (string) Constraints: • min: 1 • max: 8192 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--event-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EventVariables { get; private init; }
 
     /// <summary>
-    /// The detector version ID. Constraints: o min: 1 o max: 5 o pattern: ^([1-9][0-9]*)$
+    /// The detector version ID. Constraints: • min: 1 • max: 5 • pattern: ^([1-9][0-9]*)$
     /// </summary>
     [CliOption("--detector-version-id")]
     public string? DetectorVersionId { get; set; }
 
     /// <summary>
-    /// The Amazon SageMaker model endpoint input data blobs. key -&gt; (string) Constraints: o min: 1 o max: 63 o pattern: ^[0-9A-Za-z_-]+$ value -&gt; (structure) A pre-formed Amazon SageMaker model input you can include if your detector version includes an imported Amazon SageMaker model endpoint with pass-through input configuration. byteBuffer -&gt; (blob) The byte buffer of the Amazon SageMaker model endpoint input data blob. contentType -&gt; (string) The content type of the Amazon SageMaker model endpoint input data blob. Constraints: o min: 1 o max: 1024 Shorthand Syntax: KeyName1={byteBuffer=blob,contentType=string},KeyName2={byteBuffer=blob,contentType=string} JSON Syntax: {"string": { "byteBuffer": blob, "contentType": "string" } ...}
+    /// The Amazon SageMaker model endpoint input data blobs. key -&gt; (string) Constraints: • min: 1 • max: 63 • pattern: ^[0-9A-Za-z_-]+$ value -&gt; (structure) A pre-formed Amazon SageMaker model input you can include if your detector version includes an imported Amazon SageMaker model endpoint with pass-through input configuration. byteBuffer -&gt; (blob) The byte buffer of the Amazon SageMaker model endpoint input data blob. contentType -&gt; (string) The content type of the Amazon SageMaker model endpoint input data blob. Constraints: • min: 1 • max: 1024 Shorthand Syntax: KeyName1={byteBuffer=blob,contentType=string},KeyName2={byteBuffer=blob,contentType=string} JSON Syntax: {"string": { "byteBuffer": blob, "contentType": "string" } ...}
     /// </summary>
     [CliOption("--external-model-endpoint-data-blobs", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ExternalModelEndpointDataBlobs { get; set; }
@@ -167,6 +167,15 @@ public record AwsFrauddetectorGetEventPredictionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

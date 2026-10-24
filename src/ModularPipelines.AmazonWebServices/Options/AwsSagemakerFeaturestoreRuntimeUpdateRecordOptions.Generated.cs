@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates one or more feature values for an existing record in the speci- fied feature group. Features that you do not include in the request re- main unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you pr...
+/// Updates one or more feature values for an existing record in the specified feature group. Features that you do not include in the request remain unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you provid...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates one or more feature values for an existing record in the speci- fied feature group. Features that you do not include in the request re- main unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you pr...
+    /// Updates one or more feature values for an existing record in the specified feature group. Features that you do not include in the request remain unchanged. You can update up to 100 features per call. WARNING: This operation is available only for feature groups that use the Standard_V2 or InMemory online store type. The record must already exist. If the record does not exist or has been soft-deleted, the operation returns a ResourceNotFound error. To create a record, use PutRecord . If you provid...
     /// </summary>
-    /// <param name="FeatureGroupName">The identifier for the feature group that contains the record to up- date. You can specify one of the following: o The feature group name. o The feature group Amazon Resource Name (ARN). Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})</param>
-    /// <param name="RecordIdentifierValueAsString">The value that uniquely identifies the record in the feature group. This must match the value defined by the feature group's record identifier feature. Constraints: o max: 358400 o pattern: .*</param>
-    /// <param name="Features">The feature values to write to the record. Constraints: o min: 1 (structure) The value associated with a feature. FeatureName -&gt; (string) [required] The name of a feature that a feature value corresponds to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} ValueAsString -&gt; (string) The value in string format associated with a feature. Used when your CollectionType is None . Note that features types can be String , Integral , or Fractional . This value repre- sents all three types as a string. Constraints: o max: 358400 o pattern: .* ValueAsStringList -&gt; (list) The list of values in string format associated with a fea- ture. Used when your CollectionType is a List , Set , or Vec- tor . Note that features types can be String , Integral , or Fractional . These values represents all three types as a string. Constraints: o min: 0 o max: 358400 (string) Constraints: o max: 358400 o pattern: .* Shorthand Syntax: FeatureName=string,ValueAsString=string,ValueAsStringList=string,string ... JSON Syntax: [ { "FeatureName": "string", "ValueAsString": "string", "ValueAsStringList": ["string", ...] } ... ]</param>
+    /// <param name="FeatureGroupName">The identifier for the feature group that contains the record to update. You can specify one of the following: • The feature group name. • The feature group Amazon Resource Name (ARN). Constraints: • min: 1 • max: 150 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})</param>
+    /// <param name="RecordIdentifierValueAsString">The value that uniquely identifies the record in the feature group. This must match the value defined by the feature group's record identifier feature. Constraints: • max: 358400 • pattern: .*</param>
+    /// <param name="Features">The feature values to write to the record. Constraints: • min: 1 (structure) The value associated with a feature. FeatureName -&gt; (string) [required] The name of a feature that a feature value corresponds to. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} ValueAsString -&gt; (string) The value in string format associated with a feature. Used when your CollectionType is None . Note that features types can be String , Integral , or Fractional . This value represents all three types as a string. Constraints: • max: 358400 • pattern: .* ValueAsStringList -&gt; (list) The list of values in string format associated with a feature. Used when your CollectionType is a List , Set , or Vector . Note that features types can be String , Integral , or Fractional . These values represents all three types as a string. Constraints: • min: 0 • max: 358400 (string) Constraints: • max: 358400 • pattern: .* Shorthand Syntax: FeatureName=string,ValueAsString=string,ValueAsStringList=string,string ... JSON Syntax: [ { "FeatureName": "string", "ValueAsString": "string", "ValueAsStringList": ["string", ...] } ... ]</param>
     public AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions(
         string FeatureGroupName,
         string RecordIdentifierValueAsString,
@@ -75,31 +76,31 @@ public record AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the feature group that contains the record to up- date. You can specify one of the following: o The feature group name. o The feature group Amazon Resource Name (ARN). Constraints: o min: 1 o max: 150 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:fea- ture-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})
+    /// The identifier for the feature group that contains the record to update. You can specify one of the following: • The feature group name. • The feature group Amazon Resource Name (ARN). Constraints: • min: 1 • max: 150 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})
     /// </summary>
     [CliOption("--feature-group-name")]
     public string? FeatureGroupName { get; private init; }
 
     /// <summary>
-    /// The value that uniquely identifies the record in the feature group. This must match the value defined by the feature group's record identifier feature. Constraints: o max: 358400 o pattern: .*
+    /// The value that uniquely identifies the record in the feature group. This must match the value defined by the feature group's record identifier feature. Constraints: • max: 358400 • pattern: .*
     /// </summary>
     [CliOption("--record-identifier-value-as-string")]
     public string? RecordIdentifierValueAsString { get; private init; }
 
     /// <summary>
-    /// The feature values to write to the record. Constraints: o min: 1 (structure) The value associated with a feature. FeatureName -&gt; (string) [required] The name of a feature that a feature value corresponds to. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} ValueAsString -&gt; (string) The value in string format associated with a feature. Used when your CollectionType is None . Note that features types can be String , Integral , or Fractional . This value repre- sents all three types as a string. Constraints: o max: 358400 o pattern: .* ValueAsStringList -&gt; (list) The list of values in string format associated with a fea- ture. Used when your CollectionType is a List , Set , or Vec- tor . Note that features types can be String , Integral , or Fractional . These values represents all three types as a string. Constraints: o min: 0 o max: 358400 (string) Constraints: o max: 358400 o pattern: .* Shorthand Syntax: FeatureName=string,ValueAsString=string,ValueAsStringList=string,string ... JSON Syntax: [ { "FeatureName": "string", "ValueAsString": "string", "ValueAsStringList": ["string", ...] } ... ]
+    /// The feature values to write to the record. Constraints: • min: 1 (structure) The value associated with a feature. FeatureName -&gt; (string) [required] The name of a feature that a feature value corresponds to. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63} ValueAsString -&gt; (string) The value in string format associated with a feature. Used when your CollectionType is None . Note that features types can be String , Integral , or Fractional . This value represents all three types as a string. Constraints: • max: 358400 • pattern: .* ValueAsStringList -&gt; (list) The list of values in string format associated with a feature. Used when your CollectionType is a List , Set , or Vector . Note that features types can be String , Integral , or Fractional . These values represents all three types as a string. Constraints: • min: 0 • max: 358400 (string) Constraints: • max: 358400 • pattern: .* Shorthand Syntax: FeatureName=string,ValueAsString=string,ValueAsStringList=string,string ... JSON Syntax: [ { "FeatureName": "string", "ValueAsString": "string", "ValueAsStringList": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--features", GroupValues = true)]
     public IEnumerable<string>? Features { get; private init; }
 
     /// <summary>
-    /// The target stores for the record update. By default, Amazon Sage- Maker Feature Store updates the record in all stores associated with the FeatureGroup . Constraints: o min: 1 o max: 2 (string) Possible values: o OnlineStore o OfflineStore Syntax: "string" "string" ...
+    /// The target stores for the record update. By default, Amazon SageMaker Feature Store updates the record in all stores associated with the FeatureGroup . Constraints: • min: 1 • max: 2 (string) Possible values: • OnlineStore • OfflineStore Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-stores", GroupValues = true)]
     public IEnumerable<string>? TargetStores { get; set; }
 
     /// <summary>
-    /// The time-to-live (TTL) duration for the record. Amazon SageMaker Feature Store deletes the record when EventTime + TtlDuration elapses. If you omit this parameter, the record's existing TTL set- ting remains unchanged. For information about HardDelete , see the DeleteRecord operation in the Amazon SageMaker API Reference. Unit -&gt; (string) [required] TtlDuration time unit. Possible values: o Seconds o Minutes o Hours o Days o Weeks Value -&gt; (integer) [required] TtlDuration time value. Constraints: o min: 1 Shorthand Syntax: Unit=string,Value=integer JSON Syntax: { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }
+    /// The time-to-live (TTL) duration for the record. Amazon SageMaker Feature Store deletes the record when EventTime + TtlDuration elapses. If you omit this parameter, the record's existing TTL setting remains unchanged. For information about HardDelete , see the DeleteRecord operation in the Amazon SageMaker API Reference. Unit -&gt; (string) [required] TtlDuration time unit. Possible values: • Seconds • Minutes • Hours • Days • Weeks Value -&gt; (integer) [required] TtlDuration time value. Constraints: • min: 1 Shorthand Syntax: Unit=string,Value=integer JSON Syntax: { "Unit": "Seconds"|"Minutes"|"Hours"|"Days"|"Weeks", "Value": integer }
     /// </summary>
     [CliOption("--ttl-duration")]
     public string? TtlDuration { get; set; }
@@ -125,6 +126,15 @@ public record AwsSagemakerFeaturestoreRuntimeUpdateRecordOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

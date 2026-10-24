@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a member. Deleting a member removes the member and all associ- ated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an ap- proved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network i...
+/// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is de...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsManagedblockchainDeleteMemberOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a member. Deleting a member removes the member and all associ- ated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an ap- proved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network i...
+    /// Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the Amazon Web Services account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last Amazon Web Services account, the network is de...
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network from which the member is re- moved. Constraints: o min: 1 o max: 32</param>
-    /// <param name="MemberId">The unique identifier of the member to remove. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network from which the member is removed. Constraints: • min: 1 • max: 32</param>
+    /// <param name="MemberId">The unique identifier of the member to remove. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainDeleteMemberOptions(
         string NetworkId,
         string MemberId
@@ -60,13 +61,13 @@ public record AwsManagedblockchainDeleteMemberOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network from which the member is re- moved. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network from which the member is removed. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the member to remove. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the member to remove. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--member-id")]
     public string? MemberId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsManagedblockchainDeleteMemberOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

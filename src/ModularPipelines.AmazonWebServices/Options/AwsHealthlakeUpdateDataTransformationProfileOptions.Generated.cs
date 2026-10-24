@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT con- tent. See also: AWS API Documentation
+/// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT con- tent. See also: AWS API Documentation
+    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProfileId">The unique identifier of the profile to update. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}</param>
-    /// <param name="ProfileMapping">The new profile content for the DRAFT version. This is a full re- placement of all profile files. Constraints: o min: 1 o max: 500 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (string) Constraints: o min: 0 o max: 102400 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ProfileId">The unique identifier of the profile to update. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}</param>
+    /// <param name="ProfileMapping">The new profile content for the DRAFT version. This is a full replacement of all profile files. Constraints: • min: 1 • max: 500 key -&gt; (string) Constraints: • min: 1 • max: 500 value -&gt; (string) Constraints: • min: 0 • max: 102400 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsHealthlakeUpdateDataTransformationProfileOptions(
         string ProfileId,
         IReadOnlyList<KeyValue> ProfileMapping
@@ -72,19 +72,19 @@ public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the profile to update. Constraints: o min: 32 o max: 32 o pattern: [a-f0-9]{32}
+    /// The unique identifier of the profile to update. Constraints: • min: 32 • max: 32 • pattern: [a-f0-9]{32}
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The new profile content for the DRAFT version. This is a full re- placement of all profile files. Constraints: o min: 1 o max: 500 key -&gt; (string) Constraints: o min: 1 o max: 500 value -&gt; (string) Constraints: o min: 0 o max: 102400 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The new profile content for the DRAFT version. This is a full replacement of all profile files. Constraints: • min: 1 • max: 500 key -&gt; (string) Constraints: • min: 1 • max: 500 value -&gt; (string) Constraints: • min: 0 • max: 102400 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--profile-mapping", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ProfileMapping { get; private init; }
 
     /// <summary>
-    /// A description of what changed in this update. Constraints: o min: 0 o max: 1000
+    /// A description of what changed in this update. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--change-description")]
     public string? ChangeDescription { get; set; }
@@ -110,6 +110,15 @@ public record AwsHealthlakeUpdateDataTransformationProfileOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

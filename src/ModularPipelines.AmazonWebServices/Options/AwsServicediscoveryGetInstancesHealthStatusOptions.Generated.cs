@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions, I
     /// <summary>
     /// Gets the current health status (Healthy , Unhealthy , or Unknown ) of one or more instances that are associated with a specified service. NOTE: There's a brief delay between when you register an instance and when the health status for the instance is available. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that the in- stance is associated with. For services created in a shared name- space, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255</param>
+    /// <param name="ServiceId">The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255</param>
     public AwsServicediscoveryGetInstancesHealthStatusOptions(
         string ServiceId
     )
@@ -57,25 +58,25 @@ public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the service that the in- stance is associated with. For services created in a shared name- space, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: o max: 255
+    /// The ID or Amazon Resource Name (ARN) of the service that the instance is associated with. For services created in a shared namespace, specify the service ARN. For more information about shared namespaces, see Cross-account Cloud Map namespace sharing in the Cloud Map Developer Guide . Constraints: • max: 255
     /// </summary>
     [CliOption("--service-id")]
     public string? ServiceId { get; private init; }
 
     /// <summary>
-    /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances , Cloud Map returns the health status for all the instances that are associated with the specified service. NOTE: To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. Constraints: o min: 1 (string) Constraints: o max: 64 Syntax: "string" "string" ...
+    /// An array that contains the IDs of all the instances that you want to get the health status for. If you omit Instances , Cloud Map returns the health status for all the instances that are associated with the specified service. NOTE: To get the IDs for the instances that you've registered by using a specified service, submit a ListInstances request. Constraints: • min: 1 (string) Constraints: • max: 64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--instances", GroupValues = true)]
     public IEnumerable<string>? Instances { get; set; }
 
     /// <summary>
-    /// The maximum number of instances that you want Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults , Cloud Map returns up to 100 in- stances. Constraints: o min: 1 o max: 100
+    /// The maximum number of instances that you want Cloud Map to return in the response to a GetInstancesHealthStatus request. If you don't specify a value for MaxResults , Cloud Map returns up to 100 instances. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Constraints: o max: 4096
+    /// For the first GetInstancesHealthStatus request, omit this value. If more than MaxResults instances match the specified criteria, you can submit another GetInstancesHealthStatus request to get the next group of results. Specify the value of NextToken from the previous response in the next request. Constraints: • max: 4096
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsServicediscoveryGetInstancesHealthStatusOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

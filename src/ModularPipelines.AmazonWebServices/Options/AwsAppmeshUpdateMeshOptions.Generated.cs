@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsAppmeshUpdateMeshOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Updates an existing service mesh. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MeshName">The name of the service mesh to update. Constraints: o min: 1 o max: 255</param>
+    /// <param name="MeshName">The name of the service mesh to update. Constraints: • min: 1 • max: 255</param>
     public AwsAppmeshUpdateMeshOptions(
         string MeshName
     )
@@ -57,7 +58,7 @@ public record AwsAppmeshUpdateMeshOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the service mesh to update. Constraints: o min: 1 o max: 255
+    /// The name of the service mesh to update. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--mesh-name")]
     public string? MeshName { get; private init; }
@@ -70,7 +71,7 @@ public record AwsAppmeshUpdateMeshOptions : AwsOptions, IValidatableObject
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The service mesh specification to apply. egressFilter -&gt; (structure) The egress filter rules for the service mesh. type -&gt; (string) [required] The egress filter type. By default, the type is DROP_ALL , which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazon- aws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any end- point inside or outside of the service mesh. Possible values: o ALLOW_ALL o DROP_ALL serviceDiscovery -&gt; (structure) An object that represents the service discovery information for a service mesh. ipPreference -&gt; (string) The IP version to use to control traffic within the mesh. Possible values: o IPv6_PREFERRED o IPv4_PREFERRED o IPv4_ONLY o IPv6_ONLY Shorthand Syntax: egressFilter={type=string},serviceDiscovery={ipPreference=string} JSON Syntax: { "egressFilter": { "type": "ALLOW_ALL"|"DROP_ALL" }, "serviceDiscovery": { "ipPreference": "IPv6_PREFERRED"|"IPv4_PREFERRED"|"IPv4_ONLY"|"IPv6_ONLY" } }
+    /// The service mesh specification to apply. egressFilter -&gt; (structure) The egress filter rules for the service mesh. type -&gt; (string) [required] The egress filter type. By default, the type is DROP_ALL , which allows egress only from virtual nodes to other defined resources in the service mesh (and any traffic to *.amazonaws.com for Amazon Web Services API calls). You can set the egress filter type to ALLOW_ALL to allow egress to any endpoint inside or outside of the service mesh. Possible values: • ALLOW_ALL • DROP_ALL serviceDiscovery -&gt; (structure) An object that represents the service discovery information for a service mesh. ipPreference -&gt; (string) The IP version to use to control traffic within the mesh. Possible values: • IPv6_PREFERRED • IPv4_PREFERRED • IPv4_ONLY • IPv6_ONLY Shorthand Syntax: egressFilter={type=string},serviceDiscovery={ipPreference=string} JSON Syntax: { "egressFilter": { "type": "ALLOW_ALL"|"DROP_ALL" }, "serviceDiscovery": { "ipPreference": "IPv6_PREFERRED"|"IPv4_PREFERRED"|"IPv4_ONLY"|"IPv6_ONLY" } }
     /// </summary>
     [CliOption("--spec")]
     public string? Spec { get; set; }
@@ -96,6 +97,15 @@ public record AwsAppmeshUpdateMeshOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

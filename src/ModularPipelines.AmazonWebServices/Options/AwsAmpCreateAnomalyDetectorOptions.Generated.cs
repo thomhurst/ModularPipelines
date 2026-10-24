@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector ana- lyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
+/// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +27,11 @@ public record AwsAmpCreateAnomalyDetectorOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector ana- lyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
+    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The identifier of the workspace where the anomaly detector will be created. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="Alias">A user-friendly name for the anomaly detector. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
-    /// <param name="Configuration">The algorithm configuration for the anomaly detector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: randomCutForest. randomCutForest -&gt; (structure) The Random Cut Forest algorithm configuration for anomaly detec- tion. query -&gt; (string) [required] The Prometheus query used to retrieve the time-series data for anomaly detection. WARNING: Random Cut Forest queries must be wrapped by a supported PromQL aggregation operator. For more information, see Aggregation operators on the Prometheus docs website. Supported PromQL aggregation operators : avg , count , group , max , min , quantile , stddev , stdvar , and sum . Constraints: o min: 1 o max: 8192 shingleSize -&gt; (integer) The number of consecutive data points used to create a shin- gle for the Random Cut Forest algorithm. The default number is 8 consecutive data points. Constraints: o min: 2 o max: 1024 sampleSize -&gt; (integer) The number of data points sampled from the input stream for the Random Cut Forest algorithm. The default number is 256 consecutive data points. Constraints: o min: 256 o max: 1024 ignoreNearExpectedFromAbove -&gt; (tagged union structure) Configuration for ignoring values that are near expected val- ues from above during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from ex- pected values before being considered anomalous. Constraints: o min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: o min: 0 ignoreNearExpectedFromBelow -&gt; (tagged union structure) Configuration for ignoring values that are near expected val- ues from below during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from ex- pected values before being considered anomalous. Constraints: o min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: o min: 0 Shorthand Syntax: randomCutForest={query=string,shingleSize=integer,sampleSize=integer,ignoreNearExpectedFromAbove={amount=double,ratio=double},ignoreNearExpectedFromBelow={amount=double,ratio=double}} JSON Syntax: { "randomCutForest": { "query": "string", "shingleSize": integer, "sampleSize": integer, "ignoreNearExpectedFromAbove": { "amount": double, "ratio": double }, "ignoreNearExpectedFromBelow": { "amount": double, "ratio": double } } }</param>
+    /// <param name="WorkspaceId">The identifier of the workspace where the anomaly detector will be created. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Alias">A user-friendly name for the anomaly detector. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*</param>
+    /// <param name="Configuration">The algorithm configuration for the anomaly detector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: randomCutForest. randomCutForest -&gt; (structure) The Random Cut Forest algorithm configuration for anomaly detection. query -&gt; (string) [required] The Prometheus query used to retrieve the time-series data for anomaly detection. WARNING: Random Cut Forest queries must be wrapped by a supported PromQL aggregation operator. For more information, see Aggregation operators on the Prometheus docs website. Supported PromQL aggregation operators : avg , count , group , max , min , quantile , stddev , stdvar , and sum . Constraints: • min: 1 • max: 8192 shingleSize -&gt; (integer) The number of consecutive data points used to create a shingle for the Random Cut Forest algorithm. The default number is 8 consecutive data points. Constraints: • min: 2 • max: 1024 sampleSize -&gt; (integer) The number of data points sampled from the input stream for the Random Cut Forest algorithm. The default number is 256 consecutive data points. Constraints: • min: 256 • max: 1024 ignoreNearExpectedFromAbove -&gt; (tagged union structure) Configuration for ignoring values that are near expected values from above during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 ignoreNearExpectedFromBelow -&gt; (tagged union structure) Configuration for ignoring values that are near expected values from below during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 Shorthand Syntax: randomCutForest={query=string,shingleSize=integer,sampleSize=integer,ignoreNearExpectedFromAbove={amount=double,ratio=double},ignoreNearExpectedFromBelow={amount=double,ratio=double}} JSON Syntax: { "randomCutForest": { "query": "string", "shingleSize": integer, "sampleSize": integer, "ignoreNearExpectedFromAbove": { "amount": double, "ratio": double }, "ignoreNearExpectedFromBelow": { "amount": double, "ratio": double } } }</param>
     public AwsAmpCreateAnomalyDetectorOptions(
         string WorkspaceId,
         string Alias,
@@ -66,25 +66,25 @@ public record AwsAmpCreateAnomalyDetectorOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the workspace where the anomaly detector will be created. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The identifier of the workspace where the anomaly detector will be created. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// A user-friendly name for the anomaly detector. Constraints: o min: 1 o max: 64 o pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
+    /// A user-friendly name for the anomaly detector. Constraints: • min: 1 • max: 64 • pattern: [0-9A-Za-z][-.0-9A-Z_a-z]*
     /// </summary>
     [CliOption("--alias")]
     public string? Alias { get; private init; }
 
     /// <summary>
-    /// The algorithm configuration for the anomaly detector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: randomCutForest. randomCutForest -&gt; (structure) The Random Cut Forest algorithm configuration for anomaly detec- tion. query -&gt; (string) [required] The Prometheus query used to retrieve the time-series data for anomaly detection. WARNING: Random Cut Forest queries must be wrapped by a supported PromQL aggregation operator. For more information, see Aggregation operators on the Prometheus docs website. Supported PromQL aggregation operators : avg , count , group , max , min , quantile , stddev , stdvar , and sum . Constraints: o min: 1 o max: 8192 shingleSize -&gt; (integer) The number of consecutive data points used to create a shin- gle for the Random Cut Forest algorithm. The default number is 8 consecutive data points. Constraints: o min: 2 o max: 1024 sampleSize -&gt; (integer) The number of data points sampled from the input stream for the Random Cut Forest algorithm. The default number is 256 consecutive data points. Constraints: o min: 256 o max: 1024 ignoreNearExpectedFromAbove -&gt; (tagged union structure) Configuration for ignoring values that are near expected val- ues from above during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from ex- pected values before being considered anomalous. Constraints: o min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: o min: 0 ignoreNearExpectedFromBelow -&gt; (tagged union structure) Configuration for ignoring values that are near expected val- ues from below during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the follow- ing top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from ex- pected values before being considered anomalous. Constraints: o min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: o min: 0 Shorthand Syntax: randomCutForest={query=string,shingleSize=integer,sampleSize=integer,ignoreNearExpectedFromAbove={amount=double,ratio=double},ignoreNearExpectedFromBelow={amount=double,ratio=double}} JSON Syntax: { "randomCutForest": { "query": "string", "shingleSize": integer, "sampleSize": integer, "ignoreNearExpectedFromAbove": { "amount": double, "ratio": double }, "ignoreNearExpectedFromBelow": { "amount": double, "ratio": double } } }
+    /// The algorithm configuration for the anomaly detector. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: randomCutForest. randomCutForest -&gt; (structure) The Random Cut Forest algorithm configuration for anomaly detection. query -&gt; (string) [required] The Prometheus query used to retrieve the time-series data for anomaly detection. WARNING: Random Cut Forest queries must be wrapped by a supported PromQL aggregation operator. For more information, see Aggregation operators on the Prometheus docs website. Supported PromQL aggregation operators : avg , count , group , max , min , quantile , stddev , stdvar , and sum . Constraints: • min: 1 • max: 8192 shingleSize -&gt; (integer) The number of consecutive data points used to create a shingle for the Random Cut Forest algorithm. The default number is 8 consecutive data points. Constraints: • min: 2 • max: 1024 sampleSize -&gt; (integer) The number of data points sampled from the input stream for the Random Cut Forest algorithm. The default number is 256 consecutive data points. Constraints: • min: 256 • max: 1024 ignoreNearExpectedFromAbove -&gt; (tagged union structure) Configuration for ignoring values that are near expected values from above during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 ignoreNearExpectedFromBelow -&gt; (tagged union structure) Configuration for ignoring values that are near expected values from below during anomaly detection. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: amount, ratio. amount -&gt; (double) The absolute amount by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 ratio -&gt; (double) The ratio by which values can differ from expected values before being considered anomalous. Constraints: • min: 0 Shorthand Syntax: randomCutForest={query=string,shingleSize=integer,sampleSize=integer,ignoreNearExpectedFromAbove={amount=double,ratio=double},ignoreNearExpectedFromBelow={amount=double,ratio=double}} JSON Syntax: { "randomCutForest": { "query": "string", "shingleSize": integer, "sampleSize": integer, "ignoreNearExpectedFromAbove": { "amount": double, "ratio": double }, "ignoreNearExpectedFromBelow": { "amount": double, "ratio": double } } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; private init; }
 
     /// <summary>
-    /// The frequency, in seconds, at which the anomaly detector evaluates metrics. The default value is 60 seconds. Constraints: o min: 30 o max: 86400
+    /// The frequency, in seconds, at which the anomaly detector evaluates metrics. The default value is 60 seconds. Constraints: • min: 30 • max: 86400
     /// </summary>
     [CliOption("--evaluation-interval-in-seconds")]
     public int? EvaluationIntervalInSeconds { get; set; }
@@ -96,20 +96,20 @@ public record AwsAmpCreateAnomalyDetectorOptions : AwsOptions, IValidatableObjec
     public string? MissingDataAction { get; set; }
 
     /// <summary>
-    /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector. Constraints: o min: 0 o max: 140 key -&gt; (string) Constraints: o min: 1 o max: 7168 o pattern: (?!__)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: o min: 1 o max: 7168 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector. Constraints: • min: 0 • max: 140 key -&gt; (string) Constraints: • min: 1 • max: 7168 • pattern: (?!__)[a-zA-Z_][a-zA-Z0-9_]* value -&gt; (string) Constraints: • min: 1 • max: 7168 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--labels", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Labels { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The metadata to apply to the anomaly detector to assist with catego- rization and organization. Constraints: o min: 0 o max: 50 key -&gt; (string) The key of the tag. Must not begin with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The value of the tag. Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The metadata to apply to the anomaly detector to assist with categorization and organization. Constraints: • min: 0 • max: 50 key -&gt; (string) The key of the tag. Must not begin with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) The value of the tag. Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -135,6 +135,15 @@ public record AwsAmpCreateAnomalyDetectorOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

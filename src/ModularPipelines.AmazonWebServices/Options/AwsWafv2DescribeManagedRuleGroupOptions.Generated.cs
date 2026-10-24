@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides high-level information for a managed rule group, including de- scriptions of the rules. See also: AWS API Documentation
+/// Provides high-level information for a managed rule group, including descriptions of the rules. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsWafv2DescribeManagedRuleGroupOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides high-level information for a managed rule group, including de- scriptions of the rules. See also: AWS API Documentation
+    /// Provides high-level information for a managed rule group, including descriptions of the rules. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VendorName">The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group. Constraints: o min: 1 o max: 128 o pattern: .*\S.*</param>
-    /// <param name="Name">The name of the managed rule group. You use this, along with the vendor name, to identify the rule group. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$</param>
-    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL</param>
+    /// <param name="VendorName">The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group. Constraints: • min: 1 • max: 128 • pattern: .*\S.*</param>
+    /// <param name="Name">The name of the managed rule group. You use this, along with the vendor name, to identify the rule group. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$</param>
+    /// <param name="Scope">Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL</param>
     public AwsWafv2DescribeManagedRuleGroupOptions(
         string VendorName,
         string Name,
@@ -64,25 +65,25 @@ public record AwsWafv2DescribeManagedRuleGroupOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group. Constraints: o min: 1 o max: 128 o pattern: .*\S.*
+    /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify a rule group. Constraints: • min: 1 • max: 128 • pattern: .*\S.*
     /// </summary>
     [CliOption("--vendor-name")]
     public string? VendorName { get; private init; }
 
     /// <summary>
-    /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group. Constraints: o min: 1 o max: 128 o pattern: ^[\w\-]+$
+    /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group. Constraints: • min: 1 • max: 128 • pattern: ^[\w\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// Specifies whether this is for a global resource type, such as a Ama- zon CloudFront distribution. For an Amplify application, use CLOUD- FRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: o CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . o API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: o CLOUDFRONT o REGIONAL
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT . To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows: • CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1 . • API and SDKs - For all calls, use the Region endpoint us-east-1. Possible values: • CLOUDFRONT • REGIONAL
     /// </summary>
     [CliOption("--scope")]
     public AwsWafv2DescribeManagedRuleGroupScope? Scope { get; private init; }
 
     /// <summary>
-    /// The version of the rule group. You can only use a version that is not scheduled for expiration. If you don't provide this, WAF uses the vendor's default version. Constraints: o min: 1 o max: 64 o pattern: ^[\w#:\.\-/]+$
+    /// The version of the rule group. You can only use a version that is not scheduled for expiration. If you don't provide this, WAF uses the vendor's default version. Constraints: • min: 1 • max: 64 • pattern: ^[\w#:\.\-/]+$
     /// </summary>
     [CliOption("--version-name")]
     public string? VersionName { get; set; }
@@ -108,6 +109,15 @@ public record AwsWafv2DescribeManagedRuleGroupOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsBackupPutBackupVaultNotificationsOptions : AwsOptions, IValidat
     /// <summary>
     /// Turns on notifications on a backup vault for the specified topic and events. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
-    /// <param name="SnsTopicArn">The Amazon Resource Name (ARN) that specifies the topic for a backup vaults events; for example, arn:aws:sns:us-west-2:111122223333:My- VaultTopic .</param>
-    /// <param name="BackupVaultEvents">An array of events that indicate the status of jobs to back up re- sources to the backup vault. For the list of supported events, com- mon use cases, and code samples, see Notification options with Backup . (string) Possible values: o BACKUP_JOB_STARTED o BACKUP_JOB_COMPLETED o BACKUP_JOB_SUCCESSFUL o BACKUP_JOB_FAILED o BACKUP_JOB_EXPIRED o RESTORE_JOB_STARTED o RESTORE_JOB_COMPLETED o RESTORE_JOB_SUCCESSFUL o RESTORE_JOB_FAILED o COPY_JOB_STARTED o COPY_JOB_SUCCESSFUL o COPY_JOB_FAILED o RECOVERY_POINT_MODIFIED o BACKUP_PLAN_CREATED o BACKUP_PLAN_MODIFIED o S3_BACKUP_OBJECT_FAILED o S3_RESTORE_OBJECT_FAILED o CONTINUOUS_BACKUP_INTERRUPTED o RECOVERY_POINT_INDEX_COMPLETED o RECOVERY_POINT_INDEX_DELETED o RECOVERY_POINT_INDEXING_FAILED o EKS_RESTORE_OBJECT_FAILED o EKS_RESTORE_OBJECT_SKIPPED o EKS_BACKUP_OBJECT_FAILED o ACCESS_POINT_AVAILABLE o ACCESS_POINT_CREATION_FAILED o ACCESS_POINT_DELETED o ACCESS_POINT_DELETION_FAILED o ACCESS_POINT_EXPIRED o ACCESS_POINT_DISASSOCIATED Syntax: "string" "string" ...</param>
+    /// <param name="BackupVaultName">The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$</param>
+    /// <param name="SnsTopicArn">The Amazon Resource Name (ARN) that specifies the topic for a backup vaults events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic .</param>
+    /// <param name="BackupVaultEvents">An array of events that indicate the status of jobs to back up resources to the backup vault. For the list of supported events, common use cases, and code samples, see Notification options with Backup . (string) Possible values: • BACKUP_JOB_STARTED • BACKUP_JOB_COMPLETED • BACKUP_JOB_SUCCESSFUL • BACKUP_JOB_FAILED • BACKUP_JOB_EXPIRED • RESTORE_JOB_STARTED • RESTORE_JOB_COMPLETED • RESTORE_JOB_SUCCESSFUL • RESTORE_JOB_FAILED • COPY_JOB_STARTED • COPY_JOB_SUCCESSFUL • COPY_JOB_FAILED • RECOVERY_POINT_MODIFIED • BACKUP_PLAN_CREATED • BACKUP_PLAN_MODIFIED • S3_BACKUP_OBJECT_FAILED • S3_RESTORE_OBJECT_FAILED • CONTINUOUS_BACKUP_INTERRUPTED • RECOVERY_POINT_INDEX_COMPLETED • RECOVERY_POINT_INDEX_DELETED • RECOVERY_POINT_INDEXING_FAILED • EKS_RESTORE_OBJECT_FAILED • EKS_RESTORE_OBJECT_SKIPPED • EKS_BACKUP_OBJECT_FAILED • ACCESS_POINT_AVAILABLE • ACCESS_POINT_CREATION_FAILED • ACCESS_POINT_DELETED • ACCESS_POINT_DELETION_FAILED • ACCESS_POINT_EXPIRED • ACCESS_POINT_DISASSOCIATED Syntax: "string" "string" ...</param>
     public AwsBackupPutBackupVaultNotificationsOptions(
         string BackupVaultName,
         string SnsTopicArn,
@@ -75,19 +76,19 @@ public record AwsBackupPutBackupVaultNotificationsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: o pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. Constraints: • pattern: ^[a-zA-Z0-9\-\_]{2,50}$
     /// </summary>
     [CliOption("--backup-vault-name")]
     public string? BackupVaultName { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that specifies the topic for a backup vaults events; for example, arn:aws:sns:us-west-2:111122223333:My- VaultTopic .
+    /// The Amazon Resource Name (ARN) that specifies the topic for a backup vaults events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic .
     /// </summary>
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; private init; }
 
     /// <summary>
-    /// An array of events that indicate the status of jobs to back up re- sources to the backup vault. For the list of supported events, com- mon use cases, and code samples, see Notification options with Backup . (string) Possible values: o BACKUP_JOB_STARTED o BACKUP_JOB_COMPLETED o BACKUP_JOB_SUCCESSFUL o BACKUP_JOB_FAILED o BACKUP_JOB_EXPIRED o RESTORE_JOB_STARTED o RESTORE_JOB_COMPLETED o RESTORE_JOB_SUCCESSFUL o RESTORE_JOB_FAILED o COPY_JOB_STARTED o COPY_JOB_SUCCESSFUL o COPY_JOB_FAILED o RECOVERY_POINT_MODIFIED o BACKUP_PLAN_CREATED o BACKUP_PLAN_MODIFIED o S3_BACKUP_OBJECT_FAILED o S3_RESTORE_OBJECT_FAILED o CONTINUOUS_BACKUP_INTERRUPTED o RECOVERY_POINT_INDEX_COMPLETED o RECOVERY_POINT_INDEX_DELETED o RECOVERY_POINT_INDEXING_FAILED o EKS_RESTORE_OBJECT_FAILED o EKS_RESTORE_OBJECT_SKIPPED o EKS_BACKUP_OBJECT_FAILED o ACCESS_POINT_AVAILABLE o ACCESS_POINT_CREATION_FAILED o ACCESS_POINT_DELETED o ACCESS_POINT_DELETION_FAILED o ACCESS_POINT_EXPIRED o ACCESS_POINT_DISASSOCIATED Syntax: "string" "string" ...
+    /// An array of events that indicate the status of jobs to back up resources to the backup vault. For the list of supported events, common use cases, and code samples, see Notification options with Backup . (string) Possible values: • BACKUP_JOB_STARTED • BACKUP_JOB_COMPLETED • BACKUP_JOB_SUCCESSFUL • BACKUP_JOB_FAILED • BACKUP_JOB_EXPIRED • RESTORE_JOB_STARTED • RESTORE_JOB_COMPLETED • RESTORE_JOB_SUCCESSFUL • RESTORE_JOB_FAILED • COPY_JOB_STARTED • COPY_JOB_SUCCESSFUL • COPY_JOB_FAILED • RECOVERY_POINT_MODIFIED • BACKUP_PLAN_CREATED • BACKUP_PLAN_MODIFIED • S3_BACKUP_OBJECT_FAILED • S3_RESTORE_OBJECT_FAILED • CONTINUOUS_BACKUP_INTERRUPTED • RECOVERY_POINT_INDEX_COMPLETED • RECOVERY_POINT_INDEX_DELETED • RECOVERY_POINT_INDEXING_FAILED • EKS_RESTORE_OBJECT_FAILED • EKS_RESTORE_OBJECT_SKIPPED • EKS_BACKUP_OBJECT_FAILED • ACCESS_POINT_AVAILABLE • ACCESS_POINT_CREATION_FAILED • ACCESS_POINT_DELETED • ACCESS_POINT_DELETION_FAILED • ACCESS_POINT_EXPIRED • ACCESS_POINT_DISASSOCIATED Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--backup-vault-events", GroupValues = true)]
     public IEnumerable<string>? BackupVaultEvents { get; private init; }
@@ -113,6 +114,15 @@ public record AwsBackupPutBackupVaultNotificationsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

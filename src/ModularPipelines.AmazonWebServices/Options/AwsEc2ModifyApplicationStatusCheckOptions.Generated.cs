@@ -11,12 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies an existing application status check. You can update the pro- tocol, port, path, thresholds, and other configuration settings. The following rules apply: o The application status check must exist and belong to your account. o Changes take effect on the next health check interval. See also: AWS API Documentation
+/// Modifies an existing application status check. You can update the protocol, port, path, thresholds, and other configuration settings. The following rules apply: • The application status check must exist and belong to your account. • Changes take effect on the next health check interval. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,7 +28,7 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies an existing application status check. You can update the pro- tocol, port, path, thresholds, and other configuration settings. The following rules apply: o The application status check must exist and belong to your account. o Changes take effect on the next health check interval. See also: AWS API Documentation
+    /// Modifies an existing application status check. You can update the protocol, port, path, thresholds, and other configuration settings. The following rules apply: • The application status check must exist and belong to your account. • Changes take effect on the next health check interval. See also: AWS API Documentation
     /// </summary>
     /// <param name="ApplicationStatusCheckId">The ID of the application status check to modify.</param>
     public AwsEc2ModifyApplicationStatusCheckOptions(
@@ -63,25 +65,25 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions, IValidatab
     public string? ApplicationStatusCheckId { get; private init; }
 
     /// <summary>
-    /// The aggregation setting for the application status check. When set to included , the result of this check contributes to the in- stance-level application status reported by DescribeApplicationSta- tus . When set to excluded , the check runs independently and does not affect the instance-level status. Valid values: included | ex- cluded . Possible values: o included o excluded
+    /// The aggregation setting for the application status check. When set to included , the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus . When set to excluded , the check runs independently and does not affect the instance-level status. Valid values: included | excluded . Possible values: • included • excluded
     /// </summary>
     [CliOption("--aggregation")]
-    public string? Aggregation { get; set; }
+    public AwsEc2ModifyApplicationStatusCheckAggregation? Aggregation { get; set; }
 
     /// <summary>
-    /// The health check paths to use for the application status check. (structure) Describes a health check path for an application status check request. Source -&gt; (structure) The source for the health check path. SubnetId -&gt; (string) The ID of the subnet for the source. SecurityGroupId -&gt; (string) The ID of the security group for the source. Destinations -&gt; (list) The destinations for the health check path. (structure) Describes a destination for a health check path in a re- quest. Destinations can be in a different Availability Zone than the source (cross-AZ) or in a Local Zone (AZ to Local Zone), enabling remote health validation of your application. SubnetId -&gt; (string) The ID of the subnet for the destination. SecurityGroupId -&gt; (string) The ID of the security group for the destination. Shorthand Syntax: Source={SubnetId=string,SecurityGroupId=string},Destinations=[{SubnetId=string,SecurityGroupId=string},{SubnetId=string,SecurityGroupId=string}] ... JSON Syntax: [ { "Source": { "SubnetId": "string", "SecurityGroupId": "string" }, "Destinations": [ { "SubnetId": "string", "SecurityGroupId": "string" } ... ] } ... ]
+    /// The health check paths to use for the application status check. (structure) Describes a health check path for an application status check request. Source -&gt; (structure) The source for the health check path. SubnetId -&gt; (string) The ID of the subnet for the source. SecurityGroupId -&gt; (string) The ID of the security group for the source. Destinations -&gt; (list) The destinations for the health check path. (structure) Describes a destination for a health check path in a request. Destinations can be in a different Availability Zone than the source (cross-AZ) or in a Local Zone (AZ to Local Zone), enabling remote health validation of your application. SubnetId -&gt; (string) The ID of the subnet for the destination. SecurityGroupId -&gt; (string) The ID of the security group for the destination. Shorthand Syntax: Source={SubnetId=string,SecurityGroupId=string},Destinations=[{SubnetId=string,SecurityGroupId=string},{SubnetId=string,SecurityGroupId=string}] ... JSON Syntax: [ { "Source": { "SubnetId": "string", "SecurityGroupId": "string" }, "Destinations": [ { "SubnetId": "string", "SecurityGroupId": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--health-check-paths", GroupValues = true)]
     public IEnumerable<string>? HealthCheckPaths { get; set; }
 
     /// <summary>
-    /// The protocol to use for the health check. Valid values: http | https . Possible values: o http o https
+    /// The protocol to use for the health check. Valid values: http | https . Possible values: • http • https
     /// </summary>
     [CliOption("--protocol")]
-    public string? Protocol { get; set; }
+    public AwsEc2ModifyApplicationStatusCheckProtocol? Protocol { get; set; }
 
     /// <summary>
-    /// The port to use for the health check. Valid values: 1 to 65535. Constraints: o min: 1 o max: 65535
+    /// The port to use for the health check. Valid values: 1 to 65535. Constraints: • min: 1 • max: 65535
     /// </summary>
     [CliOption("--port")]
     public int? Port { get; set; }
@@ -99,13 +101,13 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions, IValidatab
     public int? DeviceIndex { get; set; }
 
     /// <summary>
-    /// The IP version to use for the health check. Valid values: ipv4 and ipv6 . Possible values: o ipv4 o ipv6
+    /// The IP version to use for the health check. Valid values: ipv4 and ipv6 . Possible values: • ipv4 • ipv6
     /// </summary>
     [CliOption("--ip-version")]
-    public string? IpVersion { get; set; }
+    public AwsEc2ModifyApplicationStatusCheckIpVersion? IpVersion { get; set; }
 
     /// <summary>
-    /// The IP scope to use for the health check. Valid value: private . Possible values: o private
+    /// The IP scope to use for the health check. Valid value: private . Possible values: • private
     /// </summary>
     [CliOption("--ip-scope")]
     public string? IpScope { get; set; }
@@ -123,38 +125,38 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions, IValidatab
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// The number of consecutive failed health checks before the applica- tion status is considered impaired. The value must be greater than 0.
+    /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
     /// </summary>
     [CliOption("--failure-threshold")]
     public int? FailureThreshold { get; set; }
 
     /// <summary>
-    /// The number of consecutive successful health checks before the appli- cation status is considered healthy. The value must be greater than 0.
+    /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
     /// </summary>
     [CliOption("--success-threshold")]
     public int? SuccessThreshold { get; set; }
 
     /// <summary>
-    /// The HTTP status codes that indicate a successful health check re- sponse. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399 . For a range, the first value must be less than the second value. Maximum length: 64 characters.
+    /// The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399 . For a range, the first value must be less than the second value. Maximum length: 64 characters.
     /// </summary>
     [CliOption("--status-code-matcher")]
     public string? StatusCodeMatcher { get; set; }
 
     /// <summary>
-    /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600. Constraints: o min: -1 o max: 600
+    /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600. Constraints: • min: -1 • max: 600
     /// </summary>
     [CliOption("--initialization-grace-period-seconds")]
     public int? InitializationGracePeriodSeconds { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a re- quest with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency .
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -180,6 +182,15 @@ public record AwsEc2ModifyApplicationStatusCheckOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

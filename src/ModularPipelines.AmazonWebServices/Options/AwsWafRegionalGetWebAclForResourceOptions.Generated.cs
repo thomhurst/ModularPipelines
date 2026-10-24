@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage. See also: AWS API Documentation
+/// NOTE: This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsWafRegionalGetWebAclForResourceOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This is AWS WAF Classic Regional documentation. For more informa- tion, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage. See also: AWS API Documentation
+    /// NOTE: This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic in the developer guide. For the latest version of AWS WAF , use the AWS WAFV2 API and see the AWS WAF Developer Guide . With the latest version, AWS WAF has a single set of endpoints for regional and global use. Returns the web ACL for the specified resource, either an application load balancer or Amazon API Gateway stage. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: o For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 91) Inline literal start-string without end-string. o For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1224 o pattern: .*\S.*</param>
+    /// <param name="ResourceArn">The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: • For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 91) Inline literal start-string without end-string. • For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1224 • pattern: .*\S.*</param>
     public AwsWafRegionalGetWebAclForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsWafRegionalGetWebAclForResourceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: o For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbal- ancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 91) Inline literal start-string without end-string. o For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: o min: 1 o max: 1224 o pattern: .*\S.*
+    /// The ARN (Amazon Resource Name) of the resource for which to get the web ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in one of the following formats: • For an Application Load Balancer: `` arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id `` System Message: WARNING/2 (&lt;string&gt;:, line 91) Inline literal start-string without end-string. • For an Amazon API Gateway stage: `` arn:aws:apigateway:region ::/restapis/api-id /stages/stage-name `` System Message: WARNING/2 (&lt;string&gt;:, line 93) Inline literal start-string without end-string. Constraints: • min: 1 • max: 1224 • pattern: .*\S.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsWafRegionalGetWebAclForResourceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

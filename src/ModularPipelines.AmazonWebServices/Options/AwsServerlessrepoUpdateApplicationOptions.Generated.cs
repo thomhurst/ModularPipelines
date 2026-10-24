@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -86,7 +87,7 @@ public record AwsServerlessrepoUpdateApplicationOptions : AwsOptions, IValidatab
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// A text readme file in Markdown language that contains a more de- tailed description of the application and how it works. Maximum size 5 MB
+    /// A text readme file in Markdown language that contains a more detailed description of the application and how it works. Maximum size 5 MB
     /// </summary>
     [CliOption("--readme-body")]
     public string? ReadmeBody { get; set; }
@@ -118,6 +119,15 @@ public record AwsServerlessrepoUpdateApplicationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

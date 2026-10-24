@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsSagemakerGeospatialExportVectorEnrichmentJobOptions : AwsOption
     /// <summary>
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the Vector Enrichment job. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:vector-enrich- ment-job/[a-z0-9]{12,}$</param>
-    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM rolewith permission to up- load to the location in OutputConfig. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
-    /// <param name="OutputConfig">Output location information for exporting Vector Enrichment Job re- sults. S3Data -&gt; (structure) [required] The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the Vector Enrichment job. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:vector-enrichment-job/[a-z0-9]{12,}$</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the IAM rolewith permission to upload to the location in OutputConfig. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$</param>
+    /// <param name="OutputConfig">Output location information for exporting Vector Enrichment Job results. S3Data -&gt; (structure) [required] The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: • pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }</param>
     public AwsSagemakerGeospatialExportVectorEnrichmentJobOptions(
         string Arn,
         string ExecutionRoleArn,
@@ -65,25 +66,25 @@ public record AwsSagemakerGeospatialExportVectorEnrichmentJobOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Vector Enrichment job. Constraints: o pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospa- tial:[a-z0-9-]{1,25}:[0-9]{12}:vector-enrich- ment-job/[a-z0-9]{12,}$
+    /// The Amazon Resource Name (ARN) of the Vector Enrichment job. Constraints: • pattern: ^arn:aws[a-z-]{0,12}:sagemaker-geospatial:[a-z0-9-]{1,25}:[0-9]{12}:vector-enrichment-job/[a-z0-9]{12,}$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM rolewith permission to up- load to the location in OutputConfig. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
+    /// The Amazon Resource Name (ARN) of the IAM rolewith permission to upload to the location in OutputConfig. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-z-]*):iam::([0-9]{12}):role/[a-zA-Z0-9+=,.@_/-]+$
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// Output location information for exporting Vector Enrichment Job re- sults. S3Data -&gt; (structure) [required] The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: o min: 0 o max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: o pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }
+    /// Output location information for exporting Vector Enrichment Job results. S3Data -&gt; (structure) [required] The input structure for Amazon S3 data; representing the Amazon S3 location of the input data objects. KmsKeyId -&gt; (string) The Key Management Service key ID for server-side encryption. Constraints: • min: 0 • max: 2048 S3Uri -&gt; (string) [required] The URL to the Amazon S3 data for the Vector Enrichment job. Constraints: • pattern: ^s3://([^/]+)/?(.*)$ Shorthand Syntax: S3Data={KmsKeyId=string,S3Uri=string} JSON Syntax: { "S3Data": { "KmsKeyId": "string", "S3Uri": "string" } }
     /// </summary>
     [CliOption("--output-config")]
     public string? OutputConfig { get; private init; }
 
     /// <summary>
-    /// A unique token that guarantees that the call to this API is idempo- tent. Constraints: o min: 36 o max: 64
+    /// A unique token that guarantees that the call to this API is idempotent. Constraints: • min: 36 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -110,6 +111,15 @@ public record AwsSagemakerGeospatialExportVectorEnrichmentJobOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

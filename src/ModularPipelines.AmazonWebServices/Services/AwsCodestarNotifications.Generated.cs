@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws codestarnotifications commands.
+/// aws codestar-notifications commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsCodestarNotifications : IAwsCodestarNotifications
@@ -32,7 +32,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     #region Commands
 
     /// <summary>
-    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat ap- plications clients configured for Slack) where you want to receive them. See also: AWS API Documentation
+    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive them. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Returns information about the event types available for configuring no- tifications. See also: AWS API Documentation list-event-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventTypes
+    /// Returns information about the event types available for configuring notifications. See also: AWS API Documentation list-event-types is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: EventTypes
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Returns a list of the notification rules for an Amazon Web Services ac- count. See also: AWS API Documentation list-notification-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: NotificationRule...
+    /// Returns a list of the notification rules for an Amazon Web Services account. See also: AWS API Documentation list-notification-rules is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: NotificationRules
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Returns a list of the notification rule targets for an Amazon Web Ser- vices account. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: Targets
+    /// Returns a list of the notification rule targets for an Amazon Web Services account. See also: AWS API Documentation list-targets is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Targets
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Creates an association between a notification rule and an Amazon Q De- veloper in chat applications topic or Amazon Q Developer in chat appli- cations client so that the associated target can receive notifications when the events described in the rule are triggered. See also: AWS API Documentation
+    /// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Removes an association between a notification rule and an Amazon Q De- veloper in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
+    /// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -197,7 +197,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Removes the association between one or more provided tags and a notifi- cation rule. See also: AWS API Documentation
+    /// Removes the association between one or more provided tags and a notification rule. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsCodestarNotifications : IAwsCodestarNotifications
     }
 
     /// <summary>
-    /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. NOTE: To add or remove tags for a notification rule, you must use TagRe- source and UntagResource . See also: AWS API Documentation
+    /// Updates a notification rule for a resource. You can change the events that trigger the notification rule, the status of the rule, and the targets that receive the notifications. NOTE: To add or remove tags for a notification rule, you must use TagResource and UntagResource . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

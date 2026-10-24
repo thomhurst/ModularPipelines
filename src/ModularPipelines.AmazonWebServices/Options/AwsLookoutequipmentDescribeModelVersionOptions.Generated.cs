@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,11 +28,11 @@ public record AwsLookoutequipmentDescribeModelVersionOptions : AwsOptions, IVali
     /// <summary>
     /// Retrieves information about a specific machine learning model version. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ModelName">The name of the machine learning model that this version belongs to. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
-    /// <param name="ModelVersion">The version of the machine learning model. Constraints: o min: 1</param>
+    /// <param name="ModelName">The name of the machine learning model that this version belongs to. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="ModelVersion">The version of the machine learning model. Constraints: • min: 1</param>
     public AwsLookoutequipmentDescribeModelVersionOptions(
         string ModelName,
-        int ModelVersion
+        long ModelVersion
     )
     {
         global::System.ArgumentNullException.ThrowIfNull(ModelName);
@@ -59,16 +60,16 @@ public record AwsLookoutequipmentDescribeModelVersionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the machine learning model that this version belongs to. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the machine learning model that this version belongs to. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; private init; }
 
     /// <summary>
-    /// The version of the machine learning model. Constraints: o min: 1
+    /// The version of the machine learning model. Constraints: • min: 1
     /// </summary>
     [CliOption("--model-version")]
-    public int? ModelVersion { get; private init; }
+    public long? ModelVersion { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -91,6 +92,15 @@ public record AwsLookoutequipmentDescribeModelVersionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

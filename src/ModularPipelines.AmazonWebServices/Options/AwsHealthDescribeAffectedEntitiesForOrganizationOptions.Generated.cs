@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, de- pending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are re- quired. Before you can call this operation, you must first enable Health to work with Organizations. To do th...
+/// Returns a list of entities that have been affected by one or more events for one or more accounts in your organization in Organizations, based on the filter criteria. Entities can refer to individual customer resources, groups of customer resources, or any other construct, depending on the Amazon Web Services service. At least one event Amazon Resource Name (ARN) and account ID are required. Before you can call this operation, you must first enable Health to work with Organizations. To do this, ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,28 +23,25 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsHealthDescribeAffectedEntitiesForOrganizationOptions : AwsOptions
 {
     /// <summary>
-    /// A JSON set of elements including the awsAccountId and the eventArn . Constraints: o min: 1 o max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]
+    /// A JSON set of elements including the awsAccountId and the eventArn . Constraints: • min: 1 • max: 10 (structure) The values used to filter results from the DescribeEventDetailsForOrganization and DescribeAffectedEntitiesForOrganization operations. eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 125) Inline literal start-string without end-string. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: • max: 12 • pattern: ^\S+$ Shorthand Syntax: eventArn=string,awsAccountId=string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string" } ... ]
     /// </summary>
     [CliOption("--organization-entity-filters", GroupValues = true)]
     public IEnumerable<string>? OrganizationEntityFilters { get; set; }
 
     /// <summary>
-    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: o min: 2 o max: 256 o pattern: .{2,256}
+    /// The locale (language) to return information in. English (en) is the default and the only supported value at this time. Constraints: • min: 2 • max: 256 • pattern: .{2,256}
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
 
     /// <summary>
-    /// A JSON set of elements including the awsAccountId , eventArn and a set of statusCodes . Constraints: o min: 1 o max: 10 (structure) A JSON set of elements including the awsAccountId , eventArn and a set of statusCodes . eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 249) Inline literal start-string without end-string. For example, an event ARN might look like the follow- ing: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIRE- MENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHED- ULED_ABC123-DEF456 Constraints: o max: 1600 o pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that con- tains the affected entities. Constraints: o max: 12 o pattern: ^\S+$ statusCodes -&gt; (list) A list of entity status codes. Constraints: o min: 1 o max: 5 (string) Possible values: o IMPAIRED o UNIMPAIRED o UNKNOWN o PENDING o RESOLVED Shorthand Syntax: eventArn=string,awsAccountId=string,statusCodes=string,string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string", "statusCodes": ["IMPAIRED"|"UNIMPAIRED"|"UNKNOWN"|"PENDING"|"RESOLVED", ...] } ... ]
+    /// A JSON set of elements including the awsAccountId , eventArn and a set of statusCodes . Constraints: • min: 1 • max: 10 (structure) A JSON set of elements including the awsAccountId , eventArn and a set of statusCodes . eventArn -&gt; (string) [required] The unique identifier for the event. The event ARN has the `` arn:aws:health:event-region ::event/SERVICE /EVENT_TYPE_CODE /EVENT_TYPE_PLUS_ID `` format. System Message: WARNING/2 (&lt;string&gt;:, line 249) Inline literal start-string without end-string. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 Constraints: • max: 1600 • pattern: arn:aws(-[a-z]+(-[a-z]+)?)?:health:[^:]*:[^:]*:event(?:/[\w-]+){3} awsAccountId -&gt; (string) The 12-digit Amazon Web Services account numbers that contains the affected entities. Constraints: • max: 12 • pattern: ^\S+$ statusCodes -&gt; (list) A list of entity status codes. Constraints: • min: 1 • max: 5 (string) Possible values: • IMPAIRED • UNIMPAIRED • UNKNOWN • PENDING • RESOLVED Shorthand Syntax: eventArn=string,awsAccountId=string,statusCodes=string,string ... JSON Syntax: [ { "eventArn": "string", "awsAccountId": "string", "statusCodes": ["IMPAIRED"|"UNIMPAIRED"|"UNKNOWN"|"PENDING"|"RESOLVED", ...] } ... ]
     /// </summary>
     [CliOption("--organization-entity-account-filters", GroupValues = true)]
     public IEnumerable<string>? OrganizationEntityAccountFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -54,15 +51,27 @@ public record AwsHealthDescribeAffectedEntitiesForOrganizationOptions : AwsOptio
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

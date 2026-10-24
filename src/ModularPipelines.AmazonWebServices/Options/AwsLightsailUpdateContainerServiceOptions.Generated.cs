@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +29,7 @@ public record AwsLightsailUpdateContainerServiceOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates the configuration of your Amazon Lightsail container service, such as its power, scale, and public domain names. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServiceName">The name of the container service to update. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
+    /// <param name="ServiceName">The name of the container service to update. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$</param>
     public AwsLightsailUpdateContainerServiceOptions(
         string ServiceName
     )
@@ -58,37 +58,37 @@ public record AwsLightsailUpdateContainerServiceOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container service to update. Constraints: o min: 1 o max: 63 o pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
+    /// The name of the container service to update. Constraints: • min: 1 • max: 63 • pattern: ^[a-z0-9]{1,2}|[a-z0-9][a-z0-9-]+[a-z0-9]$
     /// </summary>
     [CliOption("--service-name")]
     public string? ServiceName { get; private init; }
 
     /// <summary>
-    /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option. Possible values: o nano o micro o small o medium o large o xlarge
+    /// The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option. Possible values: • nano • micro • small • medium • large • xlarge
     /// </summary>
     [CliOption("--power")]
     public AwsLightsailUpdateContainerServicePower? Power { get; set; }
 
     /// <summary>
-    /// The scale for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your con- tainer service, multiply the base price of the power with the scale (the number of nodes) of the service. Constraints: o min: 1 o max: 20
+    /// The scale for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--scale")]
     public int? Scale { get; set; }
 
     /// <summary>
-    /// A Boolean value to indicate whether the container service is dis- abled.
+    /// A Boolean value to indicate whether the container service is disabled.
     /// </summary>
     [CliFlag("--is-disabled", NegatedName = "--no-is-disabled")]
     public bool? IsDisabled { get; set; }
 
     /// <summary>
-    /// The public domain names to use with the container service, such as example.com and www.example.com . You can specify up to four public domain names for a container ser- vice. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the de- fault domain of the container service. WARNING: You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. You can specify public domain names using a string to array map as shown in the example later on this page. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
+    /// The public domain names to use with the container service, such as example.com and www.example.com . You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service. WARNING: You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service. You can specify public domain names using a string to array map as shown in the example later on this page. key -&gt; (string) value -&gt; (list) (string) Shorthand Syntax: KeyName1=string,string,KeyName2=string,string JSON Syntax: {"string": ["string", ...] ...}
     /// </summary>
     [CliOption("--public-domain-names", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? PublicDomainNames { get; set; }
 
     /// <summary>
-    /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see Configuring access to an Amazon ECR pri- vate repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide . ecrImagePullerRole -&gt; (structure) An object to describe a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. isActive -&gt; (boolean) A Boolean value that indicates whether to activate the role. Shorthand Syntax: ecrImagePullerRole={isActive=boolean} JSON Syntax: { "ecrImagePullerRole": { "isActive": true|false } }
+    /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories. For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide . ecrImagePullerRole -&gt; (structure) An object to describe a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories. isActive -&gt; (boolean) A Boolean value that indicates whether to activate the role. Shorthand Syntax: ecrImagePullerRole={isActive=boolean} JSON Syntax: { "ecrImagePullerRole": { "isActive": true|false } }
     /// </summary>
     [CliOption("--private-registry-access")]
     public string? PrivateRegistryAccess { get; set; }
@@ -114,6 +114,15 @@ public record AwsLightsailUpdateContainerServiceOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

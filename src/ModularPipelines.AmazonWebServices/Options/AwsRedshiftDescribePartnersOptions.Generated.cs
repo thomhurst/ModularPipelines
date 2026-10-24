@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the partner integrations defined for a clus- ter. See also: AWS API Documentation
+/// Returns information about the partner integrations defined for a cluster. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsRedshiftDescribePartnersOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about the partner integrations defined for a clus- ter. See also: AWS API Documentation
+    /// Returns information about the partner integrations defined for a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$</param>
-    /// <param name="ClusterIdentifier">The cluster identifier of the cluster whose partner integration is being described. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$</param>
+    /// <param name="AccountId">The Amazon Web Services account ID that owns the cluster. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$</param>
+    /// <param name="ClusterIdentifier">The cluster identifier of the cluster whose partner integration is being described. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$</param>
     public AwsRedshiftDescribePartnersOptions(
         string AccountId,
         string ClusterIdentifier
@@ -60,25 +61,25 @@ public record AwsRedshiftDescribePartnersOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID that owns the cluster. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account ID that owns the cluster. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The cluster identifier of the cluster whose partner integration is being described. Constraints: o max: 63 o pattern: ^[a-zA-Z0-9\-]+$
+    /// The cluster identifier of the cluster whose partner integration is being described. Constraints: • max: 63 • pattern: ^[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The name of the database whose partner integration is being de- scribed. If database name is not specified, then all databases in the cluster are described. Constraints: o max: 127 o pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
+    /// The name of the database whose partner integration is being described. If database name is not specified, then all databases in the cluster are described. Constraints: • max: 127 • pattern: ^[\p{L}_][\p{L}\p{N}@$#_]+$
     /// </summary>
     [CliOption("--database-name")]
     public string? DatabaseName { get; set; }
 
     /// <summary>
-    /// The name of the partner that is being described. If partner name is not specified, then all partner integrations are described. Constraints: o max: 255 o pattern: ^[a-zA-Z0-9\-_]+$
+    /// The name of the partner that is being described. If partner name is not specified, then all partner integrations are described. Constraints: • max: 255 • pattern: ^[a-zA-Z0-9\-_]+$
     /// </summary>
     [CliOption("--partner-name")]
     public string? PartnerName { get; set; }
@@ -104,6 +105,15 @@ public record AwsRedshiftDescribePartnersOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

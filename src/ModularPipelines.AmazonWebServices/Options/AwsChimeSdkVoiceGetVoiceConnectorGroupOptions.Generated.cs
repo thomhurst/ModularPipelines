@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkVoiceGetVoiceConnectorGroupOptions : AwsOptions, IValid
     /// <summary>
     /// Retrieves details for the specified Amazon Chime SDK Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems . See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorGroupId">The Voice Connector group ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="VoiceConnectorGroupId">The Voice Connector group ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetVoiceConnectorGroupOptions(
         string VoiceConnectorGroupId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceGetVoiceConnectorGroupOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector group ID. Constraints: o pattern: .*\S.*
+    /// The Voice Connector group ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-connector-group-id")]
     public string? VoiceConnectorGroupId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceGetVoiceConnectorGroupOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

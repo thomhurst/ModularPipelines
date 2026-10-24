@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSnowDeviceManagementDescribeDeviceOptions : AwsOptions, IValida
     /// <summary>
     /// Checks device-specific information, such as the device type, software version, IP addresses, and lock status. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ManagedDeviceId">The ID of the device that you are checking the information of. Constraints: o min: 1 o max: 64</param>
+    /// <param name="ManagedDeviceId">The ID of the device that you are checking the information of. Constraints: • min: 1 • max: 64</param>
     public AwsSnowDeviceManagementDescribeDeviceOptions(
         string ManagedDeviceId
     )
@@ -56,7 +57,7 @@ public record AwsSnowDeviceManagementDescribeDeviceOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the device that you are checking the information of. Constraints: o min: 1 o max: 64
+    /// The ID of the device that you are checking the information of. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--managed-device-id")]
     public string? ManagedDeviceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSnowDeviceManagementDescribeDeviceOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

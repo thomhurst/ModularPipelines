@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a summary of Enterprise Support data aggregated across all ac- counts in the Enterprise Support profile. See also: AWS API Documentation
+/// Returns a summary of Enterprise Support data aggregated across all accounts in the Enterprise Support profile. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsBillingGetEnterpriseSupportChargeSummaryOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a summary of Enterprise Support data aggregated across all ac- counts in the Enterprise Support profile. See also: AWS API Documentation
+    /// Returns a summary of Enterprise Support data aggregated across all accounts in the Enterprise Support profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BillingMonth">The billing month in YYYY-MM format. This must be a month in the past. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])</param>
+    /// <param name="BillingMonth">The billing month in YYYY-MM format. This must be a month in the past. Constraints: • pattern: \d{4}-(0[1-9]|1[0-2])</param>
     public AwsBillingGetEnterpriseSupportChargeSummaryOptions(
         string BillingMonth
     )
@@ -56,7 +57,7 @@ public record AwsBillingGetEnterpriseSupportChargeSummaryOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The billing month in YYYY-MM format. This must be a month in the past. Constraints: o pattern: \d{4}-(0[1-9]|1[0-2])
+    /// The billing month in YYYY-MM format. This must be a month in the past. Constraints: • pattern: \d{4}-(0[1-9]|1[0-2])
     /// </summary>
     [CliOption("--billing-month")]
     public string? BillingMonth { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBillingGetEnterpriseSupportChargeSummaryOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

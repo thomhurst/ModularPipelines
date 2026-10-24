@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws wait commands.
+/// aws healthlake wait commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsHealthlakeWait
@@ -77,7 +77,7 @@ public class AwsHealthlakeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ExportJobProperties.JobStatus returns COM- PLETED when polling with describe-fhir-export-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ExportJobProperties.JobStatus returns COMPLETED when polling with describe-fhir-export-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsHealthlakeWait
     }
 
     /// <summary>
-    /// Wait until JMESPath query ImportJobProperties.JobStatus returns COM- PLETED when polling with describe-fhir-import-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
+    /// Wait until JMESPath query ImportJobProperties.JobStatus returns COMPLETED when polling with describe-fhir-import-job. It will poll every 120 seconds until a successful state has been reached. This will exit with a return code of 255 after 5 failed checks. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

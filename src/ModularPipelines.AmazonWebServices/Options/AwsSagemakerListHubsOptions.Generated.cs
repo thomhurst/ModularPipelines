@@ -24,7 +24,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListHubsOptions : AwsOptions
 {
     /// <summary>
-    /// Only list hubs with names that contain the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// Only list hubs with names that contain the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
@@ -54,25 +54,25 @@ public record AwsSagemakerListHubsOptions : AwsOptions
     public string? LastModifiedTimeAfter { get; set; }
 
     /// <summary>
-    /// Sort hubs by either name or creation time. Possible values: o HubName o CreationTime o HubStatus o AccountIdOwner
+    /// Sort hubs by either name or creation time. Possible values: • HubName • CreationTime • HubStatus • AccountIdOwner
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListHubsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// Sort hubs by ascending or descending order. Possible values: o Ascending o Descending
+    /// Sort hubs by ascending or descending order. Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListHubsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// The maximum number of hubs to list. Constraints: o min: 1 o max: 100
+    /// The maximum number of hubs to list. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response to a previous ListHubs request was truncated, the response includes a NextToken . To retrieve the next set of hubs, use the token in the next request. Constraints: o min: 0 o max: 8192 o pattern: .*
+    /// If the response to a previous ListHubs request was truncated, the response includes a NextToken . To retrieve the next set of hubs, use the token in the next request. Constraints: • min: 0 • max: 8192 • pattern: .*
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -83,5 +83,14 @@ public record AwsSagemakerListHubsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

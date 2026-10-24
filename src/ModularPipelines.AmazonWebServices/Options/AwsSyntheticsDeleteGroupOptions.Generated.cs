@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the re- quest to delete a group must be made from its home Region. You can find the home Region of a group within its ARN. See also: AWS API Documentation
+/// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the request to delete a group must be made from its home Region. You can find the home Region of a group within its ARN. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSyntheticsDeleteGroupOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the re- quest to delete a group must be made from its home Region. You can find the home Region of a group within its ARN. See also: AWS API Documentation
+    /// Deletes a group. The group doesn't need to be empty to be deleted. If there are canaries in the group, they are not deleted when you delete the group. Groups are a global resource that appear in all Regions, but the request to delete a group must be made from its home Region. You can find the home Region of a group within its ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GroupIdentifier">Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128</param>
+    /// <param name="GroupIdentifier">Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128</param>
     public AwsSyntheticsDeleteGroupOptions(
         string GroupIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsSyntheticsDeleteGroupOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: o min: 1 o max: 128
+    /// Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--group-identifier")]
     public string? GroupIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSyntheticsDeleteGroupOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

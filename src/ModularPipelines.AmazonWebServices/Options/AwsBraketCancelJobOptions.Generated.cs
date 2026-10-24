@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsBraketCancelJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Cancels an Amazon Braket hybrid job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobArn">The ARN of the Amazon Braket hybrid job to cancel. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:job/.*</param>
+    /// <param name="JobArn">The ARN of the Amazon Braket hybrid job to cancel. Constraints: • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:job/.*</param>
     public AwsBraketCancelJobOptions(
         string JobArn
     )
@@ -56,7 +57,7 @@ public record AwsBraketCancelJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the Amazon Braket hybrid job to cancel. Constraints: o pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:job/.*
+    /// The ARN of the Amazon Braket hybrid job to cancel. Constraints: • pattern: arn:aws[a-z\-]*:braket:[a-z0-9\-]+:[0-9]{12}:job/.*
     /// </summary>
     [CliOption("--job-arn")]
     public string? JobArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsBraketCancelJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

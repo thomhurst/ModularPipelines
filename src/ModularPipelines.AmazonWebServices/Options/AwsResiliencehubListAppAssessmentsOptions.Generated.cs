@@ -24,50 +24,50 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsResiliencehubListAppAssessmentsOptions : AwsOptions
 {
     /// <summary>
-    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: o pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
+    /// Amazon Resource Name (ARN) of the Resilience Hub application. The format for this ARN is: arn:partition :resiliencehub:region :account :app/app-id . For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference guide. Constraints: • pattern: ^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$
     /// </summary>
     [CliOption("--app-arn")]
     public string? AppArn { get; set; }
 
     /// <summary>
-    /// The name for the assessment. Constraints: o pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
+    /// The name for the assessment. Constraints: • pattern: ^[A-Za-z0-9][A-Za-z0-9_\-]{1,59}$
     /// </summary>
     [CliOption("--assessment-name")]
     public string? AssessmentName { get; set; }
 
     /// <summary>
-    /// The current status of the assessment for the resiliency policy. Constraints: o min: 1 o max: 10 (string) Possible values: o Pending o InProgress o Failed o Success Syntax: "string" "string" ...
+    /// The current status of the assessment for the resiliency policy. Constraints: • min: 1 • max: 10 (string) Possible values: • Pending • InProgress • Failed • Success Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--assessment-status", GroupValues = true)]
     public IEnumerable<string>? AssessmentStatus { get; set; }
 
     /// <summary>
-    /// The current status of compliance for the resiliency policy. Possible values: o PolicyBreached o PolicyMet o NotApplicable o MissingPolicy
+    /// The current status of compliance for the resiliency policy. Possible values: • PolicyBreached • PolicyMet • NotApplicable • MissingPolicy
     /// </summary>
     [CliOption("--compliance-status")]
     public AwsResiliencehubListAppAssessmentsComplianceStatus? ComplianceStatus { get; set; }
 
     /// <summary>
-    /// Specifies the entity that invoked a specific assessment, either a User or the System . Possible values: o User o System
+    /// Specifies the entity that invoked a specific assessment, either a User or the System . Possible values: • User • System
     /// </summary>
     [CliOption("--invoker")]
     public AwsResiliencehubListAppAssessmentsInvoker? Invoker { get; set; }
 
     /// <summary>
-    /// Maximum number of results to include in the response. If more re- sults exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: o min: 1 o max: 100
+    /// Maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Null, or the token from a previous call to get the next set of re- sults. Constraints: o pattern: ^\S{1,2000}$
+    /// Null, or the token from a previous call to get the next set of results. Constraints: • pattern: ^\S{1,2000}$
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The default is to sort by ascending startTime . To sort by descend- ing startTime , set reverseOrder to true .
+    /// The default is to sort by ascending startTime . To sort by descending startTime , set reverseOrder to true .
     /// </summary>
     [CliFlag("--reverse-order", NegatedName = "--no-reverse-order")]
     public bool? ReverseOrder { get; set; }
@@ -77,5 +77,14 @@ public record AwsResiliencehubListAppAssessmentsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

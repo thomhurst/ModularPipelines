@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsDrsCreateRecoveryPlanOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a Recovery Plan to orchestrate multi-server disaster recovery. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of a Recovery Plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*</param>
+    /// <param name="Name">The name of a Recovery Plan. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*</param>
     public AwsDrsCreateRecoveryPlanOptions(
         string Name
     )
@@ -58,26 +58,26 @@ public record AwsDrsCreateRecoveryPlanOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of a Recovery Plan. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
+    /// The name of a Recovery Plan. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9][a-zA-Z0-9 _-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of a Recovery Plan. Constraints: o min: 0 o max: 1024
+    /// The description of a Recovery Plan. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// A unique string provided to ensure request idempotency. Constraints: o min: 0 o max: 64
+    /// A unique string provided to ensure request idempotency. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to apply to the Recovery Plan. key -&gt; (string) Constraints: o min: 0 o max: 256 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to apply to the Recovery Plan. key -&gt; (string) Constraints: • min: 0 • max: 256 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -103,6 +103,15 @@ public record AwsDrsCreateRecoveryPlanOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

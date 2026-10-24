@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists the categories of a Amazon Q Business application environment in- stance. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
+/// Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsQappsListCategoriesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists the categories of a Amazon Q Business application environment in- stance. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
+    /// Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environ- ment instance.</param>
+    /// <param name="InstanceId">The unique identifier of the Amazon Q Business application environment instance.</param>
     public AwsQappsListCategoriesOptions(
         string InstanceId
     )
@@ -56,7 +57,7 @@ public record AwsQappsListCategoriesOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the Amazon Q Business application environ- ment instance.
+    /// The unique identifier of the Amazon Q Business application environment instance.
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsQappsListCategoriesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

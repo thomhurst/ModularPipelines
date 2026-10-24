@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsBillingCreateBillingViewOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Creates a billing view with the specified billing view attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the billing view. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\+=\.\-@]+</param>
-    /// <param name="SourceViews">A list of billing views used as the data source for the custom billing view. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
+    /// <param name="Name">The name of the billing view. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_\+=\.\-@]+</param>
+    /// <param name="SourceViews">A list of billing views used as the data source for the custom billing view. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...</param>
     public AwsBillingCreateBillingViewOptions(
         string Name,
         IEnumerable<string> SourceViews
@@ -72,38 +73,38 @@ public record AwsBillingCreateBillingViewOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the billing view. Constraints: o min: 1 o max: 128 o pattern: [ a-zA-Z0-9_\+=\.\-@]+
+    /// The name of the billing view. Constraints: • min: 1 • max: 128 • pattern: [ a-zA-Z0-9_\+=\.\-@]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A list of billing views used as the data source for the custom billing view. Constraints: o min: 1 o max: 10 (string) Constraints: o pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// A list of billing views used as the data source for the custom billing view. Constraints: • min: 1 • max: 10 (string) Constraints: • pattern: arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\+=\.\-@]{0,75}[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--source-views", GroupValues = true)]
     public IEnumerable<string>? SourceViews { get; private init; }
 
     /// <summary>
-    /// The description of the billing view. Constraints: o min: 0 o max: 1024 o pattern: ([ a-zA-Z0-9_\+=\.\-@]+)?
+    /// The description of the billing view. Constraints: • min: 0 • max: 1024 • pattern: ([ a-zA-Z0-9_\+=\.\-@]+)?
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// See Expression . Billing view only supports LINKED_ACCOUNT , Tags , and CostCategories . dimensions -&gt; (structure) The specific Dimension to use for Expression . key -&gt; (string) [required] The names of the metadata types that you can use to filter and group your results. Possible values: o LINKED_ACCOUNT values -&gt; (list) [required] The metadata values that you can use to filter and group your results. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* tags -&gt; (structure) The specific Tag to use for Expression . key -&gt; (string) [required] The key for the tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* values -&gt; (list) [required] The specific value of the tag. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* costCategories -&gt; (structure) The filter that's based on CostCategory values. key -&gt; (string) [required] The unique name of the Cost Category. Constraints: o min: 1 o max: 50 o pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! ) values -&gt; (list) [required] The specific value of the Cost Category. Constraints: o min: 1 o max: 200 (string) Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* timeRange -&gt; (structure) Specifies a time range filter for the billing view data. beginDateInclusive -&gt; (timestamp) The inclusive start date of the time range. endDateInclusive -&gt; (timestamp) The inclusive end date of the time range. Shorthand Syntax: dimensions={key=string,values=[string,string]},tags={key=string,values=[string,string]},costCategories={key=string,values=[string,string]},timeRange={beginDateInclusive=timestamp,endDateInclusive=timestamp} JSON Syntax: { "dimensions": { "key": "LINKED_ACCOUNT", "values": ["string", ...] }, "tags": { "key": "string", "values": ["string", ...] }, "costCategories": { "key": "string", "values": ["string", ...] }, "timeRange": { "beginDateInclusive": timestamp, "endDateInclusive": timestamp } }
+    /// See Expression . Billing view only supports LINKED_ACCOUNT , Tags , and CostCategories . dimensions -&gt; (structure) The specific Dimension to use for Expression . key -&gt; (string) [required] The names of the metadata types that you can use to filter and group your results. Possible values: • LINKED_ACCOUNT values -&gt; (list) [required] The metadata values that you can use to filter and group your results. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* tags -&gt; (structure) The specific Tag to use for Expression . key -&gt; (string) [required] The key for the tag. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* values -&gt; (list) [required] The specific value of the tag. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* costCategories -&gt; (structure) The filter that's based on CostCategory values. key -&gt; (string) [required] The unique name of the Cost Category. Constraints: • min: 1 • max: 50 • pattern: (?! )[\p{L}\p{N}\p{Z}-_]*(?&lt;! ) values -&gt; (list) [required] The specific value of the Cost Category. Constraints: • min: 1 • max: 200 (string) Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* timeRange -&gt; (structure) Specifies a time range filter for the billing view data. beginDateInclusive -&gt; (timestamp) The inclusive start date of the time range. endDateInclusive -&gt; (timestamp) The inclusive end date of the time range. Shorthand Syntax: dimensions={key=string,values=[string,string]},tags={key=string,values=[string,string]},costCategories={key=string,values=[string,string]},timeRange={beginDateInclusive=timestamp,endDateInclusive=timestamp} JSON Syntax: { "dimensions": { "key": "LINKED_ACCOUNT", "values": ["string", ...] }, "tags": { "key": "string", "values": ["string", ...] }, "costCategories": { "key": "string", "values": ["string", ...] }, "timeRange": { "beginDateInclusive": timestamp, "endDateInclusive": timestamp } }
     /// </summary>
     [CliOption("--data-filter-expression")]
     public string? DataFilterExpression { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier you specify to ensure idempo- tency of the request. Idempotency ensures that an API request com- pletes no more than one time. If the original request completes suc- cessfully, any subsequent retries complete successfully without per- forming any further actions with an idempotent request. Constraints: o pattern: [a-zA-Z0-9-]+
+    /// A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request. Constraints: • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// A list of key value map specifying tags associated to the billing view being created. Constraints: o min: 0 o max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// A list of key value map specifying tags associated to the billing view being created. Constraints: • min: 0 • max: 200 (structure) The tag structure that contains a tag key and value. key -&gt; (string) [required] The key that's associated with the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) The value that's associated with the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--resource-tags", GroupValues = true)]
     public IEnumerable<string>? ResourceTags { get; set; }
@@ -129,6 +130,15 @@ public record AwsBillingCreateBillingViewOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

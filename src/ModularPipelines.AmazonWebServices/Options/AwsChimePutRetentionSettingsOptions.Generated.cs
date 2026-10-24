@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Puts retention settings for the specified Amazon Chime Enterprise ac- count. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Reten- tion Po...
+/// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Polici...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsChimePutRetentionSettingsOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Puts retention settings for the specified Amazon Chime Enterprise ac- count. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Reten- tion Po...
+    /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide . To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Polici...
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="RetentionSettings">The retention settings. RoomRetentionSettings -&gt; (structure) The chat room retention settings. RetentionDays -&gt; (integer) The number of days for which to retain chat-room messages. Constraints: o min: 1 o max: 5475 ConversationRetentionSettings -&gt; (structure) The chat conversation retention settings. RetentionDays -&gt; (integer) The number of days for which to retain conversation messages. Constraints: o min: 1 o max: 5475 Shorthand Syntax: RoomRetentionSettings={RetentionDays=integer},ConversationRetentionSettings={RetentionDays=integer} JSON Syntax: { "RoomRetentionSettings": { "RetentionDays": integer }, "ConversationRetentionSettings": { "RetentionDays": integer } }</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="RetentionSettings">The retention settings. RoomRetentionSettings -&gt; (structure) The chat room retention settings. RetentionDays -&gt; (integer) The number of days for which to retain chat-room messages. Constraints: • min: 1 • max: 5475 ConversationRetentionSettings -&gt; (structure) The chat conversation retention settings. RetentionDays -&gt; (integer) The number of days for which to retain conversation messages. Constraints: • min: 1 • max: 5475 Shorthand Syntax: RoomRetentionSettings={RetentionDays=integer},ConversationRetentionSettings={RetentionDays=integer} JSON Syntax: { "RoomRetentionSettings": { "RetentionDays": integer }, "ConversationRetentionSettings": { "RetentionDays": integer } }</param>
     public AwsChimePutRetentionSettingsOptions(
         string AccountId,
         string RetentionSettings
@@ -60,13 +61,13 @@ public record AwsChimePutRetentionSettingsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The retention settings. RoomRetentionSettings -&gt; (structure) The chat room retention settings. RetentionDays -&gt; (integer) The number of days for which to retain chat-room messages. Constraints: o min: 1 o max: 5475 ConversationRetentionSettings -&gt; (structure) The chat conversation retention settings. RetentionDays -&gt; (integer) The number of days for which to retain conversation messages. Constraints: o min: 1 o max: 5475 Shorthand Syntax: RoomRetentionSettings={RetentionDays=integer},ConversationRetentionSettings={RetentionDays=integer} JSON Syntax: { "RoomRetentionSettings": { "RetentionDays": integer }, "ConversationRetentionSettings": { "RetentionDays": integer } }
+    /// The retention settings. RoomRetentionSettings -&gt; (structure) The chat room retention settings. RetentionDays -&gt; (integer) The number of days for which to retain chat-room messages. Constraints: • min: 1 • max: 5475 ConversationRetentionSettings -&gt; (structure) The chat conversation retention settings. RetentionDays -&gt; (integer) The number of days for which to retain conversation messages. Constraints: • min: 1 • max: 5475 Shorthand Syntax: RoomRetentionSettings={RetentionDays=integer},ConversationRetentionSettings={RetentionDays=integer} JSON Syntax: { "RoomRetentionSettings": { "RetentionDays": integer }, "ConversationRetentionSettings": { "RetentionDays": integer } }
     /// </summary>
     [CliOption("--retention-settings")]
     public string? RetentionSettings { get; private init; }
@@ -92,6 +93,15 @@ public record AwsChimePutRetentionSettingsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

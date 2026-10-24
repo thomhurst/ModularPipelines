@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a keyword configuration on an origination phone num- ber or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid, an e...
+/// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an error is re...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsPinpointSmsVoiceV2PutKeywordOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a keyword configuration on an origination phone num- ber or pool. A keyword is a word that you can search for on a particular phone num- ber or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational mes- sage or a special offer. When your number receives a message that be- gins with a keyword, End User Messaging SMS responds with a customiz- able message. If you specify a keyword that isn't valid, an e...
+    /// Creates or updates a keyword configuration on an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User Messaging SMS responds with a customizable message. If you specify a keyword that isn't valid, an error is re...
     /// </summary>
-    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
-    /// <param name="Keyword">The new keyword to add. Constraints: o min: 1 o max: 30 o pattern: [ \S]+</param>
-    /// <param name="KeywordMessage">The message associated with the keyword. Constraints: o min: 1 o max: 1600 o pattern: (?!\s*$)[\s\S]+</param>
+    /// <param name="OriginationIdentity">The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="Keyword">The new keyword to add. Constraints: • min: 1 • max: 30 • pattern: [ \S]+</param>
+    /// <param name="KeywordMessage">The message associated with the keyword. Constraints: • min: 1 • max: 1600 • pattern: (?!\s*$)[\s\S]+</param>
     public AwsPinpointSmsVoiceV2PutKeywordOptions(
         string OriginationIdentity,
         string Keyword,
@@ -65,25 +66,25 @@ public record AwsPinpointSmsVoiceV2PutKeywordOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The origination identity to use such as a PhoneNumberId, PhoneNum- berArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while De- scribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--origination-identity")]
     public string? OriginationIdentity { get; private init; }
 
     /// <summary>
-    /// The new keyword to add. Constraints: o min: 1 o max: 30 o pattern: [ \S]+
+    /// The new keyword to add. Constraints: • min: 1 • max: 30 • pattern: [ \S]+
     /// </summary>
     [CliOption("--keyword")]
     public string? Keyword { get; private init; }
 
     /// <summary>
-    /// The message associated with the keyword. Constraints: o min: 1 o max: 1600 o pattern: (?!\s*$)[\s\S]+
+    /// The message associated with the keyword. Constraints: • min: 1 • max: 1600 • pattern: (?!\s*$)[\s\S]+
     /// </summary>
     [CliOption("--keyword-message")]
     public string? KeywordMessage { get; private init; }
 
     /// <summary>
-    /// The action to perform for the new keyword when it is received. o AUTOMATIC_RESPONSE: A message is sent to the recipient. o OPT_OUT: Keeps the recipient from receiving future messages. o OPT_IN: The recipient wants to receive future messages. Possible values: o AUTOMATIC_RESPONSE o OPT_OUT o OPT_IN
+    /// The action to perform for the new keyword when it is received. • AUTOMATIC_RESPONSE: A message is sent to the recipient. • OPT_OUT: Keeps the recipient from receiving future messages. • OPT_IN: The recipient wants to receive future messages. Possible values: • AUTOMATIC_RESPONSE • OPT_OUT • OPT_IN
     /// </summary>
     [CliOption("--keyword-action")]
     public AwsPinpointSmsVoiceV2PutKeywordKeywordAction? KeywordAction { get; set; }
@@ -109,6 +110,15 @@ public record AwsPinpointSmsVoiceV2PutKeywordOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

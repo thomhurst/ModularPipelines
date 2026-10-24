@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression at- tributes. See also: AWS API Documentation
+/// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression attributes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSesv2GetTenantOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression at- tributes. See also: AWS API Documentation
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression attributes. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TenantName">The name of the tenant to retrieve information about. Constraints: o min: 1</param>
+    /// <param name="TenantName">The name of the tenant to retrieve information about. Constraints: • min: 1</param>
     public AwsSesv2GetTenantOptions(
         string TenantName
     )
@@ -56,7 +57,7 @@ public record AwsSesv2GetTenantOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the tenant to retrieve information about. Constraints: o min: 1
+    /// The name of the tenant to retrieve information about. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSesv2GetTenantOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

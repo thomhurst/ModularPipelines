@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's sup- pression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
+/// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName , the operation targets the account-level suppression list. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,13 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSesv2ListSuppressedDestinationsOptions : AwsOptions
 {
     /// <summary>
-    /// The name of the tenant whose suppression list you want to retrieve. If you omit this parameter, the operation targets the account-level suppression list. Constraints: o min: 1
+    /// The name of the tenant whose suppression list you want to retrieve. If you omit this parameter, the operation targets the account-level suppression list. Constraints: • min: 1
     /// </summary>
     [CliOption("--tenant-name")]
     public string? TenantName { get; set; }
 
     /// <summary>
-    /// The factors that caused the email address to be added to the sup- pression list for your account or for a specific tenant. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: o COMPLAINT Amazon SES added an email address to the suppres- sion list for your account or for a specific tenant because a message sent to that address results in a complaint. o BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a mes- sage sent to that address results in a hard bounce. Possible values: o BOUNCE o COMPLAINT Syntax: "string" "string" ...
+    /// The factors that caused the email address to be added to the suppression list for your account or for a specific tenant. (string) The reason that the address was added to the suppression list for your account or for a specific tenant. The value can be one of the following: • COMPLAINT Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a complaint. • BOUNCE Amazon SES added an email address to the suppression list for your account or for a specific tenant because a message sent to that address results in a hard bounce. Possible values: • BOUNCE • COMPLAINT Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--reasons", GroupValues = true)]
     public IEnumerable<string>? Reasons { get; set; }
@@ -41,7 +41,7 @@ public record AwsSesv2ListSuppressedDestinationsOptions : AwsOptions
     public string? StartDate { get; set; }
 
     /// <summary>
-    /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a spe- cific date.
+    /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
     /// </summary>
     [CliOption("--end-date")]
     public string? EndDate { get; set; }
@@ -54,7 +54,7 @@ public record AwsSesv2ListSuppressedDestinationsOptions : AwsOptions
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The number of results to show in a single call to ListSuppressedDes- tinations . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    /// The number of results to show in a single call to ListSuppressedDestinations . If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
@@ -64,5 +64,14 @@ public record AwsSesv2ListSuppressedDestinationsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

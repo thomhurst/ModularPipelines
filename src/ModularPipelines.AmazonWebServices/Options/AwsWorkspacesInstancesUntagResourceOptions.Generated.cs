@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsWorkspacesInstancesUntagResourceOptions : AwsOptions, IValidata
     /// <summary>
     /// Removes tags from a WorkSpace Instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance to untag. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
-    /// <param name="TagKeys">Keys of tags to be removed. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...</param>
+    /// <param name="WorkspaceInstanceId">Unique identifier of the WorkSpace Instance to untag. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}</param>
+    /// <param name="TagKeys">Keys of tags to be removed. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...</param>
     public AwsWorkspacesInstancesUntagResourceOptions(
         string WorkspaceInstanceId,
         IEnumerable<string> TagKeys
@@ -71,13 +72,13 @@ public record AwsWorkspacesInstancesUntagResourceOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Unique identifier of the WorkSpace Instance to untag. Constraints: o min: 15 o max: 70 o pattern: wsinst-[0-9a-zA-Z]{8,63}
+    /// Unique identifier of the WorkSpace Instance to untag. Constraints: • min: 15 • max: 70 • pattern: wsinst-[0-9a-zA-Z]{8,63}
     /// </summary>
     [CliOption("--workspace-instance-id")]
     public string? WorkspaceInstanceId { get; private init; }
 
     /// <summary>
-    /// Keys of tags to be removed. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...
+    /// Keys of tags to be removed. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]+) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsWorkspacesInstancesUntagResourceOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsNetworkmanagerDeleteResourcePolicyOptions : AwsOptions, IValida
     /// <summary>
     /// Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of the policy to delete. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*</param>
+    /// <param name="ResourceArn">The ARN of the policy to delete. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*</param>
     public AwsNetworkmanagerDeleteResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsNetworkmanagerDeleteResourcePolicyOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the policy to delete. Constraints: o min: 0 o max: 1500 o pattern: [\s\S]*
+    /// The ARN of the policy to delete. Constraints: • min: 0 • max: 1500 • pattern: [\s\S]*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsNetworkmanagerDeleteResourcePolicyOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

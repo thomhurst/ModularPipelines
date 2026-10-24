@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceState- Update request started. See also: AWS API Documentation
+/// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsImagebuilderGetLifecycleExecutionOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceState- Update request started. See also: AWS API Documentation
+    /// Retrieves runtime information for a lifecycle execution a single run of lifecycle actions that a lifecycle policy or a StartResourceStateUpdate request started. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LifecycleExecutionId">The unique identifier for a runtime instance of the lifecycle pol- icy. Constraints: o pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
+    /// <param name="LifecycleExecutionId">The unique identifier for a runtime instance of the lifecycle policy. Constraints: • pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$</param>
     public AwsImagebuilderGetLifecycleExecutionOptions(
         string LifecycleExecutionId
     )
@@ -56,7 +57,7 @@ public record AwsImagebuilderGetLifecycleExecutionOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for a runtime instance of the lifecycle pol- icy. Constraints: o pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
+    /// The unique identifier for a runtime instance of the lifecycle policy. Constraints: • pattern: ^lce-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$
     /// </summary>
     [CliOption("--lifecycle-execution-id")]
     public string? LifecycleExecutionId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsImagebuilderGetLifecycleExecutionOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsKeyspacesDeleteTypeOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT. To configure the required permissions, see Permissions to delete a UDT in the Amazon Keyspaces Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="KeyspaceName">The name of the keyspace of the to be deleted type. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
-    /// <param name="TypeName">The name of the type to be deleted. Constraints: o min: 1 o max: 48</param>
+    /// <param name="KeyspaceName">The name of the keyspace of the to be deleted type. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}</param>
+    /// <param name="TypeName">The name of the type to be deleted. Constraints: • min: 1 • max: 48</param>
     public AwsKeyspacesDeleteTypeOptions(
         string KeyspaceName,
         string TypeName
@@ -60,13 +61,13 @@ public record AwsKeyspacesDeleteTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the keyspace of the to be deleted type. Constraints: o min: 1 o max: 48 o pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
+    /// The name of the keyspace of the to be deleted type. Constraints: • min: 1 • max: 48 • pattern: [a-zA-Z0-9][a-zA-Z0-9_]{0,47}
     /// </summary>
     [CliOption("--keyspace-name")]
     public string? KeyspaceName { get; private init; }
 
     /// <summary>
-    /// The name of the type to be deleted. Constraints: o min: 1 o max: 48
+    /// The name of the type to be deleted. Constraints: • min: 1 • max: 48
     /// </summary>
     [CliOption("--type-name")]
     public string? TypeName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsKeyspacesDeleteTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

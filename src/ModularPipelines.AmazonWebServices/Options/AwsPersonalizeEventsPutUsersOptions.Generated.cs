@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsPersonalizeEventsPutUsersOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Adds one or more users to a Users dataset. For more information see Importing users individually . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
-    /// <param name="Users">A list of user data. Constraints: o min: 1 o max: 10 (structure) Represents user metadata added to a Users dataset using the Pu- tUsers API. For more information see Importing users individu- ally . userId -&gt; (string) [required] The ID associated with the user. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"num- berOfVideosWatched": "45"} . The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, sepa- rate each category with a pipe separator (| ). For example, \"Member|Frequent shopper\" . Constraints: o min: 1 o max: 24000 Shorthand Syntax: userId=string,properties=string ... JSON Syntax: [ { "userId": "string", "properties": "string" } ... ]</param>
+    /// <param name="DataSetArn">The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="Users">A list of user data. Constraints: • min: 1 • max: 10 (structure) Represents user metadata added to a Users dataset using the PutUsers API. For more information see Importing users individually . userId -&gt; (string) [required] The ID associated with the user. Constraints: • min: 1 • max: 256 properties -&gt; (string) A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfVideosWatched": "45"} . The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, separate each category with a pipe separator (| ). For example, \"Member|Frequent shopper\" . Constraints: • min: 1 • max: 24000 Shorthand Syntax: userId=string,properties=string ... JSON Syntax: [ { "userId": "string", "properties": "string" } ... ]</param>
     public AwsPersonalizeEventsPutUsersOptions(
         string DataSetArn,
         IEnumerable<string> Users
@@ -71,13 +72,13 @@ public record AwsPersonalizeEventsPutUsersOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The Amazon Resource Name (ARN) of the Users dataset you are adding the user or users to. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--dataset-arn")]
     public string? DataSetArn { get; private init; }
 
     /// <summary>
-    /// A list of user data. Constraints: o min: 1 o max: 10 (structure) Represents user metadata added to a Users dataset using the Pu- tUsers API. For more information see Importing users individu- ally . userId -&gt; (string) [required] The ID associated with the user. Constraints: o min: 1 o max: 256 properties -&gt; (string) A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"num- berOfVideosWatched": "45"} . The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, sepa- rate each category with a pipe separator (| ). For example, \"Member|Frequent shopper\" . Constraints: o min: 1 o max: 24000 Shorthand Syntax: userId=string,properties=string ... JSON Syntax: [ { "userId": "string", "properties": "string" } ... ]
+    /// A list of user data. Constraints: • min: 1 • max: 10 (structure) Represents user metadata added to a Users dataset using the PutUsers API. For more information see Importing users individually . userId -&gt; (string) [required] The ID associated with the user. Constraints: • min: 1 • max: 256 properties -&gt; (string) A string map of user-specific metadata. Each element in the map consists of a key-value pair. For example, {"numberOfVideosWatched": "45"} . The keys use camel case names that match the fields in the schema for the Users dataset. In the previous example, the numberOfVideosWatched matches the 'NUMBER_OF_VIDEOS_WATCHED' field defined in the Users schema. For categorical string data, to include multiple categories for a single user, separate each category with a pipe separator (| ). For example, \"Member|Frequent shopper\" . Constraints: • min: 1 • max: 24000 Shorthand Syntax: userId=string,properties=string ... JSON Syntax: [ { "userId": "string", "properties": "string" } ... ]
     /// </summary>
     [CliOption("--users", GroupValues = true)]
     public IEnumerable<string>? Users { get; private init; }
@@ -103,6 +104,15 @@ public record AwsPersonalizeEventsPutUsersOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

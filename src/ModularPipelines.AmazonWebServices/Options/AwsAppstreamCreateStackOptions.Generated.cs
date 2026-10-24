@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a stack to start streaming applications to users. A stack con- sists of an associated fleet, user access policies, and storage config- urations. See also: AWS API Documentation
+/// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsAppstreamCreateStackOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a stack to start streaming applications to users. A stack con- sists of an associated fleet, user access policies, and storage config- urations. See also: AWS API Documentation
+    /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the stack. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="Name">The name of the stack. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
     public AwsAppstreamCreateStackOptions(
         string Name
     )
@@ -57,88 +58,94 @@ public record AwsAppstreamCreateStackOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stack. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the stack. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description to display. Constraints: o max: 256
+    /// The description to display. Constraints: • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The stack name to display. Constraints: o max: 100
+    /// The stack name to display. Constraints: • max: 100
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The storage connectors to enable. (structure) Describes a connector that enables persistent storage for users. ConnectorType -&gt; (string) [required] The type of storage connector. Possible values: o HOMEFOLDERS o GOOGLE_DRIVE o ONE_DRIVE ResourceIdentifier -&gt; (string) The ARN of the storage connector. Constraints: o min: 1 o max: 2048 Domains -&gt; (list) The names of the domains for the account. Constraints: o max: 50 (string) GSuite domain for GDrive integration. Constraints: o min: 1 o max: 64 DomainsRequireAdminConsent -&gt; (list) The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to WorkSpaces Applications. The attribute can only be specified when ConnectorType=ONE_DRIVE. Constraints: o max: 50 (string) GSuite domain for GDrive integration. Constraints: o min: 1 o max: 64 Shorthand Syntax: ConnectorType=string,ResourceIdentifier=string,Domains=string,string,DomainsRequireAdminConsent=string,string ... JSON Syntax: [ { "ConnectorType": "HOMEFOLDERS"|"GOOGLE_DRIVE"|"ONE_DRIVE", "ResourceIdentifier": "string", "Domains": ["string", ...], "DomainsRequireAdminConsent": ["string", ...] } ... ]
+    /// The storage connectors to enable. (structure) Describes a connector that enables persistent storage for users. ConnectorType -&gt; (string) [required] The type of storage connector. Possible values: • HOMEFOLDERS • GOOGLE_DRIVE • ONE_DRIVE ResourceIdentifier -&gt; (string) The ARN of the storage connector. Constraints: • min: 1 • max: 2048 Domains -&gt; (list) The names of the domains for the account. Constraints: • max: 50 (string) GSuite domain for GDrive integration. Constraints: • min: 1 • max: 64 DomainsRequireAdminConsent -&gt; (list) The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to WorkSpaces Applications. The attribute can only be specified when ConnectorType=ONE_DRIVE. Constraints: • max: 50 (string) GSuite domain for GDrive integration. Constraints: • min: 1 • max: 64 Shorthand Syntax: ConnectorType=string,ResourceIdentifier=string,Domains=string,string,DomainsRequireAdminConsent=string,string ... JSON Syntax: [ { "ConnectorType": "HOMEFOLDERS"|"GOOGLE_DRIVE"|"ONE_DRIVE", "ResourceIdentifier": "string", "Domains": ["string", ...], "DomainsRequireAdminConsent": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--storage-connectors", GroupValues = true)]
     public IEnumerable<string>? StorageConnectors { get; set; }
 
     /// <summary>
-    /// The URL that users are redirected to after their streaming session ends. Constraints: o max: 1000
+    /// The URL that users are redirected to after their streaming session ends. Constraints: • max: 1000
     /// </summary>
     [CliOption("--redirect-url")]
     public string? RedirectUrl { get; set; }
 
     /// <summary>
-    /// The URL that users are redirected to after they click the Send Feed- back link. If no URL is specified, no Send Feedback link is dis- played. Constraints: o max: 1000
+    /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed. Constraints: • max: 1000
     /// </summary>
     [CliOption("--feedback-url")]
     public string? FeedbackUrl { get; set; }
 
     /// <summary>
-    /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. Constraints: o min: 1 (structure) Describes an action and whether the action is enabled or dis- abled for users during their streaming sessions. Action -&gt; (string) [required] The action that is enabled or disabled. Possible values: o CLIPBOARD_COPY_FROM_LOCAL_DEVICE o CLIPBOARD_COPY_TO_LOCAL_DEVICE o FILE_UPLOAD o FILE_DOWNLOAD o PRINTING_TO_LOCAL_DEVICE o DOMAIN_PASSWORD_SIGNIN o DOMAIN_SMART_CARD_SIGNIN o AUTO_TIME_ZONE_REDIRECTION Permission -&gt; (string) [required] Indicates whether the action is enabled or disabled. Possible values: o ENABLED o DISABLED MaximumLength -&gt; (integer) Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LO- CAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED . This can't be specified when the per- mission is DISABLED . The value can be between 1 and 20,971,520 (20 MB). Shorthand Syntax: Action=string,Permission=string,MaximumLength=integer ... JSON Syntax: [ { "Action": "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"|"CLIPBOARD_COPY_TO_LOCAL_DEVICE"|"FILE_UPLOAD"|"FILE_DOWNLOAD"|"PRINTING_TO_LOCAL_DEVICE"|"DOMAIN_PASSWORD_SIGNIN"|"DOMAIN_SMART_CARD_SIGNIN"|"AUTO_TIME_ZONE_REDIRECTION", "Permission": "ENABLED"|"DISABLED", "MaximumLength": integer } ... ]
+    /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. Constraints: • min: 1 (structure) Describes an action and whether the action is enabled or disabled for users during their streaming sessions. Action -&gt; (string) [required] The action that is enabled or disabled. Possible values: • CLIPBOARD_COPY_FROM_LOCAL_DEVICE • CLIPBOARD_COPY_TO_LOCAL_DEVICE • FILE_UPLOAD • FILE_DOWNLOAD • PRINTING_TO_LOCAL_DEVICE • DOMAIN_PASSWORD_SIGNIN • DOMAIN_SMART_CARD_SIGNIN • AUTO_TIME_ZONE_REDIRECTION Permission -&gt; (string) [required] Indicates whether the action is enabled or disabled. Possible values: • ENABLED • DISABLED MaximumLength -&gt; (integer) Specifies the number of characters that can be copied by end users from the local device to the remote session, and to the local device from the remote session. This can be specified only for the CLIPBOARD_COPY_FROM_LOCAL_DEVICE and CLIPBOARD_COPY_TO_LOCAL_DEVICE actions. This defaults to 20,971,520 (20 MB) when unspecified and the permission is ENABLED . This can't be specified when the permission is DISABLED . The value can be between 1 and 20,971,520 (20 MB). Shorthand Syntax: Action=string,Permission=string,MaximumLength=integer ... JSON Syntax: [ { "Action": "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"|"CLIPBOARD_COPY_TO_LOCAL_DEVICE"|"FILE_UPLOAD"|"FILE_DOWNLOAD"|"PRINTING_TO_LOCAL_DEVICE"|"DOMAIN_PASSWORD_SIGNIN"|"DOMAIN_SMART_CARD_SIGNIN"|"AUTO_TIME_ZONE_REDIRECTION", "Permission": "ENABLED"|"DISABLED", "MaximumLength": integer } ... ]
     /// </summary>
     [CliOption("--user-settings", GroupValues = true)]
     public IEnumerable<string>? UserSettings { get; set; }
 
     /// <summary>
-    /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and ap- plied to the next session. Enabled -&gt; (boolean) [required] Enables or disables persistent application settings for users during their streaming sessions. SettingsGroup -&gt; (string) The path prefix for the S3 bucket where users persistent appli- cation settings are stored. You can allow the same persistent application settings to be used across multiple stacks by speci- fying the same settings group for each stack. Constraints: o max: 100 Shorthand Syntax: Enabled=boolean,SettingsGroup=string JSON Syntax: { "Enabled": true|false, "SettingsGroup": "string" }
+    /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session. Enabled -&gt; (boolean) [required] Enables or disables persistent application settings for users during their streaming sessions. SettingsGroup -&gt; (string) The path prefix for the S3 bucket where users persistent application settings are stored. You can allow the same persistent application settings to be used across multiple stacks by specifying the same settings group for each stack. Constraints: • max: 100 Shorthand Syntax: Enabled=boolean,SettingsGroup=string JSON Syntax: { "Enabled": true|false, "SettingsGroup": "string" }
     /// </summary>
     [CliOption("--application-settings")]
     public string? ApplicationSettings { get; set; }
 
     /// <summary>
-    /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces rep- resentable in UTF-8, and the following special characters: _ . : / = + - @ For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + - @ For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(^(?!aws:).[\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints. Constraints: o min: 1 o max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: o STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface end- point is used. Constraints: o min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
+    /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints. Constraints: • min: 1 • max: 4 (structure) Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint. EndpointType -&gt; (string) [required] The type of interface endpoint. Possible values: • STREAMING VpceId -&gt; (string) The identifier (ID) of the VPC in which the interface endpoint is used. Constraints: • min: 1 Shorthand Syntax: EndpointType=string,VpceId=string ... JSON Syntax: [ { "EndpointType": "STREAMING", "VpceId": "string" } ... ]
     /// </summary>
     [CliOption("--access-endpoints", GroupValues = true)]
     public IEnumerable<string>? AccessEndpoints { get; set; }
 
     /// <summary>
-    /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions. Constraints: o min: 1 o max: 20 (string) Specifies a valid domain that can embed AppStream. Valid exam- ples include: ["testorigin.tt--com", "testingorigin.com.us", "test.com.us"] Invalid examples include: ["test,com", ".com", "h*llo.com". ""] Constraints: o max: 128 o pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9] Syntax: "string" "string" ...
+    /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions. Constraints: • min: 1 • max: 20 (string) Specifies a valid domain that can embed AppStream. Valid examples include: ["testorigin.tt--com", "testingorigin.com.us", "test.com.us"] Invalid examples include: ["test,com", ".com", "h*llo.com". ""] Constraints: • max: 128 • pattern: (?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--embed-host-domains", GroupValues = true)]
     public IEnumerable<string>? EmbedHostDomains { get; set; }
 
     /// <summary>
-    /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client. PreferredProtocol -&gt; (string) The preferred protocol that you want to use while streaming your application. Possible values: o TCP o UDP Shorthand Syntax: PreferredProtocol=string JSON Syntax: { "PreferredProtocol": "TCP"|"UDP" }
+    /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client. PreferredProtocol -&gt; (string) The preferred protocol that you want to use while streaming your application. Possible values: • TCP • UDP Shorthand Syntax: PreferredProtocol=string JSON Syntax: { "PreferredProtocol": "TCP"|"UDP" }
     /// </summary>
     [CliOption("--streaming-experience-settings")]
     public string? StreamingExperienceSettings { get; set; }
 
     /// <summary>
-    /// Configuration for bidirectional URL redirection between the stream- ing session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser. HostToClient -&gt; (structure) Configuration for redirecting URLs from the remote desktop to the local client browser. Enabled -&gt; (boolean) [required] Whether URL redirection is enabled for this direction. AllowedUrls -&gt; (list) List of URL patterns that are allowed to be redirected. URLs matching these patterns will be redirected unless they also match a pattern in the denied list. Constraints: o min: 0 o max: 100 (string) A glob pattern using wildcards (* for zero or more char- acters, ? for exactly one character) to match URLs for redirection rules. Patterns do not include a protocol prefix; HTTPS is enforced automatically. Valid examples: , *.example.com, github.com/myorg/, api?.example.com In- valid examples: https://example.com (no protocol), empty string Constraints: o min: 1 o max: 2048 o pattern: ^(\*|https?://[^\s,;]+)$ DeniedUrls -&gt; (list) List of URL patterns that are denied from redirection. This list takes precedence over the allowed list. Constraints: o min: 0 o max: 100 (string) A glob pattern using wildcards (* for zero or more char- acters, ? for exactly one character) to match URLs for redirection rules. Patterns do not include a protocol prefix; HTTPS is enforced automatically. Valid examples: , *.example.com, github.com/myorg/, api?.example.com In- valid examples: https://example.com (no protocol), empty string Constraints: o min: 1 o max: 2048 o pattern: ^(\*|https?://[^\s,;]+)$ Shorthand Syntax: HostToClient={Enabled=boolean,AllowedUrls=[string,string],DeniedUrls=[string,string]} JSON Syntax: { "HostToClient": { "Enabled": true|false, "AllowedUrls": ["string", ...], "DeniedUrls": ["string", ...] } }
+    /// Configuration for bidirectional URL redirection between the streaming session and the local client. Use HostToClient to redirect URLs from the remote desktop to the local browser. HostToClient -&gt; (structure) Configuration for redirecting URLs from the remote desktop to the local client browser. Enabled -&gt; (boolean) [required] Whether URL redirection is enabled for this direction. AllowedUrls -&gt; (list) List of URL patterns that are allowed to be redirected. URLs matching these patterns will be redirected unless they also match a pattern in the denied list. Constraints: • min: 0 • max: 100 (string) A glob pattern using wildcards (* for zero or more characters, ? for exactly one character) to match URLs for redirection rules. Patterns do not include a protocol prefix; HTTPS is enforced automatically. Valid examples: , *.example.com, github.com/myorg/, api?.example.com Invalid examples: https://example.com (no protocol), empty string Constraints: • min: 1 • max: 2048 • pattern: ^(\*|https?://[^\s,;]+)$ DeniedUrls -&gt; (list) List of URL patterns that are denied from redirection. This list takes precedence over the allowed list. Constraints: • min: 0 • max: 100 (string) A glob pattern using wildcards (* for zero or more characters, ? for exactly one character) to match URLs for redirection rules. Patterns do not include a protocol prefix; HTTPS is enforced automatically. Valid examples: , *.example.com, github.com/myorg/, api?.example.com Invalid examples: https://example.com (no protocol), empty string Constraints: • min: 1 • max: 2048 • pattern: ^(\*|https?://[^\s,;]+)$ Shorthand Syntax: HostToClient={Enabled=boolean,AllowedUrls=[string,string],DeniedUrls=[string,string]} JSON Syntax: { "HostToClient": { "Enabled": true|false, "AllowedUrls": ["string", ...], "DeniedUrls": ["string", ...] } }
     /// </summary>
     [CliOption("--content-redirection")]
     public string? ContentRedirection { get; set; }
 
     /// <summary>
-    /// The configuration for agent access on the stack. If specified, agent access is enabled for the stack. Settings -&gt; (list) [required] The list of agent access settings that define permissions for each agent action. You must specify at least one setting. Constraints: o min: 1 (structure) A permission setting for an agent action. Each setting speci- fies an agent action and whether it is enabled or disabled. AgentAction -&gt; (string) [required] The agent action to configure. Valid values are COM- PUTER_VISION, COMPUTER_INPUT, and FORWARD_MCP_TOOLS. If you enable COMPUTER_INPUT, you must also enable COM- PUTER_VISION. Possible values: o COMPUTER_VISION o COMPUTER_INPUT o FORWARD_MCP_TOOLS Permission -&gt; (string) [required] Whether the agent action is enabled or disabled. Possible values: o ENABLED o DISABLED S3BucketArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEn- abled is true. Constraints: o pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:s3:::[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]$ ScreenshotsUploadEnabled -&gt; (boolean) Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions. ScreenResolution -&gt; (string) [required] The screen resolution for the agent streaming environment. Possible values: o W_1280xH_720 ScreenImageFormat -&gt; (string) [required] The image format for agent screen captures. Possible values: o PNG o JPEG UserControlMode -&gt; (string) The user control mode for agent sessions. This setting deter- mines how users can interact with agent sessions. Possible values: o VIEW_ONLY o VIEW_STOP o DISABLED Shorthand Syntax: Settings=[{AgentAction=string,Permission=string},{AgentAction=string,Permission=string}],S3BucketArn=string,ScreenshotsUploadEnabled=boolean,ScreenResolution=string,ScreenImageFormat=string,UserControlMode=string JSON Syntax: { "Settings": [ { "AgentAction": "COMPUTER_VISION"|"COMPUTER_INPUT"|"FORWARD_MCP_TOOLS", "Permission": "ENABLED"|"DISABLED" } ... ], "S3BucketArn": "string", "ScreenshotsUploadEnabled": true|false, "ScreenResolution": "W_1280xH_720", "ScreenImageFormat": "PNG"|"JPEG", "UserControlMode": "VIEW_ONLY"|"VIEW_STOP"|"DISABLED" }
+    /// The configuration for agent access on the stack. If specified, agent access is enabled for the stack. Settings -&gt; (list) [required] The list of agent access settings that define permissions for each agent action. You must specify at least one setting. Constraints: • min: 1 (structure) A permission setting for an agent action. Each setting specifies an agent action and whether it is enabled or disabled. AgentAction -&gt; (string) [required] The agent action to configure. Valid values are COMPUTER_VISION, COMPUTER_INPUT, and FORWARD_MCP_TOOLS. If you enable COMPUTER_INPUT, you must also enable COMPUTER_VISION. Possible values: • COMPUTER_VISION • COMPUTER_INPUT • FORWARD_MCP_TOOLS Permission -&gt; (string) [required] Whether the agent action is enabled or disabled. Possible values: • ENABLED • DISABLED S3BucketArn -&gt; (string) The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true. Constraints: • pattern: ^arn:aws(?:\-cn|\-iso\-b|\-iso|\-us\-gov)?:s3:::[a-z0-9][a-z0-9.\-]{1,61}[a-z0-9]$ ScreenshotsUploadEnabled -&gt; (boolean) Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions. ScreenResolution -&gt; (string) [required] The screen resolution for the agent streaming environment. Possible values: • W_1280xH_720 ScreenImageFormat -&gt; (string) [required] The image format for agent screen captures. Possible values: • PNG • JPEG UserControlMode -&gt; (string) The user control mode for agent sessions. This setting determines how users can interact with agent sessions. Possible values: • VIEW_ONLY • VIEW_STOP • DISABLED Shorthand Syntax: Settings=[{AgentAction=string,Permission=string},{AgentAction=string,Permission=string}],S3BucketArn=string,ScreenshotsUploadEnabled=boolean,ScreenResolution=string,ScreenImageFormat=string,UserControlMode=string JSON Syntax: { "Settings": [ { "AgentAction": "COMPUTER_VISION"|"COMPUTER_INPUT"|"FORWARD_MCP_TOOLS", "Permission": "ENABLED"|"DISABLED" } ... ], "S3BucketArn": "string", "ScreenshotsUploadEnabled": true|false, "ScreenResolution": "W_1280xH_720", "ScreenImageFormat": "PNG"|"JPEG", "UserControlMode": "VIEW_ONLY"|"VIEW_STOP"|"DISABLED" }
     /// </summary>
     [CliOption("--agent-access-config")]
     public string? AgentAccessConfig { get; set; }
+
+    /// <summary>
+    /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS. Possible values: • FORCE_REAUTHENTICATION • REUSE_CREDENTIALS
+    /// </summary>
+    [CliOption("--storage-connector-authentication")]
+    public AwsAppstreamCreateStackStorageConnectorAuthentication? StorageConnectorAuthentication { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -161,6 +168,15 @@ public record AwsAppstreamCreateStackOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

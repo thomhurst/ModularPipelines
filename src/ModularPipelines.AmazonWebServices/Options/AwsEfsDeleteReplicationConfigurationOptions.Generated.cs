@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a replication configuration. Deleting a replication configura- tion ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replica- tion overwrite protection is re-enabled. For more information, see Delete a replication configuration . This operation requires permissions for the elasticfilesys- tem:DeleteReplicationConfiguration action. See also: AWS API Documentation
+/// Deletes a replication configuration. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replication overwrite protection is re-enabled. For more information, see Delete a replication configuration . This operation requires permissions for the elasticfilesystem:DeleteReplicationConfiguration action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsEfsDeleteReplicationConfigurationOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a replication configuration. Deleting a replication configura- tion ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replica- tion overwrite protection is re-enabled. For more information, see Delete a replication configuration . This operation requires permissions for the elasticfilesys- tem:DeleteReplicationConfiguration action. See also: AWS API Documentation
+    /// Deletes a replication configuration. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system becomes Writeable and its replication overwrite protection is re-enabled. For more information, see Delete a replication configuration . This operation requires permissions for the elasticfilesystem:DeleteReplicationConfiguration action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceFileSystemId">The ID of the source file system in the replication configuration. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
+    /// <param name="SourceFileSystemId">The ID of the source file system in the replication configuration. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$</param>
     public AwsEfsDeleteReplicationConfigurationOptions(
         string SourceFileSystemId
     )
@@ -57,13 +58,13 @@ public record AwsEfsDeleteReplicationConfigurationOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the source file system in the replication configuration. Constraints: o max: 128 o pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
+    /// The ID of the source file system in the replication configuration. Constraints: • max: 128 • pattern: ^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$
     /// </summary>
     [CliOption("--source-file-system-id")]
     public string? SourceFileSystemId { get; private init; }
 
     /// <summary>
-    /// When replicating across Amazon Web Services accounts or across Ama- zon Web Services Regions, Amazon EFS deletes the replication config- uration from both the source and destination account or Region (ALL_CONFIGURATIONS ) by default. If there's a configuration or per- missions issue that prevents Amazon EFS from deleting the replica- tion configuration from both sides, you can use the LOCAL_CONFIGURA- TION_ONLY mode to delete the replication configuration from only the local side (the account or Region from which the delete is per- formed). NOTE: Only use the LOCAL_CONFIGURATION_ONLY mode in the case that Ama- zon EFS is unable to delete the replication configuration in both the source and destination account or Region. Deleting the local configuration leaves the configuration in the other ac- count or Region unrecoverable. Additionally, do not use this mode for same-account, same-region replication as doing so results in a BadRequest exception error. Possible values: o ALL_CONFIGURATIONS o LOCAL_CONFIGURATION_ONLY
+    /// When replicating across Amazon Web Services accounts or across Amazon Web Services Regions, Amazon EFS deletes the replication configuration from both the source and destination account or Region (ALL_CONFIGURATIONS ) by default. If there's a configuration or permissions issue that prevents Amazon EFS from deleting the replication configuration from both sides, you can use the LOCAL_CONFIGURATION_ONLY mode to delete the replication configuration from only the local side (the account or Region from which the delete is performed). NOTE: Only use the LOCAL_CONFIGURATION_ONLY mode in the case that Amazon EFS is unable to delete the replication configuration in both the source and destination account or Region. Deleting the local configuration leaves the configuration in the other account or Region unrecoverable. Additionally, do not use this mode for same-account, same-region replication as doing so results in a BadRequest exception error. Possible values: • ALL_CONFIGURATIONS • LOCAL_CONFIGURATION_ONLY
     /// </summary>
     [CliOption("--deletion-mode")]
     public AwsEfsDeleteReplicationConfigurationDeletionMode? DeletionMode { get; set; }
@@ -89,6 +90,15 @@ public record AwsEfsDeleteReplicationConfigurationOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

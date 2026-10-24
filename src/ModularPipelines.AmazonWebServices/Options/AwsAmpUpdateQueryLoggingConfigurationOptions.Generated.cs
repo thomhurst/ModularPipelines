@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsAmpUpdateQueryLoggingConfigurationOptions : AwsOptions, IValida
     /// <summary>
     /// Updates the query logging configuration for the specified workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkspaceId">The ID of the workspace for which to update the query logging con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
-    /// <param name="Destinations">The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element. Constraints: o min: 1 o max: 1 (structure) Defines a destination and its associated filtering criteria for query logging. cloudWatchLogs -&gt; (structure) [required] Configuration details for logging to CloudWatch Logs. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* filters -&gt; (structure) [required] Filtering criteria that determine which queries are logged. qspThreshold -&gt; (long) [required] The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs. Constraints: o min: 0 Shorthand Syntax: cloudWatchLogs={logGroupArn=string},filters={qspThreshold=long} ... JSON Syntax: [ { "cloudWatchLogs": { "logGroupArn": "string" }, "filters": { "qspThreshold": long } } ... ]</param>
+    /// <param name="WorkspaceId">The ID of the workspace for which to update the query logging configuration. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*</param>
+    /// <param name="Destinations">The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element. Constraints: • min: 1 • max: 1 (structure) Defines a destination and its associated filtering criteria for query logging. cloudWatchLogs -&gt; (structure) [required] Configuration details for logging to CloudWatch Logs. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: • pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* filters -&gt; (structure) [required] Filtering criteria that determine which queries are logged. qspThreshold -&gt; (long) [required] The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs. Constraints: • min: 0 Shorthand Syntax: cloudWatchLogs={logGroupArn=string},filters={qspThreshold=long} ... JSON Syntax: [ { "cloudWatchLogs": { "logGroupArn": "string" }, "filters": { "qspThreshold": long } } ... ]</param>
     public AwsAmpUpdateQueryLoggingConfigurationOptions(
         string WorkspaceId,
         IEnumerable<string> Destinations
@@ -72,19 +73,19 @@ public record AwsAmpUpdateQueryLoggingConfigurationOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the workspace for which to update the query logging con- figuration. Constraints: o min: 1 o max: 64 o pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
+    /// The ID of the workspace for which to update the query logging configuration. Constraints: • min: 1 • max: 64 • pattern: .*[0-9A-Za-z][-.0-9A-Z_a-z]*.*
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element. Constraints: o min: 1 o max: 1 (structure) Defines a destination and its associated filtering criteria for query logging. cloudWatchLogs -&gt; (structure) [required] Configuration details for logging to CloudWatch Logs. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: o pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* filters -&gt; (structure) [required] Filtering criteria that determine which queries are logged. qspThreshold -&gt; (long) [required] The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs. Constraints: o min: 0 Shorthand Syntax: cloudWatchLogs={logGroupArn=string},filters={qspThreshold=long} ... JSON Syntax: [ { "cloudWatchLogs": { "logGroupArn": "string" }, "filters": { "qspThreshold": long } } ... ]
+    /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element. Constraints: • min: 1 • max: 1 (structure) Defines a destination and its associated filtering criteria for query logging. cloudWatchLogs -&gt; (structure) [required] Configuration details for logging to CloudWatch Logs. logGroupArn -&gt; (string) [required] The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation. Constraints: • pattern: arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:[0-9]{12}:log-group:[A-Za-z0-9\.\-\_\#/]{1,512}\:\* filters -&gt; (structure) [required] Filtering criteria that determine which queries are logged. qspThreshold -&gt; (long) [required] The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs. Constraints: • min: 0 Shorthand Syntax: cloudWatchLogs={logGroupArn=string},filters={qspThreshold=long} ... JSON Syntax: [ { "cloudWatchLogs": { "logGroupArn": "string" }, "filters": { "qspThreshold": long } } ... ]
     /// </summary>
     [CliOption("--destinations", GroupValues = true)]
     public IEnumerable<string>? Destinations { get; private init; }
 
     /// <summary>
-    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -111,6 +112,15 @@ public record AwsAmpUpdateQueryLoggingConfigurationOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

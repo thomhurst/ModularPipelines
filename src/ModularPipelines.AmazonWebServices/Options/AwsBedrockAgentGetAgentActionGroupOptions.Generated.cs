@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsBedrockAgentGetAgentActionGroupOptions : AwsOptions, IValidatab
     /// <summary>
     /// Gets information about an action group for an agent. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AgentId">The unique identifier of the agent that the action group belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
-    /// <param name="AgentVersion">The version of the agent that the action group belongs to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})</param>
-    /// <param name="ActionGroupId">The unique identifier of the action group for which to get informa- tion. Constraints: o pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentId">The unique identifier of the agent that the action group belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
+    /// <param name="AgentVersion">The version of the agent that the action group belongs to. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})</param>
+    /// <param name="ActionGroupId">The unique identifier of the action group for which to get information. Constraints: • pattern: [0-9a-zA-Z]{10}</param>
     public AwsBedrockAgentGetAgentActionGroupOptions(
         string AgentId,
         string AgentVersion,
@@ -64,19 +65,19 @@ public record AwsBedrockAgentGetAgentActionGroupOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the agent that the action group belongs to. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the agent that the action group belongs to. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--agent-id")]
     public string? AgentId { get; private init; }
 
     /// <summary>
-    /// The version of the agent that the action group belongs to. Constraints: o min: 1 o max: 5 o pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
+    /// The version of the agent that the action group belongs to. Constraints: • min: 1 • max: 5 • pattern: (DRAFT|[0-9]{0,4}[1-9][0-9]{0,4})
     /// </summary>
     [CliOption("--agent-version")]
     public string? AgentVersion { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the action group for which to get informa- tion. Constraints: o pattern: [0-9a-zA-Z]{10}
+    /// The unique identifier of the action group for which to get information. Constraints: • pattern: [0-9a-zA-Z]{10}
     /// </summary>
     [CliOption("--action-group-id")]
     public string? ActionGroupId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsBedrockAgentGetAgentActionGroupOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associ- ated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API opera- tion t...
+/// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to mo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsFsxDisassociateFileSystemAliasesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associ- ated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API opera- tion t...
+    /// Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associated with the file system, Amazon FSx responds with an HTTP status code 400 (Bad Request). For more information, see Working with DNS Aliases . The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to mo...
     /// </summary>
-    /// <param name="FileSystemId">Specifies the file system from which to disassociate the DNS aliases. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$</param>
-    /// <param name="Aliases">An array of one or more DNS alias names to disassociate, or remove, from the file system. Constraints: o max: 50 (string) Constraints: o min: 4 o max: 253 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...</param>
+    /// <param name="FileSystemId">Specifies the file system from which to disassociate the DNS aliases. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$</param>
+    /// <param name="Aliases">An array of one or more DNS alias names to disassociate, or remove, from the file system. Constraints: • max: 50 (string) Constraints: • min: 4 • max: 253 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...</param>
     public AwsFsxDisassociateFileSystemAliasesOptions(
         string FileSystemId,
         IEnumerable<string> Aliases
@@ -72,19 +73,19 @@ public record AwsFsxDisassociateFileSystemAliasesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the file system from which to disassociate the DNS aliases. Constraints: o min: 11 o max: 21 o pattern: ^(fs-[0-9a-f]{8,})$
+    /// Specifies the file system from which to disassociate the DNS aliases. Constraints: • min: 11 • max: 21 • pattern: ^(fs-[0-9a-f]{8,})$
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// An array of one or more DNS alias names to disassociate, or remove, from the file system. Constraints: o max: 50 (string) Constraints: o min: 4 o max: 253 o pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...
+    /// An array of one or more DNS alias names to disassociate, or remove, from the file system. Constraints: • max: 50 (string) Constraints: • min: 4 • max: 253 • pattern: ^[^\u0000\u0085\u2028\u2029\r\n]{4,253}$ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--aliases", GroupValues = true)]
     public IEnumerable<string>? Aliases { get; private init; }
 
     /// <summary>
-    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Ama- zon Web Services SDK. Constraints: o min: 1 o max: 63 o pattern: [A-za-z0-9_.-]{0,63}$
+    /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. Constraints: • min: 1 • max: 63 • pattern: [A-za-z0-9_.-]{0,63}$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -111,6 +112,15 @@ public record AwsFsxDisassociateFileSystemAliasesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

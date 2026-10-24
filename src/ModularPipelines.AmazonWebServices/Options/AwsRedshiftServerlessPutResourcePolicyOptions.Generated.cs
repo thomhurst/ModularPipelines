@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftServerlessPutResourcePolicyOptions : AwsOptions, IValid
     /// <summary>
     /// Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Policy">The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot. "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"Al- lowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:Restore- FromSnapshot\"] , \"Effect\": \"Allow\" }]}"</param>
+    /// <param name="Policy">The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot. "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"</param>
     /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the account to create or update a resource policy for.</param>
     public AwsRedshiftServerlessPutResourcePolicyOptions(
         string Policy,
@@ -60,7 +61,7 @@ public record AwsRedshiftServerlessPutResourcePolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot. "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"Al- lowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:Restore- FromSnapshot\"] , \"Effect\": \"Allow\" }]}"
+    /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot. "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
@@ -92,6 +93,15 @@ public record AwsRedshiftServerlessPutResourcePolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

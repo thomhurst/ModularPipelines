@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following. o Any files that FSx has already exported are not reverted. o FSx continues to export any files that are in-flight when the cancel operation is received. o FSx does not export any files that have not yet been exported. For a release task, Amazon FSx will stop releasing files upon cancella- tion. Any files that have...
+/// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following. • Any files that FSx has already exported are not reverted. • FSx continues to export any files that are in-flight when the cancel operation is received. • FSx does not export any files that have not yet been exported. For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that have a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsFsxCancelDataRepositoryTaskOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following. o Any files that FSx has already exported are not reverted. o FSx continues to export any files that are in-flight when the cancel operation is received. o FSx does not export any files that have not yet been exported. For a release task, Amazon FSx will stop releasing files upon cancella- tion. Any files that have...
+    /// Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel an export task, Amazon FSx does the following. • Any files that FSx has already exported are not reverted. • FSx continues to export any files that are in-flight when the cancel operation is received. • FSx does not export any files that have not yet been exported. For a release task, Amazon FSx will stop releasing files upon cancellation. Any files that have a...
     /// </summary>
-    /// <param name="TaskId">Specifies the data repository task to cancel. Constraints: o min: 12 o max: 128 o pattern: ^(task-[0-9a-f]{17,})$</param>
+    /// <param name="TaskId">Specifies the data repository task to cancel. Constraints: • min: 12 • max: 128 • pattern: ^(task-[0-9a-f]{17,})$</param>
     public AwsFsxCancelDataRepositoryTaskOptions(
         string TaskId
     )
@@ -56,7 +57,7 @@ public record AwsFsxCancelDataRepositoryTaskOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the data repository task to cancel. Constraints: o min: 12 o max: 128 o pattern: ^(task-[0-9a-f]{17,})$
+    /// Specifies the data repository task to cancel. Constraints: • min: 12 • max: 128 • pattern: ^(task-[0-9a-f]{17,})$
     /// </summary>
     [CliOption("--task-id")]
     public string? TaskId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsFsxCancelDataRepositoryTaskOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

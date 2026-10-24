@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsManagedblockchainQueryGetTokenBalanceOptions : AwsOptions, IVal
     /// <summary>
     /// Gets the balance of a specific token, including native tokens, for a given address (wallet or contract) on the blockchain. NOTE: Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TokenIdentifier">The container for the identifier for the token, including the unique token ID and its blockchain network. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }</param>
-    /// <param name="OwnerIdentifier">The container for the identifier for the owner. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }</param>
+    /// <param name="TokenIdentifier">The container for the identifier for the token, including the unique token ID and its blockchain network. network -&gt; (string) [required] The blockchain network of the token. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: • pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: • pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }</param>
+    /// <param name="OwnerIdentifier">The container for the identifier for the owner. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: • pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }</param>
     public AwsManagedblockchainQueryGetTokenBalanceOptions(
         string TokenIdentifier,
         string OwnerIdentifier
@@ -60,13 +61,13 @@ public record AwsManagedblockchainQueryGetTokenBalanceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The container for the identifier for the token, including the unique token ID and its blockchain network. network -&gt; (string) [required] The blockchain network of the token. Possible values: o ETHEREUM_MAINNET o ETHEREUM_SEPOLIA_TESTNET o BITCOIN_MAINNET o BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: o pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: o pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }
+    /// The container for the identifier for the token, including the unique token ID and its blockchain network. network -&gt; (string) [required] The blockchain network of the token. Possible values: • ETHEREUM_MAINNET • ETHEREUM_SEPOLIA_TESTNET • BITCOIN_MAINNET • BITCOIN_TESTNET contractAddress -&gt; (string) This is the token's contract address. Constraints: • pattern: [-A-Za-z0-9]{13,74} tokenId -&gt; (string) The unique identifier of the token. NOTE: For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format. Constraints: • pattern: [a-zA-Z0-9]{1,66} Shorthand Syntax: network=string,contractAddress=string,tokenId=string JSON Syntax: { "network": "ETHEREUM_MAINNET"|"ETHEREUM_SEPOLIA_TESTNET"|"BITCOIN_MAINNET"|"BITCOIN_TESTNET", "contractAddress": "string", "tokenId": "string" }
     /// </summary>
     [CliOption("--token-identifier")]
     public string? TokenIdentifier { get; private init; }
 
     /// <summary>
-    /// The container for the identifier for the owner. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: o pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }
+    /// The container for the identifier for the owner. address -&gt; (string) [required] The contract or wallet address for the owner. Constraints: • pattern: [-A-Za-z0-9]{13,74} Shorthand Syntax: address=string JSON Syntax: { "address": "string" }
     /// </summary>
     [CliOption("--owner-identifier")]
     public string? OwnerIdentifier { get; private init; }
@@ -98,6 +99,15 @@ public record AwsManagedblockchainQueryGetTokenBalanceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

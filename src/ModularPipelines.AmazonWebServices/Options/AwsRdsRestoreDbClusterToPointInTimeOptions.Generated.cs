@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ ...
+/// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ wh...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupReten- tionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ ...
+    /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. Unless the RestoreType is set to copy-on-write , the restore may occur in a different Availability Zone (AZ) from the original DB cluster. The AZ wh...
     /// </summary>
-    /// <param name="DbClusterIdentifier">The name of the new DB cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Valid for: Aurora DB clusters and Multi-AZ DB clusters</param>
+    /// <param name="DbClusterIdentifier">The name of the new DB cluster to be created. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Valid for: Aurora DB clusters and Multi-AZ DB clusters</param>
     public AwsRdsRestoreDbClusterToPointInTimeOptions(
         string DbClusterIdentifier
     )
@@ -56,31 +57,31 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new DB cluster to be created. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens o First character must be a letter o Can't end with a hyphen or contain two consecutive hyphens Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The name of the new DB cluster to be created. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens • First character must be a letter • Can't end with a hyphen or contain two consecutive hyphens Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The type of restore to be performed. You can specify one of the fol- lowing values: o full-copy - The new DB cluster is restored as a full copy of the source DB cluster. o copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The type of restore to be performed. You can specify one of the following values: • full-copy - The new DB cluster is restored as a full copy of the source DB cluster. • copy-on-write - The new DB cluster is restored as a clone of the source DB cluster. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--restore-type")]
     public string? RestoreType { get; set; }
 
     /// <summary>
-    /// The identifier of the source DB cluster from which to restore. Constraints: o Must match the identifier of an existing DBCluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The identifier of the source DB cluster from which to restore. Constraints: • Must match the identifier of an existing DBCluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--source-db-cluster-identifier")]
     public string? SourceDbClusterIdentifier { get; set; }
 
     /// <summary>
-    /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints: o Must be before the latest restorable time for the DB instance o Must be specified if UseLatestRestorableTime parameter isn't pro- vided o Can't be specified if the UseLatestRestorableTime parameter is en- abled o Can't be specified if the RestoreType parameter is copy-on-write Example: 2015-03-07T23:45:00Z Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints: • Must be before the latest restorable time for the DB instance • Must be specified if UseLatestRestorableTime parameter isn't provided • Can't be specified if the UseLatestRestorableTime parameter is enabled • Can't be specified if the RestoreType parameter is copy-on-write Example: 2015-03-07T23:45:00Z Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--restore-to-time")]
     public string? RestoreToTime { get; set; }
 
     /// <summary>
-    /// Specifies whether to restore the DB cluster to the latest restorable backup time. By default, the DB cluster isn't restored to the latest restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is pro- vided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether to restore the DB cluster to the latest restorable backup time. By default, the DB cluster isn't restored to the latest restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliFlag("--use-latest-restorable-time", NegatedName = "--no-use-latest-restorable-time")]
     public bool? UseLatestRestorableTime { get; set; }
@@ -92,7 +93,7 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     public int? Port { get; set; }
 
     /// <summary>
-    /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSub- netGroup. Example: mydbsubnetgroup Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mydbsubnetgroup Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
@@ -116,31 +117,31 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a dif- ferent Amazon Web Services account, specify the key ARN or alias ARN. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different from the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs: o If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster. o If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted. If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The Amazon Web Services KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different from the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs: • If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster. • If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted. If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// tication (boolean) Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By de- fault, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliFlag("--enable-iam-database-authentication", NegatedName = "--no-enable-iam-database-authentication")]
     public bool? EnableIamDatabaseAuthentication { get; set; }
 
     /// <summary>
-    /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints: o If specified, this value must be set to a number from 0 to 259,200 (72 hours). Valid for: Aurora MySQL DB clusters only
+    /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Default: 0 Constraints: • If specified, this value must be set to a number from 0 to 259,200 (72 hours). Valid for: Aurora MySQL DB clusters only
     /// </summary>
     [CliOption("--backtrack-window")]
-    public int? BacktrackWindow { get; set; }
+    public long? BacktrackWindow { get; set; }
 
     /// <summary>
-    /// The list of logs that the restored DB cluster is to export to Cloud- Watch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error , general , slowquery , and iam-db-auth-error . RDS for PostgreSQL Possible values are postgresql , upgrade , and iam-db-auth-error . Aurora MySQL Possible values are audit , error , general , instance , slowquery , and iam-db-auth-error . Aurora PostgreSQL Possible value are instance , postgresql , and iam-db-auth-error . For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Au- rora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters (string) Syntax: "string" "string" ...
+    /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. RDS for MySQL Possible values are error , general , slowquery , and iam-db-auth-error . RDS for PostgreSQL Possible values are postgresql , upgrade , and iam-db-auth-error . Aurora MySQL Possible values are audit , error , general , instance , slowquery , and iam-db-auth-error . Aurora PostgreSQL Possible value are instance , postgresql , and iam-db-auth-error . For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide . For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide . Valid for: Aurora DB clusters and Multi-AZ DB clusters (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enable-cloudwatch-logs-exports", GroupValues = true)]
     public IEnumerable<string>? EnableCloudwatchLogsExports { get; set; }
 
     /// <summary>
-    /// The name of the custom DB cluster parameter group to associate with this DB cluster. If the DBClusterParameterGroupName parameter is omitted, the default DB cluster parameter group for the specified engine is used. Constraints: o If supplied, must match the name of an existing DB cluster parame- ter group. o Must be 1 to 255 letters, numbers, or hyphens. o First character must be a letter. o Can't end with a hyphen or contain two consecutive hyphens. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// The name of the custom DB cluster parameter group to associate with this DB cluster. If the DBClusterParameterGroupName parameter is omitted, the default DB cluster parameter group for the specified engine is used. Constraints: • If supplied, must match the name of an existing DB cluster parameter group. • Must be 1 to 255 letters, numbers, or hyphens. • First character must be a letter. • Can't end with a hyphen or contain two consecutive hyphens. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--db-cluster-parameter-group-name")]
     public string? DbClusterParameterGroupName { get; set; }
@@ -158,13 +159,13 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     public bool? CopyTagsToSnapshot { get; set; }
 
     /// <summary>
-    /// The Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation. For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authenti- cation to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide . Valid for: Aurora DB clusters only
+    /// The Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation. For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide . Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--domain")]
     public string? Domain { get; set; }
 
     /// <summary>
-    /// The name of the IAM role to be used when making API calls to the Di- rectory Service. Valid for: Aurora DB clusters only
+    /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--domain-iam-role-name")]
     public string? DomainIamRoleName { get; set; }
@@ -176,13 +177,13 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     public string? DbClusterInstanceClass { get; set; }
 
     /// <summary>
-    /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops para- meter is required. Valid Values: aurora , aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora , aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     /// </summary>
     [CliOption("--storage-type")]
     public string? StorageType { get; set; }
 
     /// <summary>
-    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB clus- ter is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnet- GroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: o If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB cluster is private. o If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: o If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB cluster is private. o If the subnets are part of a VPC that has an internet gateway at- tached to it, the DB cluster is public. Valid for: Multi-AZ DB clusters only
+    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies: • If the default VPC in the target Region doesnt have an internet gateway attached to it, the DB cluster is private. • If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public. If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies: • If the subnets are part of a VPC that doesnt have an internet gateway attached to it, the DB cluster is private. • If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public. Valid for: Multi-AZ DB clusters only
     /// </summary>
     [CliFlag("--publicly-accessible", NegatedName = "--no-publicly-accessible")]
     public bool? PubliclyAccessible { get; set; }
@@ -194,7 +195,7 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     public int? Iops { get; set; }
 
     /// <summary>
-    /// The network type of the DB cluster. Valid Values: o IPV4 o DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
+    /// The network type of the DB cluster. Valid Values: • IPV4 • DUAL The network type is determined by the DBSubnetGroup specified for the DB cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL ). For more information, see Working with a DB instance in a VPC in the Amazon Aurora User Guide. Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--network-type")]
     public string? NetworkType { get; set; }
@@ -206,97 +207,97 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
     public string? SourceDbClusterResourceId { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB in- stance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora ver- sions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the spe- cific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB in- stance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
+    /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see Using Amazon Aurora Serverless v2 in the Amazon Aurora User Guide . MinCapacity -&gt; (double) The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5. MaxCapacity -&gt; (double) The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported. SecondsUntilAutoPause -&gt; (integer) Specifies the number of seconds an Aurora Serverless v2 DB instance must be idle before Aurora attempts to automatically pause it. Specify a value between 300 seconds (five minutes) and 86,400 seconds (one day). The default is 300 seconds. Shorthand Syntax: MinCapacity=double,MaxCapacity=double,SecondsUntilAutoPause=integer JSON Syntax: { "MinCapacity": double, "MaxCapacity": double, "SecondsUntilAutoPause": integer }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for: Aurora DB clusters only MinCapacity -&gt; (integer) The minimum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The minimum capacity must be less than or equal to the maximum capacity. MaxCapacity -&gt; (integer) The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The maximum capacity must be greater than or equal to the mini- mum capacity. AutoPause -&gt; (boolean) Indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections). NOTE: If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it. SecondsUntilAutoPause -&gt; (integer) The time, in seconds, before an Aurora DB cluster in serverless mode is paused. Specify a value between 300 and 86,400 seconds. TimeoutAction -&gt; (string) The action to take when the timeout is reached, either ForceAp- plyCapacityChange or RollbackCapacityChange . ForceApplyCapacityChange sets the capacity to the specified value as soon as possible. RollbackCapacityChange , the default, ignores the capacity change if a scaling point isn't found in the timeout period. WARNING: If you specify ForceApplyCapacityChange , connections that prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information, see Autoscaling for Aurora Serverless v1 in the Amazon Aurora User Guide . SecondsBeforeTimeout -&gt; (integer) The amount of time, in seconds, that Aurora Serverless v1 tries to find a scaling point to perform seamless scaling before en- forcing the timeout action. The default is 300. Specify a value between 60 and 600 seconds. Shorthand Syntax: MinCapacity=integer,MaxCapacity=integer,AutoPause=boolean,SecondsUntilAutoPause=integer,TimeoutAction=string,SecondsBeforeTimeout=integer JSON Syntax: { "MinCapacity": integer, "MaxCapacity": integer, "AutoPause": true|false, "SecondsUntilAutoPause": integer, "TimeoutAction": "string", "SecondsBeforeTimeout": integer }
+    /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for: Aurora DB clusters only MinCapacity -&gt; (integer) The minimum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The minimum capacity must be less than or equal to the maximum capacity. MaxCapacity -&gt; (integer) The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1 , 2 , 4 , 8 , 16 , 32 , 64 , 128 , and 256 . For Aurora PostgreSQL, valid capacity values are 2 , 4 , 8 , 16 , 32 , 64 , 192 , and 384 . The maximum capacity must be greater than or equal to the minimum capacity. AutoPause -&gt; (boolean) Indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections). NOTE: If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it. SecondsUntilAutoPause -&gt; (integer) The time, in seconds, before an Aurora DB cluster in serverless mode is paused. Specify a value between 300 and 86,400 seconds. TimeoutAction -&gt; (string) The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange . ForceApplyCapacityChange sets the capacity to the specified value as soon as possible. RollbackCapacityChange , the default, ignores the capacity change if a scaling point isn't found in the timeout period. WARNING: If you specify ForceApplyCapacityChange , connections that prevent Aurora Serverless v1 from finding a scaling point might be dropped. For more information, see Autoscaling for Aurora Serverless v1 in the Amazon Aurora User Guide . SecondsBeforeTimeout -&gt; (integer) The amount of time, in seconds, that Aurora Serverless v1 tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300. Specify a value between 60 and 600 seconds. Shorthand Syntax: MinCapacity=integer,MaxCapacity=integer,AutoPause=boolean,SecondsUntilAutoPause=integer,TimeoutAction=string,SecondsBeforeTimeout=integer JSON Syntax: { "MinCapacity": integer, "MaxCapacity": integer, "AutoPause": true|false, "SecondsUntilAutoPause": integer, "TimeoutAction": "string", "SecondsBeforeTimeout": integer }
     /// </summary>
     [CliOption("--scaling-configuration")]
     public string? ScalingConfiguration { get; set; }
 
     /// <summary>
-    /// The engine mode of the new cluster. Specify provisioned or server- less , depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To cre- ate a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted pro- visioned cluster. To create a full copy that is an Aurora Serverless v1 cluster, specify the engine mode serverless . Valid for: Aurora DB clusters only
+    /// The engine mode of the new cluster. Specify provisioned or serverless , depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. To create a full copy that is an Aurora Serverless v1 cluster, specify the engine mode serverless . Valid for: Aurora DB clusters only
     /// </summary>
     [CliOption("--engine-mode")]
     public string? EngineMode { get; set; }
 
     /// <summary>
-    /// Reserved for future use. InterconnectSubnetId -&gt; (string) Reserved for future use. TransitGatewayMulticastDomainId -&gt; (string) Reserved for future use. ReplicaMode -&gt; (string) Reserved for future use. Possible values: o open-read-only o mounted Shorthand Syntax: InterconnectSubnetId=string,TransitGatewayMulticastDomainId=string,ReplicaMode=string JSON Syntax: { "InterconnectSubnetId": "string", "TransitGatewayMulticastDomainId": "string", "ReplicaMode": "open-read-only"|"mounted" }
+    /// Reserved for future use. InterconnectSubnetId -&gt; (string) Reserved for future use. TransitGatewayMulticastDomainId -&gt; (string) Reserved for future use. ReplicaMode -&gt; (string) Reserved for future use. Possible values: • open-read-only • mounted Shorthand Syntax: InterconnectSubnetId=string,TransitGatewayMulticastDomainId=string,ReplicaMode=string JSON Syntax: { "InterconnectSubnetId": "string", "TransitGatewayMulticastDomainId": "string", "ReplicaMode": "open-read-only"|"mounted" }
     /// </summary>
     [CliOption("--rds-custom-cluster-configuration")]
     public string? RdsCustomClusterConfiguration { get; set; }
 
     /// <summary>
-    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting En- hanced Monitoring metrics, specify 0 . If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0 . Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
+    /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0 . If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0 . Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60 Default: 0
     /// </summary>
     [CliOption("--monitoring-interval")]
     public int? MonitoringInterval { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An exam- ple is arn:aws:iam:123456789012:role/emaccess . If MonitoringInterval is set to a value other than 0 , supply a Mon- itoringRoleArn value.
+    /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess . If MonitoringInterval is set to a value other than 0 , supply a MonitoringRoleArn value.
     /// </summary>
     [CliOption("--monitoring-role-arn")]
     public string? MonitoringRoleArn { get; set; }
 
     /// <summary>
-    /// Specifies whether to turn on Performance Insights for the DB clus- ter.
+    /// Specifies whether to turn on Performance Insights for the DB cluster.
     /// </summary>
     [CliFlag("--enable-performance-insights", NegatedName = "--no-enable-performance-insights")]
     public bool? EnablePerformanceInsights { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services KMS key identifier for encryption of Perfor- mance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId , then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId , then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     /// </summary>
     [CliOption("--performance-insights-kms-key-id")]
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
     /// <summary>
-    /// The number of days to retain Performance Insights data. Valid Values: o 7 o month * 31, where month is a number of months from 1-23. Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31) o 731 Default: 7 days If you specify a retention period that isn't valid, such as 94 , Amazon RDS issues an error.
+    /// The number of days to retain Performance Insights data. Valid Values: • 7 • month * 31, where month is a number of months from 1-23. Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31) • 731 Default: 7 days If you specify a retention period that isn't valid, such as 94 , Amazon RDS issues an error.
     /// </summary>
     [CliOption("--performance-insights-retention-period")]
     public int? PerformanceInsightsRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The number of days for which automated backups are retained. Specify a minimum value of 1 . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: Uses existing setting Constraints: o Must be a value from 1 to 35.
+    /// The number of days for which automated backups are retained. Specify a minimum value of 1 . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: Uses existing setting Constraints: • Must be a value from 1 to 35.
     /// </summary>
     [CliOption("--backup-retention-period")]
     public int? BackupRetentionPeriod { get; set; }
 
     /// <summary>
-    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod para- meter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see Backup window in the Amazon Aurora User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: o Must be in the format hh24:mi-hh24:mi . o Must be in Universal Coordinated Time (UTC). o Must not conflict with the preferred maintenance window. o Must be at least 30 minutes.
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see Backup window in the Amazon Aurora User Guide . Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints: • Must be in the format hh24:mi-hh24:mi . • Must be in Universal Coordinated Time (UTC). • Must not conflict with the preferred maintenance window. • Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-backup-window")]
     public string? PreferredBackupWindow { get; set; }
 
     /// <summary>
-    /// The lifecycle type for this DB cluster. NOTE: By default, this value is set to open-source-rds-extended-sup- port , which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-ex- tended-support-disabled . In this case, RDS automatically up- grades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the se- lected major engine version on your DB cluster past the end of stan- dard support for that engine version. For more information, see the following sections: o Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide o Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-ex- tended-support-disabled Default: open-source-rds-extended-support
+    /// The lifecycle type for this DB cluster. NOTE: By default, this value is set to open-source-rds-extended-support , which enrolls your DB cluster into Amazon RDS Extended Support. At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled . In this case, RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date. You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support, you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections: • Amazon Aurora - Amazon RDS Extended Support with Amazon Aurora in the Amazon Aurora User Guide • Amazon RDS - Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled Default: open-source-rds-extended-support
     /// </summary>
     [CliOption("--engine-lifecycle-support")]
     public string? EngineLifecycleSupport { get; set; }
 
     /// <summary>
-    /// Tags to assign to resources associated with the DB cluster. Valid Values: o cluster-auto-backup - The DB cluster's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: o auto-backup - The DB instance's automated backup. o cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode let- ters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
+    /// Tags to assign to resources associated with the DB cluster. Valid Values: • cluster-auto-backup - The DB cluster's automated backup. (structure) The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail. ResourceType -&gt; (string) The type of resource to tag on creation. Valid Values: • auto-backup - The DB instance's automated backup. • cluster-auto-backup - The DB cluster's automated backup. Tags -&gt; (list) A list of tags. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . (structure) Metadata assigned to an Amazon RDS resource consisting of a key-value pair. For more information, see Tagging Amazon RDS resources in the Amazon RDS User Guide or Tagging Amazon Aurora and Amazon RDS resources in the Amazon Aurora User Guide . Key -&gt; (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds: . The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$"). Shorthand Syntax: ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}] ... JSON Syntax: [ { "ResourceType": "string", "Tags": [ { "Key": "string", "Value": "string" } ... ] } ... ]
     /// </summary>
     [CliOption("--tag-specifications", GroupValues = true)]
     public IEnumerable<string>? TagSpecifications { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable VPC networking for the restored DB clus- ter. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGate- way . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// Specifies whether to enable VPC networking for the restored DB cluster. Set this parameter to false to create a cluster without the VPC network interface (ENI). This parameter must be used together with EnableInternetAccessGateway . When both parameters are specified, IAM database authentication is required. You must also specify EnableIAMDatabaseAuthentication . Valid for Cluster Type: Aurora PostgreSQL clusters
     /// </summary>
     [CliFlag("--enable-vpc-networking", NegatedName = "--no-enable-vpc-networking")]
     public bool? EnableVpcNetworking { get; set; }
 
     /// <summary>
-    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false . When both parameters are specified, IAM database authentica- tion is required. You must also specify EnableIAMDatabaseAuthentica- tion . Valid for Cluster Type: Aurora PostgreSQL clusters
+    /// Specifies that the restored DB cluster should use internet-based connectivity through an internet access gateway. This allows clients to connect to the cluster over the internet without requiring a VPC. This parameter must be used together with EnableVPCNetworking set to false . When both parameters are specified, IAM database authentication is required. You must also specify EnableIAMDatabaseAuthentication . Valid for Cluster Type: Aurora PostgreSQL clusters
     /// </summary>
     [CliFlag("--enable-internet-access-gateway", NegatedName = "--no-enable-internet-access-gateway")]
     public bool? EnableInternetAccessGateway { get; set; }
 
     /// <summary>
-    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored to a point in time. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import , s3Export , or Lambda ). Valid for Cluster Type: Aurora DB clusters only Constraints: o min: 0 o max: 15 (structure) Contains information about an Amazon Web Services Identity and Access Management (IAM) role to associate with a DB cluster. You can specify this structure in the AssociatedRoles parameter of CreateDBCluster , RestoreDBClusterFromS3 , RestoreDBCluster- FromSnapshot , and RestoreDBClusterToPointInTime . RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to associate with the DB cluster. Constraints: o min: 20 o max: 2048 o pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.* FeatureName -&gt; (string) The name of the feature associated with the IAM role. For in- formation about supported feature names, see DBEngineVersion . Shorthand Syntax: RoleArn=string,FeatureName=string ... JSON Syntax: [ { "RoleArn": "string", "FeatureName": "string" } ... ]
+    /// A list of Amazon Web Services Identity and Access Management (IAM) roles to associate with the DB cluster when it's restored to a point in time. Each role grants the DB cluster permission to access other Amazon Web Services on your behalf. For each role, specify a role ARN and, optionally, the feature name (such as s3Import , s3Export , or Lambda ). Valid for Cluster Type: Aurora DB clusters only Constraints: • min: 0 • max: 15 (structure) Contains information about an Amazon Web Services Identity and Access Management (IAM) role to associate with a DB cluster. You can specify this structure in the AssociatedRoles parameter of CreateDBCluster , RestoreDBClusterFromS3 , RestoreDBClusterFromSnapshot , and RestoreDBClusterToPointInTime . RoleArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the IAM role to associate with the DB cluster. Constraints: • min: 20 • max: 2048 • pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.* FeatureName -&gt; (string) The name of the feature associated with the IAM role. For information about supported feature names, see DBEngineVersion . Shorthand Syntax: RoleArn=string,FeatureName=string ... JSON Syntax: [ { "RoleArn": "string", "FeatureName": "string" } ... ]
     /// </summary>
     [CliOption("--associated-roles", GroupValues = true)]
     public IEnumerable<string>? AssociatedRoles { get; set; }
@@ -322,6 +323,15 @@ public record AwsRdsRestoreDbClusterToPointInTimeOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

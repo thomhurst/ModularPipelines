@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsBackupGatewayImportHypervisorConfigurationOptions : AwsOptions,
     /// <summary>
     /// Connect to a hypervisor by importing its configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*</param>
-    /// <param name="Host">The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+</param>
+    /// <param name="Name">The name of the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]*</param>
+    /// <param name="Host">The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: • min: 3 • max: 128 • pattern: .+</param>
     public AwsBackupGatewayImportHypervisorConfigurationOptions(
         string Name,
         string Host
@@ -61,38 +62,38 @@ public record AwsBackupGatewayImportHypervisorConfigurationOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z0-9-]*
+    /// The name of the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z0-9-]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: o min: 3 o max: 128 o pattern: .+
+    /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN). Constraints: • min: 3 • max: 128 • pattern: .+
     /// </summary>
     [CliOption("--host")]
     public string? Host { get; private init; }
 
     /// <summary>
-    /// The username for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
+    /// The username for the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [ -\.0-\[\]-~]*[!-\.0-\[\]-~][ -\.0-\[\]-~]*
     /// </summary>
     [CliOption("--username")]
     public string? Username { get; set; }
 
     /// <summary>
-    /// The password for the hypervisor. Constraints: o min: 1 o max: 100 o pattern: [ -~]+
+    /// The password for the hypervisor. Constraints: • min: 1 • max: 100 • pattern: [ -~]+
     /// </summary>
     [SecretValue]
     [CliOption("--password")]
     public string? Password { get; set; }
 
     /// <summary>
-    /// The Key Management Service for the hypervisor. Constraints: o min: 50 o max: 500 o pattern: (^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
+    /// The Key Management Service for the hypervisor. Constraints: • min: 50 • max: 500 • pattern: (^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\S+)$)|(^alias/(\S+)$)
     /// </summary>
     [CliOption("--kms-key-arn")]
     public string? KmsKeyArn { get; set; }
 
     /// <summary>
-    /// The tags of the hypervisor configuration to import. (structure) A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, num- bers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values. Key -&gt; (string) [required] The key part of a tag's key-value pair. The key can't start with aws: . Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value part of a tag's key-value pair. Constraints: o min: 0 o max: 256 o pattern: [^\x00]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags of the hypervisor configuration to import. (structure) A key-value pair you can use to manage, filter, and search for your resources. Allowed characters include UTF-8 letters, numbers, and the following characters: + - = . _ : /. Spaces are not allowed in tag values. Key -&gt; (string) [required] The key part of a tag's key-value pair. The key can't start with aws: . Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Value -&gt; (string) [required] The value part of a tag's key-value pair. Constraints: • min: 0 • max: 256 • pattern: [^\x00]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -118,6 +119,15 @@ public record AwsBackupGatewayImportHypervisorConfigurationOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

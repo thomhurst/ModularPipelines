@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. Dur- ing this time, you cannot make another update request. See also: AWS API Documentation
+/// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDsUpdateNumberOfDomainControllersOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. Dur- ing this time, you cannot make another update request. See also: AWS API Documentation
+    /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryId">Identifier of the directory to which the domain controllers will be added or removed. Constraints: o pattern: ^d-[0-9a-f]{10}$</param>
-    /// <param name="DesiredNumber">The number of domain controllers desired in the directory. Constraints: o min: 2</param>
+    /// <param name="DirectoryId">Identifier of the directory to which the domain controllers will be added or removed. Constraints: • pattern: ^d-[0-9a-f]{10}$</param>
+    /// <param name="DesiredNumber">The number of domain controllers desired in the directory. Constraints: • min: 2</param>
     public AwsDsUpdateNumberOfDomainControllersOptions(
         string DirectoryId,
         int DesiredNumber
@@ -59,13 +60,13 @@ public record AwsDsUpdateNumberOfDomainControllersOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifier of the directory to which the domain controllers will be added or removed. Constraints: o pattern: ^d-[0-9a-f]{10}$
+    /// Identifier of the directory to which the domain controllers will be added or removed. Constraints: • pattern: ^d-[0-9a-f]{10}$
     /// </summary>
     [CliOption("--directory-id")]
     public string? DirectoryId { get; private init; }
 
     /// <summary>
-    /// The number of domain controllers desired in the directory. Constraints: o min: 2
+    /// The number of domain controllers desired in the directory. Constraints: • min: 2
     /// </summary>
     [CliOption("--desired-number")]
     public int? DesiredNumber { get; private init; }
@@ -91,6 +92,15 @@ public record AwsDsUpdateNumberOfDomainControllersOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+/// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsCognitoIdentitySetIdentityPoolRolesOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use Amazon Web Services developer credentials to call this op- eration. See also: AWS API Documentation
+    /// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use Amazon Web Services developer credentials to call this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+</param>
-    /// <param name="Roles">The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN. Constraints: o max: 2 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (un)?authenticated value -&gt; (string) Constraints: o min: 20 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="IdentityPoolId">An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+</param>
+    /// <param name="Roles">The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN. Constraints: • max: 2 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (un)?authenticated value -&gt; (string) Constraints: • min: 20 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsCognitoIdentitySetIdentityPoolRolesOptions(
         string IdentityPoolId,
         IReadOnlyList<KeyValue> Roles
@@ -72,19 +72,19 @@ public record AwsCognitoIdentitySetIdentityPoolRolesOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// An identity pool ID in the format REGION:GUID. Constraints: o min: 1 o max: 55 o pattern: [\w-]+:[0-9a-f-]+
+    /// An identity pool ID in the format REGION:GUID. Constraints: • min: 1 • max: 55 • pattern: [\w-]+:[0-9a-f-]+
     /// </summary>
     [CliOption("--identity-pool-id")]
     public string? IdentityPoolId { get; private init; }
 
     /// <summary>
-    /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN. Constraints: o max: 2 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (un)?authenticated value -&gt; (string) Constraints: o min: 20 o max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN. Constraints: • max: 2 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (un)?authenticated value -&gt; (string) Constraints: • min: 20 • max: 2048 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--roles", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Roles { get; private init; }
 
     /// <summary>
-    /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, graph.facebook.com or cog- nito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id . Up to 25 rules can be specified per identity provider. Constraints: o max: 10 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (structure) A role mapping. Type -&gt; (string) [required] The role mapping type. Token will use cognito:roles and cog- nito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role. Possible values: o Token o Rules AmbiguousRoleResolution -&gt; (string) If you specify Token or Rules as the Type , AmbiguousRoleRes- olution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:pre- ferred_role claim and there are multiple cognito:roles matches for the Token type. Possible values: o AuthenticatedRole o Deny RulesConfiguration -&gt; (structure) The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfigu- ration is required. Rules -&gt; (list) [required] An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role. Constraints: o min: 1 o max: 400 (structure) A rule that maps a claim name, a claim value, and a match type to a role ARN. Claim -&gt; (string) [required] The claim name that must be present in the token, for example, "isAdmin" or "paid". Constraints: o min: 1 o max: 64 o pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ MatchType -&gt; (string) [required] The match condition that specifies how closely the claim value in the IdP token must match Value . Possible values: o Equals o Contains o StartsWith o NotEqual Value -&gt; (string) [required] A brief string that the claim must match, for ex- ample, "paid" or "yes". Constraints: o min: 1 o max: 128 RoleARN -&gt; (string) [required] The role ARN. Constraints: o min: 20 o max: 2048 JSON Syntax: {"string": { "Type": "Token"|"Rules", "AmbiguousRoleResolution": "AuthenticatedRole"|"Deny", "RulesConfiguration": { "Rules": [ { "Claim": "string", "MatchType": "Equals"|"Contains"|"StartsWith"|"NotEqual", "Value": "string", "RoleARN": "string" } ... ] } } ...}
+    /// How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, graph.facebook.com or cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id . Up to 25 rules can be specified per identity provider. Constraints: • max: 10 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (structure) A role mapping. Type -&gt; (string) [required] The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role. Possible values: • Token • Rules AmbiguousRoleResolution -&gt; (string) If you specify Token or Rules as the Type , AmbiguousRoleResolution is required. Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type. Possible values: • AuthenticatedRole • Deny RulesConfiguration -&gt; (structure) The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required. Rules -&gt; (list) [required] An array of rules. You can specify up to 25 rules per identity provider. Rules are evaluated in order. The first one to match specifies the role. Constraints: • min: 1 • max: 400 (structure) A rule that maps a claim name, a claim value, and a match type to a role ARN. Claim -&gt; (string) [required] The claim name that must be present in the token, for example, "isAdmin" or "paid". Constraints: • min: 1 • max: 64 • pattern: [\p{L}\p{M}\p{S}\p{N}\p{P}]+ MatchType -&gt; (string) [required] The match condition that specifies how closely the claim value in the IdP token must match Value . Possible values: • Equals • Contains • StartsWith • NotEqual Value -&gt; (string) [required] A brief string that the claim must match, for example, "paid" or "yes". Constraints: • min: 1 • max: 128 RoleARN -&gt; (string) [required] The role ARN. Constraints: • min: 20 • max: 2048 JSON Syntax: {"string": { "Type": "Token"|"Rules", "AmbiguousRoleResolution": "AuthenticatedRole"|"Deny", "RulesConfiguration": { "Rules": [ { "Claim": "string", "MatchType": "Equals"|"Contains"|"StartsWith"|"NotEqual", "Value": "string", "RoleARN": "string" } ... ] } } ...}
     /// </summary>
     [CliOption("--role-mappings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? RoleMappings { get; set; }
@@ -110,6 +110,15 @@ public record AwsCognitoIdentitySetIdentityPoolRolesOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

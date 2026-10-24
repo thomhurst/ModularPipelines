@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsEc2DescribeImageAttributeOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time. NOTE: The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Attribute">The AMI attribute. Note : The blockDeviceMapping attribute is deprecated. Using this attribute returns the Client.AuthFailure error. To get in- formation about the block device mappings for an AMI, describe the image instead. Possible values: o description o kernel o ramdisk o launchPermission o productCodes o blockDeviceMapping o sriovNetSupport o bootMode o tpmSupport o uefiData o lastLaunchedTime o imdsSupport o deregistrationProtection</param>
+    /// <param name="Attribute">The AMI attribute. Note : The blockDeviceMapping attribute is deprecated. Using this attribute returns the Client.AuthFailure error. To get information about the block device mappings for an AMI, describe the image instead. Possible values: • description • kernel • ramdisk • launchPermission • productCodes • blockDeviceMapping • sriovNetSupport • bootMode • tpmSupport • uefiData • lastLaunchedTime • imdsSupport • deregistrationProtection</param>
     /// <param name="ImageId">The ID of the AMI.</param>
     public AwsEc2DescribeImageAttributeOptions(
         AwsEc2DescribeImageAttributeAttribute Attribute,
@@ -60,7 +61,7 @@ public record AwsEc2DescribeImageAttributeOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AMI attribute. Note : The blockDeviceMapping attribute is deprecated. Using this attribute returns the Client.AuthFailure error. To get in- formation about the block device mappings for an AMI, describe the image instead. Possible values: o description o kernel o ramdisk o launchPermission o productCodes o blockDeviceMapping o sriovNetSupport o bootMode o tpmSupport o uefiData o lastLaunchedTime o imdsSupport o deregistrationProtection
+    /// The AMI attribute. Note : The blockDeviceMapping attribute is deprecated. Using this attribute returns the Client.AuthFailure error. To get information about the block device mappings for an AMI, describe the image instead. Possible values: • description • kernel • ramdisk • launchPermission • productCodes • blockDeviceMapping • sriovNetSupport • bootMode • tpmSupport • uefiData • lastLaunchedTime • imdsSupport • deregistrationProtection
     /// </summary>
     [CliOption("--attribute")]
     public AwsEc2DescribeImageAttributeAttribute? Attribute { get; private init; }
@@ -72,7 +73,7 @@ public record AwsEc2DescribeImageAttributeOptions : AwsOptions, IValidatableObje
     public string? ImageId { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2DescribeImageAttributeOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

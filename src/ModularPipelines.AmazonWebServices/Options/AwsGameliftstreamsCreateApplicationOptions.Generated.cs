@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an application resource in Amazon GameLift Streams, which spec- ifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more infor- mation, see Getting Started in the Amazon GameLift Streams Developer Guide. WARNING: Make sure that your files in the Amazon S3 bucket are the correct vers...
+/// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide. WARNING: Make sure that your files in the Amazon S3 bucket are the correct version ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,12 +27,12 @@ public record AwsGameliftstreamsCreateApplicationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an application resource in Amazon GameLift Streams, which spec- ifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more infor- mation, see Getting Started in the Amazon GameLift Streams Developer Guide. WARNING: Make sure that your files in the Amazon S3 bucket are the correct vers...
+    /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide. WARNING: Make sure that your files in the Amazon S3 bucket are the correct version ...
     /// </summary>
-    /// <param name="Description">A human-readable label for the application. You can update this value later. Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*</param>
-    /// <param name="RuntimeEnvironment">Configuration settings that identify the operating system for an ap- plication resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following: o For Linux applications o Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS ) o For Windows applications o Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022 ) o Proton 10.0-4 (Type=PROTON, Version=20260204 ) o Proton 9.0-2 (Type=PROTON, Version=20250516 ) o Proton 8.0-5 (Type=PROTON, Version=20241007 ) o Proton 8.0-2c (Type=PROTON, Version=20230704 ) Type -&gt; (string) [required] The operating system and other drivers. For Proton, this also includes the Proton compatibility layer. Possible values: o PROTON o WINDOWS o UBUNTU Version -&gt; (string) [required] Versioned container environment for the application operating system. Constraints: o min: 1 o max: 256 Shorthand Syntax: Type=string,Version=string JSON Syntax: { "Type": "PROTON"|"WINDOWS"|"UBUNTU", "Version": "string" }</param>
-    /// <param name="ExecutablePath">The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the loca- tion set in ApplicationSourceUri . The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an ini- tial interpreter line starting with a shebang ('#! '). Constraints: o min: 1 o max: 1024</param>
-    /// <param name="ApplicationSourceUri">The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must in- clude all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application. NOTE: The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="Description">A human-readable label for the application. You can update this value later. Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*</param>
+    /// <param name="RuntimeEnvironment">Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following: • For Linux applications • Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS ) • For Windows applications • Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022 ) • Proton 10.0-4 (Type=PROTON, Version=20260204 ) • Proton 9.0-2 (Type=PROTON, Version=20250516 ) • Proton 8.0-5 (Type=PROTON, Version=20241007 ) • Proton 8.0-2c (Type=PROTON, Version=20230704 ) Type -&gt; (string) [required] The operating system and other drivers. For Proton, this also includes the Proton compatibility layer. Possible values: • PROTON • WINDOWS • UBUNTU Version -&gt; (string) [required] Versioned container environment for the application operating system. Constraints: • min: 1 • max: 256 Shorthand Syntax: Type=string,Version=string JSON Syntax: { "Type": "PROTON"|"WINDOWS"|"UBUNTU", "Version": "string" }</param>
+    /// <param name="ExecutablePath">The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in ApplicationSourceUri . The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('#! '). Constraints: • min: 1 • max: 1024</param>
+    /// <param name="ApplicationSourceUri">The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application. NOTE: The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region. Constraints: • min: 1 • max: 1024</param>
     public AwsGameliftstreamsCreateApplicationOptions(
         string Description,
         string RuntimeEnvironment,
@@ -70,49 +70,49 @@ public record AwsGameliftstreamsCreateApplicationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A human-readable label for the application. You can update this value later. Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*
+    /// A human-readable label for the application. You can update this value later. Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; private init; }
 
     /// <summary>
-    /// Configuration settings that identify the operating system for an ap- plication resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following: o For Linux applications o Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS ) o For Windows applications o Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022 ) o Proton 10.0-4 (Type=PROTON, Version=20260204 ) o Proton 9.0-2 (Type=PROTON, Version=20250516 ) o Proton 8.0-5 (Type=PROTON, Version=20241007 ) o Proton 8.0-2c (Type=PROTON, Version=20230704 ) Type -&gt; (string) [required] The operating system and other drivers. For Proton, this also includes the Proton compatibility layer. Possible values: o PROTON o WINDOWS o UBUNTU Version -&gt; (string) [required] Versioned container environment for the application operating system. Constraints: o min: 1 o max: 256 Shorthand Syntax: Type=string,Version=string JSON Syntax: { "Type": "PROTON"|"WINDOWS"|"UBUNTU", "Version": "string" }
+    /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following: • For Linux applications • Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS ) • For Windows applications • Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022 ) • Proton 10.0-4 (Type=PROTON, Version=20260204 ) • Proton 9.0-2 (Type=PROTON, Version=20250516 ) • Proton 8.0-5 (Type=PROTON, Version=20241007 ) • Proton 8.0-2c (Type=PROTON, Version=20230704 ) Type -&gt; (string) [required] The operating system and other drivers. For Proton, this also includes the Proton compatibility layer. Possible values: • PROTON • WINDOWS • UBUNTU Version -&gt; (string) [required] Versioned container environment for the application operating system. Constraints: • min: 1 • max: 256 Shorthand Syntax: Type=string,Version=string JSON Syntax: { "Type": "PROTON"|"WINDOWS"|"UBUNTU", "Version": "string" }
     /// </summary>
     [CliOption("--runtime-environment")]
     public string? RuntimeEnvironment { get; private init; }
 
     /// <summary>
-    /// The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the loca- tion set in ApplicationSourceUri . The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an ini- tial interpreter line starting with a shebang ('#! '). Constraints: o min: 1 o max: 1024
+    /// The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in ApplicationSourceUri . The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('#! '). Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--executable-path")]
     public string? ExecutablePath { get; private init; }
 
     /// <summary>
-    /// The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must in- clude all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application. NOTE: The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region. Constraints: o min: 1 o max: 1024
+    /// The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application. NOTE: The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--application-source-uri")]
     public string? ApplicationSourceUri { get; private init; }
 
     /// <summary>
-    /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the Application- SourceUri location, or relative to the user's home directory when using a supported path variable. You can specify up to 10 log paths. Each individual log file cannot exceed 50 MB in size. Each path can be a directory or an exact file path. When you specify a directory, Amazon GameLift Streams collects only files with the following extensions: .txt , .log , and .utrace . To collect files with other extensions, specify the exact file path. The copy opera- tion is not performed recursively in subfolders. The following path variables are recognized when they appear as the first component of a path: %USERPROFILE% (Windows and Proton), $HOME or ~ (Linux). Use a path variable when your application writes logs outside of the application directory. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri . Constraints: o min: 0 o max: 10 (string) Constraints: o min: 0 o max: 1024 Syntax: "string" "string" ...
+    /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location, or relative to the user's home directory when using a supported path variable. You can specify up to 10 log paths. Each individual log file cannot exceed 50 MB in size. Each path can be a directory or an exact file path. When you specify a directory, Amazon GameLift Streams collects only files with the following extensions: .txt , .log , and .utrace . To collect files with other extensions, specify the exact file path. The copy operation is not performed recursively in subfolders. The following path variables are recognized when they appear as the first component of a path: %USERPROFILE% (Windows and Proton), $HOME or ~ (Linux). Use a path variable when your application writes logs outside of the application directory. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri . Constraints: • min: 0 • max: 10 (string) Constraints: • min: 0 • max: 1024 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--application-log-paths", GroupValues = true)]
     public IEnumerable<string>? ApplicationLogPaths { get; set; }
 
     /// <summary>
-    /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths . NOTE: The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide . Constraints: o min: 0 o max: 1024 o pattern: $|^s3://([a-zA-Z0-9][a-zA-Z0-9._-]{1,61}[a-zA-Z0-9])(/[a-zA-Z0-9._-]+)*/?
+    /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths . NOTE: The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide . Constraints: • min: 0 • max: 1024 • pattern: $|^s3://([a-zA-Z0-9][a-zA-Z0-9._-]{1,61}[a-zA-Z0-9])(/[a-zA-Z0-9._-]+)*/?
     /// </summary>
     [CliOption("--application-log-output-uri")]
     public string? ApplicationLogOutputUri { get; set; }
 
     /// <summary>
-    /// A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services re- sources is useful for resource management, access management and cost allocation. See Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources. Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See Tagging Amazon Web Services Resources in the Amazon Web Services General Reference . You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources. Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: o min: 32 o max: 128 o pattern: [\x21-\x7E]+
+    /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field. Constraints: • min: 32 • max: 128 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -139,6 +139,15 @@ public record AwsGameliftstreamsCreateApplicationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

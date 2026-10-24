@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDataexchangeStartJobOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// This operation starts a job. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobId">The unique identifier for a job. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="JobId">The unique identifier for a job. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeStartJobOptions(
         string JobId
     )
@@ -56,7 +57,7 @@ public record AwsDataexchangeStartJobOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for a job. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The unique identifier for a job. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--job-id")]
     public string? JobId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsDataexchangeStartJobOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

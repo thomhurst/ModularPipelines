@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodebuildStartCommandExecutionOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Starts a command execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SandboxId">A sandboxId or sandboxArn . Constraints: o min: 1</param>
-    /// <param name="Command">The command that needs to be executed. Constraints: o min: 1</param>
+    /// <param name="SandboxId">A sandboxId or sandboxArn . Constraints: • min: 1</param>
+    /// <param name="Command">The command that needs to be executed. Constraints: • min: 1</param>
     public AwsCodebuildStartCommandExecutionOptions(
         string SandboxId,
         string Command
@@ -60,19 +61,19 @@ public record AwsCodebuildStartCommandExecutionOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A sandboxId or sandboxArn . Constraints: o min: 1
+    /// A sandboxId or sandboxArn . Constraints: • min: 1
     /// </summary>
     [CliOption("--sandbox-id")]
     public string? SandboxId { get; private init; }
 
     /// <summary>
-    /// The command that needs to be executed. Constraints: o min: 1
+    /// The command that needs to be executed. Constraints: • min: 1
     /// </summary>
     [CliOption("--command")]
     public string? Command { get; private init; }
 
     /// <summary>
-    /// The command type. Possible values: o SHELL
+    /// The command type. Possible values: • SHELL
     /// </summary>
     [CliOption("--type")]
     public string? Type { get; set; }
@@ -98,6 +99,15 @@ public record AwsCodebuildStartCommandExecutionOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

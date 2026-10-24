@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an Lambda layer from a ZIP archive. Each time you call Publish- LayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionCon- figuration . See also: AWS API Documentation
+/// Creates an Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionConfiguration . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLambdaPublishLayerVersionOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an Lambda layer from a ZIP archive. Each time you call Publish- LayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionCon- figuration . See also: AWS API Documentation
+    /// Creates an Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with CreateFunction or UpdateFunctionConfiguration . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
+    /// <param name="LayerName">The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+</param>
     public AwsLambdaPublishLayerVersionOptions(
         string LayerName
     )
@@ -56,37 +57,37 @@ public record AwsLambdaPublishLayerVersionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: o min: 1 o max: 140 o pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
+    /// The name or Amazon Resource Name (ARN) of the layer. Constraints: • min: 1 • max: 140 • pattern: (arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\d{1}:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--layer-name")]
     public string? LayerName { get; private init; }
 
     /// <summary>
-    /// The description of the version. Constraints: o min: 0 o max: 256
+    /// The description of the version. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The function layer archive. S3Bucket -&gt; (string) The Amazon S3 bucket of the layer archive. Constraints: o min: 3 o max: 63 o pattern: [0-9A-Za-z\.\-_]*(?&lt;!\.) S3Key -&gt; (string) The Amazon S3 key of the layer archive. Constraints: o min: 1 o max: 1024 o pattern: .* S3ObjectVersion -&gt; (string) For versioned objects, the version of the layer archive object to use. Constraints: o min: 1 o max: 1024 o pattern: .* S3ObjectStorageMode -&gt; (string) Specifies how the layer archive is stored. Valid values: o COPY (default) Uploads a copy of your layer archive to Lambda. o REFERENCE Lambda references the layer archive from the speci- fied Amazon S3 bucket. Possible values: o COPY o REFERENCE Shorthand Syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,S3ObjectStorageMode=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string", "S3ObjectVersion": "string", "S3ObjectStorageMode": "COPY"|"REFERENCE" }
+    /// The function layer archive. S3Bucket -&gt; (string) The Amazon S3 bucket of the layer archive. Constraints: • min: 3 • max: 63 • pattern: [0-9A-Za-z\.\-_]*(?&lt;!\.) S3Key -&gt; (string) The Amazon S3 key of the layer archive. Constraints: • min: 1 • max: 1024 • pattern: .* S3ObjectVersion -&gt; (string) For versioned objects, the version of the layer archive object to use. Constraints: • min: 1 • max: 1024 • pattern: .* S3ObjectStorageMode -&gt; (string) Specifies how the layer archive is stored. Valid values: • COPY (default) Uploads a copy of your layer archive to Lambda. • REFERENCE Lambda references the layer archive from the specified Amazon S3 bucket. Possible values: • COPY • REFERENCE Shorthand Syntax: S3Bucket=string,S3Key=string,S3ObjectVersion=string,S3ObjectStorageMode=string JSON Syntax: { "S3Bucket": "string", "S3Key": "string", "S3ObjectVersion": "string", "S3ObjectStorageMode": "COPY"|"REFERENCE" }
     /// </summary>
     [CliOption("--content")]
     public string? Content { get; set; }
 
     /// <summary>
-    /// A list of compatible instruction set architectures . Constraints: o min: 0 o max: 2 (string) Possible values: o x86_64 o arm64 Syntax: "string" "string" ...
+    /// A list of compatible instruction set architectures . Constraints: • min: 0 • max: 2 (string) Possible values: • x86_64 • arm64 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--compatible-architectures", GroupValues = true)]
     public IEnumerable<string>? CompatibleArchitectures { get; set; }
 
     /// <summary>
-    /// A list of compatible function runtimes . Used for filtering with ListLayers and ListLayerVersions . The following list includes deprecated runtimes. For more informa- tion, see Runtime deprecation policy . Constraints: o min: 0 o max: 15 (string) Possible values: o nodejs o nodejs4.3 o nodejs6.10 o nodejs8.10 o nodejs10.x o nodejs12.x o nodejs14.x o nodejs16.x o nodejs18.x o nodejs20.x o nodejs22.x o nodejs24.x o java8 o java8.al2 o java11 o java17 o java21 o java25 o python2.7 o python3.6 o python3.7 o python3.8 o python3.9 o python3.10 o python3.11 o python3.12 o python3.13 o python3.14 o dotnetcore1.0 o dotnetcore2.0 o dotnetcore2.1 o dotnetcore3.1 o dotnet6 o dotnet8 o dotnet10 o nodejs4.3-edge o go1.x o ruby2.5 o ruby2.7 o ruby3.2 o ruby3.3 o ruby3.4 o ruby4.0 o provided o provided.al2 o provided.al2023 o nodejs26.x o python3.15 o java8.al2023 o java11.al2023 o java17.al2023 Syntax: "string" "string" ...
+    /// A list of compatible function runtimes . Used for filtering with ListLayers and ListLayerVersions . The following list includes deprecated runtimes. For more information, see Runtime deprecation policy . Constraints: • min: 0 • max: 15 (string) Possible values: • nodejs • nodejs4.3 • nodejs6.10 • nodejs8.10 • nodejs10.x • nodejs12.x • nodejs14.x • nodejs16.x • nodejs18.x • nodejs20.x • nodejs22.x • nodejs24.x • java8 • java8.al2 • java11 • java17 • java21 • java25 • python2.7 • python3.6 • python3.7 • python3.8 • python3.9 • python3.10 • python3.11 • python3.12 • python3.13 • python3.14 • dotnetcore1.0 • dotnetcore2.0 • dotnetcore2.1 • dotnetcore3.1 • dotnet6 • dotnet8 • dotnet10 • nodejs4.3-edge • go1.x • ruby2.5 • ruby2.7 • ruby3.2 • ruby3.3 • ruby3.4 • ruby4.0 • provided • provided.al2 • provided.al2023 • nodejs26.x • python3.15 • java8.al2023 • java11.al2023 • java17.al2023 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--compatible-runtimes", GroupValues = true)]
     public IEnumerable<string>? CompatibleRuntimes { get; set; }
 
     /// <summary>
-    /// The layer's software license. It can be any of the following: o An SPDX license identifier . For example, MIT . o The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT . o The full text of the license. Constraints: o min: 0 o max: 512 o pattern: .*
+    /// The layer's software license. It can be any of the following: • An SPDX license identifier . For example, MIT . • The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT . • The full text of the license. Constraints: • min: 0 • max: 512 • pattern: .*
     /// </summary>
     [CliOption("--license-info")]
     public string? LicenseInfo { get; set; }
@@ -118,6 +119,15 @@ public record AwsLambdaPublishLayerVersionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsWorkspacesDescribeClientPropertiesOptions : AwsOptions, IValida
     /// <summary>
     /// Retrieves a list that describes one or more specified Amazon WorkSpaces clients. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceIds">The resource identifier, in the form of directory IDs. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 Syntax: "string" "string" ...</param>
+    /// <param name="ResourceIds">The resource identifier, in the form of directory IDs. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 Syntax: "string" "string" ...</param>
     public AwsWorkspacesDescribeClientPropertiesOptions(
         IEnumerable<string> ResourceIds
     )
@@ -67,7 +68,7 @@ public record AwsWorkspacesDescribeClientPropertiesOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The resource identifier, in the form of directory IDs. Constraints: o min: 1 o max: 25 (string) Constraints: o min: 1 Syntax: "string" "string" ...
+    /// The resource identifier, in the form of directory IDs. Constraints: • min: 1 • max: 25 (string) Constraints: • min: 1 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--resource-ids", GroupValues = true)]
     public IEnumerable<string>? ResourceIds { get; private init; }
@@ -93,6 +94,15 @@ public record AwsWorkspacesDescribeClientPropertiesOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

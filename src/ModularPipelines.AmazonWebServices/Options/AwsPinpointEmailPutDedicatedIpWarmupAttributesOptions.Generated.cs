@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions : AwsOptions
     /// <summary>
     /// See also: AWS API Documentation
     /// </summary>
-    /// <param name="Ip">The dedicated IP address that you want to update the warm-up attrib- utes for.</param>
+    /// <param name="Ip">The dedicated IP address that you want to update the warm-up attributes for.</param>
     /// <param name="WarmupPercentage">The warm-up percentage that you want to associate with the dedicated IP address.</param>
     public AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions(
         string Ip,
@@ -59,7 +60,7 @@ public record AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The dedicated IP address that you want to update the warm-up attrib- utes for.
+    /// The dedicated IP address that you want to update the warm-up attributes for.
     /// </summary>
     [CliOption("--ip")]
     public string? Ip { get; private init; }
@@ -91,6 +92,15 @@ public record AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,9 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
+using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
@@ -27,7 +29,7 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions, IValidatabl
     /// <summary>
     /// WARNING: CloudTrail Lake will no longer be open to new customers starting May 31, 2026. If you would like to use CloudTrail Lake, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see CloudTrail Lake availability change . Updates an event data store. The required EventDataStore value is an ARN or the ID portion of the ARN. Other parameters are optional, but at least one optional parameter must be specified, or CloudTrail throws an err...
     /// </summary>
-    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of the event data store that you want to update. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$</param>
+    /// <param name="EventDataStore">The ARN (or the ID suffix of the ARN) of the event data store that you want to update. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$</param>
     public AwsCloudtrailUpdateEventDataStoreOptions(
         string EventDataStore
     )
@@ -56,37 +58,37 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update. Constraints: o min: 3 o max: 256 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update. Constraints: • min: 3 • max: 256 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--event-data-store")]
     public string? EventDataStore { get; private init; }
 
     /// <summary>
-    /// The event data store name. Constraints: o min: 3 o max: 128 o pattern: ^[a-zA-Z0-9._\-]+$
+    /// The event data store name. Constraints: • min: 3 • max: 128 • pattern: ^[a-zA-Z0-9._\-]+$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The advanced event selectors used to select events for the event data store. You can configure up to five advanced event selectors for each event data store. (structure) Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring ad- vanced event selectors, see the Logging data events , Logging network activity events , and Logging management events topics in the CloudTrail User Guide . You cannot apply both event selectors and advanced event selec- tors to a trail. For information about configurable advanced event selector fields, see AdvancedEventSelector in the CloudTrail API Refer- ence . Name -&gt; (string) An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets". Constraints: o min: 0 o max: 1000 o pattern: .* FieldSelectors -&gt; (list) [required] Contains all selector statements in an advanced event selec- tor. Constraints: o min: 1 (structure) A single selector statement in an advanced event selec- tor. Field -&gt; (string) [required] A field in a CloudTrail event record on which to fil- ter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for se- lecting events as filtering is not supported. For more information, see AdvancedFieldSelector in the CloudTrail API Reference . NOTE: Selectors don't support the use of wildcards like * . To match multiple values with a single condi- tion, you may use StartsWith , EndsWith , Not- StartsWith , or NotEndsWith to explicitly match the beginning or end of the event field. Constraints: o min: 1 o max: 1000 o pattern: [\w|\d|\.|_]+ Equals -&gt; (list) An operator that includes events that match the exact value of the event record field specified as the value of Field . This is the only valid operator that you can use with the readOnly , eventCategory , and re- sources.type fields. Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ StartsWith -&gt; (list) An operator that includes events that match the first few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ EndsWith -&gt; (list) An operator that includes events that match the last few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ NotEquals -&gt; (list) An operator that excludes events that match the exact value of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ NotStartsWith -&gt; (list) An operator that excludes events that match the first few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ NotEndsWith -&gt; (list) An operator that excludes events that match the last few characters of the event record field specified as the value of Field . Constraints: o min: 1 (string) Constraints: o min: 1 o max: 2048 o pattern: .+ JSON Syntax: [ { "Name": "string", "FieldSelectors": [ { "Field": "string", "Equals": ["string", ...], "StartsWith": ["string", ...], "EndsWith": ["string", ...], "NotEquals": ["string", ...], "NotStartsWith": ["string", ...], "NotEndsWith": ["string", ...] } ... ] } ... ]
+    /// The advanced event selectors used to select events for the event data store. You can configure up to five advanced event selectors for each event data store. (structure) Advanced event selectors let you create fine-grained selectors for CloudTrail management, data, and network activity events. They help you control costs by logging only those events that are important to you. For more information about configuring advanced event selectors, see the Logging data events , Logging network activity events , and Logging management events topics in the CloudTrail User Guide . You cannot apply both event selectors and advanced event selectors to a trail. For information about configurable advanced event selector fields, see AdvancedEventSelector in the CloudTrail API Reference . Name -&gt; (string) An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets". Constraints: • min: 0 • max: 1000 • pattern: .* FieldSelectors -&gt; (list) [required] Contains all selector statements in an advanced event selector. Constraints: • min: 1 (structure) A single selector statement in an advanced event selector. Field -&gt; (string) [required] A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see AdvancedFieldSelector in the CloudTrail API Reference . NOTE: Selectors don't support the use of wildcards like * . To match multiple values with a single condition, you may use StartsWith , EndsWith , NotStartsWith , or NotEndsWith to explicitly match the beginning or end of the event field. Constraints: • min: 1 • max: 1000 • pattern: [\w|\d|\.|_]+ Equals -&gt; (list) An operator that includes events that match the exact value of the event record field specified as the value of Field . This is the only valid operator that you can use with the readOnly , eventCategory , and resources.type fields. Constraints: • min: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: .+ StartsWith -&gt; (list) An operator that includes events that match the first few characters of the event record field specified as the value of Field . Constraints: • min: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: .+ EndsWith -&gt; (list) An operator that includes events that match the last few characters of the event record field specified as the value of Field . Constraints: • min: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: .+ NotEquals -&gt; (list) An operator that excludes events that match the exact value of the event record field specified as the value of Field . Constraints: • min: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: .+ NotStartsWith -&gt; (list) An operator that excludes events that match the first few characters of the event record field specified as the value of Field . Constraints: • min: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: .+ NotEndsWith -&gt; (list) An operator that excludes events that match the last few characters of the event record field specified as the value of Field . Constraints: • min: 1 (string) Constraints: • min: 1 • max: 2048 • pattern: .+ JSON Syntax: [ { "Name": "string", "FieldSelectors": [ { "Field": "string", "Equals": ["string", ...], "StartsWith": ["string", ...], "EndsWith": ["string", ...], "NotEquals": ["string", ...], "NotStartsWith": ["string", ...], "NotEndsWith": ["string", ...] } ... ] } ... ]
     /// </summary>
     [CliOption("--advanced-event-selectors", GroupValues = true)]
     public IEnumerable<string>? AdvancedEventSelectors { get; set; }
 
     /// <summary>
-    /// Specifies whether an event data store collects events from all Re- gions, or only from the Region in which it was created.
+    /// Specifies whether an event data store collects events from all Regions, or only from the Region in which it was created.
     /// </summary>
     [CliFlag("--multi-region-enabled", NegatedName = "--no-multi-region-enabled")]
     public bool? MultiRegionEnabled { get; set; }
 
     /// <summary>
-    /// Specifies whether an event data store collects events logged for an organization in Organizations. NOTE: Only the management account for the organization can convert an organization event data store to a non-organization event data store, or convert a non-organization event data store to an or- ganization event data store.
+    /// Specifies whether an event data store collects events logged for an organization in Organizations. NOTE: Only the management account for the organization can convert an organization event data store to a non-organization event data store, or convert a non-organization event data store to an organization event data store.
     /// </summary>
     [CliFlag("--organization-enabled", NegatedName = "--no-organization-enabled")]
     public bool? OrganizationEnabled { get; set; }
 
     /// <summary>
-    /// The retention period of the event data store, in days. If Billing- Mode is set to EXTENDABLE_RETENTION_PRICING , you can set a reten- tion period of up to 3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING , you can set a reten- tion period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. NOTE: If you decrease the retention period of an event data store, CloudTrail will remove any events with an eventTime older than the new retention period. For example, if the previous retention period was 365 days and you decrease it to 100 days, CloudTrail will remove events with an eventTime older than 100 days. Constraints: o min: 7 o max: 3653
+    /// The retention period of the event data store, in days. If BillingMode is set to EXTENDABLE_RETENTION_PRICING , you can set a retention period of up to 3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING , you can set a retention period of up to 2557 days, the equivalent of seven years. CloudTrail Lake determines whether to retain an event by checking if the eventTime of the event is within the specified retention period. For example, if you set a retention period of 90 days, CloudTrail will remove events when the eventTime is older than 90 days. NOTE: If you decrease the retention period of an event data store, CloudTrail will remove any events with an eventTime older than the new retention period. For example, if the previous retention period was 365 days and you decrease it to 100 days, CloudTrail will remove events with an eventTime older than 100 days. Constraints: • min: 7 • max: 3653
     /// </summary>
     [CliOption("--retention-period")]
     public int? RetentionPeriod { get; set; }
@@ -98,16 +100,16 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions, IValidatabl
     public bool? TerminationProtectionEnabled { get; set; }
 
     /// <summary>
-    /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/ , a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. WARNING: Disabling or deleting the KMS key, or removing CloudTrail per- missions on the key, prevents CloudTrail from logging events to the event data store, and prevents users from querying the data in the event data store that was encrypted with the key. After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Man- agement Service Developer Guide . Examples: o alias/MyAliasName o arn:aws:kms:us-east-2:123456789012:alias/MyAliasName o arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 o 12345678-1234-1234-1234-123456789012 Constraints: o min: 1 o max: 350 o pattern: ^[a-zA-Z0-9._/\-:]+$
+    /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/ , a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. WARNING: Disabling or deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users from querying the data in the event data store that was encrypted with the key. After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide . Examples: • alias/MyAliasName • arn:aws:kms:us-east-2:123456789012:alias/MyAliasName • arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012 • 12345678-1234-1234-1234-123456789012 Constraints: • min: 1 • max: 350 • pattern: ^[a-zA-Z0-9._/\-:]+$
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// NOTE: You can't change the billing mode from EXTENDABLE_RETEN- TION_PRICING to FIXED_RETENTION_PRICING . If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETEN- TION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RE- TENTION_PRICING . The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values: o EXTENDABLE_RETENTION_PRICING - This billing mode is generally rec- ommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days. o FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days. For more information about CloudTrail pricing, see CloudTrail Pric- ing and Managing CloudTrail Lake costs . Possible values: o EXTENDABLE_RETENTION_PRICING o FIXED_RETENTION_PRICING
+    /// NOTE: You can't change the billing mode from EXTENDABLE_RETENTION_PRICING to FIXED_RETENTION_PRICING . If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want to use FIXED_RETENTION_PRICING instead, you'll need to stop ingestion on the event data store and create a new event data store that uses FIXED_RETENTION_PRICING . The billing mode for the event data store determines the cost for ingesting events and the default and maximum retention period for the event data store. The following are the possible values: • EXTENDABLE_RETENTION_PRICING - This billing mode is generally recommended if you want a flexible retention period of up to 3653 days (about 10 years). The default retention period for this billing mode is 366 days. • FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more than 25 TB of event data per month and need a retention period of up to 2557 days (about 7 years). The default retention period for this billing mode is 2557 days. For more information about CloudTrail pricing, see CloudTrail Pricing and Managing CloudTrail Lake costs . Possible values: • EXTENDABLE_RETENTION_PRICING • FIXED_RETENTION_PRICING
     /// </summary>
     [CliOption("--billing-mode")]
-    public string? BillingMode { get; set; }
+    public AwsCloudtrailUpdateEventDataStoreBillingMode? BillingMode { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -130,6 +132,15 @@ public record AwsCloudtrailUpdateEventDataStoreOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a Create- GeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
+/// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a CreateGeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudformationDescribeGeneratedTemplateOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a Create- GeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
+    /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a CreateGeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128</param>
+    /// <param name="GeneratedTemplateName">The name or Amazon Resource Name (ARN) of a generated template. Constraints: • min: 1 • max: 128</param>
     public AwsCloudformationDescribeGeneratedTemplateOptions(
         string GeneratedTemplateName
     )
@@ -56,7 +57,7 @@ public record AwsCloudformationDescribeGeneratedTemplateOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name or Amazon Resource Name (ARN) of a generated template. Constraints: o min: 1 o max: 128
+    /// The name or Amazon Resource Name (ARN) of a generated template. Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--generated-template-name")]
     public string? GeneratedTemplateName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCloudformationDescribeGeneratedTemplateOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

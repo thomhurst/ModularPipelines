@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits a request to purchase an offering. If you already have an ac- tive reservation, you can't purchase another offering. See also: AWS API Documentation
+/// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsMediaconnectPurchaseOfferingOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits a request to purchase an offering. If you already have an ac- tive reservation, you can't purchase another offering. See also: AWS API Documentation
+    /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering. See also: AWS API Documentation
     /// </summary>
     /// <param name="OfferingArn">The Amazon Resource Name (ARN) of the offering.</param>
     /// <param name="ReservationName">The name that you want to use for the reservation.</param>
-    /// <param name="Start">The date and time that you want the reservation to begin, in Coordi- nated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ , where T and Z are literal characters. For ex- ample, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z .</param>
+    /// <param name="Start">The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ , where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z .</param>
     public AwsMediaconnectPurchaseOfferingOptions(
         string OfferingArn,
         string ReservationName,
@@ -76,7 +77,7 @@ public record AwsMediaconnectPurchaseOfferingOptions : AwsOptions, IValidatableO
     public string? ReservationName { get; private init; }
 
     /// <summary>
-    /// The date and time that you want the reservation to begin, in Coordi- nated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ , where T and Z are literal characters. For ex- ample, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z .
+    /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ , where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z .
     /// </summary>
     [CliOption("--start")]
     public string? Start { get; private init; }
@@ -102,6 +103,15 @@ public record AwsMediaconnectPurchaseOfferingOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

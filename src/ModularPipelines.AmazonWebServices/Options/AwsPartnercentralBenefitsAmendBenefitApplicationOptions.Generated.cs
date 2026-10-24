@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Modifies an existing benefit application by applying amendments to spe- cific fields while maintaining revision control. See also: AWS API Documentation
+/// Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,14 +27,14 @@ public record AwsPartnercentralBenefitsAmendBenefitApplicationOptions : AwsOptio
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Modifies an existing benefit application by applying amendments to spe- cific fields while maintaining revision control. See also: AWS API Documentation
+    /// Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+</param>
-    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the amendment request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]{1,64}</param>
-    /// <param name="Revision">The current revision number of the benefit application to ensure op- timistic concurrency control.</param>
-    /// <param name="Identifier">The unique identifier of the benefit application to be amended. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
-    /// <param name="AmendmentReason">A descriptive reason explaining why the benefit application is being amended. Constraints: o min: 0 o max: 1000</param>
-    /// <param name="Amendments">A list of specific field amendments to apply to the benefit applica- tion. (structure) Represents a specific change to be made to a benefit application field. FieldPath -&gt; (string) [required] The JSON path or field identifier specifying which field in the benefit application to modify. NewValue -&gt; (string) [required] The new value to set for the specified field in the benefit application. Shorthand Syntax: FieldPath=string,NewValue=string ... JSON Syntax: [ { "FieldPath": "string", "NewValue": "string" } ... ]</param>
+    /// <param name="Catalog">The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+</param>
+    /// <param name="ClientToken">A unique, case-sensitive identifier to ensure idempotent processing of the amendment request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]{1,64}</param>
+    /// <param name="Revision">The current revision number of the benefit application to ensure optimistic concurrency control.</param>
+    /// <param name="Identifier">The unique identifier of the benefit application to be amended. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})</param>
+    /// <param name="AmendmentReason">A descriptive reason explaining why the benefit application is being amended. Constraints: • min: 0 • max: 1000</param>
+    /// <param name="Amendments">A list of specific field amendments to apply to the benefit application. (structure) Represents a specific change to be made to a benefit application field. FieldPath -&gt; (string) [required] The JSON path or field identifier specifying which field in the benefit application to modify. NewValue -&gt; (string) [required] The new value to set for the specified field in the benefit application. Shorthand Syntax: FieldPath=string,NewValue=string ... JSON Syntax: [ { "FieldPath": "string", "NewValue": "string" } ... ]</param>
     public AwsPartnercentralBenefitsAmendBenefitApplicationOptions(
         string Catalog,
         string ClientToken,
@@ -88,38 +89,38 @@ public record AwsPartnercentralBenefitsAmendBenefitApplicationOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier that specifies which benefit catalog the ap- plication belongs to. Constraints: o pattern: [A-Za-z0-9_-]+
+    /// The catalog identifier that specifies which benefit catalog the application belongs to. Constraints: • pattern: [A-Za-z0-9_-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier to ensure idempotent processing of the amendment request. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]{1,64}
+    /// A unique, case-sensitive identifier to ensure idempotent processing of the amendment request. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]{1,64}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; private init; }
 
     /// <summary>
-    /// The current revision number of the benefit application to ensure op- timistic concurrency control.
+    /// The current revision number of the benefit application to ensure optimistic concurrency control.
     /// </summary>
     [CliOption("--revision")]
     public string? Revision { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the benefit application to be amended. Constraints: o pattern: (arn:.+|benappl-[0-9a-z]{14})
+    /// The unique identifier of the benefit application to be amended. Constraints: • pattern: (arn:.+|benappl-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// A descriptive reason explaining why the benefit application is being amended. Constraints: o min: 0 o max: 1000
+    /// A descriptive reason explaining why the benefit application is being amended. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--amendment-reason")]
     public string? AmendmentReason { get; private init; }
 
     /// <summary>
-    /// A list of specific field amendments to apply to the benefit applica- tion. (structure) Represents a specific change to be made to a benefit application field. FieldPath -&gt; (string) [required] The JSON path or field identifier specifying which field in the benefit application to modify. NewValue -&gt; (string) [required] The new value to set for the specified field in the benefit application. Shorthand Syntax: FieldPath=string,NewValue=string ... JSON Syntax: [ { "FieldPath": "string", "NewValue": "string" } ... ]
+    /// A list of specific field amendments to apply to the benefit application. (structure) Represents a specific change to be made to a benefit application field. FieldPath -&gt; (string) [required] The JSON path or field identifier specifying which field in the benefit application to modify. NewValue -&gt; (string) [required] The new value to set for the specified field in the benefit application. Shorthand Syntax: FieldPath=string,NewValue=string ... JSON Syntax: [ { "FieldPath": "string", "NewValue": "string" } ... ]
     /// </summary>
     [CliOption("--amendments", GroupValues = true)]
     public IEnumerable<string>? Amendments { get; private init; }
@@ -145,6 +146,15 @@ public record AwsPartnercentralBenefitsAmendBenefitApplicationOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

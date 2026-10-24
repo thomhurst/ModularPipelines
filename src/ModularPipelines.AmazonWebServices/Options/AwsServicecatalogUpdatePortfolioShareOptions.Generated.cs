@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare oper- ation is IN_PROGRESS , as the share is not available to recipient enti- ties. In this case, you must wait for the portfolio share to be com- pleted. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an externa...
+/// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS , as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be completed. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external acco...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare oper- ation is IN_PROGRESS , as the share is not available to recipient enti- ties. In this case, you must wait for the portfolio share to be com- pleted. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an externa...
+    /// Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing or Principal sharing for an existing portfolio share. The portfolio share cannot be updated if the CreatePortfolioShare operation is IN_PROGRESS , as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be completed. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external acco...
     /// </summary>
-    /// <param name="PortfolioId">The unique identifier of the portfolio for which the share will be updated. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*</param>
+    /// <param name="PortfolioId">The unique identifier of the portfolio for which the share will be updated. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*</param>
     public AwsServicecatalogUpdatePortfolioShareOptions(
         string PortfolioId
     )
@@ -56,25 +57,25 @@ public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the portfolio for which the share will be updated. Constraints: o min: 1 o max: 100 o pattern: ^[a-zA-Z0-9_\-]*
+    /// The unique identifier of the portfolio for which the share will be updated. Constraints: • min: 1 • max: 100 • pattern: ^[a-zA-Z0-9_\-]*
     /// </summary>
     [CliOption("--portfolio-id")]
     public string? PortfolioId { get; private init; }
 
     /// <summary>
-    /// The language code. o jp - Japanese o zh - Chinese Constraints: o max: 100
+    /// The language code. • jp - Japanese • zh - Chinese Constraints: • max: 100
     /// </summary>
     [CliOption("--accept-language")]
     public string? AcceptLanguage { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services account Id of the recipient account. This field is required when updating an external account to account type share. Constraints: o pattern: ^[0-9]{12}$
+    /// The Amazon Web Services account Id of the recipient account. This field is required when updating an external account to account type share. Constraints: • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
 
     /// <summary>
-    /// Information about the organization node. Type -&gt; (string) The organization node type. Possible values: o ORGANIZATION o ORGANIZATIONAL_UNIT o ACCOUNT Value -&gt; (string) The identifier of the organization node. Constraints: o pattern: (^[0-9]{12}$)|(^arn:aws:organizations::\d{12}:organi- zation\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:or- ganiza- tions::\d{12}:ou\/o-[a-z0-9]{10,32}\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "ORGANIZATION"|"ORGANIZATIONAL_UNIT"|"ACCOUNT", "Value": "string" }
+    /// Information about the organization node. Type -&gt; (string) The organization node type. Possible values: • ORGANIZATION • ORGANIZATIONAL_UNIT • ACCOUNT Value -&gt; (string) The identifier of the organization node. Constraints: • pattern: (^[0-9]{12}$)|(^arn:aws:organizations::\d{12}:organization\/o-[a-z0-9]{10,32})|(^o-[a-z0-9]{10,32}$)|(^arn:aws:organizations::\d{12}:ou\/o-[a-z0-9]{10,32}\/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$)|(^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "ORGANIZATION"|"ORGANIZATIONAL_UNIT"|"ACCOUNT", "Value": "string" }
     /// </summary>
     [CliOption("--organization-node")]
     public string? OrganizationNode { get; set; }
@@ -112,6 +113,15 @@ public record AwsServicecatalogUpdatePortfolioShareOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

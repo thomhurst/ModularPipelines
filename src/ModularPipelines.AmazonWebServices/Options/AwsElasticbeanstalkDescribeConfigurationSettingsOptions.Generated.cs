@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsElasticbeanstalkDescribeConfigurationSettingsOptions : AwsOptio
     /// <summary>
     /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. ...
     /// </summary>
-    /// <param name="ApplicationName">The application for the environment or configuration template. Constraints: o min: 1 o max: 100</param>
+    /// <param name="ApplicationName">The application for the environment or configuration template. Constraints: • min: 1 • max: 100</param>
     public AwsElasticbeanstalkDescribeConfigurationSettingsOptions(
         string ApplicationName
     )
@@ -56,19 +57,19 @@ public record AwsElasticbeanstalkDescribeConfigurationSettingsOptions : AwsOptio
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The application for the environment or configuration template. Constraints: o min: 1 o max: 100
+    /// The application for the environment or configuration template. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--application-name")]
     public string? ApplicationName { get; private init; }
 
     /// <summary>
-    /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an Environ- mentName, but not both. If you specify both, Elastic Beanstalk re- turns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns a MissingRequiredParameter error. Constraints: o min: 1 o max: 100
+    /// The name of the configuration template to describe. Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns a MissingRequiredParameter error. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--template-name")]
     public string? TemplateName { get; set; }
 
     /// <summary>
-    /// The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, Elastic Beanstalk returns an InvalidPara- meterCombination error. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error. Constraints: o min: 4 o max: 40
+    /// The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error. Constraints: • min: 4 • max: 40
     /// </summary>
     [CliOption("--environment-name")]
     public string? EnvironmentName { get; set; }
@@ -94,6 +95,15 @@ public record AwsElasticbeanstalkDescribeConfigurationSettingsOptions : AwsOptio
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

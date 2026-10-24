@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns the cross-origin resource sharing (CORS) configuration informa- tion that is set for the container. To use this operation, you must have permission to perform the MediaS- tore:GetCorsPolicy action. By default, the container owner has this permission and can grant it to others. See also: AWS API Documentation
+/// Returns the cross-origin resource sharing (CORS) configuration information that is set for the container. To use this operation, you must have permission to perform the MediaStore:GetCorsPolicy action. By default, the container owner has this permission and can grant it to others. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMediastoreGetCorsPolicyOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns the cross-origin resource sharing (CORS) configuration informa- tion that is set for the container. To use this operation, you must have permission to perform the MediaS- tore:GetCorsPolicy action. By default, the container owner has this permission and can grant it to others. See also: AWS API Documentation
+    /// Returns the cross-origin resource sharing (CORS) configuration information that is set for the container. To use this operation, you must have permission to perform the MediaStore:GetCorsPolicy action. By default, the container owner has this permission and can grant it to others. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContainerName">The name of the container that the policy is assigned to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+</param>
+    /// <param name="ContainerName">The name of the container that the policy is assigned to. Constraints: • min: 1 • max: 255 • pattern: [\w-]+</param>
     public AwsMediastoreGetCorsPolicyOptions(
         string ContainerName
     )
@@ -56,7 +57,7 @@ public record AwsMediastoreGetCorsPolicyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the container that the policy is assigned to. Constraints: o min: 1 o max: 255 o pattern: [\w-]+
+    /// The name of the container that the policy is assigned to. Constraints: • min: 1 • max: 255 • pattern: [\w-]+
     /// </summary>
     [CliOption("--container-name")]
     public string? ContainerName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMediastoreGetCorsPolicyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

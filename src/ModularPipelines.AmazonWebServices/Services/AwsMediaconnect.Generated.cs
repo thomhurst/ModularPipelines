@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws mediaconnect wait sub-commands.
     /// </summary>
     public AwsMediaconnectWait Wait => _wait ??= new AwsMediaconnectWait(_command);
 
@@ -132,7 +132,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Retrieves information about multiple router inputs in AWS Elemental Me- diaConnect. See also: AWS API Documentation
+    /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -402,7 +402,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays sta- tus messages about the flow's source as well as details about the pro- gram's video, audio, and other data. See also: AWS API Documentation
+    /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -477,7 +477,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays the details of a reservation. The response includes the reser- vation name, state, start date and time, and the details of the offer- ing that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
+    /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth). See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -522,7 +522,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Retrieves the thumbnail for a router input in AWS Elemental MediaCon- nect. See also: AWS API Documentation
+    /// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -582,7 +582,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result. See also: AWS API Documentation list-bridges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract da...
+    /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result. See also: AWS API Documentation list-bridges is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -597,7 +597,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays a list of all entitlements that have been granted to this ac- count. This request returns 20 results per page. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following qu...
+    /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page. See also: AWS API Documentation list-entitlements is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following quer...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -612,7 +612,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays a list of flows that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: F...
+    /// Displays a list of flows that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-flows is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Flows
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -627,7 +627,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the fil- terArn property to display only the instances associated with the se- lected Gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateway-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using -...
+    /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN). See also: AWS API Documentation list-gateway-instances is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -642,7 +642,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays a list of gateways that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressi...
+    /// Displays a list of gateways that are associated with this account. This request returns a paginated result. See also: AWS API Documentation list-gateways is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions:...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -657,7 +657,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reserva- tion (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offer- ings. See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --n...
+    /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings. See also: AWS API Documentation list-offerings is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagina...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -702,7 +702,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Retrieves a list of router network interfaces in AWS Elemental Media- Connect. See also: AWS API Documentation list-router-network-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouterN...
+    /// Retrieves a list of router network interfaces in AWS Elemental MediaConnect. See also: AWS API Documentation list-router-network-interfaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: RouterNetwork...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -732,7 +732,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Lists the tags associated with a global resource in AWS Elemental Medi- aConnect. The API supports the following global resources: router in- puts, router outputs and router network interfaces. See also: AWS API Documentation
+    /// Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -762,7 +762,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Submits a request to purchase an offering. If you already have an ac- tive reservation, you can't purchase another offering. See also: AWS API Documentation
+    /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -852,7 +852,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associ- ated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer ref- erence the VPC interface. See also: AWS API Documentation
+    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -867,7 +867,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Restarts a router input. This operation can be used to recover from er- rors or refresh the input state. See also: AWS API Documentation
+    /// Restarts a router input. This operation can be used to recover from errors or refresh the input state. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1017,7 +1017,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Associates the specified tags to a resource with the specified re- sourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a re- source is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
+    /// Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1032,7 +1032,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Associates a router input with a router output in AWS Elemental Media- Connect. See also: AWS API Documentation
+    /// Associates a router input with a router output in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1047,7 +1047,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router out- puts and router network interfaces. See also: AWS API Documentation
+    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1167,7 +1167,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Updates an existing flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and want t...
+    /// Updates an existing flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. • If you have a MEDIUM flow and you want to change the flow source to NDI: • First, use the UpdateFlow operation to upgrade the flow size to LARGE . • After that, you can then use the UpdateFlowSource operation to configure the NDI source. • If you're switching from an NDI source to a transport stream (TS) source and want t...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1197,7 +1197,7 @@ public class AwsMediaconnect : IAwsMediaconnect
     }
 
     /// <summary>
-    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. o If you have a MEDIUM flow and you want to change the flow source to NDI: o First, use the UpdateFlow operation to upgrade the flow size to LARGE . o After that, you can then use the UpdateFlowSource operation to configure the NDI source. o If you're switching from an NDI source to a transport stream (TS) source and wa...
+    /// Updates the source of a flow. NOTE: Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request. • If you have a MEDIUM flow and you want to change the flow source to NDI: • First, use the UpdateFlow operation to upgrade the flow size to LARGE . • After that, you can then use the UpdateFlowSource operation to configure the NDI source. • If you're switching from an NDI source to a transport stream (TS) source and wa...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

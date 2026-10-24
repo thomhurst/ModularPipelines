@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMgnArchiveWaveOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Archive wave. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WaveId">Wave ID. Constraints: o min: 22 o max: 22 o pattern: wave-[0-9a-zA-Z]{17}</param>
+    /// <param name="WaveId">Wave ID. Constraints: • min: 22 • max: 22 • pattern: wave-[0-9a-zA-Z]{17}</param>
     public AwsMgnArchiveWaveOptions(
         string WaveId
     )
@@ -56,13 +57,13 @@ public record AwsMgnArchiveWaveOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Wave ID. Constraints: o min: 22 o max: 22 o pattern: wave-[0-9a-zA-Z]{17}
+    /// Wave ID. Constraints: • min: 22 • max: 22 • pattern: wave-[0-9a-zA-Z]{17}
     /// </summary>
     [CliOption("--wave-id")]
     public string? WaveId { get; private init; }
 
     /// <summary>
-    /// Account ID. Constraints: o min: 12 o max: 12 o pattern: .*[0-9]{12,}.*
+    /// Account ID. Constraints: • min: 12 • max: 12 • pattern: .*[0-9]{12,}.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; set; }
@@ -88,6 +89,15 @@ public record AwsMgnArchiveWaveOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

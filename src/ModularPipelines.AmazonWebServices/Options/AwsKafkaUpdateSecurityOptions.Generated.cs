@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the security settings for the cluster. You can use this opera- tion to specify encryption and authentication on existing clusters. See also: AWS API Documentation
+/// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsKafkaUpdateSecurityOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the security settings for the cluster. You can use this opera- tion to specify encryption and authentication on existing clusters. See also: AWS API Documentation
+    /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters. See also: AWS API Documentation
     /// </summary>
     /// <param name="ClusterArn">The Amazon Resource Name (ARN) that uniquely identifies the cluster.</param>
     /// <param name="CurrentVersion">The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.</param>
@@ -72,13 +73,13 @@ public record AwsKafkaUpdateSecurityOptions : AwsOptions, IValidatableObject
     public string? CurrentVersion { get; private init; }
 
     /// <summary>
-    /// Includes all client authentication related information. Sasl -&gt; (structure) Details for ClientAuthentication using SASL. Scram -&gt; (structure) Details for SASL/SCRAM client authentication. Enabled -&gt; (boolean) SASL/SCRAM authentication is enabled or not. Iam -&gt; (structure) Indicates whether IAM access control is enabled. Enabled -&gt; (boolean) Indicates whether IAM access control is enabled. Tls -&gt; (structure) Details for ClientAuthentication using TLS. CertificateAuthorityArnList -&gt; (list) List of ACM Certificate Authority ARNs. (string) Enabled -&gt; (boolean) Specifies whether you want to turn on or turn off TLS authen- tication. Unauthenticated -&gt; (structure) Contains information about unauthenticated traffic to the clus- ter. Enabled -&gt; (boolean) Specifies whether you want to turn on or turn off unauthenti- cated traffic to your cluster. Shorthand Syntax: Sasl={Scram={Enabled=boolean},Iam={Enabled=boolean}},Tls={CertificateAuthorityArnList=[string,string],Enabled=boolean},Unauthenticated={Enabled=boolean} JSON Syntax: { "Sasl": { "Scram": { "Enabled": true|false }, "Iam": { "Enabled": true|false } }, "Tls": { "CertificateAuthorityArnList": ["string", ...], "Enabled": true|false }, "Unauthenticated": { "Enabled": true|false } }
+    /// Includes all client authentication related information. Sasl -&gt; (structure) Details for ClientAuthentication using SASL. Scram -&gt; (structure) Details for SASL/SCRAM client authentication. Enabled -&gt; (boolean) SASL/SCRAM authentication is enabled or not. Iam -&gt; (structure) Indicates whether IAM access control is enabled. Enabled -&gt; (boolean) Indicates whether IAM access control is enabled. Tls -&gt; (structure) Details for ClientAuthentication using TLS. CertificateAuthorityArnList -&gt; (list) List of ACM Certificate Authority ARNs. (string) Enabled -&gt; (boolean) Specifies whether you want to turn on or turn off TLS authentication. Unauthenticated -&gt; (structure) Contains information about unauthenticated traffic to the cluster. Enabled -&gt; (boolean) Specifies whether you want to turn on or turn off unauthenticated traffic to your cluster. Shorthand Syntax: Sasl={Scram={Enabled=boolean},Iam={Enabled=boolean}},Tls={CertificateAuthorityArnList=[string,string],Enabled=boolean},Unauthenticated={Enabled=boolean} JSON Syntax: { "Sasl": { "Scram": { "Enabled": true|false }, "Iam": { "Enabled": true|false } }, "Tls": { "CertificateAuthorityArnList": ["string", ...], "Enabled": true|false }, "Unauthenticated": { "Enabled": true|false } }
     /// </summary>
     [CliOption("--client-authentication")]
     public string? ClientAuthentication { get; set; }
 
     /// <summary>
-    /// Includes all encryption-related information. EncryptionAtRest -&gt; (structure) The data-volume encryption details. DataVolumeKMSKeyId -&gt; (string) [required] The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it. EncryptionInTransit -&gt; (structure) The details for encryption in transit. ClientBroker -&gt; (string) Indicates the encryption setting for data in transit between clients and brokers. The following are the possible values. TLS means that client-broker communication is enabled with TLS only. TLS_PLAINTEXT means that client-broker communication is en- abled for both TLS-encrypted, as well as plaintext data. PLAINTEXT means that client-broker communication is enabled in plaintext only. The default value is TLS_PLAINTEXT. Possible values: o TLS o TLS_PLAINTEXT o PLAINTEXT InCluster -&gt; (boolean) When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plaintext. The default value is true. Shorthand Syntax: EncryptionAtRest={DataVolumeKMSKeyId=string},EncryptionInTransit={ClientBroker=string,InCluster=boolean} JSON Syntax: { "EncryptionAtRest": { "DataVolumeKMSKeyId": "string" }, "EncryptionInTransit": { "ClientBroker": "TLS"|"TLS_PLAINTEXT"|"PLAINTEXT", "InCluster": true|false } }
+    /// Includes all encryption-related information. EncryptionAtRest -&gt; (structure) The data-volume encryption details. DataVolumeKMSKeyId -&gt; (string) [required] The ARN of the AWS KMS key for encrypting data at rest. If you don't specify a KMS key, MSK creates one for you and uses it. EncryptionInTransit -&gt; (structure) The details for encryption in transit. ClientBroker -&gt; (string) Indicates the encryption setting for data in transit between clients and brokers. The following are the possible values. TLS means that client-broker communication is enabled with TLS only. TLS_PLAINTEXT means that client-broker communication is enabled for both TLS-encrypted, as well as plaintext data. PLAINTEXT means that client-broker communication is enabled in plaintext only. The default value is TLS_PLAINTEXT. Possible values: • TLS • TLS_PLAINTEXT • PLAINTEXT InCluster -&gt; (boolean) When set to true, it indicates that data communication among the broker nodes of the cluster is encrypted. When set to false, the communication happens in plaintext. The default value is true. Shorthand Syntax: EncryptionAtRest={DataVolumeKMSKeyId=string},EncryptionInTransit={ClientBroker=string,InCluster=boolean} JSON Syntax: { "EncryptionAtRest": { "DataVolumeKMSKeyId": "string" }, "EncryptionInTransit": { "ClientBroker": "TLS"|"TLS_PLAINTEXT"|"PLAINTEXT", "InCluster": true|false } }
     /// </summary>
     [CliOption("--encryption-info")]
     public string? EncryptionInfo { get; set; }
@@ -104,6 +105,15 @@ public record AwsKafkaUpdateSecurityOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,13 +63,13 @@ public record AwsEc2DeleteIpamOptions : AwsOptions, IValidatableObject
     public string? IpamId { get; private init; }
 
     /// <summary>
-    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
 
     /// <summary>
-    /// Enables you to quickly delete an IPAM, private scopes, pools in pri- vate scopes, and any allocations in the pools in private scopes. You cannot delete the IPAM with this option if there is a pool in your public scope. If you use this option, IPAM does the following: o Deallocates any CIDRs allocated to VPC resources (such as VPCs) in pools in private scopes. NOTE: No VPC resources are deleted as a result of enabling this op- tion. The CIDR associated with the resource will no longer be allocated from an IPAM pool, but the CIDR itself will remain un- changed. o Deprovisions all IPv4 CIDRs provisioned to IPAM pools in private scopes. o Deletes all IPAM pools in private scopes. o Deletes all non-default private scopes in the IPAM. o Deletes the default public and private scopes and the IPAM.
+    /// Enables you to quickly delete an IPAM, private scopes, pools in private scopes, and any allocations in the pools in private scopes. You cannot delete the IPAM with this option if there is a pool in your public scope. If you use this option, IPAM does the following: • Deallocates any CIDRs allocated to VPC resources (such as VPCs) in pools in private scopes. NOTE: No VPC resources are deleted as a result of enabling this option. The CIDR associated with the resource will no longer be allocated from an IPAM pool, but the CIDR itself will remain unchanged. • Deprovisions all IPv4 CIDRs provisioned to IPAM pools in private scopes. • Deletes all IPAM pools in private scopes. • Deletes all non-default private scopes in the IPAM. • Deletes the default public and private scopes and the IPAM.
     /// </summary>
     [CliFlag("--cascade", NegatedName = "--no-cascade")]
     public bool? Cascade { get; set; }
@@ -94,6 +95,15 @@ public record AwsEc2DeleteIpamOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAthenaCreateCapacityReservationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Creates a capacity reservation with the specified name and number of requested data processing units. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TargetDpus">The number of requested data processing units. Constraints: o min: 4</param>
-    /// <param name="Name">The name of the capacity reservation to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+</param>
+    /// <param name="TargetDpus">The number of requested data processing units. Constraints: • min: 4</param>
+    /// <param name="Name">The name of the capacity reservation to create. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+</param>
     public AwsAthenaCreateCapacityReservationOptions(
         int TargetDpus,
         string Name
@@ -59,19 +60,19 @@ public record AwsAthenaCreateCapacityReservationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The number of requested data processing units. Constraints: o min: 4
+    /// The number of requested data processing units. Constraints: • min: 4
     /// </summary>
     [CliOption("--target-dpus")]
     public int? TargetDpus { get; private init; }
 
     /// <summary>
-    /// The name of the capacity reservation to create. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9._-]+
+    /// The name of the capacity reservation to create. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9._-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The tags for the capacity reservation. (structure) A label that you assign to a resource. Athena resources include workgroups, data catalogs, and capacity reservations. Each tag consists of a key and an optional value, both of which you de- fine. For example, you can use tags to categorize Athena re- sources by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see Tagging Best Practices . Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas. Key -&gt; (string) A tag key. The tag key length is from 1 to 128 Unicode char- acters in UTF-8. You can use letters and numbers repre- sentable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per re- source. Constraints: o min: 1 o max: 128 Value -&gt; (string) A tag value. The tag value length is from 0 to 256 Unicode characters in UTF-8. You can use letters and numbers repre- sentable in UTF-8, and the following characters: + - = . _ : / @. Tag values are case-sensitive. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags for the capacity reservation. (structure) A label that you assign to a resource. Athena resources include workgroups, data catalogs, and capacity reservations. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena resources by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see Tagging Best Practices . Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas. Key -&gt; (string) A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource. Constraints: • min: 1 • max: 128 Value -&gt; (string) A tag value. The tag value length is from 0 to 256 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag values are case-sensitive. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -97,6 +98,15 @@ public record AwsAthenaCreateCapacityReservationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the resource-based permission policy that is set for the given en- vironment. See also: AWS API Documentation
+/// Gets the resource-based permission policy that is set for the given environment. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMigrationHubRefactorSpacesGetResourcePolicyOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the resource-based permission policy that is set for the given en- vironment. See also: AWS API Documentation
+    /// Gets the resource-based permission policy that is set for the given environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The Amazon Resource Name (ARN) of the resource associated with the policy. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:refac- tor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    /// <param name="Identifier">The Amazon Resource Name (ARN) of the resource associated with the policy. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:refactor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$</param>
     public AwsMigrationHubRefactorSpacesGetResourcePolicyOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsMigrationHubRefactorSpacesGetResourcePolicyOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource associated with the policy. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:refac- tor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$
+    /// The Amazon Resource Name (ARN) of the resource associated with the policy. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:refactor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMigrationHubRefactorSpacesGetResourcePolicyOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

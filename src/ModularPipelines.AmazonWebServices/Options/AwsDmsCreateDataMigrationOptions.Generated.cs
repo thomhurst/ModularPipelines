@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,7 +30,7 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
     /// Creates a data migration using the provided settings. See also: AWS API Documentation
     /// </summary>
     /// <param name="MigrationProjectIdentifier">An identifier for the migration project.</param>
-    /// <param name="DataMigrationType">Specifies if the data migration is full-load only, change data cap- ture (CDC) only, or full-load and CDC. Possible values: o full-load o cdc o full-load-and-cdc</param>
+    /// <param name="DataMigrationType">Specifies if the data migration is full-load only, change data capture (CDC) only, or full-load and CDC. Possible values: • full-load • cdc • full-load-and-cdc</param>
     /// <param name="ServiceAccessRoleArn">The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.</param>
     public AwsDmsCreateDataMigrationOptions(
         string MigrationProjectIdentifier,
@@ -70,7 +71,7 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
     public string? MigrationProjectIdentifier { get; private init; }
 
     /// <summary>
-    /// Specifies if the data migration is full-load only, change data cap- ture (CDC) only, or full-load and CDC. Possible values: o full-load o cdc o full-load-and-cdc
+    /// Specifies if the data migration is full-load only, change data capture (CDC) only, or full-load and CDC. Possible values: • full-load • cdc • full-load-and-cdc
     /// </summary>
     [CliOption("--data-migration-type")]
     public AwsDmsCreateDataMigrationDataMigrationType? DataMigrationType { get; private init; }
@@ -82,7 +83,7 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
     public string? ServiceAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// A user-friendly name for the data migration. Data migration names have the following constraints: o Must begin with a letter, and can only contain ASCII letters, dig- its, and hyphens. o Can't end with a hyphen or contain two consecutive hyphens. o Length must be from 1 to 255 characters.
+    /// A user-friendly name for the data migration. Data migration names have the following constraints: • Must begin with a letter, and can only contain ASCII letters, digits, and hyphens. • Can't end with a hyphen or contain two consecutive hyphens. • Length must be from 1 to 255 characters.
     /// </summary>
     [CliOption("--data-migration-name")]
     public string? DataMigrationName { get; set; }
@@ -94,13 +95,13 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
     public bool? EnableCloudwatchLogs { get; set; }
 
     /// <summary>
-    /// Specifies information about the source data provider. (structure) Defines settings for a source data provider for a data migra- tion. CDCStartPosition -&gt; (string) The change data capture (CDC) start position for the source data provider. CDCStartTime -&gt; (timestamp) The change data capture (CDC) start time for the source data provider. CDCStopTime -&gt; (timestamp) The change data capture (CDC) stop time for the source data provider. SlotName -&gt; (string) The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora Post- greSQL source. Shorthand Syntax: CDCStartPosition=string,CDCStartTime=timestamp,CDCStopTime=timestamp,SlotName=string ... JSON Syntax: [ { "CDCStartPosition": "string", "CDCStartTime": timestamp, "CDCStopTime": timestamp, "SlotName": "string" } ... ]
+    /// Specifies information about the source data provider. (structure) Defines settings for a source data provider for a data migration. CDCStartPosition -&gt; (string) The change data capture (CDC) start position for the source data provider. CDCStartTime -&gt; (timestamp) The change data capture (CDC) start time for the source data provider. CDCStopTime -&gt; (timestamp) The change data capture (CDC) stop time for the source data provider. SlotName -&gt; (string) The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora PostgreSQL source. Shorthand Syntax: CDCStartPosition=string,CDCStartTime=timestamp,CDCStopTime=timestamp,SlotName=string ... JSON Syntax: [ { "CDCStartPosition": "string", "CDCStartTime": timestamp, "CDCStopTime": timestamp, "SlotName": "string" } ... ]
     /// </summary>
     [CliOption("--source-data-settings", GroupValues = true)]
     public IEnumerable<string>? SourceDataSettings { get; set; }
 
     /// <summary>
-    /// Specifies information about the target data provider. (structure) Defines settings for a target data provider for a data migra- tion. TablePreparationMode -&gt; (string) This setting determines how DMS handles the target tables be- fore starting a data migration, either by leaving them un- touched, dropping and recreating them, or truncating the ex- isting data in the target tables. Possible values: o drop-tables-on-target o truncate o do-nothing Shorthand Syntax: TablePreparationMode=string ... JSON Syntax: [ { "TablePreparationMode": "drop-tables-on-target"|"truncate"|"do-nothing" } ... ]
+    /// Specifies information about the target data provider. (structure) Defines settings for a target data provider for a data migration. TablePreparationMode -&gt; (string) This setting determines how DMS handles the target tables before starting a data migration, either by leaving them untouched, dropping and recreating them, or truncating the existing data in the target tables. Possible values: • drop-tables-on-target • truncate • do-nothing Shorthand Syntax: TablePreparationMode=string ... JSON Syntax: [ { "TablePreparationMode": "drop-tables-on-target"|"truncate"|"do-nothing" } ... ]
     /// </summary>
     [CliOption("--target-data-settings", GroupValues = true)]
     public IEnumerable<string>? TargetDataSettings { get; set; }
@@ -112,7 +113,7 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
     public int? NumberOfJobs { get; set; }
 
     /// <summary>
-    /// One or more tags to be assigned to the data migration. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
+    /// One or more tags to be assigned to the data migration. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the following: • AddTagsToResource • ListTagsForResource • RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -144,6 +145,15 @@ public record AwsDmsCreateDataMigrationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

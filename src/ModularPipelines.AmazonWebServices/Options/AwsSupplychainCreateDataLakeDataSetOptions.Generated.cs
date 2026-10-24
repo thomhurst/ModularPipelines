@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +28,9 @@ public record AwsSupplychainCreateDataLakeDataSetOptions : AwsOptions, IValidata
     /// <summary>
     /// Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="Namespace">The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: o asc - For information on the Amazon Web Services Supply Chain sup- ported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . o default - For datasets with custom user-defined schemas. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+</param>
-    /// <param name="Name">The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: o min: 1 o max: 75 o pattern: [a-z0-9_]+</param>
+    /// <param name="InstanceId">The Amazon Web Services Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="Namespace">The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: • asc - For information on the Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . • default - For datasets with custom user-defined schemas. Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+</param>
+    /// <param name="Name">The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: • min: 1 • max: 75 • pattern: [a-z0-9_]+</param>
     public AwsSupplychainCreateDataLakeDataSetOptions(
         string InstanceId,
         string Namespace,
@@ -65,43 +65,43 @@ public record AwsSupplychainCreateDataLakeDataSetOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services Supply Chain instance identifier. Constraints: o min: 36 o max: 36 o pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Web Services Supply Chain instance identifier. Constraints: • min: 36 • max: 36 • pattern: [a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: o asc - For information on the Amazon Web Services Supply Chain sup- ported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . o default - For datasets with custom user-defined schemas. Constraints: o min: 1 o max: 50 o pattern: [a-z0-9_]+
+    /// The namespace of the dataset, besides the custom defined namespace, every instance comes with below pre-defined namespaces: • asc - For information on the Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . • default - For datasets with custom user-defined schemas. Constraints: • min: 1 • max: 50 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
 
     /// <summary>
-    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: o min: 1 o max: 75 o pattern: [a-z0-9_]+
+    /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html . Constraints: • min: 1 • max: 75 • pattern: [a-z0-9_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The custom schema of the data lake dataset and required for dataset in default and custom namespaces. name -&gt; (string) [required] The name of the dataset schema. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+ fields -&gt; (list) [required] The list of field details of the dataset schema. Constraints: o min: 1 o max: 500 (structure) The dataset field details. name -&gt; (string) [required] The dataset field name. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ type -&gt; (string) [required] The dataset field type. Possible values: o INT o DOUBLE o STRING o TIMESTAMP o LONG isRequired -&gt; (boolean) [required] Indicate if the field is required or not. primaryKeys -&gt; (list) The list of primary key fields for the dataset. Primary keys de- fined can help data ingestion methods to ensure data uniqueness: CreateDataIntegrationFlow's dedupe strategy will leverage pri- mary keys to perform records deduplication before write to dataset; SendDataIntegrationEvent's UPSERT and DELETE can only work with dataset with primary keys. For more details, refer to those data ingestion documentations. Note that defining primary keys does not necessarily mean the dataset cannot have duplicate records, duplicate records can still be ingested if CreateDataIntegrationFlow's dedupe disabled or through SendDataIntegrationEvent's APPEND operation. Constraints: o min: 1 o max: 20 (structure) The detail of the primary key field. name -&gt; (string) [required] The name of the primary key field. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ Shorthand Syntax: name=string,fields=[{name=string,type=string,isRequired=boolean},{name=string,type=string,isRequired=boolean}],primaryKeys=[{name=string},{name=string}] JSON Syntax: { "name": "string", "fields": [ { "name": "string", "type": "INT"|"DOUBLE"|"STRING"|"TIMESTAMP"|"LONG", "isRequired": true|false } ... ], "primaryKeys": [ { "name": "string" } ... ] }
+    /// The custom schema of the data lake dataset and required for dataset in default and custom namespaces. name -&gt; (string) [required] The name of the dataset schema. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9]+ fields -&gt; (list) [required] The list of field details of the dataset schema. Constraints: • min: 1 • max: 500 (structure) The dataset field details. name -&gt; (string) [required] The dataset field name. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9_]+ type -&gt; (string) [required] The dataset field type. Possible values: • INT • DOUBLE • STRING • TIMESTAMP • LONG isRequired -&gt; (boolean) [required] Indicate if the field is required or not. primaryKeys -&gt; (list) The list of primary key fields for the dataset. Primary keys defined can help data ingestion methods to ensure data uniqueness: CreateDataIntegrationFlow's dedupe strategy will leverage primary keys to perform records deduplication before write to dataset; SendDataIntegrationEvent's UPSERT and DELETE can only work with dataset with primary keys. For more details, refer to those data ingestion documentations. Note that defining primary keys does not necessarily mean the dataset cannot have duplicate records, duplicate records can still be ingested if CreateDataIntegrationFlow's dedupe disabled or through SendDataIntegrationEvent's APPEND operation. Constraints: • min: 1 • max: 20 (structure) The detail of the primary key field. name -&gt; (string) [required] The name of the primary key field. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9_]+ Shorthand Syntax: name=string,fields=[{name=string,type=string,isRequired=boolean},{name=string,type=string,isRequired=boolean}],primaryKeys=[{name=string},{name=string}] JSON Syntax: { "name": "string", "fields": [ { "name": "string", "type": "INT"|"DOUBLE"|"STRING"|"TIMESTAMP"|"LONG", "isRequired": true|false } ... ], "primaryKeys": [ { "name": "string" } ... ] }
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; set; }
 
     /// <summary>
-    /// The description of the dataset. Constraints: o min: 1 o max: 500
+    /// The description of the dataset. Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The partition specification of the dataset. Partitioning can effec- tively improve the dataset query performance by reducing the amount of data scanned during query execution. But partitioning or not will affect how data get ingested by data ingestion methods, such as SendDataIntegrationEvent's dataset UPSERT will upsert records within partition (instead of within whole dataset). For more details, refer to those data ingestion documentations. fields -&gt; (list) [required] The fields on which to partition a dataset. The partitions will be applied hierarchically based on the order of this list. Constraints: o min: 1 o max: 10 (structure) The detail of the partition field. name -&gt; (string) [required] The name of the partition field. Constraints: o min: 1 o max: 100 o pattern: [a-z0-9_]+ transform -&gt; (structure) [required] The transformation of the partition field. A transforma- tion specifies how to partition on a given field. For ex- ample, with timestamp you can specify that you'd like to partition fields by day, e.g. data record with value 2025-01-03T00:00:00Z in partition field is in 2025-01-03 partition. Also noted that data record without any value in optional partition field is in NULL partition. type -&gt; (string) [required] The type of partitioning transformation for this field. The available options are: o IDENTITY - Partitions data on a given field by its exact values. o YEAR - Partitions data on a timestamp field using year granularity. o MONTH - Partitions data on a timestamp field using month granularity. o DAY - Partitions data on a timestamp field using day granularity. o HOUR - Partitions data on a timestamp field using hour granularity. Possible values: o YEAR o MONTH o DAY o HOUR o IDENTITY JSON Syntax: { "fields": [ { "name": "string", "transform": { "type": "YEAR"|"MONTH"|"DAY"|"HOUR"|"IDENTITY" } } ... ] }
+    /// The partition specification of the dataset. Partitioning can effectively improve the dataset query performance by reducing the amount of data scanned during query execution. But partitioning or not will affect how data get ingested by data ingestion methods, such as SendDataIntegrationEvent's dataset UPSERT will upsert records within partition (instead of within whole dataset). For more details, refer to those data ingestion documentations. fields -&gt; (list) [required] The fields on which to partition a dataset. The partitions will be applied hierarchically based on the order of this list. Constraints: • min: 1 • max: 10 (structure) The detail of the partition field. name -&gt; (string) [required] The name of the partition field. Constraints: • min: 1 • max: 100 • pattern: [a-z0-9_]+ transform -&gt; (structure) [required] The transformation of the partition field. A transformation specifies how to partition on a given field. For example, with timestamp you can specify that you'd like to partition fields by day, e.g. data record with value 2025-01-03T00:00:00Z in partition field is in 2025-01-03 partition. Also noted that data record without any value in optional partition field is in NULL partition. type -&gt; (string) [required] The type of partitioning transformation for this field. The available options are: • IDENTITY - Partitions data on a given field by its exact values. • YEAR - Partitions data on a timestamp field using year granularity. • MONTH - Partitions data on a timestamp field using month granularity. • DAY - Partitions data on a timestamp field using day granularity. • HOUR - Partitions data on a timestamp field using hour granularity. Possible values: • YEAR • MONTH • DAY • HOUR • IDENTITY JSON Syntax: { "fields": [ { "name": "string", "transform": { "type": "YEAR"|"MONTH"|"DAY"|"HOUR"|"IDENTITY" } } ... ] }
     /// </summary>
     [CliOption("--partition-spec")]
     public string? PartitionSpec { get; set; }
 
     /// <summary>
-    /// The tags of the dataset. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags of the dataset. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -127,6 +127,15 @@ public record AwsSupplychainCreateDataLakeDataSetOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

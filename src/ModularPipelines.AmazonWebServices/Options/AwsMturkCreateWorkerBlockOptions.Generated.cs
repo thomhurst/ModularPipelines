@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// The CreateWorkerBlock operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is pro- ducing poor quality work. You can block up to 100,000 Workers. See also: AWS API Documentation
+/// The CreateWorkerBlock operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is producing poor quality work. You can block up to 100,000 Workers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMturkCreateWorkerBlockOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// The CreateWorkerBlock operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is pro- ducing poor quality work. You can block up to 100,000 Workers. See also: AWS API Documentation
+    /// The CreateWorkerBlock operation allows you to prevent a Worker from working on your HITs. For example, you can block a Worker who is producing poor quality work. You can block up to 100,000 Workers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="WorkerId">The ID of the Worker to block. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$</param>
-    /// <param name="Reason">A message explaining the reason for blocking the Worker. This para- meter enables you to keep track of your Workers. The Worker does not see this message.</param>
+    /// <param name="WorkerId">The ID of the Worker to block. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$</param>
+    /// <param name="Reason">A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.</param>
     public AwsMturkCreateWorkerBlockOptions(
         string WorkerId,
         string Reason
@@ -60,13 +61,13 @@ public record AwsMturkCreateWorkerBlockOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Worker to block. Constraints: o min: 1 o max: 64 o pattern: ^A[A-Z0-9]+$
+    /// The ID of the Worker to block. Constraints: • min: 1 • max: 64 • pattern: ^A[A-Z0-9]+$
     /// </summary>
     [CliOption("--worker-id")]
     public string? WorkerId { get; private init; }
 
     /// <summary>
-    /// A message explaining the reason for blocking the Worker. This para- meter enables you to keep track of your Workers. The Worker does not see this message.
+    /// A message explaining the reason for blocking the Worker. This parameter enables you to keep track of your Workers. The Worker does not see this message.
     /// </summary>
     [CliOption("--reason")]
     public string? Reason { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMturkCreateWorkerBlockOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

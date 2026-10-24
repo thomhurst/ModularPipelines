@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -33,7 +33,7 @@ public class AwsHealthlake : IAwsHealthlake
     #region Sub-command Groups
 
     /// <summary>
-    /// aws wait sub-commands.
+    /// aws healthlake wait sub-commands.
     /// </summary>
     public AwsHealthlakeWait Wait => _wait ??= new AwsHealthlakeWait(_command);
 
@@ -42,7 +42,7 @@ public class AwsHealthlake : IAwsHealthlake
     #region Commands
 
     /// <summary>
-    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile con- tent, or a sample data file as the source. See also: AWS API Documentation
+    /// Creates a data transformation profile in DRAFT state. Specify a built-in starter profile, an existing profile version, raw profile content, or a sample data file as the source. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -102,7 +102,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Describes a data transformation job, including its current status, con- figuration, and progress information. See also: AWS API Documentation
+    /// Describes a data transformation job, including its current status, configuration, and progress information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -162,7 +162,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a ver- sion number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
+    /// Retrieves a data transformation profile's metadata and profile content at a specific version. Specify version 0 to retrieve the DRAFT, a version number between 1 and 99 to retrieve a specific published version, or omit the version to retrieve the latest published version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -177,7 +177,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve addi- tional results. See also: AWS API Documentation list-data-transformation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and th...
+    /// Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --qu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -192,22 +192,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken pa- rameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. ...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> ListDataTransformationProfilesAsync(
-        AwsHealthlakeListDataTransformationProfilesOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetData- TransformationProfile to retrieve profile content. Results are pagi- nated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profile-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
+    /// Lists all versions of a specific data transformation profile (DRAFT and published), in reverse chronological order (newest first). Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profile-versions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providin...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -215,6 +200,21 @@ public class AwsHealthlake : IAwsHealthlake
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDataTransformationProfileVersionsAsync(
         AwsHealthlakeListDataTransformationProfileVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Lists all data transformation profiles in your account, returning the latest version summary for each. Use GetDataTransformationProfile to retrieve profile content. Results are paginated. Use the NextToken parameter to retrieve additional results. See also: AWS API Documentation list-data-transformation-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When u...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ListDataTransformationProfilesAsync(
+        AwsHealthlakeListDataTransformationProfilesOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -237,7 +237,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Lists all FHIR export jobs associated with an account and their sta- tuses. See also: AWS API Documentation
+    /// Lists all FHIR export jobs associated with an account and their statuses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -252,7 +252,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// List all FHIR import jobs associated with an account and their sta- tuses. See also: AWS API Documentation
+    /// List all FHIR import jobs associated with an account and their statuses. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -387,7 +387,7 @@ public class AwsHealthlake : IAwsHealthlake
     }
 
     /// <summary>
-    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT con- tent. See also: AWS API Documentation
+    /// Updates the DRAFT version (version 0) of a data transformation profile with new profile content. The update replaces all existing DRAFT content. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

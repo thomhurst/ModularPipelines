@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSocialmessagingDeleteWhatsappMessageMediaOptions : AwsOptions, 
     /// <summary>
     /// Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MediaId">The unique identifier of the media file to delete. Use the mediaId returned from PostWhatsAppMessageMedia . Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+</param>
-    /// <param name="OriginationPhoneNumberId">The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-num- ber-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*</param>
+    /// <param name="MediaId">The unique identifier of the media file to delete. Use the mediaId returned from PostWhatsAppMessageMedia . Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9]+</param>
+    /// <param name="OriginationPhoneNumberId">The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*</param>
     public AwsSocialmessagingDeleteWhatsappMessageMediaOptions(
         string MediaId,
         string OriginationPhoneNumberId
@@ -60,13 +61,13 @@ public record AwsSocialmessagingDeleteWhatsappMessageMediaOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the media file to delete. Use the mediaId returned from PostWhatsAppMessageMedia . Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9]+
+    /// The unique identifier of the media file to delete. Use the mediaId returned from PostWhatsAppMessageMedia . Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--media-id")]
     public string? MediaId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-num- ber-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: o min: 1 o max: 115 o pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-num- ber-id/[0-9a-zA-Z]+$).*
+    /// The unique identifier of the originating phone number associated with the media. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901 . Use GetLinkedWhatsAppBusinessAccount to find a phone number's id. Constraints: • min: 1 • max: 115 • pattern: .*(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$).*
     /// </summary>
     [CliOption("--origination-phone-number-id")]
     public string? OriginationPhoneNumberId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsSocialmessagingDeleteWhatsappMessageMediaOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

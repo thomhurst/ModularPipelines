@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsInspectorDescribeFindingsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Describes the findings that are specified by the ARNs of the findings. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FindingArns">The ARN that specifies the finding that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...</param>
+    /// <param name="FindingArns">The ARN that specifies the finding that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...</param>
     public AwsInspectorDescribeFindingsOptions(
         IEnumerable<string> FindingArns
     )
@@ -67,13 +68,13 @@ public record AwsInspectorDescribeFindingsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN that specifies the finding that you want to describe. Constraints: o min: 1 o max: 10 (string) Constraints: o min: 1 o max: 300 Syntax: "string" "string" ...
+    /// The ARN that specifies the finding that you want to describe. Constraints: • min: 1 • max: 10 (string) Constraints: • min: 1 • max: 300 Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--finding-arns", GroupValues = true)]
     public IEnumerable<string>? FindingArns { get; private init; }
 
     /// <summary>
-    /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the find- ing. Possible values: o EN_US
+    /// The locale into which you want to translate a finding description, recommendation, and the short description that identifies the finding. Possible values: • EN_US
     /// </summary>
     [CliOption("--locale")]
     public string? Locale { get; set; }
@@ -99,6 +100,15 @@ public record AwsInspectorDescribeFindingsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

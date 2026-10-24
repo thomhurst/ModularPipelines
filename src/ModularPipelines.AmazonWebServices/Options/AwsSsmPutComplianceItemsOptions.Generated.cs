@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Registers a compliance type and other compliance details on a desig- nated resource. This operation lets you register custom compliance de- tails with a resource. This call overwrites existing compliance infor- mation on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: o ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. o ExecutionType: Specify patch, ...
+/// Registers a compliance type and other compliance details on a designated resource. This operation lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: • ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. • ExecutionType: Specify patch, associ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,13 +27,13 @@ public record AwsSsmPutComplianceItemsOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Registers a compliance type and other compliance details on a desig- nated resource. This operation lets you register custom compliance de- tails with a resource. This call overwrites existing compliance infor- mation on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: o ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. o ExecutionType: Specify patch, ...
+    /// Registers a compliance type and other compliance details on a designated resource. This operation lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following: • ExecutionId: The execution ID when the patch, association, or custom compliance item was applied. • ExecutionType: Specify patch, associ...
     /// </summary>
-    /// <param name="ResourceId">Specify an ID for this resource. For a managed node, this is the node ID. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ResourceType">Specify the type of resource. ManagedInstance is currently the only supported resource type. Constraints: o min: 1 o max: 50</param>
-    /// <param name="ComplianceType">Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string . Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+)$</param>
-    /// <param name="ExecutionSummary">A summary of the call execution that includes an execution ID, the type of execution (for example, Command ), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' ExecutionTime -&gt; (timestamp) [required] The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' WARNING: For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExe- cutionTargets command or check the association execution his- tory in the Systems Manager console. ExecutionId -&gt; (string) An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls. Constraints: o max: 100 ExecutionType -&gt; (string) The type of execution. For example, Command is a valid execution type. Constraints: o max: 50 Shorthand Syntax: ExecutionTime=timestamp,ExecutionId=string,ExecutionType=string JSON Syntax: { "ExecutionTime": timestamp, "ExecutionId": "string", "ExecutionType": "string" }</param>
-    /// <param name="Items">Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on. Constraints: o min: 0 o max: 10000 (structure) Information about a compliance item. Id -&gt; (string) The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB ar- ticle. Title -&gt; (string) The title of the compliance item. For example, if the compli- ance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. Constraints: o max: 500 Severity -&gt; (string) [required] The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified. Possible values: o CRITICAL o HIGH o MEDIUM o LOW o INFORMATIONAL o UNSPECIFIED Status -&gt; (string) [required] The status of the compliance item. An item is either COMPLI- ANT or NON_COMPLIANT. Possible values: o COMPLIANT o NON_COMPLIANT Details -&gt; (map) A "Key": "Value" tag combination for the compliance item. key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: Id=string,Title=string,Severity=string,Status=string,Details={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Id": "string", "Title": "string", "Severity": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"INFORMATIONAL"|"UNSPECIFIED", "Status": "COMPLIANT"|"NON_COMPLIANT", "Details": {"string": "string" ...} } ... ]</param>
+    /// <param name="ResourceId">Specify an ID for this resource. For a managed node, this is the node ID. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ResourceType">Specify the type of resource. ManagedInstance is currently the only supported resource type. Constraints: • min: 1 • max: 50</param>
+    /// <param name="ComplianceType">Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string . Constraints: • min: 1 • max: 100 • pattern: ^([A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+)$</param>
+    /// <param name="ExecutionSummary">A summary of the call execution that includes an execution ID, the type of execution (for example, Command ), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' ExecutionTime -&gt; (timestamp) [required] The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' WARNING: For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExecutionTargets command or check the association execution history in the Systems Manager console. ExecutionId -&gt; (string) An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls. Constraints: • max: 100 ExecutionType -&gt; (string) The type of execution. For example, Command is a valid execution type. Constraints: • max: 50 Shorthand Syntax: ExecutionTime=timestamp,ExecutionId=string,ExecutionType=string JSON Syntax: { "ExecutionTime": timestamp, "ExecutionId": "string", "ExecutionType": "string" }</param>
+    /// <param name="Items">Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on. Constraints: • min: 0 • max: 10000 (structure) Information about a compliance item. Id -&gt; (string) The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB article. Title -&gt; (string) The title of the compliance item. For example, if the compliance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. Constraints: • max: 500 Severity -&gt; (string) [required] The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified. Possible values: • CRITICAL • HIGH • MEDIUM • LOW • INFORMATIONAL • UNSPECIFIED Status -&gt; (string) [required] The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT. Possible values: • COMPLIANT • NON_COMPLIANT Details -&gt; (map) A "Key": "Value" tag combination for the compliance item. key -&gt; (string) Constraints: • min: 1 • max: 64 value -&gt; (string) Constraints: • min: 0 • max: 4096 Shorthand Syntax: Id=string,Title=string,Severity=string,Status=string,Details={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Id": "string", "Title": "string", "Severity": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"INFORMATIONAL"|"UNSPECIFIED", "Status": "COMPLIANT"|"NON_COMPLIANT", "Details": {"string": "string" ...} } ... ]</param>
     public AwsSsmPutComplianceItemsOptions(
         string ResourceId,
         string ResourceType,
@@ -84,43 +85,43 @@ public record AwsSsmPutComplianceItemsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specify an ID for this resource. For a managed node, this is the node ID. Constraints: o min: 1 o max: 100
+    /// Specify an ID for this resource. For a managed node, this is the node ID. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// Specify the type of resource. ManagedInstance is currently the only supported resource type. Constraints: o min: 1 o max: 50
+    /// Specify the type of resource. ManagedInstance is currently the only supported resource type. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
 
     /// <summary>
-    /// Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string . Constraints: o min: 1 o max: 100 o pattern: ^([A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+)$
+    /// Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string . Constraints: • min: 1 • max: 100 • pattern: ^([A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+)$
     /// </summary>
     [CliOption("--compliance-type")]
     public string? ComplianceType { get; private init; }
 
     /// <summary>
-    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command ), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' ExecutionTime -&gt; (timestamp) [required] The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' WARNING: For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExe- cutionTargets command or check the association execution his- tory in the Systems Manager console. ExecutionId -&gt; (string) An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls. Constraints: o max: 100 ExecutionType -&gt; (string) The type of execution. For example, Command is a valid execution type. Constraints: o max: 50 Shorthand Syntax: ExecutionTime=timestamp,ExecutionId=string,ExecutionType=string JSON Syntax: { "ExecutionTime": timestamp, "ExecutionId": "string", "ExecutionType": "string" }
+    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command ), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' ExecutionTime -&gt; (timestamp) [required] The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' WARNING: For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the DescribeAssociationExecutionTargets command or check the association execution history in the Systems Manager console. ExecutionId -&gt; (string) An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls. Constraints: • max: 100 ExecutionType -&gt; (string) The type of execution. For example, Command is a valid execution type. Constraints: • max: 50 Shorthand Syntax: ExecutionTime=timestamp,ExecutionId=string,ExecutionType=string JSON Syntax: { "ExecutionTime": timestamp, "ExecutionId": "string", "ExecutionType": "string" }
     /// </summary>
     [CliOption("--execution-summary")]
     public string? ExecutionSummary { get; private init; }
 
     /// <summary>
-    /// Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on. Constraints: o min: 0 o max: 10000 (structure) Information about a compliance item. Id -&gt; (string) The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB ar- ticle. Title -&gt; (string) The title of the compliance item. For example, if the compli- ance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. Constraints: o max: 500 Severity -&gt; (string) [required] The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified. Possible values: o CRITICAL o HIGH o MEDIUM o LOW o INFORMATIONAL o UNSPECIFIED Status -&gt; (string) [required] The status of the compliance item. An item is either COMPLI- ANT or NON_COMPLIANT. Possible values: o COMPLIANT o NON_COMPLIANT Details -&gt; (map) A "Key": "Value" tag combination for the compliance item. key -&gt; (string) Constraints: o min: 1 o max: 64 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: Id=string,Title=string,Severity=string,Status=string,Details={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Id": "string", "Title": "string", "Severity": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"INFORMATIONAL"|"UNSPECIFIED", "Status": "COMPLIANT"|"NON_COMPLIANT", "Details": {"string": "string" ...} } ... ]
+    /// Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on. Constraints: • min: 0 • max: 10000 (structure) Information about a compliance item. Id -&gt; (string) The compliance item ID. For example, if the compliance item is a Windows patch, the ID could be the number of the KB article. Title -&gt; (string) The title of the compliance item. For example, if the compliance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services. Constraints: • max: 500 Severity -&gt; (string) [required] The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified. Possible values: • CRITICAL • HIGH • MEDIUM • LOW • INFORMATIONAL • UNSPECIFIED Status -&gt; (string) [required] The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT. Possible values: • COMPLIANT • NON_COMPLIANT Details -&gt; (map) A "Key": "Value" tag combination for the compliance item. key -&gt; (string) Constraints: • min: 1 • max: 64 value -&gt; (string) Constraints: • min: 0 • max: 4096 Shorthand Syntax: Id=string,Title=string,Severity=string,Status=string,Details={KeyName1=string,KeyName2=string} ... JSON Syntax: [ { "Id": "string", "Title": "string", "Severity": "CRITICAL"|"HIGH"|"MEDIUM"|"LOW"|"INFORMATIONAL"|"UNSPECIFIED", "Status": "COMPLIANT"|"NON_COMPLIANT", "Details": {"string": "string" ...} } ... ]
     /// </summary>
     [CliOption("--items", GroupValues = true)]
     public IEnumerable<string>? Items { get; private init; }
 
     /// <summary>
-    /// MD5 or SHA-256 content hash. The content hash is used to determine if existing information should be overwritten or ignored. If the content hashes match, the request to put compliance information is ignored. Constraints: o max: 256
+    /// MD5 or SHA-256 content hash. The content hash is used to determine if existing information should be overwritten or ignored. If the content hashes match, the request to put compliance information is ignored. Constraints: • max: 256
     /// </summary>
     [CliOption("--item-content-hash")]
     public string? ItemContentHash { get; set; }
 
     /// <summary>
-    /// The mode for uploading compliance items. You can specify COMPLETE or PARTIAL . In COMPLETE mode, the system overwrites all existing com- pliance information for the resource. You must provide a full list of compliance items each time you send the request. In PARTIAL mode, the system overwrites compliance information for a specific association. The association must be configured with Sync- Compliance set to MANUAL . By default, all requests use COMPLETE mode. NOTE: This attribute is only valid for association compliance. Possible values: o COMPLETE o PARTIAL
+    /// The mode for uploading compliance items. You can specify COMPLETE or PARTIAL . In COMPLETE mode, the system overwrites all existing compliance information for the resource. You must provide a full list of compliance items each time you send the request. In PARTIAL mode, the system overwrites compliance information for a specific association. The association must be configured with SyncCompliance set to MANUAL . By default, all requests use COMPLETE mode. NOTE: This attribute is only valid for association compliance. Possible values: • COMPLETE • PARTIAL
     /// </summary>
     [CliOption("--upload-type")]
     public AwsSsmPutComplianceItemsUploadType? UploadType { get; set; }
@@ -146,6 +147,15 @@ public record AwsSsmPutComplianceItemsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

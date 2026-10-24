@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update com- pletes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId , but not both. See also: AWS API Documentation
+/// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update completes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId , but not both. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsLogsUpdateLookupTableOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update com- pletes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId , but not both. See also: AWS API Documentation
+    /// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update completes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId , but not both. See also: AWS API Documentation
     /// </summary>
     /// <param name="LookupTableArn">The ARN of the lookup table to update.</param>
     public AwsLogsUpdateLookupTableOptions(
@@ -62,25 +63,25 @@ public record AwsLogsUpdateLookupTableOptions : AwsOptions, IValidatableObject
     public string? LookupTableArn { get; private init; }
 
     /// <summary>
-    /// An updated description of the lookup table. Constraints: o min: 0 o max: 1024
+    /// An updated description of the lookup table. Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encod- ing and not exceed 10 MB. You must specify either tableBody or queryId , but not both. Constraints: o min: 1 o max: 10485760
+    /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId , but not both. Constraints: • min: 1 • max: 10485760
     /// </summary>
     [CliOption("--table-body")]
     public string? TableBody { get; set; }
 
     /// <summary>
-    /// The ID of a completed or cancelled CloudWatch Logs query whose re- sults replace the lookup table content. A cancelled query replaces the content with the partial results that were available when the query was stopped. You must specify either tableBody or queryId , but not both. Constraints: o min: 1 o max: 256
+    /// The ID of a completed or cancelled CloudWatch Logs query whose results replace the lookup table content. A cancelled query replaces the content with the partial results that were available when the query was stopped. You must specify either tableBody or queryId , but not both. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--query-id")]
     public string? QueryId { get; set; }
 
     /// <summary>
-    /// The ARN of the KMS key to use to encrypt the lookup table data. You can use this parameter to add, update, or remove the KMS key. To re- move the KMS key and use an Amazon Web Services-owned key instead, specify an empty string. Constraints: o max: 256
+    /// The ARN of the KMS key to use to encrypt the lookup table data. You can use this parameter to add, update, or remove the KMS key. To remove the KMS key and use an Amazon Web Services-owned key instead, specify an empty string. Constraints: • max: 256
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -106,6 +107,15 @@ public record AwsLogsUpdateLookupTableOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

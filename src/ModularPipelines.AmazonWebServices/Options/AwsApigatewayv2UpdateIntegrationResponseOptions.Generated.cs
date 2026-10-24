@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -84,7 +84,7 @@ public record AwsApigatewayv2UpdateIntegrationResponseOptions : AwsOptions, IVal
     public string? IntegrationResponseId { get; private init; }
 
     /// <summary>
-    /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CON- VERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification. Possible values: o CONVERT_TO_BINARY o CONVERT_TO_TEXT
+    /// Supported only for WebSocket APIs. Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors: CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string. If this property is not defined, the response payload will be passed through from the integration response to the route response or method response without modification. Possible values: • CONVERT_TO_BINARY • CONVERT_TO_TEXT
     /// </summary>
     [CliOption("--content-handling-strategy")]
     public AwsApigatewayv2UpdateIntegrationResponseContentHandlingStrategy? ContentHandlingStrategy { get; set; }
@@ -96,7 +96,7 @@ public record AwsApigatewayv2UpdateIntegrationResponseOptions : AwsOptions, IVal
     public string? IntegrationResponseKey { get; set; }
 
     /// <summary>
-    /// A key-value map specifying response parameters that are passed to the method response from the backend. The key is a method response header parameter name and the mapped value is an integration re- sponse header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name}or integration.response.body.{JSON-expression}, where {name}is a valid and unique response header name and {JSON-expression}is a valid JSON expression without the $ prefix. key -&gt; (string) value -&gt; (string) A string with a length between [1-512]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A key-value map specifying response parameters that are passed to the method response from the backend. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name}or integration.response.body.{JSON-expression}, where {name}is a valid and unique response header name and {JSON-expression}is a valid JSON expression without the $ prefix. key -&gt; (string) value -&gt; (string) A string with a length between [1-512]. Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--response-parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? ResponseParameters { get; set; }
@@ -108,7 +108,7 @@ public record AwsApigatewayv2UpdateIntegrationResponseOptions : AwsOptions, IVal
     public IReadOnlyList<KeyValue>? ResponseTemplates { get; set; }
 
     /// <summary>
-    /// The template selection expression for the integration response. Sup- ported only for WebSocket APIs.
+    /// The template selection expression for the integration response. Supported only for WebSocket APIs.
     /// </summary>
     [CliOption("--template-selection-expression")]
     public string? TemplateSelectionExpression { get; set; }
@@ -134,6 +134,15 @@ public record AwsApigatewayv2UpdateIntegrationResponseOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

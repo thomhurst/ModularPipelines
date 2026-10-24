@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new notification to be delivered to specified recipients. No- tifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
+/// Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsConnectCreateNotificationOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new notification to be delivered to specified recipients. No- tifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
+    /// Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="Recipients">A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients. Constraints: o max: 200 (string) Syntax: "string" "string" ...</param>
-    /// <param name="Content">The localized content of the notification. A map where keys are lo- cale codes and values are the notification text in that locale. Con- tent supports links. Maximum 250 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible charac- ters. In a markdown link of the form [label](url) , only the la- bel counts toward the limit. Constraints: o min: 0 o max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="Recipients">A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients. Constraints: • max: 200 (string) Syntax: "string" "string" ...</param>
+    /// <param name="Content">The localized content of the notification. A map where keys are locale codes and values are the notification text in that locale. Content supports links. Maximum 250 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: • en_US • de_DE • es_ES • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • zh_CN • zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible characters. In a markdown link of the form [label](url) , only the label counts toward the limit. Constraints: • min: 0 • max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}</param>
     public AwsConnectCreateNotificationOptions(
         string InstanceId,
         IEnumerable<string> Recipients,
@@ -89,49 +89,49 @@ public record AwsConnectCreateNotificationOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients. Constraints: o max: 200 (string) Syntax: "string" "string" ...
+    /// A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients. Constraints: • max: 200 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--recipients", GroupValues = true)]
     public IEnumerable<string>? Recipients { get; private init; }
 
     /// <summary>
-    /// The localized content of the notification. A map where keys are lo- cale codes and values are the notification text in that locale. Con- tent supports links. Maximum 250 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: o en_US o de_DE o es_ES o fr_FR o id_ID o it_IT o ja_JP o ko_KR o pt_BR o zh_CN o zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible charac- ters. In a markdown link of the form [label](url) , only the la- bel counts toward the limit. Constraints: o min: 0 o max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}
+    /// The localized content of the notification. A map where keys are locale codes and values are the notification text in that locale. Content supports links. Maximum 250 characters per locale. key -&gt; (string) The locale code for localized content. Supported values include en_US, de_DE, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, and zh_TW. Possible values: • en_US • de_DE • es_ES • fr_FR • id_ID • it_IT • ja_JP • ko_KR • pt_BR • zh_CN • zh_TW value -&gt; (string) A localized string value. Maximum length is 500 visible characters. In a markdown link of the form [label](url) , only the label counts toward the limit. Constraints: • min: 0 • max: 3000 Shorthand Syntax: KeyName1=string,KeyName2=string Where valid key names are: en_US de_DE es_ES fr_FR id_ID it_IT ja_JP ko_KR pt_BR zh_CN zh_TW JSON Syntax: {"en_US"|"de_DE"|"es_ES"|"fr_FR"|"id_ID"|"it_IT"|"ja_JP"|"ko_KR"|"pt_BR"|"zh_CN"|"zh_TW": "string" ...}
     /// </summary>
     [CliOption("--content", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Content { get; private init; }
 
     /// <summary>
-    /// The timestamp when the notification should expire and no longer be displayed to users. If not specified, defaults to one week from cre- ation.
+    /// The timestamp when the notification should expire and no longer be displayed to users. If not specified, defaults to one week from creation.
     /// </summary>
     [CliOption("--expires-at")]
     public string? ExpiresAt { get; set; }
 
     /// <summary>
-    /// The priority level of the notification. Valid values are HIGH and LOW. High priority notifications are displayed above low priority notifications. Possible values: o HIGH o LOW
+    /// The priority level of the notification. Valid values are HIGH and LOW. High priority notifications are displayed above low priority notifications. Possible values: • HIGH • LOW
     /// </summary>
     [CliOption("--priority")]
     public AwsConnectCreateNotificationPriority? Priority { get; set; }
 
     /// <summary>
-    /// The tags used to organize, track, or control access for this re- source. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} } . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[\p{L}\p{Z}\p{N}_.:/=+\-@]*$ value -&gt; (string) Constraints: • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// The unique identifier for a notification. Constraints: o min: 1 o max: 256
+    /// The unique identifier for a notification. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--predefined-notification-id")]
     public string? PredefinedNotificationId { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -158,6 +158,15 @@ public record AwsConnectCreateNotificationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

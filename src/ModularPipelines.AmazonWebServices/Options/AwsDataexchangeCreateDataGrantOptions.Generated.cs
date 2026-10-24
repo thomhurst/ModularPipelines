@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +29,10 @@ public record AwsDataexchangeCreateDataGrantOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// This operation creates a data grant. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the data grant. Constraints: o min: 1 o max: 256</param>
-    /// <param name="GrantDistributionScope">The distribution scope of the data grant. Possible values: o AWS_ORGANIZATION o NONE</param>
-    /// <param name="ReceiverPrincipal">The Amazon Web Services account ID of the data grant receiver. Constraints: o pattern: \d{12}</param>
-    /// <param name="SourceDataSetId">The ID of the data set used to create the data grant. Constraints: o pattern: [a-zA-Z0-9]{30,40}</param>
+    /// <param name="Name">The name of the data grant. Constraints: • min: 1 • max: 256</param>
+    /// <param name="GrantDistributionScope">The distribution scope of the data grant. Possible values: • AWS_ORGANIZATION • NONE</param>
+    /// <param name="ReceiverPrincipal">The Amazon Web Services account ID of the data grant receiver. Constraints: • pattern: \d{12}</param>
+    /// <param name="SourceDataSetId">The ID of the data set used to create the data grant. Constraints: • pattern: [a-zA-Z0-9]{30,40}</param>
     public AwsDataexchangeCreateDataGrantOptions(
         string Name,
         AwsDataexchangeCreateDataGrantGrantDistributionScope GrantDistributionScope,
@@ -69,25 +69,25 @@ public record AwsDataexchangeCreateDataGrantOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the data grant. Constraints: o min: 1 o max: 256
+    /// The name of the data grant. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The distribution scope of the data grant. Possible values: o AWS_ORGANIZATION o NONE
+    /// The distribution scope of the data grant. Possible values: • AWS_ORGANIZATION • NONE
     /// </summary>
     [CliOption("--grant-distribution-scope")]
     public AwsDataexchangeCreateDataGrantGrantDistributionScope? GrantDistributionScope { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID of the data grant receiver. Constraints: o pattern: \d{12}
+    /// The Amazon Web Services account ID of the data grant receiver. Constraints: • pattern: \d{12}
     /// </summary>
     [CliOption("--receiver-principal")]
     public string? ReceiverPrincipal { get; private init; }
 
     /// <summary>
-    /// The ID of the data set used to create the data grant. Constraints: o pattern: [a-zA-Z0-9]{30,40}
+    /// The ID of the data set used to create the data grant. Constraints: • pattern: [a-zA-Z0-9]{30,40}
     /// </summary>
     [CliOption("--source-data-set-id")]
     public string? SourceDataSetId { get; private init; }
@@ -131,6 +131,15 @@ public record AwsDataexchangeCreateDataGrantOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

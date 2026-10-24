@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSagemakerMetricsBatchGetMetricsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Used to retrieve training metrics from SageMaker. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricQueries">Queries made to retrieve training metrics from SageMaker. Constraints: o min: 1 o max: 100 (structure) Specifies a query to retrieve training metrics from SageMaker. MetricName -&gt; (string) [required] The name of the metric to retrieve. Constraints: o min: 1 o max: 255 o pattern: .+ ResourceArn -&gt; (string) [required] The ARN of the SageMaker resource to retrieve metrics for. Constraints: o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-].*/.* MetricStat -&gt; (string) [required] The metrics stat type of metrics to retrieve. Possible values: o Min o Max o Avg o Count o StdDev o Last Period -&gt; (string) [required] The time period of metrics to retrieve. Possible values: o OneMinute o FiveMinute o OneHour o IterationNumber XAxisType -&gt; (string) [required] The x-axis type of metrics to retrieve. Possible values: o IterationNumber o Timestamp Start -&gt; (long) The start time of metrics to retrieve. End -&gt; (long) The end time of metrics to retrieve. Shorthand Syntax: MetricName=string,ResourceArn=string,MetricStat=string,Period=string,XAxisType=string,Start=long,End=long ... JSON Syntax: [ { "MetricName": "string", "ResourceArn": "string", "MetricStat": "Min"|"Max"|"Avg"|"Count"|"StdDev"|"Last", "Period": "OneMinute"|"FiveMinute"|"OneHour"|"IterationNumber", "XAxisType": "IterationNumber"|"Timestamp", "Start": long, "End": long } ... ]</param>
+    /// <param name="MetricQueries">Queries made to retrieve training metrics from SageMaker. Constraints: • min: 1 • max: 100 (structure) Specifies a query to retrieve training metrics from SageMaker. MetricName -&gt; (string) [required] The name of the metric to retrieve. Constraints: • min: 1 • max: 255 • pattern: .+ ResourceArn -&gt; (string) [required] The ARN of the SageMaker resource to retrieve metrics for. Constraints: • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-].*/.* MetricStat -&gt; (string) [required] The metrics stat type of metrics to retrieve. Possible values: • Min • Max • Avg • Count • StdDev • Last Period -&gt; (string) [required] The time period of metrics to retrieve. Possible values: • OneMinute • FiveMinute • OneHour • IterationNumber XAxisType -&gt; (string) [required] The x-axis type of metrics to retrieve. Possible values: • IterationNumber • Timestamp Start -&gt; (long) The start time of metrics to retrieve. End -&gt; (long) The end time of metrics to retrieve. Shorthand Syntax: MetricName=string,ResourceArn=string,MetricStat=string,Period=string,XAxisType=string,Start=long,End=long ... JSON Syntax: [ { "MetricName": "string", "ResourceArn": "string", "MetricStat": "Min"|"Max"|"Avg"|"Count"|"StdDev"|"Last", "Period": "OneMinute"|"FiveMinute"|"OneHour"|"IterationNumber", "XAxisType": "IterationNumber"|"Timestamp", "Start": long, "End": long } ... ]</param>
     public AwsSagemakerMetricsBatchGetMetricsOptions(
         IEnumerable<string> MetricQueries
     )
@@ -67,7 +68,7 @@ public record AwsSagemakerMetricsBatchGetMetricsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Queries made to retrieve training metrics from SageMaker. Constraints: o min: 1 o max: 100 (structure) Specifies a query to retrieve training metrics from SageMaker. MetricName -&gt; (string) [required] The name of the metric to retrieve. Constraints: o min: 1 o max: 255 o pattern: .+ ResourceArn -&gt; (string) [required] The ARN of the SageMaker resource to retrieve metrics for. Constraints: o max: 2048 o pattern: arn:aws[a-z\-]*:sage- maker:[a-z0-9\-]*:[0-9]{12}:[a-z\-].*/.* MetricStat -&gt; (string) [required] The metrics stat type of metrics to retrieve. Possible values: o Min o Max o Avg o Count o StdDev o Last Period -&gt; (string) [required] The time period of metrics to retrieve. Possible values: o OneMinute o FiveMinute o OneHour o IterationNumber XAxisType -&gt; (string) [required] The x-axis type of metrics to retrieve. Possible values: o IterationNumber o Timestamp Start -&gt; (long) The start time of metrics to retrieve. End -&gt; (long) The end time of metrics to retrieve. Shorthand Syntax: MetricName=string,ResourceArn=string,MetricStat=string,Period=string,XAxisType=string,Start=long,End=long ... JSON Syntax: [ { "MetricName": "string", "ResourceArn": "string", "MetricStat": "Min"|"Max"|"Avg"|"Count"|"StdDev"|"Last", "Period": "OneMinute"|"FiveMinute"|"OneHour"|"IterationNumber", "XAxisType": "IterationNumber"|"Timestamp", "Start": long, "End": long } ... ]
+    /// Queries made to retrieve training metrics from SageMaker. Constraints: • min: 1 • max: 100 (structure) Specifies a query to retrieve training metrics from SageMaker. MetricName -&gt; (string) [required] The name of the metric to retrieve. Constraints: • min: 1 • max: 255 • pattern: .+ ResourceArn -&gt; (string) [required] The ARN of the SageMaker resource to retrieve metrics for. Constraints: • max: 2048 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:[a-z\-].*/.* MetricStat -&gt; (string) [required] The metrics stat type of metrics to retrieve. Possible values: • Min • Max • Avg • Count • StdDev • Last Period -&gt; (string) [required] The time period of metrics to retrieve. Possible values: • OneMinute • FiveMinute • OneHour • IterationNumber XAxisType -&gt; (string) [required] The x-axis type of metrics to retrieve. Possible values: • IterationNumber • Timestamp Start -&gt; (long) The start time of metrics to retrieve. End -&gt; (long) The end time of metrics to retrieve. Shorthand Syntax: MetricName=string,ResourceArn=string,MetricStat=string,Period=string,XAxisType=string,Start=long,End=long ... JSON Syntax: [ { "MetricName": "string", "ResourceArn": "string", "MetricStat": "Min"|"Max"|"Avg"|"Count"|"StdDev"|"Last", "Period": "OneMinute"|"FiveMinute"|"OneHour"|"IterationNumber", "XAxisType": "IterationNumber"|"Timestamp", "Start": long, "End": long } ... ]
     /// </summary>
     [CliOption("--metric-queries", GroupValues = true)]
     public IEnumerable<string>? MetricQueries { get; private init; }
@@ -93,6 +94,15 @@ public record AwsSagemakerMetricsBatchGetMetricsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

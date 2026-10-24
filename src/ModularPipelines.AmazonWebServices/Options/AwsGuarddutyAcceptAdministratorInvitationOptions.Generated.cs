@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsGuarddutyAcceptAdministratorInvitationOptions : AwsOptions, IVa
     /// <summary>
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300</param>
-    /// <param name="AdministratorId">The account ID of the GuardDuty administrator account whose invita- tion you're accepting.</param>
+    /// <param name="DetectorId">The unique ID of the detector of the GuardDuty member account. Constraints: • min: 1 • max: 300</param>
+    /// <param name="AdministratorId">The account ID of the GuardDuty administrator account whose invitation you're accepting.</param>
     /// <param name="InvitationId">The value that is used to validate the administrator account to the member account.</param>
     public AwsGuarddutyAcceptAdministratorInvitationOptions(
         string DetectorId,
@@ -64,13 +65,13 @@ public record AwsGuarddutyAcceptAdministratorInvitationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the detector of the GuardDuty member account. Constraints: o min: 1 o max: 300
+    /// The unique ID of the detector of the GuardDuty member account. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The account ID of the GuardDuty administrator account whose invita- tion you're accepting.
+    /// The account ID of the GuardDuty administrator account whose invitation you're accepting.
     /// </summary>
     [CliOption("--administrator-id")]
     public string? AdministratorId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsGuarddutyAcceptAdministratorInvitationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

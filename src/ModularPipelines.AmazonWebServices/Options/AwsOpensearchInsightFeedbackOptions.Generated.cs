@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Submits feedback for an existing insight in an Amazon OpenSearch Ser- vice domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
+/// Submits feedback for an existing insight in an Amazon OpenSearch Service domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsOpensearchInsightFeedbackOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Submits feedback for an existing insight in an Amazon OpenSearch Ser- vice domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
+    /// Submits feedback for an existing insight in an Amazon OpenSearch Service domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Entity">The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name. Type -&gt; (string) [required] The type of the entity. Possible values are DomainName . Possible values: o DomainName Value -&gt; (string) [required] The value of the entity, such as a domain name. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DomainName", "Value": "string" }</param>
-    /// <param name="InsightId">The unique identifier of the insight for which to submit feedback. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
-    /// <param name="Thumbs">The thumbs up or thumbs down feedback for the insight. Possible val- ues are Up and Down . Possible values: o Up o Down</param>
+    /// <param name="Entity">The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name. Type -&gt; (string) [required] The type of the entity. Possible values are DomainName . Possible values: • DomainName Value -&gt; (string) [required] The value of the entity, such as a domain name. Constraints: • min: 3 • max: 28 • pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DomainName", "Value": "string" }</param>
+    /// <param name="InsightId">The unique identifier of the insight for which to submit feedback. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}</param>
+    /// <param name="Thumbs">The thumbs up or thumbs down feedback for the insight. Possible values are Up and Down . Possible values: • Up • Down</param>
     public AwsOpensearchInsightFeedbackOptions(
         string Entity,
         string InsightId,
@@ -64,25 +65,25 @@ public record AwsOpensearchInsightFeedbackOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name. Type -&gt; (string) [required] The type of the entity. Possible values are DomainName . Possible values: o DomainName Value -&gt; (string) [required] The value of the entity, such as a domain name. Constraints: o min: 3 o max: 28 o pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DomainName", "Value": "string" }
+    /// The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name. Type -&gt; (string) [required] The type of the entity. Possible values are DomainName . Possible values: • DomainName Value -&gt; (string) [required] The value of the entity, such as a domain name. Constraints: • min: 3 • max: 28 • pattern: ([a-z][a-z0-9\-]+|\d{12}) Shorthand Syntax: Type=string,Value=string JSON Syntax: { "Type": "DomainName", "Value": "string" }
     /// </summary>
     [CliOption("--entity")]
     public string? Entity { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the insight for which to submit feedback. Constraints: o min: 36 o max: 36 o pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
+    /// The unique identifier of the insight for which to submit feedback. Constraints: • min: 36 • max: 36 • pattern: \p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}
     /// </summary>
     [CliOption("--insight-id")]
     public string? InsightId { get; private init; }
 
     /// <summary>
-    /// The thumbs up or thumbs down feedback for the insight. Possible val- ues are Up and Down . Possible values: o Up o Down
+    /// The thumbs up or thumbs down feedback for the insight. Possible values are Up and Down . Possible values: • Up • Down
     /// </summary>
     [CliOption("--thumbs")]
     public AwsOpensearchInsightFeedbackThumbs? Thumbs { get; private init; }
 
     /// <summary>
-    /// Optional text feedback providing additional details about the in- sight. Maximum length is 1000 characters. Constraints: o min: 0 o max: 1000
+    /// Optional text feedback providing additional details about the insight. Maximum length is 1000 characters. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--feedback-text")]
     public string? FeedbackText { get; set; }
@@ -108,6 +109,15 @@ public record AwsOpensearchInsightFeedbackOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

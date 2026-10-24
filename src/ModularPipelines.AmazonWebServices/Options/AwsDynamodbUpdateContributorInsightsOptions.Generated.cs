@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status for contributor insights for a specific table or in- dex. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor In...
+/// Updates the status for contributor insights for a specific table or index. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor Insi...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status for contributor insights for a specific table or in- dex. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor In...
+    /// Updates the status for contributor insights for a specific table or index. CloudWatch Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort key of frequently accessed items and frequently throttled items in plaintext. If you require the use of Amazon Web Services Key Management Service (KMS) to encrypt this tables partition key and sort key data with an Amazon Web Services managed key or customer managed key, you should not enable CloudWatch Contributor Insi...
     /// </summary>
-    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024</param>
-    /// <param name="ContributorInsightsAction">Represents the contributor insights action. Possible values: o ENABLE o DISABLE</param>
+    /// <param name="TableName">The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024</param>
+    /// <param name="ContributorInsightsAction">Represents the contributor insights action. Possible values: • ENABLE • DISABLE</param>
     public AwsDynamodbUpdateContributorInsightsOptions(
         string TableName,
         AwsDynamodbUpdateContributorInsightsContributorInsightsAction ContributorInsightsAction
@@ -60,25 +61,25 @@ public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: o min: 1 o max: 1024
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--table-name")]
     public string? TableName { get; private init; }
 
     /// <summary>
-    /// Represents the contributor insights action. Possible values: o ENABLE o DISABLE
+    /// Represents the contributor insights action. Possible values: • ENABLE • DISABLE
     /// </summary>
     [CliOption("--contributor-insights-action")]
     public AwsDynamodbUpdateContributorInsightsContributorInsightsAction? ContributorInsightsAction { get; private init; }
 
     /// <summary>
-    /// The global secondary index name, if applicable. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The global secondary index name, if applicable. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--index-name")]
     public string? IndexName { get; set; }
 
     /// <summary>
-    /// Specifies whether to track all access and throttled events or throt- tled events only for the DynamoDB table or index. Possible values: o ACCESSED_AND_THROTTLED_KEYS o THROTTLED_KEYS
+    /// Specifies whether to track all access and throttled events or throttled events only for the DynamoDB table or index. Possible values: • ACCESSED_AND_THROTTLED_KEYS • THROTTLED_KEYS
     /// </summary>
     [CliOption("--contributor-insights-mode")]
     public AwsDynamodbUpdateContributorInsightsContributorInsightsMode? ContributorInsightsMode { get; set; }
@@ -104,6 +105,15 @@ public record AwsDynamodbUpdateContributorInsightsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

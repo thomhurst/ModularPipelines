@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions, IValida
     /// <summary>
     /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see AnalysisReport . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalysisType">The type of traffic that will be used to generate a report. Possible values: o TLS_SNI o HTTP_HOST</param>
+    /// <param name="AnalysisType">The type of traffic that will be used to generate a report. Possible values: • TLS_SNI • HTTP_HOST</param>
     public AwsNetworkFirewallStartAnalysisReportOptions(
         AwsNetworkFirewallStartAnalysisReportAnalysisType AnalysisType
     )
@@ -56,19 +57,19 @@ public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of traffic that will be used to generate a report. Possible values: o TLS_SNI o HTTP_HOST
+    /// The type of traffic that will be used to generate a report. Possible values: • TLS_SNI • HTTP_HOST
     /// </summary>
     [CliOption("--analysis-type")]
     public AwsNetworkFirewallStartAnalysisReportAnalysisType? AnalysisType { get; private init; }
 
     /// <summary>
-    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 128 o pattern: ^[a-zA-Z0-9-]+$
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 128 • pattern: ^[a-zA-Z0-9-]+$
     /// </summary>
     [CliOption("--firewall-name")]
     public string? FirewallName { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: o min: 1 o max: 256 o pattern: ^arn:aws.*
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both. Constraints: • min: 1 • max: 256 • pattern: ^arn:aws.*
     /// </summary>
     [CliOption("--firewall-arn")]
     public string? FirewallArn { get; set; }
@@ -94,6 +95,15 @@ public record AwsNetworkFirewallStartAnalysisReportOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

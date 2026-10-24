@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, at- tach a static IP, and so on. See also: AWS API Documentation
+/// Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, attach a static IP, and so on. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsLightsailGetOperationOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, at- tach a static IP, and so on. See also: AWS API Documentation
+    /// Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, attach a static IP, and so on. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationId">A GUID used to identify the operation. Constraints: o pattern: .*\S.*</param>
+    /// <param name="OperationId">A GUID used to identify the operation. Constraints: • pattern: .*\S.*</param>
     public AwsLightsailGetOperationOptions(
         string OperationId
     )
@@ -56,7 +57,7 @@ public record AwsLightsailGetOperationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A GUID used to identify the operation. Constraints: o pattern: .*\S.*
+    /// A GUID used to identify the operation. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLightsailGetOperationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

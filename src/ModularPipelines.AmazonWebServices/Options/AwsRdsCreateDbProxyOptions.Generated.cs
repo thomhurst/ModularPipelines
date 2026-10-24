@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates a new DB proxy. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbProxyName">The identifier for the proxy. This name must be unique for all prox- ies owned by your Amazon Web Services account in the specified Ama- zon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
-    /// <param name="EngineFamily">The kinds of databases that the proxy can connect to. This value de- termines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL . For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL . For RDS for Microsoft SQL Server, specify SQLSERVER . Possible values: o MYSQL o POSTGRESQL o SQLSERVER</param>
-    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="DbProxyName">The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*</param>
+    /// <param name="EngineFamily">The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL . For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL . For RDS for Microsoft SQL Server, specify SQLSERVER . Possible values: • MYSQL • POSTGRESQL • SQLSERVER</param>
+    /// <param name="RoleArn">The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: • min: 20 • max: 2048</param>
     /// <param name="VpcSubnetIds">One or more VPC subnet IDs to associate with the new proxy. (string) Syntax: "string" "string" ...</param>
     public AwsRdsCreateDbProxyOptions(
         string DbProxyName,
@@ -79,19 +80,19 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the proxy. This name must be unique for all prox- ies owned by your Amazon Web Services account in the specified Ama- zon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
+    /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z](?:-?[a-zA-Z0-9]+)*
     /// </summary>
     [CliOption("--db-proxy-name")]
     public string? DbProxyName { get; private init; }
 
     /// <summary>
-    /// The kinds of databases that the proxy can connect to. This value de- termines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL . For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL . For RDS for Microsoft SQL Server, specify SQLSERVER . Possible values: o MYSQL o POSTGRESQL o SQLSERVER
+    /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL . For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL . For RDS for Microsoft SQL Server, specify SQLSERVER . Possible values: • MYSQL • POSTGRESQL • SQLSERVER
     /// </summary>
     [CliOption("--engine-family")]
     public AwsRdsCreateDbProxyEngineFamily? EngineFamily { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: o min: 20 o max: 2048
+    /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
@@ -103,13 +104,13 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? VpcSubnetIds { get; private init; }
 
     /// <summary>
-    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the un- derlying database. Valid values are NONE and IAM_AUTH . When set to IAM_AUTH , the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE , you must specify the Auth option. Possible values: o IAM_AUTH o NONE
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH . When set to IAM_AUTH , the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE , you must specify the Auth option. Possible values: • IAM_AUTH • NONE
     /// </summary>
     [CliOption("--default-auth-scheme")]
     public AwsRdsCreateDbProxyDefaultAuthScheme? DefaultAuthScheme { get; set; }
 
     /// <summary>
-    /// The authorization mechanism that the proxy uses. Constraints: o min: 0 o max: 200 (structure) Specifies the details of authentication used by a proxy to log in as a specific database user. Description -&gt; (string) A user-specified description about the authentication used by a proxy to log in as a specific database user. Constraints: o min: 1 o max: 1000 o pattern: .* UserName -&gt; (string) The name of the database user to which the proxy connects. Constraints: o min: 1 o max: 128 AuthScheme -&gt; (string) The type of authentication that the proxy uses for connec- tions from the proxy to the underlying database. Possible values: o SECRETS SecretArn -&gt; (string) The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Au- rora DB cluster. These secrets are stored within Amazon Se- crets Manager. Constraints: o min: 20 o max: 2048 IAMAuth -&gt; (string) A value that indicates whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentica- tion for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server. Possible values: o DISABLED o REQUIRED o ENABLED ClientPasswordAuthType -&gt; (string) The type of authentication the proxy uses for connections from clients. The following values are defaults for the cor- responding engines: o RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD o RDS for SQL Server: SQL_SERVER_AUTHENTICATION o RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256 Possible values: o MYSQL_NATIVE_PASSWORD o MYSQL_CACHING_SHA2_PASSWORD o POSTGRES_SCRAM_SHA_256 o POSTGRES_MD5 o SQL_SERVER_AUTHENTICATION Shorthand Syntax: Description=string,UserName=string,AuthScheme=string,SecretArn=string,IAMAuth=string,ClientPasswordAuthType=string ... JSON Syntax: [ { "Description": "string", "UserName": "string", "AuthScheme": "SECRETS", "SecretArn": "string", "IAMAuth": "DISABLED"|"REQUIRED"|"ENABLED", "ClientPasswordAuthType": "MYSQL_NATIVE_PASSWORD"|"MYSQL_CACHING_SHA2_PASSWORD"|"POSTGRES_SCRAM_SHA_256"|"POSTGRES_MD5"|"SQL_SERVER_AUTHENTICATION" } ... ]
+    /// The authorization mechanism that the proxy uses. Constraints: • min: 0 • max: 200 (structure) Specifies the details of authentication used by a proxy to log in as a specific database user. Description -&gt; (string) A user-specified description about the authentication used by a proxy to log in as a specific database user. Constraints: • min: 1 • max: 1000 • pattern: .* UserName -&gt; (string) The name of the database user to which the proxy connects. Constraints: • min: 1 • max: 128 AuthScheme -&gt; (string) The type of authentication that the proxy uses for connections from the proxy to the underlying database. Possible values: • SECRETS SecretArn -&gt; (string) The Amazon Resource Name (ARN) representing the secret that the proxy uses to authenticate to the RDS DB instance or Aurora DB cluster. These secrets are stored within Amazon Secrets Manager. Constraints: • min: 20 • max: 2048 IAMAuth -&gt; (string) A value that indicates whether to require or disallow Amazon Web Services Identity and Access Management (IAM) authentication for connections to the proxy. The ENABLED value is valid only for proxies with RDS for Microsoft SQL Server. Possible values: • DISABLED • REQUIRED • ENABLED ClientPasswordAuthType -&gt; (string) The type of authentication the proxy uses for connections from clients. The following values are defaults for the corresponding engines: • RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD • RDS for SQL Server: SQL_SERVER_AUTHENTICATION • RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256 Possible values: • MYSQL_NATIVE_PASSWORD • MYSQL_CACHING_SHA2_PASSWORD • POSTGRES_SCRAM_SHA_256 • POSTGRES_MD5 • SQL_SERVER_AUTHENTICATION Shorthand Syntax: Description=string,UserName=string,AuthScheme=string,SecretArn=string,IAMAuth=string,ClientPasswordAuthType=string ... JSON Syntax: [ { "Description": "string", "UserName": "string", "AuthScheme": "SECRETS", "SecretArn": "string", "IAMAuth": "DISABLED"|"REQUIRED"|"ENABLED", "ClientPasswordAuthType": "MYSQL_NATIVE_PASSWORD"|"MYSQL_CACHING_SHA2_PASSWORD"|"POSTGRES_SCRAM_SHA_256"|"POSTGRES_MD5"|"SQL_SERVER_AUTHENTICATION" } ... ]
     /// </summary>
     [CliOption("--auth", GroupValues = true)]
     public IEnumerable<string>? Auth { get; set; }
@@ -121,7 +122,7 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? VpcSecurityGroupIds { get; set; }
 
     /// <summary>
-    /// Specifies whether Transport Layer Security (TLS) encryption is re- quired for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
+    /// Specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
     /// </summary>
     [CliFlag("--require-tls", NegatedName = "--no-require-tls")]
     public bool? RequireTls { get; set; }
@@ -133,7 +134,7 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
     public int? IdleClientTimeout { get; set; }
 
     /// <summary>
-    /// Specifies whether the proxy logs detailed connection and query in- formation. When you enable DebugLogging , the proxy captures connec- tion details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
+    /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging , the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     /// </summary>
     [CliFlag("--debug-logging", NegatedName = "--no-debug-logging")]
     public bool? DebugLogging { get; set; }
@@ -145,16 +146,16 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The network type of the DB proxy endpoint. The network type deter- mines the IP version that the proxy endpoint supports. Valid values: o IPV4 - The proxy endpoint supports IPv4 only. o IPV6 - The proxy endpoint supports IPv6 only. o DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: o If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. o If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: o IPV4 o IPV6 o DUAL
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values: • IPV4 - The proxy endpoint supports IPv4 only. • IPV6 - The proxy endpoint supports IPv6 only. • DUAL - The proxy endpoint supports both IPv4 and IPv6. Default: IPV4 Constraints: • If you specify IPV6 or DUAL , the VPC and all subnets must have an IPv6 CIDR block. • If you specify IPV6 or DUAL , the VPC tenancy cannot be dedicated . Possible values: • IPV4 • IPV6 • DUAL
     /// </summary>
     [CliOption("--endpoint-network-type")]
-    public string? EndpointNetworkType { get; set; }
+    public AwsRdsCreateDbProxyEndpointNetworkType? EndpointNetworkType { get; set; }
 
     /// <summary>
-    /// The network type that the proxy uses to connect to the target data- base. The network type determines the IP version that the proxy uses for connections to the database. Valid values: o IPV4 - The proxy connects to the database using IPv4 only. o IPV6 - The proxy connects to the database using IPv6 only. Default: IPV4 Constraints: o If you specify IPV6 , the database must support dual-stack mode. RDS doesn't support IPv6-only databases. o All targets registered with the proxy must be compatible with the specified network type. Possible values: o IPV4 o IPV6
+    /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values: • IPV4 - The proxy connects to the database using IPv4 only. • IPV6 - The proxy connects to the database using IPv6 only. Default: IPV4 Constraints: • If you specify IPV6 , the database must support dual-stack mode. RDS doesn't support IPv6-only databases. • All targets registered with the proxy must be compatible with the specified network type. Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--target-connection-network-type")]
-    public string? TargetConnectionNetworkType { get; set; }
+    public AwsRdsCreateDbProxyTargetConnectionNetworkType? TargetConnectionNetworkType { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
@@ -177,6 +178,15 @@ public record AwsRdsCreateDbProxyOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

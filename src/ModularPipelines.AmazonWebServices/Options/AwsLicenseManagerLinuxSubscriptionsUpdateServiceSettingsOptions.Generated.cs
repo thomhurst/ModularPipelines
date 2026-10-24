@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : 
     /// <summary>
     /// Updates the service settings for Linux subscriptions. See also: AWS API Documentation
     /// </summary>
-    /// <param name="LinuxSubscriptionsDiscovery">Describes if the discovery of Linux subscriptions is enabled. Possible values: o Enabled o Disabled</param>
-    /// <param name="LinuxSubscriptionsDiscoverySettings">The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Re- gions data will be aggregated from. OrganizationIntegration -&gt; (string) [required] Details if you have enabled resource discovery across your ac- counts in Organizations. Possible values: o Enabled o Disabled SourceRegions -&gt; (list) [required] The Regions in which to discover data for Linux subscriptions. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: OrganizationIntegration=string,SourceRegions=string,string JSON Syntax: { "OrganizationIntegration": "Enabled"|"Disabled", "SourceRegions": ["string", ...] }</param>
+    /// <param name="LinuxSubscriptionsDiscovery">Describes if the discovery of Linux subscriptions is enabled. Possible values: • Enabled • Disabled</param>
+    /// <param name="LinuxSubscriptionsDiscoverySettings">The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Regions data will be aggregated from. OrganizationIntegration -&gt; (string) [required] Details if you have enabled resource discovery across your accounts in Organizations. Possible values: • Enabled • Disabled SourceRegions -&gt; (list) [required] The Regions in which to discover data for Linux subscriptions. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 Shorthand Syntax: OrganizationIntegration=string,SourceRegions=string,string JSON Syntax: { "OrganizationIntegration": "Enabled"|"Disabled", "SourceRegions": ["string", ...] }</param>
     public AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions(
         AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsLinuxSubscriptionsDiscovery LinuxSubscriptionsDiscovery,
         string LinuxSubscriptionsDiscoverySettings
@@ -60,19 +61,19 @@ public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Describes if the discovery of Linux subscriptions is enabled. Possible values: o Enabled o Disabled
+    /// Describes if the discovery of Linux subscriptions is enabled. Possible values: • Enabled • Disabled
     /// </summary>
     [CliOption("--linux-subscriptions-discovery")]
     public AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsLinuxSubscriptionsDiscovery? LinuxSubscriptionsDiscovery { get; private init; }
 
     /// <summary>
-    /// The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Re- gions data will be aggregated from. OrganizationIntegration -&gt; (string) [required] Details if you have enabled resource discovery across your ac- counts in Organizations. Possible values: o Enabled o Disabled SourceRegions -&gt; (list) [required] The Regions in which to discover data for Linux subscriptions. Constraints: o min: 1 o max: 100 (string) Constraints: o min: 1 o max: 100 Shorthand Syntax: OrganizationIntegration=string,SourceRegions=string,string JSON Syntax: { "OrganizationIntegration": "Enabled"|"Disabled", "SourceRegions": ["string", ...] }
+    /// The settings defined for Linux subscriptions discovery. The settings include if Organizations integration has been enabled, and which Regions data will be aggregated from. OrganizationIntegration -&gt; (string) [required] Details if you have enabled resource discovery across your accounts in Organizations. Possible values: • Enabled • Disabled SourceRegions -&gt; (list) [required] The Regions in which to discover data for Linux subscriptions. Constraints: • min: 1 • max: 100 (string) Constraints: • min: 1 • max: 100 Shorthand Syntax: OrganizationIntegration=string,SourceRegions=string,string JSON Syntax: { "OrganizationIntegration": "Enabled"|"Disabled", "SourceRegions": ["string", ...] }
     /// </summary>
     [CliOption("--linux-subscriptions-discovery-settings")]
     public string? LinuxSubscriptionsDiscoverySettings { get; private init; }
 
     /// <summary>
-    /// Describes if updates are allowed to the service settings for Linux subscriptions. If you allow updates, you can aggregate Linux sub- scription data in more than one home Region.
+    /// Describes if updates are allowed to the service settings for Linux subscriptions. If you allow updates, you can aggregate Linux subscription data in more than one home Region.
     /// </summary>
     [CliFlag("--allow-update", NegatedName = "--no-allow-update")]
     public bool? AllowUpdate { get; set; }
@@ -98,6 +99,15 @@ public record AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

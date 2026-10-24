@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+/// This API works with the following fleet types: EC2, Anywhere, Container Adds remote locations to an EC2 fleet and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, sp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsGameliftCreateFleetLocationsOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API works with the following fleet types: EC2, Anywhere, Con- tainer Adds remote locations to an EC2 and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, specif...
+    /// This API works with the following fleet types: EC2, Anywhere, Container Adds remote locations to an EC2 fleet and begins populating the new locations with instances. The new instances conform to the fleet's instance type, auto-scaling, and other configuration settings. NOTE: You can't add remote locations to a fleet that resides in an Amazon Web Services Region that doesn't support multiple locations. Fleets created prior to March 2021 can't support multiple locations. To add fleet locations, sp...
     /// </summary>
-    /// <param name="FleetId">A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
-    /// <param name="Locations">A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]</param>
+    /// <param name="FleetId">A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$</param>
+    /// <param name="Locations">A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: • min: 1 • max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]</param>
     public AwsGameliftCreateFleetLocationsOptions(
         string FleetId,
         IEnumerable<string> Locations
@@ -71,13 +72,13 @@ public record AwsGameliftCreateFleetLocationsOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: o min: 1 o max: 512 o pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
+    /// A unique identifier for the fleet to add locations to. You can use either the fleet ID or ARN value. Constraints: • min: 1 • max: 512 • pattern: ^[a-z]*fleet-[a-zA-Z0-9\-]+$|^arn:.*:[a-z]*fleet\/[a-z]*fleet-[a-zA-Z0-9\-]+$
     /// </summary>
     [CliOption("--fleet-id")]
     public string? FleetId { get; private init; }
 
     /// <summary>
-    /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: o min: 1 o max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: o min: 1 o max: 64 o pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]
+    /// A list of locations to deploy additional instances to and manage as part of the fleet. You can add any Amazon GameLift Servers-supported Amazon Web Services Region as a remote location, in the form of an Amazon Web Services Region code such as us-west-2 . Constraints: • min: 1 • max: 100 (structure) A remote location where a multi-location fleet can deploy game servers for game hosting. Location -&gt; (string) [required] An Amazon Web Services Region code, such as us-west-2 . For a list of supported Regions and Local Zones, see Amazon GameLift Servers service locations for managed hosting. Constraints: • min: 1 • max: 64 • pattern: ^[A-Za-z0-9\-]+$ Shorthand Syntax: Location=string ... JSON Syntax: [ { "Location": "string" } ... ]
     /// </summary>
     [CliOption("--locations", GroupValues = true)]
     public IEnumerable<string>? Locations { get; private init; }
@@ -103,6 +104,15 @@ public record AwsGameliftCreateFleetLocationsOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

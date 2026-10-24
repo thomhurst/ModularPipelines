@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the status of autoshift observer notification. Autoshift ob- server notification enables you to be notified, through Amazon Event- Bridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED , ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see Notific...
+/// Update the status of autoshift observer notification. Autoshift observer notification enables you to be notified, through Amazon EventBridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED , ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see Notificatio...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions :
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the status of autoshift observer notification. Autoshift ob- server notification enables you to be notified, through Amazon Event- Bridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED , ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see Notific...
+    /// Update the status of autoshift observer notification. Autoshift observer notification enables you to be notified, through Amazon EventBridge, when there is an autoshift event for zonal autoshift. If the status is ENABLED , ARC includes all autoshift events when you use the EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. For more information, see Notificatio...
     /// </summary>
-    /// <param name="Status">The status to set for autoshift observer notification. If the status is ENABLED , ARC includes all autoshift events when you use the Ama- zon EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. Possible values: o ENABLED o DISABLED</param>
+    /// <param name="Status">The status to set for autoshift observer notification. If the status is ENABLED , ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. Possible values: • ENABLED • DISABLED</param>
     public AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions(
         AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusStatus Status
     )
@@ -56,7 +57,7 @@ public record AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions :
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The status to set for autoshift observer notification. If the status is ENABLED , ARC includes all autoshift events when you use the Ama- zon EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. Possible values: o ENABLED o DISABLED
+    /// The status to set for autoshift observer notification. If the status is ENABLED , ARC includes all autoshift events when you use the Amazon EventBridge pattern Autoshift In Progress . When the status is DISABLED , ARC includes only autoshift events for autoshifts when one or more of your resources is included in the autoshift. Possible values: • ENABLED • DISABLED
     /// </summary>
     [CliOption("--status")]
     public AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusStatus? Status { get; private init; }
@@ -82,6 +83,15 @@ public record AwsArcZonalShiftUpdateAutoshiftObserverNotificationStatusOptions :
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

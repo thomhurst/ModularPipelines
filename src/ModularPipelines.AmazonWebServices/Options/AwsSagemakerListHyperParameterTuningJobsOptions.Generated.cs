@@ -16,7 +16,7 @@ using ModularPipelines.AmazonWebServices.Enums;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account. See also: AWS API Documentation list-hyper-parameter-tuning-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the res...
+/// Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account. See also: AWS API Documentation list-hyper-parameter-tuning-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -24,19 +24,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSagemakerListHyperParameterTuningJobsOptions : AwsOptions
 {
     /// <summary>
-    /// The field to sort results by. The default is Name . Possible values: o Name o Status o CreationTime
+    /// The field to sort results by. The default is Name . Possible values: • Name • Status • CreationTime
     /// </summary>
     [CliOption("--sort-by")]
     public AwsSagemakerListHyperParameterTuningJobsSortBy? SortBy { get; set; }
 
     /// <summary>
-    /// The sort order for results. The default is Ascending . Possible values: o Ascending o Descending
+    /// The sort order for results. The default is Ascending . Possible values: • Ascending • Descending
     /// </summary>
     [CliOption("--sort-order")]
     public AwsSagemakerListHyperParameterTuningJobsSortOrder? SortOrder { get; set; }
 
     /// <summary>
-    /// A string in the tuning job name. This filter returns only tuning jobs whose name contains the specified string. Constraints: o min: 0 o max: 63 o pattern: [a-zA-Z0-9\-]+
+    /// A string in the tuning job name. This filter returns only tuning jobs whose name contains the specified string. Constraints: • min: 0 • max: 63 • pattern: [a-zA-Z0-9\-]+
     /// </summary>
     [CliOption("--name-contains")]
     public string? NameContains { get; set; }
@@ -66,16 +66,13 @@ public record AwsSagemakerListHyperParameterTuningJobsOptions : AwsOptions
     public string? LastModifiedTimeBefore { get; set; }
 
     /// <summary>
-    /// A filter that returns only tuning jobs with the specified status. Possible values: o Completed o InProgress o Failed o Stopped o Stopping o Deleting o DeleteFailed
+    /// A filter that returns only tuning jobs with the specified status. Possible values: • Completed • InProgress • Failed • Stopped • Stopping • Deleting • DeleteFailed
     /// </summary>
     [CliOption("--status-equals")]
     public AwsSagemakerListHyperParameterTuningJobsStatusEquals? StatusEquals { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -85,15 +82,27 @@ public record AwsSagemakerListHyperParameterTuningJobsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

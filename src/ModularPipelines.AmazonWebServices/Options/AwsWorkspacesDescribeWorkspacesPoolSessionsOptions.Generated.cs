@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Retrieves a list that describes the streaming sessions for a specified pool. See also: AWS API Documentation
+/// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Retrieves a list that describes the streaming sessions for a specified pool. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsWorkspacesDescribeWorkspacesPoolSessionsOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more infor- mation, see Amazon WorkSpaces Pools end of support . Retrieves a list that describes the streaming sessions for a specified pool. See also: AWS API Documentation
+    /// NOTE: End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027, you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see Amazon WorkSpaces Pools end of support . Retrieves a list that describes the streaming sessions for a specified pool. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PoolId">The identifier of the pool. Constraints: o pattern: ^wspool-[0-9a-z]{9}$</param>
+    /// <param name="PoolId">The identifier of the pool. Constraints: • pattern: ^wspool-[0-9a-z]{9}$</param>
     public AwsWorkspacesDescribeWorkspacesPoolSessionsOptions(
         string PoolId
     )
@@ -57,25 +58,25 @@ public record AwsWorkspacesDescribeWorkspacesPoolSessionsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the pool. Constraints: o pattern: ^wspool-[0-9a-z]{9}$
+    /// The identifier of the pool. Constraints: • pattern: ^wspool-[0-9a-z]{9}$
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; private init; }
 
     /// <summary>
-    /// The identifier of the user. Constraints: o min: 2 o max: 128
+    /// The identifier of the user. Constraints: • min: 2 • max: 128
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The maximum size of each page of results. The default value is 20 and the maximum value is 50. Constraints: o min: 1 o max: 50
+    /// The maximum size of each page of results. The default value is 20 and the maximum value is 50. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--limit")]
     public int? Limit { get; set; }
 
     /// <summary>
-    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: o min: 1 o max: 2048
+    /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. Constraints: • min: 1 • max: 2048
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -102,6 +103,15 @@ public record AwsWorkspacesDescribeWorkspacesPoolSessionsOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

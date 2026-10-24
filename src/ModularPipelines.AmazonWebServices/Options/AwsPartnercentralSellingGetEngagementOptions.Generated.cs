@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Use this action to retrieve the engagement record for a given Engage- mentIdentifier . See also: AWS API Documentation
+/// Use this action to retrieve the engagement record for a given EngagementIdentifier . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsPartnercentralSellingGetEngagementOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Use this action to retrieve the engagement record for a given Engage- mentIdentifier . See also: AWS API Documentation
+    /// Use this action to retrieve the engagement record for a given EngagementIdentifier . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">Specifies the catalog related to the engagement request. Valid val- ues are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+</param>
-    /// <param name="Identifier">Specifies the identifier of the Engagement record to retrieve. Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14})</param>
+    /// <param name="Catalog">Specifies the catalog related to the engagement request. Valid values are AWS and Sandbox . Constraints: • pattern: [a-zA-Z]+</param>
+    /// <param name="Identifier">Specifies the identifier of the Engagement record to retrieve. Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14})</param>
     public AwsPartnercentralSellingGetEngagementOptions(
         string Catalog,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsPartnercentralSellingGetEngagementOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the catalog related to the engagement request. Valid val- ues are AWS and Sandbox . Constraints: o pattern: [a-zA-Z]+
+    /// Specifies the catalog related to the engagement request. Valid values are AWS and Sandbox . Constraints: • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// Specifies the identifier of the Engagement record to retrieve. Constraints: o pattern: (arn:.*|eng-[0-9a-z]{14})
+    /// Specifies the identifier of the Engagement record to retrieve. Constraints: • pattern: (arn:.*|eng-[0-9a-z]{14})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsPartnercentralSellingGetEngagementOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteNamespace permission to use this oper- ation. See also: AWS API Documentation
+/// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteNamespace permission to use this operation. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsS3tablesDeleteNamespaceOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteNamespace permission to use this oper- ation. See also: AWS API Documentation
+    /// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide . Permissions You must have the s3tables:DeleteNamespace permission to use this operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket associated with the namespace. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
-    /// <param name="Namespace">The name of the namespace. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*</param>
+    /// <param name="TableBucketArn">The Amazon Resource Name (ARN) of the table bucket associated with the namespace. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})</param>
+    /// <param name="Namespace">The name of the namespace. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*</param>
     public AwsS3tablesDeleteNamespaceOptions(
         string TableBucketArn,
         string Namespace
@@ -60,13 +61,13 @@ public record AwsS3tablesDeleteNamespaceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the table bucket associated with the namespace. Constraints: o pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
+    /// The Amazon Resource Name (ARN) of the table bucket associated with the namespace. Constraints: • pattern: (arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})
     /// </summary>
     [CliOption("--table-bucket-arn")]
     public string? TableBucketArn { get; private init; }
 
     /// <summary>
-    /// The name of the namespace. Constraints: o min: 1 o max: 255 o pattern: [0-9a-z_]*
+    /// The name of the namespace. Constraints: • min: 1 • max: 255 • pattern: [0-9a-z_]*
     /// </summary>
     [CliOption("--namespace")]
     public string? Namespace { get; private init; }
@@ -92,6 +93,15 @@ public record AwsS3tablesDeleteNamespaceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

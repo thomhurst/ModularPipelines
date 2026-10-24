@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permis- sion/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Re- source Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
+/// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Resource Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsMigrationHubRefactorSpacesPutResourcePolicyOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permis- sion/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Re- source Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
+    /// Attaches a resource-based permission policy to the Amazon Web Services Migration Hub Refactor Spaces environment. The policy must contain the same actions and condition statements as the arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment permission in Resource Access Manager. The policy must not contain new lines or blank lines. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Policy">A JSON-formatted string for an Amazon Web Services resource-based policy. Constraints: o min: 1 o max: 300000 o pattern: ^.*\S.*$</param>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to which the policy is being attached. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:refac- tor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$</param>
+    /// <param name="Policy">A JSON-formatted string for an Amazon Web Services resource-based policy. Constraints: • min: 1 • max: 300000 • pattern: ^.*\S.*$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource to which the policy is being attached. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:refactor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$</param>
     public AwsMigrationHubRefactorSpacesPutResourcePolicyOptions(
         string Policy,
         string ResourceArn
@@ -60,13 +61,13 @@ public record AwsMigrationHubRefactorSpacesPutResourcePolicyOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A JSON-formatted string for an Amazon Web Services resource-based policy. Constraints: o min: 1 o max: 300000 o pattern: ^.*\S.*$
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. Constraints: • min: 1 • max: 300000 • pattern: ^.*\S.*$
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource to which the policy is being attached. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws:refac- tor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$
+    /// The Amazon Resource Name (ARN) of the resource to which the policy is being attached. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws:refactor-spaces:[a-zA-Z0-9\-]+:\w{12}:[a-zA-Z_0-9+=,.@\-_/]+$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -92,6 +93,15 @@ public record AwsMigrationHubRefactorSpacesPutResourcePolicyOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

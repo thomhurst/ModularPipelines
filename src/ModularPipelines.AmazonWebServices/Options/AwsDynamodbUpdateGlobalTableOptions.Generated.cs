@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Adds or removes replicas in the specified global table. The global ta- ble must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version...
+/// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 201...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDynamodbUpdateGlobalTableOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Adds or removes replicas in the specified global table. The global ta- ble must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global ta- bles, which should be avoided for new global tables. Customers should use Global Tables version...
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. WARNING: This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use Global Tables version 201...
     /// </summary>
-    /// <param name="GlobalTableName">The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+</param>
-    /// <param name="ReplicaUpdates">A list of Regions that should be added or removed from the global table. (structure) Represents one of the following: o A new replica to be added to an existing global table. o New parameters for an existing replica. o An existing replica to be removed from an existing global ta- ble. Create -&gt; (structure) The parameters required for creating a replica on an existing global table. RegionName -&gt; (string) [required] The Region of the replica to be added. Delete -&gt; (structure) The name of the existing replica to be removed. RegionName -&gt; (string) [required] The Region of the replica to be removed. Shorthand Syntax: Create={RegionName=string},Delete={RegionName=string} ... JSON Syntax: [ { "Create": { "RegionName": "string" }, "Delete": { "RegionName": "string" } } ... ]</param>
+    /// <param name="GlobalTableName">The global table name. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="ReplicaUpdates">A list of Regions that should be added or removed from the global table. (structure) Represents one of the following: • A new replica to be added to an existing global table. • New parameters for an existing replica. • An existing replica to be removed from an existing global table. Create -&gt; (structure) The parameters required for creating a replica on an existing global table. RegionName -&gt; (string) [required] The Region of the replica to be added. Delete -&gt; (structure) The name of the existing replica to be removed. RegionName -&gt; (string) [required] The Region of the replica to be removed. Shorthand Syntax: Create={RegionName=string},Delete={RegionName=string} ... JSON Syntax: [ { "Create": { "RegionName": "string" }, "Delete": { "RegionName": "string" } } ... ]</param>
     public AwsDynamodbUpdateGlobalTableOptions(
         string GlobalTableName,
         IEnumerable<string> ReplicaUpdates
@@ -71,13 +72,13 @@ public record AwsDynamodbUpdateGlobalTableOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The global table name. Constraints: o min: 3 o max: 255 o pattern: [a-zA-Z0-9_.-]+
+    /// The global table name. Constraints: • min: 3 • max: 255 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--global-table-name")]
     public string? GlobalTableName { get; private init; }
 
     /// <summary>
-    /// A list of Regions that should be added or removed from the global table. (structure) Represents one of the following: o A new replica to be added to an existing global table. o New parameters for an existing replica. o An existing replica to be removed from an existing global ta- ble. Create -&gt; (structure) The parameters required for creating a replica on an existing global table. RegionName -&gt; (string) [required] The Region of the replica to be added. Delete -&gt; (structure) The name of the existing replica to be removed. RegionName -&gt; (string) [required] The Region of the replica to be removed. Shorthand Syntax: Create={RegionName=string},Delete={RegionName=string} ... JSON Syntax: [ { "Create": { "RegionName": "string" }, "Delete": { "RegionName": "string" } } ... ]
+    /// A list of Regions that should be added or removed from the global table. (structure) Represents one of the following: • A new replica to be added to an existing global table. • New parameters for an existing replica. • An existing replica to be removed from an existing global table. Create -&gt; (structure) The parameters required for creating a replica on an existing global table. RegionName -&gt; (string) [required] The Region of the replica to be added. Delete -&gt; (structure) The name of the existing replica to be removed. RegionName -&gt; (string) [required] The Region of the replica to be removed. Shorthand Syntax: Create={RegionName=string},Delete={RegionName=string} ... JSON Syntax: [ { "Create": { "RegionName": "string" }, "Delete": { "RegionName": "string" } } ... ]
     /// </summary>
     [CliOption("--replica-updates", GroupValues = true)]
     public IEnumerable<string>? ReplicaUpdates { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDynamodbUpdateGlobalTableOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsPersonalizeDescribeMetricAttributionOptions : AwsOptions, IVali
     /// <summary>
     /// Describes a metric attribution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MetricAttributionArn">The metric attribution's Amazon Resource Name (ARN). Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
+    /// <param name="MetricAttributionArn">The metric attribution's Amazon Resource Name (ARN). Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+</param>
     public AwsPersonalizeDescribeMetricAttributionOptions(
         string MetricAttributionArn
     )
@@ -56,7 +57,7 @@ public record AwsPersonalizeDescribeMetricAttributionOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The metric attribution's Amazon Resource Name (ARN). Constraints: o max: 256 o pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
+    /// The metric attribution's Amazon Resource Name (ARN). Constraints: • max: 256 • pattern: arn:([a-z\d-]+):personalize:.*:.*:.+
     /// </summary>
     [CliOption("--metric-attribution-arn")]
     public string? MetricAttributionArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPersonalizeDescribeMetricAttributionOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

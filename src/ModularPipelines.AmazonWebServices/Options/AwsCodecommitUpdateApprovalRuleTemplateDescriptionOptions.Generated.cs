@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions : AwsOpt
     /// <summary>
     /// Updates the description for a specified approval rule template. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApprovalRuleTemplateName">The name of the template for which you want to update the descrip- tion. Constraints: o min: 1 o max: 100</param>
-    /// <param name="ApprovalRuleTemplateDescription">The updated description of the approval rule template. Constraints: o min: 0 o max: 1000</param>
+    /// <param name="ApprovalRuleTemplateName">The name of the template for which you want to update the description. Constraints: • min: 1 • max: 100</param>
+    /// <param name="ApprovalRuleTemplateDescription">The updated description of the approval rule template. Constraints: • min: 0 • max: 1000</param>
     public AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions(
         string ApprovalRuleTemplateName,
         string ApprovalRuleTemplateDescription
@@ -60,13 +61,13 @@ public record AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the template for which you want to update the descrip- tion. Constraints: o min: 1 o max: 100
+    /// The name of the template for which you want to update the description. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--approval-rule-template-name")]
     public string? ApprovalRuleTemplateName { get; private init; }
 
     /// <summary>
-    /// The updated description of the approval rule template. Constraints: o min: 0 o max: 1000
+    /// The updated description of the approval rule template. Constraints: • min: 0 • max: 1000
     /// </summary>
     [CliOption("--approval-rule-template-description")]
     public string? ApprovalRuleTemplateDescription { get; private init; }
@@ -92,6 +93,15 @@ public record AwsCodecommitUpdateApprovalRuleTemplateDescriptionOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

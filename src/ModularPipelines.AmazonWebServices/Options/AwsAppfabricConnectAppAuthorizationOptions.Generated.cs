@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the applica- tion. See also: AWS API Documentation
+/// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAppfabricConnectAppAuthorizationOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the applica- tion. See also: AWS API Documentation
+    /// Establishes a connection between Amazon Web Services AppFabric and an application, which allows AppFabric to call the APIs of the application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle that contains the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
-    /// <param name="AppAuthorizationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppBundleIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle that contains the app authorization to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
+    /// <param name="AppAuthorizationIdentifier">The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}</param>
     public AwsAppfabricConnectAppAuthorizationOptions(
         string AppBundleIdentifier,
         string AppAuthorizationIdentifier
@@ -60,19 +61,19 @@ public record AwsAppfabricConnectAppAuthorizationOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle that contains the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app bundle that contains the app authorization to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-bundle-identifier")]
     public string? AppBundleIdentifier { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: o min: 1 o max: 1011 o pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
+    /// The Amazon Resource Name (ARN) or Universal Unique Identifier (UUID) of the app authorization to use for the request. Constraints: • min: 1 • max: 1011 • pattern: arn:.+$|^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}
     /// </summary>
     [CliOption("--app-authorization-identifier")]
     public string? AppAuthorizationIdentifier { get; private init; }
 
     /// <summary>
-    /// Contains OAuth2 authorization information. This is required if the app authorization for the request is config- ured with an OAuth2 (oauth2 ) authorization type. redirectUri -&gt; (string) [required] The redirect URL that is specified in the AuthURL and the appli- cation client. Constraints: o min: 0 o max: 1024 o pattern: https://[-a-zA-Z0-9-._~:/?#@!$&amp;'()*+,;=]+ code -&gt; (string) [required] The authorization code returned by the application after permis- sion is granted in the application OAuth page (after clicking on the AuthURL). Constraints: o min: 1 o max: 2048 Shorthand Syntax: redirectUri=string,code=string JSON Syntax: { "redirectUri": "string", "code": "string" }
+    /// Contains OAuth2 authorization information. This is required if the app authorization for the request is configured with an OAuth2 (oauth2 ) authorization type. redirectUri -&gt; (string) [required] The redirect URL that is specified in the AuthURL and the application client. Constraints: • min: 0 • max: 1024 • pattern: https://[-a-zA-Z0-9-._~:/?#@!$&amp;'()*+,;=]+ code -&gt; (string) [required] The authorization code returned by the application after permission is granted in the application OAuth page (after clicking on the AuthURL). Constraints: • min: 1 • max: 2048 Shorthand Syntax: redirectUri=string,code=string JSON Syntax: { "redirectUri": "string", "code": "string" }
     /// </summary>
     [CliOption("--auth-request")]
     public string? AuthRequest { get; set; }
@@ -98,6 +99,15 @@ public record AwsAppfabricConnectAppAuthorizationOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

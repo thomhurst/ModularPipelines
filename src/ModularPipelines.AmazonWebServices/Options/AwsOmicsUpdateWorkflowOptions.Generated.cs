@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates information about a workflow. You can update the following workflow information: o Name o Description o Default storage type o Default storage capacity (with workflow ID) This operation returns a response with no body if the operation is suc- cessful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+/// Updates information about a workflow. You can update the following workflow information: • Name • Description • Default storage type • Default storage capacity (with workflow ID) This operation returns a response with no body if the operation is successful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsOmicsUpdateWorkflowOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates information about a workflow. You can update the following workflow information: o Name o Description o Default storage type o Default storage capacity (with workflow ID) This operation returns a response with no body if the operation is suc- cessful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
+    /// Updates information about a workflow. You can update the following workflow information: • Name • Description • Default storage type • Default storage capacity (with workflow ID) This operation returns a response with no body if the operation is successful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see Update a private workflow in the Amazon Web Services HealthOmics User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+</param>
+    /// <param name="Id">The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+</param>
     public AwsOmicsUpdateWorkflowOptions(
         string Id
     )
@@ -57,31 +58,31 @@ public record AwsOmicsUpdateWorkflowOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The workflow's ID. Constraints: o min: 1 o max: 18 o pattern: [0-9]+
+    /// The workflow's ID. Constraints: • min: 1 • max: 18 • pattern: [0-9]+
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// A name for the workflow. Constraints: o min: 1 o max: 128 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A name for the workflow. Constraints: • min: 1 • max: 128 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// A description for the workflow. Constraints: o min: 1 o max: 256 o pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
+    /// A description for the workflow. Constraints: • min: 1 • max: 256 • pattern: [\p{L}||\p{M}||\p{Z}||\p{S}||\p{N}||\p{P}]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynami- cally scales the storage up or down, based on file system utiliza- tion. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide . Possible values: o STATIC o DYNAMIC Constraints: o min: 1 o max: 64
+    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide . Possible values: • STATIC • DYNAMIC Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--storage-type")]
     public AwsOmicsUpdateWorkflowStorageType? StorageType { get; set; }
 
     /// <summary>
-    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version. Constraints: o min: 0 o max: 100000
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version. Constraints: • min: 0 • max: 100000
     /// </summary>
     [CliOption("--storage-capacity")]
     public int? StorageCapacity { get; set; }
@@ -113,6 +114,15 @@ public record AwsOmicsUpdateWorkflowOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

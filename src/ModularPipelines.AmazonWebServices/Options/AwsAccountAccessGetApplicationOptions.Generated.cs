@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves details about an account access manager application, includ- ing its status, identity source, and tags. See also: AWS API Documentation
+/// Retrieves details about an account access manager application, including its status, identity source, and tags. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsAccountAccessGetApplicationOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves details about an account access manager application, includ- ing its status, identity source, and tags. See also: AWS API Documentation
+    /// Retrieves details about an account access manager application, including its status, identity source, and tags. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationArn">Specifies the ARN of the application to retrieve. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
+    /// <param name="ApplicationArn">Specifies the ARN of the application to retrieve. Constraints: • min: 49 • max: 2048 • pattern: arn:[a-z0-9-]+:account-access:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+</param>
     public AwsAccountAccessGetApplicationOptions(
         string ApplicationArn
     )
@@ -56,7 +57,7 @@ public record AwsAccountAccessGetApplicationOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the ARN of the application to retrieve. Constraints: o min: 49 o max: 2048 o pattern: arn:[a-z0-9-]+:account-ac- cess:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
+    /// Specifies the ARN of the application to retrieve. Constraints: • min: 49 • max: 2048 • pattern: arn:[a-z0-9-]+:account-access:[a-z0-9]+(-[a-z0-9]+)*:[0-9]{12}:application/[a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--application-arn")]
     public string? ApplicationArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsAccountAccessGetApplicationOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

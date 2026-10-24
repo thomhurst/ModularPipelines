@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions : 
     /// <summary>
     /// Update a notification configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventType">The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT</param>
-    /// <param name="DestinationName">The name of the destination for the notification configuration. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+</param>
+    /// <param name="EventType">The type of event triggering a device notification to the customer-managed destination. Possible values: • DEVICE_COMMAND • DEVICE_COMMAND_REQUEST • DEVICE_DISCOVERY_STATUS • DEVICE_EVENT • DEVICE_LIFE_CYCLE • DEVICE_STATE • DEVICE_OTA • DEVICE_WSS • CONNECTOR_ASSOCIATION • ACCOUNT_ASSOCIATION • CONNECTOR_ERROR_REPORT</param>
+    /// <param name="DestinationName">The name of the destination for the notification configuration. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+</param>
     public AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions(
         AwsIotManagedIntegrationsUpdateNotificationConfigurationEventType EventType,
         string DestinationName
@@ -60,13 +61,13 @@ public record AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of event triggering a device notification to the cus- tomer-managed destination. Possible values: o DEVICE_COMMAND o DEVICE_COMMAND_REQUEST o DEVICE_DISCOVERY_STATUS o DEVICE_EVENT o DEVICE_LIFE_CYCLE o DEVICE_STATE o DEVICE_OTA o DEVICE_WSS o CONNECTOR_ASSOCIATION o ACCOUNT_ASSOCIATION o CONNECTOR_ERROR_REPORT
+    /// The type of event triggering a device notification to the customer-managed destination. Possible values: • DEVICE_COMMAND • DEVICE_COMMAND_REQUEST • DEVICE_DISCOVERY_STATUS • DEVICE_EVENT • DEVICE_LIFE_CYCLE • DEVICE_STATE • DEVICE_OTA • DEVICE_WSS • CONNECTOR_ASSOCIATION • ACCOUNT_ASSOCIATION • CONNECTOR_ERROR_REPORT
     /// </summary>
     [CliOption("--event-type")]
     public AwsIotManagedIntegrationsUpdateNotificationConfigurationEventType? EventType { get; private init; }
 
     /// <summary>
-    /// The name of the destination for the notification configuration. Constraints: o min: 1 o max: 128 o pattern: [\p{L}\p{N} ._-]+
+    /// The name of the destination for the notification configuration. Constraints: • min: 1 • max: 128 • pattern: [\p{L}\p{N} ._-]+
     /// </summary>
     [CliOption("--destination-name")]
     public string? DestinationName { get; private init; }
@@ -92,6 +93,15 @@ public record AwsIotManagedIntegrationsUpdateNotificationConfigurationOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

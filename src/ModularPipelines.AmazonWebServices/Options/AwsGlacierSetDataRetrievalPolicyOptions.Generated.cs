@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation sets and then enacts a data retrieval policy in the re- gion specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies . See also: AWS API Documentation
+/// This operation sets and then enacts a data retrieval policy in the region specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsGlacierSetDataRetrievalPolicyOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation sets and then enacts a data retrieval policy in the re- gion specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies . See also: AWS API Documentation
+    /// This operation sets and then enacts a data retrieval policy in the region specified in the PUT request. You can set one policy per region for an AWS account. The policy is enacted within a few minutes of a successful PUT operation. The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.</param>
+    /// <param name="AccountId">The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.</param>
     public AwsGlacierSetDataRetrievalPolicyOptions(
         string AccountId
     )
@@ -56,13 +57,13 @@ public record AwsGlacierSetDataRetrievalPolicyOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the re- quest. You can either specify an AWS account ID or optionally a sin- gle '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
+    /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The data retrieval policy in JSON format. Rules -&gt; (list) The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and op- tionally a BytesPerHour field. (structure) Data retrieval policy rule. Strategy -&gt; (string) The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None BytesPerHour -&gt; (long) The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour . Your PUT operation will be re- jected if the Strategy field is not set to BytesPerHour and you set this field. Shorthand Syntax: Rules=[{Strategy=string,BytesPerHour=long},{Strategy=string,BytesPerHour=long}] JSON Syntax: { "Rules": [ { "Strategy": "string", "BytesPerHour": long } ... ] }
+    /// The data retrieval policy in JSON format. Rules -&gt; (list) The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field. (structure) Data retrieval policy rule. Strategy -&gt; (string) The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None BytesPerHour -&gt; (long) The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour . Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field. Shorthand Syntax: Rules=[{Strategy=string,BytesPerHour=long},{Strategy=string,BytesPerHour=long}] JSON Syntax: { "Rules": [ { "Strategy": "string", "BytesPerHour": long } ... ] }
     /// </summary>
     [CliOption("--policy")]
     public string? Policy { get; set; }
@@ -88,6 +89,15 @@ public record AwsGlacierSetDataRetrievalPolicyOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

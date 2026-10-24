@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+/// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,15 +27,15 @@ public record AwsConnectparticipantStartAttachmentUploadOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ContentType">Describes the MIME file type of the attachment. For a list of sup- ported file types, see Feature specifications in the Amazon Connect Administrator Guide . Constraints: o min: 1 o max: 255</param>
-    /// <param name="AttachmentSizeInBytes">The size of the attachment in bytes. Constraints: o min: 1</param>
-    /// <param name="AttachmentName">A case-sensitive name of the attachment being uploaded. Constraints: o min: 1 o max: 256</param>
-    /// <param name="ConnectionToken">The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000</param>
+    /// <param name="ContentType">Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide . Constraints: • min: 1 • max: 255</param>
+    /// <param name="AttachmentSizeInBytes">The size of the attachment in bytes. Constraints: • min: 1</param>
+    /// <param name="AttachmentName">A case-sensitive name of the attachment being uploaded. Constraints: • min: 1 • max: 256</param>
+    /// <param name="ConnectionToken">The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000</param>
     public AwsConnectparticipantStartAttachmentUploadOptions(
         string ContentType,
-        int AttachmentSizeInBytes,
+        long AttachmentSizeInBytes,
         string AttachmentName,
         string ConnectionToken
     )
@@ -68,32 +69,32 @@ public record AwsConnectparticipantStartAttachmentUploadOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Describes the MIME file type of the attachment. For a list of sup- ported file types, see Feature specifications in the Amazon Connect Administrator Guide . Constraints: o min: 1 o max: 255
+    /// Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide . Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--content-type")]
     public string? ContentType { get; private init; }
 
     /// <summary>
-    /// The size of the attachment in bytes. Constraints: o min: 1
+    /// The size of the attachment in bytes. Constraints: • min: 1
     /// </summary>
     [CliOption("--attachment-size-in-bytes")]
-    public int? AttachmentSizeInBytes { get; private init; }
+    public long? AttachmentSizeInBytes { get; private init; }
 
     /// <summary>
-    /// A case-sensitive name of the attachment being uploaded. Constraints: o min: 1 o max: 256
+    /// A case-sensitive name of the attachment being uploaded. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--attachment-name")]
     public string? AttachmentName { get; private init; }
 
     /// <summary>
-    /// The authentication token associated with the participant's connec- tion. Constraints: o min: 1 o max: 1000
+    /// The authentication token associated with the participant's connection. Constraints: • min: 1 • max: 1000
     /// </summary>
     [SecretValue]
     [CliOption("--connection-token")]
     public string? ConnectionToken { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: o min: 1 o max: 500
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs . Constraints: • min: 1 • max: 500
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +121,15 @@ public record AwsConnectparticipantStartAttachmentUploadOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

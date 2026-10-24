@@ -24,26 +24,26 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsWellarchitectedListProfilesOptions : AwsOptions
 {
     /// <summary>
-    /// An optional string added to the beginning of each profile name re- turned in the results. Constraints: o min: 0 o max: 100
+    /// An optional string added to the beginning of each profile name returned in the results. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--profile-name-prefix")]
     public string? ProfileNamePrefix { get; set; }
 
     /// <summary>
-    /// Profile owner type. Possible values: o SELF o SHARED
+    /// Profile owner type. Possible values: • SELF • SHARED
     /// </summary>
     [CliOption("--profile-owner-type")]
     public AwsWellarchitectedListProfilesProfileOwnerType? ProfileOwnerType { get; set; }
 
     /// <summary>
-    /// The token to use to retrieve the next set of results. Constraints: o pattern: [A-Za-z0-9+\/=_-]+
+    /// The token to use to retrieve the next set of results. Constraints: • pattern: [A-Za-z0-9+\/=_-]+
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return for this request. Constraints: o min: 1 o max: 50
+    /// The maximum number of results to return for this request. Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -53,5 +53,14 @@ public record AwsWellarchitectedListProfilesOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

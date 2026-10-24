@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets the effects of an organization's access control rules as they ap- ply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or imperson- ation role ID. Impersonation role ID can only be used with Action EWS. See also: AWS API Documentation
+/// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsWorkmailGetAccessControlEffectOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets the effects of an organization's access control rules as they ap- ply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or imperson- ation role ID. Impersonation role ID can only be used with Action EWS. See also: AWS API Documentation
+    /// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">The identifier for the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="IpAddress">The IPv4 address. Constraints: o min: 1 o max: 15 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$</param>
-    /// <param name="Action">The access protocol action. Valid values include ActiveSync , Au- toDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]+</param>
+    /// <param name="OrganizationId">The identifier for the organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="IpAddress">The IPv4 address. Constraints: • min: 1 • max: 15 • pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$</param>
+    /// <param name="Action">The access protocol action. Valid values include ActiveSync , AutoDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]+</param>
     public AwsWorkmailGetAccessControlEffectOptions(
         string OrganizationId,
         string IpAddress,
@@ -64,31 +65,31 @@ public record AwsWorkmailGetAccessControlEffectOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier for the organization. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// The identifier for the organization. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The IPv4 address. Constraints: o min: 1 o max: 15 o pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+    /// The IPv4 address. Constraints: • min: 1 • max: 15 • pattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     /// </summary>
     [CliOption("--ip-address")]
     public string? IpAddress { get; private init; }
 
     /// <summary>
-    /// The access protocol action. Valid values include ActiveSync , Au- toDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z]+
+    /// The access protocol action. Valid values include ActiveSync , AutoDiscover , EWS , IMAP , SMTP , WindowsOutlook , and WebMail . Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z]+
     /// </summary>
     [CliOption("--action")]
     public string? Action { get; private init; }
 
     /// <summary>
-    /// The user ID. Constraints: o min: 12 o max: 256
+    /// The user ID. Constraints: • min: 12 • max: 256
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; set; }
 
     /// <summary>
-    /// The impersonation role ID. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_-]+
+    /// The impersonation role ID. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_-]+
     /// </summary>
     [CliOption("--impersonation-role-id")]
     public string? ImpersonationRoleId { get; set; }
@@ -114,6 +115,15 @@ public record AwsWorkmailGetAccessControlEffectOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

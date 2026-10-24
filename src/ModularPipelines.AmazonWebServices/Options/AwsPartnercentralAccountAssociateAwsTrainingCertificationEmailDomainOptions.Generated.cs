@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifica- tions. See also: AWS API Documentation
+/// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDoma
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifica- tions. See also: AWS API Documentation
+    /// Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+</param>
-    /// <param name="Identifier">The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})</param>
-    /// <param name="Email">The email address used to verify domain ownership for AWS training and certification association. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
-    /// <param name="EmailVerificationCode">The verification code sent to the email address to confirm domain ownership. Constraints: o min: 6 o max: 6 o pattern: [0-9]+</param>
+    /// <param name="Catalog">The catalog identifier for the partner account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+</param>
+    /// <param name="Identifier">The unique identifier of the partner account. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})</param>
+    /// <param name="Email">The email address used to verify domain ownership for AWS training and certification association. Constraints: • min: 1 • max: 320 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*</param>
+    /// <param name="EmailVerificationCode">The verification code sent to the email address to confirm domain ownership. Constraints: • min: 6 • max: 6 • pattern: [0-9]+</param>
     public AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDomainOptions(
         string Catalog,
         string Identifier,
@@ -69,31 +70,32 @@ public record AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDoma
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The catalog identifier for the partner account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9-]+
+    /// The catalog identifier for the partner account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [CliOption("--catalog")]
     public string? Catalog { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the partner account. Constraints: o min: 1 o max: 200 o pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partner- central:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/part- ner-[A-Za-z0-9]{13})
+    /// The unique identifier of the partner account. Constraints: • min: 1 • max: 200 • pattern: (partner-[A-Za-z0-9]{13}|arn:[a-z-]+:partnercentral:[a-z0-9-]+:[0-9]{12}:catalog/[A-Za-z-_]+/partner/partner-[A-Za-z0-9]{13})
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The email address used to verify domain ownership for AWS training and certification association. Constraints: o min: 1 o max: 320 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
+    /// The email address used to verify domain ownership for AWS training and certification association. Constraints: • min: 1 • max: 320 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*
     /// </summary>
     [CliOption("--email")]
     public string? Email { get; private init; }
 
     /// <summary>
-    /// The verification code sent to the email address to confirm domain ownership. Constraints: o min: 6 o max: 6 o pattern: [0-9]+
+    /// The verification code sent to the email address to confirm domain ownership. Constraints: • min: 6 • max: 6 • pattern: [0-9]+
     /// </summary>
+    [SecretValue]
     [CliOption("--email-verification-code")]
     public string? EmailVerificationCode { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: o min: 1 o max: 64 o pattern: [A-Za-z0-9-_]+
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Constraints: • min: 1 • max: 64 • pattern: [A-Za-z0-9-_]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -120,6 +122,15 @@ public record AwsPartnercentralAccountAssociateAwsTrainingCertificationEmailDoma
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

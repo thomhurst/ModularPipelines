@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsEc2DisassociateInstanceEventWindowOptions : AwsOptions, IValida
     /// Disassociates one or more targets from an event window. For more information, see Define event windows for scheduled events in the Amazon EC2 User Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="InstanceEventWindowId">The ID of the event window.</param>
-    /// <param name="AssociationTarget">One or more targets to disassociate from the specified event window. InstanceIds -&gt; (list) The IDs of the instances to disassociate from the event window. (string) InstanceTags -&gt; (list) The instance tags to disassociate from the event window. Any in- stances associated with the tags will be disassociated from the event window. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: . Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. DedicatedHostIds -&gt; (list) The IDs of the Dedicated Hosts to disassociate from the event window. (string) Shorthand Syntax: InstanceIds=string,string,InstanceTags=[{Key=string,Value=string},{Key=string,Value=string}],DedicatedHostIds=string,string JSON Syntax: { "InstanceIds": ["string", ...], "InstanceTags": [ { "Key": "string", "Value": "string" } ... ], "DedicatedHostIds": ["string", ...] }</param>
+    /// <param name="AssociationTarget">One or more targets to disassociate from the specified event window. InstanceIds -&gt; (list) The IDs of the instances to disassociate from the event window. (string) InstanceTags -&gt; (list) The instance tags to disassociate from the event window. Any instances associated with the tags will be disassociated from the event window. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: . Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. DedicatedHostIds -&gt; (list) The IDs of the Dedicated Hosts to disassociate from the event window. (string) Shorthand Syntax: InstanceIds=string,string,InstanceTags=[{Key=string,Value=string},{Key=string,Value=string}],DedicatedHostIds=string,string JSON Syntax: { "InstanceIds": ["string", ...], "InstanceTags": [ { "Key": "string", "Value": "string" } ... ], "DedicatedHostIds": ["string", ...] }</param>
     public AwsEc2DisassociateInstanceEventWindowOptions(
         string InstanceEventWindowId,
         string AssociationTarget
@@ -66,13 +67,13 @@ public record AwsEc2DisassociateInstanceEventWindowOptions : AwsOptions, IValida
     public string? InstanceEventWindowId { get; private init; }
 
     /// <summary>
-    /// One or more targets to disassociate from the specified event window. InstanceIds -&gt; (list) The IDs of the instances to disassociate from the event window. (string) InstanceTags -&gt; (list) The instance tags to disassociate from the event window. Any in- stances associated with the tags will be disassociated from the event window. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: . Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. DedicatedHostIds -&gt; (list) The IDs of the Dedicated Hosts to disassociate from the event window. (string) Shorthand Syntax: InstanceIds=string,string,InstanceTags=[{Key=string,Value=string},{Key=string,Value=string}],DedicatedHostIds=string,string JSON Syntax: { "InstanceIds": ["string", ...], "InstanceTags": [ { "Key": "string", "Value": "string" } ... ], "DedicatedHostIds": ["string", ...] }
+    /// One or more targets to disassociate from the specified event window. InstanceIds -&gt; (list) The IDs of the instances to disassociate from the event window. (string) InstanceTags -&gt; (list) The instance tags to disassociate from the event window. Any instances associated with the tags will be disassociated from the event window. (structure) Describes a tag. Key -&gt; (string) The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws: . Value -&gt; (string) The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters. DedicatedHostIds -&gt; (list) The IDs of the Dedicated Hosts to disassociate from the event window. (string) Shorthand Syntax: InstanceIds=string,string,InstanceTags=[{Key=string,Value=string},{Key=string,Value=string}],DedicatedHostIds=string,string JSON Syntax: { "InstanceIds": ["string", ...], "InstanceTags": [ { "Key": "string", "Value": "string" } ... ], "DedicatedHostIds": ["string", ...] }
     /// </summary>
     [CliOption("--association-target")]
     public string? AssociationTarget { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsEc2DisassociateInstanceEventWindowOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

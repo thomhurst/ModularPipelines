@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,9 +29,9 @@ public record AwsLexv2ModelsListSlotTypesOptions : AwsOptions, IValidatableObjec
     /// <summary>
     /// Gets a list of slot types that match the specified criteria. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotId">The unique identifier of the bot that contains the slot types. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
-    /// <param name="BotVersion">The version of the bot that contains the slot type. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$</param>
-    /// <param name="LocaleId">The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .</param>
+    /// <param name="BotId">The unique identifier of the bot that contains the slot types. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotVersion">The version of the bot that contains the slot type. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$</param>
+    /// <param name="LocaleId">The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages .</param>
     public AwsLexv2ModelsListSlotTypesOptions(
         string BotId,
         string BotVersion,
@@ -65,43 +66,43 @@ public record AwsLexv2ModelsListSlotTypesOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the bot that contains the slot types. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that contains the slot types. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// The version of the bot that contains the slot type. Constraints: o min: 1 o max: 5 o pattern: ^(DRAFT|[0-9]+)$
+    /// The version of the bot that contains the slot type. Constraints: • min: 1 • max: 5 • pattern: ^(DRAFT|[0-9]+)$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; private init; }
 
     /// <summary>
-    /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more infor- mation, see Supported languages .
+    /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see Supported languages .
     /// </summary>
     [CliOption("--locale-id")]
     public string? LocaleId { get; private init; }
 
     /// <summary>
-    /// Determines the sort order for the response from the ListSlotTypes operation. You can choose to sort by the slot type name or last up- dated date in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of slot types. Possible values: o SlotTypeName o LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. You can say ascending or descending. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotTypeName"|"LastUpdatedDateTime", "order": "Ascending"|"Descending" }
+    /// Determines the sort order for the response from the ListSlotTypes operation. You can choose to sort by the slot type name or last updated date in either ascending or descending order. attribute -&gt; (string) [required] The attribute to use to sort the list of slot types. Possible values: • SlotTypeName • LastUpdatedDateTime order -&gt; (string) [required] The order to sort the list. You can say ascending or descending. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "SlotTypeName"|"LastUpdatedDateTime", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// Provides the specification of a filter used to limit the slot types in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on. Constraints: o min: 1 o max: 1 (structure) Filters the response from the ListSlotTypes operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: o SlotTypeName o ExternalSourceType values -&gt; (list) [required] The value to use to filter the response. Constraints: o min: 1 o max: 1 (string) Constraints: o min: 1 o max: 100 o pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the List- SlotTypes operation should return only aliases that equal the specified value. Specify CO when the ListSlotTypes operation should return aliases that contain the specified value. Possible values: o CO o EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "SlotTypeName"|"ExternalSourceType", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
+    /// Provides the specification of a filter used to limit the slot types in the response to only those that match the filter specification. You can only specify one filter and only one string to filter on. Constraints: • min: 1 • max: 1 (structure) Filters the response from the ListSlotTypes operation. name -&gt; (string) [required] The name of the field to use for filtering. Possible values: • SlotTypeName • ExternalSourceType values -&gt; (list) [required] The value to use to filter the response. Constraints: • min: 1 • max: 1 (string) Constraints: • min: 1 • max: 100 • pattern: ^[0-9a-zA-Z_()\s-]+$ operator -&gt; (string) [required] The operator to use for the filter. Specify EQ when the ListSlotTypes operation should return only aliases that equal the specified value. Specify CO when the ListSlotTypes operation should return aliases that contain the specified value. Possible values: • CO • EQ Shorthand Syntax: name=string,values=string,string,operator=string ... JSON Syntax: [ { "name": "SlotTypeName"|"ExternalSourceType", "values": ["string", ...], "operator": "CO"|"EQ" } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     /// <summary>
-    /// The maximum number of slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of slot types to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListSlotTypes operation contains more re- sults than specified in the maxResults parameter, a token is re- turned in the response. Use that token in the nextToken parameter to return the next page of results.
+    /// If the response from the ListSlotTypes operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -128,6 +129,15 @@ public record AwsLexv2ModelsListSlotTypesOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Au- thority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using cer- tificates issued by the CA in exchange for temporary Amazon Web Ser- vices credentials. Required permissions: rolesanywhere:UpdateTrustAnchor . See...
+/// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:UpdateTrustAnchor . See also:...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRolesanywhereUpdateTrustAnchorOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Au- thority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using cer- tificates issued by the CA in exchange for temporary Amazon Web Ser- vices credentials. Required permissions: rolesanywhere:UpdateTrustAnchor . See...
+    /// Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials. Required permissions: rolesanywhere:UpdateTrustAnchor . See also:...
     /// </summary>
-    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
+    /// <param name="TrustAnchorId">The unique identifier of the trust anchor. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*</param>
     public AwsRolesanywhereUpdateTrustAnchorOptions(
         string TrustAnchorId
     )
@@ -56,19 +57,19 @@ public record AwsRolesanywhereUpdateTrustAnchorOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the trust anchor. Constraints: o min: 36 o max: 36 o pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
+    /// The unique identifier of the trust anchor. Constraints: • min: 36 • max: 36 • pattern: .*[a-f0-9]{8}-([a-z0-9]{4}-){3}[a-z0-9]{12}.*
     /// </summary>
     [CliOption("--trust-anchor-id")]
     public string? TrustAnchorId { get; private init; }
 
     /// <summary>
-    /// The name of the trust anchor. Constraints: o min: 1 o max: 255 o pattern: [ a-zA-Z0-9-_]*
+    /// The name of the trust anchor. Constraints: • min: 1 • max: 255 • pattern: [ a-zA-Z0-9-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: o AWS_ACM_PCA o CERTIFICATE_BUNDLE o SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: o min: 1 o max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for tempo- rary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }
+    /// The trust anchor type and its related certificate data. sourceType -&gt; (string) The type of the trust anchor. Possible values: • AWS_ACM_PCA • CERTIFICATE_BUNDLE • SELF_SIGNED_REPOSITORY sourceData -&gt; (tagged union structure) The data field of the trust anchor depending on its type. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: x509CertificateData, acmPcaArn. x509CertificateData -&gt; (string) The PEM-encoded data for the certificate anchor. Included for trust anchors of type CERTIFICATE_BUNDLE . Constraints: • min: 1 • max: 204800 acmPcaArn -&gt; (string) The root certificate of the Private Certificate Authority specified by this ARN is used in trust validation for temporary credential requests. Included for trust anchors of type AWS_ACM_PCA . Shorthand Syntax: sourceType=string,sourceData={x509CertificateData=string,acmPcaArn=string} JSON Syntax: { "sourceType": "AWS_ACM_PCA"|"CERTIFICATE_BUNDLE"|"SELF_SIGNED_REPOSITORY", "sourceData": { "x509CertificateData": "string", "acmPcaArn": "string" } }
     /// </summary>
     [CliOption("--source")]
     public string? Source { get; set; }
@@ -94,6 +95,15 @@ public record AwsRolesanywhereUpdateTrustAnchorOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

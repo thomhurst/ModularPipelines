@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsComputeOptimizerAutomationGetAutomationEventOptions : AwsOption
     /// <summary>
     /// Retrieves details about a specific automation event. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EventId">The ID of the automation event to retrieve. Constraints: o pattern: [0-9A-Za-z]{16}</param>
+    /// <param name="EventId">The ID of the automation event to retrieve. Constraints: • pattern: [0-9A-Za-z]{16}</param>
     public AwsComputeOptimizerAutomationGetAutomationEventOptions(
         string EventId
     )
@@ -56,7 +57,7 @@ public record AwsComputeOptimizerAutomationGetAutomationEventOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the automation event to retrieve. Constraints: o pattern: [0-9A-Za-z]{16}
+    /// The ID of the automation event to retrieve. Constraints: • pattern: [0-9A-Za-z]{16}
     /// </summary>
     [CliOption("--event-id")]
     public string? EventId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsComputeOptimizerAutomationGetAutomationEventOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

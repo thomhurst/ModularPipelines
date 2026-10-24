@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,9 +29,9 @@ public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions, IVa
     /// <summary>
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnectorGroupId">The Voice Connector ID. Constraints: o pattern: .*\S.*</param>
-    /// <param name="Name">The name of the Voice Connector group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+</param>
-    /// <param name="VoiceConnectorItems">The VoiceConnectorItems to associate with the Voice Connector group. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest pri- ority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: o min: 1 o max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]</param>
+    /// <param name="VoiceConnectorGroupId">The Voice Connector ID. Constraints: • pattern: .*\S.*</param>
+    /// <param name="Name">The name of the Voice Connector group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+</param>
+    /// <param name="VoiceConnectorItems">The VoiceConnectorItems to associate with the Voice Connector group. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest priority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: • min: 1 • max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]</param>
     public AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions(
         string VoiceConnectorGroupId,
         string Name,
@@ -76,25 +77,25 @@ public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector ID. Constraints: o pattern: .*\S.*
+    /// The Voice Connector ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--voice-connector-group-id")]
     public string? VoiceConnectorGroupId { get; private init; }
 
     /// <summary>
-    /// The name of the Voice Connector group. Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9 _.-]+
+    /// The name of the Voice Connector group. Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9 _.-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The VoiceConnectorItems to associate with the Voice Connector group. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: o pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest pri- ority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: o min: 1 o max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]
+    /// The VoiceConnectorItems to associate with the Voice Connector group. (structure) For Amazon Chime SDK Voice Connector groups, the Amazon Chime SDK Voice Connectors to which you route inbound calls. Includes priority configuration settings. Limit: 3 VoiceConnectorItems per Voice Connector group. VoiceConnectorId -&gt; (string) [required] The Voice Connector ID. Constraints: • pattern: ([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}) Priority -&gt; (integer) The priority setting of a Voice Connector item. Calls are routed to hosts in priority order, with 1 as the highest priority. When hosts have equal priority, the system distributes calls among them based on their relative weight. Constraints: • min: 1 • max: 99 Shorthand Syntax: VoiceConnectorId=string,Priority=integer ... JSON Syntax: [ { "VoiceConnectorId": "string", "Priority": integer } ... ]
     /// </summary>
     [CliOption("--voice-connector-items", GroupValues = true)]
     public IEnumerable<string>? VoiceConnectorItems { get; private init; }
 
     /// <summary>
-    /// Possible values: o PriorityWeightedDistribution o LoadBalancedDistribution
+    /// Possible values: • PriorityWeightedDistribution • LoadBalancedDistribution
     /// </summary>
     [CliOption("--call-distribution-type")]
     public AwsChimeSdkVoiceUpdateVoiceConnectorGroupCallDistributionType? CallDistributionType { get; set; }
@@ -120,6 +121,15 @@ public record AwsChimeSdkVoiceUpdateVoiceConnectorGroupOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

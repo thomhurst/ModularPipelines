@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions, IVa
     /// <summary>
     /// Creates or updates the synchronization configuration for the specified S3 File System, including import data rules and expiration data rules. See also: AWS API Documentation
     /// </summary>
-    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to con- figure synchronization for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
-    /// <param name="ImportDataRules">An array of import data rules that control how data is imported from S3 into the file system. Constraints: o min: 1 o max: 10 (structure) Specifies a rule that controls how data is imported from S3 into the file system. prefix -&gt; (string) [required] The S3 key prefix that scopes this import rule. Only objects with keys beginning with this prefix are subject to the rule. Constraints: o pattern: (|.*/) trigger -&gt; (string) [required] The event that triggers data import. Valid values are ON_DI- RECTORY_FIRST_ACCESS (import when a directory is first ac- cessed) and ON_FILE_ACCESS (import when a file is accessed). Possible values: o ON_DIRECTORY_FIRST_ACCESS o ON_FILE_ACCESS sizeLessThan -&gt; (long) [required] The upper size limit in bytes for this import rule. Only ob- jects with a size strictly less than this value will have data imported into the file system. Constraints: o min: 0 o max: 52673613135872 Shorthand Syntax: prefix=string,trigger=string,sizeLessThan=long ... JSON Syntax: [ { "prefix": "string", "trigger": "ON_DIRECTORY_FIRST_ACCESS"|"ON_FILE_ACCESS", "sizeLessThan": long } ... ]</param>
-    /// <param name="ExpirationDataRules">An array of expiration data rules that control when cached data ex- pires from the file system. Constraints: o min: 1 o max: 1 (structure) Specifies a rule that controls when cached data expires from the file system based on last access time. daysAfterLastAccess -&gt; (integer) [required] The number of days after last access before cached data ex- pires from the file system. Constraints: o min: 1 o max: 365 Shorthand Syntax: daysAfterLastAccess=integer ... JSON Syntax: [ { "daysAfterLastAccess": integer } ... ]</param>
+    /// <param name="FileSystemId">The ID or Amazon Resource Name (ARN) of the S3 File System to configure synchronization for. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})</param>
+    /// <param name="ImportDataRules">An array of import data rules that control how data is imported from S3 into the file system. Constraints: • min: 1 • max: 10 (structure) Specifies a rule that controls how data is imported from S3 into the file system. prefix -&gt; (string) [required] The S3 key prefix that scopes this import rule. Only objects with keys beginning with this prefix are subject to the rule. Constraints: • pattern: (|.*/) trigger -&gt; (string) [required] The event that triggers data import. Valid values are ON_DIRECTORY_FIRST_ACCESS (import when a directory is first accessed) and ON_FILE_ACCESS (import when a file is accessed). Possible values: • ON_DIRECTORY_FIRST_ACCESS • ON_FILE_ACCESS sizeLessThan -&gt; (long) [required] The upper size limit in bytes for this import rule. Only objects with a size strictly less than this value will have data imported into the file system. Constraints: • min: 0 • max: 52673613135872 Shorthand Syntax: prefix=string,trigger=string,sizeLessThan=long ... JSON Syntax: [ { "prefix": "string", "trigger": "ON_DIRECTORY_FIRST_ACCESS"|"ON_FILE_ACCESS", "sizeLessThan": long } ... ]</param>
+    /// <param name="ExpirationDataRules">An array of expiration data rules that control when cached data expires from the file system. Constraints: • min: 1 • max: 1 (structure) Specifies a rule that controls when cached data expires from the file system based on last access time. daysAfterLastAccess -&gt; (integer) [required] The number of days after last access before cached data expires from the file system. Constraints: • min: 1 • max: 365 Shorthand Syntax: daysAfterLastAccess=integer ... JSON Syntax: [ { "daysAfterLastAccess": integer } ... ]</param>
     public AwsS3filesPutSynchronizationConfigurationOptions(
         string FileSystemId,
         IEnumerable<string> ImportDataRules,
@@ -86,25 +87,25 @@ public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID or Amazon Resource Name (ARN) of the S3 File System to con- figure synchronization for. Constraints: o min: 0 o max: 128 o pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-sys- tem/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
+    /// The ID or Amazon Resource Name (ARN) of the S3 File System to configure synchronization for. Constraints: • min: 0 • max: 128 • pattern: (arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}|fs-[0-9a-f]{17,40})
     /// </summary>
     [CliOption("--file-system-id")]
     public string? FileSystemId { get; private init; }
 
     /// <summary>
-    /// An array of import data rules that control how data is imported from S3 into the file system. Constraints: o min: 1 o max: 10 (structure) Specifies a rule that controls how data is imported from S3 into the file system. prefix -&gt; (string) [required] The S3 key prefix that scopes this import rule. Only objects with keys beginning with this prefix are subject to the rule. Constraints: o pattern: (|.*/) trigger -&gt; (string) [required] The event that triggers data import. Valid values are ON_DI- RECTORY_FIRST_ACCESS (import when a directory is first ac- cessed) and ON_FILE_ACCESS (import when a file is accessed). Possible values: o ON_DIRECTORY_FIRST_ACCESS o ON_FILE_ACCESS sizeLessThan -&gt; (long) [required] The upper size limit in bytes for this import rule. Only ob- jects with a size strictly less than this value will have data imported into the file system. Constraints: o min: 0 o max: 52673613135872 Shorthand Syntax: prefix=string,trigger=string,sizeLessThan=long ... JSON Syntax: [ { "prefix": "string", "trigger": "ON_DIRECTORY_FIRST_ACCESS"|"ON_FILE_ACCESS", "sizeLessThan": long } ... ]
+    /// An array of import data rules that control how data is imported from S3 into the file system. Constraints: • min: 1 • max: 10 (structure) Specifies a rule that controls how data is imported from S3 into the file system. prefix -&gt; (string) [required] The S3 key prefix that scopes this import rule. Only objects with keys beginning with this prefix are subject to the rule. Constraints: • pattern: (|.*/) trigger -&gt; (string) [required] The event that triggers data import. Valid values are ON_DIRECTORY_FIRST_ACCESS (import when a directory is first accessed) and ON_FILE_ACCESS (import when a file is accessed). Possible values: • ON_DIRECTORY_FIRST_ACCESS • ON_FILE_ACCESS sizeLessThan -&gt; (long) [required] The upper size limit in bytes for this import rule. Only objects with a size strictly less than this value will have data imported into the file system. Constraints: • min: 0 • max: 52673613135872 Shorthand Syntax: prefix=string,trigger=string,sizeLessThan=long ... JSON Syntax: [ { "prefix": "string", "trigger": "ON_DIRECTORY_FIRST_ACCESS"|"ON_FILE_ACCESS", "sizeLessThan": long } ... ]
     /// </summary>
     [CliOption("--import-data-rules", GroupValues = true)]
     public IEnumerable<string>? ImportDataRules { get; private init; }
 
     /// <summary>
-    /// An array of expiration data rules that control when cached data ex- pires from the file system. Constraints: o min: 1 o max: 1 (structure) Specifies a rule that controls when cached data expires from the file system based on last access time. daysAfterLastAccess -&gt; (integer) [required] The number of days after last access before cached data ex- pires from the file system. Constraints: o min: 1 o max: 365 Shorthand Syntax: daysAfterLastAccess=integer ... JSON Syntax: [ { "daysAfterLastAccess": integer } ... ]
+    /// An array of expiration data rules that control when cached data expires from the file system. Constraints: • min: 1 • max: 1 (structure) Specifies a rule that controls when cached data expires from the file system based on last access time. daysAfterLastAccess -&gt; (integer) [required] The number of days after last access before cached data expires from the file system. Constraints: • min: 1 • max: 365 Shorthand Syntax: daysAfterLastAccess=integer ... JSON Syntax: [ { "daysAfterLastAccess": integer } ... ]
     /// </summary>
     [CliOption("--expiration-data-rules", GroupValues = true)]
     public IEnumerable<string>? ExpirationDataRules { get; private init; }
 
     /// <summary>
-    /// The version number of the current synchronization configuration. Omit this value when creating a synchronization configuration for the first time. For subsequent updates, provide this value for opti- mistic concurrency control. If the version number does not match the current configuration, the request fails with a ConflictException .
+    /// The version number of the current synchronization configuration. Omit this value when creating a synchronization configuration for the first time. For subsequent updates, provide this value for optimistic concurrency control. If the version number does not match the current configuration, the request fails with a ConflictException .
     /// </summary>
     [CliOption("--latest-version-number")]
     public int? LatestVersionNumber { get; set; }
@@ -130,6 +131,15 @@ public record AwsS3filesPutSynchronizationConfigurationOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

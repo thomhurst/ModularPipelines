@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsIotTestAuthorizationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the TestAuthorization action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AuthInfos">A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list. Constraints: o min: 1 o max: 10 (structure) A collection of authorization information. actionType -&gt; (string) The type of action for which the principal is being autho- rized. Possible values: o PUBLISH o SUBSCRIBE o RECEIVE o CONNECT resources -&gt; (list) [required] The resources for which the principal is being authorized to perform the specified action. (string) Constraints: o max: 2048 o pattern: [\s\S]* Shorthand Syntax: actionType=string,resources=string,string ... JSON Syntax: [ { "actionType": "PUBLISH"|"SUBSCRIBE"|"RECEIVE"|"CONNECT", "resources": ["string", ...] } ... ]</param>
+    /// <param name="AuthInfos">A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list. Constraints: • min: 1 • max: 10 (structure) A collection of authorization information. actionType -&gt; (string) The type of action for which the principal is being authorized. Possible values: • PUBLISH • SUBSCRIBE • RECEIVE • CONNECT resources -&gt; (list) [required] The resources for which the principal is being authorized to perform the specified action. (string) Constraints: • max: 2048 • pattern: [\s\S]* Shorthand Syntax: actionType=string,resources=string,string ... JSON Syntax: [ { "actionType": "PUBLISH"|"SUBSCRIBE"|"RECEIVE"|"CONNECT", "resources": ["string", ...] } ... ]</param>
     public AwsIotTestAuthorizationOptions(
         IEnumerable<string> AuthInfos
     )
@@ -67,13 +68,13 @@ public record AwsIotTestAuthorizationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list. Constraints: o min: 1 o max: 10 (structure) A collection of authorization information. actionType -&gt; (string) The type of action for which the principal is being autho- rized. Possible values: o PUBLISH o SUBSCRIBE o RECEIVE o CONNECT resources -&gt; (list) [required] The resources for which the principal is being authorized to perform the specified action. (string) Constraints: o max: 2048 o pattern: [\s\S]* Shorthand Syntax: actionType=string,resources=string,string ... JSON Syntax: [ { "actionType": "PUBLISH"|"SUBSCRIBE"|"RECEIVE"|"CONNECT", "resources": ["string", ...] } ... ]
+    /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list. Constraints: • min: 1 • max: 10 (structure) A collection of authorization information. actionType -&gt; (string) The type of action for which the principal is being authorized. Possible values: • PUBLISH • SUBSCRIBE • RECEIVE • CONNECT resources -&gt; (list) [required] The resources for which the principal is being authorized to perform the specified action. (string) Constraints: • max: 2048 • pattern: [\s\S]* Shorthand Syntax: actionType=string,resources=string,string ... JSON Syntax: [ { "actionType": "PUBLISH"|"SUBSCRIBE"|"RECEIVE"|"CONNECT", "resources": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--auth-infos", GroupValues = true)]
     public IEnumerable<string>? AuthInfos { get; private init; }
 
     /// <summary>
-    /// The principal. Valid principals are CertificateArn (arn:aws:iot:re- gion :accountId :cert/certificateId ) and CognitoId (region :id ).
+    /// The principal. Valid principals are CertificateArn (arn:aws:iot:region :accountId :cert/certificateId ) and CognitoId (region :id ).
     /// </summary>
     [CliOption("--principal")]
     public string? Principal { get; set; }
@@ -91,13 +92,13 @@ public record AwsIotTestAuthorizationOptions : AwsOptions, IValidatableObject
     public string? ClientId { get; set; }
 
     /// <summary>
-    /// When testing custom authorization, the policies specified here are treated as if they are attached to the principal being authorized. (string) Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Syntax: "string" "string" ...
+    /// When testing custom authorization, the policies specified here are treated as if they are attached to the principal being authorized. (string) Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--policy-names-to-add", GroupValues = true)]
     public IEnumerable<string>? PolicyNamesToAdd { get; set; }
 
     /// <summary>
-    /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being autho- rized. (string) Constraints: o min: 1 o max: 128 o pattern: [\w+=,.@-]+ Syntax: "string" "string" ...
+    /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized. (string) Constraints: • min: 1 • max: 128 • pattern: [\w+=,.@-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--policy-names-to-skip", GroupValues = true)]
     public IEnumerable<string>? PolicyNamesToSkip { get; set; }
@@ -123,6 +124,15 @@ public record AwsIotTestAuthorizationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

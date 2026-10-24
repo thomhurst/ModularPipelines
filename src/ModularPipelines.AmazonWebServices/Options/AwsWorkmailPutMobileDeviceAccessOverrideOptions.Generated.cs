@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates or updates a mobile device access override for the given Work- Mail organization, user, and device. See also: AWS API Documentation
+/// Creates or updates a mobile device access override for the given WorkMail organization, user, and device. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsWorkmailPutMobileDeviceAccessOverrideOptions : AwsOptions, IVal
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates or updates a mobile device access override for the given Work- Mail organization, user, and device. See also: AWS API Documentation
+    /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OrganizationId">Identifies the WorkMail organization for which you create the over- ride. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$</param>
-    /// <param name="UserId">The WorkMail user for which you create the override. Accepts the following types of user identities: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+</param>
-    /// <param name="DeviceId">The mobile device for which you create the override. DeviceId is case insensitive. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9]+</param>
-    /// <param name="Effect">The effect of the override, ALLOW or DENY . Possible values: o ALLOW o DENY</param>
+    /// <param name="OrganizationId">Identifies the WorkMail organization for which you create the override. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$</param>
+    /// <param name="UserId">The WorkMail user for which you create the override. Accepts the following types of user identities: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+</param>
+    /// <param name="DeviceId">The mobile device for which you create the override. DeviceId is case insensitive. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z0-9]+</param>
+    /// <param name="Effect">The effect of the override, ALLOW or DENY . Possible values: • ALLOW • DENY</param>
     public AwsWorkmailPutMobileDeviceAccessOverrideOptions(
         string OrganizationId,
         string UserId,
@@ -68,31 +69,31 @@ public record AwsWorkmailPutMobileDeviceAccessOverrideOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the WorkMail organization for which you create the over- ride. Constraints: o min: 34 o max: 34 o pattern: ^m-[0-9a-f]{32}$
+    /// Identifies the WorkMail organization for which you create the override. Constraints: • min: 34 • max: 34 • pattern: ^m-[0-9a-f]{32}$
     /// </summary>
     [CliOption("--organization-id")]
     public string? OrganizationId { get; private init; }
 
     /// <summary>
-    /// The WorkMail user for which you create the override. Accepts the following types of user identities: o User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 o Email address: user@domain.tld o User name: user Constraints: o min: 1 o max: 256 o pattern: [a-zA-Z0-9._%+@-]+
+    /// The WorkMail user for which you create the override. Accepts the following types of user identities: • User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234 • Email address: user@domain.tld • User name: user Constraints: • min: 1 • max: 256 • pattern: [a-zA-Z0-9._%+@-]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The mobile device for which you create the override. DeviceId is case insensitive. Constraints: o min: 1 o max: 32 o pattern: [A-Za-z0-9]+
+    /// The mobile device for which you create the override. DeviceId is case insensitive. Constraints: • min: 1 • max: 32 • pattern: [A-Za-z0-9]+
     /// </summary>
     [CliOption("--device-id")]
     public string? DeviceId { get; private init; }
 
     /// <summary>
-    /// The effect of the override, ALLOW or DENY . Possible values: o ALLOW o DENY
+    /// The effect of the override, ALLOW or DENY . Possible values: • ALLOW • DENY
     /// </summary>
     [CliOption("--effect")]
     public AwsWorkmailPutMobileDeviceAccessOverrideEffect? Effect { get; private init; }
 
     /// <summary>
-    /// A description of the override. Constraints: o min: 1 o max: 256 o pattern: [\S\s]+
+    /// A description of the override. Constraints: • min: 1 • max: 256 • pattern: [\S\s]+
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
@@ -118,6 +119,15 @@ public record AwsWorkmailPutMobileDeviceAccessOverrideOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

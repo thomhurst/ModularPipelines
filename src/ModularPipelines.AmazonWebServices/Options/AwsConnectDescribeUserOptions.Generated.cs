@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes the specified user. You can find the instance ID in the Con- nect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs pro- vided in the output. See also: AWS API Documentation
+/// Describes the specified user. You can find the instance ID in the Connect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectDescribeUserOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes the specified user. You can find the instance ID in the Con- nect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs pro- vided in the output. See also: AWS API Documentation
+    /// Describes the specified user. You can find the instance ID in the Connect Customer console (its the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output. See also: AWS API Documentation
     /// </summary>
     /// <param name="UserId">The identifier of the user account.</param>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     public AwsConnectDescribeUserOptions(
         string UserId,
         string InstanceId
@@ -66,7 +67,7 @@ public record AwsConnectDescribeUserOptions : AwsOptions, IValidatableObject
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectDescribeUserOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

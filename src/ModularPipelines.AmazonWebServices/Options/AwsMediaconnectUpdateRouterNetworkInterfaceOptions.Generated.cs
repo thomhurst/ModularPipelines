@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsMediaconnectUpdateRouterNetworkInterfaceOptions : AwsOptions, I
     /// <summary>
     /// Updates the configuration of an existing router network interface in AWS Elemental MediaConnect. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the router network interface that you want to update. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the router network interface that you want to update. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}</param>
     public AwsMediaconnectUpdateRouterNetworkInterfaceOptions(
         string Arn
     )
@@ -56,19 +57,19 @@ public record AwsMediaconnectUpdateRouterNetworkInterfaceOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the router network interface that you want to update. Constraints: o pattern: arn:(aws[a-zA-Z-]*):mediacon- nect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}
+    /// The Amazon Resource Name (ARN) of the router network interface that you want to update. Constraints: • pattern: arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:routerNetworkInterface:[a-z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The updated name for the router network interface. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?
+    /// The updated name for the router network interface. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9]([a-zA-Z0-9\-_]*[a-zA-Z0-9])?
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The updated configuration settings for the router network interface. Changing the type of the configuration is not supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network inter- face, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: o min: 0 o max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: o pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: o min: 1 o max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }
+    /// The updated configuration settings for the router network interface. Changing the type of the configuration is not supported. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: Public, Vpc. Public -&gt; (structure) The configuration settings for a public router network interface, including the list of allowed CIDR blocks. AllowRules -&gt; (list) [required] The list of allowed CIDR blocks for the public router network interface. Constraints: • min: 0 • max: 10 (structure) A rule that allows a specific CIDR block to access the public router network interface. Cidr -&gt; (string) [required] The CIDR block that is allowed to access the public router network interface. Constraints: • pattern: (?:[0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2]) Vpc -&gt; (structure) The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID. SecurityGroupIds -&gt; (list) [required] The IDs of the security groups to associate with the router network interface within the VPC. Constraints: • min: 1 • max: 5 (string) SubnetId -&gt; (string) [required] The ID of the subnet within the VPC to associate the router network interface with. JSON Syntax: { "Public": { "AllowRules": [ { "Cidr": "string" } ... ] }, "Vpc": { "SecurityGroupIds": ["string", ...], "SubnetId": "string" } }
     /// </summary>
     [CliOption("--configuration")]
     public string? Configuration { get; set; }
@@ -94,6 +95,15 @@ public record AwsMediaconnectUpdateRouterNetworkInterfaceOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

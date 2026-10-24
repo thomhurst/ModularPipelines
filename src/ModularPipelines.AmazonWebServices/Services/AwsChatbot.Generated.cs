@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsChatbot : IAwsChatbot
     #region Commands
 
     /// <summary>
-    /// Links a resource (for example, a custom action) to a channel configura- tion. See also: AWS API Documentation
+    /// Links a resource (for example, a custom action) to a channel configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Lists Amazon Chime webhook configurations optionally filtered by Chat- ConfigurationArn See also: AWS API Documentation describe-chime-webhook-configurations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query ex...
+    /// Lists Amazon Chime webhook configurations optionally filtered by ChatConfigurationArn See also: AWS API Documentation describe-chime-webhook-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -242,7 +242,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Lists Slack channel configurations optionally filtered by ChatConfigu- rationArn See also: AWS API Documentation describe-slack-channel-configurations is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressio...
+    /// Lists Slack channel configurations optionally filtered by ChatConfigurationArn See also: AWS API Documentation describe-slack-channel-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: Slac...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Lists all Slack user identities with a mapped role. See also: AWS API Documentation describe-slack-user-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SlackUserIdentities
+    /// Lists all Slack user identities with a mapped role. See also: AWS API Documentation describe-slack-user-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SlackUserIdentities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// List all authorized Slack workspaces connected to the AWS Account on- boarded with AWS Chatbot. See also: AWS API Documentation describe-slack-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expression...
+    /// List all authorized Slack workspaces connected to the AWS Account onboarded with AWS Chatbot. See also: AWS API Documentation describe-slack-workspaces is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: S...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Unlink a resource, for example a custom action, from a channel configu- ration. See also: AWS API Documentation
+    /// Unlink a resource, for example a custom action, from a channel configuration. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account. See also: AWS API Documentation list-microsoft-teams-channel-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-pagi- nate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the re- sults of the following query expres...
+    /// Lists all AWS Chatbot Microsoft Teams channel configurations in an AWS account. See also: AWS API Documentation list-microsoft-teams-channel-configurations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expression...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Lists all authorized Microsoft Teams for an AWS Account See also: AWS API Documentation list-microsoft-teams-configured-teams is a paginated operation. Multi- ple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate ar- gument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of the following query expressions: ConfiguredTeams
+    /// Lists all authorized Microsoft Teams for an AWS Account See also: AWS API Documentation list-microsoft-teams-configured-teams is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ConfiguredTeams
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -407,7 +407,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// A list all Microsoft Teams user identities with a mapped role. See also: AWS API Documentation list-microsoft-teams-user-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TeamsUserIdentiti...
+    /// A list all Microsoft Teams user identities with a mapped role. See also: AWS API Documentation list-microsoft-teams-user-identities is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: TeamsUserIdentities
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. See also: AWS API Documentation
+    /// Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -452,7 +452,7 @@ public class AwsChatbot : IAwsChatbot
     }
 
     /// <summary>
-    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other en- tities. See also: AWS API Documentation
+    /// Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Resources are users, servers, roles, and other entities. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

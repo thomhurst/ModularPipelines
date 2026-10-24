@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAgentRegistryControlDeleteRegistryRecordOptions : AwsOptions, I
     /// <summary>
     /// Deletes a registry record See also: AWS API Documentation
     /// </summary>
-    /// <param name="RegistryId">The identifier of the registry containing the record (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
-    /// <param name="RecordId">The identifier of the registry record to delete (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
+    /// <param name="RegistryId">The identifier of the registry containing the record (ARN or ID) Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}</param>
+    /// <param name="RecordId">The identifier of the registry record to delete (ARN or ID) Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}</param>
     public AwsAgentRegistryControlDeleteRegistryRecordOptions(
         string RegistryId,
         string RecordId
@@ -60,13 +61,13 @@ public record AwsAgentRegistryControlDeleteRegistryRecordOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the registry containing the record (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
+    /// The identifier of the registry containing the record (ARN or ID) Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/)?[a-zA-Z0-9]{12,16}
     /// </summary>
     [CliOption("--registry-id")]
     public string? RegistryId { get; private init; }
 
     /// <summary>
-    /// The identifier of the registry record to delete (ARN or ID) Constraints: o min: 1 o max: 2048 o pattern: (arn:aws(-[^:]+)?:agent-reg- istry:[a-z0-9-]+:[0-9]{12}:reg- istry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
+    /// The identifier of the registry record to delete (ARN or ID) Constraints: • min: 1 • max: 2048 • pattern: (arn:aws(-[^:]+)?:agent-registry:[a-z0-9-]+:[0-9]{12}:registry/[a-zA-Z0-9]{12,16}/record/)?[a-zA-Z0-9]{12}
     /// </summary>
     [CliOption("--record-id")]
     public string? RecordId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsAgentRegistryControlDeleteRegistryRecordOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

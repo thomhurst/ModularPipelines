@@ -6,15 +6,15 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 
 /// <summary>
-/// aws bedrockagentcore commands.
+/// aws bedrock-agentcore commands.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 public class AwsBedrockAgentcore : IAwsBedrockAgentcore
@@ -92,7 +92,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configura- tions to determine which variant performs better. See also: AWS API Documentation
+    /// Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configurations to determine which variant performs better. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Creates an event in an AgentCore Memory resource. Events represent in- teractions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For com...
+    /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting. See also: AWS API Documentation create-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For comma...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identi- fier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
+    /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemo- ryRecord permission. See also: AWS API Documentation
+    /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemoryRecord permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -227,7 +227,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Deletes a payment instrument. This is a soft delete operation that pre- serves the record for audit and compliance purposes. See also: AWS API Documentation
+    /// Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Performs on-demand evaluation of agent traces using a specified evalua- tor. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations. See also: AWS API Documentation evaluate uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as...
+    /// Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations. See also: AWS API Documentation evaluate uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as J...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves detailed information about an A/B test, including its config- uration, status, and statistical results. See also: AWS API Documentation
+    /// Retrieves detailed information about an A/B test, including its configuration, status, and statistical results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -302,7 +302,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent. See also: AWS API Documentation get-agent-card uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -332,7 +332,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific browser session in Ama- zon Bedrock AgentCore. This operation returns the session's configura- tion, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the ses- sion's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : o StartBrowserSession o ListBr...
+    /// Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession : • StartBrowserSession • ListBrowserS...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -347,7 +347,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves detailed information about a specific code interpreter ses- sion in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. The response includes informa- tion about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : o StartCodeInterpreterSession o ListCodeIn...
+    /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession : • StartCodeInterpreterSession • ListCodeInterpre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -362,7 +362,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves information about a specific event in an AgentCore Memory re- source. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support d...
+    /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission. See also: AWS API Documentation get-event uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support doc...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemo- ryRecord permission. See also: AWS API Documentation
+    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Retrieves detailed information about a recommendation, including its configuration, status, and results. See also: AWS API Documentation get-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Generates authentication tokens for payment providers that use ven- dor-specific authentication mechanisms. See also: AWS API Documentation
+    /// Generates authentication tokens for payment providers that use vendor-specific authentication mechanisms. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Obtains a workload access token for agentic workloads not acting on be- half of a user. See also: AWS API Documentation
+    /// Obtains a workload access token for agentic workloads not acting on behalf of a user. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock Agent- Core Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a quali- fier to target a specific endpoint of the agent. This operation supports streaming responses, a...
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allow...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Invokes an operating system-level action on a browser session in Amazon Bedrock AgentCore. This operation provides direct OS-level control over browser sessions, enabling mouse actions, keyboard input, and screen- shots that the WebSocket-based Chrome DevTools Protocol (CDP) cannot handle such as interacting with print dialogs, context menus, and JavaScript alerts. You send a request with exactly one action in the BrowserAction union, and receive a corresponding result in the BrowserActionResult...
+    /// Invokes an operating system-level action on a browser session in Amazon Bedrock AgentCore. This operation provides direct OS-level control over browser sessions, enabling mouse actions, keyboard input, and screenshots that the WebSocket-based Chrome DevTools Protocol (CDP) cannot handle such as interacting with print dialogs, context menus, and JavaScript alerts. You send a request with exactly one action in the BrowserAction union, and receive a corresponding result in the BrowserActionResult u...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -587,7 +587,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists all A/B tests in the account. See also: AWS API Documentation list-ab-tests is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: abTests
+    /// Lists all A/B tests in the account. See also: AWS API Documentation list-ab-tests is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: abTests
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -602,7 +602,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and success- fully. To use this operation, you must have the bedrock-agentcore:ListActors permission. See also: AWS API Documentation list-actors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argume...
+    /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission. See also: AWS API Documentation list-actors is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument o...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists all batch evaluations in the account, providing summary informa- tion about each evaluation's status and configuration. See also: AWS API Documentation list-batch-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the f...
+    /// Lists all batch evaluations in the account, providing summary information about each evaluation's status and configuration. See also: AWS API Documentation list-batch-evaluations is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary informa- tion about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets effi- ciently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The fol...
+    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -647,7 +647,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Retrieves a list of code interpreter sessions in Amazon Bedrock Agent- Core that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of s...
+    /// Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of ses...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists events in an AgentCore Memory resource based on specified crite- ria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are...
+    /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission. See also: AWS API Documentation list-events uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are l...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -677,7 +677,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists all long-term memory extraction jobs that are eligible to be started with optional filtering. To use this operation, you must have the bedrock-agentcore:ListMemo- ryExtractionJobs permission. See also: AWS API Documentation list-memory-extraction-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a pag...
+    /// Lists all long-term memory extraction jobs that are eligible to be started with optional filtering. To use this operation, you must have the bedrock-agentcore:ListMemoryExtractionJobs permission. See also: AWS API Documentation list-memory-extraction-jobs is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -692,7 +692,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemo- ryRecords permission. See also: AWS API Documentation list-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. Wh...
+    /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission. See also: AWS API Documentation list-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// List payment instruments for a manager. See also: AWS API Documentation list-payment-instruments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: paymentInstruments
+    /// List payment instruments for a manager. See also: AWS API Documentation list-payment-instruments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: paymentInstruments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Lists sessions in an AgentCore Memory resource based on specified cri- teria. We recommend using pagination to ensure that the operation re- turns quickly and successfully. Empty sessions are automatically deleted after one day. To use this operation, you must have the bedrock-agentcore:ListSessions permission. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be is- sued in order to retrieve the entire data set of results. You can dis- able paginatio...
+    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. Empty sessions are automatically deleted after one day. To use this operation, you must have the bedrock-agentcore:ListSessions permission. See also: AWS API Documentation list-sessions is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by pro...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Processes a payment using a payment instrument within a payment ses- sion. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
+    /// Processes a payment using a payment instrument within a payment session. See also: AWS API Documentation process-payment uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax does not support document types.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Searches for and retrieves memory records from an AgentCore Memory re- source based on specified search criteria. We recommend using pagina- tion to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMem- oryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination b...
+    /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission. See also: AWS API Documentation retrieve-memory-records is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by prov...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identi- fier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession oper...
+    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession operat...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types fol- low the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be pro- vided as JSON. Shorthand syn...
+    /// Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry. See also: AWS API Documentation search-registry-records uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Starts a memory extraction job that processes events that failed ex- traction previously in an AgentCore Memory resource and produces struc- tured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well. To use this operation, you must have the bedrock-agentcore:StartMemo- ryExtractionJob permission. See also: AWS API Documentation
+    /// Starts a memory extraction job that processes events that failed extraction previously in an AgentCore Memory resource and produces structured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well. To use this operation, you must have the bedrock-agentcore:StartMemoryExtractionJob permission. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -887,7 +887,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Starts a recommendation job that analyzes agent traces and generates optimization suggestions for system prompts or tool descriptions to im- prove agent performance. See also: AWS API Documentation start-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested para- meters that are labeled with the type document must be provided as JSON. Shorthand syntax...
+    /// Starts a recommendation job that analyzes agent traces and generates optimization suggestions for system prompts or tool descriptions to improve agent performance. See also: AWS API Documentation start-recommendation uses document type values. Document types follow the JSON data model where valid values are: strings, numbers, booleans, null, arrays, and objects. For command input, options and nested parameters that are labeled with the type document must be provided as JSON. Shorthand syntax doe...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -902,7 +902,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Stops a running batch evaluation. Sessions that have already been eval- uated retain their results. See also: AWS API Documentation
+    /// Stops a running batch evaluation. Sessions that have already been evaluated retain their results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession . The following operations are related to StopBrowserSession : o StartBrowserSession o GetBrowserSession See also: AWS API Do...
+    /// Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession . The following operations are related to StopBrowserSession : • StartBrowserSession • GetBrowserSession See also: AWS API Do...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Terminates an active code interpreter session in Amazon Bedrock Agent- Core. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code in- terpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInter- preterSession . The following operations are related to StopCodeInterpreterSession : o StartCodeIn...
+    /// Terminates an active code interpreter session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInterpreterSession . The following operations are related to StopCodeInterpreterSession : • StartCodeInterpre...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -962,7 +962,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Updates an A/B test's configuration, including variants, traffic allo- cation, evaluation settings, or execution status. See also: AWS API Documentation
+    /// Updates an A/B test's configuration, including variants, traffic allocation, evaluation settings, or execution status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsBedrockAgentcore : IAwsBedrockAgentcore
     }
 
     /// <summary>
-    /// Updates a browser stream. To use this operation, you must have permis- sions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
+    /// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

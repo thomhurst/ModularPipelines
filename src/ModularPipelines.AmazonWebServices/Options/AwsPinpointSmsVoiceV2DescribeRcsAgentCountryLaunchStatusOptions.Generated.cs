@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the per-country launch status of an RCS agent, including car- rier-level details for each country. See also: AWS API Documentation describe-rcs-agent-country-launch-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of ...
+/// Retrieves the per-country launch status of an RCS agent, including carrier-level details for each country. See also: AWS API Documentation describe-rcs-agent-country-launch-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions : 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the per-country launch status of an RCS agent, including car- rier-level details for each country. See also: AWS API Documentation describe-rcs-agent-country-launch-status is a paginated operation. Mul- tiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi- nated response, the --query argument must extract data from the results of ...
+    /// Retrieves the per-country launch status of an RCS agent, including carrier-level details for each country. See also: AWS API Documentation describe-rcs-agent-country-launch-status is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fo...
     /// </summary>
-    /// <param name="RcsAgentId">The unique identifier of the RCS agent. You can use either the Rc- sAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+</param>
+    /// <param name="RcsAgentId">The unique identifier of the RCS agent. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+</param>
     public AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions(
         string RcsAgentId
     )
@@ -57,28 +58,25 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions : 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the RCS agent. You can use either the Rc- sAgentId or RcsAgentArn. Constraints: o min: 1 o max: 256 o pattern: [A-Za-z0-9_:/-]+
+    /// The unique identifier of the RCS agent. You can use either the RcsAgentId or RcsAgentArn. Constraints: • min: 1 • max: 256 • pattern: [A-Za-z0-9_:/-]+
     /// </summary>
     [CliOption("--rcs-agent-id")]
     public string? RcsAgentId { get; private init; }
 
     /// <summary>
-    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, to filter the results. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Syntax: "string" "string" ...
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, to filter the results. Constraints: • min: 0 • max: 300 (string) Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--iso-country-codes", GroupValues = true)]
     public IEnumerable<string>? IsoCountryCodes { get; set; }
 
     /// <summary>
-    /// An array of CountryLaunchStatusFilter objects to filter the results. Constraints: o min: 0 o max: 20 (structure) The information for a country launch status that meets a speci- fied criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: o country-launch-status Values -&gt; (list) [required] An array values to filter for. Constraints: o min: 1 o max: 20 (string) Constraints: o min: 1 o max: 128 o pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "country-launch-status", "Values": ["string", ...] } ... ]
+    /// An array of CountryLaunchStatusFilter objects to filter the results. Constraints: • min: 0 • max: 20 (structure) The information for a country launch status that meets a specified criteria. Name -&gt; (string) [required] The name of the attribute to filter on. Possible values: • country-launch-status Values -&gt; (list) [required] An array values to filter for. Constraints: • min: 1 • max: 20 (string) Constraints: • min: 1 • max: 128 • pattern: [/\.:A-Za-z0-9+_-]+ Shorthand Syntax: Name=string,Values=string,string ... JSON Syntax: [ { "Name": "country-launch-status", "Values": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--filters", GroupValues = true)]
     public IEnumerable<string>? Filters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -88,16 +86,19 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions : 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -114,6 +115,15 @@ public record AwsPinpointSmsVoiceV2DescribeRcsAgentCountryLaunchStatusOptions : 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves the ca certificate bundle. This action returns a pre-signed S3 URI which is active for ten min- utes. See also: AWS API Documentation
+/// Retrieves the ca certificate bundle. This action returns a pre-signed S3 URI which is active for ten minutes. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsElbv2GetTrustStoreCaCertificatesBundleOptions : AwsOptions, IVa
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves the ca certificate bundle. This action returns a pre-signed S3 URI which is active for ten min- utes. See also: AWS API Documentation
+    /// Retrieves the ca certificate bundle. This action returns a pre-signed S3 URI which is active for ten minutes. See also: AWS API Documentation
     /// </summary>
     /// <param name="TrustStoreArn">The Amazon Resource Name (ARN) of the trust store.</param>
     public AwsElbv2GetTrustStoreCaCertificatesBundleOptions(
@@ -82,6 +83,15 @@ public record AwsElbv2GetTrustStoreCaCertificatesBundleOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

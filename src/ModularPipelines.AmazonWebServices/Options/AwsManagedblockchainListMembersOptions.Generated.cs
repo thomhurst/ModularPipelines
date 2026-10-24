@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns a list of the members in a network and properties of their con- figurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+/// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsManagedblockchainListMembersOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns a list of the members in a network and properties of their con- figurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
+    /// Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network for which to list members. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network for which to list members. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainListMembersOptions(
         string NetworkId
     )
@@ -58,7 +59,7 @@ public record AwsManagedblockchainListMembersOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network for which to list members. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network for which to list members. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
@@ -70,25 +71,25 @@ public record AwsManagedblockchainListMembersOptions : AwsOptions, IValidatableO
     public string? Name { get; set; }
 
     /// <summary>
-    /// An optional status specifier. If provided, only members currently in this status are listed. Possible values: o CREATING o AVAILABLE o CREATE_FAILED o UPDATING o DELETING o DELETED o INACCESSIBLE_ENCRYPTION_KEY
+    /// An optional status specifier. If provided, only members currently in this status are listed. Possible values: • CREATING • AVAILABLE • CREATE_FAILED • UPDATING • DELETING • DELETED • INACCESSIBLE_ENCRYPTION_KEY
     /// </summary>
     [CliOption("--status")]
     public AwsManagedblockchainListMembersStatus? Status { get; set; }
 
     /// <summary>
-    /// An optional Boolean value. If provided, the request is limited ei- ther to members that the current Amazon Web Services account owns (true ) or that other Amazon Web Services accountsn own (false ). If omitted, all members are listed.
+    /// An optional Boolean value. If provided, the request is limited either to members that the current Amazon Web Services account owns (true ) or that other Amazon Web Services accountsn own (false ). If omitted, all members are listed.
     /// </summary>
     [CliFlag("--is-owned", NegatedName = "--no-is-owned")]
     public bool? IsOwned { get; set; }
 
     /// <summary>
-    /// The maximum number of members to return in the request. Constraints: o min: 1 o max: 20
+    /// The maximum number of members to return in the request. Constraints: • min: 1 • max: 20
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// The pagination token that indicates the next set of results to re- trieve. Constraints: o max: 128
+    /// The pagination token that indicates the next set of results to retrieve. Constraints: • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -115,6 +116,15 @@ public record AwsManagedblockchainListMembersOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

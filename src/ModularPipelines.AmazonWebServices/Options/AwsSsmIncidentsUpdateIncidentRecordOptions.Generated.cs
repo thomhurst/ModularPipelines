@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more in- formation about using actions in chat channels, see Interacting through chat . See also: AWS API Documentation
+/// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see Interacting through chat . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsSsmIncidentsUpdateIncidentRecordOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more in- formation about using actions in chat channels, see Interacting through chat . See also: AWS API Documentation
+    /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see Interacting through chat . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) of the incident record you are updat- ing. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) of the incident record you are updating. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$</param>
     public AwsSsmIncidentsUpdateIncidentRecordOptions(
         string Arn
     )
@@ -58,50 +59,50 @@ public record AwsSsmIncidentsUpdateIncidentRecordOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the incident record you are updat- ing. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
+    /// The Amazon Resource Name (ARN) of the incident record you are updating. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// The Chatbot chat channel where responders can collaborate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: chatbotSns, empty. chatbotSns -&gt; (list) The Amazon SNS targets that Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the Amazon SNS topics. Constraints: o min: 1 o max: 5 (string) Constraints: o min: 0 o max: 1000 empty -&gt; (structure) Used to remove the chat channel from an incident record or re- sponse plan. Shorthand Syntax: chatbotSns=string,string,empty={} JSON Syntax: { "chatbotSns": ["string", ...], "empty": { } }
+    /// The Chatbot chat channel where responders can collaborate. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: chatbotSns, empty. chatbotSns -&gt; (list) The Amazon SNS targets that Chatbot uses to notify the chat channel of updates to an incident. You can also make updates to the incident through the chat channel by using the Amazon SNS topics. Constraints: • min: 1 • max: 5 (string) Constraints: • min: 0 • max: 1000 empty -&gt; (structure) Used to remove the chat channel from an incident record or response plan. Shorthand Syntax: chatbotSns=string,string,empty={} JSON Syntax: { "chatbotSns": ["string", ...], "empty": { } }
     /// </summary>
     [CliOption("--chat-channel")]
     public string? ChatChannel { get; set; }
 
     /// <summary>
-    /// A token that ensures that a client calls the operation only once with the specified details. Constraints: o min: 0 o max: 128
+    /// A token that ensures that a client calls the operation only once with the specified details. Constraints: • min: 0 • max: 128
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact pro- vided by the response plan. Supported impact codes o 1 - Critical o 2 - High o 3 - Medium o 4 - Low o 5 - No Impact Constraints: o min: 1 o max: 5
+    /// Defines the impact of the incident to customers and applications. If you provide an impact for an incident, it overwrites the impact provided by the response plan. Supported impact codes • 1 - Critical • 2 - High • 3 - Medium • 4 - Low • 5 - No Impact Constraints: • min: 1 • max: 5
     /// </summary>
     [CliOption("--impact")]
     public int? Impact { get; set; }
 
     /// <summary>
-    /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Re- gion is down during the incident. Constraints: o min: 0 o max: 10 (tagged union structure) The SNS targets that are notified when updates are made to an incident. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: snsTopicArn. snsTopicArn -&gt; (string) The Amazon Resource Name (ARN) of the SNS topic. Constraints: o min: 0 o max: 1000 o pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: snsTopicArn=string ... JSON Syntax: [ { "snsTopicArn": "string" } ... ]
+    /// The Amazon SNS targets that Incident Manager notifies when a client updates an incident. Using multiple SNS topics creates redundancy in the event that a Region is down during the incident. Constraints: • min: 0 • max: 10 (tagged union structure) The SNS targets that are notified when updates are made to an incident. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: snsTopicArn. snsTopicArn -&gt; (string) The Amazon Resource Name (ARN) of the SNS topic. Constraints: • min: 0 • max: 1000 • pattern: ^arn:aws(-cn|-us-gov)?:[a-z0-9-]*:[a-z0-9-]*:([0-9]{12})?:.+$ Shorthand Syntax: snsTopicArn=string ... JSON Syntax: [ { "snsTopicArn": "string" } ... ]
     /// </summary>
     [CliOption("--notification-targets", GroupValues = true)]
     public IEnumerable<string>? NotificationTargets { get; set; }
 
     /// <summary>
-    /// The status of the incident. Possible statuses are Open or Resolved . Possible values: o OPEN o RESOLVED
+    /// The status of the incident. Possible statuses are Open or Resolved . Possible values: • OPEN • RESOLVED
     /// </summary>
     [CliOption("--status")]
     public AwsSsmIncidentsUpdateIncidentRecordStatus? Status { get; set; }
 
     /// <summary>
-    /// A longer description of what occurred during the incident. Constraints: o min: 0 o max: 8000
+    /// A longer description of what occurred during the incident. Constraints: • min: 0 • max: 8000
     /// </summary>
     [CliOption("--summary")]
     public string? Summary { get; set; }
 
     /// <summary>
-    /// A brief description of the incident. Constraints: o min: 0 o max: 200
+    /// A brief description of the incident. Constraints: • min: 0 • max: 200
     /// </summary>
     [CliOption("--title")]
     public string? Title { get; set; }
@@ -127,6 +128,15 @@ public record AwsSsmIncidentsUpdateIncidentRecordOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

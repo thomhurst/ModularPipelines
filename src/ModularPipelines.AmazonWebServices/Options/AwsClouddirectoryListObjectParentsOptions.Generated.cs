@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Lists parent objects that are associated with a given object in pagina- tion fashion. See also: AWS API Documentation
+/// Lists parent objects that are associated with a given object in pagination fashion. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsClouddirectoryListObjectParentsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Lists parent objects that are associated with a given object in pagina- tion fashion. See also: AWS API Documentation
+    /// Lists parent objects that are associated with a given object in pagination fashion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Direc- tory where the object resides. For more information, see arns .</param>
-    /// <param name="ObjectReference">The reference that identifies the object for which parent objects are being listed. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
+    /// <param name="DirectoryArn">The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns .</param>
+    /// <param name="ObjectReference">The reference that identifies the object for which parent objects are being listed. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }</param>
     public AwsClouddirectoryListObjectParentsOptions(
         string DirectoryArn,
         string ObjectReference
@@ -62,13 +63,13 @@ public record AwsClouddirectoryListObjectParentsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) that is associated with the Direc- tory where the object resides. For more information, see arns .
+    /// The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns .
     /// </summary>
     [CliOption("--directory-arn")]
     public string? DirectoryArn { get; private init; }
 
     /// <summary>
-    /// The reference that identifies the object for which parent objects are being listed. Selector -&gt; (string) A path selector supports easy selection of an object by the par- ent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are sepa- rated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: o $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created ob- ject. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an ob- ject with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. o /some/path - Identifies the object based on path o #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
+    /// The reference that identifies the object for which parent objects are being listed. Selector -&gt; (string) A path selector supports easy selection of an object by the parent/child links leading to it from the directory root. Use the link names from each parent/child link to construct the path. Path selectors start with a slash (/) and link names are separated by slashes. For more information about paths, see Access Objects . You can identify an object in one of the following ways: • $ObjectIdentifier - An object identifier is an opaque string provided by Amazon Cloud Directory. When creating objects, the system will provide you with the identifier of the created object. An objects identifier is immutable and no two objects will ever share the same object identifier. To identify an object with ObjectIdentifier, the ObjectIdentifier must be wrapped in double quotes. • /some/path - Identifies the object based on path • #SomeBatchReference - Identifies the object in a batch call Shorthand Syntax: Selector=string JSON Syntax: { "Selector": "string" }
     /// </summary>
     [CliOption("--object-reference")]
     public string? ObjectReference { get; private init; }
@@ -81,19 +82,19 @@ public record AwsClouddirectoryListObjectParentsOptions : AwsOptions, IValidatab
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of items to be retrieved in a single call. This is an approximate number. Constraints: o min: 1
+    /// The maximum number of items to be retrieved in a single call. This is an approximate number. Constraints: • min: 1
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object. Possible values: o SERIALIZABLE o EVENTUAL
+    /// Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object. Possible values: • SERIALIZABLE • EVENTUAL
     /// </summary>
     [CliOption("--consistency-level")]
     public AwsClouddirectoryListObjectParentsConsistencyLevel? ConsistencyLevel { get; set; }
 
     /// <summary>
-    /// clude-all-links-to-each-parent (boolean) When set to True, returns all ListObjectParentsResponse$ParentLinks . There could be multiple links between a parent-child pair.
+    /// When set to True, returns all ListObjectParentsResponse$ParentLinks . There could be multiple links between a parent-child pair.
     /// </summary>
     [CliFlag("--include-all-links-to-each-parent", NegatedName = "--no-include-all-links-to-each-parent")]
     public bool? IncludeAllLinksToEachParent { get; set; }
@@ -119,6 +120,15 @@ public record AwsClouddirectoryListObjectParentsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

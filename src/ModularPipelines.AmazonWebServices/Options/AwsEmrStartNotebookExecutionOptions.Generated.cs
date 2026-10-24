@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Starts a notebook execution. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ExecutionEngine">Specifies the execution engine (cluster) that runs the notebook exe- cution. Id -&gt; (string) [required] The unique identifier of the execution engine. For an Amazon EMR cluster, this is the cluster ID. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) The type of execution engine. A value of EMR specifies an Amazon EMR cluster. Possible values: o EMR MasterInstanceSecurityGroupId -&gt; (string) An optional unique ID of an Amazon EC2 security group to asso- ciate with the master instance of the Amazon EMR cluster for this notebook execution. For more information see Specifying Amazon EC2 Security Groups for Amazon EMR Notebooks in the EMR Management Guide . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ExecutionRoleArn -&gt; (string) The execution role ARN required for the notebook execution. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ Shorthand Syntax: Id=string,Type=string,MasterInstanceSecurityGroupId=string,ExecutionRoleArn=string JSON Syntax: { "Id": "string", "Type": "EMR", "MasterInstanceSecurityGroupId": "string", "ExecutionRoleArn": "string" }</param>
-    /// <param name="ServiceRole">The name or ARN of the IAM role that is used as the service role for Amazon EMR (the Amazon EMR role) for the notebook execution. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
+    /// <param name="ExecutionEngine">Specifies the execution engine (cluster) that runs the notebook execution. Id -&gt; (string) [required] The unique identifier of the execution engine. For an Amazon EMR cluster, this is the cluster ID. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) The type of execution engine. A value of EMR specifies an Amazon EMR cluster. Possible values: • EMR MasterInstanceSecurityGroupId -&gt; (string) An optional unique ID of an Amazon EC2 security group to associate with the master instance of the Amazon EMR cluster for this notebook execution. For more information see Specifying Amazon EC2 Security Groups for Amazon EMR Notebooks in the EMR Management Guide . Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ExecutionRoleArn -&gt; (string) The execution role ARN required for the notebook execution. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ Shorthand Syntax: Id=string,Type=string,MasterInstanceSecurityGroupId=string,ExecutionRoleArn=string JSON Syntax: { "Id": "string", "Type": "EMR", "MasterInstanceSecurityGroupId": "string", "ExecutionRoleArn": "string" }</param>
+    /// <param name="ServiceRole">The name or ARN of the IAM role that is used as the service role for Amazon EMR (the Amazon EMR role) for the notebook execution. Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*</param>
     public AwsEmrStartNotebookExecutionOptions(
         string ExecutionEngine,
         string ServiceRole
@@ -61,73 +61,73 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the execution engine (cluster) that runs the notebook exe- cution. Id -&gt; (string) [required] The unique identifier of the execution engine. For an Amazon EMR cluster, this is the cluster ID. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) The type of execution engine. A value of EMR specifies an Amazon EMR cluster. Possible values: o EMR MasterInstanceSecurityGroupId -&gt; (string) An optional unique ID of an Amazon EC2 security group to asso- ciate with the master instance of the Amazon EMR cluster for this notebook execution. For more information see Specifying Amazon EC2 Security Groups for Amazon EMR Notebooks in the EMR Management Guide . Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ExecutionRoleArn -&gt; (string) The execution role ARN required for the notebook execution. Constraints: o min: 20 o max: 2048 o pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ Shorthand Syntax: Id=string,Type=string,MasterInstanceSecurityGroupId=string,ExecutionRoleArn=string JSON Syntax: { "Id": "string", "Type": "EMR", "MasterInstanceSecurityGroupId": "string", "ExecutionRoleArn": "string" }
+    /// Specifies the execution engine (cluster) that runs the notebook execution. Id -&gt; (string) [required] The unique identifier of the execution engine. For an Amazon EMR cluster, this is the cluster ID. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Type -&gt; (string) The type of execution engine. A value of EMR specifies an Amazon EMR cluster. Possible values: • EMR MasterInstanceSecurityGroupId -&gt; (string) An optional unique ID of an Amazon EC2 security group to associate with the master instance of the Amazon EMR cluster for this notebook execution. For more information see Specifying Amazon EC2 Security Groups for Amazon EMR Notebooks in the EMR Management Guide . Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* ExecutionRoleArn -&gt; (string) The execution role ARN required for the notebook execution. Constraints: • min: 20 • max: 2048 • pattern: ^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$ Shorthand Syntax: Id=string,Type=string,MasterInstanceSecurityGroupId=string,ExecutionRoleArn=string JSON Syntax: { "Id": "string", "Type": "EMR", "MasterInstanceSecurityGroupId": "string", "ExecutionRoleArn": "string" }
     /// </summary>
     [CliOption("--execution-engine")]
     public string? ExecutionEngine { get; private init; }
 
     /// <summary>
-    /// The name or ARN of the IAM role that is used as the service role for Amazon EMR (the Amazon EMR role) for the notebook execution. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The name or ARN of the IAM role that is used as the service role for Amazon EMR (the Amazon EMR role) for the notebook execution. Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--service-role")]
     public string? ServiceRole { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the Amazon EMR Notebook to use for notebook execution. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The unique identifier of the Amazon EMR Notebook to use for notebook execution. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--editor-id")]
     public string? EditorId { get; set; }
 
     /// <summary>
-    /// The path and file name of the notebook file for this execution, rel- ative to the path specified for the Amazon EMR Notebook. For exam- ple, if you specify a path of s3://MyBucket/MyNotebooks when you create an Amazon EMR Notebook for a notebook with an ID of e-ABCDE- FGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath of my_notebook_executions/notebook_execution.ipynb , the location of the file for the notebook execution is s3://My- Bucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_execu- tions/notebook_execution.ipynb . Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The path and file name of the notebook file for this execution, relative to the path specified for the Amazon EMR Notebook. For example, if you specify a path of s3://MyBucket/MyNotebooks when you create an Amazon EMR Notebook for a notebook with an ID of e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath of my_notebook_executions/notebook_execution.ipynb , the location of the file for the notebook execution is s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execution.ipynb . Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--relative-path")]
     public string? RelativePath { get; set; }
 
     /// <summary>
-    /// An optional name for the notebook execution. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// An optional name for the notebook execution. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--notebook-execution-name")]
     public string? NotebookExecutionName { get; set; }
 
     /// <summary>
-    /// Input parameters in JSON format passed to the Amazon EMR Notebook at runtime for execution. Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// Input parameters in JSON format passed to the Amazon EMR Notebook at runtime for execution. Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--notebook-params")]
     public string? NotebookParams { get; set; }
 
     /// <summary>
-    /// The unique identifier of the Amazon EC2 security group to associate with the Amazon EMR Notebook for this notebook execution. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
+    /// The unique identifier of the Amazon EC2 security group to associate with the Amazon EMR Notebook for this notebook execution. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*
     /// </summary>
     [CliOption("--notebook-instance-security-group-id")]
     public string? NotebookInstanceSecurityGroupId { get; set; }
 
     /// <summary>
-    /// A list of tags associated with a notebook execution. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more infor- mation, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags associated with a notebook execution. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters. (structure) A key-value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters . Key -&gt; (string) A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag . Value -&gt; (string) A user-defined value, which is optional in a tag. For more information, see Tag Clusters . Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The Amazon S3 location for the notebook execution input. Bucket -&gt; (string) The Amazon S3 bucket that stores the notebook execution input. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) The key to the Amazon S3 location that stores the notebook exe- cution input. Constraints: o min: 1 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
+    /// The Amazon S3 location for the notebook execution input. Bucket -&gt; (string) The Amazon S3 bucket that stores the notebook execution input. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) The key to the Amazon S3 location that stores the notebook execution input. Constraints: • min: 1 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
     /// </summary>
     [CliOption("--notebook-s3-location")]
     public string? NotebookS3Location { get; set; }
 
     /// <summary>
-    /// The Amazon S3 location for the notebook execution output. Bucket -&gt; (string) The Amazon S3 bucket that stores the notebook execution output. Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) The key to the Amazon S3 location that stores the notebook exe- cution output. Constraints: o min: 1 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
+    /// The Amazon S3 location for the notebook execution output. Bucket -&gt; (string) The Amazon S3 bucket that stores the notebook execution output. Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Key -&gt; (string) The key to the Amazon S3 location that stores the notebook execution output. Constraints: • min: 1 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDBFF-\uDC00\uDFFF\r\n\t]* Shorthand Syntax: Bucket=string,Key=string JSON Syntax: { "Bucket": "string", "Key": "string" }
     /// </summary>
     [CliOption("--output-notebook-s3-location")]
     public string? OutputNotebookS3Location { get; set; }
 
     /// <summary>
-    /// The output format for the notebook execution. Possible values: o HTML
+    /// The output format for the notebook execution. Possible values: • HTML
     /// </summary>
     [CliOption("--output-notebook-format")]
     public string? OutputNotebookFormat { get; set; }
 
     /// <summary>
-    /// The environment variables associated with the notebook execution. key -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* value -&gt; (string) Constraints: o min: 0 o max: 10280 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The environment variables associated with the notebook execution. key -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* value -&gt; (string) Constraints: • min: 0 • max: 10280 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]* Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--environment-variables", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? EnvironmentVariables { get; set; }
@@ -153,6 +153,15 @@ public record AwsEmrStartNotebookExecutionOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

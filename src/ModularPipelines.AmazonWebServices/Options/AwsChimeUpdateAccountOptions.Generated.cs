@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates account details for the specified Amazon Chime account. Cur- rently, only account name and default license updates are supported for this action. See also: AWS API Documentation
+/// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsChimeUpdateAccountOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates account details for the specified Amazon Chime account. Cur- rently, only account name and default license updates are supported for this action. See also: AWS API Documentation
+    /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Chime account ID. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AccountId">The Amazon Chime account ID. Constraints: • pattern: .*\S.*</param>
     public AwsChimeUpdateAccountOptions(
         string AccountId
     )
@@ -57,19 +58,19 @@ public record AwsChimeUpdateAccountOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Chime account ID. Constraints: o pattern: .*\S.*
+    /// The Amazon Chime account ID. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
 
     /// <summary>
-    /// The new name for the specified Amazon Chime account. Constraints: o min: 1 o max: 100 o pattern: .*\S.*
+    /// The new name for the specified Amazon Chime account. Constraints: • min: 1 • max: 100 • pattern: .*\S.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// The default license applied when you add users to an Amazon Chime account. Possible values: o Basic o Plus o Pro o ProTrial
+    /// The default license applied when you add users to an Amazon Chime account. Possible values: • Basic • Plus • Pro • ProTrial
     /// </summary>
     [CliOption("--default-license")]
     public AwsChimeUpdateAccountDefaultLicense? DefaultLicense { get; set; }
@@ -95,6 +96,15 @@ public record AwsChimeUpdateAccountOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

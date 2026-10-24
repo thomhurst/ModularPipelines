@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an asset type in Amazon DataZone. Prerequisites: o The asset type must exist in the domain. o You must have DeleteAssetType permission. o The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail. o You should retrieve the asset type using get-asset-type to confirm its presence before deletion. See also: AWS API Documentation
+/// Deletes an asset type in Amazon DataZone. Prerequisites: • The asset type must exist in the domain. • You must have DeleteAssetType permission. • The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail. • You should retrieve the asset type using get-asset-type to confirm its presence before deletion. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDatazoneDeleteAssetTypeOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an asset type in Amazon DataZone. Prerequisites: o The asset type must exist in the domain. o You must have DeleteAssetType permission. o The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail. o You should retrieve the asset type using get-asset-type to confirm its presence before deletion. See also: AWS API Documentation
+    /// Deletes an asset type in Amazon DataZone. Prerequisites: • The asset type must exist in the domain. • You must have DeleteAssetType permission. • The asset type must not be in use (e.g., assigned to any asset). If used, deletion will fail. • You should retrieve the asset type using get-asset-type to confirm its presence before deletion. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the asset type is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The identifier of the asset type that is deleted. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the asset type is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The identifier of the asset type that is deleted. Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w</param>
     public AwsDatazoneDeleteAssetTypeOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsDatazoneDeleteAssetTypeOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the asset type is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the asset type is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier of the asset type that is deleted. Constraints: o min: 1 o max: 513 o pattern: (?!\.)[\w\.]*\w
+    /// The identifier of the asset type that is deleted. Constraints: • min: 1 • max: 513 • pattern: (?!\.)[\w\.]*\w
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatazoneDeleteAssetTypeOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

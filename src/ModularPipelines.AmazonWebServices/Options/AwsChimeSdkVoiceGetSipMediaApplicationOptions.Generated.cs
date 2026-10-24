@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkVoiceGetSipMediaApplicationOptions : AwsOptions, IValid
     /// <summary>
     /// Retrieves the information for a SIP media application, including name, AWS Region, and endpoints. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SipMediaApplicationId">The SIP media application ID . Constraints: o pattern: .*\S.*</param>
+    /// <param name="SipMediaApplicationId">The SIP media application ID . Constraints: • pattern: .*\S.*</param>
     public AwsChimeSdkVoiceGetSipMediaApplicationOptions(
         string SipMediaApplicationId
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceGetSipMediaApplicationOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The SIP media application ID . Constraints: o pattern: .*\S.*
+    /// The SIP media application ID . Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--sip-media-application-id")]
     public string? SipMediaApplicationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceGetSipMediaApplicationOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

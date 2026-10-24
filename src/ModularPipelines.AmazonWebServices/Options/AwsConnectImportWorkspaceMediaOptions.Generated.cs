@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,10 +29,10 @@ public record AwsConnectImportWorkspaceMediaOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Imports a media asset (such as a logo) for use in a workspace. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
-    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: o min: 1 o max: 256</param>
-    /// <param name="MediaType">The type of media. Valid values are: IMAGE_LOGO_FAVICON and IM- AGE_LOGO_HORIZONTAL . Possible values: o IMAGE_LOGO_LIGHT_FAVICON o IMAGE_LOGO_DARK_FAVICON o IMAGE_LOGO_LIGHT_HORIZONTAL o IMAGE_LOGO_DARK_HORIZONTAL</param>
-    /// <param name="MediaSource">The media source. Can be an S3 presigned URL or a base64-encoded string. Constraints: o min: 1 o max: 533333 o pattern: .*\\S.*</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
+    /// <param name="WorkspaceId">The identifier of the workspace. Constraints: • min: 1 • max: 256</param>
+    /// <param name="MediaType">The type of media. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL . Possible values: • IMAGE_LOGO_LIGHT_FAVICON • IMAGE_LOGO_DARK_FAVICON • IMAGE_LOGO_LIGHT_HORIZONTAL • IMAGE_LOGO_DARK_HORIZONTAL</param>
+    /// <param name="MediaSource">The media source. Can be an S3 presigned URL or a base64-encoded string. Constraints: • min: 1 • max: 533333 • pattern: .*\\S.*</param>
     public AwsConnectImportWorkspaceMediaOptions(
         string InstanceId,
         string WorkspaceId,
@@ -68,25 +69,25 @@ public record AwsConnectImportWorkspaceMediaOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
 
     /// <summary>
-    /// The identifier of the workspace. Constraints: o min: 1 o max: 256
+    /// The identifier of the workspace. Constraints: • min: 1 • max: 256
     /// </summary>
     [CliOption("--workspace-id")]
     public string? WorkspaceId { get; private init; }
 
     /// <summary>
-    /// The type of media. Valid values are: IMAGE_LOGO_FAVICON and IM- AGE_LOGO_HORIZONTAL . Possible values: o IMAGE_LOGO_LIGHT_FAVICON o IMAGE_LOGO_DARK_FAVICON o IMAGE_LOGO_LIGHT_HORIZONTAL o IMAGE_LOGO_DARK_HORIZONTAL
+    /// The type of media. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL . Possible values: • IMAGE_LOGO_LIGHT_FAVICON • IMAGE_LOGO_DARK_FAVICON • IMAGE_LOGO_LIGHT_HORIZONTAL • IMAGE_LOGO_DARK_HORIZONTAL
     /// </summary>
     [CliOption("--media-type")]
     public AwsConnectImportWorkspaceMediaMediaType? MediaType { get; private init; }
 
     /// <summary>
-    /// The media source. Can be an S3 presigned URL or a base64-encoded string. Constraints: o min: 1 o max: 533333 o pattern: .*\\S.*
+    /// The media source. Can be an S3 presigned URL or a base64-encoded string. Constraints: • min: 1 • max: 533333 • pattern: .*\\S.*
     /// </summary>
     [CliOption("--media-source")]
     public string? MediaSource { get; private init; }
@@ -112,6 +113,15 @@ public record AwsConnectImportWorkspaceMediaOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

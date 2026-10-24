@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -68,7 +69,7 @@ public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions, IValidata
     public string? Name { get; set; }
 
     /// <summary>
-    /// A Boolean flag to indicate whether to validate request body accord- ing to the configured model schema for the method (true ) or not (false ).
+    /// A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true ) or not (false ).
     /// </summary>
     [CliFlag("--validate-request-body", NegatedName = "--no-validate-request-body")]
     public bool? ValidateRequestBody { get; set; }
@@ -100,6 +101,15 @@ public record AwsApigatewayCreateRequestValidatorOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsApplicationSignalsListTagsForResourceOptions : AwsOptions, IVal
     /// <summary>
     /// Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. For more information about ARN format, see Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 1024</param>
     public AwsApplicationSignalsListTagsForResourceOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsApplicationSignalsListTagsForResourceOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. For more information about ARN format, see Resource Types De- fined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: o min: 1 o max: 1024
+    /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is `` arn:aws:cloudwatch:Region :account-id :slo:slo-name `` System Message: WARNING/2 (&lt;string&gt;:, line 72) Inline literal start-string without end-string. For more information about ARN format, see Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsApplicationSignalsListTagsForResourceOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

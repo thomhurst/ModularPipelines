@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsLogsGetDeliveryOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Returns complete information about one logical delivery . A delivery is a connection between a ` delivery source https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html`__ and a ` delivery destination https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html`__ . A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Ama...
     /// </summary>
-    /// <param name="Id">The ID of the delivery that you want to retrieve. Constraints: o min: 1 o max: 64 o pattern: ^[0-9A-Za-z]+$</param>
+    /// <param name="Id">The ID of the delivery that you want to retrieve. Constraints: • min: 1 • max: 64 • pattern: ^[0-9A-Za-z]+$</param>
     public AwsLogsGetDeliveryOptions(
         string Id
     )
@@ -56,7 +57,7 @@ public record AwsLogsGetDeliveryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the delivery that you want to retrieve. Constraints: o min: 1 o max: 64 o pattern: ^[0-9A-Za-z]+$
+    /// The ID of the delivery that you want to retrieve. Constraints: • min: 1 • max: 64 • pattern: ^[0-9A-Za-z]+$
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -82,6 +83,15 @@ public record AwsLogsGetDeliveryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

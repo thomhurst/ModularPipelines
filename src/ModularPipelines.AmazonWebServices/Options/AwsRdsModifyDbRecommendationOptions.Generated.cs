@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -69,13 +70,13 @@ public record AwsRdsModifyDbRecommendationOptions : AwsOptions, IValidatableObje
     public string? Locale { get; set; }
 
     /// <summary>
-    /// The recommendation status to update. Valid values: o active o dismissed
+    /// The recommendation status to update. Valid values: • active • dismissed
     /// </summary>
     [CliOption("--status")]
     public AwsRdsModifyDbRecommendationStatus? Status { get; set; }
 
     /// <summary>
-    /// The list of recommended action status to update. You can update mul- tiple recommended actions at one time. (structure) The recommended status to update for the specified recommenda- tion action ID. ActionId -&gt; (string) [required] A unique identifier of the updated recommendation action. Status -&gt; (string) [required] The status of the updated recommendation action. o applied o scheduled Shorthand Syntax: ActionId=string,Status=string ... JSON Syntax: [ { "ActionId": "string", "Status": "string" } ... ]
+    /// The list of recommended action status to update. You can update multiple recommended actions at one time. (structure) The recommended status to update for the specified recommendation action ID. ActionId -&gt; (string) [required] A unique identifier of the updated recommendation action. Status -&gt; (string) [required] The status of the updated recommendation action. • applied • scheduled Shorthand Syntax: ActionId=string,Status=string ... JSON Syntax: [ { "ActionId": "string", "Status": "string" } ... ]
     /// </summary>
     [CliOption("--recommended-action-updates", GroupValues = true)]
     public IEnumerable<string>? RecommendedActionUpdates { get; set; }
@@ -101,6 +102,15 @@ public record AwsRdsModifyDbRecommendationOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

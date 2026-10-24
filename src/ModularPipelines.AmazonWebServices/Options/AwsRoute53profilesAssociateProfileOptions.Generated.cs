@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more informa- tion, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities . See also: AWS API Documentation
+/// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsRoute53profilesAssociateProfileOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more informa- tion, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities . See also: AWS API Documentation
+    /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">A name for the association. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$</param>
-    /// <param name="ProfileId">ID of the Profile. Constraints: o min: 1 o max: 64</param>
-    /// <param name="ResourceId">The ID of the VPC. Constraints: o min: 1 o max: 64</param>
+    /// <param name="Name">A name for the association. Constraints: • min: 0 • max: 64 • pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$</param>
+    /// <param name="ProfileId">ID of the Profile. Constraints: • min: 1 • max: 64</param>
+    /// <param name="ResourceId">The ID of the VPC. Constraints: • min: 1 • max: 64</param>
     public AwsRoute53profilesAssociateProfileOptions(
         string Name,
         string ProfileId,
@@ -64,25 +65,25 @@ public record AwsRoute53profilesAssociateProfileOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A name for the association. Constraints: o min: 0 o max: 64 o pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
+    /// A name for the association. Constraints: • min: 0 • max: 64 • pattern: ^(?!^[0-9]+$)([a-zA-Z0-9\-_' ']+)$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// ID of the Profile. Constraints: o min: 1 o max: 64
+    /// ID of the Profile. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--profile-id")]
     public string? ProfileId { get; private init; }
 
     /// <summary>
-    /// The ID of the VPC. Constraints: o min: 1 o max: 64
+    /// The ID of the VPC. Constraints: • min: 1 • max: 64
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// A list of the tag keys and values that you want to identify the Pro- file association. Constraints: o min: 0 o max: 200 (structure) Tag for the Profile. Key -&gt; (string) [required] Key associated with the Tag . Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] Value for the Tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of the tag keys and values that you want to identify the Profile association. Constraints: • min: 0 • max: 200 (structure) Tag for the Profile. Key -&gt; (string) [required] Key associated with the Tag . Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] Value for the Tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -108,6 +109,15 @@ public record AwsRoute53profilesAssociateProfileOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

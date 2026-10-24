@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,10 +28,10 @@ public record AwsFmsGetViolationDetailsOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PolicyId">The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types: o WAF o DNS Firewall o Imported Network Firewall o Network Firewall o Security group content audit o Network ACL o Third-party firewall Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$</param>
-    /// <param name="MemberAccount">The Amazon Web Services account ID that you want the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$</param>
-    /// <param name="ResourceId">The ID of the resource that has violations. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
-    /// <param name="ResourceType">The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference . Supported resource types are: AWS::WAFv2::WebACL , AWS::EC2::Instance , AWS::EC2::NetworkInterface , AWS::EC2::SecurityGroup , AWS::NetworkFirewall::FirewallPolicy , and AWS::EC2::Subnet . Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="PolicyId">The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types: • WAF • DNS Firewall • Imported Network Firewall • Network Firewall • Security group content audit • Network ACL • Third-party firewall Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$</param>
+    /// <param name="MemberAccount">The Amazon Web Services account ID that you want the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$</param>
+    /// <param name="ResourceId">The ID of the resource that has violations. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
+    /// <param name="ResourceType">The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference . Supported resource types are: AWS::WAFv2::WebACL , AWS::EC2::Instance , AWS::EC2::NetworkInterface , AWS::EC2::SecurityGroup , AWS::NetworkFirewall::FirewallPolicy , and AWS::EC2::Subnet . Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$</param>
     public AwsFmsGetViolationDetailsOptions(
         string PolicyId,
         string MemberAccount,
@@ -68,25 +69,25 @@ public record AwsFmsGetViolationDetailsOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types: o WAF o DNS Firewall o Imported Network Firewall o Network Firewall o Security group content audit o Network ACL o Third-party firewall Constraints: o min: 36 o max: 36 o pattern: ^[a-z0-9A-Z-]{36}$
+    /// The ID of the Firewall Manager policy that you want the details for. You can get violation details for the following policy types: • WAF • DNS Firewall • Imported Network Firewall • Network Firewall • Security group content audit • Network ACL • Third-party firewall Constraints: • min: 36 • max: 36 • pattern: ^[a-z0-9A-Z-]{36}$
     /// </summary>
     [CliOption("--policy-id")]
     public string? PolicyId { get; private init; }
 
     /// <summary>
-    /// The Amazon Web Services account ID that you want the details for. Constraints: o min: 1 o max: 1024 o pattern: ^[0-9]+$
+    /// The Amazon Web Services account ID that you want the details for. Constraints: • min: 1 • max: 1024 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--member-account")]
     public string? MemberAccount { get; private init; }
 
     /// <summary>
-    /// The ID of the resource that has violations. Constraints: o min: 1 o max: 1024 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The ID of the resource that has violations. Constraints: • min: 1 • max: 1024 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--resource-id")]
     public string? ResourceId { get; private init; }
 
     /// <summary>
-    /// The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference . Supported resource types are: AWS::WAFv2::WebACL , AWS::EC2::Instance , AWS::EC2::NetworkInterface , AWS::EC2::SecurityGroup , AWS::NetworkFirewall::FirewallPolicy , and AWS::EC2::Subnet . Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
+    /// The resource type. This is in the format shown in the Amazon Web Services Resource Types Reference . Supported resource types are: AWS::WAFv2::WebACL , AWS::EC2::Instance , AWS::EC2::NetworkInterface , AWS::EC2::SecurityGroup , AWS::NetworkFirewall::FirewallPolicy , and AWS::EC2::Subnet . Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$
     /// </summary>
     [CliOption("--resource-type")]
     public string? ResourceType { get; private init; }
@@ -112,6 +113,15 @@ public record AwsFmsGetViolationDetailsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns information about the Detective administrator account for an organization. Can only be called by the organization management ac- count. See also: AWS API Documentation
+/// Returns information about the Detective administrator account for an organization. Can only be called by the organization management account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,14 +23,14 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsDetectiveListOrganizationAdminAccountsOptions : AwsOptions
 {
     /// <summary>
-    /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial re- quest does not include a pagination token. Constraints: o min: 1 o max: 1024
+    /// For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token. Constraints: • min: 1 • max: 1024
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return. Constraints: o min: 1 o max: 200
+    /// The maximum number of results to return. Constraints: • min: 1 • max: 200
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -40,5 +40,14 @@ public record AwsDetectiveListOrganizationAdminAccountsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

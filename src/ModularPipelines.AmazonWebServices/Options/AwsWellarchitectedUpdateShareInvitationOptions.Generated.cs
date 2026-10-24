@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Pre- vious documentation implied that a workload ARN must be specified. See also: AWS API Documentation
+/// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsWellarchitectedUpdateShareInvitationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Pre- vious documentation implied that a workload ARN must be specified. See also: AWS API Documentation
+    /// Update a workload or custom lens share invitation. NOTE: This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ShareInvitationId">The ID assigned to the share invitation. Constraints: o pattern: [0-9a-f]{32}</param>
-    /// <param name="ShareInvitationAction">Share invitation action taken by contributor. Possible values: o ACCEPT o REJECT</param>
+    /// <param name="ShareInvitationId">The ID assigned to the share invitation. Constraints: • pattern: [0-9a-f]{32}</param>
+    /// <param name="ShareInvitationAction">Share invitation action taken by contributor. Possible values: • ACCEPT • REJECT</param>
     public AwsWellarchitectedUpdateShareInvitationOptions(
         string ShareInvitationId,
         AwsWellarchitectedUpdateShareInvitationShareInvitationAction ShareInvitationAction
@@ -60,13 +61,13 @@ public record AwsWellarchitectedUpdateShareInvitationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID assigned to the share invitation. Constraints: o pattern: [0-9a-f]{32}
+    /// The ID assigned to the share invitation. Constraints: • pattern: [0-9a-f]{32}
     /// </summary>
     [CliOption("--share-invitation-id")]
     public string? ShareInvitationId { get; private init; }
 
     /// <summary>
-    /// Share invitation action taken by contributor. Possible values: o ACCEPT o REJECT
+    /// Share invitation action taken by contributor. Possible values: • ACCEPT • REJECT
     /// </summary>
     [CliOption("--share-invitation-action")]
     public AwsWellarchitectedUpdateShareInvitationShareInvitationAction? ShareInvitationAction { get; private init; }
@@ -92,6 +93,15 @@ public record AwsWellarchitectedUpdateShareInvitationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsLexv2ModelsDescribeBotAliasOptions : AwsOptions, IValidatableOb
     /// <summary>
     /// Get information about a specific bot alias. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotAliasId">The identifier of the bot alias to describe. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
-    /// <param name="BotId">The identifier of the bot associated with the bot alias to describe. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotAliasId">The identifier of the bot alias to describe. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$</param>
+    /// <param name="BotId">The identifier of the bot associated with the bot alias to describe. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsDescribeBotAliasOptions(
         string BotAliasId,
         string BotId
@@ -60,13 +61,13 @@ public record AwsLexv2ModelsDescribeBotAliasOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the bot alias to describe. Constraints: o min: 10 o max: 10 o pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
+    /// The identifier of the bot alias to describe. Constraints: • min: 10 • max: 10 • pattern: ^(\bTSTALIASID\b|[0-9a-zA-Z]+)$
     /// </summary>
     [CliOption("--bot-alias-id")]
     public string? BotAliasId { get; private init; }
 
     /// <summary>
-    /// The identifier of the bot associated with the bot alias to describe. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The identifier of the bot associated with the bot alias to describe. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsLexv2ModelsDescribeBotAliasOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

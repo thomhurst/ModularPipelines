@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbInstanceIdentifier">The instance identifier. This value is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance .</param>
+    /// <param name="DbInstanceIdentifier">The instance identifier. This value is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance .</param>
     public AwsDocdbModifyDbInstanceOptions(
         string DbInstanceIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The instance identifier. This value is stored as a lowercase string. Constraints: o Must match the identifier of an existing DBInstance .
+    /// The instance identifier. This value is stored as a lowercase string. Constraints: • Must match the identifier of an existing DBInstance .
     /// </summary>
     [CliOption("--db-instance-identifier")]
     public string? DbInstanceIdentifier { get; private init; }
@@ -68,31 +69,31 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? DbInstanceClass { get; set; }
 
     /// <summary>
-    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, re- gardless of the PreferredMaintenanceWindow setting for the instance. If this parameter is set to false , changes to the instance are ap- plied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false
+    /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the instance. If this parameter is set to false , changes to the instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false
     /// </summary>
     [CliFlag("--apply-immediately", NegatedName = "--no-apply-immediately")]
     public bool? ApplyImmediately { get; set; }
 
     /// <summary>
-    /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, changing this parameter causes a reboot of the instance. If you are moving this window to the current time, there must be at least 30 minutes between the cur- rent time and end of the window to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
+    /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, changing this parameter causes a reboot of the instance. If you are moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
     /// </summary>
     [CliOption("--preferred-maintenance-window")]
     public string? PreferredMaintenanceWindow { get; set; }
 
     /// <summary>
-    /// This parameter does not apply to Amazon DocumentDB. Amazon Docu- mentDB does not perform minor version upgrades regardless of the value set.
+    /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
     /// </summary>
     [CliFlag("--auto-minor-version-upgrade", NegatedName = "--no-auto-minor-version-upgrade")]
     public bool? AutoMinorVersionUpgrade { get; set; }
 
     /// <summary>
-    /// The new instance identifier for the instance when renaming an in- stance. When you change the instance identifier, an instance reboot occurs immediately if you set Apply Immediately to true . It occurs during the next maintenance window if you set Apply Immediately to false . This value is stored as a lowercase string. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
+    /// The new instance identifier for the instance when renaming an instance. When you change the instance identifier, an instance reboot occurs immediately if you set Apply Immediately to true . It occurs during the next maintenance window if you set Apply Immediately to false . This value is stored as a lowercase string. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: mydbinstance
     /// </summary>
     [CliOption("--new-db-instance-identifier")]
     public string? NewDbInstanceIdentifier { get; set; }
 
     /// <summary>
-    /// Indicates the certificate that needs to be associated with the in- stance.
+    /// Indicates the certificate that needs to be associated with the instance.
     /// </summary>
     [CliOption("--ca-certificate-identifier")]
     public string? CaCertificateIdentifier { get; set; }
@@ -122,7 +123,7 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions, IValidatableObject
     public string? PerformanceInsightsKmsKeyId { get; set; }
 
     /// <summary>
-    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB in- stance is restarted. WARNING: Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see Updating Your Amazon DocumentDB TLS Certificates and Encrypting Data in Tran- sit in the Amazon DocumentDB Developer Guide .
+    /// Specifies whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. WARNING: Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, see Updating Your Amazon DocumentDB TLS Certificates and Encrypting Data in Transit in the Amazon DocumentDB Developer Guide .
     /// </summary>
     [CliFlag("--certificate-rotation-restart", NegatedName = "--no-certificate-rotation-restart")]
     public bool? CertificateRotationRestart { get; set; }
@@ -148,6 +149,15 @@ public record AwsDocdbModifyDbInstanceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

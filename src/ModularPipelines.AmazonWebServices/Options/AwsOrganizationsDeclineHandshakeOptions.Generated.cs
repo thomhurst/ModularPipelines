@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Declines a Handshake . Only the account that receives a handshake can call this operation. The sender of the handshake can use CancelHandshake to cancel if the hand- shake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
+/// Declines a Handshake . Only the account that receives a handshake can call this operation. The sender of the handshake can use CancelHandshake to cancel if the handshake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsOrganizationsDeclineHandshakeOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Declines a Handshake . Only the account that receives a handshake can call this operation. The sender of the handshake can use CancelHandshake to cancel if the hand- shake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
+    /// Declines a Handshake . Only the account that receives a handshake can call this operation. The sender of the handshake can use CancelHandshake to cancel if the handshake hasn't yet been responded to. You can view canceled handshakes in API responses for 30 days before they are deleted. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HandshakeId">ID for the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$</param>
+    /// <param name="HandshakeId">ID for the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$</param>
     public AwsOrganizationsDeclineHandshakeOptions(
         string HandshakeId
     )
@@ -56,7 +57,7 @@ public record AwsOrganizationsDeclineHandshakeOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ID for the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: o max: 34 o pattern: ^h-[0-9a-z]{8,32}$
+    /// ID for the handshake that you want to decline. You can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits. Constraints: • max: 34 • pattern: ^h-[0-9a-z]{8,32}$
     /// </summary>
     [CliOption("--handshake-id")]
     public string? HandshakeId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsOrganizationsDeclineHandshakeOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSsmSapGetOperationOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Gets the details of an operation by specifying the operation ID. See also: AWS API Documentation
     /// </summary>
-    /// <param name="OperationId">The ID of the operation. Constraints: o pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?</param>
+    /// <param name="OperationId">The ID of the operation. Constraints: • pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?</param>
     public AwsSsmSapGetOperationOptions(
         string OperationId
     )
@@ -56,7 +57,7 @@ public record AwsSsmSapGetOperationOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the operation. Constraints: o pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?
+    /// The ID of the operation. Constraints: • pattern: [{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?
     /// </summary>
     [CliOption("--operation-id")]
     public string? OperationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSsmSapGetOperationOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

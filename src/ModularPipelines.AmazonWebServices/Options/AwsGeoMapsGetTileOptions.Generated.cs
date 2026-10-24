@@ -14,7 +14,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordi- nate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Devel- oper Guide . See also: AWS API Documentation
+/// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -22,12 +22,12 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsGeoMapsGetTileOptions : AwsOptions
 {
     /// <summary>
-    /// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordi- nate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Devel- oper Guide . See also: AWS API Documentation
+    /// GetTile returns a tile. Map tiles are used by clients to render a map. They're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see Tiles in the Amazon Location Service Developer Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Tileset">Specifies the desired tile set. For GrabMaps customers, ap-south- east-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem Constraints: o min: 1 o max: 100 o pattern: [-.\w]+</param>
-    /// <param name="Z">The zoom value for the map tile. Constraints: o min: 0 o max: 2 o pattern: .*\d+.*</param>
-    /// <param name="X">The X axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*</param>
-    /// <param name="Y">The Y axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*</param>
+    /// <param name="Tileset">Specifies the desired tile set. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem Constraints: • min: 1 • max: 100 • pattern: [-.\w]+</param>
+    /// <param name="Z">The zoom value for the map tile. Constraints: • min: 0 • max: 2 • pattern: .*\d+.*</param>
+    /// <param name="X">The X axis value for the map tile. Constraints: • min: 0 • max: 7 • pattern: .*\d+.*</param>
+    /// <param name="Y">The Y axis value for the map tile. Constraints: • min: 0 • max: 7 • pattern: .*\d+.*</param>
     /// <param name="Outfile">The &lt;outfile&gt; operand.</param>
     public AwsGeoMapsGetTileOptions(
         string Tileset,
@@ -59,37 +59,37 @@ public record AwsGeoMapsGetTileOptions : AwsOptions
     }
 
     /// <summary>
-    /// Specifies the desired tile set. For GrabMaps customers, ap-south- east-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem Constraints: o min: 1 o max: 100 o pattern: [-.\w]+
+    /// Specifies the desired tile set. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the vector.basemap value. Valid Values: raster.satellite | vector.basemap | vector.traffic | raster.dem Constraints: • min: 1 • max: 100 • pattern: [-.\w]+
     /// </summary>
     [CliOption("--tileset")]
     public string Tileset { get; private init; }
 
     /// <summary>
-    /// The zoom value for the map tile. Constraints: o min: 0 o max: 2 o pattern: .*\d+.*
+    /// The zoom value for the map tile. Constraints: • min: 0 • max: 2 • pattern: .*\d+.*
     /// </summary>
     [CliOption("--z")]
     public string Z { get; private init; }
 
     /// <summary>
-    /// The X axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*
+    /// The X axis value for the map tile. Constraints: • min: 0 • max: 7 • pattern: .*\d+.*
     /// </summary>
     [CliOption("--x")]
     public string X { get; private init; }
 
     /// <summary>
-    /// The Y axis value for the map tile. Constraints: o min: 0 o max: 7 o pattern: .*\d+.*
+    /// The Y axis value for the map tile. Constraints: • min: 0 • max: 7 • pattern: .*\d+.*
     /// </summary>
     [CliOption("--y")]
     public string Y { get; private init; }
 
     /// <summary>
-    /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: o min: 0 o max: 4 (string) Possible values: o ContourLines o Hillshade o Logistics o Transit Syntax: "string" "string" ...
+    /// A list of optional additional parameters such as map styles that can be requested for each result. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. Constraints: • min: 0 • max: 4 (string) Possible values: • ContourLines • Hillshade • Logistics • Transit Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--additional-features", GroupValues = true)]
     public IEnumerable<string>? AdditionalFeatures { get; set; }
 
     /// <summary>
-    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: o min: 0 o max: 1000 outfile (string) [required] Filename where the content will be saved
+    /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request. Constraints: • min: 0 • max: 1000 outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--key")]
     public string? Key { get; set; }
@@ -99,5 +99,14 @@ public record AwsGeoMapsGetTileOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

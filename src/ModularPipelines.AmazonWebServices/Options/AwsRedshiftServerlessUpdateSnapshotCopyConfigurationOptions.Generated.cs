@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -62,7 +63,7 @@ public record AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions : AwsO
     public string? SnapshotCopyConfigurationId { get; private init; }
 
     /// <summary>
-    /// The new retention period of how long to keep a snapshot in the des- tination Amazon Web Services Region.
+    /// The new retention period of how long to keep a snapshot in the destination Amazon Web Services Region.
     /// </summary>
     [CliOption("--snapshot-retention-period")]
     public int? SnapshotRetentionPeriod { get; set; }
@@ -88,6 +89,15 @@ public record AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions : AwsO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

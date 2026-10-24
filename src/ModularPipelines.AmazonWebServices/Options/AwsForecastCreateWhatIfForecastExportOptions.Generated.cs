@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the Amazon S3 bucket. For more i...
+/// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more inf...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsForecastCreateWhatIfForecastExportOptions : AwsOptions, IValida
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the Amazon S3 bucket. For more i...
+    /// Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a DataDestination object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more inf...
     /// </summary>
-    /// <param name="WhatIfForecastExportName">The name of the what-if forecast to export. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
-    /// <param name="WhatIfForecastArns">The list of what-if forecast Amazon Resource Names (ARNs) to export. Constraints: o min: 1 o max: 50 (string) Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...</param>
-    /// <param name="Destination">The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permis- sion to access the key. S3Config -&gt; (structure) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: o min: 7 o max: 4096 o pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }</param>
+    /// <param name="WhatIfForecastExportName">The name of the what-if forecast to export. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*</param>
+    /// <param name="WhatIfForecastArns">The list of what-if forecast Amazon Resource Names (ARNs) to export. Constraints: • min: 1 • max: 50 (string) Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...</param>
+    /// <param name="Destination">The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key. S3Config -&gt; (structure) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: • min: 7 • max: 4096 • pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: • max: 256 • pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }</param>
     public AwsForecastCreateWhatIfForecastExportOptions(
         string WhatIfForecastExportName,
         IEnumerable<string> WhatIfForecastArns,
@@ -75,31 +76,31 @@ public record AwsForecastCreateWhatIfForecastExportOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the what-if forecast to export. Constraints: o min: 1 o max: 63 o pattern: ^[a-zA-Z][a-zA-Z0-9_]*
+    /// The name of the what-if forecast to export. Constraints: • min: 1 • max: 63 • pattern: ^[a-zA-Z][a-zA-Z0-9_]*
     /// </summary>
     [CliOption("--what-if-forecast-export-name")]
     public string? WhatIfForecastExportName { get; private init; }
 
     /// <summary>
-    /// The list of what-if forecast Amazon Resource Names (ARNs) to export. Constraints: o min: 1 o max: 50 (string) Constraints: o max: 300 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
+    /// The list of what-if forecast Amazon Resource Names (ARNs) to export. Constraints: • min: 1 • max: 50 (string) Constraints: • max: 300 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--what-if-forecast-arns", GroupValues = true)]
     public IEnumerable<string>? WhatIfForecastArns { get; private init; }
 
     /// <summary>
-    /// The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to ac- cess the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permis- sion to access the key. S3Config -&gt; (structure) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: o min: 7 o max: 4096 o pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not al- lowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: o max: 256 o pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: o max: 256 o pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }
+    /// The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key. S3Config -&gt; (structure) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket. Path -&gt; (string) [required] The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket. Constraints: • min: 7 • max: 4096 • pattern: ^s3://[a-z0-9].+$ RoleArn -&gt; (string) [required] The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error. Constraints: • max: 256 • pattern: arn:([a-z\d-]+):forecast:.*:.*:.+ KMSKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Key Management Service (KMS) key. Constraints: • max: 256 • pattern: arn:aws:kms:.*:key/.* Shorthand Syntax: S3Config={Path=string,RoleArn=string,KMSKeyArn=string} JSON Syntax: { "S3Config": { "Path": "string", "RoleArn": "string", "KMSKeyArn": "string" } }
     /// </summary>
     [CliOption("--destination")]
     public string? Destination { get; private init; }
 
     /// <summary>
-    /// A list of tags to apply to the what if forecast. Constraints: o min: 0 o max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: o Maximum number of tags per resource - 50. o For each resource, each tag key must be unique, and each tag key can have only one value. o Maximum key length - 128 Unicode characters in UTF-8. o Maximum value length - 256 Unicode characters in UTF-8. o If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: let- ters, numbers, and spaces representable in UTF-8, and the fol- lowing characters: + - = . _ : / @. o Tag keys and values are case sensitive. o Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to apply to the what if forecast. Constraints: • min: 0 • max: 200 (structure) The optional metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags: • Maximum number of tags per resource - 50. • For each resource, each tag key must be unique, and each tag key can have only one value. • Maximum key length - 128 Unicode characters in UTF-8. • Maximum value length - 256 Unicode characters in UTF-8. • If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @. • Tag keys and values are case sensitive. • Do not use aws: , AWS: , or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. Key -&gt; (string) [required] One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Value -&gt; (string) [required] The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key). Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$ Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The format of the exported data, CSV or PARQUET. Constraints: o max: 7 o pattern: ^CSV|PARQUET$
+    /// The format of the exported data, CSV or PARQUET. Constraints: • max: 7 • pattern: ^CSV|PARQUET$
     /// </summary>
     [CliOption("--format")]
     public string? Format { get; set; }
@@ -125,6 +126,15 @@ public record AwsForecastCreateWhatIfForecastExportOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

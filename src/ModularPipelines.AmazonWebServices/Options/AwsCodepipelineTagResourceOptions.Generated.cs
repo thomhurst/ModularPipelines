@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsCodepipelineTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: o pattern: arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+</param>
-    /// <param name="Tags">The tags you want to modify or add to the resource. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: • pattern: arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+</param>
+    /// <param name="Tags">The tags you want to modify or add to the resource. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]</param>
     public AwsCodepipelineTagResourceOptions(
         string ResourceArn,
         IEnumerable<string> Tags
@@ -71,13 +72,13 @@ public record AwsCodepipelineTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: o pattern: arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+
+    /// The Amazon Resource Name (ARN) of the resource you want to add tags to. Constraints: • pattern: arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags you want to modify or add to the resource. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// The tags you want to modify or add to the resource. (structure) A tag is a key-value pair that is used to manage the resource. key -&gt; (string) [required] The tag's key. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; private init; }
@@ -103,6 +104,15 @@ public record AwsCodepipelineTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

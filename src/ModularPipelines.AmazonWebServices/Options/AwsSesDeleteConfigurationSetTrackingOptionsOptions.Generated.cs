@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click eve...
+/// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click event...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSesDeleteConfigurationSetTrackingOptionsOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a sub- domain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click eve...
+    /// Deletes an association between a configuration set and a custom domain for open and click event tracking. By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using custom domains, see the Amazon SES Developer Guide . NOTE: Deleting this kind of association results in emails sent using the specified configuration set to capture open and click event...
     /// </summary>
     /// <param name="ConfigurationSetName">The name of the configuration set.</param>
     public AwsSesDeleteConfigurationSetTrackingOptionsOptions(
@@ -82,6 +83,15 @@ public record AwsSesDeleteConfigurationSetTrackingOptionsOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

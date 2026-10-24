@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProces- sor . You might not be able to use the same name for a stream processor for a few secon...
+/// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProcessor . You might not be able to use the same name for a stream processor for a few seconds...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRekognitionDeleteStreamProcessorOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProces- sor . You might not be able to use the same name for a stream processor for a few secon...
+    /// WARNING: Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see Rekognition feature availability changes . This change does not impact the availability of other Amazon Rekognition features. Deletes the stream processor identified by Name . You assign the value for Name when you create the stream processor with CreateStreamProcessor . You might not be able to use the same name for a stream processor for a few seconds...
     /// </summary>
-    /// <param name="Name">The name of the stream processor you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="Name">The name of the stream processor you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-]+</param>
     public AwsRekognitionDeleteStreamProcessorOptions(
         string Name
     )
@@ -56,7 +57,7 @@ public record AwsRekognitionDeleteStreamProcessorOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the stream processor you want to delete. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-]+
+    /// The name of the stream processor you want to delete. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRekognitionDeleteStreamProcessorOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

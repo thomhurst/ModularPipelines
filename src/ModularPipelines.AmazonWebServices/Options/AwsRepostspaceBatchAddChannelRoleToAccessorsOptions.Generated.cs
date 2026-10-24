@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsRepostspaceBatchAddChannelRoleToAccessorsOptions : AwsOptions, 
     /// Add role to multiple users or groups in a private re:Post channel. See also: AWS API Documentation
     /// </summary>
     /// <param name="SpaceId">The unique ID of the private re:Post.</param>
-    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24</param>
-    /// <param name="AccessorIds">The user or group identifiers to add the role to. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...</param>
-    /// <param name="ChannelRole">The channel role to add to the users or groups. Possible values: o ASKER o EXPERT o MODERATOR o SUPPORTREQUESTOR</param>
+    /// <param name="ChannelId">The unique ID of the private re:Post channel. Constraints: • min: 24 • max: 24</param>
+    /// <param name="AccessorIds">The user or group identifiers to add the role to. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...</param>
+    /// <param name="ChannelRole">The channel role to add to the users or groups. Possible values: • ASKER • EXPERT • MODERATOR • SUPPORTREQUESTOR</param>
     public AwsRepostspaceBatchAddChannelRoleToAccessorsOptions(
         string SpaceId,
         string ChannelId,
@@ -85,19 +86,19 @@ public record AwsRepostspaceBatchAddChannelRoleToAccessorsOptions : AwsOptions, 
     public string? SpaceId { get; private init; }
 
     /// <summary>
-    /// The unique ID of the private re:Post channel. Constraints: o min: 24 o max: 24
+    /// The unique ID of the private re:Post channel. Constraints: • min: 24 • max: 24
     /// </summary>
     [CliOption("--channel-id")]
     public string? ChannelId { get; private init; }
 
     /// <summary>
-    /// The user or group identifiers to add the role to. Constraints: o min: 0 o max: 1000 (string) Syntax: "string" "string" ...
+    /// The user or group identifiers to add the role to. Constraints: • min: 0 • max: 1000 (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--accessor-ids", GroupValues = true)]
     public IEnumerable<string>? AccessorIds { get; private init; }
 
     /// <summary>
-    /// The channel role to add to the users or groups. Possible values: o ASKER o EXPERT o MODERATOR o SUPPORTREQUESTOR
+    /// The channel role to add to the users or groups. Possible values: • ASKER • EXPERT • MODERATOR • SUPPORTREQUESTOR
     /// </summary>
     [CliOption("--channel-role")]
     public AwsRepostspaceBatchAddChannelRoleToAccessorsChannelRole? ChannelRole { get; private init; }
@@ -123,6 +124,15 @@ public record AwsRepostspaceBatchAddChannelRoleToAccessorsOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

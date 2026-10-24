@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -73,31 +74,31 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions, IValidatableO
     public string? AuthorizerId { get; private init; }
 
     /// <summary>
-    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to as- sume, use the role's Amazon Resource Name (ARN). To use re- source-based permissions on the Lambda function, don't specify this parameter.
+    /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, don't specify this parameter.
     /// </summary>
     [CliOption("--authorizer-credentials-arn")]
     public string? AuthorizerCredentialsArn { get; set; }
 
     /// <summary>
-    /// Specifies the format of the payload sent to an HTTP API Lambda au- thorizer. Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0. To learn more, see Working with AWS Lambda autho- rizers for HTTP APIs .
+    /// Specifies the format of the payload sent to an HTTP API Lambda authorizer. Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0. To learn more, see Working with AWS Lambda authorizers for HTTP APIs .
     /// </summary>
     [CliOption("--authorizer-payload-format-version")]
     public string? AuthorizerPayloadFormatVersion { get; set; }
 
     /// <summary>
-    /// The time to live (TTL) for cached authorizer results, in seconds. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway caches authorizer responses. The maximum value is 3600, or 1 hour. Supported only for HTTP API Lambda authorizers. Constraints: o min: 0 o max: 3600
+    /// The time to live (TTL) for cached authorizer results, in seconds. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway caches authorizer responses. The maximum value is 3600, or 1 hour. Supported only for HTTP API Lambda authorizers. Constraints: • min: 0 • max: 3600
     /// </summary>
     [CliOption("--authorizer-result-ttl-in-seconds")]
     public int? AuthorizerResultTtlInSeconds { get; set; }
 
     /// <summary>
-    /// The authorizer type. Specify REQUEST for a Lambda function using in- coming request parameters. Specify JWT to use JSON Web Tokens (sup- ported only for HTTP APIs). Possible values: o REQUEST o JWT
+    /// The authorizer type. Specify REQUEST for a Lambda function using incoming request parameters. Specify JWT to use JSON Web Tokens (supported only for HTTP APIs). Possible values: • REQUEST • JWT
     /// </summary>
     [CliOption("--authorizer-type")]
     public AwsApigatewayv2UpdateAuthorizerAuthorizerType? AuthorizerType { get; set; }
 
     /// <summary>
-    /// The authorizer's Uniform Resource Identifier (URI). For REQUEST au- thorizers, this must be a well-formed Lambda function URI, for exam- ple, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/func- tions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_func- tion_name}/invocations. In general, the URI has this form: arn:aws:apigateway:{region}:lambda:path/{service_api}, where {re- gion} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[Func- tionARN]/invocations. Supported only for REQUEST authorizers.
+    /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations. In general, the URI has this form: arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial /. For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST authorizers.
     /// </summary>
     [CliOption("--authorizer-uri")]
     public string? AuthorizerUri { get; set; }
@@ -109,7 +110,7 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions, IValidatableO
     public bool? EnableSimpleResponses { get; set; }
 
     /// <summary>
-    /// The identity source for which authorization is requested. For a REQUEST authorizer, this is optional. The value is a set of one or more mapping expressions of the specified request parameters. The identity source can be headers, query string parameters, stage variables, and context parameters. For example, if an Auth header and a Name query string parameter are defined as identity sources, this value is route.request.header.Auth, route.request.querys- tring.Name for WebSocket APIs. For HTTP APIs, use selection expres- sions prefixed with $, for example, $request.header.Auth, $re- quest.querystring.Name. These parameters are used to perform runtime validation for Lambda-based authorizers by verifying all of the identity-related request parameters are present in the request, not null, and non-empty. Only when this is true does the authorizer in- voke the authorizer Lambda function. Otherwise, it returns a 401 Unauthorized response without calling the Lambda function. For HTTP APIs, identity sources are also used as the cache key when caching is enabled. To learn more, see Working with AWS Lambda authorizers for HTTP APIs . For JWT, a single entry that specifies where to extract the JSON Web Token (JWT) from inbound requests. Currently only header-based and query parameter-based selections are supported, for example $re- quest.header.Authorization. (string) Syntax: "string" "string" ...
+    /// The identity source for which authorization is requested. For a REQUEST authorizer, this is optional. The value is a set of one or more mapping expressions of the specified request parameters. The identity source can be headers, query string parameters, stage variables, and context parameters. For example, if an Auth header and a Name query string parameter are defined as identity sources, this value is route.request.header.Auth, route.request.querystring.Name for WebSocket APIs. For HTTP APIs, use selection expressions prefixed with $, for example, $request.header.Auth, $request.querystring.Name. These parameters are used to perform runtime validation for Lambda-based authorizers by verifying all of the identity-related request parameters are present in the request, not null, and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function. Otherwise, it returns a 401 Unauthorized response without calling the Lambda function. For HTTP APIs, identity sources are also used as the cache key when caching is enabled. To learn more, see Working with AWS Lambda authorizers for HTTP APIs . For JWT, a single entry that specifies where to extract the JSON Web Token (JWT) from inbound requests. Currently only header-based and query parameter-based selections are supported, for example $request.header.Authorization. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--identity-source", GroupValues = true)]
     public IEnumerable<string>? IdentitySource { get; set; }
@@ -121,7 +122,7 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions, IValidatableO
     public string? IdentityValidationExpression { get; set; }
 
     /// <summary>
-    /// Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs. Audience -&gt; (list) A list of the intended recipients of the JWT. A valid JWT must provide an aud that matches at least one entry in this list. See RFC 7519 . Supported only for HTTP APIs. (string) Issuer -&gt; (string) The base domain of the identity provider that issues JSON Web Tokens. For example, an Amazon Cognito user pool has the follow- ing format: https://cognito-idp.{region}.amazonaws.com/{userPoolId}. Re- quired for the JWT authorizer type. Supported only for HTTP APIs. Shorthand Syntax: Audience=string,string,Issuer=string JSON Syntax: { "Audience": ["string", ...], "Issuer": "string" }
+    /// Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs. Audience -&gt; (list) A list of the intended recipients of the JWT. A valid JWT must provide an aud that matches at least one entry in this list. See RFC 7519 . Supported only for HTTP APIs. (string) Issuer -&gt; (string) The base domain of the identity provider that issues JSON Web Tokens. For example, an Amazon Cognito user pool has the following format: https://cognito-idp.{region}.amazonaws.com/{userPoolId}. Required for the JWT authorizer type. Supported only for HTTP APIs. Shorthand Syntax: Audience=string,string,Issuer=string JSON Syntax: { "Audience": ["string", ...], "Issuer": "string" }
     /// </summary>
     [CliOption("--jwt-configuration")]
     public string? JwtConfiguration { get; set; }
@@ -153,6 +154,15 @@ public record AwsApigatewayv2UpdateAuthorizerOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

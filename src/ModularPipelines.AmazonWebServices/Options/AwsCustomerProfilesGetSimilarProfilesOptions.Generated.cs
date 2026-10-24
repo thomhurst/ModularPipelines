@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions, IValida
     /// <summary>
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId . You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING . See also: AWS API Documentation get-similar-profiles is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and...
     /// </summary>
-    /// <param name="DomainName">The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$</param>
-    /// <param name="MatchType">Specify the type of matching to get similar profiles for. Possible values: o RULE_BASED_MATCHING o ML_BASED_MATCHING</param>
-    /// <param name="SearchKey">The string indicating the search key to be used. Constraints: o min: 1 o max: 255</param>
-    /// <param name="SearchValue">The string based on SearchKey to be searched for similar profiles. Constraints: o min: 1 o max: 255</param>
+    /// <param name="DomainName">The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$</param>
+    /// <param name="MatchType">Specify the type of matching to get similar profiles for. Possible values: • RULE_BASED_MATCHING • ML_BASED_MATCHING</param>
+    /// <param name="SearchKey">The string indicating the search key to be used. Constraints: • min: 1 • max: 255</param>
+    /// <param name="SearchValue">The string based on SearchKey to be searched for similar profiles. Constraints: • min: 1 • max: 255</param>
     public AwsCustomerProfilesGetSimilarProfilesOptions(
         string DomainName,
         AwsCustomerProfilesGetSimilarProfilesMatchType MatchType,
@@ -69,34 +70,31 @@ public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique name of the domain. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9_-]+$
+    /// The unique name of the domain. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9_-]+$
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Specify the type of matching to get similar profiles for. Possible values: o RULE_BASED_MATCHING o ML_BASED_MATCHING
+    /// Specify the type of matching to get similar profiles for. Possible values: • RULE_BASED_MATCHING • ML_BASED_MATCHING
     /// </summary>
     [CliOption("--match-type")]
     public AwsCustomerProfilesGetSimilarProfilesMatchType? MatchType { get; private init; }
 
     /// <summary>
-    /// The string indicating the search key to be used. Constraints: o min: 1 o max: 255
+    /// The string indicating the search key to be used. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--search-key")]
     public string? SearchKey { get; private init; }
 
     /// <summary>
-    /// The string based on SearchKey to be searched for similar profiles. Constraints: o min: 1 o max: 255
+    /// The string based on SearchKey to be searched for similar profiles. Constraints: • min: 1 • max: 255
     /// </summary>
     [CliOption("--search-value")]
     public string? SearchValue { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -106,16 +104,19 @@ public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions, IValida
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -132,6 +133,15 @@ public record AwsCustomerProfilesGetSimilarProfilesOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

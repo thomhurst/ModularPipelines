@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Put or update the integration for the specified Amazon Connect in- stance. See also: AWS API Documentation
+/// Put or update the integration for the specified Amazon Connect instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Put or update the integration for the specified Amazon Connect in- stance. See also: AWS API Documentation
+    /// Put or update the integration for the specified Amazon Connect instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+</param>
-    /// <param name="IntegrationConfig">Integration config for Connect Instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration config domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? objectTypeNames -&gt; (map) [required] Object type names map. key -&gt; (string) Enumeration of Customer Profiles event type Possible values: o Campaign-Email o Campaign-SMS o Campaign-Telephony o Campaign-Orchestration o Campaign-WhatsApp o Campaign-WebNotification value -&gt; (string) Object type name Constraints: o min: 1 o max: 255 qConnect -&gt; (structure) Q Connect integration config knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration config functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:func- tion:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string,objectTypeNames={KeyName1=string,KeyName2=string}},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string", "objectTypeNames": {"Campaign-Email"|"Campaign-SMS"|"Campaign-Telephony"|"Campaign-Orchestration"|"Campaign-WhatsApp"|"Campaign-WebNotification": "string" ...} }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }</param>
+    /// <param name="ConnectInstanceId">Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+</param>
+    /// <param name="IntegrationConfig">Integration config for Connect Instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration config domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? objectTypeNames -&gt; (map) [required] Object type names map. key -&gt; (string) Enumeration of Customer Profiles event type Possible values: • Campaign-Email • Campaign-SMS • Campaign-Telephony • Campaign-Orchestration • Campaign-WhatsApp • Campaign-WebNotification value -&gt; (string) Object type name Constraints: • min: 1 • max: 255 qConnect -&gt; (structure) Q Connect integration config knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration config functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: • min: 1 • max: 140 • pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:function:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string,objectTypeNames={KeyName1=string,KeyName2=string}},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string", "objectTypeNames": {"Campaign-Email"|"Campaign-SMS"|"Campaign-Telephony"|"Campaign-Orchestration"|"Campaign-WhatsApp"|"Campaign-WebNotification": "string" ...} }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }</param>
     public AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions(
         string ConnectInstanceId,
         string IntegrationConfig
@@ -60,13 +61,13 @@ public record AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Amazon Connect Instance Id Constraints: o min: 1 o max: 256 o pattern: [-_.a-zA-Z0-9]+
+    /// Amazon Connect Instance Id Constraints: • min: 1 • max: 256 • pattern: [-_.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--connect-instance-id")]
     public string? ConnectInstanceId { get; private init; }
 
     /// <summary>
-    /// Integration config for Connect Instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration config domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? objectTypeNames -&gt; (map) [required] Object type names map. key -&gt; (string) Enumeration of Customer Profiles event type Possible values: o Campaign-Email o Campaign-SMS o Campaign-Telephony o Campaign-Orchestration o Campaign-WhatsApp o Campaign-WebNotification value -&gt; (string) Object type name Constraints: o min: 1 o max: 255 qConnect -&gt; (structure) Q Connect integration config knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: o min: 20 o max: 500 o pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration config functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: o min: 1 o max: 140 o pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:func- tion:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string,objectTypeNames={KeyName1=string,KeyName2=string}},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string", "objectTypeNames": {"Campaign-Email"|"Campaign-SMS"|"Campaign-Telephony"|"Campaign-Orchestration"|"Campaign-WhatsApp"|"Campaign-WebNotification": "string" ...} }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }
+    /// Integration config for Connect Instance NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: customerProfiles, qConnect, lambda. customerProfiles -&gt; (structure) Customer Profiles integration config domainArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? objectTypeNames -&gt; (map) [required] Object type names map. key -&gt; (string) Enumeration of Customer Profiles event type Possible values: • Campaign-Email • Campaign-SMS • Campaign-Telephony • Campaign-Orchestration • Campaign-WhatsApp • Campaign-WebNotification value -&gt; (string) Object type name Constraints: • min: 1 • max: 255 qConnect -&gt; (structure) Q Connect integration config knowledgeBaseArn -&gt; (string) [required] Amazon Resource Names(ARN) Constraints: • min: 20 • max: 500 • pattern: arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\:[^:]+)? lambda -&gt; (structure) Lambda integration config functionArn -&gt; (string) [required] Lambda ARN for integration with Connect instances Constraints: • min: 1 • max: 140 • pattern: arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\d:\d{12}:function:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))? Shorthand Syntax: customerProfiles={domainArn=string,objectTypeNames={KeyName1=string,KeyName2=string}},qConnect={knowledgeBaseArn=string},lambda={functionArn=string} JSON Syntax: { "customerProfiles": { "domainArn": "string", "objectTypeNames": {"Campaign-Email"|"Campaign-SMS"|"Campaign-Telephony"|"Campaign-Orchestration"|"Campaign-WhatsApp"|"Campaign-WebNotification": "string" ...} }, "qConnect": { "knowledgeBaseArn": "string" }, "lambda": { "functionArn": "string" } }
     /// </summary>
     [CliOption("--integration-config")]
     public string? IntegrationConfig { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectcampaignsv2PutConnectInstanceIntegrationOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

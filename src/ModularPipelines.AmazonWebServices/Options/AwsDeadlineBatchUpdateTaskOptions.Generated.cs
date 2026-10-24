@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
+/// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsDeadlineBatchUpdateTaskOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the re- sponse. Because the batch request can result in a combination of suc- cessful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
+    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Tasks">The list of tasks to update. You can specify up to 100 tasks per re- quest. Constraints: o min: 1 o max: 100 (structure) The details of a task to update in a batch update operation. farmId -&gt; (string) [required] The farm ID of the task to update. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the task to update. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the task to update. Constraints: o pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID of the task to update. Constraints: o pattern: step-[0-9a-f]{32} taskId -&gt; (string) [required] The task ID of the task to update. Constraints: o pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) targetRunStatus -&gt; (string) [required] The run status with which to start the task. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING Shorthand Syntax: farmId=string,queueId=string,jobId=string,stepId=string,taskId=string,targetRunStatus=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "stepId": "string", "taskId": "string", "targetRunStatus": "READY"|"FAILED"|"SUCCEEDED"|"CANCELED"|"SUSPENDED"|"PENDING" } ... ]</param>
+    /// <param name="Tasks">The list of tasks to update. You can specify up to 100 tasks per request. Constraints: • min: 1 • max: 100 (structure) The details of a task to update in a batch update operation. farmId -&gt; (string) [required] The farm ID of the task to update. Constraints: • pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the task to update. Constraints: • pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the task to update. Constraints: • pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID of the task to update. Constraints: • pattern: step-[0-9a-f]{32} taskId -&gt; (string) [required] The task ID of the task to update. Constraints: • pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) targetRunStatus -&gt; (string) [required] The run status with which to start the task. Possible values: • READY • FAILED • SUCCEEDED • CANCELED • SUSPENDED • PENDING Shorthand Syntax: farmId=string,queueId=string,jobId=string,stepId=string,taskId=string,targetRunStatus=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "stepId": "string", "taskId": "string", "targetRunStatus": "READY"|"FAILED"|"SUCCEEDED"|"CANCELED"|"SUSPENDED"|"PENDING" } ... ]</param>
     public AwsDeadlineBatchUpdateTaskOptions(
         IEnumerable<string> Tasks
     )
@@ -68,13 +69,13 @@ public record AwsDeadlineBatchUpdateTaskOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of tasks to update. You can specify up to 100 tasks per re- quest. Constraints: o min: 1 o max: 100 (structure) The details of a task to update in a batch update operation. farmId -&gt; (string) [required] The farm ID of the task to update. Constraints: o pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the task to update. Constraints: o pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the task to update. Constraints: o pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID of the task to update. Constraints: o pattern: step-[0-9a-f]{32} taskId -&gt; (string) [required] The task ID of the task to update. Constraints: o pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) targetRunStatus -&gt; (string) [required] The run status with which to start the task. Possible values: o READY o FAILED o SUCCEEDED o CANCELED o SUSPENDED o PENDING Shorthand Syntax: farmId=string,queueId=string,jobId=string,stepId=string,taskId=string,targetRunStatus=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "stepId": "string", "taskId": "string", "targetRunStatus": "READY"|"FAILED"|"SUCCEEDED"|"CANCELED"|"SUSPENDED"|"PENDING" } ... ]
+    /// The list of tasks to update. You can specify up to 100 tasks per request. Constraints: • min: 1 • max: 100 (structure) The details of a task to update in a batch update operation. farmId -&gt; (string) [required] The farm ID of the task to update. Constraints: • pattern: farm-[0-9a-f]{32} queueId -&gt; (string) [required] The queue ID of the task to update. Constraints: • pattern: queue-[0-9a-f]{32} jobId -&gt; (string) [required] The job ID of the task to update. Constraints: • pattern: job-[0-9a-f]{32} stepId -&gt; (string) [required] The step ID of the task to update. Constraints: • pattern: step-[0-9a-f]{32} taskId -&gt; (string) [required] The task ID of the task to update. Constraints: • pattern: task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9})) targetRunStatus -&gt; (string) [required] The run status with which to start the task. Possible values: • READY • FAILED • SUCCEEDED • CANCELED • SUSPENDED • PENDING Shorthand Syntax: farmId=string,queueId=string,jobId=string,stepId=string,taskId=string,targetRunStatus=string ... JSON Syntax: [ { "farmId": "string", "queueId": "string", "jobId": "string", "stepId": "string", "taskId": "string", "targetRunStatus": "READY"|"FAILED"|"SUCCEEDED"|"CANCELED"|"SUSPENDED"|"PENDING" } ... ]
     /// </summary>
     [CliOption("--tasks", GroupValues = true)]
     public IEnumerable<string>? Tasks { get; private init; }
 
     /// <summary>
-    /// The unique token which the server uses to recognize retries of the same request. Constraints: o min: 1 o max: 64
+    /// The unique token which the server uses to recognize retries of the same request. Constraints: • min: 1 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -101,6 +102,15 @@ public record AwsDeadlineBatchUpdateTaskOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

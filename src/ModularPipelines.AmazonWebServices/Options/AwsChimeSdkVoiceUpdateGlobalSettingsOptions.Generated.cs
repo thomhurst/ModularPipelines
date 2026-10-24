@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsChimeSdkVoiceUpdateGlobalSettingsOptions : AwsOptions, IValidat
     /// <summary>
     /// Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="VoiceConnector">The Voice Connector settings. CdrBucket -&gt; (string) The S3 bucket that stores the Voice Connector's call detail records. Constraints: o min: 1 o max: 64 o pattern: (?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ Shorthand Syntax: CdrBucket=string JSON Syntax: { "CdrBucket": "string" }</param>
+    /// <param name="VoiceConnector">The Voice Connector settings. CdrBucket -&gt; (string) The S3 bucket that stores the Voice Connector's call detail records. Constraints: • min: 1 • max: 64 • pattern: (?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ Shorthand Syntax: CdrBucket=string JSON Syntax: { "CdrBucket": "string" }</param>
     public AwsChimeSdkVoiceUpdateGlobalSettingsOptions(
         string VoiceConnector
     )
@@ -56,7 +57,7 @@ public record AwsChimeSdkVoiceUpdateGlobalSettingsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Voice Connector settings. CdrBucket -&gt; (string) The S3 bucket that stores the Voice Connector's call detail records. Constraints: o min: 1 o max: 64 o pattern: (?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ Shorthand Syntax: CdrBucket=string JSON Syntax: { "CdrBucket": "string" }
+    /// The Voice Connector settings. CdrBucket -&gt; (string) The S3 bucket that stores the Voice Connector's call detail records. Constraints: • min: 1 • max: 64 • pattern: (?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$ Shorthand Syntax: CdrBucket=string JSON Syntax: { "CdrBucket": "string" }
     /// </summary>
     [CliOption("--voice-connector")]
     public string? VoiceConnector { get; private init; }
@@ -82,6 +83,15 @@ public record AwsChimeSdkVoiceUpdateGlobalSettingsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

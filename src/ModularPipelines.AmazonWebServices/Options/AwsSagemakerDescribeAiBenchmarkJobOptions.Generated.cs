@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns details of an AI benchmark job, including its status, configu- ration, target endpoint, and timing information. See also: AWS API Documentation
+/// Returns details of an AI benchmark job, including its status, configuration, target endpoint, and timing information. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDescribeAiBenchmarkJobOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns details of an AI benchmark job, including its status, configu- ration, target endpoint, and timing information. See also: AWS API Documentation
+    /// Returns details of an AI benchmark job, including its status, configuration, target endpoint, and timing information. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AiBenchmarkJobName">The name of the AI benchmark job to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="AiBenchmarkJobName">The name of the AI benchmark job to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
     public AwsSagemakerDescribeAiBenchmarkJobOptions(
         string AiBenchmarkJobName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeAiBenchmarkJobOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the AI benchmark job to describe. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the AI benchmark job to describe. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--ai-benchmark-job-name")]
     public string? AiBenchmarkJobName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeAiBenchmarkJobOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

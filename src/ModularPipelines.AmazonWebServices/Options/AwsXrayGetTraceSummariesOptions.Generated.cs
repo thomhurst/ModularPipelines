@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific ser- vice nodes or edges, have errors, or come from a known user. For exam- ple, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named ac- count w...
+/// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named account with th...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific ser- vice nodes or edges, have errors, or come from a known user. For exam- ple, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named ac- count w...
+    /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces . A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com : service("api.example.com") This filter expression finds traces that have an annotation named account with th...
     /// </summary>
     /// <param name="StartTime">The start of the time frame for which to retrieve traces.</param>
     /// <param name="EndTime">The end of the time frame for which to retrieve traces.</param>
@@ -74,7 +75,7 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
     public string? EndTime { get; private init; }
 
     /// <summary>
-    /// Query trace summaries by TraceId (trace start time), Event (trace update time), or Service (trace segment end time). Possible values: o TraceId o Event o Service
+    /// Query trace summaries by TraceId (trace start time), Event (trace update time), or Service (trace segment end time). Possible values: • TraceId • Event • Service
     /// </summary>
     [CliOption("--time-range-type")]
     public AwsXrayGetTraceSummariesTimeRangeType? TimeRangeType { get; set; }
@@ -86,7 +87,7 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
     public bool? Sampling { get; set; }
 
     /// <summary>
-    /// A parameter to indicate whether to enable sampling on trace sum- maries. Input parameters are Name and Value. Name -&gt; (string) The name of a sampling rule. Possible values: o PartialScan o FixedRate Value -&gt; (double) The value of a sampling rule. Shorthand Syntax: Name=string,Value=double JSON Syntax: { "Name": "PartialScan"|"FixedRate", "Value": double }
+    /// A parameter to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value. Name -&gt; (string) The name of a sampling rule. Possible values: • PartialScan • FixedRate Value -&gt; (double) The value of a sampling rule. Shorthand Syntax: Name=string,Value=double JSON Syntax: { "Name": "PartialScan"|"FixedRate", "Value": double }
     /// </summary>
     [CliOption("--sampling-strategy")]
     public string? SamplingStrategy { get; set; }
@@ -100,9 +101,6 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
 
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
-
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
@@ -111,10 +109,13 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -131,6 +132,15 @@ public record AwsXrayGetTraceSummariesOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

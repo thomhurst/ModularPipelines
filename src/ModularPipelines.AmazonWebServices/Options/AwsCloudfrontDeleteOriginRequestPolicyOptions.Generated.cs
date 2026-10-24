@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's iden- tifier and version. To get the identifier, you can use ListOriginRe- questPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
+/// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCloudfrontDeleteOriginRequestPolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's iden- tifier and version. To get the identifier, you can use ListOriginRe- questPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
+    /// Deletes an origin request policy. You cannot delete an origin request policy if it's attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy's identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy . See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPoli- cies .</param>
+    /// <param name="Id">The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPolicies .</param>
     public AwsCloudfrontDeleteOriginRequestPolicyOptions(
         string Id
     )
@@ -56,13 +57,13 @@ public record AwsCloudfrontDeleteOriginRequestPolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPoli- cies .
+    /// The unique identifier for the origin request policy that you are deleting. To get the identifier, you can use ListOriginRequestPolicies .
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
 
     /// <summary>
-    /// The version of the origin request policy that you are deleting. The version is the origin request policy's ETag value, which you can get using ListOriginRequestPolicies , GetOriginRequestPolicy , or GetO- riginRequestPolicyConfig .
+    /// The version of the origin request policy that you are deleting. The version is the origin request policy's ETag value, which you can get using ListOriginRequestPolicies , GetOriginRequestPolicy , or GetOriginRequestPolicyConfig .
     /// </summary>
     [CliOption("--if-match")]
     public string? IfMatch { get; set; }
@@ -88,6 +89,15 @@ public record AwsCloudfrontDeleteOriginRequestPolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

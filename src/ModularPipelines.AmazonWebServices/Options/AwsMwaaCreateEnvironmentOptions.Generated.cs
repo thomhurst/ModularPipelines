@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,11 +29,11 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
-    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the execution role for your envi- ronment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role . For more information, refer to Amazon MWAA Execution role . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
-    /// <param name="SourceBucketArn">The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name . For more information, refer to Create an Amazon S3 bucket for Amazon MWAA . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:s3:::[a-z0-9.\-]+</param>
-    /// <param name="DagS3Path">The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags . For more information, refer to Adding or updating DAGs . Constraints: o min: 0 o max: 1024 o pattern: .*</param>
-    /// <param name="NetworkConfiguration">The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environ- ment. For more information, refer to About networking on Amazon MWAA . SubnetIds -&gt; (list) A list of subnet IDs. For more information, refer to About net- working on Amazon MWAA . Constraints: o min: 2 o max: 2 (string) Constraints: o min: 1 o max: 1024 o pattern: subnet-[a-zA-Z0-9\-._]+ SecurityGroupIds -&gt; (list) A list of security group IDs. For more information, refer to Security in your VPC on Amazon MWAA . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 1024 o pattern: sg-[a-zA-Z0-9\-._]+ Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
+    /// <param name="Name">The name of the Amazon MWAA environment. For example, MyMWAAEnvironment . Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z][0-9a-zA-Z-_]*</param>
+    /// <param name="ExecutionRoleArn">The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role . For more information, refer to Amazon MWAA Execution role . Constraints: • min: 1 • max: 1224 • pattern: arn:aws(-[a-z]+)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+</param>
+    /// <param name="SourceBucketArn">The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name . For more information, refer to Create an Amazon S3 bucket for Amazon MWAA . Constraints: • min: 1 • max: 1224 • pattern: arn:aws(-[a-z]+)?:s3:::[a-z0-9.\-]+</param>
+    /// <param name="DagS3Path">The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags . For more information, refer to Adding or updating DAGs . Constraints: • min: 0 • max: 1024 • pattern: .*</param>
+    /// <param name="NetworkConfiguration">The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, refer to About networking on Amazon MWAA . SubnetIds -&gt; (list) A list of subnet IDs. For more information, refer to About networking on Amazon MWAA . Constraints: • min: 2 • max: 2 (string) Constraints: • min: 1 • max: 1024 • pattern: subnet-[a-zA-Z0-9\-._]+ SecurityGroupIds -&gt; (list) A list of security group IDs. For more information, refer to Security in your VPC on Amazon MWAA . Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 1024 • pattern: sg-[a-zA-Z0-9\-._]+ Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }</param>
     public AwsMwaaCreateEnvironmentOptions(
         string Name,
         string ExecutionRoleArn,
@@ -74,151 +74,151 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the Amazon MWAA environment. For example, MyMWAAEnviron- ment . Constraints: o min: 1 o max: 80 o pattern: [a-zA-Z][0-9a-zA-Z-_]*
+    /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment . Constraints: • min: 1 • max: 80 • pattern: [a-zA-Z][0-9a-zA-Z-_]*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the execution role for your envi- ronment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role . For more information, refer to Amazon MWAA Execution role . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
+    /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role . For more information, refer to Amazon MWAA Execution role . Constraints: • min: 1 • max: 1224 • pattern: arn:aws(-[a-z]+)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+
     /// </summary>
     [CliOption("--execution-role-arn")]
     public string? ExecutionRoleArn { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name . For more information, refer to Create an Amazon S3 bucket for Amazon MWAA . Constraints: o min: 1 o max: 1224 o pattern: arn:aws(-[a-z]+)?:s3:::[a-z0-9.\-]+
+    /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name . For more information, refer to Create an Amazon S3 bucket for Amazon MWAA . Constraints: • min: 1 • max: 1224 • pattern: arn:aws(-[a-z]+)?:s3:::[a-z0-9.\-]+
     /// </summary>
     [CliOption("--source-bucket-arn")]
     public string? SourceBucketArn { get; private init; }
 
     /// <summary>
-    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags . For more information, refer to Adding or updating DAGs . Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags . For more information, refer to Adding or updating DAGs . Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--dag-s3-path")]
     public string? DagS3Path { get; private init; }
 
     /// <summary>
-    /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environ- ment. For more information, refer to About networking on Amazon MWAA . SubnetIds -&gt; (list) A list of subnet IDs. For more information, refer to About net- working on Amazon MWAA . Constraints: o min: 2 o max: 2 (string) Constraints: o min: 1 o max: 1024 o pattern: subnet-[a-zA-Z0-9\-._]+ SecurityGroupIds -&gt; (list) A list of security group IDs. For more information, refer to Security in your VPC on Amazon MWAA . Constraints: o min: 1 o max: 5 (string) Constraints: o min: 1 o max: 1024 o pattern: sg-[a-zA-Z0-9\-._]+ Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
+    /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, refer to About networking on Amazon MWAA . SubnetIds -&gt; (list) A list of subnet IDs. For more information, refer to About networking on Amazon MWAA . Constraints: • min: 2 • max: 2 (string) Constraints: • min: 1 • max: 1024 • pattern: subnet-[a-zA-Z0-9\-._]+ SecurityGroupIds -&gt; (list) A list of security group IDs. For more information, refer to Security in your VPC on Amazon MWAA . Constraints: • min: 1 • max: 5 (string) Constraints: • min: 1 • max: 1024 • pattern: sg-[a-zA-Z0-9\-._]+ Shorthand Syntax: SubnetIds=string,string,SecurityGroupIds=string,string JSON Syntax: { "SubnetIds": ["string", ...], "SecurityGroupIds": ["string", ...] }
     /// </summary>
     [CliOption("--network-configuration")]
     public string? NetworkConfiguration { get; private init; }
 
     /// <summary>
-    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip . If specified, then the plugins.zip ver- sion is required. For more information, refer to Installing custom plugins . Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip . If specified, then the plugins.zip version is required. For more information, refer to Installing custom plugins . Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--plugins-s3-path")]
     public string? PluginsS3Path { get; set; }
 
     /// <summary>
-    /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, refer to How S3 Versioning works . Constraints: o min: 0 o max: 1024
+    /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, refer to How S3 Versioning works . Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--plugins-s3-object-version")]
     public string? PluginsS3ObjectVersion { get; set; }
 
     /// <summary>
-    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt . If specified, then a version is required. For more information, refer to Installing Python depen- dencies . Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt . If specified, then a version is required. For more information, refer to Installing Python dependencies . Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--requirements-s3-path")]
     public string? RequirementsS3Path { get; set; }
 
     /// <summary>
-    /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is up- dated. For more information, refer to How S3 Versioning works . Constraints: o min: 0 o max: 1024
+    /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, refer to How S3 Versioning works . Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--requirements-s3-object-version")]
     public string? RequirementsS3ObjectVersion { get; set; }
 
     /// <summary>
-    /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh . Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to in- stall dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script . Constraints: o min: 0 o max: 1024 o pattern: .*
+    /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh . Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script . Constraints: • min: 0 • max: 1024 • pattern: .*
     /// </summary>
     [CliOption("--startup-script-s3-path")]
     public string? StartupScriptS3Path { get; set; }
 
     /// <summary>
-    /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, refer to Using a startup script . Constraints: o min: 0 o max: 1024
+    /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script. Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example: 3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo For more information, refer to Using a startup script . Constraints: • min: 0 • max: 1024
     /// </summary>
     [CliOption("--startup-script-s3-object-version")]
     public string? StartupScriptS3ObjectVersion { get; set; }
 
     /// <summary>
-    /// A list of key-value pairs containing the Apache Airflow configura- tion options you want to attach to your environment. For more infor- mation, refer to Apache Airflow configuration options . key -&gt; (string) Constraints: o min: 1 o max: 64 o pattern: [a-z]+([a-z0-9._]*[a-z0-9_]+)? value -&gt; (string) Constraints: o min: 1 o max: 65536 o pattern: [ -~]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, refer to Apache Airflow configuration options . key -&gt; (string) Constraints: • min: 1 • max: 64 • pattern: [a-z]+([a-z0-9._]*[a-z0-9_]+)? value -&gt; (string) Constraints: • min: 1 • max: 65536 • pattern: [ -~]+ Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--airflow-configuration-options", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? AirflowConfigurationOptions { get; set; }
 
     /// <summary>
-    /// The environment class type. Valid values: mw1.micro , mw1.small , mw1.medium , mw1.large , mw1.xlarge , and mw1.2xlarge . For more in- formation, refer to Amazon MWAA environment class . Constraints: o min: 1 o max: 1024
+    /// The environment class type. Valid values: mw1.micro , mw1.small , mw1.medium , mw1.large , mw1.xlarge , and mw1.2xlarge . For more information, refer to Amazon MWAA environment class . Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--environment-class")]
     public AwsMwaaCreateEnvironmentEnvironmentClass? EnvironmentClass { get; set; }
 
     /// <summary>
-    /// The maximum number of workers that you want to run in your environ- ment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20 . When there are no more tasks running, and no more in the queue, MWAA dis- poses of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers . Constraints: o min: 1
+    /// The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. For example, 20 . When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the one worker that is included with your environment, or the number you specify in MinWorkers . Constraints: • min: 1
     /// </summary>
     [CliOption("--max-workers")]
     public int? MaxWorkers { get; set; }
 
     /// <summary>
-    /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more informa- tion, refer to Create an Amazon MWAA environment . Constraints: o min: 1 o max: 1224 o pattern: (((arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\d:\d+:)?key\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\d:\d+:)?alias/.+)
+    /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, refer to Create an Amazon MWAA environment . Constraints: • min: 1 • max: 1224 • pattern: (((arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\d:\d+:)?key\/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|(arn:aws(-[a-z]+)?:kms:[a-z]{2}-[a-z]+-\d:\d+:)?alias/.+)
     /// </summary>
     [CliOption("--kms-key")]
     public string? KmsKey { get; set; }
 
     /// <summary>
-    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, refer to Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA) . Valid values: 2.7.2 , 2.8.1 , 2.9.2 , 2.10.1 , 2.10.3 , 2.11.0 , and 3.0.6 . Constraints: o min: 1 o max: 32 o pattern: [0-9a-z.]+
+    /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, refer to Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA) . Valid values: 2.7.2 , 2.8.1 , 2.9.2 , 2.10.1 , 2.10.3 , 2.11.0 , and 3.0.6 . Constraints: • min: 1 • max: 32 • pattern: [0-9a-z.]+
     /// </summary>
     [CliOption("--airflow-version")]
     public string? AirflowVersion { get; set; }
 
     /// <summary>
-    /// Defines the Apache Airflow logs to send to CloudWatch Logs. DagProcessingLogs -&gt; (structure) Publishes Airflow DAG processing logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG SchedulerLogs -&gt; (structure) Publishes Airflow scheduler logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG WebserverLogs -&gt; (structure) Publishes Airflow web server logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG WorkerLogs -&gt; (structure) Publishes Airflow worker logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG TaskLogs -&gt; (structure) Publishes Airflow task logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: o CRITICAL o ERROR o WARNING o INFO o DEBUG Shorthand Syntax: DagProcessingLogs={Enabled=boolean,LogLevel=string},SchedulerLogs={Enabled=boolean,LogLevel=string},WebserverLogs={Enabled=boolean,LogLevel=string},WorkerLogs={Enabled=boolean,LogLevel=string},TaskLogs={Enabled=boolean,LogLevel=string} JSON Syntax: { "DagProcessingLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "SchedulerLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "WebserverLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "WorkerLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "TaskLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" } }
+    /// Defines the Apache Airflow logs to send to CloudWatch Logs. DagProcessingLogs -&gt; (structure) Publishes Airflow DAG processing logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: • CRITICAL • ERROR • WARNING • INFO • DEBUG SchedulerLogs -&gt; (structure) Publishes Airflow scheduler logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: • CRITICAL • ERROR • WARNING • INFO • DEBUG WebserverLogs -&gt; (structure) Publishes Airflow web server logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: • CRITICAL • ERROR • WARNING • INFO • DEBUG WorkerLogs -&gt; (structure) Publishes Airflow worker logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: • CRITICAL • ERROR • WARNING • INFO • DEBUG TaskLogs -&gt; (structure) Publishes Airflow task logs to CloudWatch Logs. Enabled -&gt; (boolean) [required] Indicates whether to enable the Apache Airflow log type (e.g. DagProcessingLogs ). LogLevel -&gt; (string) [required] Defines the Apache Airflow log level (e.g. INFO ) to send to CloudWatch Logs. Possible values: • CRITICAL • ERROR • WARNING • INFO • DEBUG Shorthand Syntax: DagProcessingLogs={Enabled=boolean,LogLevel=string},SchedulerLogs={Enabled=boolean,LogLevel=string},WebserverLogs={Enabled=boolean,LogLevel=string},WorkerLogs={Enabled=boolean,LogLevel=string},TaskLogs={Enabled=boolean,LogLevel=string} JSON Syntax: { "DagProcessingLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "SchedulerLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "WebserverLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "WorkerLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" }, "TaskLogs": { "Enabled": true|false, "LogLevel": "CRITICAL"|"ERROR"|"WARNING"|"INFO"|"DEBUG" } }
     /// </summary>
     [CliOption("--logging-configuration")]
     public string? LoggingConfiguration { get; set; }
 
     /// <summary>
-    /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM . For example: TUE:03:30 . You can specify a start time in 30 minute increments only. Constraints: o min: 1 o max: 9 o pattern: .*(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\d|2[0-3]):(00|30).*
+    /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM . For example: TUE:03:30 . You can specify a start time in 30 minute increments only. Constraints: • min: 1 • max: 9 • pattern: .*(MON|TUE|WED|THU|FRI|SAT|SUN):([01]\d|2[0-3]):(00|30).*
     /// </summary>
     [CliOption("--weekly-maintenance-window-start")]
     public string? WeeklyMaintenanceWindowStart { get; set; }
 
     /// <summary>
-    /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging" . For more information, refer to Tagging Amazon Web Services resources . Constraints: o min: 1 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 1 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging" . For more information, refer to Tagging Amazon Web Services resources . Constraints: • min: 1 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 1 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
 
     /// <summary>
-    /// Defines the access mode for the Apache Airflow web server . For more information, refer to Apache Airflow access modes . If set to PUBLIC_AND_PRIVATE , creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later. Possible values: o PRIVATE_ONLY o PUBLIC_ONLY o PUBLIC_AND_PRIVATE
+    /// Defines the access mode for the Apache Airflow web server . For more information, refer to Apache Airflow access modes . If set to PUBLIC_AND_PRIVATE , creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later. Possible values: • PRIVATE_ONLY • PUBLIC_ONLY • PUBLIC_AND_PRIVATE
     /// </summary>
     [CliOption("--webserver-access-mode")]
     public AwsMwaaCreateEnvironmentWebserverAccessMode? WebserverAccessMode { get; set; }
 
     /// <summary>
-    /// The minimum number of workers that you want to run in your environ- ment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the worker count you specify in the MinWorkers field. For example, 2 . Constraints: o min: 1
+    /// The minimum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers up to the number you specify in the MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra workers leaving the worker count you specify in the MinWorkers field. For example, 2 . Constraints: • min: 1
     /// </summary>
     [CliOption("--min-workers")]
     public int? MinWorkers { get; set; }
 
     /// <summary>
-    /// The number of Apache Airflow schedulers to run in your environment. Valid values: o v2 - For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1 . o v1 - Accepts 1 . Constraints: o max: 5
+    /// The number of Apache Airflow schedulers to run in your environment. Valid values: • v2 - For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1 . • v1 - Accepts 1 . Constraints: • max: 5
     /// </summary>
     [CliOption("--schedulers")]
     public int? Schedulers { get; set; }
 
     /// <summary>
-    /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE , Amazon MWAA will create and manage the required VPC end- points in your VPC. If set to CUSTOMER , you must create, and man- age, the VPC endpoints for your VPC. If you choose to create an en- vironment in a shared VPC, you must set this value to CUSTOMER . In a shared VPC deployment, the environment will remain in PENDING sta- tus until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CRE- ATE_FAILED . You can delete the failed environment and create a new one. Possible values: o CUSTOMER o SERVICE
+    /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE , Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER , you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER . In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED . You can delete the failed environment and create a new one. Possible values: • CUSTOMER • SERVICE
     /// </summary>
     [CliOption("--endpoint-management")]
     public AwsMwaaCreateEnvironmentEndpointManagement? EndpointManagement { get; set; }
 
     /// <summary>
-    /// The minimum number of web servers that you want to run in your envi- ronment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers . Valid values: For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.mi- cro, which defaults to 1 . Constraints: o min: 1
+    /// The minimum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers . Valid values: For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1 . Constraints: • min: 1
     /// </summary>
     [CliOption("--min-webservers")]
     public int? MinWebservers { get; set; }
 
     /// <summary>
-    /// The maximum number of web servers that you want to run in your envi- ronment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers . As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers . Valid values: For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.mi- cro, which defaults to 1 . Constraints: o min: 1
+    /// The maximum number of web servers that you want to run in your environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number you specify for MaxWebservers when you interact with your Apache Airflow environment using Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your workload requires network calls to the Apache Airflow REST API with a high transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up to the number set in MaxWebserers . As TPS rates decrease Amazon MWAA disposes of the additional web servers, and scales down to the number set in MinxWebserers . Valid values: For environments larger than mw1.micro, accepts values from 2 to 5 . Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1 . Constraints: • min: 1
     /// </summary>
     [CliOption("--max-webservers")]
     public int? MaxWebservers { get; set; }
@@ -244,6 +244,15 @@ public record AwsMwaaCreateEnvironmentOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Disassociates a member account from an Amazon Inspector delegated ad- ministrator. See also: AWS API Documentation
+/// Disassociates a member account from an Amazon Inspector delegated administrator. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsInspector2DisassociateMemberOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Disassociates a member account from an Amazon Inspector delegated ad- ministrator. See also: AWS API Documentation
+    /// Disassociates a member account from an Amazon Inspector delegated administrator. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AccountId">The Amazon Web Services account ID of the member account to disasso- ciate. Constraints: o min: 12 o max: 12 o pattern: \d{12}</param>
+    /// <param name="AccountId">The Amazon Web Services account ID of the member account to disassociate. Constraints: • min: 12 • max: 12 • pattern: \d{12}</param>
     public AwsInspector2DisassociateMemberOptions(
         string AccountId
     )
@@ -56,7 +57,7 @@ public record AwsInspector2DisassociateMemberOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account ID of the member account to disasso- ciate. Constraints: o min: 12 o max: 12 o pattern: \d{12}
+    /// The Amazon Web Services account ID of the member account to disassociate. Constraints: • min: 12 • max: 12 • pattern: \d{12}
     /// </summary>
     [CliOption("--account-id")]
     public string? AccountId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsInspector2DisassociateMemberOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

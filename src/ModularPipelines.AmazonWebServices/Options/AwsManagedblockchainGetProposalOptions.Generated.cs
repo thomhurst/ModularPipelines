@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsManagedblockchainGetProposalOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Returns detailed information about a proposal. Applies only to Hyperledger Fabric. See also: AWS API Documentation
     /// </summary>
-    /// <param name="NetworkId">The unique identifier of the network for which the proposal is made. Constraints: o min: 1 o max: 32</param>
-    /// <param name="ProposalId">The unique identifier of the proposal. Constraints: o min: 1 o max: 32</param>
+    /// <param name="NetworkId">The unique identifier of the network for which the proposal is made. Constraints: • min: 1 • max: 32</param>
+    /// <param name="ProposalId">The unique identifier of the proposal. Constraints: • min: 1 • max: 32</param>
     public AwsManagedblockchainGetProposalOptions(
         string NetworkId,
         string ProposalId
@@ -60,13 +61,13 @@ public record AwsManagedblockchainGetProposalOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique identifier of the network for which the proposal is made. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the network for which the proposal is made. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--network-id")]
     public string? NetworkId { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the proposal. Constraints: o min: 1 o max: 32
+    /// The unique identifier of the proposal. Constraints: • min: 1 • max: 32
     /// </summary>
     [CliOption("--proposal-id")]
     public string? ProposalId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsManagedblockchainGetProposalOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

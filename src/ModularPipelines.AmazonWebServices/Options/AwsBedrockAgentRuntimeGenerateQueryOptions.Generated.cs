@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates an SQL query from a natural language query. For more informa- tion, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
+/// Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsBedrockAgentRuntimeGenerateQueryOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates an SQL query from a natural language query. For more informa- tion, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
+    /// Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="QueryGenerationInput">Specifies information about a natural language query to transform into SQL. text -&gt; (string) [required] The text of the query. Constraints: o min: 1 o max: 20000 o pattern: ^(?!\s*$).+ type -&gt; (string) [required] The type of the query. Possible values: o TEXT Shorthand Syntax: text=string,type=string JSON Syntax: { "text": "string", "type": "TEXT" }</param>
-    /// <param name="TransformationConfiguration">Specifies configurations for transforming the natural language query into SQL. mode -&gt; (string) [required] The mode of the transformation. Possible values: o TEXT_TO_SQL textToSqlConfiguration -&gt; (structure) Specifies configurations for transforming text to SQL. knowledgeBaseConfiguration -&gt; (structure) Specifies configurations for a knowledge base to use in transformation. knowledgeBaseArn -&gt; (string) [required] The ARN of the knowledge base Constraints: o min: 0 o max: 128 o pattern: ^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+$ type -&gt; (string) [required] The type of resource to use in transformation. Possible values: o KNOWLEDGE_BASE Shorthand Syntax: mode=string,textToSqlConfiguration={knowledgeBaseConfiguration={knowledgeBaseArn=string},type=string} JSON Syntax: { "mode": "TEXT_TO_SQL", "textToSqlConfiguration": { "knowledgeBaseConfiguration": { "knowledgeBaseArn": "string" }, "type": "KNOWLEDGE_BASE" } }</param>
+    /// <param name="QueryGenerationInput">Specifies information about a natural language query to transform into SQL. text -&gt; (string) [required] The text of the query. Constraints: • min: 1 • max: 20000 • pattern: ^(?!\s*$).+ type -&gt; (string) [required] The type of the query. Possible values: • TEXT Shorthand Syntax: text=string,type=string JSON Syntax: { "text": "string", "type": "TEXT" }</param>
+    /// <param name="TransformationConfiguration">Specifies configurations for transforming the natural language query into SQL. mode -&gt; (string) [required] The mode of the transformation. Possible values: • TEXT_TO_SQL textToSqlConfiguration -&gt; (structure) Specifies configurations for transforming text to SQL. knowledgeBaseConfiguration -&gt; (structure) Specifies configurations for a knowledge base to use in transformation. knowledgeBaseArn -&gt; (string) [required] The ARN of the knowledge base Constraints: • min: 0 • max: 128 • pattern: ^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$ type -&gt; (string) [required] The type of resource to use in transformation. Possible values: • KNOWLEDGE_BASE Shorthand Syntax: mode=string,textToSqlConfiguration={knowledgeBaseConfiguration={knowledgeBaseArn=string},type=string} JSON Syntax: { "mode": "TEXT_TO_SQL", "textToSqlConfiguration": { "knowledgeBaseConfiguration": { "knowledgeBaseArn": "string" }, "type": "KNOWLEDGE_BASE" } }</param>
     public AwsBedrockAgentRuntimeGenerateQueryOptions(
         string QueryGenerationInput,
         string TransformationConfiguration
@@ -60,13 +61,13 @@ public record AwsBedrockAgentRuntimeGenerateQueryOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies information about a natural language query to transform into SQL. text -&gt; (string) [required] The text of the query. Constraints: o min: 1 o max: 20000 o pattern: ^(?!\s*$).+ type -&gt; (string) [required] The type of the query. Possible values: o TEXT Shorthand Syntax: text=string,type=string JSON Syntax: { "text": "string", "type": "TEXT" }
+    /// Specifies information about a natural language query to transform into SQL. text -&gt; (string) [required] The text of the query. Constraints: • min: 1 • max: 20000 • pattern: ^(?!\s*$).+ type -&gt; (string) [required] The type of the query. Possible values: • TEXT Shorthand Syntax: text=string,type=string JSON Syntax: { "text": "string", "type": "TEXT" }
     /// </summary>
     [CliOption("--query-generation-input")]
     public string? QueryGenerationInput { get; private init; }
 
     /// <summary>
-    /// Specifies configurations for transforming the natural language query into SQL. mode -&gt; (string) [required] The mode of the transformation. Possible values: o TEXT_TO_SQL textToSqlConfiguration -&gt; (structure) Specifies configurations for transforming text to SQL. knowledgeBaseConfiguration -&gt; (structure) Specifies configurations for a knowledge base to use in transformation. knowledgeBaseArn -&gt; (string) [required] The ARN of the knowledge base Constraints: o min: 0 o max: 128 o pattern: ^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowl- edge-base/[0-9a-zA-Z]+$ type -&gt; (string) [required] The type of resource to use in transformation. Possible values: o KNOWLEDGE_BASE Shorthand Syntax: mode=string,textToSqlConfiguration={knowledgeBaseConfiguration={knowledgeBaseArn=string},type=string} JSON Syntax: { "mode": "TEXT_TO_SQL", "textToSqlConfiguration": { "knowledgeBaseConfiguration": { "knowledgeBaseArn": "string" }, "type": "KNOWLEDGE_BASE" } }
+    /// Specifies configurations for transforming the natural language query into SQL. mode -&gt; (string) [required] The mode of the transformation. Possible values: • TEXT_TO_SQL textToSqlConfiguration -&gt; (structure) Specifies configurations for transforming text to SQL. knowledgeBaseConfiguration -&gt; (structure) Specifies configurations for a knowledge base to use in transformation. knowledgeBaseArn -&gt; (string) [required] The ARN of the knowledge base Constraints: • min: 0 • max: 128 • pattern: ^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$ type -&gt; (string) [required] The type of resource to use in transformation. Possible values: • KNOWLEDGE_BASE Shorthand Syntax: mode=string,textToSqlConfiguration={knowledgeBaseConfiguration={knowledgeBaseArn=string},type=string} JSON Syntax: { "mode": "TEXT_TO_SQL", "textToSqlConfiguration": { "knowledgeBaseConfiguration": { "knowledgeBaseArn": "string" }, "type": "KNOWLEDGE_BASE" } }
     /// </summary>
     [CliOption("--transformation-configuration")]
     public string? TransformationConfiguration { get; private init; }
@@ -92,6 +93,15 @@ public record AwsBedrockAgentRuntimeGenerateQueryOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

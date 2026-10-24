@@ -15,7 +15,7 @@ using ModularPipelines.AmazonWebServices.Options;
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Query a set of OpsItems. You must have permission in Identity and Ac- cess Management (IAM) to query a list of OpsItems. For more informa- tion, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Sys- tems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Ser- vices resources. For more information, see Amazon Web Services Syst...
+/// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web Services Systems Manager User Guide . Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see Amazon Web Services Systems Mana...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -23,16 +23,13 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsSsmDescribeOpsItemsOptions : AwsOptions
 {
     /// <summary>
-    /// One or more filters to limit the response. o Key: CreatedTime Operations: GreaterThan, LessThan o Key: LastModifiedBy Operations: Contains, Equals o Key: LastModifiedTime Operations: GreaterThan, LessThan o Key: Priority Operations: Equals o Key: Source Operations: Contains, Equals o Key: Status Operations: Equals o Key: Title* Operations: Equals,Contains o Key: OperationalData** Operations: Equals o Key: OperationalDataKey Operations: Equals o Key: OperationalDataValue Operations: Equals, Contains o Key: OpsItemId Operations: Equals o Key: ResourceId Operations: Contains o Key: AutomationId Operations: Equals o Key: AccountId Operations: Equals * The Equals operator for Title matches the first 100 characters. If you specify more than 100 characters, they system returns an error that the filter value exceeds the length limit. System Message: WARNING/2 (&lt;string&gt;:, line 115) Inline emphasis start-string without end-string. ** If you filter the response by using the OperationalData oper- ator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"} System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline strong start-string without end-string. (structure) Describes an OpsItem filter. Key -&gt; (string) [required] The name of the filter. Possible values: o Status o CreatedBy o Source o Priority o Title o OpsItemId o CreatedTime o LastModifiedTime o ActualStartTime o ActualEndTime o PlannedStartTime o PlannedEndTime o OperationalData o OperationalDataKey o OperationalDataValue o ResourceId o AutomationId o Category o Severity o OpsItemType o AccessRequestByRequesterArn o AccessRequestByRequesterId o AccessRequestByApproverArn o AccessRequestByApproverId o AccessRequestBySourceAccountId o AccessRequestBySourceOpsItemId o AccessRequestBySourceRegion o AccessRequestByIsReplica o AccessRequestByTargetResourceId o ChangeRequestByRequesterArn o ChangeRequestByRequesterName o ChangeRequestByApproverArn o ChangeRequestByApproverName o ChangeRequestByTemplate o ChangeRequestByTargetsResourceGroup o InsightByType o AccountId Values -&gt; (list) [required] The filter value. (string) Operator -&gt; (string) [required] The operator used by the filter call. Possible values: o Equal o Contains o GreaterThan o LessThan Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "Status"|"CreatedBy"|"Source"|"Priority"|"Title"|"OpsItemId"|"CreatedTime"|"LastModifiedTime"|"ActualStartTime"|"ActualEndTime"|"PlannedStartTime"|"PlannedEndTime"|"OperationalData"|"OperationalDataKey"|"OperationalDataValue"|"ResourceId"|"AutomationId"|"Category"|"Severity"|"OpsItemType"|"AccessRequestByRequesterArn"|"AccessRequestByRequesterId"|"AccessRequestByApproverArn"|"AccessRequestByApproverId"|"AccessRequestBySourceAccountId"|"AccessRequestBySourceOpsItemId"|"AccessRequestBySourceRegion"|"AccessRequestByIsReplica"|"AccessRequestByTargetResourceId"|"ChangeRequestByRequesterArn"|"ChangeRequestByRequesterName"|"ChangeRequestByApproverArn"|"ChangeRequestByApproverName"|"ChangeRequestByTemplate"|"ChangeRequestByTargetsResourceGroup"|"InsightByType"|"AccountId", "Values": ["string", ...], "Operator": "Equal"|"Contains"|"GreaterThan"|"LessThan" } ... ]
+    /// One or more filters to limit the response. • Key: CreatedTime Operations: GreaterThan, LessThan • Key: LastModifiedBy Operations: Contains, Equals • Key: LastModifiedTime Operations: GreaterThan, LessThan • Key: Priority Operations: Equals • Key: Source Operations: Contains, Equals • Key: Status Operations: Equals • Key: Title* Operations: Equals,Contains • Key: OperationalData** Operations: Equals • Key: OperationalDataKey Operations: Equals • Key: OperationalDataValue Operations: Equals, Contains • Key: OpsItemId Operations: Equals • Key: ResourceId Operations: Contains • Key: AutomationId Operations: Equals • Key: AccountId Operations: Equals * The Equals operator for Title matches the first 100 characters. If you specify more than 100 characters, they system returns an error that the filter value exceeds the length limit. System Message: WARNING/2 (&lt;string&gt;:, line 115) Inline emphasis start-string without end-string. ** If you filter the response by using the OperationalData operator, specify a key-value pair by using the following JSON format: {"key":"key_name","value":"a_value"} System Message: WARNING/2 (&lt;string&gt;:, line 119) Inline strong start-string without end-string. (structure) Describes an OpsItem filter. Key -&gt; (string) [required] The name of the filter. Possible values: • Status • CreatedBy • Source • Priority • Title • OpsItemId • CreatedTime • LastModifiedTime • ActualStartTime • ActualEndTime • PlannedStartTime • PlannedEndTime • OperationalData • OperationalDataKey • OperationalDataValue • ResourceId • AutomationId • Category • Severity • OpsItemType • AccessRequestByRequesterArn • AccessRequestByRequesterId • AccessRequestByApproverArn • AccessRequestByApproverId • AccessRequestBySourceAccountId • AccessRequestBySourceOpsItemId • AccessRequestBySourceRegion • AccessRequestByIsReplica • AccessRequestByTargetResourceId • ChangeRequestByRequesterArn • ChangeRequestByRequesterName • ChangeRequestByApproverArn • ChangeRequestByApproverName • ChangeRequestByTemplate • ChangeRequestByTargetsResourceGroup • InsightByType • AccountId Values -&gt; (list) [required] The filter value. (string) Operator -&gt; (string) [required] The operator used by the filter call. Possible values: • Equal • Contains • GreaterThan • LessThan Shorthand Syntax: Key=string,Values=string,string,Operator=string ... JSON Syntax: [ { "Key": "Status"|"CreatedBy"|"Source"|"Priority"|"Title"|"OpsItemId"|"CreatedTime"|"LastModifiedTime"|"ActualStartTime"|"ActualEndTime"|"PlannedStartTime"|"PlannedEndTime"|"OperationalData"|"OperationalDataKey"|"OperationalDataValue"|"ResourceId"|"AutomationId"|"Category"|"Severity"|"OpsItemType"|"AccessRequestByRequesterArn"|"AccessRequestByRequesterId"|"AccessRequestByApproverArn"|"AccessRequestByApproverId"|"AccessRequestBySourceAccountId"|"AccessRequestBySourceOpsItemId"|"AccessRequestBySourceRegion"|"AccessRequestByIsReplica"|"AccessRequestByTargetResourceId"|"ChangeRequestByRequesterArn"|"ChangeRequestByRequesterName"|"ChangeRequestByApproverArn"|"ChangeRequestByApproverName"|"ChangeRequestByTemplate"|"ChangeRequestByTargetsResourceGroup"|"InsightByType"|"AccountId", "Values": ["string", ...], "Operator": "Equal"|"Contains"|"GreaterThan"|"LessThan" } ... ]
     /// </summary>
     [CliOption("--ops-item-filters", GroupValues = true)]
     public IEnumerable<string>? OpsItemFilters { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -42,15 +39,27 @@ public record AwsSsmDescribeOpsItemsOptions : AwsOptions
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 50
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 50
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

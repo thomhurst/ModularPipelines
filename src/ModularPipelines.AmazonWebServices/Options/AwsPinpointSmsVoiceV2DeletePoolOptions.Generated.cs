@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can in- clude one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. See also: AWS API Documentation
+/// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsPinpointSmsVoiceV2DeletePoolOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can in- clude one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. See also: AWS API Documentation
+    /// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="PoolId">The PoolId or PoolArn of the pool to delete. You can use De- scribePools to find the values for PoolId and PoolArn . WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*</param>
+    /// <param name="PoolId">The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn . WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*</param>
     public AwsPinpointSmsVoiceV2DeletePoolOptions(
         string PoolId
     )
@@ -56,7 +57,7 @@ public record AwsPinpointSmsVoiceV2DeletePoolOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The PoolId or PoolArn of the pool to delete. You can use De- scribePools to find the values for PoolId and PoolArn . WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn . WARNING: If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN). Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsPinpointSmsVoiceV2DeletePoolOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

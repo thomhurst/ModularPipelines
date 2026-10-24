@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthenti- cation or UserFederation categories. To increase these limits, submit a Service Quotas increase request. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to ...
+/// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthentication or UserFederation categories. To increase these limits, submit a Service Quotas increase request. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to auth...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCognitoIdpUpdateProvisionedLimitOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthenti- cation or UserFederation categories. To increase these limits, submit a Service Quotas increase request. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) poli- cies in requests for this API operation. For this operation, you must use IAM credentials to ...
+    /// Sets the provisioned limit for a specific API category. The value must be between the default limit and your account-level maximum limit in Service Quotas. Managed login user pools don't support adjustments to the UserAuthentication or UserFederation categories. To increase these limits, submit a Service Quotas increase request. NOTE: Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to auth...
     /// </summary>
-    /// <param name="LimitDefinition">The limit to update. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }</param>
+    /// <param name="LimitDefinition">The limit to update. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATEGORY . Possible values: • API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation . key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }</param>
     /// <param name="RequestedLimitValue">The provisioned rate to set, in requests per second (RPS).</param>
     public AwsCognitoIdpUpdateProvisionedLimitOptions(
         string LimitDefinition,
@@ -59,7 +60,7 @@ public record AwsCognitoIdpUpdateProvisionedLimitOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The limit to update. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATE- GORY . Possible values: o API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthenti- cation or UserCreation . key -&gt; (string) Constraints: o min: 0 o max: 131072 value -&gt; (string) Constraints: o min: 0 o max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }
+    /// The limit to update. Specify the limit class and the attributes that identify the limit. LimitClass -&gt; (string) [required] The class of the limit. For API rate limits, this is API_CATEGORY . Possible values: • API_CATEGORY Attributes -&gt; (map) [required] The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation . key -&gt; (string) Constraints: • min: 0 • max: 131072 value -&gt; (string) Constraints: • min: 0 • max: 131072 Shorthand Syntax: LimitClass=string,Attributes={KeyName1=string,KeyName2=string} JSON Syntax: { "LimitClass": "API_CATEGORY", "Attributes": {"string": "string" ...} }
     /// </summary>
     [CliOption("--limit-definition")]
     public string? LimitDefinition { get; private init; }
@@ -91,6 +92,15 @@ public record AwsCognitoIdpUpdateProvisionedLimitOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

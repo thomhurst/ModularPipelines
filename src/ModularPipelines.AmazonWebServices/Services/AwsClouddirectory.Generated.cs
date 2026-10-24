@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -62,7 +62,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Attaches an existing object to another object. An object can be ac- cessed in two ways: o Using the path o Using ObjectIdentifier See also: AWS API Documentation
+    /// Attaches an existing object to another object. An object can be accessed in two ways: • Using the path • Using ObjectIdentifier See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -77,7 +77,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Attaches a policy object to a regular object. An object can have a lim- ited number of attached policies. See also: AWS API Documentation
+    /// Attaches a policy object to a regular object. An object can have a limited number of attached policies. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Creates a Directory by copying the published schema into the direc- tory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
+    /// Creates a Directory by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema . For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Creates a new Facet in a schema. Facet creation is allowed only in de- velopment or applied schemas. See also: AWS API Documentation
+    /// Creates a new Facet in a schema. Facet creation is allowed only in development or applied schemas. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -212,7 +212,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Creates a new schema in a development state. A schema can exist in three phases: o Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. o Published: Published schemas are immutable and have a version associ- ated with them. o Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only...
+    /// Creates a new schema in a development state. A schema can exist in three phases: • Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published. • Published: Published schemas are immutable and have a version associated with them. • Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only p...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -257,7 +257,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are al- lowed deletion. See also: AWS API Documentation
+    /// Deletes a given Facet . All attributes and Rule s that are associated with the facet will be deleted. Only development schema facets are allowed deletion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -272,7 +272,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attrib- utes that can be deleted during an object deletion is 30. For more in- formation, see Amazon Cloud Directory Limits . See also: AWS API Documentation
+    /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -377,7 +377,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled di- rectories may be reenabled. See also: AWS API Documentation
+    /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Enables the specified directory. Only disabled directories can be en- abled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
+    /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- pub- lished, development, or applied. See also: AWS API Documentation
+    /// Gets details of the Facet , such as facet name, attributes, Rule s, or ObjectType . You can call this on all kinds of schema facets -- published, development, or applied. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,7 +527,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version. See also: AWS API Documentation list-applied-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expr...
+    /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version. See also: AWS API Documentation list-applied-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expres...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -557,7 +557,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state. See also: AWS API Documentation list-development-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SchemaArn...
+    /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state. See also: AWS API Documentation list-development-schema-arns is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: SchemaArns
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Returns a paginated list of all the incoming TypedLinkSpecifier infor- mation for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-incoming-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+    /// Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-incoming-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Lists objects attached to the specified index. See also: AWS API Documentation list-index is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --out- put text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query ex- pressions: IndexAttachments
+    /// Lists objects attached to the specified index. See also: AWS API Documentation list-index is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: IndexAttachments
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,7 +707,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Lists parent objects that are associated with a given object in pagina- tion fashion. See also: AWS API Documentation
+    /// Lists parent objects that are associated with a given object in pagination fashion. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -737,7 +737,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Returns a paginated list of all the outgoing TypedLinkSpecifier infor- mation for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pa...
+    /// Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links . See also: AWS API Documentation list-outgoing-typed-links is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a pagi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -752,7 +752,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Returns all of the ObjectIdentifiers to which a given policy is at- tached. See also: AWS API Documentation list-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the follow- ing query expressions: ObjectIdentifiers
+    /// Returns all of the ObjectIdentifiers to which a given policy is attached. See also: AWS API Documentation list-policy-attachments is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the following query expressions: ObjectIdentifiers
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are re- turned for a given directory with this API call. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, t...
+    /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call. See also: AWS API Documentation list-tags-for-resource is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Returns a paginated list of all attribute definitions for a particular TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the ...
+    /// Returns a paginated list of all attribute definitions for a particular TypedLinkFacet . For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-attributes is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the resu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -812,7 +812,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the fol...
+    /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links . See also: AWS API Documentation list-typed-link-facet-names is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated response, the --query argument must extract data from the results of the followi...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Lists all policies from the root of the Directory to the object speci- fied. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies at- tached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier , policyId , and policyType . Paths that don't lead to the root from the target object are ignored. For more information, see Policies . See also: AWS API Documentation lookup-po...
+    /// Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier , policyId , and policyType . Paths that don't lead to the root from the target object are ignored. For more information, see Policies . See also: AWS API Documentation lookup-policy...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Allows a schema to be updated using JSON upload. Only available for de- velopment schemas. See JSON Schema Format for more information. See also: AWS API Documentation
+    /// Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Does the following: o Adds new Attributes , Rules , or ObjectTypes . o Updates existing Attributes , Rules , or ObjectTypes . o Deletes existing Attributes , Rules , or ObjectTypes . See also: AWS API Documentation
+    /// Does the following: • Adds new Attributes , Rules , or ObjectTypes . • Updates existing Attributes , Rules , or ObjectTypes . • Deletes existing Attributes , Rules , or ObjectTypes . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -932,7 +932,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Updates a given typed links attributes. Attributes to be updated must not contribute to the typed links identity, as defined by its Identity- AttributeOrder . See also: AWS API Documentation
+    /// Updates a given typed links attributes. Attributes to be updated must not contribute to the typed links identity, as defined by its IdentityAttributeOrder . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -992,7 +992,7 @@ public class AwsClouddirectory : IAwsClouddirectory
     }
 
     /// <summary>
-    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor ver- sion upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple di- rectories from one schema, you would need to call this API on each di- rectory. See also: AWS API Documentation
+    /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion . Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

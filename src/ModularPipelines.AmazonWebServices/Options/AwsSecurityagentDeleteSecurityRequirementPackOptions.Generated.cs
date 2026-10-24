@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a customer managed security requirement pack and all its asso- ciated security requirements. See also: AWS API Documentation
+/// Deletes a customer managed security requirement pack and all its associated security requirements. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsSecurityagentDeleteSecurityRequirementPackOptions : AwsOptions,
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a customer managed security requirement pack and all its asso- ciated security requirements. See also: AWS API Documentation
+    /// Deletes a customer managed security requirement pack and all its associated security requirements. See also: AWS API Documentation
     /// </summary>
     /// <param name="PackId">The unique identifier of the security requirement pack to delete.</param>
     public AwsSecurityagentDeleteSecurityRequirementPackOptions(
@@ -82,6 +83,15 @@ public record AwsSecurityagentDeleteSecurityRequirementPackOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

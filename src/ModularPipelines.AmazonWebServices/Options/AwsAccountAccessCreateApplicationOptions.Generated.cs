@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center in- stance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
+/// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center instance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +26,9 @@ public record AwsAccountAccessCreateApplicationOptions : AwsOptions, IValidatabl
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center in- stance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
+    /// Creates an account access manager instance and its Amazon Web Services account access application in the associated IAM Identity Center instance. This operation is idempotent; calling it multiple times with the same parameters returns the existing application. See also: AWS API Documentation
     /// </summary>
-    /// <param name="IdentitySource">Specifies the identity source for the application. The identity source defines the IAM Identity Center instance that provides prin- cipals for entitlements. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (structure) The IAM Identity Center instance to use as the identity source. instanceArn -&gt; (string) [required] The ARN of the IAM Identity Center instance. Constraints: o min: 10 o max: 1224 o pattern: arn:[a-z0-9-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Shorthand Syntax: identityCenter={instanceArn=string} JSON Syntax: { "identityCenter": { "instanceArn": "string" } }</param>
+    /// <param name="IdentitySource">Specifies the identity source for the application. The identity source defines the IAM Identity Center instance that provides principals for entitlements. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (structure) The IAM Identity Center instance to use as the identity source. instanceArn -&gt; (string) [required] The ARN of the IAM Identity Center instance. Constraints: • min: 10 • max: 1224 • pattern: arn:[a-z0-9-]+:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16} Shorthand Syntax: identityCenter={instanceArn=string} JSON Syntax: { "identityCenter": { "instanceArn": "string" } }</param>
     public AwsAccountAccessCreateApplicationOptions(
         string IdentitySource
     )
@@ -57,7 +57,7 @@ public record AwsAccountAccessCreateApplicationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the identity source for the application. The identity source defines the IAM Identity Center instance that provides prin- cipals for entitlements. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (structure) The IAM Identity Center instance to use as the identity source. instanceArn -&gt; (string) [required] The ARN of the IAM Identity Center instance. Constraints: o min: 10 o max: 1224 o pattern: arn:[a-z0-9-]+:sso:::in- stance/(sso)?ins-[a-zA-Z0-9-.]{16} Shorthand Syntax: identityCenter={instanceArn=string} JSON Syntax: { "identityCenter": { "instanceArn": "string" } }
+    /// Specifies the identity source for the application. The identity source defines the IAM Identity Center instance that provides principals for entitlements. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: identityCenter. identityCenter -&gt; (structure) The IAM Identity Center instance to use as the identity source. instanceArn -&gt; (string) [required] The ARN of the IAM Identity Center instance. Constraints: • min: 10 • max: 1224 • pattern: arn:[a-z0-9-]+:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16} Shorthand Syntax: identityCenter={instanceArn=string} JSON Syntax: { "identityCenter": { "instanceArn": "string" } }
     /// </summary>
     [CliOption("--identity-source")]
     public string? IdentitySource { get; private init; }
@@ -89,6 +89,15 @@ public record AwsAccountAccessCreateApplicationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotsitewisePutDefaultEncryptionConfigurationOptions : AwsOption
     /// <summary>
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the IoT SiteWise User Guide . See also: AWS API Documentation
     /// </summary>
-    /// <param name="EncryptionType">The type of encryption used for the encryption configuration. Possible values: o SITEWISE_DEFAULT_ENCRYPTION o KMS_BASED_ENCRYPTION</param>
+    /// <param name="EncryptionType">The type of encryption used for the encryption configuration. Possible values: • SITEWISE_DEFAULT_ENCRYPTION • KMS_BASED_ENCRYPTION</param>
     public AwsIotsitewisePutDefaultEncryptionConfigurationOptions(
         AwsIotsitewisePutDefaultEncryptionConfigurationEncryptionType EncryptionType
     )
@@ -56,13 +57,13 @@ public record AwsIotsitewisePutDefaultEncryptionConfigurationOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The type of encryption used for the encryption configuration. Possible values: o SITEWISE_DEFAULT_ENCRYPTION o KMS_BASED_ENCRYPTION
+    /// The type of encryption used for the encryption configuration. Possible values: • SITEWISE_DEFAULT_ENCRYPTION • KMS_BASED_ENCRYPTION
     /// </summary>
     [CliOption("--encryption-type")]
     public AwsIotsitewisePutDefaultEncryptionConfigurationEncryptionType? EncryptionType { get; private init; }
 
     /// <summary>
-    /// The Key ID of the customer managed key used for KMS encryption. This is required if you use KMS_BASED_ENCRYPTION . Constraints: o min: 1 o max: 2048
+    /// The Key ID of the customer managed key used for KMS encryption. This is required if you use KMS_BASED_ENCRYPTION . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -88,6 +89,15 @@ public record AwsIotsitewisePutDefaultEncryptionConfigurationOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

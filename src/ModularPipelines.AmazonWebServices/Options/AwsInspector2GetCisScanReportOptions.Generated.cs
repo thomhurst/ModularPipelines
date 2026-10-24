@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsInspector2GetCisScanReportOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Retrieves a CIS scan report. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ScanArn">The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
+    /// <param name="ScanArn">The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}</param>
     public AwsInspector2GetCisScanReportOptions(
         string ScanArn
     )
@@ -57,19 +58,19 @@ public record AwsInspector2GetCisScanReportOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The scan ARN. Constraints: o pattern: arn:aws(-us-gov|-cn)?:inspec- tor2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+    /// The scan ARN. Constraints: • pattern: arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\d{12}:owner/(\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
     /// </summary>
     [CliOption("--scan-arn")]
     public string? ScanArn { get; private init; }
 
     /// <summary>
-    /// The target accounts. Constraints: o min: 0 o max: 1 (string) Constraints: o min: 12 o max: 12 o pattern: \d{12} Syntax: "string" "string" ...
+    /// The target accounts. Constraints: • min: 0 • max: 1 (string) Constraints: • min: 12 • max: 12 • pattern: \d{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--target-accounts", GroupValues = true)]
     public IEnumerable<string>? TargetAccounts { get; set; }
 
     /// <summary>
-    /// The format of the report. Valid values are PDF and CSV . If no value is specified, the report format defaults to PDF . Possible values: o PDF o CSV
+    /// The format of the report. Valid values are PDF and CSV . If no value is specified, the report format defaults to PDF . Possible values: • PDF • CSV
     /// </summary>
     [CliOption("--report-format")]
     public AwsInspector2GetCisScanReportReportFormat? ReportFormat { get; set; }
@@ -95,6 +96,15 @@ public record AwsInspector2GetCisScanReportOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

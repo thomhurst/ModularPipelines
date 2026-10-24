@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group. If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DbClusterIdentifier">The name of the cluster to create from the snapshot or cluster snap- shot. This parameter isn't case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id</param>
-    /// <param name="SnapshotIdentifier">The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints: o Must match the identifier of an existing snapshot.</param>
+    /// <param name="DbClusterIdentifier">The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id</param>
+    /// <param name="SnapshotIdentifier">The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints: • Must match the identifier of an existing snapshot.</param>
     /// <param name="Engine">The database engine to use for the new cluster. Default: The same as source. Constraint: Must be compatible with the engine of the source.</param>
     public AwsDocdbRestoreDbClusterFromSnapshotOptions(
         string DbClusterIdentifier,
@@ -64,13 +65,13 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the cluster to create from the snapshot or cluster snap- shot. This parameter isn't case sensitive. Constraints: o Must contain from 1 to 63 letters, numbers, or hyphens. o The first character must be a letter. o Cannot end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id
+    /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints: • Must contain from 1 to 63 letters, numbers, or hyphens. • The first character must be a letter. • Cannot end with a hyphen or contain two consecutive hyphens. Example: my-snapshot-id
     /// </summary>
     [CliOption("--db-cluster-identifier")]
     public string? DbClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints: o Must match the identifier of an existing snapshot.
+    /// The identifier for the snapshot or cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a cluster snapshot. However, you can use only the ARN to specify a snapshot. Constraints: • Must match the identifier of an existing snapshot.
     /// </summary>
     [CliOption("--snapshot-identifier")]
     public string? SnapshotIdentifier { get; private init; }
@@ -100,7 +101,7 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidat
     public int? Port { get; set; }
 
     /// <summary>
-    /// The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSub- netGroup . Example: mySubnetgroup
+    /// The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup . Example: mySubnetgroup
     /// </summary>
     [CliOption("--db-subnet-group-name")]
     public string? DbSubnetGroupName { get; set; }
@@ -118,7 +119,7 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidat
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// The KMS key identifier to use when restoring an encrypted cluster from a DB snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to en- crypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs: o If the snapshot or cluster snapshot in SnapshotIdentifier is en- crypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the snapshot or the cluster snapshot. o If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
+    /// The KMS key identifier to use when restoring an encrypted cluster from a DB snapshot or cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a cluster with the same Amazon Web Services account that owns the KMS encryption key used to encrypt the new cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify a value for the KmsKeyId parameter, then the following occurs: • If the snapshot or cluster snapshot in SnapshotIdentifier is encrypted, then the restored cluster is encrypted using the KMS key that was used to encrypt the snapshot or the cluster snapshot. • If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
     /// </summary>
     [CliOption("--kms-key-id")]
     public string? KmsKeyId { get; set; }
@@ -142,7 +143,7 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidat
     public string? DbClusterParameterGroupName { get; set; }
 
     /// <summary>
-    /// Contains the scaling configuration of an Amazon DocumentDB Server- less cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
+    /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster. MinCapacity -&gt; (double) The minimum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 8, 8.5, 9, and so on. MaxCapacity -&gt; (double) The maximum number of Amazon DocumentDB capacity units (DCUs) for an instance in an Amazon DocumentDB Serverless cluster. You can specify DCU values in half-step increments, such as 32, 32.5, 33, and so on. Shorthand Syntax: MinCapacity=double,MaxCapacity=double JSON Syntax: { "MinCapacity": double, "MaxCapacity": double }
     /// </summary>
     [CliOption("--serverless-v2-scaling-configuration")]
     public string? ServerlessV2ScalingConfiguration { get; set; }
@@ -186,6 +187,15 @@ public record AwsDocdbRestoreDbClusterFromSnapshotOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

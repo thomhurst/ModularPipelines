@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagCondi- tions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
+/// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire da...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLakeformationSearchDatabasesByLfTagsOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagCondi- tions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire ...
+    /// This operation allows a search on DATABASE resources by TagCondition . This operation is used by admins who want to grant user permissions on certain TagConditions . Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared. See also: AWS API Documentation search-databases-by-lf-tags is a paginated operation. Multiple API calls may be issued in order to retrieve the entire da...
     /// </summary>
-    /// <param name="Expression">A list of conditions (LFTag structures) to search for in database resources. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
+    /// <param name="Expression">A list of conditions (LFTag structures) to search for in database resources. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]</param>
     public AwsLakeformationSearchDatabasesByLfTagsOptions(
         IEnumerable<string> Expression
     )
@@ -68,22 +69,19 @@ public record AwsLakeformationSearchDatabasesByLfTagsOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A list of conditions (LFTag structures) to search for in database resources. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: o min: 1 o max: 128 o pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: o min: 1 o max: 50 (string) Constraints: o min: 0 o max: 256 o pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
+    /// A list of conditions (LFTag structures) to search for in database resources. (structure) A structure that allows an admin to grant user permissions on certain conditions. For example, granting a role access to all columns that do not have the LF-tag 'PII' in tables that have the LF-tag 'Prod'. TagKey -&gt; (string) [required] The key-name for the LF-tag. Constraints: • min: 1 • max: 128 • pattern: ^([\p{L}\p{Z}\p{N}_.:\/=+\-@%]*)$ TagValues -&gt; (list) [required] A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values. Constraints: • min: 1 • max: 50 (string) Constraints: • min: 0 • max: 256 • pattern: ^([\p{L}\p{Z}\p{N}_.:\*\/=+\-@%]*)$ Shorthand Syntax: TagKey=string,TagValues=string,string ... JSON Syntax: [ { "TagKey": "string", "TagValues": ["string", ...] } ... ]
     /// </summary>
     [CliOption("--expression", GroupValues = true)]
     public IEnumerable<string>? Expression { get; private init; }
 
     /// <summary>
-    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: o min: 1 o max: 255 o pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
+    /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment. Constraints: • min: 1 • max: 255 • pattern: [\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*
     /// </summary>
     [CliOption("--catalog-id")]
     public string? CatalogId { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -93,16 +91,19 @@ public record AwsLakeformationSearchDatabasesByLfTagsOptions : AwsOptions, IVali
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 100
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -119,6 +120,15 @@ public record AwsLakeformationSearchDatabasesByLfTagsOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

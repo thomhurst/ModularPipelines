@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This API creates a copy of an entire ServerlessCache at a specific mo- ment in time. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
+/// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsElasticacheCreateServerlessCacheSnapshotOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This API creates a copy of an entire ServerlessCache at a specific mo- ment in time. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
+    /// This API creates a copy of an entire ServerlessCache at a specific moment in time. Available for Valkey, Redis OSS and Serverless Memcached only. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ServerlessCacheSnapshotName">The name for the snapshot being created. Must be unique for the cus- tomer account. Available for Valkey, Redis OSS and Serverless Mem- cached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.</param>
-    /// <param name="ServerlessCacheName">The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Mem- cached only.</param>
+    /// <param name="ServerlessCacheSnapshotName">The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.</param>
+    /// <param name="ServerlessCacheName">The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.</param>
     public AwsElasticacheCreateServerlessCacheSnapshotOptions(
         string ServerlessCacheSnapshotName,
         string ServerlessCacheName
@@ -60,13 +61,13 @@ public record AwsElasticacheCreateServerlessCacheSnapshotOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name for the snapshot being created. Must be unique for the cus- tomer account. Available for Valkey, Redis OSS and Serverless Mem- cached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.
+    /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.
     /// </summary>
     [CliOption("--serverless-cache-snapshot-name")]
     public string? ServerlessCacheSnapshotName { get; private init; }
 
     /// <summary>
-    /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Mem- cached only.
+    /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
     /// </summary>
     [CliOption("--serverless-cache-name")]
     public string? ServerlessCacheName { get; private init; }
@@ -78,7 +79,7 @@ public record AwsElasticacheCreateServerlessCacheSnapshotOptions : AwsOptions, I
     public string? KmsKeyId { get; set; }
 
     /// <summary>
-    /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Mem- cached only. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only. (structure) A tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. A tag with a null Value is permitted. Key -&gt; (string) The key for the tag. May not be null. Value -&gt; (string) The tag's value. May be null. Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsElasticacheCreateServerlessCacheSnapshotOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

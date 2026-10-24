@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -73,13 +74,13 @@ public record AwsMacie2CreateInvitationsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? AccountIds { get; private init; }
 
     /// <summary>
-    /// Specifies whether to send the invitation as an email message. If this value is false, Amazon Macie sends the invitation (as an email message) to the email address that you specified for the recipient's account when you associated the account with your account. The de- fault value is false.
+    /// Specifies whether to send the invitation as an email message. If this value is false, Amazon Macie sends the invitation (as an email message) to the email address that you specified for the recipient's account when you associated the account with your account. The default value is false.
     /// </summary>
     [CliFlag("--disable-email-notification", NegatedName = "--no-disable-email-notification")]
     public bool? DisableEmailNotification { get; set; }
 
     /// <summary>
-    /// Custom text to include in the email message that contains the invi- tation. The text can contain as many as 80 alphanumeric characters.
+    /// Custom text to include in the email message that contains the invitation. The text can contain as many as 80 alphanumeric characters.
     /// </summary>
     [CliOption("--message")]
     public string? Message { get; set; }
@@ -105,6 +106,15 @@ public record AwsMacie2CreateInvitationsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

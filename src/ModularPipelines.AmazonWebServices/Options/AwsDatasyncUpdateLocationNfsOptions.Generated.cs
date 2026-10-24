@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsDatasyncUpdateLocationNfsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Modifies the following configuration parameters of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers with an NFS file server . See also: AWS API Documentation
     /// </summary>
-    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the NFS transfer loca- tion that you want to update. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
+    /// <param name="LocationArn">Specifies the Amazon Resource Name (ARN) of the NFS transfer location that you want to update. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$</param>
     public AwsDatasyncUpdateLocationNfsOptions(
         string LocationArn
     )
@@ -56,31 +57,31 @@ public record AwsDatasyncUpdateLocationNfsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Specifies the Amazon Resource Name (ARN) of the NFS transfer loca- tion that you want to update. Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
+    /// Specifies the Amazon Resource Name (ARN) of the NFS transfer location that you want to update. Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$
     /// </summary>
     [CliOption("--location-arn")]
     public string? LocationArn { get; private init; }
 
     /// <summary>
-    /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync trans- fers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers . Constraints: o max: 4096 o pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]+$
+    /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers . Constraints: • max: 4096 • pattern: ^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]+$
     /// </summary>
     [CliOption("--subdirectory")]
     public string? Subdirectory { get; set; }
 
     /// <summary>
-    /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server that your DataSync agent connects to. Constraints: o max: 255 o pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
+    /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server that your DataSync agent connects to. Constraints: • max: 255 • pattern: ^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-:]*[A-Za-z0-9])$
     /// </summary>
     [CliOption("--server-hostname")]
     public string? ServerHostname { get; set; }
 
     /// <summary>
-    /// The DataSync agents that can connect to your Network File System (NFS) file server. AgentArns -&gt; (list) [required] The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents . Constraints: o min: 1 o max: 8 (string) Constraints: o max: 128 o pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):data- sync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Shorthand Syntax: AgentArns=string,string JSON Syntax: { "AgentArns": ["string", ...] }
+    /// The DataSync agents that can connect to your Network File System (NFS) file server. AgentArns -&gt; (list) [required] The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents . Constraints: • min: 1 • max: 8 (string) Constraints: • max: 128 • pattern: ^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$ Shorthand Syntax: AgentArns=string,string JSON Syntax: { "AgentArns": ["string", ...] }
     /// </summary>
     [CliOption("--on-prem-config")]
     public string? OnPremConfig { get; set; }
 
     /// <summary>
-    /// Specifies how DataSync can access a location using the NFS protocol. Version -&gt; (string) Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the ver- sion specified, the task fails. You can specify the following options: o AUTOMATIC (default): DataSync chooses NFS version 4.1. o NFS3 : Stateless protocol version that allows for asynchronous writes on the server. o NFSv4_0 : Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems. o NFSv4_1 : Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS ver- sion 4.1 also includes all features available in version 4.0. NOTE: DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations. Possible values: o AUTOMATIC o NFS3 o NFS4_0 o NFS4_1 Shorthand Syntax: Version=string JSON Syntax: { "Version": "AUTOMATIC"|"NFS3"|"NFS4_0"|"NFS4_1" }
+    /// Specifies how DataSync can access a location using the NFS protocol. Version -&gt; (string) Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options: • AUTOMATIC (default): DataSync chooses NFS version 4.1. For Amazon FSx for OpenZFS locations, DataSync first attempts to use NFS version 4.2, then falls back to version 4.1, and then to earlier versions if needed. • NFS3 : Stateless protocol version that allows for asynchronous writes on the server. • NFSv4_0 : Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems. • NFSv4_1 : Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0. • NFSv4_2 : Stateful protocol version that supports sparse file operations, space reservation, and server-side copy operations, in addition to all features available in version 4.1. Selecting NFS version 4.2 requires an Enhanced mode task. NOTE: DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations. Possible values: • AUTOMATIC • NFS3 • NFS4_0 • NFS4_1 • NFS4_2 Shorthand Syntax: Version=string JSON Syntax: { "Version": "AUTOMATIC"|"NFS3"|"NFS4_0"|"NFS4_1"|"NFS4_2" }
     /// </summary>
     [CliOption("--mount-options")]
     public string? MountOptions { get; set; }
@@ -106,6 +107,15 @@ public record AwsDatasyncUpdateLocationNfsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

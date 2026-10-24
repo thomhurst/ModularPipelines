@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsNotificationscontactsCreateEmailContactOptions : AwsOptions, IV
     /// <summary>
     /// Creates an email contact for the provided email address. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the email contact. Constraints: o min: 1 o max: 64 o pattern: .*[\w-.~]+.*</param>
-    /// <param name="EmailAddress">The email address this email contact points to. The activation email and any subscribed emails are sent here. NOTE: This email address can't receive emails until it's activated. Constraints: o min: 6 o max: 254 o pattern: (.+)@(.+)</param>
+    /// <param name="Name">The name of the email contact. Constraints: • min: 1 • max: 64 • pattern: .*[\w-.~]+.*</param>
+    /// <param name="EmailAddress">The email address this email contact points to. The activation email and any subscribed emails are sent here. NOTE: This email address can't receive emails until it's activated. Constraints: • min: 6 • max: 254 • pattern: (.+)@(.+)</param>
     public AwsNotificationscontactsCreateEmailContactOptions(
         string Name,
         string EmailAddress
@@ -61,19 +61,19 @@ public record AwsNotificationscontactsCreateEmailContactOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the email contact. Constraints: o min: 1 o max: 64 o pattern: .*[\w-.~]+.*
+    /// The name of the email contact. Constraints: • min: 1 • max: 64 • pattern: .*[\w-.~]+.*
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The email address this email contact points to. The activation email and any subscribed emails are sent here. NOTE: This email address can't receive emails until it's activated. Constraints: o min: 6 o max: 254 o pattern: (.+)@(.+)
+    /// The email address this email contact points to. The activation email and any subscribed emails are sent here. NOTE: This email address can't receive emails until it's activated. Constraints: • min: 6 • max: 254 • pattern: (.+)@(.+)
     /// </summary>
     [CliOption("--email-address")]
     public string? EmailAddress { get; private init; }
 
     /// <summary>
-    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A map of tags assigned to a resource. A tag is a string-to-string map of key-value pairs. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • pattern: (?!aws:).{1,128} value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -99,6 +99,15 @@ public record AwsNotificationscontactsCreateEmailContactOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

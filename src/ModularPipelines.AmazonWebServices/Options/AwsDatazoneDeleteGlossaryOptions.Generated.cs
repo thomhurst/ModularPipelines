@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a business glossary in Amazon DataZone. Prerequisites: o The glossary must be in DISABLED state. o The glossary must not have any glossary terms associated with it. o The glossary must exist in the specified domain. o The caller must have the datazone:DeleteGlossary permission in the domain and glossary. o Glossary should not be linked to any active metadata forms. See also: AWS API Documentation
+/// Deletes a business glossary in Amazon DataZone. Prerequisites: • The glossary must be in DISABLED state. • The glossary must not have any glossary terms associated with it. • The glossary must exist in the specified domain. • The caller must have the datazone:DeleteGlossary permission in the domain and glossary. • Glossary should not be linked to any active metadata forms. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsDatazoneDeleteGlossaryOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a business glossary in Amazon DataZone. Prerequisites: o The glossary must be in DISABLED state. o The glossary must not have any glossary terms associated with it. o The glossary must exist in the specified domain. o The caller must have the datazone:DeleteGlossary permission in the domain and glossary. o Glossary should not be linked to any active metadata forms. See also: AWS API Documentation
+    /// Deletes a business glossary in Amazon DataZone. Prerequisites: • The glossary must be in DISABLED state. • The glossary must not have any glossary terms associated with it. • The glossary must exist in the specified domain. • The caller must have the datazone:DeleteGlossary permission in the domain and glossary. • Glossary should not be linked to any active metadata forms. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the business glossary is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
-    /// <param name="Identifier">The ID of the business glossary that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="DomainIdentifier">The ID of the Amazon DataZone domain in which the business glossary is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}</param>
+    /// <param name="Identifier">The ID of the business glossary that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}</param>
     public AwsDatazoneDeleteGlossaryOptions(
         string DomainIdentifier,
         string Identifier
@@ -60,13 +61,13 @@ public record AwsDatazoneDeleteGlossaryOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon DataZone domain in which the business glossary is deleted. Constraints: o pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
+    /// The ID of the Amazon DataZone domain in which the business glossary is deleted. Constraints: • pattern: dzd[-_][a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--domain-identifier")]
     public string? DomainIdentifier { get; private init; }
 
     /// <summary>
-    /// The ID of the business glossary that is deleted. Constraints: o pattern: [a-zA-Z0-9_-]{1,36}
+    /// The ID of the business glossary that is deleted. Constraints: • pattern: [a-zA-Z0-9_-]{1,36}
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -92,6 +93,15 @@ public record AwsDatazoneDeleteGlossaryOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

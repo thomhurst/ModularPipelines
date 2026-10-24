@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Immediately starts a scan of the policies applied to the specified re- source. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
+/// Immediately starts a scan of the policies applied to the specified resource. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsAccessanalyzerStartResourceScanOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Immediately starts a scan of the policies applied to the specified re- source. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
+    /// Immediately starts a scan of the policies applied to the specified resource. NOTE: This action is supported only for external access analyzers. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalyzerArn">The ARN of the analyzer to use to scan the policies applied to the specified resource. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
-    /// <param name="ResourceArn">The ARN of the resource to scan. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
+    /// <param name="AnalyzerArn">The ARN of the analyzer to use to scan the policies applied to the specified resource. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}</param>
+    /// <param name="ResourceArn">The ARN of the resource to scan. Constraints: • pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*</param>
     public AwsAccessanalyzerStartResourceScanOptions(
         string AnalyzerArn,
         string ResourceArn
@@ -60,13 +61,13 @@ public record AwsAccessanalyzerStartResourceScanOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the analyzer to use to scan the policies applied to the specified resource. Constraints: o pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
+    /// The ARN of the analyzer to use to scan the policies applied to the specified resource. Constraints: • pattern: [^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}
     /// </summary>
     [CliOption("--analyzer-arn")]
     public string? AnalyzerArn { get; private init; }
 
     /// <summary>
-    /// The ARN of the resource to scan. Constraints: o pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
+    /// The ARN of the resource to scan. Constraints: • pattern: arn:[^:]*:[^:]*:[^:]*:[^:]*:.*
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -98,6 +99,15 @@ public record AwsAccessanalyzerStartResourceScanOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

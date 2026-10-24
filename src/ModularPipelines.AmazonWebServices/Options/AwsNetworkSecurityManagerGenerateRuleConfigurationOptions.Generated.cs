@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or up- date a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one. See also: AWS API Documentation
+/// Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or update a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,11 +28,11 @@ public record AwsNetworkSecurityManagerGenerateRuleConfigurationOptions : AwsOpt
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or up- date a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one. See also: AWS API Documentation
+    /// Generates a rule configuration from a natural-language description. Provide a prompt along with the rule's firewall type and rule type. The service returns a configuration that you can use when you create or update a rule. If you also provide an existing configuration, the service edits that configuration instead of generating a new one. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Prompt">A natural-language description of the configuration that you want to generate. Constraints: o min: 1 o max: 2000 o pattern: [A-Za-z0-9.,?!@&amp;:;()'"\s\-\/\n_=&lt;&gt;+*\#\[\]{}]*</param>
-    /// <param name="RuleFirewallType">The firewall type of the rule. Possible values: o WAF</param>
-    /// <param name="RuleType">The type of the rule. CONFIGURATION rules contain firewall settings, and INSPECTION rules contain rule groups. Possible values: o CONFIGURATION o INSPECTION</param>
+    /// <param name="Prompt">A natural-language description of the configuration that you want to generate. Constraints: • min: 1 • max: 2000 • pattern: [A-Za-z0-9.,?!@&amp;:;()'"\s\-\/\n_=&lt;&gt;+*\#\[\]{}]*</param>
+    /// <param name="RuleFirewallType">The firewall type of the rule. Possible values: • WAF</param>
+    /// <param name="RuleType">The type of the rule. CONFIGURATION rules contain firewall settings, and INSPECTION rules contain rule groups. Possible values: • CONFIGURATION • INSPECTION</param>
     public AwsNetworkSecurityManagerGenerateRuleConfigurationOptions(
         string Prompt,
         string RuleFirewallType,
@@ -65,37 +66,37 @@ public record AwsNetworkSecurityManagerGenerateRuleConfigurationOptions : AwsOpt
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A natural-language description of the configuration that you want to generate. Constraints: o min: 1 o max: 2000 o pattern: [A-Za-z0-9.,?!@&amp;:;()'"\s\-\/\n_=&lt;&gt;+*\#\[\]{}]*
+    /// A natural-language description of the configuration that you want to generate. Constraints: • min: 1 • max: 2000 • pattern: [A-Za-z0-9.,?!@&amp;:;()'"\s\-\/\n_=&lt;&gt;+*\#\[\]{}]*
     /// </summary>
     [CliOption("--prompt")]
     public string? Prompt { get; private init; }
 
     /// <summary>
-    /// The firewall type of the rule. Possible values: o WAF
+    /// The firewall type of the rule. Possible values: • WAF
     /// </summary>
     [CliOption("--rule-firewall-type")]
     public string? RuleFirewallType { get; private init; }
 
     /// <summary>
-    /// The type of the rule. CONFIGURATION rules contain firewall settings, and INSPECTION rules contain rule groups. Possible values: o CONFIGURATION o INSPECTION
+    /// The type of the rule. CONFIGURATION rules contain firewall settings, and INSPECTION rules contain rule groups. Possible values: • CONFIGURATION • INSPECTION
     /// </summary>
     [CliOption("--rule-type")]
     public AwsNetworkSecurityManagerGenerateRuleConfigurationRuleType? RuleType { get; private init; }
 
     /// <summary>
-    /// For AWS WAF configuration rules, the specific AWS WAF configuration variant to generate. This is optional; if you omit it, the service selects the variant. Possible values: o DefaultAction o VisibilityConfig o CaptchaConfig o ChallengeConfig o CustomResponseBodies o LoggingConfiguration o DataProtectionConfig o AssociationConfig o OnSourceDDoSProtectionConfig o TokenDomains
+    /// For AWS WAF configuration rules, the specific AWS WAF configuration variant to generate. This is optional; if you omit it, the service selects the variant. Possible values: • DefaultAction • VisibilityConfig • CaptchaConfig • ChallengeConfig • CustomResponseBodies • LoggingConfiguration • DataProtectionConfig • AssociationConfig • OnSourceDDoSProtectionConfig • TokenDomains
     /// </summary>
     [CliOption("--waf-config-data-type")]
     public AwsNetworkSecurityManagerGenerateRuleConfigurationWafConfigDataType? WafConfigDataType { get; set; }
 
     /// <summary>
-    /// An existing configuration to edit, as a JSON string. When you pro- vide this value, the operation edits the configuration. When you omit it, the operation generates a new configuration. Constraints: o min: 0 o max: 32768
+    /// An existing configuration to edit, as a JSON string. When you provide this value, the operation edits the configuration. When you omit it, the operation generates a new configuration. Constraints: • min: 0 • max: 32768
     /// </summary>
     [CliOption("--current-configuration")]
     public string? CurrentConfiguration { get; set; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service re- turns the result of the original successful request. Constraints: o min: 1 o max: 64 o pattern: [\x21-\x7E]+
+    /// A unique, case-sensitive token that you provide to ensure that the operation completes no more than one time. If you retry a request with the same client token and the same parameters, the service returns the result of the original successful request. Constraints: • min: 1 • max: 64 • pattern: [\x21-\x7E]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -122,6 +123,15 @@ public record AwsNetworkSecurityManagerGenerateRuleConfigurationOptions : AwsOpt
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

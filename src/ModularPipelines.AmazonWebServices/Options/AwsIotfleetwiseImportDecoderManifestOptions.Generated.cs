@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsIotfleetwiseImportDecoderManifestOptions : AwsOptions, IValidat
     /// <summary>
     /// Creates a decoder manifest using your existing CAN DBC file from your local device. The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the decoder manifest to import. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+</param>
-    /// <param name="NetworkFileDefinitions">The file to load into an Amazon Web Services account. (tagged union structure) Specifications for defining a vehicle network. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: canDbc. canDbc -&gt; (structure) Information, including CAN DBC files, about the configura- tions used to create a decoder manifest. networkInterface -&gt; (string) [required] Contains information about a network interface. Constraints: o min: 1 o max: 50 o pattern: [-a-zA-Z0-9_.]+ canDbcFiles -&gt; (list) [required] A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB. Constraints: o min: 1 o max: 5 (blob) Constraints: o min: 0 o max: 200000000 signalsMap -&gt; (map) Pairs every signal specified in your vehicle model with a signal decoder. key -&gt; (string) value -&gt; (string) Shorthand Syntax: canDbc={networkInterface=string,canDbcFiles=[blob,blob],signalsMap={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "canDbc": { "networkInterface": "string", "canDbcFiles": [blob, ...], "signalsMap": {"string": "string" ...} } } ... ]</param>
+    /// <param name="Name">The name of the decoder manifest to import. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+</param>
+    /// <param name="NetworkFileDefinitions">The file to load into an Amazon Web Services account. (tagged union structure) Specifications for defining a vehicle network. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: canDbc. canDbc -&gt; (structure) Information, including CAN DBC files, about the configurations used to create a decoder manifest. networkInterface -&gt; (string) [required] Contains information about a network interface. Constraints: • min: 1 • max: 50 • pattern: [-a-zA-Z0-9_.]+ canDbcFiles -&gt; (list) [required] A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB. Constraints: • min: 1 • max: 5 (blob) Constraints: • min: 0 • max: 200000000 signalsMap -&gt; (map) Pairs every signal specified in your vehicle model with a signal decoder. key -&gt; (string) value -&gt; (string) Shorthand Syntax: canDbc={networkInterface=string,canDbcFiles=[blob,blob],signalsMap={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "canDbc": { "networkInterface": "string", "canDbcFiles": [blob, ...], "signalsMap": {"string": "string" ...} } } ... ]</param>
     public AwsIotfleetwiseImportDecoderManifestOptions(
         string Name,
         IEnumerable<string> NetworkFileDefinitions
@@ -71,13 +72,13 @@ public record AwsIotfleetwiseImportDecoderManifestOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the decoder manifest to import. Constraints: o min: 1 o max: 100 o pattern: [a-zA-Z\d\-_:]+
+    /// The name of the decoder manifest to import. Constraints: • min: 1 • max: 100 • pattern: [a-zA-Z\d\-_:]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The file to load into an Amazon Web Services account. (tagged union structure) Specifications for defining a vehicle network. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: canDbc. canDbc -&gt; (structure) Information, including CAN DBC files, about the configura- tions used to create a decoder manifest. networkInterface -&gt; (string) [required] Contains information about a network interface. Constraints: o min: 1 o max: 50 o pattern: [-a-zA-Z0-9_.]+ canDbcFiles -&gt; (list) [required] A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB. Constraints: o min: 1 o max: 5 (blob) Constraints: o min: 0 o max: 200000000 signalsMap -&gt; (map) Pairs every signal specified in your vehicle model with a signal decoder. key -&gt; (string) value -&gt; (string) Shorthand Syntax: canDbc={networkInterface=string,canDbcFiles=[blob,blob],signalsMap={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "canDbc": { "networkInterface": "string", "canDbcFiles": [blob, ...], "signalsMap": {"string": "string" ...} } } ... ]
+    /// The file to load into an Amazon Web Services account. (tagged union structure) Specifications for defining a vehicle network. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: canDbc. canDbc -&gt; (structure) Information, including CAN DBC files, about the configurations used to create a decoder manifest. networkInterface -&gt; (string) [required] Contains information about a network interface. Constraints: • min: 1 • max: 50 • pattern: [-a-zA-Z0-9_.]+ canDbcFiles -&gt; (list) [required] A list of DBC files. You can upload only one DBC file for each network interface and specify up to five (inclusive) files in the list. The DBC file can be a maximum size of 200 MB. Constraints: • min: 1 • max: 5 (blob) Constraints: • min: 0 • max: 200000000 signalsMap -&gt; (map) Pairs every signal specified in your vehicle model with a signal decoder. key -&gt; (string) value -&gt; (string) Shorthand Syntax: canDbc={networkInterface=string,canDbcFiles=[blob,blob],signalsMap={KeyName1=string,KeyName2=string}} ... JSON Syntax: [ { "canDbc": { "networkInterface": "string", "canDbcFiles": [blob, ...], "signalsMap": {"string": "string" ...} } } ... ]
     /// </summary>
     [CliOption("--network-file-definitions", GroupValues = true)]
     public IEnumerable<string>? NetworkFileDefinitions { get; private init; }
@@ -103,6 +104,15 @@ public record AwsIotfleetwiseImportDecoderManifestOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

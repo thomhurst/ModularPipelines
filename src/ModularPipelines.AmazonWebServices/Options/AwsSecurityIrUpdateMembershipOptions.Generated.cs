@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityIrUpdateMembershipOptions : AwsOptions, IValidatableObj
     /// <summary>
     /// Updates membership configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MembershipId">Required element for UpdateMembership to identify the membership to update. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}</param>
+    /// <param name="MembershipId">Required element for UpdateMembership to identify the membership to update. Constraints: • min: 12 • max: 34 • pattern: m-[a-z0-9]{10,32}</param>
     public AwsSecurityIrUpdateMembershipOptions(
         string MembershipId
     )
@@ -56,37 +57,37 @@ public record AwsSecurityIrUpdateMembershipOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Required element for UpdateMembership to identify the membership to update. Constraints: o min: 12 o max: 34 o pattern: m-[a-z0-9]{10,32}
+    /// Required element for UpdateMembership to identify the membership to update. Constraints: • min: 12 • max: 34 • pattern: m-[a-z0-9]{10,32}
     /// </summary>
     [CliOption("--membership-id")]
     public string? MembershipId { get; private init; }
 
     /// <summary>
-    /// Optional element for UpdateMembership to update the membership name. Constraints: o min: 3 o max: 50
+    /// Optional element for UpdateMembership to update the membership name. Constraints: • min: 3 • max: 50
     /// </summary>
     [CliOption("--membership-name")]
     public string? MembershipName { get; set; }
 
     /// <summary>
-    /// Optional element for UpdateMembership to update the membership name. Constraints: o min: 2 o max: 10 (structure) name -&gt; (string) [required] Constraints: o min: 3 o max: 50 jobTitle -&gt; (string) [required] Constraints: o min: 1 o max: 50 email -&gt; (string) [required] Constraints: o min: 6 o max: 254 o pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: o Case Created o Case Updated o Case Acknowledged o Case Closed o Case Updated To Service Managed o Case Status Updated o Case Pending Customer Action Reminder o Case Attachment Url Uploaded o Case Comment Added o Case Comment Updated o Membership Created o Membership Updated o Membership Cancelled o Register Delegated Administrator o Deregister Delegated Administrator o Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]
+    /// Optional element for UpdateMembership to update the membership name. Constraints: • min: 2 • max: 10 (structure) name -&gt; (string) [required] Constraints: • min: 3 • max: 50 jobTitle -&gt; (string) [required] Constraints: • min: 1 • max: 50 email -&gt; (string) [required] Constraints: • min: 6 • max: 254 • pattern: [a-zA-Z0-9.!#$%&amp;'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)* communicationPreferences -&gt; (list) (string) Possible values: • Case Created • Case Updated • Case Acknowledged • Case Closed • Case Updated To Service Managed • Case Status Updated • Case Pending Customer Action Reminder • Case Attachment Url Uploaded • Case Comment Added • Case Comment Updated • Membership Created • Membership Updated • Membership Cancelled • Register Delegated Administrator • Deregister Delegated Administrator • Disable AWS Service Access Shorthand Syntax: name=string,jobTitle=string,email=string,communicationPreferences=string,string ... JSON Syntax: [ { "name": "string", "jobTitle": "string", "email": "string", "communicationPreferences": ["Case Created"|"Case Updated"|"Case Acknowledged"|"Case Closed"|"Case Updated To Service Managed"|"Case Status Updated"|"Case Pending Customer Action Reminder"|"Case Attachment Url Uploaded"|"Case Comment Added"|"Case Comment Updated"|"Membership Created"|"Membership Updated"|"Membership Cancelled"|"Register Delegated Administrator"|"Deregister Delegated Administrator"|"Disable AWS Service Access", ...] } ... ]
     /// </summary>
     [CliOption("--incident-response-team", GroupValues = true)]
     public IEnumerable<string>? IncidentResponseTeam { get; set; }
 
     /// <summary>
-    /// Optional element for UpdateMembership to enable or disable opt-in features for the service. Constraints: o min: 1 o max: 2 (structure) featureName -&gt; (string) [required] Possible values: o Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
+    /// Optional element for UpdateMembership to enable or disable opt-in features for the service. Constraints: • min: 1 • max: 2 (structure) featureName -&gt; (string) [required] Possible values: • Triage isEnabled -&gt; (boolean) [required] Shorthand Syntax: featureName=string,isEnabled=boolean ... JSON Syntax: [ { "featureName": "Triage", "isEnabled": true|false } ... ]
     /// </summary>
     [CliOption("--opt-in-features", GroupValues = true)]
     public IEnumerable<string>? OptInFeatures { get; set; }
 
     /// <summary>
-    /// The membershipAccountsConfigurationsUpdate field in the UpdateMem- bershipRequest structure allows you to update the configuration set- tings for accounts within a membership. This field is optional and contains a structure of type Member- shipAccountsConfigurationsUpdate that specifies the updated account configurations for the membership. coverEntireOrganization -&gt; (boolean) The coverEntireOrganization field is a boolean value that deter- mines whether the membership configuration should be applied across the entire Amazon Web Services Organization. When set to true , the configuration will be applied to all ac- counts within the organization. When set to false , the configu- ration will only apply to specifically designated accounts. organizationalUnitsToAdd -&gt; (list) A list of organizational unit IDs to add to the membership con- figuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} . The list must contain between 1 and 5 organizational unit IDs. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} organizationalUnitsToRemove -&gt; (list) A list of organizational unit IDs to remove from the membership configuration. Each organizational unit ID must match the pat- tern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} . The list must contain between 1 and 5 organizational unit IDs per invocation of the API request. Constraints: o min: 1 o max: 5 (string) Constraints: o pattern: ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} Shorthand Syntax: coverEntireOrganization=boolean,organizationalUnitsToAdd=string,string,organizationalUnitsToRemove=string,string JSON Syntax: { "coverEntireOrganization": true|false, "organizationalUnitsToAdd": ["string", ...], "organizationalUnitsToRemove": ["string", ...] }
+    /// The membershipAccountsConfigurationsUpdate field in the UpdateMembershipRequest structure allows you to update the configuration settings for accounts within a membership. This field is optional and contains a structure of type MembershipAccountsConfigurationsUpdate that specifies the updated account configurations for the membership. coverEntireOrganization -&gt; (boolean) The coverEntireOrganization field is a boolean value that determines whether the membership configuration should be applied across the entire Amazon Web Services Organization. When set to true , the configuration will be applied to all accounts within the organization. When set to false , the configuration will only apply to specifically designated accounts. organizationalUnitsToAdd -&gt; (list) A list of organizational unit IDs to add to the membership configuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} . The list must contain between 1 and 5 organizational unit IDs. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} organizationalUnitsToRemove -&gt; (list) A list of organizational unit IDs to remove from the membership configuration. Each organizational unit ID must match the pattern ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} . The list must contain between 1 and 5 organizational unit IDs per invocation of the API request. Constraints: • min: 1 • max: 5 (string) Constraints: • pattern: ou-[0-9a-z]{4,32}-[a-z0-9]{8,32} Shorthand Syntax: coverEntireOrganization=boolean,organizationalUnitsToAdd=string,string,organizationalUnitsToRemove=string,string JSON Syntax: { "coverEntireOrganization": true|false, "organizationalUnitsToAdd": ["string", ...], "organizationalUnitsToRemove": ["string", ...] }
     /// </summary>
     [CliOption("--membership-accounts-configurations-update")]
     public string? MembershipAccountsConfigurationsUpdate { get; set; }
 
     /// <summary>
-    /// The undoMembershipCancellation parameter is a boolean flag that in- dicates whether to reverse a previously requested membership cancel- lation. When set to true, this will revoke the cancellation request and maintain the membership status. This parameter is optional and can be used in scenarios where you need to restore a membership that was marked for cancellation but hasn't been fully terminated yet. o If set to true , the cancellation request will be revoked o If set to false the service will throw a ValidationException.
+    /// The undoMembershipCancellation parameter is a boolean flag that indicates whether to reverse a previously requested membership cancellation. When set to true, this will revoke the cancellation request and maintain the membership status. This parameter is optional and can be used in scenarios where you need to restore a membership that was marked for cancellation but hasn't been fully terminated yet. • If set to true , the cancellation request will be revoked • If set to false the service will throw a ValidationException.
     /// </summary>
     [CliFlag("--undo-membership-cancellation", NegatedName = "--no-undo-membership-cancellation")]
     public bool? UndoMembershipCancellation { get; set; }
@@ -112,6 +113,15 @@ public record AwsSecurityIrUpdateMembershipOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

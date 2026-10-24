@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsDatazoneUntagResourceOptions : AwsOptions, IValidatableObject
     /// Untags a resource in Amazon DataZone. See also: AWS API Documentation
     /// </summary>
     /// <param name="ResourceArn">The ARN of the resource to be untagged in Amazon DataZone.</param>
-    /// <param name="TagKeys">Specifies the tag keys for the UntagResource action. (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ Syntax: "string" "string" ...</param>
+    /// <param name="TagKeys">Specifies the tag keys for the UntagResource action. (string) Constraints: • min: 1 • max: 128 • pattern: [\w \.:/=+@-]+ Syntax: "string" "string" ...</param>
     public AwsDatazoneUntagResourceOptions(
         string ResourceArn,
         IEnumerable<string> TagKeys
@@ -77,7 +78,7 @@ public record AwsDatazoneUntagResourceOptions : AwsOptions, IValidatableObject
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Specifies the tag keys for the UntagResource action. (string) Constraints: o min: 1 o max: 128 o pattern: [\w \.:/=+@-]+ Syntax: "string" "string" ...
+    /// Specifies the tag keys for the UntagResource action. (string) Constraints: • min: 1 • max: 128 • pattern: [\w \.:/=+@-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--tag-keys", GroupValues = true)]
     public IEnumerable<string>? TagKeys { get; private init; }
@@ -103,6 +104,15 @@ public record AwsDatazoneUntagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

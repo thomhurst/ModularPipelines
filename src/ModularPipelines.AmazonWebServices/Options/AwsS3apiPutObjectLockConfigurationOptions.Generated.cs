@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// NOTE: This operation is not supported for directory buckets. Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more informa- tion, see Locking Objects . NOTE: o The DefaultRetention settings require both a mode and a period. o The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same ...
+/// NOTE: This operation is not supported for directory buckets. Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more information, see Locking Objects . NOTE: • The DefaultRetention settings require both a mode and a period. • The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same ti...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// NOTE: This operation is not supported for directory buckets. Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more informa- tion, see Locking Objects . NOTE: o The DefaultRetention settings require both a mode and a period. o The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same ...
+    /// NOTE: This operation is not supported for directory buckets. Places an Object Lock configuration on the specified bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more information, see Locking Objects . NOTE: • The DefaultRetention settings require both a mode and a period. • The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same ti...
     /// </summary>
-    /// <param name="Bucket">The bucket whose Object Lock configuration you want to create or re- place.</param>
+    /// <param name="Bucket">The bucket whose Object Lock configuration you want to create or replace.</param>
     public AwsS3apiPutObjectLockConfigurationOptions(
         string Bucket
     )
@@ -58,19 +59,19 @@ public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The bucket whose Object Lock configuration you want to create or re- place.
+    /// The bucket whose Object Lock configuration you want to create or replace.
     /// </summary>
     [CliOption("--bucket")]
     public string? Bucket { get; private init; }
 
     /// <summary>
-    /// The Object Lock configuration that you want to apply to the speci- fied bucket. ObjectLockEnabled -&gt; (string) Indicates whether this bucket has an Object Lock configuration enabled. Enable ObjectLockEnabled when you apply ObjectLockCon- figuration to a bucket. Possible values: o Enabled Rule -&gt; (structure) Specifies the Object Lock rule for the specified object. Enable the this rule when you apply ObjectLockConfiguration to a bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time. DefaultRetention -&gt; (structure) The default Object Lock retention settings for new objects in this bucket. You can specify: o A default retention period, by using Days or Years . o A default event hold duration, by using DefaultEventHold . This setting also uses days or years. You can set one or both. You cannot use days and years in the same setting. Mode -&gt; (string) The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years . Possible values: o GOVERNANCE o COMPLIANCE Days -&gt; (integer) The number of days that you want to specify for the de- fault retention period. Must be used with Mode . Years -&gt; (integer) The number of years that you want to specify for the de- fault retention period. Must be used with Mode . DefaultEventHold -&gt; (structure) The default event hold duration to be applied to new ob- jects placed in the specified bucket. When configured, new objects will automatically have an event hold enabled with this duration. Days -&gt; (integer) The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500. Years -&gt; (integer) The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100. JSON Syntax: { "ObjectLockEnabled": "Enabled", "Rule": { "DefaultRetention": { "Mode": "GOVERNANCE"|"COMPLIANCE", "Days": integer, "Years": integer, "DefaultEventHold": { "Days": integer, "Years": integer } } } }
+    /// The Object Lock configuration that you want to apply to the specified bucket. ObjectLockEnabled -&gt; (string) Indicates whether this bucket has an Object Lock configuration enabled. Enable ObjectLockEnabled when you apply ObjectLockConfiguration to a bucket. Possible values: • Enabled Rule -&gt; (structure) Specifies the Object Lock rule for the specified object. Enable the this rule when you apply ObjectLockConfiguration to a bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time. DefaultRetention -&gt; (structure) The default Object Lock retention settings for new objects in this bucket. You can specify: • A default retention period, by using Days or Years . • A default event hold duration, by using DefaultEventHold . This setting also uses days or years. You can set one or both. You cannot use days and years in the same setting. Mode -&gt; (string) The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years . Possible values: • GOVERNANCE • COMPLIANCE Days -&gt; (integer) The number of days that you want to specify for the default retention period. Must be used with Mode . Years -&gt; (integer) The number of years that you want to specify for the default retention period. Must be used with Mode . DefaultEventHold -&gt; (structure) The default event hold duration to be applied to new objects placed in the specified bucket. When configured, new objects will automatically have an event hold enabled with this duration. Days -&gt; (integer) The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500. Years -&gt; (integer) The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100. JSON Syntax: { "ObjectLockEnabled": "Enabled", "Rule": { "DefaultRetention": { "Mode": "GOVERNANCE"|"COMPLIANCE", "Days": integer, "Years": integer, "DefaultEventHold": { "Days": integer, "Years": integer } } } }
     /// </summary>
     [CliOption("--object-lock-configuration")]
     public string? ObjectLockConfiguration { get; set; }
 
     /// <summary>
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their re- quests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buck- ets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: o requester
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see Downloading Objects in Requester Pays Buckets in the Amazon S3 User Guide . NOTE: This functionality is not supported for directory buckets. Possible values: • requester
     /// </summary>
     [CliOption("--request-payer")]
     public string? RequestPayer { get; set; }
@@ -83,19 +84,19 @@ public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions, IValidatab
     public string? Token { get; set; }
 
     /// <summary>
-    /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Inter- face (CLI) or Amazon Web Services SDKs, this field is calculated au- tomatically.
+    /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     /// </summary>
     [CliOption("--content-md5")]
     public string? ContentMd5 { get; set; }
 
     /// <summary>
-    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object in- tegrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any pro- vided ChecksumAlgorithm parameter. Possible values: o CRC32 o CRC32C o SHA1 o SHA256 o CRC64NVME o SHA512 o MD5 o XXHASH64 o XXHASH3 o XXHASH128
+    /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request . For more information, see Checking object integrity in the Amazon S3 User Guide . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. Possible values: • CRC32 • CRC32C • SHA1 • SHA256 • CRC64NVME • SHA512 • MD5 • XXHASH64 • XXHASH3 • XXHASH128
     /// </summary>
     [CliOption("--checksum-algorithm")]
     public AwsS3apiPutObjectLockConfigurationChecksumAlgorithm? ChecksumAlgorithm { get; set; }
 
     /// <summary>
-    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the re- quest fails with the HTTP status code 403 Forbidden (access denied).
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     /// </summary>
     [CliOption("--expected-bucket-owner")]
     public string? ExpectedBucketOwner { get; set; }
@@ -121,6 +122,15 @@ public record AwsS3apiPutObjectLockConfigurationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

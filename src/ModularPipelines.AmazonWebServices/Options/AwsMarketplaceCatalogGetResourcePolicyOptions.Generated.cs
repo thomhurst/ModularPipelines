@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Gets a resource-based policy of an entity that is identified by its re- source ARN. See also: AWS API Documentation
+/// Gets a resource-based policy of an entity that is identified by its resource ARN. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMarketplaceCatalogGetResourcePolicyOptions : AwsOptions, IValid
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Gets a resource-based policy of an entity that is identified by its re- source ARN. See also: AWS API Documentation
+    /// Gets a resource-based policy of an entity that is identified by its resource ARN. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the entity resource that is asso- ciated with the resource policy. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
+    /// <param name="ResourceArn">The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$</param>
     public AwsMarketplaceCatalogGetResourcePolicyOptions(
         string ResourceArn
     )
@@ -56,7 +57,7 @@ public record AwsMarketplaceCatalogGetResourcePolicyOptions : AwsOptions, IValid
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the entity resource that is asso- ciated with the resource policy. Constraints: o min: 1 o max: 255 o pattern: ^arn:[\w+=/,.@-]+:aws-market- place:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
+    /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy. Constraints: • min: 1 • max: 255 • pattern: ^arn:[\w+=/,.@-]+:aws-marketplace:[\w+=/,.@-]*:[0-9]+:[\w+=,.@-]+(/[\w+=,.@-]+)*$
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMarketplaceCatalogGetResourcePolicyOptions : AwsOptions, IValid
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +28,8 @@ public record AwsNeptuneGraphTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds tags to the specified resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">ARN of the resource for which tags need to be added. Constraints: o min: 1 o max: 1011 o pattern: arn:.+</param>
-    /// <param name="Tags">The tags to be assigned to the Neptune Analytics resource. The tags are metadata that are specified as a list of key-value pairs: Key (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Uni- code characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Value (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
+    /// <param name="ResourceArn">ARN of the resource for which tags need to be added. Constraints: • min: 1 • max: 1011 • pattern: arn:.+</param>
+    /// <param name="Tags">The tags to be assigned to the Neptune Analytics resource. The tags are metadata that are specified as a list of key-value pairs: Key (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Value (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsNeptuneGraphTagResourceOptions(
         string ResourceArn,
         IReadOnlyList<KeyValue> Tags
@@ -72,13 +72,13 @@ public record AwsNeptuneGraphTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// ARN of the resource for which tags need to be added. Constraints: o min: 1 o max: 1011 o pattern: arn:.+
+    /// ARN of the resource for which tags need to be added. Constraints: • min: 1 • max: 1011 • pattern: arn:.+
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// The tags to be assigned to the Neptune Analytics resource. The tags are metadata that are specified as a list of key-value pairs: Key (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Uni- code characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Value (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be assigned to the Neptune Analytics resource. The tags are metadata that are specified as a list of key-value pairs: Key (string) A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Value (string) A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length. It can't be prefixed with aws: and can only contain the set of Unicode characters specified by this Java regular expression: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$") . Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; private init; }
@@ -104,6 +104,15 @@ public record AwsNeptuneGraphTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

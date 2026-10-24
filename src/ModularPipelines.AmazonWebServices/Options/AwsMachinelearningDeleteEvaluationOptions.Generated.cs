@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Assigns the DELETED status to an Evaluation , rendering it unusable. After invoking the DeleteEvaluation operation, you can use the GetEval- uation operation to verify that the status of the Evaluation changed to DELETED . Caution: The results of the DeleteEvaluation operation are irre- versible. See also: AWS API Documentation
+/// Assigns the DELETED status to an Evaluation , rendering it unusable. After invoking the DeleteEvaluation operation, you can use the GetEvaluation operation to verify that the status of the Evaluation changed to DELETED . Caution: The results of the DeleteEvaluation operation are irreversible. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsMachinelearningDeleteEvaluationOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Assigns the DELETED status to an Evaluation , rendering it unusable. After invoking the DeleteEvaluation operation, you can use the GetEval- uation operation to verify that the status of the Evaluation changed to DELETED . Caution: The results of the DeleteEvaluation operation are irre- versible. See also: AWS API Documentation
+    /// Assigns the DELETED status to an Evaluation , rendering it unusable. After invoking the DeleteEvaluation operation, you can use the GetEvaluation operation to verify that the status of the Evaluation changed to DELETED . Caution: The results of the DeleteEvaluation operation are irreversible. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EvaluationId">A user-supplied ID that uniquely identifies the Evaluation to delete. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+</param>
+    /// <param name="EvaluationId">A user-supplied ID that uniquely identifies the Evaluation to delete. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+</param>
     public AwsMachinelearningDeleteEvaluationOptions(
         string EvaluationId
     )
@@ -56,7 +57,7 @@ public record AwsMachinelearningDeleteEvaluationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A user-supplied ID that uniquely identifies the Evaluation to delete. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9_.-]+
+    /// A user-supplied ID that uniquely identifies the Evaluation to delete. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--evaluation-id")]
     public string? EvaluationId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsMachinelearningDeleteEvaluationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

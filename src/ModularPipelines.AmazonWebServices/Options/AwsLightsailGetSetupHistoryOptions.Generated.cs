@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns detailed information for five of the most recent SetupInstance- Https requests that were ran on the target instance. See also: AWS API Documentation
+/// Returns detailed information for five of the most recent SetupInstanceHttps requests that were ran on the target instance. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,9 +27,9 @@ public record AwsLightsailGetSetupHistoryOptions : AwsOptions, IValidatableObjec
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns detailed information for five of the most recent SetupInstance- Https requests that were ran on the target instance. See also: AWS API Documentation
+    /// Returns detailed information for five of the most recent SetupInstanceHttps requests that were ran on the target instance. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceName">The name of the resource for which you are requesting information. Constraints: o pattern: \w[\w\-]*\w</param>
+    /// <param name="ResourceName">The name of the resource for which you are requesting information. Constraints: • pattern: \w[\w\-]*\w</param>
     public AwsLightsailGetSetupHistoryOptions(
         string ResourceName
     )
@@ -57,13 +58,13 @@ public record AwsLightsailGetSetupHistoryOptions : AwsOptions, IValidatableObjec
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the resource for which you are requesting information. Constraints: o pattern: \w[\w\-]*\w
+    /// The name of the resource for which you are requesting information. Constraints: • pattern: \w[\w\-]*\w
     /// </summary>
     [CliOption("--resource-name")]
     public string? ResourceName { get; private init; }
 
     /// <summary>
-    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetSetupHistory request. If your results are paginated, the response will return a next page to- ken that you can specify as the page token in a subsequent request. Constraints: o min: 24 o max: 40 o pattern: ^[A-Za-z0-9+/=]+$
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetSetupHistory request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request. Constraints: • min: 24 • max: 40 • pattern: ^[A-Za-z0-9+/=]+$
     /// </summary>
     [SecretValue]
     [CliOption("--page-token")]
@@ -90,6 +91,15 @@ public record AwsLightsailGetSetupHistoryOptions : AwsOptions, IValidatableObjec
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,8 +29,8 @@ public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions, 
     /// Associates the specified subnets and transit gateway attachments with the specified transit gateway multicast domain. The transit gateway attachment must be in the available state before you can add a resource. Use DescribeTransitGatewayAttachments to see the state of the attachment. See also: AWS API Documentation
     /// </summary>
     /// <param name="TransitGatewayMulticastDomainId">The ID of the transit gateway multicast domain.</param>
-    /// <param name="TransitGatewayAttachmentId">The ID of the transit gateway attachment to associate with the tran- sit gateway multicast domain.</param>
-    /// <param name="SubnetIds">The IDs of the subnets to associate with the transit gateway multi- cast domain. (string) Syntax: "string" "string" ...</param>
+    /// <param name="TransitGatewayAttachmentId">The ID of the transit gateway attachment to associate with the transit gateway multicast domain.</param>
+    /// <param name="SubnetIds">The IDs of the subnets to associate with the transit gateway multicast domain. (string) Syntax: "string" "string" ...</param>
     public AwsEc2AssociateTransitGatewayMulticastDomainOptions(
         string TransitGatewayMulticastDomainId,
         string TransitGatewayAttachmentId,
@@ -81,19 +82,19 @@ public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions, 
     public string? TransitGatewayMulticastDomainId { get; private init; }
 
     /// <summary>
-    /// The ID of the transit gateway attachment to associate with the tran- sit gateway multicast domain.
+    /// The ID of the transit gateway attachment to associate with the transit gateway multicast domain.
     /// </summary>
     [CliOption("--transit-gateway-attachment-id")]
     public string? TransitGatewayAttachmentId { get; private init; }
 
     /// <summary>
-    /// The IDs of the subnets to associate with the transit gateway multi- cast domain. (string) Syntax: "string" "string" ...
+    /// The IDs of the subnets to associate with the transit gateway multicast domain. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--subnet-ids", GroupValues = true)]
     public IEnumerable<string>? SubnetIds { get; private init; }
 
     /// <summary>
-    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRun- Operation . Otherwise, it is UnauthorizedOperation .
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -119,6 +120,15 @@ public record AwsEc2AssociateTransitGatewayMulticastDomainOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

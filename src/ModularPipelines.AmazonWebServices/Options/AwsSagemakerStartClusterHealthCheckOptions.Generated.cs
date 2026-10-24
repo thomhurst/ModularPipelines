@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for de- tails. See also: AWS API Documentation
+/// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for details. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsSagemakerStartClusterHealthCheckOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for de- tails. See also: AWS API Documentation
+    /// Start deep health checks for a SageMaker HyperPod cluster. You can use DescribeClusterNode API to track progress of the deep health checks. The unhealthy nodes will be automatically rebooted or replaced. Please see Resilience-related Kubernetes labels by SageMaker HyperPod for details. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
-    /// <param name="DeepHealthCheckConfigurations">A list of configurations containing instance group names, EC2 in- stance IDs, and deep health checks to perform. Constraints: o min: 1 o max: 99 (structure) The configuration of deep health checks for an instance group. NOTE: Overlapping deep health check configurations will be merged into a single operation. InstanceGroupName -&gt; (string) [required] The name of the instance group. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* InstanceIds -&gt; (list) A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which to perform deep health checks. NOTE: Leave this field blank to perform deep health checks on the entire instance group. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? DeepHealthChecks -&gt; (list) [required] A list of deep health checks to be performed. Constraints: o min: 1 o max: 3 (string) Possible values: o InstanceStress o InstanceConnectivity Shorthand Syntax: InstanceGroupName=string,InstanceIds=string,string,DeepHealthChecks=string,string ... JSON Syntax: [ { "InstanceGroupName": "string", "InstanceIds": ["string", ...], "DeepHealthChecks": ["InstanceStress"|"InstanceConnectivity", ...] } ... ]</param>
+    /// <param name="ClusterName">The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="DeepHealthCheckConfigurations">A list of configurations containing instance group names, EC2 instance IDs, and deep health checks to perform. Constraints: • min: 1 • max: 99 (structure) The configuration of deep health checks for an instance group. NOTE: Overlapping deep health check configurations will be merged into a single operation. InstanceGroupName -&gt; (string) [required] The name of the instance group. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* InstanceIds -&gt; (list) A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which to perform deep health checks. NOTE: Leave this field blank to perform deep health checks on the entire instance group. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? DeepHealthChecks -&gt; (list) [required] A list of deep health checks to be performed. Constraints: • min: 1 • max: 3 (string) Possible values: • InstanceStress • InstanceConnectivity Shorthand Syntax: InstanceGroupName=string,InstanceIds=string,string,DeepHealthChecks=string,string ... JSON Syntax: [ { "InstanceGroupName": "string", "InstanceIds": ["string", ...], "DeepHealthChecks": ["InstanceStress"|"InstanceConnectivity", ...] } ... ]</param>
     public AwsSagemakerStartClusterHealthCheckOptions(
         string ClusterName,
         IEnumerable<string> DeepHealthCheckConfigurations
@@ -71,13 +72,13 @@ public record AwsSagemakerStartClusterHealthCheckOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// A list of configurations containing instance group names, EC2 in- stance IDs, and deep health checks to perform. Constraints: o min: 1 o max: 99 (structure) The configuration of deep health checks for an instance group. NOTE: Overlapping deep health check configurations will be merged into a single operation. InstanceGroupName -&gt; (string) [required] The name of the instance group. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* InstanceIds -&gt; (list) A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which to perform deep health checks. NOTE: Leave this field blank to perform deep health checks on the entire instance group. Constraints: o min: 1 o max: 500 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? DeepHealthChecks -&gt; (list) [required] A list of deep health checks to be performed. Constraints: o min: 1 o max: 3 (string) Possible values: o InstanceStress o InstanceConnectivity Shorthand Syntax: InstanceGroupName=string,InstanceIds=string,string,DeepHealthChecks=string,string ... JSON Syntax: [ { "InstanceGroupName": "string", "InstanceIds": ["string", ...], "DeepHealthChecks": ["InstanceStress"|"InstanceConnectivity", ...] } ... ]
+    /// A list of configurations containing instance group names, EC2 instance IDs, and deep health checks to perform. Constraints: • min: 1 • max: 99 (structure) The configuration of deep health checks for an instance group. NOTE: Overlapping deep health check configurations will be merged into a single operation. InstanceGroupName -&gt; (string) [required] The name of the instance group. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9])* InstanceIds -&gt; (list) A list of Amazon Elastic Compute Cloud (EC2) instance IDs on which to perform deep health checks. NOTE: Leave this field blank to perform deep health checks on the entire instance group. Constraints: • min: 1 • max: 500 (string) Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? DeepHealthChecks -&gt; (list) [required] A list of deep health checks to be performed. Constraints: • min: 1 • max: 3 (string) Possible values: • InstanceStress • InstanceConnectivity Shorthand Syntax: InstanceGroupName=string,InstanceIds=string,string,DeepHealthChecks=string,string ... JSON Syntax: [ { "InstanceGroupName": "string", "InstanceIds": ["string", ...], "DeepHealthChecks": ["InstanceStress"|"InstanceConnectivity", ...] } ... ]
     /// </summary>
     [CliOption("--deep-health-check-configurations", GroupValues = true)]
     public IEnumerable<string>? DeepHealthCheckConfigurations { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSagemakerStartClusterHealthCheckOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

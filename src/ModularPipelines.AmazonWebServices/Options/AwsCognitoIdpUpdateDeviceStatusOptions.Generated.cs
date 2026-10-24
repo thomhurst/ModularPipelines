@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the status of a the currently signed-in user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key in- stead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . Auth...
+/// Updates the status of a the currently signed-in user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . Author...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +28,10 @@ public record AwsCognitoIdpUpdateDeviceStatusOptions : AwsOptions, IValidatableO
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the status of a the currently signed-in user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key in- stead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . Auth...
+    /// Updates the status of a the currently signed-in user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see Working with devices . Author...
     /// </summary>
-    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+</param>
-    /// <param name="DeviceKey">The device key of the device you want to update, for example us-west-2_a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+</param>
+    /// <param name="AccessToken">A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+</param>
+    /// <param name="DeviceKey">The device key of the device you want to update, for example us-west-2_a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-f-]+</param>
     public AwsCognitoIdpUpdateDeviceStatusOptions(
         string AccessToken,
         string DeviceKey
@@ -62,20 +63,20 @@ public record AwsCognitoIdpUpdateDeviceStatusOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cog- nito.signin.user.admin . Constraints: o pattern: [A-Za-z0-9-_=.]+
+    /// A valid access token that Amazon Cognito issued to the currently signed-in user. Must include a scope claim for aws.cognito.signin.user.admin . Constraints: • pattern: [A-Za-z0-9-_=.]+
     /// </summary>
     [SecretValue]
     [CliOption("--access-token")]
     public string? AccessToken { get; private init; }
 
     /// <summary>
-    /// The device key of the device you want to update, for example us-west-2_a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: o min: 1 o max: 55 o pattern: [\w-]+_[0-9a-f-]+
+    /// The device key of the device you want to update, for example us-west-2_a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 . Constraints: • min: 1 • max: 55 • pattern: [\w-]+_[0-9a-f-]+
     /// </summary>
     [CliOption("--device-key")]
     public string? DeviceKey { get; private init; }
 
     /// <summary>
-    /// To enable device authentication with the specified device, set to remembered .To disable, set to not_remembered . Possible values: o remembered o not_remembered
+    /// To enable device authentication with the specified device, set to remembered .To disable, set to not_remembered . Possible values: • remembered • not_remembered
     /// </summary>
     [CliOption("--device-remembered-status")]
     public AwsCognitoIdpUpdateDeviceStatusDeviceRememberedStatus? DeviceRememberedStatus { get; set; }
@@ -101,6 +102,15 @@ public record AwsCognitoIdpUpdateDeviceStatusOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

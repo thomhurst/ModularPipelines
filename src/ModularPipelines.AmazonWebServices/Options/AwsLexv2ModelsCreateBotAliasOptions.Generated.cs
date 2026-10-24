@@ -10,13 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applica- tions use to call the Amazon Lex bot. See also: AWS API Documentation
+/// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +26,10 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applica- tions use to call the Amazon Lex bot. See also: AWS API Documentation
+    /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BotAliasName">The alias to create. The name must be unique for the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
-    /// <param name="BotId">The unique identifier of the bot that the alias applies to. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$</param>
+    /// <param name="BotAliasName">The alias to create. The name must be unique for the bot. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$</param>
+    /// <param name="BotId">The unique identifier of the bot that the alias applies to. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$</param>
     public AwsLexv2ModelsCreateBotAliasOptions(
         string BotAliasName,
         string BotId
@@ -61,37 +61,37 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The alias to create. The name must be unique for the bot. Constraints: o min: 1 o max: 100 o pattern: ^([0-9a-zA-Z][_-]?){1,100}$
+    /// The alias to create. The name must be unique for the bot. Constraints: • min: 1 • max: 100 • pattern: ^([0-9a-zA-Z][_-]?){1,100}$
     /// </summary>
     [CliOption("--bot-alias-name")]
     public string? BotAliasName { get; private init; }
 
     /// <summary>
-    /// The unique identifier of the bot that the alias applies to. Constraints: o min: 10 o max: 10 o pattern: ^[0-9a-zA-Z]+$
+    /// The unique identifier of the bot that the alias applies to. Constraints: • min: 10 • max: 10 • pattern: ^[0-9a-zA-Z]+$
     /// </summary>
     [CliOption("--bot-id")]
     public string? BotId { get; private init; }
 
     /// <summary>
-    /// A description of the alias. Use this description to help identify the alias. Constraints: o min: 0 o max: 2000
+    /// A description of the alias. Use this description to help identify the alias. Constraints: • min: 0 • max: 2000
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The version of the bot that this alias points to. You can use the UpdateBotAlias operation to change the bot version associated with the alias. Constraints: o min: 1 o max: 5 o pattern: ^[0-9]+$
+    /// The version of the bot that this alias points to. You can use the UpdateBotAlias operation to change the bot version associated with the alias. Constraints: • min: 1 • max: 5 • pattern: ^[0-9]+$
     /// </summary>
     [CliOption("--bot-version")]
     public string? BotVersion { get; set; }
 
     /// <summary>
-    /// Maps configuration information to a specific locale. You can use this parameter to specify a specific Lambda function to run differ- ent functions in different locales. Constraints: o min: 1 key -&gt; (string) value -&gt; (structure) Specifies settings that are unique to a locale. For example, you can use different Lambda function depending on the bot's locale. enabled -&gt; (boolean) [required] Determines whether the locale is enabled for the bot. If the value is false , the locale isn't available for use. codeHookSpecification -&gt; (structure) Specifies the Lambda function that should be used in the lo- cale. lambdaCodeHook -&gt; (structure) [required] Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot. lambdaARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function. Constraints: o min: 20 o max: 2048 o pattern: arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:func- tion:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)? codeHookInterfaceVersion -&gt; (string) [required] The version of the request-response that you want Ama- zon Lex to use to invoke your Lambda function. Constraints: o min: 1 o max: 5 JSON Syntax: {"string": { "enabled": true|false, "codeHookSpecification": { "lambdaCodeHook": { "lambdaARN": "string", "codeHookInterfaceVersion": "string" } } } ...}
+    /// Maps configuration information to a specific locale. You can use this parameter to specify a specific Lambda function to run different functions in different locales. Constraints: • min: 1 key -&gt; (string) value -&gt; (structure) Specifies settings that are unique to a locale. For example, you can use different Lambda function depending on the bot's locale. enabled -&gt; (boolean) [required] Determines whether the locale is enabled for the bot. If the value is false , the locale isn't available for use. codeHookSpecification -&gt; (structure) Specifies the Lambda function that should be used in the locale. lambdaCodeHook -&gt; (structure) [required] Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot. lambdaARN -&gt; (string) [required] The Amazon Resource Name (ARN) of the Lambda function. Constraints: • min: 20 • max: 2048 • pattern: arn:aws:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)? codeHookInterfaceVersion -&gt; (string) [required] The version of the request-response that you want Amazon Lex to use to invoke your Lambda function. Constraints: • min: 1 • max: 5 JSON Syntax: {"string": { "enabled": true|false, "codeHookSpecification": { "lambdaCodeHook": { "lambdaARN": "string", "codeHookInterfaceVersion": "string" } } } ...}
     /// </summary>
     [CliOption("--bot-alias-locale-settings", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? BotAliasLocaleSettings { get; set; }
 
     /// <summary>
-    /// Specifies whether Amazon Lex logs text and audio for a conversation with the bot. When you enable conversation logs, text logs store text input, transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs store audio input in Amazon S3. textLogSettings -&gt; (list) The Amazon CloudWatch Logs settings for logging text and meta- data. Constraints: o min: 1 o max: 1 (structure) Defines settings to enable text conversation logs. enabled -&gt; (boolean) [required] Determines whether conversation logs should be stored for an alias. destination -&gt; (structure) [required] Defines the Amazon CloudWatch Logs destination log group for conversation text logs. cloudWatch -&gt; (structure) [required] Defines the Amazon CloudWatch Logs log group where text and metadata logs are delivered. cloudWatchLogGroupArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the log group where text and metadata logs are delivered. Constraints: o min: 1 o max: 2048 o pattern: ^arn:[\w\-]+:logs:[\w\-]+:[\d]{12}:log-group:[\.\-_/#A-Za-z0-9]{1,512}(?::\*)?$ logPrefix -&gt; (string) [required] The prefix of the log stream name within the log group that you specified Constraints: o max: 1024 selectiveLoggingEnabled -&gt; (boolean) The option to enable selective conversation log capture for text. audioLogSettings -&gt; (list) The Amazon S3 settings for logging audio to an S3 bucket. Constraints: o min: 1 o max: 1 (structure) Settings for logging audio of conversations between Amazon Lex and a user. You specify whether to log audio and the Ama- zon S3 bucket where the audio file is stored. enabled -&gt; (boolean) [required] Determines whether audio logging in enabled for the bot. destination -&gt; (structure) [required] The location of audio log files collected when conversa- tion logging is enabled for a bot. s3Bucket -&gt; (structure) [required] The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parame- ter of the CreateBot operation must have permission to write to this bucket. kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for en- crypting audio log files stored in an S3 bucket. Constraints: o min: 20 o max: 2048 o pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ s3BucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Amazon S3 bucket where audio log files are stored. Constraints: o min: 1 o max: 2048 o pattern: ^arn:[\w\-]+:s3:::[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ logPrefix -&gt; (string) [required] The S3 prefix to assign to audio log files. Constraints: o max: 1024 selectiveLoggingEnabled -&gt; (boolean) The option to enable selective conversation log capture for audio. JSON Syntax: { "textLogSettings": [ { "enabled": true|false, "destination": { "cloudWatch": { "cloudWatchLogGroupArn": "string", "logPrefix": "string" } }, "selectiveLoggingEnabled": true|false } ... ], "audioLogSettings": [ { "enabled": true|false, "destination": { "s3Bucket": { "kmsKeyArn": "string", "s3BucketArn": "string", "logPrefix": "string" } }, "selectiveLoggingEnabled": true|false } ... ] }
+    /// Specifies whether Amazon Lex logs text and audio for a conversation with the bot. When you enable conversation logs, text logs store text input, transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs store audio input in Amazon S3. textLogSettings -&gt; (list) The Amazon CloudWatch Logs settings for logging text and metadata. Constraints: • min: 1 • max: 1 (structure) Defines settings to enable text conversation logs. enabled -&gt; (boolean) [required] Determines whether conversation logs should be stored for an alias. destination -&gt; (structure) [required] Defines the Amazon CloudWatch Logs destination log group for conversation text logs. cloudWatch -&gt; (structure) [required] Defines the Amazon CloudWatch Logs log group where text and metadata logs are delivered. cloudWatchLogGroupArn -&gt; (string) [required] The Amazon Resource Name (ARN) of the log group where text and metadata logs are delivered. Constraints: • min: 1 • max: 2048 • pattern: ^arn:[\w\-]+:logs:[\w\-]+:[\d]{12}:log-group:[\.\-_/#A-Za-z0-9]{1,512}(?::\*)?$ logPrefix -&gt; (string) [required] The prefix of the log stream name within the log group that you specified Constraints: • max: 1024 selectiveLoggingEnabled -&gt; (boolean) The option to enable selective conversation log capture for text. audioLogSettings -&gt; (list) The Amazon S3 settings for logging audio to an S3 bucket. Constraints: • min: 1 • max: 1 (structure) Settings for logging audio of conversations between Amazon Lex and a user. You specify whether to log audio and the Amazon S3 bucket where the audio file is stored. enabled -&gt; (boolean) [required] Determines whether audio logging in enabled for the bot. destination -&gt; (structure) [required] The location of audio log files collected when conversation logging is enabled for a bot. s3Bucket -&gt; (structure) [required] The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the CreateBot operation must have permission to write to this bucket. kmsKeyArn -&gt; (string) The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket. Constraints: • min: 20 • max: 2048 • pattern: ^arn:[\w\-]+:kms:[\w\-]+:[\d]{12}:(?:key\/[\w\-]+|alias\/[a-zA-Z0-9:\/_\-]{1,256})$ s3BucketArn -&gt; (string) [required] The Amazon Resource Name (ARN) of an Amazon S3 bucket where audio log files are stored. Constraints: • min: 1 • max: 2048 • pattern: ^arn:[\w\-]+:s3:::[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ logPrefix -&gt; (string) [required] The S3 prefix to assign to audio log files. Constraints: • max: 1024 selectiveLoggingEnabled -&gt; (boolean) The option to enable selective conversation log capture for audio. JSON Syntax: { "textLogSettings": [ { "enabled": true|false, "destination": { "cloudWatch": { "cloudWatchLogGroupArn": "string", "logPrefix": "string" } }, "selectiveLoggingEnabled": true|false } ... ], "audioLogSettings": [ { "enabled": true|false, "destination": { "s3Bucket": { "kmsKeyArn": "string", "s3BucketArn": "string", "logPrefix": "string" } }, "selectiveLoggingEnabled": true|false } ... ] }
     /// </summary>
     [CliOption("--conversation-log-settings")]
     public string? ConversationLogSettings { get; set; }
@@ -103,7 +103,7 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions, IValidatableObje
     public string? SentimentAnalysisSettings { get; set; }
 
     /// <summary>
-    /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the UpdateBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation. Constraints: o min: 0 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the UpdateBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation. Constraints: • min: 0 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -129,6 +129,15 @@ public record AwsLexv2ModelsCreateBotAliasOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

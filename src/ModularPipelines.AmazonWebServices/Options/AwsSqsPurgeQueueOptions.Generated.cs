@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSqsPurgeQueueOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Deletes available messages in a queue (including in-flight messages) specified by the QueueURL parameter. WARNING: When you use the PurgeQueue action, you can't retrieve any messages deleted from a queue. The message deletion process takes up to 60 seconds. We recommend waiting for 60 seconds regardless of your queue's size. Messages sent to the queue before you call PurgeQueue might be received but are deleted within the next minute. Messages sent to the queue after you call PurgeQueue might be...
     /// </summary>
-    /// <param name="QueueUrl">The URL of the queue from which the PurgeQueue action deletes mes- sages. Queue URLs and names are case-sensitive.</param>
+    /// <param name="QueueUrl">The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs and names are case-sensitive.</param>
     public AwsSqsPurgeQueueOptions(
         string QueueUrl
     )
@@ -56,7 +57,7 @@ public record AwsSqsPurgeQueueOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The URL of the queue from which the PurgeQueue action deletes mes- sages. Queue URLs and names are case-sensitive.
+    /// The URL of the queue from which the PurgeQueue action deletes messages. Queue URLs and names are case-sensitive.
     /// </summary>
     [CliOption("--queue-url")]
     public string? QueueUrl { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSqsPurgeQueueOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

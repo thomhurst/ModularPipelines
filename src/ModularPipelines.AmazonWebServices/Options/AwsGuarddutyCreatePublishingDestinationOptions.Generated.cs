@@ -11,13 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination re- source must exist. See also: AWS API Documentation
+/// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,10 +27,10 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination re- source must exist. See also: AWS API Documentation
+    /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DetectorId">The ID of the GuardDuty detector associated with the publishing des- tination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300</param>
-    /// <param name="DestinationType">The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: o S3 Constraints: o min: 1 o max: 300</param>
+    /// <param name="DetectorId">The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300</param>
+    /// <param name="DestinationType">The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: • S3 Constraints: • min: 1 • max: 300</param>
     /// <param name="DestinationProperties">The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption. DestinationArn -&gt; (string) The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/ KmsKeyArn -&gt; (string) The ARN of the KMS key to use for encryption. Shorthand Syntax: DestinationArn=string,KmsKeyArn=string JSON Syntax: { "DestinationArn": "string", "KmsKeyArn": "string" }</param>
     public AwsGuarddutyCreatePublishingDestinationOptions(
         string DetectorId,
@@ -66,13 +66,13 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the GuardDuty detector associated with the publishing des- tination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: o min: 1 o max: 300
+    /// The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API. Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--detector-id")]
     public string? DetectorId { get; private init; }
 
     /// <summary>
-    /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: o S3 Constraints: o min: 1 o max: 300
+    /// The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported. Possible values: • S3 Constraints: • min: 1 • max: 300
     /// </summary>
     [CliOption("--destination-type")]
     public string? DestinationType { get; private init; }
@@ -84,14 +84,14 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IVali
     public string? DestinationProperties { get; private init; }
 
     /// <summary>
-    /// The idempotency token for the request. Constraints: o min: 0 o max: 64
+    /// The idempotency token for the request. Constraints: • min: 0 • max: 64
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The tags to be added to a new publishing destination resource. Constraints: o min: 1 o max: 200 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The tags to be added to a new publishing destination resource. Constraints: • min: 1 • max: 200 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: (?!aws:)[a-zA-Z+-=._:/]+ value -&gt; (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -117,6 +117,15 @@ public record AwsGuarddutyCreatePublishingDestinationOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

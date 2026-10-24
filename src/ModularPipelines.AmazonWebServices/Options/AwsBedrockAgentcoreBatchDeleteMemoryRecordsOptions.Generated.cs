@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions : AwsOptions, I
     /// <summary>
     /// Deletes multiple memory records in a single batch operation from the specified memory. See also: AWS API Documentation
     /// </summary>
-    /// <param name="MemoryId">The unique ID of the memory resource where records will be deleted. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
-    /// <param name="Records">A list of memory record deletion inputs to be processed in the batch operation. Constraints: o min: 0 o max: 100 (structure) Input structure to delete an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be deleted. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]* namespace -&gt; (string) The namespace of the memory record being deleted. This value is used for IAM condition key authorization. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* Shorthand Syntax: memoryRecordId=string,namespace=string ... JSON Syntax: [ { "memoryRecordId": "string", "namespace": "string" } ... ]</param>
+    /// <param name="MemoryId">The unique ID of the memory resource where records will be deleted. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}</param>
+    /// <param name="Records">A list of memory record deletion inputs to be processed in the batch operation. Constraints: • min: 0 • max: 100 (structure) Input structure to delete an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be deleted. Constraints: • min: 40 • max: 50 • pattern: mem-[a-zA-Z0-9-_]* namespace -&gt; (string) The namespace of the memory record being deleted. This value is used for IAM condition key authorization. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* Shorthand Syntax: memoryRecordId=string,namespace=string ... JSON Syntax: [ { "memoryRecordId": "string", "namespace": "string" } ... ]</param>
     public AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions(
         string MemoryId,
         IEnumerable<string> Records
@@ -71,13 +72,13 @@ public record AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The unique ID of the memory resource where records will be deleted. Constraints: o min: 12 o pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agent- core:[a-z0-9-]+:[0-9]{12}:mem- ory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
+    /// The unique ID of the memory resource where records will be deleted. Constraints: • min: 12 • pattern: (arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}
     /// </summary>
     [CliOption("--memory-id")]
     public string? MemoryId { get; private init; }
 
     /// <summary>
-    /// A list of memory record deletion inputs to be processed in the batch operation. Constraints: o min: 0 o max: 100 (structure) Input structure to delete an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be deleted. Constraints: o min: 40 o max: 50 o pattern: mem-[a-zA-Z0-9-_]* namespace -&gt; (string) The namespace of the memory record being deleted. This value is used for IAM condition key authorization. Constraints: o min: 1 o max: 1024 o pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* Shorthand Syntax: memoryRecordId=string,namespace=string ... JSON Syntax: [ { "memoryRecordId": "string", "namespace": "string" } ... ]
+    /// A list of memory record deletion inputs to be processed in the batch operation. Constraints: • min: 0 • max: 100 (structure) Input structure to delete an existing memory record. memoryRecordId -&gt; (string) [required] The unique ID of the memory record to be deleted. Constraints: • min: 40 • max: 50 • pattern: mem-[a-zA-Z0-9-_]* namespace -&gt; (string) The namespace of the memory record being deleted. This value is used for IAM condition key authorization. Constraints: • min: 1 • max: 1024 • pattern: [a-zA-Z0-9/*][a-zA-Z0-9-_/*]*(?::[a-zA-Z0-9-_/*]+)*[a-zA-Z0-9-_/*]* Shorthand Syntax: memoryRecordId=string,namespace=string ... JSON Syntax: [ { "memoryRecordId": "string", "namespace": "string" } ... ]
     /// </summary>
     [CliOption("--records", GroupValues = true)]
     public IEnumerable<string>? Records { get; private init; }
@@ -103,6 +104,15 @@ public record AwsBedrockAgentcoreBatchDeleteMemoryRecordsOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

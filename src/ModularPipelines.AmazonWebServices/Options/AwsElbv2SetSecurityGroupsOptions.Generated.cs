@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -84,7 +85,7 @@ public record AwsElbv2SetSecurityGroupsOptions : AwsOptions, IValidatableObject
     public IEnumerable<string>? SecurityGroups { get; private init; }
 
     /// <summary>
-    /// Indicates whether to evaluate inbound security group rules for traf- fic sent to a Network Load Balancer through Amazon Web Services Pri- vateLink. Applies only if the load balancer has an associated secu- rity group. The default is on . Possible values: o on o off
+    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink. Applies only if the load balancer has an associated security group. The default is on . Possible values: • on • off
     /// </summary>
     [CliOption("--enforce-security-group-inbound-rules-on-private-link-traffic")]
     public AwsElbv2SetSecurityGroupsEnforceSecurityGroupInboundRulesOnPrivateLinkTraffic? EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic { get; set; }
@@ -110,6 +111,15 @@ public record AwsElbv2SetSecurityGroupsOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

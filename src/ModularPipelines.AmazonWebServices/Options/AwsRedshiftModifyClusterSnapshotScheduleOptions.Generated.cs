@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions, IVal
     /// <summary>
     /// Modifies a snapshot schedule for a cluster. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ClusterIdentifier">A unique identifier for the cluster whose snapshot schedule you want to modify. Constraints: o max: 2147483647</param>
+    /// <param name="ClusterIdentifier">A unique identifier for the cluster whose snapshot schedule you want to modify. Constraints: • max: 2147483647</param>
     public AwsRedshiftModifyClusterSnapshotScheduleOptions(
         string ClusterIdentifier
     )
@@ -56,13 +57,13 @@ public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the cluster whose snapshot schedule you want to modify. Constraints: o max: 2147483647
+    /// A unique identifier for the cluster whose snapshot schedule you want to modify. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--cluster-identifier")]
     public string? ClusterIdentifier { get; private init; }
 
     /// <summary>
-    /// A unique alphanumeric identifier for the schedule that you want to associate with the cluster. Constraints: o max: 2147483647
+    /// A unique alphanumeric identifier for the schedule that you want to associate with the cluster. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--schedule-identifier")]
     public string? ScheduleIdentifier { get; set; }
@@ -94,6 +95,15 @@ public record AwsRedshiftModifyClusterSnapshotScheduleOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsSagemakerDeletePartnerAppOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Deletes a SageMaker Partner AI App. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The ARN of the SageMaker Partner AI App to delete. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:part- ner-app\/app-[A-Z0-9]{12}</param>
+    /// <param name="Arn">The ARN of the SageMaker Partner AI App to delete. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:partner-app\/app-[A-Z0-9]{12}</param>
     public AwsSagemakerDeletePartnerAppOptions(
         string Arn
     )
@@ -57,13 +58,13 @@ public record AwsSagemakerDeletePartnerAppOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the SageMaker Partner AI App to delete. Constraints: o min: 1 o max: 128 o pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:part- ner-app\/app-[A-Z0-9]{12}
+    /// The ARN of the SageMaker Partner AI App to delete. Constraints: • min: 1 • max: 128 • pattern: arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:partner-app\/app-[A-Z0-9]{12}
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
 
     /// <summary>
-    /// A unique token that guarantees that the call to this API is idempo- tent. Constraints: o min: 1 o max: 36 o pattern: [a-zA-Z0-9-]+
+    /// A unique token that guarantees that the call to this API is idempotent. Constraints: • min: 1 • max: 36 • pattern: [a-zA-Z0-9-]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -90,6 +91,15 @@ public record AwsSagemakerDeletePartnerAppOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

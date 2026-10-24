@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,8 +30,8 @@ public record AwsLookoutequipmentImportModelVersionOptions : AwsOptions, IValida
     /// <summary>
     /// Imports a model that has been trained successfully. See also: AWS API Documentation
     /// </summary>
-    /// <param name="SourceModelVersionArn">The Amazon Resource Name (ARN) of the model version to import. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:model\/[0-9a-zA-Z_-]{1,200}\/.+\/model-ver- sion\/[0-9]{1,}$</param>
-    /// <param name="DataSetName">The name of the dataset for the machine learning model being im- ported. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
+    /// <param name="SourceModelVersionArn">The Amazon Resource Name (ARN) of the model version to import. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:model\/[0-9a-zA-Z_-]{1,200}\/.+\/model-version\/[0-9]{1,}$</param>
+    /// <param name="DataSetName">The name of the dataset for the machine learning model being imported. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$</param>
     public AwsLookoutequipmentImportModelVersionOptions(
         string SourceModelVersionArn,
         string DataSetName
@@ -62,56 +63,56 @@ public record AwsLookoutequipmentImportModelVersionOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the model version to import. Constraints: o min: 20 o max: 2048 o pattern: ^arn:aws(-[^:]+)?:lookoutequip- ment:[a-zA-Z0-9\-]*:[0-9]{12}:model\/[0-9a-zA-Z_-]{1,200}\/.+\/model-ver- sion\/[0-9]{1,}$
+    /// The Amazon Resource Name (ARN) of the model version to import. Constraints: • min: 20 • max: 2048 • pattern: ^arn:aws(-[^:]+)?:lookoutequipment:[a-zA-Z0-9\-]*:[0-9]{12}:model\/[0-9a-zA-Z_-]{1,200}\/.+\/model-version\/[0-9]{1,}$
     /// </summary>
     [CliOption("--source-model-version-arn")]
     public string? SourceModelVersionArn { get; private init; }
 
     /// <summary>
-    /// The name of the dataset for the machine learning model being im- ported. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name of the dataset for the machine learning model being imported. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--dataset-name")]
     public string? DataSetName { get; private init; }
 
     /// <summary>
-    /// The name for the machine learning model to be created. If the model already exists, Amazon Lookout for Equipment creates a new version. If you do not specify this field, it is filled with the name of the source model. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$
+    /// The name for the machine learning model to be created. If the model already exists, Amazon Lookout for Equipment creates a new version. If you do not specify this field, it is filled with the name of the source model. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$
     /// </summary>
     [CliOption("--model-name")]
     public string? ModelName { get; set; }
 
     /// <summary>
-    /// Contains the configuration information for the S3 location being used to hold label data. S3InputConfiguration -&gt; (structure) Contains location information for the S3 location being used for label data. Bucket -&gt; (string) [required] The name of the S3 bucket holding the label data. Constraints: o min: 3 o max: 63 o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the label data. Constraints: o min: 0 o max: 1024 o pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) LabelGroupName -&gt; (string) The name of the label group to be used for label data. Constraints: o min: 1 o max: 200 o pattern: ^[0-9a-zA-Z_-]{1,200}$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},LabelGroupName=string JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "LabelGroupName": "string" }
+    /// Contains the configuration information for the S3 location being used to hold label data. S3InputConfiguration -&gt; (structure) Contains location information for the S3 location being used for label data. Bucket -&gt; (string) [required] The name of the S3 bucket holding the label data. Constraints: • min: 3 • max: 63 • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$ Prefix -&gt; (string) The prefix for the S3 bucket used for the label data. Constraints: • min: 0 • max: 1024 • pattern: (^$)|([\u0009\u000A\u000D\u0020-\u00FF]{1,1023}/$) LabelGroupName -&gt; (string) The name of the label group to be used for label data. Constraints: • min: 1 • max: 200 • pattern: ^[0-9a-zA-Z_-]{1,200}$ Shorthand Syntax: S3InputConfiguration={Bucket=string,Prefix=string},LabelGroupName=string JSON Syntax: { "S3InputConfiguration": { "Bucket": "string", "Prefix": "string" }, "LabelGroupName": "string" }
     /// </summary>
     [CliOption("--labels-input-configuration")]
     public string? LabelsInputConfiguration { get; set; }
 
     /// <summary>
-    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: o min: 1 o max: 256 o pattern: \p{ASCII}{1,256}
+    /// A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one. Constraints: • min: 1 • max: 256 • pattern: \p{ASCII}{1,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model. Constraints: o min: 20 o max: 2048 o pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
+    /// The Amazon Resource Name (ARN) of a role with permission to access the data source being used to create the machine learning model. Constraints: • min: 20 • max: 2048 • pattern: arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
 
     /// <summary>
-    /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment. Constraints: o min: 1 o max: 2048 o pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
+    /// Provides the identifier of the KMS key key used to encrypt model data by Amazon Lookout for Equipment. Constraints: • min: 1 • max: 2048 • pattern: ^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$
     /// </summary>
     [CliOption("--server-side-kms-key-id")]
     public string? ServerSideKmsKeyId { get; set; }
 
     /// <summary>
-    /// The tags associated with the machine learning model to be created. Constraints: o min: 0 o max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: o min: 1 o max: 128 o pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: o min: 0 o max: 256 o pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags associated with the machine learning model to be created. Constraints: • min: 0 • max: 200 (structure) A tag is a key-value pair that can be added to a resource as metadata. Key -&gt; (string) [required] The key for the specified tag. Constraints: • min: 1 • max: 128 • pattern: ^(?!aws:)[a-zA-Z+-=._:/]+$ Value -&gt; (string) [required] The value for the specified tag. Constraints: • min: 0 • max: 256 • pattern: [\s\w+-=\.:/@]* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Indicates how to import the accumulated inference data when a model version is imported. The possible values are as follows: o NO_IMPORT Don't import the data. o ADD_WHEN_EMPTY Only import the data from the source model if there is no existing data in the target model. o OVERWRITE Import the data from the source model and overwrite the existing data in the target model. Possible values: o NO_IMPORT o ADD_WHEN_EMPTY o OVERWRITE
+    /// Indicates how to import the accumulated inference data when a model version is imported. The possible values are as follows: • NO_IMPORT Don't import the data. • ADD_WHEN_EMPTY Only import the data from the source model if there is no existing data in the target model. • OVERWRITE Import the data from the source model and overwrite the existing data in the target model. Possible values: • NO_IMPORT • ADD_WHEN_EMPTY • OVERWRITE
     /// </summary>
     [CliOption("--inference-data-import-strategy")]
     public AwsLookoutequipmentImportModelVersionInferenceDataImportStrategy? InferenceDataImportStrategy { get; set; }
@@ -137,6 +138,15 @@ public record AwsLookoutequipmentImportModelVersionOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsSecurityhubDeleteConfigurationPolicyOptions : AwsOptions, IVali
     /// <summary>
     /// Deletes a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy. Constraints: o pattern: .*\S.*</param>
+    /// <param name="Identifier">The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDeleteConfigurationPolicyOptions(
         string Identifier
     )
@@ -56,7 +57,7 @@ public record AwsSecurityhubDeleteConfigurationPolicyOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy. Constraints: o pattern: .*\S.*
+    /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSecurityhubDeleteConfigurationPolicyOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

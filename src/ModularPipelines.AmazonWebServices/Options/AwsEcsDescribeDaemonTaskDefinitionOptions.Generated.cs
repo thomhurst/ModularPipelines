@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Describes a daemon task definition. You can specify a family and revi- sion to find information about a specific daemon task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. See also: AWS API Documentation
+/// Describes a daemon task definition. You can specify a family and revision to find information about a specific daemon task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsEcsDescribeDaemonTaskDefinitionOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Describes a daemon task definition. You can specify a family and revi- sion to find information about a specific daemon task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. See also: AWS API Documentation
+    /// Describes a daemon task definition. You can specify a family and revision to find information about a specific daemon task definition, or you can simply specify the family to find the latest ACTIVE revision in that family. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DaemonTaskDefinition">The family for the latest ACTIVE revision, family and revision (fam- ily:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.</param>
+    /// <param name="DaemonTaskDefinition">The family for the latest ACTIVE revision, family and revision (family:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.</param>
     public AwsEcsDescribeDaemonTaskDefinitionOptions(
         string DaemonTaskDefinition
     )
@@ -56,7 +57,7 @@ public record AwsEcsDescribeDaemonTaskDefinitionOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The family for the latest ACTIVE revision, family and revision (fam- ily:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
+    /// The family for the latest ACTIVE revision, family and revision (family:revision ) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
     /// </summary>
     [CliOption("--daemon-task-definition")]
     public string? DaemonTaskDefinition { get; private init; }
@@ -82,6 +83,15 @@ public record AwsEcsDescribeDaemonTaskDefinitionOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

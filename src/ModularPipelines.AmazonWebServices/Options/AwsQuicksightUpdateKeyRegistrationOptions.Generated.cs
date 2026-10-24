@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightUpdateKeyRegistrationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates a customer managed key in a Quick Sight account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="KeyRegistration">A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account. (structure) A customer managed key structure that contains the information listed below: o KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use. o DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use. KeyArn -&gt; (string) The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use. DefaultKey -&gt; (boolean) Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use. Shorthand Syntax: KeyArn=string,DefaultKey=boolean ... JSON Syntax: [ { "KeyArn": "string", "DefaultKey": true|false } ... ]</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="KeyRegistration">A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account. (structure) A customer managed key structure that contains the information listed below: • KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use. • DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use. KeyArn -&gt; (string) The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use. DefaultKey -&gt; (boolean) Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use. Shorthand Syntax: KeyArn=string,DefaultKey=boolean ... JSON Syntax: [ { "KeyArn": "string", "DefaultKey": true|false } ... ]</param>
     public AwsQuicksightUpdateKeyRegistrationOptions(
         string AwsAccountId,
         IEnumerable<string> KeyRegistration
@@ -71,13 +72,13 @@ public record AwsQuicksightUpdateKeyRegistrationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account. (structure) A customer managed key structure that contains the information listed below: o KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use. o DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use. KeyArn -&gt; (string) The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use. DefaultKey -&gt; (boolean) Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use. Shorthand Syntax: KeyArn=string,DefaultKey=boolean ... JSON Syntax: [ { "KeyArn": "string", "DefaultKey": true|false } ... ]
+    /// A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account. (structure) A customer managed key structure that contains the information listed below: • KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use. • DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use. KeyArn -&gt; (string) The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use. DefaultKey -&gt; (boolean) Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use. Shorthand Syntax: KeyArn=string,DefaultKey=boolean ... JSON Syntax: [ { "KeyArn": "string", "DefaultKey": true|false } ... ]
     /// </summary>
     [CliOption("--key-registration", GroupValues = true)]
     public IEnumerable<string>? KeyRegistration { get; private init; }
@@ -103,6 +104,15 @@ public record AwsQuicksightUpdateKeyRegistrationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

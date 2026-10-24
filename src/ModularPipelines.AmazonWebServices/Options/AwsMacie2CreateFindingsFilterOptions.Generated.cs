@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates and defines the criteria and other settings for a findings fil- ter. See also: AWS API Documentation
+/// Creates and defines the criteria and other settings for a findings filter. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsMacie2CreateFindingsFilterOptions : AwsOptions, IValidatableObj
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates and defines the criteria and other settings for a findings fil- ter. See also: AWS API Documentation
+    /// Creates and defines the criteria and other settings for a findings filter. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Action">The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automati- cally archive) the findings; and, NOOP, don't perform any action on the findings. Possible values: o ARCHIVE o NOOP</param>
-    /// <param name="FindingCriteria">The criteria to use to filter findings. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For de- tailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdenti- fiers.detections.name, resourcesAf- fected.s3Bucket.tags.key, resourcesAf- fected.s3Bucket.tags.value, resourcesAffected.s3Ob- ject.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detec- tions.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Ma- cie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }</param>
-    /// <param name="Name">A custom name for the filter. The name must contain at least 3 char- acters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to per- form in Amazon Macie.</param>
+    /// <param name="Action">The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings. Possible values: • ARCHIVE • NOOP</param>
+    /// <param name="FindingCriteria">The criteria to use to filter findings. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For detailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdentifiers.detections.name, resourcesAffected.s3Bucket.tags.key, resourcesAffected.s3Bucket.tags.value, resourcesAffected.s3Object.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detections.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }</param>
+    /// <param name="Name">A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.</param>
     public AwsMacie2CreateFindingsFilterOptions(
         AwsMacie2CreateFindingsFilterAction Action,
         string FindingCriteria,
@@ -66,25 +66,25 @@ public record AwsMacie2CreateFindingsFilterOptions : AwsOptions, IValidatableObj
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automati- cally archive) the findings; and, NOOP, don't perform any action on the findings. Possible values: o ARCHIVE o NOOP
+    /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings. Possible values: • ARCHIVE • NOOP
     /// </summary>
     [CliOption("--action")]
     public AwsMacie2CreateFindingsFilterAction? Action { get; private init; }
 
     /// <summary>
-    /// The criteria to use to filter findings. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For de- tailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdenti- fiers.detections.name, resourcesAf- fected.s3Bucket.tags.key, resourcesAf- fected.s3Bucket.tags.value, resourcesAffected.s3Ob- ject.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detec- tions.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Ma- cie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
+    /// The criteria to use to filter findings. criterion -&gt; (map) A condition that specifies the property, operator, and one or more values to use to filter the results. key -&gt; (string) value -&gt; (structure) Specifies the operator to use in a property-based condition that filters the results of a query for findings. For detailed information and examples of each operator, see Fundamentals of filtering findings in the Amazon Macie User Guide . eq -&gt; (list) The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) eqExactMatch -&gt; (list) The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdentifiers.detections.name, resourcesAffected.s3Bucket.tags.key, resourcesAffected.s3Bucket.tags.value, resourcesAffected.s3Object.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detections.type. (string) gt -&gt; (long) The value for the property is greater than the specified value. gte -&gt; (long) The value for the property is greater than or equal to the specified value. lt -&gt; (long) The value for the property is less than the specified value. lte -&gt; (long) The value for the property is less than or equal to the specified value. neq -&gt; (list) The value for the property doesn't match (doesn't equal) the specified value. If you specify multiple values, Macie uses OR logic to join the values. (string) JSON Syntax: { "criterion": {"string": { "eq": ["string", ...], "eqExactMatch": ["string", ...], "gt": long, "gte": long, "lt": long, "lte": long, "neq": ["string", ...] } ...} }
     /// </summary>
     [CliOption("--finding-criteria")]
     public string? FindingCriteria { get; private init; }
 
     /// <summary>
-    /// A custom name for the filter. The name must contain at least 3 char- acters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to per- form in Amazon Macie.
+    /// A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// A unique, case-sensitive token that you provide to ensure the idem- potency of the request.
+    /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
@@ -97,7 +97,7 @@ public record AwsMacie2CreateFindingsFilterOptions : AwsOptions, IValidatableObj
     public string? Description { get; set; }
 
     /// <summary>
-    /// The position of the filter in the list of saved filters on the Ama- zon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
+    /// The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
     /// </summary>
     [CliOption("--position")]
     public int? Position { get; set; }
@@ -129,6 +129,15 @@ public record AwsMacie2CreateFindingsFilterOptions : AwsOptions, IValidatableObj
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

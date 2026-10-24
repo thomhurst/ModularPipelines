@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions, IVa
     /// <summary>
     /// Posts a comment on the comparison between two commits. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RepositoryName">The name of the repository where you want to post a comment on the comparison between commits. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+</param>
+    /// <param name="RepositoryName">The name of the repository where you want to post a comment on the comparison between commits. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+</param>
     /// <param name="AfterCommitId">To establish the directionality of the comparison, the full commit ID of the after commit.</param>
     /// <param name="Content">The content of the comment you want to make.</param>
     public AwsCodecommitPostCommentForComparedCommitOptions(
@@ -65,7 +66,7 @@ public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions, IVa
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the repository where you want to post a comment on the comparison between commits. Constraints: o min: 1 o max: 100 o pattern: [\w\.-]+
+    /// The name of the repository where you want to post a comment on the comparison between commits. Constraints: • min: 1 • max: 100 • pattern: [\w\.-]+
     /// </summary>
     [CliOption("--repository-name")]
     public string? RepositoryName { get; private init; }
@@ -83,19 +84,19 @@ public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions, IVa
     public string? Content { get; private init; }
 
     /// <summary>
-    /// To establish the directionality of the comparison, the full commit ID of the before commit. Required for commenting on any commit un- less that commit is the initial commit.
+    /// To establish the directionality of the comparison, the full commit ID of the before commit. Required for commenting on any commit unless that commit is the initial commit.
     /// </summary>
     [CliOption("--before-commit-id")]
     public string? BeforeCommitId { get; set; }
 
     /// <summary>
-    /// The location of the comparison where you want to comment. filePath -&gt; (string) The name of the file being compared, including its extension and subdirectory, if any. filePosition -&gt; (long) The position of a change in a compared file, in line number for- mat. relativeFileVersion -&gt; (string) In a comparison of commits or a pull request, whether the change is in the before or after of that comparison. Possible values: o BEFORE o AFTER Shorthand Syntax: filePath=string,filePosition=long,relativeFileVersion=string JSON Syntax: { "filePath": "string", "filePosition": long, "relativeFileVersion": "BEFORE"|"AFTER" }
+    /// The location of the comparison where you want to comment. filePath -&gt; (string) The name of the file being compared, including its extension and subdirectory, if any. filePosition -&gt; (long) The position of a change in a compared file, in line number format. relativeFileVersion -&gt; (string) In a comparison of commits or a pull request, whether the change is in the before or after of that comparison. Possible values: • BEFORE • AFTER Shorthand Syntax: filePath=string,filePosition=long,relativeFileVersion=string JSON Syntax: { "filePath": "string", "filePosition": long, "relativeFileVersion": "BEFORE"|"AFTER" }
     /// </summary>
     [CliOption("--location")]
     public string? Location { get; set; }
 
     /// <summary>
-    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed pa- rameter. If a request is received with the same parameters and a to- ken is included, the request returns information about the initial request that used that token.
+    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -122,6 +123,15 @@ public record AwsCodecommitPostCommentForComparedCommitOptions : AwsOptions, IVa
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

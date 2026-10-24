@@ -10,14 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or over- writing the existing API. See also: AWS API Documentation
+/// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,7 +27,7 @@ public record AwsApigatewayPutRestApiOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or over- writing the existing API. See also: AWS API Documentation
+    /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API. See also: AWS API Documentation
     /// </summary>
     /// <param name="RestApiId">The string identifier of the associated RestApi.</param>
     /// <param name="Body">The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.</param>
@@ -74,7 +74,7 @@ public record AwsApigatewayPutRestApiOptions : AwsOptions, IValidatableObject
     public string? Body { get; private init; }
 
     /// <summary>
-    /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge". Possible values: o merge o overwrite
+    /// The mode query parameter to specify the update mode. Valid values are "merge" and "overwrite". By default, the update mode is "merge". Possible values: • merge • overwrite
     /// </summary>
     [CliOption("--mode")]
     public AwsApigatewayPutRestApiMode? Mode { get; set; }
@@ -86,7 +86,7 @@ public record AwsApigatewayPutRestApiOptions : AwsOptions, IValidatableObject
     public bool? FailOnWarnings { get; set; }
 
     /// <summary>
-    /// Custom header parameters as part of the request. For example, to ex- clude DocumentationParts from an imported API, set ignore=documenta- tion as a parameters value, as in the AWS CLI command of aws api- gateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' . key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--parameters", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Parameters { get; set; }
@@ -112,6 +112,15 @@ public record AwsApigatewayPutRestApiOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

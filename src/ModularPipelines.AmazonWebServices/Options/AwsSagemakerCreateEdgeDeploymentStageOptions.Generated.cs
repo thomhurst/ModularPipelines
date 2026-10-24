@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsSagemakerCreateEdgeDeploymentStageOptions : AwsOptions, IValida
     /// <summary>
     /// Creates a new stage in an existing edge deployment plan. See also: AWS API Documentation
     /// </summary>
-    /// <param name="EdgeDeploymentPlanName">The name of the edge deployment plan. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
-    /// <param name="Stages">List of stages to be added to the edge deployment plan. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: o PERCENTAGE o SELECTION o NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the cur- rent stage. Constraints: o max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: o ROLLBACK_ON_FAILURE o DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]</param>
+    /// <param name="EdgeDeploymentPlanName">The name of the edge deployment plan. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</param>
+    /// <param name="Stages">List of stages to be added to the edge deployment plan. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: • PERCENTAGE • SELECTION • NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the current stage. Constraints: • max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: • ROLLBACK_ON_FAILURE • DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]</param>
     public AwsSagemakerCreateEdgeDeploymentStageOptions(
         string EdgeDeploymentPlanName,
         IEnumerable<string> Stages
@@ -71,13 +72,13 @@ public record AwsSagemakerCreateEdgeDeploymentStageOptions : AwsOptions, IValida
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the edge deployment plan. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
+    /// The name of the edge deployment plan. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}
     /// </summary>
     [CliOption("--edge-deployment-plan-name")]
     public string? EdgeDeploymentPlanName { get; private init; }
 
     /// <summary>
-    /// List of stages to be added to the edge deployment plan. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: o PERCENTAGE o SELECTION o NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the cur- rent stage. Constraints: o max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: o min: 1 o max: 63 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: o ROLLBACK_ON_FAILURE o DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]
+    /// List of stages to be added to the edge deployment plan. (structure) Contains information about a stage in an edge deployment plan. StageName -&gt; (string) [required] The name of the stage. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceSelectionConfig -&gt; (structure) [required] Configuration of the devices in the stage. DeviceSubsetType -&gt; (string) [required] Type of device subsets to deploy to the current stage. Possible values: • PERCENTAGE • SELECTION • NAMECONTAINS Percentage -&gt; (integer) Percentage of devices in the fleet to deploy to the current stage. Constraints: • max: 100 DeviceNames -&gt; (list) List of devices chosen to deploy. (string) Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeviceNameContains -&gt; (string) A filter to select devices with names containing this name. Constraints: • min: 1 • max: 63 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,62} DeploymentConfig -&gt; (structure) Configuration of the deployment details. FailureHandlingPolicy -&gt; (string) [required] Toggle that determines whether to rollback to previous configuration if the current deployment fails. By default this is turned on. You may turn this off if you want to investigate the errors yourself. Possible values: • ROLLBACK_ON_FAILURE • DO_NOTHING Shorthand Syntax: StageName=string,DeviceSelectionConfig={DeviceSubsetType=string,Percentage=integer,DeviceNames=[string,string],DeviceNameContains=string},DeploymentConfig={FailureHandlingPolicy=string} ... JSON Syntax: [ { "StageName": "string", "DeviceSelectionConfig": { "DeviceSubsetType": "PERCENTAGE"|"SELECTION"|"NAMECONTAINS", "Percentage": integer, "DeviceNames": ["string", ...], "DeviceNameContains": "string" }, "DeploymentConfig": { "FailureHandlingPolicy": "ROLLBACK_ON_FAILURE"|"DO_NOTHING" } } ... ]
     /// </summary>
     [CliOption("--stages", GroupValues = true)]
     public IEnumerable<string>? Stages { get; private init; }
@@ -103,6 +104,15 @@ public record AwsSagemakerCreateEdgeDeploymentStageOptions : AwsOptions, IValida
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Creates a network profile. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project for which you want to create a network profile. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+</param>
-    /// <param name="Name">The name for the new network profile. Constraints: o min: 0 o max: 256</param>
+    /// <param name="ProjectArn">The Amazon Resource Name (ARN) of the project for which you want to create a network profile. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+</param>
+    /// <param name="Name">The name for the new network profile. Constraints: • min: 0 • max: 256</param>
     public AwsDevicefarmCreateNetworkProfileOptions(
         string ProjectArn,
         string Name
@@ -61,25 +62,25 @@ public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile. Constraints: o min: 32 o max: 1011 o pattern: ^arn:aws:devicefarm:.+
+    /// The Amazon Resource Name (ARN) of the project for which you want to create a network profile. Constraints: • min: 32 • max: 1011 • pattern: ^arn:aws:devicefarm:.+
     /// </summary>
     [CliOption("--project-arn")]
     public string? ProjectArn { get; private init; }
 
     /// <summary>
-    /// The name for the new network profile. Constraints: o min: 0 o max: 256
+    /// The name for the new network profile. Constraints: • min: 0 • max: 256
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The description of the network profile. Constraints: o min: 0 o max: 16384
+    /// The description of the network profile. Constraints: • min: 0 • max: 16384
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The type of network profile to create. Valid values are listed here. Possible values: o CURATED o PRIVATE
+    /// The type of network profile to create. Valid values are listed here. Possible values: • CURATED • PRIVATE
     /// </summary>
     [CliOption("--type")]
     public AwsDevicefarmCreateNetworkProfileType? Type { get; set; }
@@ -88,46 +89,46 @@ public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions, IValidatabl
     /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
     /// </summary>
     [CliOption("--uplink-bandwidth-bits")]
-    public int? UplinkBandwidthBits { get; set; }
+    public long? UplinkBandwidthBits { get; set; }
 
     /// <summary>
     /// The data throughput rate in bits per second, as an integer from 0 to 104857600.
     /// </summary>
     [CliOption("--downlink-bandwidth-bits")]
-    public int? DownlinkBandwidthBits { get; set; }
+    public long? DownlinkBandwidthBits { get; set; }
 
     /// <summary>
-    /// Delay time for all packets to destination in milliseconds as an in- teger from 0 to 2000.
+    /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
     /// </summary>
     [CliOption("--uplink-delay-ms")]
-    public int? UplinkDelayMs { get; set; }
+    public long? UplinkDelayMs { get; set; }
 
     /// <summary>
-    /// Delay time for all packets to destination in milliseconds as an in- teger from 0 to 2000.
+    /// Delay time for all packets to destination in milliseconds as an integer from 0 to 2000.
     /// </summary>
     [CliOption("--downlink-delay-ms")]
-    public int? DownlinkDelayMs { get; set; }
+    public long? DownlinkDelayMs { get; set; }
 
     /// <summary>
     /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
     /// </summary>
     [CliOption("--uplink-jitter-ms")]
-    public int? UplinkJitterMs { get; set; }
+    public long? UplinkJitterMs { get; set; }
 
     /// <summary>
     /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
     /// </summary>
     [CliOption("--downlink-jitter-ms")]
-    public int? DownlinkJitterMs { get; set; }
+    public long? DownlinkJitterMs { get; set; }
 
     /// <summary>
-    /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent. Constraints: o min: 0 o max: 100
+    /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--uplink-loss-percent")]
     public int? UplinkLossPercent { get; set; }
 
     /// <summary>
-    /// Proportion of received packets that fail to arrive from 0 to 100 percent. Constraints: o min: 0 o max: 100
+    /// Proportion of received packets that fail to arrive from 0 to 100 percent. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--downlink-loss-percent")]
     public int? DownlinkLossPercent { get; set; }
@@ -153,6 +154,15 @@ public record AwsDevicefarmCreateNetworkProfileOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

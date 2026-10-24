@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,9 +30,9 @@ public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions, IVali
     /// <summary>
     /// Creates an Amazon Bedrock Data Automation Blueprint See also: AWS API Documentation
     /// </summary>
-    /// <param name="BlueprintName">Name of the Blueprint Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
-    /// <param name="Type">Type Possible values: o DOCUMENT o IMAGE o AUDIO o VIDEO</param>
-    /// <param name="Schema">Schema of the blueprint Constraints: o min: 1 o max: 100000</param>
+    /// <param name="BlueprintName">Name of the Blueprint Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="Type">Type Possible values: • DOCUMENT • IMAGE • AUDIO • VIDEO</param>
+    /// <param name="Schema">Schema of the blueprint Constraints: • min: 1 • max: 100000</param>
     public AwsBedrockDataAutomationCreateBlueprintOptions(
         string BlueprintName,
         AwsBedrockDataAutomationCreateBlueprintType Type,
@@ -65,44 +66,44 @@ public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Name of the Blueprint Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// Name of the Blueprint Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--blueprint-name")]
     public string? BlueprintName { get; private init; }
 
     /// <summary>
-    /// Type Possible values: o DOCUMENT o IMAGE o AUDIO o VIDEO
+    /// Type Possible values: • DOCUMENT • IMAGE • AUDIO • VIDEO
     /// </summary>
     [CliOption("--type")]
     public AwsBedrockDataAutomationCreateBlueprintType? Type { get; private init; }
 
     /// <summary>
-    /// Schema of the blueprint Constraints: o min: 1 o max: 100000
+    /// Schema of the blueprint Constraints: • min: 1 • max: 100000
     /// </summary>
     [CliOption("--schema")]
     public string? Schema { get; private init; }
 
     /// <summary>
-    /// Stage of the Blueprint Possible values: o DEVELOPMENT o LIVE
+    /// Stage of the Blueprint Possible values: • DEVELOPMENT • LIVE
     /// </summary>
     [CliOption("--blueprint-stage")]
     public AwsBedrockDataAutomationCreateBlueprintBlueprintStage? BlueprintStage { get; set; }
 
     /// <summary>
-    /// Client specified token used for idempotency checks Constraints: o min: 33 o max: 256 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
+    /// Client specified token used for idempotency checks Constraints: • min: 33 • max: 256 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// KMS Encryption Configuration kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: o min: 1 o max: 2048 o pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: o min: 1 key -&gt; (string) Encryption context key. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: o min: 1 o max: 2000 o pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
+    /// KMS Encryption Configuration kmsKeyId -&gt; (string) [required] KMS Key Identifier Constraints: • min: 1 • max: 2048 • pattern: [A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+ kmsEncryptionContext -&gt; (map) KMS Encryption Context Constraints: • min: 1 key -&gt; (string) Encryption context key. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* value -&gt; (string) Encryption context value. Constraints: • min: 1 • max: 2000 • pattern: .*\S.* Shorthand Syntax: kmsKeyId=string,kmsEncryptionContext={KeyName1=string,KeyName2=string} JSON Syntax: { "kmsKeyId": "string", "kmsEncryptionContext": {"string": "string" ...} }
     /// </summary>
     [CliOption("--encryption-configuration")]
     public string? EncryptionConfiguration { get; set; }
 
     /// <summary>
-    /// List of tags Constraints: o min: 0 o max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// List of tags Constraints: • min: 0 • max: 200 (structure) Key value pair of a tag key -&gt; (string) [required] Defines the context of the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] Defines the value within the context. e.g. &lt;key=reason, value=training&gt;. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -128,6 +129,15 @@ public record AwsBedrockDataAutomationCreateBlueprintOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

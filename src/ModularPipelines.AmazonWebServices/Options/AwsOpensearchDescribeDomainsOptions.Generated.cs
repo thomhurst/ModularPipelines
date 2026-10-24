@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsOpensearchDescribeDomainsOptions : AwsOptions, IValidatableObje
     /// <summary>
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DomainNames">Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name. (string) The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...</param>
+    /// <param name="DomainNames">Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name. (string) The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...</param>
     public AwsOpensearchDescribeDomainsOptions(
         IEnumerable<string> DomainNames
     )
@@ -67,7 +68,7 @@ public record AwsOpensearchDescribeDomainsOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name. (string) The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: o min: 3 o max: 28 o pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...
+    /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name. (string) The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region. Constraints: • min: 3 • max: 28 • pattern: [a-z][a-z0-9\-]+ Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--domain-names", GroupValues = true)]
     public IEnumerable<string>? DomainNames { get; private init; }
@@ -93,6 +94,15 @@ public record AwsOpensearchDescribeDomainsOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

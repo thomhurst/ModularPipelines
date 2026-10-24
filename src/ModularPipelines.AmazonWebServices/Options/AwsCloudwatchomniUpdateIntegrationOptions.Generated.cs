@@ -11,7 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -29,7 +29,7 @@ public record AwsCloudwatchomniUpdateIntegrationOptions : AwsOptions, IValidatab
     /// <summary>
     /// Updates an existing integration, identified by its id, ARN, or name. Only the fields you provide are changed. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Identifier">Identifies the integration to update exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integra- tionName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }</param>
+    /// <param name="Identifier">Identifies the integration to update exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integrationName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }</param>
     public AwsCloudwatchomniUpdateIntegrationOptions(
         string Identifier
     )
@@ -58,26 +58,26 @@ public record AwsCloudwatchomniUpdateIntegrationOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// Identifies the integration to update exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integra- tionName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }
+    /// Identifies the integration to update exactly one of integrationId, integrationArn, or integrationName. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: integrationId, integrationArn, integrationName. integrationId -&gt; (string) The unique identifier of the integration. integrationArn -&gt; (string) The Amazon Resource Name of the integration. integrationName -&gt; (string) The name of the integration; unique within the account. Shorthand Syntax: integrationId=string,integrationArn=string,integrationName=string JSON Syntax: { "integrationId": "string", "integrationArn": "string", "integrationName": "string" }
     /// </summary>
     [CliOption("--identifier")]
     public string? Identifier { get; private init; }
 
     /// <summary>
-    /// The replacement credential used to authenticate with the provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauthCodeCredential, oauthClientCreden- tial, apiKeyCredential. oauthCodeCredential -&gt; (structure) Credentials for an OAuth 2.0 authorization-code grant. authCode -&gt; (string) [required] The OAuth 2.0 authorization code returned by the external system's authorization endpoint. Constraints: o min: 1 o max: 4096 oauthClientCredential -&gt; (structure) Credentials for an OAuth 2.0 client-credentials grant. clientId -&gt; (string) [required] The OAuth 2.0 client identifier registered with the external system. clientSecret -&gt; (string) [required] The OAuth 2.0 client secret that pairs with the client iden- tifier. providerId -&gt; (string) The identifier of the OAuth provider that issued the client credentials. apiKeyCredential -&gt; (structure) An API key credential. apiKeyValue -&gt; (string) [required] The API key value used to authenticate with the external sys- tem. Constraints: o min: 1 Shorthand Syntax: oauthCodeCredential={authCode=string},oauthClientCredential={clientId=string,clientSecret=string,providerId=string},apiKeyCredential={apiKeyValue=string} JSON Syntax: { "oauthCodeCredential": { "authCode": "string" }, "oauthClientCredential": { "clientId": "string", "clientSecret": "string", "providerId": "string" }, "apiKeyCredential": { "apiKeyValue": "string" } }
+    /// The replacement credential used to authenticate with the provider. NOTE: This is a Tagged Union structure. Only one of the following top level keys can be set: oauthCodeCredential, oauthClientCredential, apiKeyCredential. oauthCodeCredential -&gt; (structure) Credentials for an OAuth 2.0 authorization-code grant. authCode -&gt; (string) [required] The OAuth 2.0 authorization code returned by the external system's authorization endpoint. Constraints: • min: 1 • max: 4096 oauthClientCredential -&gt; (structure) Credentials for an OAuth 2.0 client-credentials grant. clientId -&gt; (string) [required] The OAuth 2.0 client identifier registered with the external system. clientSecret -&gt; (string) [required] The OAuth 2.0 client secret that pairs with the client identifier. providerId -&gt; (string) The identifier of the OAuth provider that issued the client credentials. apiKeyCredential -&gt; (structure) An API key credential. apiKeyValue -&gt; (string) [required] The API key value used to authenticate with the external system. Constraints: • min: 1 Shorthand Syntax: oauthCodeCredential={authCode=string},oauthClientCredential={clientId=string,clientSecret=string,providerId=string},apiKeyCredential={apiKeyValue=string} JSON Syntax: { "oauthCodeCredential": { "authCode": "string" }, "oauthClientCredential": { "clientId": "string", "clientSecret": "string", "providerId": "string" }, "apiKeyCredential": { "apiKeyValue": "string" } }
     /// </summary>
     [SecretValue]
     [CliOption("--credential")]
     public string? Credential { get; set; }
 
     /// <summary>
-    /// The provider-specific attributes to associate with the integration. key -&gt; (string) Constraints: o min: 0 o max: 128 value -&gt; (string) Constraints: o min: 0 o max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// The provider-specific attributes to associate with the integration. key -&gt; (string) Constraints: • min: 0 • max: 128 value -&gt; (string) Constraints: • min: 0 • max: 4096 Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--integration-attributes", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? IntegrationAttributes { get; set; }
 
     /// <summary>
-    /// The Amazon Resource Name of the IAM role assumed to access the inte- gration.
+    /// The Amazon Resource Name of the IAM role assumed to access the integration.
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; set; }
@@ -103,6 +103,15 @@ public record AwsCloudwatchomniUpdateIntegrationOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

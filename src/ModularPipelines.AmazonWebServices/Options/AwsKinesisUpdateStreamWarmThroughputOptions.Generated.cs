@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the warm throughput configuration for the specified Amazon Ki- nesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this opera- tion to scale your stream to a specified throughput level before antic- ipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use t...
+/// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this operation to scale your stream to a specified throughput level before anticipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the Str...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsKinesisUpdateStreamWarmThroughputOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the warm throughput configuration for the specified Amazon Ki- nesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this opera- tion to scale your stream to a specified throughput level before antic- ipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use t...
+    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this operation to scale your stream to a specified throughput level before anticipated traffic spikes, or to release excess capacity after traffic has decreased. NOTE: When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the Str...
     /// </summary>
-    /// <param name="WarmThroughputMiBps">The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. Constraints: o min: 0</param>
+    /// <param name="WarmThroughputMiBps">The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. Constraints: • min: 0</param>
     public AwsKinesisUpdateStreamWarmThroughputOptions(
         int WarmThroughputMiBps
     )
@@ -55,25 +56,25 @@ public record AwsKinesisUpdateStreamWarmThroughputOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be im- mediately available for write operations. Constraints: o min: 0
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. Constraints: • min: 0
     /// </summary>
     [CliOption("--warm-throughput-mi-bps")]
     public int? WarmThroughputMiBps { get; private init; }
 
     /// <summary>
-    /// The ARN of the stream to be updated. Constraints: o min: 1 o max: 2048 o pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
+    /// The ARN of the stream to be updated. Constraints: • min: 1 • max: 2048 • pattern: arn:aws.*:kinesis:.*:\d{12}:stream/\S+
     /// </summary>
     [CliOption("--stream-arn")]
     public string? StreamArn { get; set; }
 
     /// <summary>
-    /// The name of the stream to be updated. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.-]+
+    /// The name of the stream to be updated. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.-]+
     /// </summary>
     [CliOption("--stream-name")]
     public string? StreamName { get; set; }
 
     /// <summary>
-    /// Not Implemented. Reserved for future use. Constraints: o min: 1 o max: 24 o pattern: [a-z0-9]{20}-[a-z0-9]{3}
+    /// Not Implemented. Reserved for future use. Constraints: • min: 1 • max: 24 • pattern: [a-z0-9]{20}-[a-z0-9]{3}
     /// </summary>
     [CliOption("--stream-id")]
     public string? StreamId { get; set; }
@@ -99,6 +100,15 @@ public record AwsKinesisUpdateStreamWarmThroughputOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

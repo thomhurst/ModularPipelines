@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask . This operation requires all the standard in- formation needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn ). Once the synthesis task is created, this operation will return a SpeechSynthe- sisTask object, which will include an identifier of this task as well as the curr...
+/// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask . This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn ). Once the synthesis task is created, this operation will return a SpeechSynthesisTask object, which will include an identifier of this task as well as the current ...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,12 +27,12 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions, IValidatable
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask . This operation requires all the standard in- formation needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn ). Once the synthesis task is created, this operation will return a SpeechSynthe- sisTask object, which will include an identifier of this task as well as the curr...
+    /// Allows the creation of an asynchronous synthesis task, by starting a new SpeechSynthesisTask . This operation requires all the standard information needed for speech synthesis, plus the name of an Amazon S3 bucket for the service to store the output of the synthesis task and two optional parameters (OutputS3KeyPrefix and SnsTopicArn ). Once the synthesis task is created, this operation will return a SpeechSynthesisTask object, which will include an identifier of this task as well as the current ...
     /// </summary>
-    /// <param name="OutputFormat">The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw</param>
-    /// <param name="OutputS3BucketName">Amazon S3 bucket name to which the output file will be saved. Constraints: o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$</param>
+    /// <param name="OutputFormat">The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json. Possible values: • json • mp3 • ogg_opus • ogg_vorbis • pcm • mulaw • alaw</param>
+    /// <param name="OutputS3BucketName">Amazon S3 bucket name to which the output file will be saved. Constraints: • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$</param>
     /// <param name="Text">The input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.</param>
-    /// <param name="VoiceId">Voice ID to use for the synthesis. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany</param>
+    /// <param name="VoiceId">Voice ID to use for the synthesis. Possible values: • Aditi • Amy • Astrid • Bianca • Brian • Camila • Carla • Carmen • Celine • Chantal • Conchita • Cristiano • Dora • Emma • Enrique • Ewa • Filiz • Gabrielle • Geraint • Giorgio • Gwyneth • Hans • Ines • Ivy • Jacek • Jan • Joanna • Joey • Justin • Karl • Kendra • Kevin • Kimberly • Lea • Liv • Lotte • Lucia • Lupe • Mads • Maja • Marlene • Mathieu • Matthew • Maxim • Mia • Miguel • Mizuki • Naja • Nicole • Olivia • Penelope • Raveena • Ricardo • Ruben • Russell • Salli • Seoyeon • Takumi • Tatyana • Vicki • Vitoria • Zeina • Zhiyu • Aria • Ayanda • Arlet • Hannah • Arthur • Daniel • Liam • Pedro • Kajal • Hiujin • Laura • Elin • Ida • Suvi • Ola • Hala • Andres • Sergio • Remi • Adriano • Thiago • Ruth • Stephen • Kazuha • Tomoko • Niamh • Sofie • Lisa • Isabelle • Zayd • Danielle • Gregory • Burcu • Jitka • Sabrina • Jasmine • Jihye • Ambre • Beatrice • Florian • Lennart • Lorenzo • Tiffany</param>
     public AwsPollyStartSpeechSynthesisTaskOptions(
         AwsPollyStartSpeechSynthesisTaskOutputFormat OutputFormat,
         string OutputS3BucketName,
@@ -68,13 +69,13 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions, IValidatable
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json. Possible values: o json o mp3 o ogg_opus o ogg_vorbis o pcm o mulaw o alaw
+    /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json. Possible values: • json • mp3 • ogg_opus • ogg_vorbis • pcm • mulaw • alaw
     /// </summary>
     [CliOption("--output-format")]
     public AwsPollyStartSpeechSynthesisTaskOutputFormat? OutputFormat { get; private init; }
 
     /// <summary>
-    /// Amazon S3 bucket name to which the output file will be saved. Constraints: o pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$
+    /// Amazon S3 bucket name to which the output file will be saved. Constraints: • pattern: ^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$
     /// </summary>
     [CliOption("--output-s3-bucket-name")]
     public string? OutputS3BucketName { get; private init; }
@@ -86,55 +87,55 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions, IValidatable
     public string? Text { get; private init; }
 
     /// <summary>
-    /// Voice ID to use for the synthesis. Possible values: o Aditi o Amy o Astrid o Bianca o Brian o Camila o Carla o Carmen o Celine o Chantal o Conchita o Cristiano o Dora o Emma o Enrique o Ewa o Filiz o Gabrielle o Geraint o Giorgio o Gwyneth o Hans o Ines o Ivy o Jacek o Jan o Joanna o Joey o Justin o Karl o Kendra o Kevin o Kimberly o Lea o Liv o Lotte o Lucia o Lupe o Mads o Maja o Marlene o Mathieu o Matthew o Maxim o Mia o Miguel o Mizuki o Naja o Nicole o Olivia o Penelope o Raveena o Ricardo o Ruben o Russell o Salli o Seoyeon o Takumi o Tatyana o Vicki o Vitoria o Zeina o Zhiyu o Aria o Ayanda o Arlet o Hannah o Arthur o Daniel o Liam o Pedro o Kajal o Hiujin o Laura o Elin o Ida o Suvi o Ola o Hala o Andres o Sergio o Remi o Adriano o Thiago o Ruth o Stephen o Kazuha o Tomoko o Niamh o Sofie o Lisa o Isabelle o Zayd o Danielle o Gregory o Burcu o Jitka o Sabrina o Jasmine o Jihye o Ambre o Beatrice o Florian o Lennart o Lorenzo o Tiffany
+    /// Voice ID to use for the synthesis. Possible values: • Aditi • Amy • Astrid • Bianca • Brian • Camila • Carla • Carmen • Celine • Chantal • Conchita • Cristiano • Dora • Emma • Enrique • Ewa • Filiz • Gabrielle • Geraint • Giorgio • Gwyneth • Hans • Ines • Ivy • Jacek • Jan • Joanna • Joey • Justin • Karl • Kendra • Kevin • Kimberly • Lea • Liv • Lotte • Lucia • Lupe • Mads • Maja • Marlene • Mathieu • Matthew • Maxim • Mia • Miguel • Mizuki • Naja • Nicole • Olivia • Penelope • Raveena • Ricardo • Ruben • Russell • Salli • Seoyeon • Takumi • Tatyana • Vicki • Vitoria • Zeina • Zhiyu • Aria • Ayanda • Arlet • Hannah • Arthur • Daniel • Liam • Pedro • Kajal • Hiujin • Laura • Elin • Ida • Suvi • Ola • Hala • Andres • Sergio • Remi • Adriano • Thiago • Ruth • Stephen • Kazuha • Tomoko • Niamh • Sofie • Lisa • Isabelle • Zayd • Danielle • Gregory • Burcu • Jitka • Sabrina • Jasmine • Jihye • Ambre • Beatrice • Florian • Lennart • Lorenzo • Tiffany
     /// </summary>
     [CliOption("--voice-id")]
     public string? VoiceId { get; private init; }
 
     /// <summary>
-    /// Specifies the engine (standard , neural , long-form or generative ) for Amazon Polly to use when processing input text for speech syn- thesis. Using a voice that is not supported for the engine selected will result in an error. Possible values: o standard o neural o long-form o generative
+    /// Specifies the engine (standard , neural , long-form or generative ) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error. Possible values: • standard • neural • long-form • generative
     /// </summary>
     [CliOption("--engine")]
     public AwsPollyStartSpeechSynthesisTaskEngine? Engine { get; set; }
 
     /// <summary>
-    /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Ama- zon Polly uses the default language of the bilingual voice. The de- fault language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For exam- ple, if no language code is specified, Aditi will use Indian English rather than Hindi. Possible values: o arb o cmn-CN o cy-GB o da-DK o de-DE o en-AU o en-GB o en-GB-WLS o en-IN o en-US o es-ES o es-MX o es-US o fr-CA o fr-FR o is-IS o it-IT o ja-JP o hi-IN o ko-KR o nb-NO o nl-NL o pl-PL o pt-BR o pt-PT o ro-RO o ru-RU o sv-SE o tr-TR o en-NZ o en-ZA o ca-ES o de-AT o yue-CN o ar-AE o fi-FI o en-IE o nl-BE o fr-BE o cs-CZ o de-CH o en-SG
+    /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN). If a bilingual voice is used and no language code is specified, Amazon Polly uses the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi. Possible values: • arb • cmn-CN • cy-GB • da-DK • de-DE • en-AU • en-GB • en-GB-WLS • en-IN • en-US • es-ES • es-MX • es-US • fr-CA • fr-FR • is-IS • it-IT • ja-JP • hi-IN • ko-KR • nb-NO • nl-NL • pl-PL • pt-BR • pt-PT • ro-RO • ru-RU • sv-SE • tr-TR • en-NZ • en-ZA • ca-ES • de-AT • yue-CN • ar-AE • fi-FI • en-IE • nl-BE • fr-BE • cs-CZ • de-CH • en-SG
     /// </summary>
     [CliOption("--language-code")]
     public string? LanguageCode { get; set; }
 
     /// <summary>
-    /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. Constraints: o max: 5 (string) Constraints: o pattern: [0-9A-Za-z]{1,20} Syntax: "string" "string" ...
+    /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. Constraints: • max: 5 (string) Constraints: • pattern: [0-9A-Za-z]{1,20} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--lexicon-names", GroupValues = true)]
     public IEnumerable<string>? LexiconNames { get; set; }
 
     /// <summary>
-    /// The Amazon S3 key prefix for the output speech file. Constraints: o pattern: ^[0-9a-zA-Z\/\!\-_\.\*\'\(\):;\$@=+\,\?&amp;]{0,800}$
+    /// The Amazon S3 key prefix for the output speech file. Constraints: • pattern: ^[0-9a-zA-Z\/\!\-_\.\*\'\(\):;\$@=+\,\?&amp;]{0,800}$
     /// </summary>
     [CliOption("--output-s3-key-prefix")]
     public string? OutputS3KeyPrefix { get; set; }
 
     /// <summary>
-    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for genera- tive voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
+    /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". Valid value for ogg_opus is "48000". Valid value for mu-law and a-law is "8000".
     /// </summary>
     [CliOption("--sample-rate")]
     public string? SampleRate { get; set; }
 
     /// <summary>
-    /// ARN for the SNS topic optionally used for providing status notifica- tion for a speech synthesis task. Constraints: o pattern: ^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\.fifo)$
+    /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task. Constraints: • pattern: ^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\.fifo)$
     /// </summary>
     [CliOption("--sns-topic-arn")]
     public string? SnsTopicArn { get; set; }
 
     /// <summary>
-    /// The type of speech marks returned for the input text. Constraints: o max: 4 (string) Possible values: o sentence o ssml o viseme o word Syntax: "string" "string" ...
+    /// The type of speech marks returned for the input text. Constraints: • max: 4 (string) Possible values: • sentence • ssml • viseme • word Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--speech-mark-types", GroupValues = true)]
     public IEnumerable<string>? SpeechMarkTypes { get; set; }
 
     /// <summary>
-    /// Specifies whether the input text is plain text or SSML. The default value is plain text. Possible values: o ssml o text
+    /// Specifies whether the input text is plain text or SSML. The default value is plain text. Possible values: • ssml • text
     /// </summary>
     [CliOption("--text-type")]
     public AwsPollyStartSpeechSynthesisTaskTextType? TextType { get; set; }
@@ -160,6 +161,15 @@ public record AwsPollyStartSpeechSynthesisTaskOptions : AwsOptions, IValidatable
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

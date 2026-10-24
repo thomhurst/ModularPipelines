@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions, IVali
     /// <summary>
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn . See also: AWS API Documentation
     /// </summary>
-    /// <param name="DevelopmentSchemaArn">The ARN of the development schema with the changes used for the up- grade.</param>
+    /// <param name="DevelopmentSchemaArn">The ARN of the development schema with the changes used for the upgrade.</param>
     /// <param name="PublishedSchemaArn">The ARN of the published schema to be upgraded.</param>
-    /// <param name="MinorVersion">Identifies the minor version of the published schema that will be created. This parameter is NOT optional. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$</param>
+    /// <param name="MinorVersion">Identifies the minor version of the published schema that will be created. This parameter is NOT optional. Constraints: • min: 1 • max: 10 • pattern: ^[a-zA-Z0-9._-]*$</param>
     public AwsClouddirectoryUpgradePublishedSchemaOptions(
         string DevelopmentSchemaArn,
         string PublishedSchemaArn,
@@ -64,7 +65,7 @@ public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions, IVali
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of the development schema with the changes used for the up- grade.
+    /// The ARN of the development schema with the changes used for the upgrade.
     /// </summary>
     [CliOption("--development-schema-arn")]
     public string? DevelopmentSchemaArn { get; private init; }
@@ -76,13 +77,13 @@ public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions, IVali
     public string? PublishedSchemaArn { get; private init; }
 
     /// <summary>
-    /// Identifies the minor version of the published schema that will be created. This parameter is NOT optional. Constraints: o min: 1 o max: 10 o pattern: ^[a-zA-Z0-9._-]*$
+    /// Identifies the minor version of the published schema that will be created. This parameter is NOT optional. Constraints: • min: 1 • max: 10 • pattern: ^[a-zA-Z0-9._-]*$
     /// </summary>
     [CliOption("--minor-version")]
     public string? MinorVersion { get; private init; }
 
     /// <summary>
-    /// Used for testing whether the Development schema provided is back- wards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is op- tional and defaults to false.
+    /// Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false.
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -108,6 +109,15 @@ public record AwsClouddirectoryUpgradePublishedSchemaOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

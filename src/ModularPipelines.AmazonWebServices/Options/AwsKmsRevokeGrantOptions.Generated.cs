@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes the specified grant. You revoke a grant to terminate the per- missions that the grant allows. For more information, see Retiring and revoking grants in the * Key Management Service Developer Guide * . When you create, retire, or revoke a grant, there might be a brief de- lay, usually less than five minutes, until the grant is available throughout KMS. This state is known as eventual consistency . For de- tails, see Eventual consistency in the * Key Management Service Devel- oper Guide * ...
+/// Deletes the specified grant. You revoke a grant to terminate the permissions that the grant allows. For more information, see Retiring and revoking grants in the * Key Management Service Developer Guide * . When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as eventual consistency . For details, see Eventual consistency in the * Key Management Service Developer Guide * . For de...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,10 +26,10 @@ public record AwsKmsRevokeGrantOptions : AwsOptions, IValidatableObject
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes the specified grant. You revoke a grant to terminate the per- missions that the grant allows. For more information, see Retiring and revoking grants in the * Key Management Service Developer Guide * . When you create, retire, or revoke a grant, there might be a brief de- lay, usually less than five minutes, until the grant is available throughout KMS. This state is known as eventual consistency . For de- tails, see Eventual consistency in the * Key Management Service Devel- oper Guide * ...
+    /// Deletes the specified grant. You revoke a grant to terminate the permissions that the grant allows. For more information, see Retiring and revoking grants in the * Key Management Service Developer Guide * . When you create, retire, or revoke a grant, there might be a brief delay, usually less than five minutes, until the grant is available throughout KMS. This state is known as eventual consistency . For details, see Eventual consistency in the * Key Management Service Developer Guide * . For de...
     /// </summary>
-    /// <param name="KeyId">A unique identifier for the KMS key associated with the grant. To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048</param>
-    /// <param name="GrantId">Identifies the grant to revoke. To get the grant ID, use Create- Grant , ListGrants , or ListRetirableGrants . Constraints: o min: 1 o max: 128</param>
+    /// <param name="KeyId">A unique identifier for the KMS key associated with the grant. To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048</param>
+    /// <param name="GrantId">Identifies the grant to revoke. To get the grant ID, use CreateGrant , ListGrants , or ListRetirableGrants . Constraints: • min: 1 • max: 128</param>
     public AwsKmsRevokeGrantOptions(
         string KeyId,
         string GrantId
@@ -60,19 +61,19 @@ public record AwsKmsRevokeGrantOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for the KMS key associated with the grant. To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: o Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab o Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or De- scribeKey . Constraints: o min: 1 o max: 2048
+    /// A unique identifier for the KMS key associated with the grant. To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Specify the key ID or key ARN of the KMS key. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN. For example: • Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab • Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey . Constraints: • min: 1 • max: 2048
     /// </summary>
     [CliOption("--key-id")]
     public string? KeyId { get; private init; }
 
     /// <summary>
-    /// Identifies the grant to revoke. To get the grant ID, use Create- Grant , ListGrants , or ListRetirableGrants . Constraints: o min: 1 o max: 128
+    /// Identifies the grant to revoke. To get the grant ID, use CreateGrant , ListGrants , or ListRetirableGrants . Constraints: • min: 1 • max: 128
     /// </summary>
     [CliOption("--grant-id")]
     public string? GrantId { get; private init; }
 
     /// <summary>
-    /// Checks if your request will succeed. DryRun is an optional parame- ter. To learn more about how to use this parameter, see Testing your per- missions in the Key Management Service Developer Guide .
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide .
     /// </summary>
     [CliFlag("--dry-run", NegatedName = "--no-dry-run")]
     public bool? DryRun { get; set; }
@@ -98,6 +99,15 @@ public record AwsKmsRevokeGrantOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

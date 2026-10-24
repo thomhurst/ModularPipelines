@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,9 +28,9 @@ public record AwsQuicksightUpdateBrandPublishedVersionOptions : AwsOptions, IVal
     /// <summary>
     /// Updates the published version of a brand. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that owns the brand. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
-    /// <param name="BrandId">The ID of the Quick brand. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
-    /// <param name="VersionId">The ID of the published version. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account that owns the brand. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
+    /// <param name="BrandId">The ID of the Quick brand. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
+    /// <param name="VersionId">The ID of the published version. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+</param>
     public AwsQuicksightUpdateBrandPublishedVersionOptions(
         string AwsAccountId,
         string BrandId,
@@ -64,19 +65,19 @@ public record AwsQuicksightUpdateBrandPublishedVersionOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of the Amazon Web Services account that owns the brand. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account that owns the brand. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
 
     /// <summary>
-    /// The ID of the Quick brand. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the Quick brand. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--brand-id")]
     public string? BrandId { get; private init; }
 
     /// <summary>
-    /// The ID of the published version. Constraints: o min: 1 o max: 512 o pattern: [\w\-]+
+    /// The ID of the published version. Constraints: • min: 1 • max: 512 • pattern: [\w\-]+
     /// </summary>
     [CliOption("--version-id")]
     public string? VersionId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsQuicksightUpdateBrandPublishedVersionOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsCeGetCommitmentPurchaseAnalysisOptions : AwsOptions, IValidatab
     /// <summary>
     /// Retrieves a commitment purchase analysis result based on the AnalysisId . See also: AWS API Documentation
     /// </summary>
-    /// <param name="AnalysisId">The analysis ID that's associated with the commitment purchase analysis. Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$</param>
+    /// <param name="AnalysisId">The analysis ID that's associated with the commitment purchase analysis. Constraints: • min: 36 • max: 36 • pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$</param>
     public AwsCeGetCommitmentPurchaseAnalysisOptions(
         string AnalysisId
     )
@@ -56,7 +57,7 @@ public record AwsCeGetCommitmentPurchaseAnalysisOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The analysis ID that's associated with the commitment purchase analysis. Constraints: o min: 36 o max: 36 o pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$
+    /// The analysis ID that's associated with the commitment purchase analysis. Constraints: • min: 36 • max: 36 • pattern: ^[\S\s]{8}-[\S\s]{4}-[\S\s]{4}-[\S\s]{4}-[\S\s]{12}$
     /// </summary>
     [CliOption("--analysis-id")]
     public string? AnalysisId { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCeGetCommitmentPurchaseAnalysisOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

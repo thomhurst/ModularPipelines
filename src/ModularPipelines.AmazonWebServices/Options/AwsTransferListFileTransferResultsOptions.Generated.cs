@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer op- eration. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can...
+/// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,10 +27,10 @@ public record AwsTransferListFileTransferResultsOptions : AwsOptions, IValidatab
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer op- eration. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can...
+    /// Returns real-time updates and detailed information on the status of each individual file being transferred in a specific file transfer operation. You specify the file transfer by providing its ConnectorId and its TransferId . NOTE: File transfer results are available up to 7 days after an operation has been requested. See also: AWS API Documentation list-file-transfer-results is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can d...
     /// </summary>
-    /// <param name="ConnectorId">A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})</param>
-    /// <param name="TransferId">A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 1 o max: 512 o pattern: [0-9a-zA-Z./-]+</param>
+    /// <param name="ConnectorId">A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})</param>
+    /// <param name="TransferId">A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: • min: 1 • max: 512 • pattern: [0-9a-zA-Z./-]+</param>
     public AwsTransferListFileTransferResultsOptions(
         string ConnectorId,
         string TransferId
@@ -61,22 +62,19 @@ public record AwsTransferListFileTransferResultsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 19 o max: 19 o pattern: c-([0-9a-f]{17})
+    /// A unique identifier for a connector. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: • min: 19 • max: 19 • pattern: c-([0-9a-f]{17})
     /// </summary>
     [CliOption("--connector-id")]
     public string? ConnectorId { get; private init; }
 
     /// <summary>
-    /// A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: o min: 1 o max: 512 o pattern: [0-9a-zA-Z./-]+
+    /// A unique identifier for a file transfer. This value should match the value supplied to the corresponding StartFileTransfer call. Constraints: • min: 1 • max: 512 • pattern: [0-9a-zA-Z./-]+
     /// </summary>
     [CliOption("--transfer-id")]
     public string? TransferId { get; private init; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -86,16 +84,19 @@ public record AwsTransferListFileTransferResultsOptions : AwsOptions, IValidatab
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 1000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -112,6 +113,15 @@ public record AwsTransferListFileTransferResultsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +29,7 @@ public record AwsCloudwatchListManagedInsightRulesOptions : AwsOptions, IValidat
     /// <summary>
     /// Returns a list that contains the number of managed Contributor Insights rules in your account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="ResourceArn">The ARN of an Amazon Web Services resource that has managed Contrib- utor Insights rules. Constraints: o min: 1 o max: 1024</param>
+    /// <param name="ResourceArn">The ARN of an Amazon Web Services resource that has managed Contributor Insights rules. Constraints: • min: 1 • max: 1024</param>
     public AwsCloudwatchListManagedInsightRulesOptions(
         string ResourceArn
     )
@@ -57,20 +58,20 @@ public record AwsCloudwatchListManagedInsightRulesOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ARN of an Amazon Web Services resource that has managed Contrib- utor Insights rules. Constraints: o min: 1 o max: 1024
+    /// The ARN of an Amazon Web Services resource that has managed Contributor Insights rules. Constraints: • min: 1 • max: 1024
     /// </summary>
     [CliOption("--resource-arn")]
     public string? ResourceArn { get; private init; }
 
     /// <summary>
-    /// Include this value to get the next set of rules if the value was re- turned by the previous operation.
+    /// Include this value to get the next set of rules if the value was returned by the previous operation.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
     public string? NextToken { get; set; }
 
     /// <summary>
-    /// The maximum number of results to return in one operation. If you omit this parameter, the default number is used. The default number is 100 . Constraints: o min: 1 o max: 500
+    /// The maximum number of results to return in one operation. If you omit this parameter, the default number is used. The default number is 100 . Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
@@ -96,6 +97,15 @@ public record AwsCloudwatchListManagedInsightRulesOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

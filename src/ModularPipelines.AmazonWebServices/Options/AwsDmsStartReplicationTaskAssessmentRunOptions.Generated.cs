@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Starts a new premigration assessment run for one or more individual as- sessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the as- sessment run and its individual assessments com...
+/// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complet...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions, IVali
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Starts a new premigration assessment run for one or more individual as- sessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the as- sessment run and its individual assessments com...
+    /// Starts a new premigration assessment run for one or more individual assessments of a migration task. The assessments that you can specify depend on the source and target database engine and the migration type defined for the given task. To run this operation, your migration task must already be created. After you run this operation, you can review the status of each individual assessment. You can also run the migration task manually after the assessment run and its individual assessments complet...
     /// </summary>
     /// <param name="ReplicationTaskArn">Amazon Resource Name (ARN) of the migration task associated with the premigration assessment run that you want to start.</param>
     /// <param name="ServiceAccessRoleArn">ARN of the service role needed to start the assessment run. The role must allow the iam:PassRole action.</param>
-    /// <param name="ResultLocationBucket">Amazon S3 bucket where you want DMS to store the results of this as- sessment run.</param>
+    /// <param name="ResultLocationBucket">Amazon S3 bucket where you want DMS to store the results of this assessment run.</param>
     /// <param name="AssessmentRunName">Unique name to identify the assessment run.</param>
     public AwsDmsStartReplicationTaskAssessmentRunOptions(
         string ReplicationTaskArn,
@@ -80,7 +81,7 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions, IVali
     public string? ServiceAccessRoleArn { get; private init; }
 
     /// <summary>
-    /// Amazon S3 bucket where you want DMS to store the results of this as- sessment run.
+    /// Amazon S3 bucket where you want DMS to store the results of this assessment run.
     /// </summary>
     [CliOption("--result-location-bucket")]
     public string? ResultLocationBucket { get; private init; }
@@ -98,31 +99,31 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions, IVali
     public string? ResultLocationFolder { get; set; }
 
     /// <summary>
-    /// Encryption mode that you can specify to encrypt the results of this assessment run. If you don't specify this request parameter, DMS stores the assessment run results without encryption. You can spec- ify one of the options following: o "SSE_S3" The server-side encryption provided as a default by Ama- zon S3. o "SSE_KMS" Key Management Service (KMS) encryption. This encryp- tion can use either a custom KMS encryption key that you specify or the default KMS encryption key that DMS provides.
+    /// Encryption mode that you can specify to encrypt the results of this assessment run. If you don't specify this request parameter, DMS stores the assessment run results without encryption. You can specify one of the options following: • "SSE_S3" The server-side encryption provided as a default by Amazon S3. • "SSE_KMS" Key Management Service (KMS) encryption. This encryption can use either a custom KMS encryption key that you specify or the default KMS encryption key that DMS provides.
     /// </summary>
     [CliOption("--result-encryption-mode")]
     public string? ResultEncryptionMode { get; set; }
 
     /// <summary>
-    /// ARN of a custom KMS encryption key that you specify when you set Re- sultEncryptionMode to "SSE_KMS ".
+    /// ARN of a custom KMS encryption key that you specify when you set ResultEncryptionMode to "SSE_KMS ".
     /// </summary>
     [CliOption("--result-kms-key-arn")]
     public string? ResultKmsKeyArn { get; set; }
 
     /// <summary>
-    /// Space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that DMS supports for the associated migra- tion task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for IncludeOnly if you also set a value for Exclude in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the De- scribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
+    /// Space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that DMS supports for the associated migration task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for IncludeOnly if you also set a value for Exclude in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the DescribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--include-only", GroupValues = true)]
     public IEnumerable<string>? IncludeOnly { get; set; }
 
     /// <summary>
-    /// Space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that DMS supports for the associated migra- tion task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for Exclude if you also set a value for IncludeOnly in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the De- scribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
+    /// Space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that DMS supports for the associated migration task. This task is specified by ReplicationTaskArn . NOTE: You can't set a value for Exclude if you also set a value for IncludeOnly in the API operation. To identify the names of the default individual assessments that DMS supports for the associated migration task, run the DescribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request parameter. (string) Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--exclude", GroupValues = true)]
     public IEnumerable<string>? Exclude { get; set; }
 
     /// <summary>
-    /// One or more tags to be assigned to the premigration assessment run that you want to start. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the fol- lowing: o AddTagsToResource o ListTagsForResource o RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be pre- fixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identi- fies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
+    /// One or more tags to be assigned to the premigration assessment run that you want to start. (structure) A user-defined key-value pair that describes metadata added to an DMS resource and that is used by operations such as the following: • AddTagsToResource • ListTagsForResource • RemoveTagsFromResource Key -&gt; (string) A key is the required name of the tag. The string value can be 1-128 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). Value -&gt; (string) A value is the optional value of the tag. The string value can be 1-256 Unicode characters in length and can't be prefixed with "aws:" or "dms:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions: "^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$"). ResourceArn -&gt; (string) The Amazon Resource Name (ARN) string that uniquely identifies the resource for which the tag is created. Shorthand Syntax: Key=string,Value=string,ResourceArn=string ... JSON Syntax: [ { "Key": "string", "Value": "string", "ResourceArn": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -148,6 +149,15 @@ public record AwsDmsStartReplicationTaskAssessmentRunOptions : AwsOptions, IVali
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

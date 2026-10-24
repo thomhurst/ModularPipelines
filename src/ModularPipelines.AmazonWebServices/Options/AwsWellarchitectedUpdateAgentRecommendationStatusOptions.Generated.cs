@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,8 +29,8 @@ public record AwsWellarchitectedUpdateAgentRecommendationStatusOptions : AwsOpti
     /// <summary>
     /// Updates the status of a recommendation to track its progress through the implementation lifecycle. See also: AWS API Documentation
     /// </summary>
-    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to update. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
-    /// <param name="Status">The new status to assign to the recommendation. Possible values: o ACTIVE o SUPPRESSED o COMPLETED</param>
+    /// <param name="RecommendationArn">The Amazon Resource Name (ARN) of the recommendation to update. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}</param>
+    /// <param name="Status">The new status to assign to the recommendation. Possible values: • ACTIVE • SUPPRESSED • COMPLETED</param>
     public AwsWellarchitectedUpdateAgentRecommendationStatusOptions(
         string RecommendationArn,
         AwsWellarchitectedUpdateAgentRecommendationStatusStatus Status
@@ -60,19 +61,19 @@ public record AwsWellarchitectedUpdateAgentRecommendationStatusOptions : AwsOpti
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) of the recommendation to update. Constraints: o min: 0 o max: 2048 o pattern: arn:aws([a-z0-9-]+)?:wellarchi- tected:[a-z0-9-]{6,64}:\d{12}:agent-recommenda- tion/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
+    /// The Amazon Resource Name (ARN) of the recommendation to update. Constraints: • min: 0 • max: 2048 • pattern: arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}
     /// </summary>
     [CliOption("--recommendation-arn")]
     public string? RecommendationArn { get; private init; }
 
     /// <summary>
-    /// The new status to assign to the recommendation. Possible values: o ACTIVE o SUPPRESSED o COMPLETED
+    /// The new status to assign to the recommendation. Possible values: • ACTIVE • SUPPRESSED • COMPLETED
     /// </summary>
     [CliOption("--status")]
     public AwsWellarchitectedUpdateAgentRecommendationStatusStatus? Status { get; private init; }
 
     /// <summary>
-    /// A free-text reason explaining this status update. Constraints: o min: 1 o max: 4096
+    /// A free-text reason explaining this status update. Constraints: • min: 1 • max: 4096
     /// </summary>
     [CliOption("--update-reason")]
     public string? UpdateReason { get; set; }
@@ -98,6 +99,15 @@ public record AwsWellarchitectedUpdateAgentRecommendationStatusOptions : AwsOpti
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

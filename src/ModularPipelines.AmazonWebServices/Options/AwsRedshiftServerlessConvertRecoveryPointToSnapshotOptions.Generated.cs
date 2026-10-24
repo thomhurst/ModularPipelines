@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Converts a recovery point to a snapshot. For more information about re- covery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
+/// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,7 +26,7 @@ public record AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions : AwsOp
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Converts a recovery point to a snapshot. For more information about re- covery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
+    /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points . See also: AWS API Documentation
     /// </summary>
     /// <param name="RecoveryPointId">The unique identifier of the recovery point.</param>
     /// <param name="SnapshotName">The name of the snapshot.</param>
@@ -78,7 +79,7 @@ public record AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions : AwsOp
     public int? RetentionPeriod { get; set; }
 
     /// <summary>
-    /// An array of Tag objects to associate with the created snapshot. Constraints: o min: 0 o max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: o min: 1 o max: 128 value -&gt; (string) [required] The value of the tag. Constraints: o min: 0 o max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
+    /// An array of Tag objects to associate with the created snapshot. Constraints: • min: 0 • max: 200 (structure) A map of key-value pairs. key -&gt; (string) [required] The key to use in the tag. Constraints: • min: 1 • max: 128 value -&gt; (string) [required] The value of the tag. Constraints: • min: 0 • max: 256 Shorthand Syntax: key=string,value=string ... JSON Syntax: [ { "key": "string", "value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -104,6 +105,15 @@ public record AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions : AwsOp
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

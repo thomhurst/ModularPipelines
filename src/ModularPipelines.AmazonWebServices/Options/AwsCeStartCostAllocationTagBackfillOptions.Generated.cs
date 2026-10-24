@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Request a cost allocation tag backfill. This will backfill the activa- tion status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
+/// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCeStartCostAllocationTagBackfillOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Request a cost allocation tag backfill. This will backfill the activa- tion status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
+    /// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive ) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours. See also: AWS API Documentation
     /// </summary>
-    /// <param name="BackfillFrom">The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future. Constraints: o min: 20 o max: 25 o pattern: ^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$</param>
+    /// <param name="BackfillFrom">The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future. Constraints: • min: 20 • max: 25 • pattern: ^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$</param>
     public AwsCeStartCostAllocationTagBackfillOptions(
         string BackfillFrom
     )
@@ -56,7 +57,7 @@ public record AwsCeStartCostAllocationTagBackfillOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future. Constraints: o min: 20 o max: 25 o pattern: ^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$
+    /// The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future. Constraints: • min: 20 • max: 25 • pattern: ^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$
     /// </summary>
     [CliOption("--backfill-from")]
     public string? BackfillFrom { get; private init; }
@@ -82,6 +83,15 @@ public record AwsCeStartCostAllocationTagBackfillOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

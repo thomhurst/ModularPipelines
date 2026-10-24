@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the exist- ing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
+/// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsCeUpdateCostAllocationTagsStatusOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the exist- ing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
+    /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag). See also: AWS API Documentation
     /// </summary>
-    /// <param name="CostAllocationTagsStatus">The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request. Constraints: o min: 1 o max: 20 (structure) The cost allocation tag status. The status of a key can either be active or inactive. TagKey -&gt; (string) [required] The key for the cost allocation tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Status -&gt; (string) [required] The status of a cost allocation tag. Possible values: o Active o Inactive Shorthand Syntax: TagKey=string,Status=string ... JSON Syntax: [ { "TagKey": "string", "Status": "Active"|"Inactive" } ... ]</param>
+    /// <param name="CostAllocationTagsStatus">The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request. Constraints: • min: 1 • max: 20 (structure) The cost allocation tag status. The status of a key can either be active or inactive. TagKey -&gt; (string) [required] The key for the cost allocation tag. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* Status -&gt; (string) [required] The status of a cost allocation tag. Possible values: • Active • Inactive Shorthand Syntax: TagKey=string,Status=string ... JSON Syntax: [ { "TagKey": "string", "Status": "Active"|"Inactive" } ... ]</param>
     public AwsCeUpdateCostAllocationTagsStatusOptions(
         IEnumerable<string> CostAllocationTagsStatus
     )
@@ -67,7 +68,7 @@ public record AwsCeUpdateCostAllocationTagsStatusOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request. Constraints: o min: 1 o max: 20 (structure) The cost allocation tag status. The status of a key can either be active or inactive. TagKey -&gt; (string) [required] The key for the cost allocation tag. Constraints: o min: 0 o max: 1024 o pattern: [\S\s]* Status -&gt; (string) [required] The status of a cost allocation tag. Possible values: o Active o Inactive Shorthand Syntax: TagKey=string,Status=string ... JSON Syntax: [ { "TagKey": "string", "Status": "Active"|"Inactive" } ... ]
+    /// The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request. Constraints: • min: 1 • max: 20 (structure) The cost allocation tag status. The status of a key can either be active or inactive. TagKey -&gt; (string) [required] The key for the cost allocation tag. Constraints: • min: 0 • max: 1024 • pattern: [\S\s]* Status -&gt; (string) [required] The status of a cost allocation tag. Possible values: • Active • Inactive Shorthand Syntax: TagKey=string,Status=string ... JSON Syntax: [ { "TagKey": "string", "Status": "Active"|"Inactive" } ... ]
     /// </summary>
     [CliOption("--cost-allocation-tags-status", GroupValues = true)]
     public IEnumerable<string>? CostAllocationTagsStatus { get; private init; }
@@ -93,6 +94,15 @@ public record AwsCeUpdateCostAllocationTagsStatusOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

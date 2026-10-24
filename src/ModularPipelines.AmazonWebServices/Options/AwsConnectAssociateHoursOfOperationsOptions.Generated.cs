@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
+/// Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,11 +26,11 @@ public record AwsConnectAssociateHoursOfOperationsOptions : AwsOptions, IValidat
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates a set of hours of operations with another hours of opera- tion. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
+    /// Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide. See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="HoursOfOperationId">The identifier of the child hours of operation.</param>
-    /// <param name="ParentHoursOfOperationConfigs">The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource. Constraints: o min: 0 o max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]</param>
+    /// <param name="ParentHoursOfOperationConfigs">The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource. Constraints: • min: 0 • max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]</param>
     public AwsConnectAssociateHoursOfOperationsOptions(
         string InstanceId,
         string HoursOfOperationId,
@@ -75,7 +76,7 @@ public record AwsConnectAssociateHoursOfOperationsOptions : AwsOptions, IValidat
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Connect instance. You can find the in- stance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -87,7 +88,7 @@ public record AwsConnectAssociateHoursOfOperationsOptions : AwsOptions, IValidat
     public string? HoursOfOperationId { get; private init; }
 
     /// <summary>
-    /// The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource. Constraints: o min: 0 o max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]
+    /// The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource. Constraints: • min: 0 • max: 3 (structure) Contains configuration for the parent hours of operation. HoursOfOperationId -&gt; (string) The identifier for the hours of operation. Shorthand Syntax: HoursOfOperationId=string ... JSON Syntax: [ { "HoursOfOperationId": "string" } ... ]
     /// </summary>
     [CliOption("--parent-hours-of-operation-configs", GroupValues = true)]
     public IEnumerable<string>? ParentHoursOfOperationConfigs { get; private init; }
@@ -113,6 +114,15 @@ public record AwsConnectAssociateHoursOfOperationsOptions : AwsOptions, IValidat
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

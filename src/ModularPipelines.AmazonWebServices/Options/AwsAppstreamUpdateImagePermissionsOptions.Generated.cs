@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsAppstreamUpdateImagePermissionsOptions : AwsOptions, IValidatab
     /// <summary>
     /// Adds or updates permissions for the specified private image. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the private image. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
-    /// <param name="SharedAccountId">The 12-digit identifier of the AWS account for which you want add or update image permissions. Constraints: o pattern: ^\d+$</param>
+    /// <param name="Name">The name of the private image. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$</param>
+    /// <param name="SharedAccountId">The 12-digit identifier of the AWS account for which you want add or update image permissions. Constraints: • pattern: ^\d+$</param>
     /// <param name="ImagePermissions">The permissions for the image. allowFleet -&gt; (boolean) Indicates whether the image can be used for a fleet. allowImageBuilder -&gt; (boolean) Indicates whether the image can be used for an image builder. Shorthand Syntax: allowFleet=boolean,allowImageBuilder=boolean JSON Syntax: { "allowFleet": true|false, "allowImageBuilder": true|false }</param>
     public AwsAppstreamUpdateImagePermissionsOptions(
         string Name,
@@ -64,13 +65,13 @@ public record AwsAppstreamUpdateImagePermissionsOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the private image. Constraints: o pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
+    /// The name of the private image. Constraints: • pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The 12-digit identifier of the AWS account for which you want add or update image permissions. Constraints: o pattern: ^\d+$
+    /// The 12-digit identifier of the AWS account for which you want add or update image permissions. Constraints: • pattern: ^\d+$
     /// </summary>
     [CliOption("--shared-account-id")]
     public string? SharedAccountId { get; private init; }
@@ -102,6 +103,15 @@ public record AwsAppstreamUpdateImagePermissionsOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

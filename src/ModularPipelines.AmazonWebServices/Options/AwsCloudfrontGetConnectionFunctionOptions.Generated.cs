@@ -50,7 +50,7 @@ public record AwsCloudfrontGetConnectionFunctionOptions : AwsOptions
     public string Identifier { get; private init; }
 
     /// <summary>
-    /// The connection function's stage. Possible values: o DEVELOPMENT o LIVE outfile (string) [required] Filename where the content will be saved
+    /// The connection function's stage. Possible values: • DEVELOPMENT • LIVE outfile (string) [required] Filename where the content will be saved
     /// </summary>
     [CliOption("--stage")]
     public string? Stage { get; set; }
@@ -60,5 +60,14 @@ public record AwsCloudfrontGetConnectionFunctionOptions : AwsOptions
     /// </summary>
     [CliArgument(0, Phase = CommandLinePhase.Passthrough, Required = true)]
     public string Outfile { get; private init; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsTaxsettingsGetTaxRegistrationDocumentOptions : AwsOptions, IVal
     /// <summary>
     /// Downloads your tax documents to the Amazon S3 bucket that you specify in your request. See also: AWS API Documentation
     /// </summary>
-    /// <param name="TaxDocumentMetadata">The metadata for your tax document. taxDocumentAccessToken -&gt; (string) [required] The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. NOTE: If you update your tax registration, the existing taxDocumen- tAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours. Constraints: o pattern: [\s\S]* taxDocumentName -&gt; (string) [required] The name of your tax document. Constraints: o pattern: [\s\S]* Shorthand Syntax: taxDocumentAccessToken=string,taxDocumentName=string JSON Syntax: { "taxDocumentAccessToken": "string", "taxDocumentName": "string" }</param>
+    /// <param name="TaxDocumentMetadata">The metadata for your tax document. taxDocumentAccessToken -&gt; (string) [required] The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. NOTE: If you update your tax registration, the existing taxDocumentAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours. Constraints: • pattern: [\s\S]* taxDocumentName -&gt; (string) [required] The name of your tax document. Constraints: • pattern: [\s\S]* Shorthand Syntax: taxDocumentAccessToken=string,taxDocumentName=string JSON Syntax: { "taxDocumentAccessToken": "string", "taxDocumentName": "string" }</param>
     public AwsTaxsettingsGetTaxRegistrationDocumentOptions(
         string TaxDocumentMetadata
     )
@@ -56,13 +57,13 @@ public record AwsTaxsettingsGetTaxRegistrationDocumentOptions : AwsOptions, IVal
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The metadata for your tax document. taxDocumentAccessToken -&gt; (string) [required] The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. NOTE: If you update your tax registration, the existing taxDocumen- tAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours. Constraints: o pattern: [\s\S]* taxDocumentName -&gt; (string) [required] The name of your tax document. Constraints: o pattern: [\s\S]* Shorthand Syntax: taxDocumentAccessToken=string,taxDocumentName=string JSON Syntax: { "taxDocumentAccessToken": "string", "taxDocumentName": "string" }
+    /// The metadata for your tax document. taxDocumentAccessToken -&gt; (string) [required] The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. NOTE: If you update your tax registration, the existing taxDocumentAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours. Constraints: • pattern: [\s\S]* taxDocumentName -&gt; (string) [required] The name of your tax document. Constraints: • pattern: [\s\S]* Shorthand Syntax: taxDocumentAccessToken=string,taxDocumentName=string JSON Syntax: { "taxDocumentAccessToken": "string", "taxDocumentName": "string" }
     /// </summary>
     [CliOption("--tax-document-metadata")]
     public string? TaxDocumentMetadata { get; private init; }
 
     /// <summary>
-    /// The Amazon S3 bucket that you specify to download your tax documents to. bucket -&gt; (string) [required] The name of your Amazon S3 bucket that you specify to download your tax documents to. Constraints: o min: 3 o max: 63 o pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) The Amazon S3 object prefix that you specify for your tax docu- ment file. Constraints: o min: 0 o max: 512 o pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }
+    /// The Amazon S3 bucket that you specify to download your tax documents to. bucket -&gt; (string) [required] The name of your Amazon S3 bucket that you specify to download your tax documents to. Constraints: • min: 3 • max: 63 • pattern: (?=^.{3,63}$)(?!^(\d+\.)+\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$) prefix -&gt; (string) The Amazon S3 object prefix that you specify for your tax document file. Constraints: • min: 0 • max: 512 • pattern: .*\S.* Shorthand Syntax: bucket=string,prefix=string JSON Syntax: { "bucket": "string", "prefix": "string" }
     /// </summary>
     [CliOption("--destination-s3-location")]
     public string? DestinationS3Location { get; set; }
@@ -88,6 +89,15 @@ public record AwsTaxsettingsGetTaxRegistrationDocumentOptions : AwsOptions, IVal
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

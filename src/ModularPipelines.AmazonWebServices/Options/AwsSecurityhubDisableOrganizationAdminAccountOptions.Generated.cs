@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsSecurityhubDisableOrganizationAdminAccountOptions : AwsOptions,
     /// <summary>
     /// Disables a Security Hub CSPM administrator account. Can only be called by the organization management account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="AdminAccountId">The Amazon Web Services account identifier of the Security Hub CSPM administrator account. Constraints: o pattern: .*\S.*</param>
+    /// <param name="AdminAccountId">The Amazon Web Services account identifier of the Security Hub CSPM administrator account. Constraints: • pattern: .*\S.*</param>
     public AwsSecurityhubDisableOrganizationAdminAccountOptions(
         string AdminAccountId
     )
@@ -57,13 +58,13 @@ public record AwsSecurityhubDisableOrganizationAdminAccountOptions : AwsOptions,
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Web Services account identifier of the Security Hub CSPM administrator account. Constraints: o pattern: .*\S.*
+    /// The Amazon Web Services account identifier of the Security Hub CSPM administrator account. Constraints: • pattern: .*\S.*
     /// </summary>
     [CliOption("--admin-account-id")]
     public string? AdminAccountId { get; private init; }
 
     /// <summary>
-    /// The feature for which the delegated admin account is disabled. De- faults to Security Hub CSPM if not specified. Possible values: o SecurityHub o SecurityHubV2
+    /// The feature for which the delegated admin account is disabled. Defaults to Security Hub CSPM if not specified. Possible values: • SecurityHub • SecurityHubV2
     /// </summary>
     [CliOption("--feature")]
     public AwsSecurityhubDisableOrganizationAdminAccountFeature? Feature { get; set; }
@@ -89,6 +90,15 @@ public record AwsSecurityhubDisableOrganizationAdminAccountOptions : AwsOptions,
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

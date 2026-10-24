@@ -11,13 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated ...
+/// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -27,9 +28,9 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions, 
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of re- sults. You can disable pagination by providing the --no-paginate argu- ment. When using --output text and the --query argument on a paginated ...
+    /// Returns estimated water allocation values based on customer grouping and filtering parameters. We recommend using pagination to ensure that the operation returns quickly and successfully. See also: AWS API Documentation get-estimated-water-allocation is a paginated operation. Multiple API calls may be issued in order to retrieve the entire data set of results. You can disable pagination by providing the --no-paginate argument. When using --output text and the --query argument on a paginated resp...
     /// </summary>
-    /// <param name="TimePeriod">The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be in- cluded in the response. Start -&gt; (timestamp) [required] The start (inclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ End -&gt; (timestamp) [required] The end (exclusive) of the time period. ISO-8601 formatted time- stamp, for example: YYYY-MM-DDThh:mm:ss.sssZ Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }</param>
+    /// <param name="TimePeriod">The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be included in the response. Start -&gt; (timestamp) [required] The start (inclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ End -&gt; (timestamp) [required] The end (exclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }</param>
     public AwsSustainabilityGetEstimatedWaterAllocationOptions(
         string TimePeriod
     )
@@ -58,40 +59,37 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions, 
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be in- cluded in the response. Start -&gt; (timestamp) [required] The start (inclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ End -&gt; (timestamp) [required] The end (exclusive) of the time period. ISO-8601 formatted time- stamp, for example: YYYY-MM-DDThh:mm:ss.sssZ Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }
+    /// The date range for fetching estimated water allocation. The range must include the start date of a year for that year's data to be included in the response. Start -&gt; (timestamp) [required] The start (inclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ End -&gt; (timestamp) [required] The end (exclusive) of the time period. ISO-8601 formatted timestamp, for example: YYYY-MM-DDThh:mm:ss.sssZ Shorthand Syntax: Start=timestamp,End=timestamp JSON Syntax: { "Start": timestamp, "End": timestamp }
     /// </summary>
     [CliOption("--time-period")]
     public string? TimePeriod { get; private init; }
 
     /// <summary>
-    /// The dimensions available for grouping estimated water allocation. (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: o USAGE_ACCOUNT_ID o REGION o SERVICE Syntax: "string" "string" ...
+    /// The dimensions available for grouping estimated water allocation. (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: • USAGE_ACCOUNT_ID • REGION • SERVICE Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--group-by", GroupValues = true)]
     public IEnumerable<string>? GroupBy { get; set; }
 
     /// <summary>
-    /// The criteria for filtering estimated water allocation. To determine which dimensions are available to be filtered by, you can first call GetEstimatedWaterAllocationDimensionValues Dimensions -&gt; (map) Filters environmental impact values by specific dimension val- ues. key -&gt; (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: o USAGE_ACCOUNT_ID o REGION o SERVICE value -&gt; (list) (string) Constraints: o min: 0 o max: 256 Shorthand Syntax: Dimensions={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "Dimensions": {"USAGE_ACCOUNT_ID"|"REGION"|"SERVICE": ["string", ...] ...} }
+    /// The criteria for filtering estimated water allocation. To determine which dimensions are available to be filtered by, you can first call GetEstimatedWaterAllocationDimensionValues Dimensions -&gt; (map) Filters environmental impact values by specific dimension values. key -&gt; (string) Specifies the dimensions available for grouping and filtering environmental impact data. Possible values: • USAGE_ACCOUNT_ID • REGION • SERVICE value -&gt; (list) (string) Constraints: • min: 0 • max: 256 Shorthand Syntax: Dimensions={KeyName1=[string,string],KeyName2=[string,string]} JSON Syntax: { "Dimensions": {"USAGE_ACCOUNT_ID"|"REGION"|"SERVICE": ["string", ...] ...} }
     /// </summary>
     [CliOption("--filter-by")]
     public string? FilterBy { get; set; }
 
     /// <summary>
-    /// The allocation types to include in the results. If absent, returns TOTAL_WATER_WITHDRAWALS allocation types. (string) Specifies the types of water allocation calculations available. Possible values: o TOTAL_WATER_WITHDRAWALS Syntax: "string" "string" ...
+    /// The allocation types to include in the results. If absent, returns TOTAL_WATER_WITHDRAWALS allocation types. (string) Specifies the types of water allocation calculations available. Possible values: • TOTAL_WATER_WITHDRAWALS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--allocation-types", GroupValues = true)]
     public IEnumerable<string>? AllocationTypes { get; set; }
 
     /// <summary>
-    /// The time granularity for the results. Only YEARLY_CALENDAR time granularity is currently supported for water allocation. Defaults to YEARLY_CALENDAR if absent. If requesting partial time periods, data will be returned based on the smallest supported granularity. For example, requesting 2025-04-01T00:00:00Z to 2026-04-01T00:00:00Z with YEARLY_CALENDAR will return all the data for 2026 only. Possible values: o YEARLY_CALENDAR o YEARLY_FISCAL o QUARTERLY_CALENDAR o QUARTERLY_FISCAL o MONTHLY
+    /// The time granularity for the results. Only YEARLY_CALENDAR time granularity is currently supported for water allocation. Defaults to YEARLY_CALENDAR if absent. If requesting partial time periods, data will be returned based on the smallest supported granularity. For example, requesting 2025-04-01T00:00:00Z to 2026-04-01T00:00:00Z with YEARLY_CALENDAR will return all the data for 2026 only. Possible values: • YEARLY_CALENDAR • YEARLY_FISCAL • QUARTERLY_CALENDAR • QUARTERLY_FISCAL • MONTHLY
     /// </summary>
     [CliOption("--granularity")]
     public AwsSustainabilityGetEstimatedWaterAllocationGranularity? Granularity { get; set; }
 
     [CliOption("--cli-input-json")]
     public string? CliInputJson { get; set; }
-
-    [CliOption("--generate-cli-skeleton")]
-    public string? GenerateCliSkeleton { get; set; }
 
     /// <summary>
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
@@ -101,16 +99,19 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions, 
     public string? StartingToken { get; set; }
 
     /// <summary>
-    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, re- trieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: o min: 1 o max: 5000
+    /// The size of each page to get in the AWS service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the AWS service, retrieving fewer items in each call. This can help prevent the AWS service calls from timing out. For usage examples, see Pagination in the AWS Command Line Interface User Guide . Constraints: • min: 1 • max: 5000
     /// </summary>
     [CliOption("--page-size")]
     public int? PageSize { get; set; }
 
     /// <summary>
-    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a sub- sequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
+    /// The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. For usage examples, see Pagination in the AWS Command Line Interface User Guide .
     /// </summary>
     [CliOption("--max-items")]
     public int? MaxItems { get; set; }
+
+    [CliOption("--generate-cli-skeleton")]
+    public string? GenerateCliSkeleton { get; set; }
 
     /// <inheritdoc />
     IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
@@ -127,6 +128,15 @@ public record AwsSustainabilityGetEstimatedWaterAllocationOptions : AwsOptions, 
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

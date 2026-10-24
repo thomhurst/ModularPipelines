@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates a new notify configuration for managed messaging. A notify con- figuration defines the settings for sending templated messages, includ- ing the display name, use case, enabled channels, and enabled coun- tries. See also: AWS API Documentation
+/// Creates a new notify configuration for managed messaging. A notify configuration defines the settings for sending templated messages, including the display name, use case, enabled channels, and enabled countries. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates a new notify configuration for managed messaging. A notify con- figuration defines the settings for sending templated messages, includ- ing the display name, use case, enabled channels, and enabled coun- tries. See also: AWS API Documentation
+    /// Creates a new notify configuration for managed messaging. A notify configuration defines the settings for sending templated messages, including the display name, use case, enabled channels, and enabled countries. See also: AWS API Documentation
     /// </summary>
-    /// <param name="DisplayName">The display name to associate with the notify configuration. Constraints: o min: 1 o max: 15 o pattern: [A-Za-z0-9_ -]+</param>
-    /// <param name="UseCase">The use case for the notify configuration. Possible values: o CODE_VERIFICATION</param>
-    /// <param name="EnabledChannels">An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...</param>
+    /// <param name="DisplayName">The display name to associate with the notify configuration. Constraints: • min: 1 • max: 15 • pattern: [A-Za-z0-9_ -]+</param>
+    /// <param name="UseCase">The use case for the notify configuration. Possible values: • CODE_VERIFICATION</param>
+    /// <param name="EnabledChannels">An array of channels to enable for the notify configuration. Supported values include SMS and VOICE . Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...</param>
     public AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions(
         string DisplayName,
         string UseCase,
@@ -76,56 +77,56 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The display name to associate with the notify configuration. Constraints: o min: 1 o max: 15 o pattern: [A-Za-z0-9_ -]+
+    /// The display name to associate with the notify configuration. Constraints: • min: 1 • max: 15 • pattern: [A-Za-z0-9_ -]+
     /// </summary>
     [CliOption("--display-name")]
     public string? DisplayName { get; private init; }
 
     /// <summary>
-    /// The use case for the notify configuration. Possible values: o CODE_VERIFICATION
+    /// The use case for the notify configuration. Possible values: • CODE_VERIFICATION
     /// </summary>
     [CliOption("--use-case")]
     public string? UseCase { get; private init; }
 
     /// <summary>
-    /// An array of channels to enable for the notify configuration. Sup- ported values include SMS and VOICE . Constraints: o min: 1 o max: 4 (string) Possible values: o SMS o VOICE o MMS o RCS Syntax: "string" "string" ...
+    /// An array of channels to enable for the notify configuration. Supported values include SMS and VOICE . Constraints: • min: 1 • max: 4 (string) Possible values: • SMS • VOICE • MMS • RCS Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enabled-channels", GroupValues = true)]
     public IEnumerable<string>? EnabledChannels { get; private init; }
 
     /// <summary>
-    /// The default template identifier to associate with the notify config- uration. If specified, this template is used when sending messages without an explicit template identifier. Constraints: o min: 0 o max: 256 o pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
+    /// The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier. Constraints: • min: 0 • max: 256 • pattern: ([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)
     /// </summary>
     [CliOption("--default-template-id")]
     public string? DefaultTemplateId { get; set; }
 
     /// <summary>
-    /// The identifier of the pool to associate with the notify configura- tion. Constraints: o min: 0 o max: 256 o pattern: [A-Za-z0-9_:/-]*
+    /// The identifier of the pool to associate with the notify configuration. Constraints: • min: 0 • max: 256 • pattern: [A-Za-z0-9_:/-]*
     /// </summary>
     [CliOption("--pool-id")]
     public string? PoolId { get; set; }
 
     /// <summary>
-    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration. Constraints: o min: 0 o max: 300 (string) Constraints: o min: 2 o max: 2 o pattern: [A-Z]{2} Syntax: "string" "string" ...
+    /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration. Constraints: • min: 0 • max: 300 (string) Constraints: • min: 2 • max: 2 • pattern: [A-Z]{2} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--enabled-countries", GroupValues = true)]
     public IEnumerable<string>? EnabledCountries { get; set; }
 
     /// <summary>
-    /// By default this is set to false. When set to true the notify config- uration can't be deleted. You can change this value using the Up- dateNotifyConfiguration action.
+    /// By default this is set to false. When set to true the notify configuration can't be deleted. You can change this value using the UpdateNotifyConfiguration action.
     /// </summary>
     [CliFlag("--deletion-protection-enabled", NegatedName = "--no-deletion-protection-enabled")]
     public bool? DeletionProtectionEnabled { get; set; }
 
     /// <summary>
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempo- tency. Constraints: o min: 1 o max: 64 o pattern: [!-~]+
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency. Constraints: • min: 1 • max: 64 • pattern: [!-~]+
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// An array of tags (key and value pairs) associated with the notify configuration. Constraints: o min: 0 o max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: o min: 1 o max: 128 o pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: o min: 0 o max: 256 o pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// An array of tags (key and value pairs) associated with the notify configuration. Constraints: • min: 0 • max: 200 (structure) The list of tags to be added to the specified topic. Key -&gt; (string) [required] The key identifier, or name, of the tag. Constraints: • min: 1 • max: 128 • pattern: .+ Value -&gt; (string) [required] The string value associated with the key of the tag. Constraints: • min: 0 • max: 256 • pattern: .* Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
@@ -151,6 +152,15 @@ public record AwsPinpointSmsVoiceV2CreateNotifyConfigurationOptions : AwsOptions
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

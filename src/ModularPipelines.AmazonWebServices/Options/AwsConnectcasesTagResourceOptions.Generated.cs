@@ -10,7 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -28,7 +28,7 @@ public record AwsConnectcasesTagResourceOptions : AwsOptions, IValidatableObject
     /// <summary>
     /// Adds tags to a resource. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Arn">The Amazon Resource Name (ARN) Constraints: o min: 1 o max: 500</param>
+    /// <param name="Arn">The Amazon Resource Name (ARN) Constraints: • min: 1 • max: 500</param>
     /// <param name="Tags">A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource. key -&gt; (string) value -&gt; (string) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}</param>
     public AwsConnectcasesTagResourceOptions(
         string Arn,
@@ -72,7 +72,7 @@ public record AwsConnectcasesTagResourceOptions : AwsOptions, IValidatableObject
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The Amazon Resource Name (ARN) Constraints: o min: 1 o max: 500
+    /// The Amazon Resource Name (ARN) Constraints: • min: 1 • max: 500
     /// </summary>
     [CliOption("--arn")]
     public string? Arn { get; private init; }
@@ -104,6 +104,15 @@ public record AwsConnectcasesTagResourceOptions : AwsOptions, IValidatableObject
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

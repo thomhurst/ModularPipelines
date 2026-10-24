@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,7 +28,7 @@ public record AwsRedshiftDeleteHsmConfigurationOptions : AwsOptions, IValidatabl
     /// <summary>
     /// Deletes the specified Amazon Redshift HSM configuration. See also: AWS API Documentation
     /// </summary>
-    /// <param name="HsmConfigurationIdentifier">The identifier of the Amazon Redshift HSM configuration to be deleted. Constraints: o max: 2147483647</param>
+    /// <param name="HsmConfigurationIdentifier">The identifier of the Amazon Redshift HSM configuration to be deleted. Constraints: • max: 2147483647</param>
     public AwsRedshiftDeleteHsmConfigurationOptions(
         string HsmConfigurationIdentifier
     )
@@ -56,7 +57,7 @@ public record AwsRedshiftDeleteHsmConfigurationOptions : AwsOptions, IValidatabl
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Redshift HSM configuration to be deleted. Constraints: o max: 2147483647
+    /// The identifier of the Amazon Redshift HSM configuration to be deleted. Constraints: • max: 2147483647
     /// </summary>
     [CliOption("--hsm-configuration-identifier")]
     public string? HsmConfigurationIdentifier { get; private init; }
@@ -82,6 +83,15 @@ public record AwsRedshiftDeleteHsmConfigurationOptions : AwsOptions, IValidatabl
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

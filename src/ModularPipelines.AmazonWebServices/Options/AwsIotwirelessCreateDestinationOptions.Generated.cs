@@ -11,6 +11,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -29,10 +30,10 @@ public record AwsIotwirelessCreateDestinationOptions : AwsOptions, IValidatableO
     /// <summary>
     /// Creates a new destination that maps a device message to an AWS IoT rule. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Name">The name of the new resource. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+</param>
-    /// <param name="ExpressionType">The type of value in Expression . Possible values: o RuleName o MqttTopic</param>
-    /// <param name="Expression">The rule name or topic rule to send messages to. Constraints: o max: 2048</param>
-    /// <param name="RoleArn">The ARN of the IAM Role that authorizes the destination. Constraints: o min: 20 o max: 2048</param>
+    /// <param name="Name">The name of the new resource. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+</param>
+    /// <param name="ExpressionType">The type of value in Expression . Possible values: • RuleName • MqttTopic</param>
+    /// <param name="Expression">The rule name or topic rule to send messages to. Constraints: • max: 2048</param>
+    /// <param name="RoleArn">The ARN of the IAM Role that authorizes the destination. Constraints: • min: 20 • max: 2048</param>
     public AwsIotwirelessCreateDestinationOptions(
         string Name,
         AwsIotwirelessCreateDestinationExpressionType ExpressionType,
@@ -69,43 +70,43 @@ public record AwsIotwirelessCreateDestinationOptions : AwsOptions, IValidatableO
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the new resource. Constraints: o max: 128 o pattern: [a-zA-Z0-9-_]+
+    /// The name of the new resource. Constraints: • max: 128 • pattern: [a-zA-Z0-9-_]+
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; private init; }
 
     /// <summary>
-    /// The type of value in Expression . Possible values: o RuleName o MqttTopic
+    /// The type of value in Expression . Possible values: • RuleName • MqttTopic
     /// </summary>
     [CliOption("--expression-type")]
     public AwsIotwirelessCreateDestinationExpressionType? ExpressionType { get; private init; }
 
     /// <summary>
-    /// The rule name or topic rule to send messages to. Constraints: o max: 2048
+    /// The rule name or topic rule to send messages to. Constraints: • max: 2048
     /// </summary>
     [CliOption("--expression")]
     public string? Expression { get; private init; }
 
     /// <summary>
-    /// The ARN of the IAM Role that authorizes the destination. Constraints: o min: 20 o max: 2048
+    /// The ARN of the IAM Role that authorizes the destination. Constraints: • min: 20 • max: 2048
     /// </summary>
     [CliOption("--role-arn")]
     public string? RoleArn { get; private init; }
 
     /// <summary>
-    /// The description of the new resource. Constraints: o max: 2048
+    /// The description of the new resource. Constraints: • max: 2048
     /// </summary>
     [CliOption("--description")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// The tags to attach to the new destination. Tags are metadata that you can use to manage a resource. Constraints: o min: 0 o max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: o min: 1 o max: 128 Value -&gt; (string) [required] The tag's value. Constraints: o min: 0 o max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
+    /// The tags to attach to the new destination. Tags are metadata that you can use to manage a resource. Constraints: • min: 0 • max: 200 (structure) A simple label consisting of a customer-defined key-value pair Key -&gt; (string) [required] The tag's key value. Constraints: • min: 1 • max: 128 Value -&gt; (string) [required] The tag's value. Constraints: • min: 0 • max: 256 Shorthand Syntax: Key=string,Value=string ... JSON Syntax: [ { "Key": "string", "Value": "string" } ... ]
     /// </summary>
     [CliOption("--tags", GroupValues = true)]
     public IEnumerable<string>? Tags { get; set; }
 
     /// <summary>
-    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete suc- cessfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests . Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -132,6 +133,15 @@ public record AwsIotwirelessCreateDestinationOptions : AwsOptions, IValidatableO
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

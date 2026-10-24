@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: o Avoid dangling resources that impact your service quotas. o Remove deleted users so they don't appear to agents as transfer options. o Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
+/// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: • Avoid dangling resources that impact your service quotas. • Remove deleted users so they don't appear to agents as transfer options. • Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsConnectDeleteQuickConnectOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: o Avoid dangling resources that impact your service quotas. o Remove deleted users so they don't appear to agents as transfer options. o Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
+    /// Deletes a quick connect. WARNING: After calling DeleteUser , it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you: • Avoid dangling resources that impact your service quotas. • Remove deleted users so they don't appear to agents as transfer options. • Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency . See also: AWS API Documentation
     /// </summary>
-    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100</param>
+    /// <param name="InstanceId">The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100</param>
     /// <param name="QuickConnectId">The identifier for the quick connect.</param>
     public AwsConnectDeleteQuickConnectOptions(
         string InstanceId,
@@ -60,7 +61,7 @@ public record AwsConnectDeleteQuickConnectOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: o min: 1 o max: 100
+    /// The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Constraints: • min: 1 • max: 100
     /// </summary>
     [CliOption("--instance-id")]
     public string? InstanceId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsConnectDeleteQuickConnectOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

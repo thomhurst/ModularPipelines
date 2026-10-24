@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Provides the results of the Inference Recommender job. One or more rec- ommendation jobs are returned. See also: AWS API Documentation
+/// Provides the results of the Inference Recommender job. One or more recommendation jobs are returned. See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerDescribeInferenceRecommendationsJobOptions : AwsOption
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Provides the results of the Inference Recommender job. One or more rec- ommendation jobs are returned. See also: AWS API Documentation
+    /// Provides the results of the Inference Recommender job. One or more recommendation jobs are returned. See also: AWS API Documentation
     /// </summary>
-    /// <param name="JobName">The name of the job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
+    /// <param name="JobName">The name of the job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}</param>
     public AwsSagemakerDescribeInferenceRecommendationsJobOptions(
         string JobName
     )
@@ -56,7 +57,7 @@ public record AwsSagemakerDescribeInferenceRecommendationsJobOptions : AwsOption
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account. Constraints: o min: 1 o max: 64 o pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
+    /// The name of the job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account. Constraints: • min: 1 • max: 64 • pattern: [a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}
     /// </summary>
     [CliOption("--job-name")]
     public string? JobName { get; private init; }
@@ -82,6 +83,15 @@ public record AwsSagemakerDescribeInferenceRecommendationsJobOptions : AwsOption
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

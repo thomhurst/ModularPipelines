@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is re- placed with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (adm...
+/// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is replaced with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (admin...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsRoute53domainsUpdateDomainContactPrivacyOptions : AwsOptions, I
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is re- placed with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (adm...
+    /// This operation updates the specified domain contact's privacy setting. When privacy protection is enabled, your contact information is replaced with contact information for the registrar or with the phrase "REDACTED FOR PRIVACY", or "On behalf of &lt;domain name&gt; owner." NOTE: While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. This operation affects only the contact information for the specified contact type (admin...
     /// </summary>
-    /// <param name="DomainName">The name of the domain that you want to update the privacy setting for. Constraints: o max: 255</param>
+    /// <param name="DomainName">The name of the domain that you want to update the privacy setting for. Constraints: • max: 255</param>
     public AwsRoute53domainsUpdateDomainContactPrivacyOptions(
         string DomainName
     )
@@ -56,31 +57,31 @@ public record AwsRoute53domainsUpdateDomainContactPrivacyOptions : AwsOptions, I
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the domain that you want to update the privacy setting for. Constraints: o max: 255
+    /// The name of the domain that you want to update the privacy setting for. Constraints: • max: 255
     /// </summary>
     [CliOption("--domain-name")]
     public string? DomainName { get; private init; }
 
     /// <summary>
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the admin contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the admin contact. NOTE: You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     /// </summary>
     [CliFlag("--admin-privacy", NegatedName = "--no-admin-privacy")]
     public bool? AdminPrivacy { get; set; }
 
     /// <summary>
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the registrant contact (domain owner). NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the registrant contact (domain owner). NOTE: You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     /// </summary>
     [CliFlag("--registrant-privacy", NegatedName = "--no-registrant-privacy")]
     public bool? RegistrantPrivacy { get; set; }
 
     /// <summary>
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the technical contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the technical contact. NOTE: You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     /// </summary>
     [CliFlag("--tech-privacy", NegatedName = "--no-tech-privacy")]
     public bool? TechPrivacy { get; set; }
 
     /// <summary>
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact infor- mation either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the billing contact. NOTE: You must specify the same privacy setting for the administra- tive, billing, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false , WHOIS queries return the information that you entered for the billing contact. NOTE: You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     /// </summary>
     [CliFlag("--billing-privacy", NegatedName = "--no-billing-privacy")]
     public bool? BillingPrivacy { get; set; }
@@ -106,6 +107,15 @@ public record AwsRoute53domainsUpdateDomainContactPrivacyOptions : AwsOptions, I
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

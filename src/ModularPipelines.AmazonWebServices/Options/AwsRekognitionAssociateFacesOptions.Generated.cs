@@ -11,12 +11,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associ- ated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a sin- gle UserID is also limited to 100. Once a UserID has 100 faces associ- ated with it, no additional faces can be added. If more API calls are made after the limit is reac...
+/// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a single UserID is also limited to 100. Once a UserID has 100 faces associated with it, no additional faces can be added. If more API calls are made after the limit is reached, a...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsRekognitionAssociateFacesOptions : AwsOptions, IValidatableObje
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associ- ated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a sin- gle UserID is also limited to 100. Once a UserID has 100 faces associ- ated with it, no additional faces can be added. If more API calls are made after the limit is reac...
+    /// Associates one or more faces with an existing UserID. Takes an array of FaceIds . Each FaceId that are present in the FaceIds list is associated with the provided UserID. The number of FaceIds that can be used as input in a single request is limited to 100. Note that the total number of faces that can be associated with a single UserID is also limited to 100. Once a UserID has 100 faces associated with it, no additional faces can be added. If more API calls are made after the limit is reached, a...
     /// </summary>
-    /// <param name="CollectionId">The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+</param>
-    /// <param name="UserId">The ID for the existing UserID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+</param>
-    /// <param name="FaceIds">An array of FaceIDs to associate with the UserID. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
+    /// <param name="CollectionId">The ID of an existing collection containing the UserID. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+</param>
+    /// <param name="UserId">The ID for the existing UserID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-:]+</param>
+    /// <param name="FaceIds">An array of FaceIDs to associate with the UserID. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...</param>
     public AwsRekognitionAssociateFacesOptions(
         string CollectionId,
         string UserId,
@@ -76,31 +77,31 @@ public record AwsRekognitionAssociateFacesOptions : AwsOptions, IValidatableObje
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of an existing collection containing the UserID. Constraints: o min: 1 o max: 255 o pattern: [a-zA-Z0-9_.\-]+
+    /// The ID of an existing collection containing the UserID. Constraints: • min: 1 • max: 255 • pattern: [a-zA-Z0-9_.\-]+
     /// </summary>
     [CliOption("--collection-id")]
     public string? CollectionId { get; private init; }
 
     /// <summary>
-    /// The ID for the existing UserID. Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9_.\-:]+
+    /// The ID for the existing UserID. Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9_.\-:]+
     /// </summary>
     [CliOption("--user-id")]
     public string? UserId { get; private init; }
 
     /// <summary>
-    /// An array of FaceIDs to associate with the UserID. Constraints: o min: 1 o max: 100 (string) Constraints: o pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
+    /// An array of FaceIDs to associate with the UserID. Constraints: • min: 1 • max: 100 (string) Constraints: • pattern: [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--face-ids", GroupValues = true)]
     public IEnumerable<string>? FaceIds { get; private init; }
 
     /// <summary>
-    /// An optional value specifying the minimum confidence in the UserID match to return. The default value is 75. Constraints: o min: 0 o max: 100
+    /// An optional value specifying the minimum confidence in the UserID match to return. The default value is 75. Constraints: • min: 0 • max: 100
     /// </summary>
     [CliOption("--user-match-threshold")]
-    public int? UserMatchThreshold { get; set; }
+    public double? UserMatchThreshold { get; set; }
 
     /// <summary>
-    /// Idempotent token used to identify the request to AssociateFaces . If you use the same token with multiple AssociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9-_]+$
+    /// Idempotent token used to identify the request to AssociateFaces . If you use the same token with multiple AssociateFaces requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9-_]+$
     /// </summary>
     [SecretValue]
     [CliOption("--client-request-token")]
@@ -127,6 +128,15 @@ public record AwsRekognitionAssociateFacesOptions : AwsOptions, IValidatableObje
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

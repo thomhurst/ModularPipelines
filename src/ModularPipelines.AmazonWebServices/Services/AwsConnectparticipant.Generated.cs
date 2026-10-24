@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -32,7 +32,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     #region Commands
 
     /// <summary>
-    /// Cancels the authentication session. The opted out branch of the Authen- ticate Customer flow block will be taken. NOTE: The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Cancels the authentication session. The opted out branch of the Authenticate Customer flow block will be taken. NOTE: The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -47,7 +47,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict excep- tion is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS AP...
+    /// Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment with that identifier is already being uploaded. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Docu...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -62,7 +62,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC secu- rity best practices . NOTE: ParticipantToken is used for invoking this API instead of Connec- tionToken . The participant token is valid for the lifetime of the participant un- til they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs t...
+    /// Creates the participant's connection. For security recommendations, see Connect Customer Chat security best practices . For WebRTC security recommendations, see Connect Customer WebRTC security best practices . NOTE: ParticipantToken is used for invoking this API instead of ConnectionToken . The participant token is valid for the lifetime of the participant until they are part of a contact. For WebRTC participants, if they leave or are disconnected for 60 seconds, a new participant needs to be c...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -92,7 +92,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Disconnects a participant. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -107,7 +107,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: o The participant role CUSTOM_BOT is not permitted to access attach- ments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have ac- cess to attachments. o ConnectionToken is used for invoking this API instead of Partici...
+    /// Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts. For security recommendations, see Connect Customer Chat security best practices . NOTE: • The participant role CUSTOM_BOT is not permitted to access attachments customers may upload. An AccessDeniedException can indicate that the participant may be a CUSTOM_BOT, and it doesn't have access to attachments. • ConnectionToken is used for invoking this API instead of Participant...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -122,7 +122,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: o This API can only be called within one minute of receiving the au- thenticationInitiated event. o The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of Partici- pantTo...
+    /// Retrieves the AuthenticationUrl for the current authentication session for the AuthenticateCustomer flow block. For security recommendations, see Connect Customer Chat security best practices . NOTE: • This API can only be called within one minute of receiving the authenticationInitiated event. • The current supported channel is chat. This API is not supported for Apple Messages for Business, WhatsApp, or SMS chats. NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -137,7 +137,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Retrieves a transcript of the session, including details about any at- tachments. For information about accessing past chat contact tran- scripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: o applicatio...
+    /// Retrieves a transcript of the session, including details about any attachments. For information about accessing past chat contact transcripts for a persistent chat, see Enable persistent chat . For security recommendations, see Connect Customer Chat security best practices . If you have a process that consumes events in the transcript of an chat that has ended, note that chat transcripts contain the following event content types if the event has occurred during the chat session: • application/vn...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -152,7 +152,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a con- flict exception. For security recommendations, see...
+    /// NOTE: The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType is no longer maintained since December 31, 2024. This event has been migrated to the CreateParticipantConnection API using the ConnectParticipant field. Sends an event. Message receipts are not supported when there are more than two active participants in the chat. Using the SendEvent API for message receipts when a supervisor is barged-in will result in a conflict exception. For security recommendations, see C...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -167,7 +167,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Sends a message. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -182,7 +182,7 @@ public class AwsConnectparticipant : IAwsConnectparticipant
     }
 
     /// <summary>
-    /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of Partici- pantToken . The Amazon Connect Participant Service APIs do not use Signature Ver- sion 4 authentication . See also: AWS API Documentation
+    /// Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. For security recommendations, see Connect Customer Chat security best practices . NOTE: ConnectionToken is used for invoking this API instead of ParticipantToken . The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

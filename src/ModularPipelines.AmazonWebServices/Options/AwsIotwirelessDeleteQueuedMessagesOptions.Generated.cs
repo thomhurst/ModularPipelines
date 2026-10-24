@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
@@ -28,7 +29,7 @@ public record AwsIotwirelessDeleteQueuedMessagesOptions : AwsOptions, IValidatab
     /// <summary>
     /// Remove queued messages from the downlink queue. See also: AWS API Documentation
     /// </summary>
-    /// <param name="Id">The ID of a given wireless device for which downlink messages will be deleted. Constraints: o max: 256</param>
+    /// <param name="Id">The ID of a given wireless device for which downlink messages will be deleted. Constraints: • max: 256</param>
     /// <param name="MessageId">If message ID is "*" , it cleares the entire downlink queue for a given device, specified by the wireless device ID. Otherwise, the downlink message with the specified message ID will be deleted.</param>
     public AwsIotwirelessDeleteQueuedMessagesOptions(
         string Id,
@@ -61,7 +62,7 @@ public record AwsIotwirelessDeleteQueuedMessagesOptions : AwsOptions, IValidatab
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The ID of a given wireless device for which downlink messages will be deleted. Constraints: o max: 256
+    /// The ID of a given wireless device for which downlink messages will be deleted. Constraints: • max: 256
     /// </summary>
     [CliOption("--id")]
     public string? Id { get; private init; }
@@ -73,7 +74,7 @@ public record AwsIotwirelessDeleteQueuedMessagesOptions : AwsOptions, IValidatab
     public string? MessageId { get; private init; }
 
     /// <summary>
-    /// The wireless device type, which can be either Sidewalk or LoRaWAN. Possible values: o Sidewalk o LoRaWAN
+    /// The wireless device type, which can be either Sidewalk or LoRaWAN. Possible values: • Sidewalk • LoRaWAN
     /// </summary>
     [CliOption("--wireless-device-type")]
     public AwsIotwirelessDeleteQueuedMessagesWirelessDeviceType? WirelessDeviceType { get; set; }
@@ -99,6 +100,15 @@ public record AwsIotwirelessDeleteQueuedMessagesOptions : AwsOptions, IValidatab
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

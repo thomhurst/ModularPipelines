@@ -22,7 +22,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsCodepipelineRegisterWebhookWithThirdPartyOptions : AwsOptions
 {
     /// <summary>
-    /// The name of an existing webhook created with PutWebhook to register with a supported third party. Constraints: o min: 1 o max: 100 o pattern: [A-Za-z0-9.@\-_]+
+    /// The name of an existing webhook created with PutWebhook to register with a supported third party. Constraints: • min: 1 • max: 100 • pattern: [A-Za-z0-9.@\-_]+
     /// </summary>
     [CliOption("--webhook-name")]
     public string? WebhookName { get; set; }
@@ -32,5 +32,14 @@ public record AwsCodepipelineRegisterWebhookWithThirdPartyOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

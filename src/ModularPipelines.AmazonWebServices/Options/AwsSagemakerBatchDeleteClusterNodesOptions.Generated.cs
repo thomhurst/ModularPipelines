@@ -10,12 +10,13 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: o To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the in- stance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . o If you want to invoke this API on an existing ...
+/// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: • To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . • If you want to invoke this API on an existing cl...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -25,9 +26,9 @@ public record AwsSagemakerBatchDeleteClusterNodesOptions : AwsOptions, IValidata
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: o To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the in- stance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . o If you want to invoke this API on an existing ...
+    /// Deletes specific nodes within a SageMaker HyperPod cluster. BatchDeleteClusterNodes accepts a cluster name and a list of node IDs. WARNING: • To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod . • If you want to invoke this API on an existing cl...
     /// </summary>
-    /// <param name="ClusterName">The name of the SageMaker HyperPod cluster from which to delete the specified nodes. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
+    /// <param name="ClusterName">The name of the SageMaker HyperPod cluster from which to delete the specified nodes. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})</param>
     public AwsSagemakerBatchDeleteClusterNodesOptions(
         string ClusterName
     )
@@ -56,19 +57,19 @@ public record AwsSagemakerBatchDeleteClusterNodesOptions : AwsOptions, IValidata
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes. Constraints: o min: 0 o max: 256 o pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:clus- ter/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
+    /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes. Constraints: • min: 0 • max: 256 • pattern: (arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})
     /// </summary>
     [CliOption("--cluster-name")]
     public string? ClusterName { get; private init; }
 
     /// <summary>
-    /// A list of node IDs to be deleted from the specified cluster. NOTE: o For SageMaker HyperPod clusters using the Slurm workload man- ager, you cannot remove instances that are configured as Slurm controller nodes. o If you need to delete more than 99 instances, contact Support for assistance. Constraints: o min: 1 o max: 3000 (string) Constraints: o min: 1 o max: 256 o pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
+    /// A list of node IDs to be deleted from the specified cluster. NOTE: • For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes. • If you need to delete more than 99 instances, contact Support for assistance. Constraints: • min: 1 • max: 3000 (string) Constraints: • min: 1 • max: 256 • pattern: i-[a-f0-9]{8}(?:[a-f0-9]{9})? Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-ids", GroupValues = true)]
     public IEnumerable<string>? NodeIds { get; set; }
 
     /// <summary>
-    /// A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds . You must specify either NodeL- ogicalIds , InstanceIds , or both, with a combined maximum of 50 identifiers. Constraints: o min: 1 o max: 99 (string) Constraints: o min: 1 o max: 128 o pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
+    /// A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds . You must specify either NodeLogicalIds , InstanceIds , or both, with a combined maximum of 50 identifiers. Constraints: • min: 1 • max: 99 (string) Constraints: • min: 1 • max: 128 • pattern: [a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9] Syntax: "string" "string" ...
     /// </summary>
     [CliOption("--node-logical-ids", GroupValues = true)]
     public IEnumerable<string>? NodeLogicalIds { get; set; }
@@ -94,6 +95,15 @@ public record AwsSagemakerBatchDeleteClusterNodesOptions : AwsOptions, IValidata
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

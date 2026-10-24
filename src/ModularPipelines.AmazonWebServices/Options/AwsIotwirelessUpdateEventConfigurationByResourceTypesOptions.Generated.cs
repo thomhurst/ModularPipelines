@@ -22,31 +22,31 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions : AwsOptions
 {
     /// <summary>
-    /// Device registration state resource type event configuration object for enabling and disabling wireless gateway topic. Sidewalk -&gt; (structure) Device registration resource type state event configuration ob- ject for enabling or disabling Sidewalk related event topics. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is en- abled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={WirelessDeviceEventTopic=string} JSON Syntax: { "Sidewalk": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
+    /// Device registration state resource type event configuration object for enabling and disabling wireless gateway topic. Sidewalk -&gt; (structure) Device registration resource type state event configuration object for enabling or disabling Sidewalk related event topics. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: Sidewalk={WirelessDeviceEventTopic=string} JSON Syntax: { "Sidewalk": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
     /// </summary>
     [CliOption("--device-registration-state")]
     public string? DeviceRegistrationState { get; set; }
 
     /// <summary>
-    /// Proximity resource type event configuration object for enabling and disabling wireless gateway topic. Sidewalk -&gt; (structure) Proximity resource type event configuration object for enabling and disabling wireless device topic. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is en- abled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={WirelessDeviceEventTopic=string} JSON Syntax: { "Sidewalk": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
+    /// Proximity resource type event configuration object for enabling and disabling wireless gateway topic. Sidewalk -&gt; (structure) Proximity resource type event configuration object for enabling and disabling wireless device topic. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: Sidewalk={WirelessDeviceEventTopic=string} JSON Syntax: { "Sidewalk": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
     /// </summary>
     [CliOption("--proximity")]
     public string? Proximity { get; set; }
 
     /// <summary>
-    /// Join resource type event configuration object for enabling and dis- abling wireless device topic. LoRaWAN -&gt; (structure) Join resource type event configuration object for enabling or disabling LoRaWAN related event topics. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is en- abled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: LoRaWAN={WirelessDeviceEventTopic=string} JSON Syntax: { "LoRaWAN": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
+    /// Join resource type event configuration object for enabling and disabling wireless device topic. LoRaWAN -&gt; (structure) Join resource type event configuration object for enabling or disabling LoRaWAN related event topics. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: LoRaWAN={WirelessDeviceEventTopic=string} JSON Syntax: { "LoRaWAN": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
     /// </summary>
     [CliOption("--join")]
     public string? Join { get; set; }
 
     /// <summary>
-    /// Connection status resource type event configuration object for en- abling and disabling wireless gateway topic. LoRaWAN -&gt; (structure) Connection status resource type event configuration object for enabling or disabling LoRaWAN related event topics. WirelessGatewayEventTopic -&gt; (string) Denotes whether the wireless gateway connection status event topic is enabled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: LoRaWAN={WirelessGatewayEventTopic=string} JSON Syntax: { "LoRaWAN": { "WirelessGatewayEventTopic": "Enabled"|"Disabled" } }
+    /// Connection status resource type event configuration object for enabling and disabling wireless gateway topic. LoRaWAN -&gt; (structure) Connection status resource type event configuration object for enabling or disabling LoRaWAN related event topics. WirelessGatewayEventTopic -&gt; (string) Denotes whether the wireless gateway connection status event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: LoRaWAN={WirelessGatewayEventTopic=string} JSON Syntax: { "LoRaWAN": { "WirelessGatewayEventTopic": "Enabled"|"Disabled" } }
     /// </summary>
     [CliOption("--connection-status")]
     public string? ConnectionStatus { get; set; }
 
     /// <summary>
-    /// Message delivery status resource type event configuration object for enabling and disabling wireless device topic. Sidewalk -&gt; (structure) Sidewalk resource type event configuration object for enabling or disabling topic. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is en- abled or disabled. Possible values: o Enabled o Disabled Shorthand Syntax: Sidewalk={WirelessDeviceEventTopic=string} JSON Syntax: { "Sidewalk": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
+    /// Message delivery status resource type event configuration object for enabling and disabling wireless device topic. Sidewalk -&gt; (structure) Sidewalk resource type event configuration object for enabling or disabling topic. WirelessDeviceEventTopic -&gt; (string) Denotes whether the wireless device join event topic is enabled or disabled. Possible values: • Enabled • Disabled Shorthand Syntax: Sidewalk={WirelessDeviceEventTopic=string} JSON Syntax: { "Sidewalk": { "WirelessDeviceEventTopic": "Enabled"|"Disabled" } }
     /// </summary>
     [CliOption("--message-delivery-status")]
     public string? MessageDeliveryStatus { get; set; }
@@ -56,5 +56,14 @@ public record AwsIotwirelessUpdateEventConfigurationByResourceTypesOptions : Aws
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }

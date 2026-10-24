@@ -10,13 +10,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Updates the pricing tier for an Amazon Q Business subscription. Up- grades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more in- formation on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
+/// Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -26,11 +27,11 @@ public record AwsQbusinessUpdateSubscriptionOptions : AwsOptions, IValidatableOb
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Updates the pricing tier for an Amazon Q Business subscription. Up- grades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more in- formation on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
+    /// Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing . See also: AWS API Documentation
     /// </summary>
-    /// <param name="ApplicationId">The identifier of the Amazon Q Business application where the sub- scription update should take effect. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
-    /// <param name="SubscriptionId">The identifier of the Amazon Q Business subscription to be updated. Constraints: o min: 0 o max: 1224</param>
-    /// <param name="Type">The type of the Amazon Q Business subscription to be updated. Possible values: o Q_LITE o Q_BUSINESS</param>
+    /// <param name="ApplicationId">The identifier of the Amazon Q Business application where the subscription update should take effect. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}</param>
+    /// <param name="SubscriptionId">The identifier of the Amazon Q Business subscription to be updated. Constraints: • min: 0 • max: 1224</param>
+    /// <param name="Type">The type of the Amazon Q Business subscription to be updated. Possible values: • Q_LITE • Q_BUSINESS</param>
     public AwsQbusinessUpdateSubscriptionOptions(
         string ApplicationId,
         string SubscriptionId,
@@ -64,19 +65,19 @@ public record AwsQbusinessUpdateSubscriptionOptions : AwsOptions, IValidatableOb
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The identifier of the Amazon Q Business application where the sub- scription update should take effect. Constraints: o min: 36 o max: 36 o pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
+    /// The identifier of the Amazon Q Business application where the subscription update should take effect. Constraints: • min: 36 • max: 36 • pattern: [a-zA-Z0-9][a-zA-Z0-9-]{35}
     /// </summary>
     [CliOption("--application-id")]
     public string? ApplicationId { get; private init; }
 
     /// <summary>
-    /// The identifier of the Amazon Q Business subscription to be updated. Constraints: o min: 0 o max: 1224
+    /// The identifier of the Amazon Q Business subscription to be updated. Constraints: • min: 0 • max: 1224
     /// </summary>
     [CliOption("--subscription-id")]
     public string? SubscriptionId { get; private init; }
 
     /// <summary>
-    /// The type of the Amazon Q Business subscription to be updated. Possible values: o Q_LITE o Q_BUSINESS
+    /// The type of the Amazon Q Business subscription to be updated. Possible values: • Q_LITE • Q_BUSINESS
     /// </summary>
     [CliOption("--type")]
     public AwsQbusinessUpdateSubscriptionType? Type { get; private init; }
@@ -102,6 +103,15 @@ public record AwsQbusinessUpdateSubscriptionOptions : AwsOptions, IValidatableOb
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

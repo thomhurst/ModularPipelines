@@ -10,6 +10,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 
 namespace ModularPipelines.AmazonWebServices.Options;
@@ -27,8 +28,8 @@ public record AwsQuicksightUpdateAccountCustomPermissionOptions : AwsOptions, IV
     /// <summary>
     /// Applies a custom permissions profile to an account. See also: AWS API Documentation
     /// </summary>
-    /// <param name="CustomPermissionsName">The name of the custom permissions profile that you want to apply to an account. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9+=,.@_-]+$</param>
-    /// <param name="AwsAccountId">The ID of the Amazon Web Services account for which you want to ap- ply a custom permissions profile. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$</param>
+    /// <param name="CustomPermissionsName">The name of the custom permissions profile that you want to apply to an account. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9+=,.@_-]+$</param>
+    /// <param name="AwsAccountId">The ID of the Amazon Web Services account for which you want to apply a custom permissions profile. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$</param>
     public AwsQuicksightUpdateAccountCustomPermissionOptions(
         string CustomPermissionsName,
         string AwsAccountId
@@ -60,13 +61,13 @@ public record AwsQuicksightUpdateAccountCustomPermissionOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The name of the custom permissions profile that you want to apply to an account. Constraints: o min: 1 o max: 64 o pattern: ^[a-zA-Z0-9+=,.@_-]+$
+    /// The name of the custom permissions profile that you want to apply to an account. Constraints: • min: 1 • max: 64 • pattern: ^[a-zA-Z0-9+=,.@_-]+$
     /// </summary>
     [CliOption("--custom-permissions-name")]
     public string? CustomPermissionsName { get; private init; }
 
     /// <summary>
-    /// The ID of the Amazon Web Services account for which you want to ap- ply a custom permissions profile. Constraints: o min: 12 o max: 12 o pattern: ^[0-9]{12}$
+    /// The ID of the Amazon Web Services account for which you want to apply a custom permissions profile. Constraints: • min: 12 • max: 12 • pattern: ^[0-9]{12}$
     /// </summary>
     [CliOption("--aws-account-id")]
     public string? AwsAccountId { get; private init; }
@@ -92,6 +93,15 @@ public record AwsQuicksightUpdateAccountCustomPermissionOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

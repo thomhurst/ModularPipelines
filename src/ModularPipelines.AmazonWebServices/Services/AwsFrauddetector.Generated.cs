@@ -6,8 +6,8 @@
 #nullable enable
 
 using System.CodeDom.Compiler;
+using ModularPipelines;
 using ModularPipelines.Context;
-using ModularPipelines.Models;
 using ModularPipelines.Options;
 using ModularPipelines.AmazonWebServices.Options;
 
@@ -122,7 +122,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Creates a detector version. The detector version starts in a DRAFT sta- tus. See also: AWS API Documentation
+    /// Creates a detector version. The detector version starts in a DRAFT status. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -287,7 +287,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud De- tector. If deleteAuditHistory is True , event data is available through search for up to 30 seconds after the delete operation is completed. See also: AWS API Documentation
+    /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector. If deleteAuditHistory is True , event data is available through search for up to 30 seconds after the delete operation is completed. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -295,21 +295,6 @@ public class AwsFrauddetector : IAwsFrauddetector
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEventAsync(
         AwsFrauddetectorDeleteEventOptions options,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Deletes all events of a particular event type. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> DeleteEventsByEventTypeAsync(
-        AwsFrauddetectorDeleteEventsByEventTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -325,6 +310,21 @@ public class AwsFrauddetector : IAwsFrauddetector
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteEventTypeAsync(
         AwsFrauddetectorDeleteEventTypeOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Deletes all events of a particular event type. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> DeleteEventsByEventTypeAsync(
+        AwsFrauddetectorDeleteEventsByEventTypeOptions options,
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
@@ -377,7 +377,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, pro- vided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
+    /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -392,7 +392,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, pro- vided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
+    /// Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -437,7 +437,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detec- tor. See also: AWS API Documentation
+    /// Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -467,7 +467,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a sin- gle, specified model version. See also: AWS API Documentation
+    /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -482,7 +482,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults , this action re- trieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 1 and 50. To get the next page results, pro- vide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -497,7 +497,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this ac- tion retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJob- sResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -527,21 +527,6 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the be- ginning. See also: AWS API Documentation
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetDetectorsAsync(
-        AwsFrauddetectorGetDetectorsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetDetectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets a particular detector version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -557,7 +542,22 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the be- ginning. See also: AWS API Documentation
+    /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetDetectorsAsync(
+        AwsFrauddetectorGetDetectorsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetDetectorsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -572,7 +572,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Retrieves details of events stored with Amazon Fraud Detector. This ac- tion does not retrieve prediction results. See also: AWS API Documentation
+    /// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -617,7 +617,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults , this action re- trieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, pro- vide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the be- ginning. See also: AWS API Documentation
+    /// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -632,7 +632,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults , this actions retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the Ge- tExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults , this actions retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -662,7 +662,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all labels or a specific label if name is provided. This is a pag- inated API. If you provide a null maxResults , this action retrieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 50 records per page. If you provide a maxResults , the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -707,21 +707,6 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 1 and 10. T...
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> GetModelsAsync(
-        AwsFrauddetectorGetModelsOptions? options = null,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
-    }
-
-    /// <summary>
     /// Gets the details of the specified model version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -734,6 +719,21 @@ public class AwsFrauddetector : IAwsFrauddetector
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineToolAsync(options, executionOptions, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults , this action retrieves a maximum of 10 records per page. If you provide a maxResults , the value must be between 1 and 10. T...
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetModelsAsync(
+        AwsFrauddetectorGetModelsOptions? options = null,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineToolAsync(options ?? new AwsFrauddetectorGetModelsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -752,7 +752,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retriev- ing maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a pro- vide a pagination token from GetRulesResult as part of your ...
+    /// Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your requ...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -767,7 +767,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be be- tween 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -782,7 +782,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is re- turned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" } } This is a paginated API. If you provide a null maxResults , this action will retrieve a maximum of 10 records per page. If you provide a maxRe- sults , the value mu...
+    /// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is returned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" } } This is a paginated API. If you provide a null maxResults , this action will retrieve a maximum of 10 records per page. If you provide a maxResults , the value must b...
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -797,7 +797,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the re- sponse as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
+    /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -827,7 +827,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Creates or updates an entity type. An entity represents who is perform- ing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, mer- chant, or account. See also: AWS API Documentation
+    /// Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -842,7 +842,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authen- tication...
+    /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications....
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -857,7 +857,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, includ- ing the IAM role and/or the mapped variables. See also: AWS API Documentation
+    /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -872,7 +872,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Specifies the KMS key to be used to encrypt content in Amazon Fraud De- tector. See also: AWS API Documentation
+    /// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -917,7 +917,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Stores events in Amazon Fraud Detector without generating fraud predic- tions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
+    /// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -977,7 +977,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execu- tion mode, and description. You can only update a DRAFT detector ver- sion. See also: AWS API Documentation
+    /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1052,7 +1052,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor ver- sion of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
+    /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03. See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -1067,7 +1067,7 @@ public class AwsFrauddetector : IAwsFrauddetector
     }
 
     /// <summary>
-    /// Updates the status of a model version. You can perform the following status updates: o Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED . o Change the TRAINING_COMPLETE status to ACTIVE . o Change ACTIVE to INACTIVE . See also: AWS API Documentation
+    /// Updates the status of a model version. You can perform the following status updates: • Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED . • Change the TRAINING_COMPLETE status to ACTIVE . • Change ACTIVE to INACTIVE . See also: AWS API Documentation
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

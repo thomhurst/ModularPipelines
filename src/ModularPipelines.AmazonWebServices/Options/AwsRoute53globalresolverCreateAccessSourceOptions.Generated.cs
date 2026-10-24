@@ -11,14 +11,14 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.AmazonWebServices.Options;
-using ModularPipelines.Models;
+using ModularPipelines;
 using System.ComponentModel.DataAnnotations;
 using ModularPipelines.AmazonWebServices.Enums;
 
 namespace ModularPipelines.AmazonWebServices.Options;
 
 /// <summary>
-/// Creates an access source for a DNS view. Access sources define IP ad- dresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Am...
+/// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amaz...
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -28,11 +28,11 @@ public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions, IV
     private readonly bool _requiresAlternateInput;
 
     /// <summary>
-    /// Creates an access source for a DNS view. Access sources define IP ad- dresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Am...
+    /// Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols. WARNING: Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify --region us-east-2 on Amaz...
     /// </summary>
-    /// <param name="Cidr">The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver. Constraints: o min: 1 o max: 43</param>
-    /// <param name="DnsViewId">The ID of the DNS view to associate with this access source. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+</param>
-    /// <param name="Protocol">The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS). Possible values: o DO53 o DOH o DOT</param>
+    /// <param name="Cidr">The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver. Constraints: • min: 1 • max: 43</param>
+    /// <param name="DnsViewId">The ID of the DNS view to associate with this access source. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+</param>
+    /// <param name="Protocol">The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS). Possible values: • DO53 • DOH • DOT</param>
     public AwsRoute53globalresolverCreateAccessSourceOptions(
         string Cidr,
         string DnsViewId,
@@ -66,44 +66,44 @@ public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions, IV
                 "Required operation values may only be omitted for input or yaml-input skeletons.");
 
     /// <summary>
-    /// The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver. Constraints: o min: 1 o max: 43
+    /// The IP address or CIDR range that is allowed to send DNS queries to the Route 53 Global Resolver. Constraints: • min: 1 • max: 43
     /// </summary>
     [CliOption("--cidr")]
     public string? Cidr { get; private init; }
 
     /// <summary>
-    /// The ID of the DNS view to associate with this access source. Constraints: o min: 1 o max: 64 o pattern: [-.a-zA-Z0-9]+
+    /// The ID of the DNS view to associate with this access source. Constraints: • min: 1 • max: 64 • pattern: [-.a-zA-Z0-9]+
     /// </summary>
     [CliOption("--dns-view-id")]
     public string? DnsViewId { get; private init; }
 
     /// <summary>
-    /// The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS). Possible values: o DO53 o DOH o DOT
+    /// The DNS protocol that is permitted for this access source. Valid values are Do53 (DNS over port 53), DoT (DNS over TLS), and DoH (DNS over HTTPS). Possible values: • DO53 • DOH • DOT
     /// </summary>
     [CliOption("--protocol")]
     public AwsRoute53globalresolverCreateAccessSourceProtocol? Protocol { get; private init; }
 
     /// <summary>
-    /// A unique string that identifies the request and ensures idempotency. Constraints: o min: 1 o max: 256
+    /// A unique string that identifies the request and ensures idempotency. Constraints: • min: 1 • max: 256
     /// </summary>
     [SecretValue]
     [CliOption("--client-token")]
     public string? ClientToken { get; set; }
 
     /// <summary>
-    /// The IP address type for this access source. Valid values are IPv4 and IPv6 (if the Route 53 Global Resolver supports dual-stack). Possible values: o IPV4 o IPV6
+    /// The IP address type for this access source. Valid values are IPv4 and IPv6 (if the Route 53 Global Resolver supports dual-stack). Possible values: • IPV4 • IPV6
     /// </summary>
     [CliOption("--ip-address-type")]
     public AwsRoute53globalresolverCreateAccessSourceIpAddressType? IpAddressType { get; set; }
 
     /// <summary>
-    /// A descriptive name for the access source. Constraints: o min: 1 o max: 32 o pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
+    /// A descriptive name for the access source. Constraints: • min: 1 • max: 32 • pattern: (?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)
     /// </summary>
     [CliOption("--name")]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Tags to associate with the access source. Constraints: o min: 0 o max: 50 key -&gt; (string) Constraints: o min: 1 o max: 128 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: o min: 0 o max: 256 o pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
+    /// Tags to associate with the access source. Constraints: • min: 0 • max: 50 key -&gt; (string) Constraints: • min: 1 • max: 128 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) value -&gt; (string) Constraints: • min: 0 • max: 256 • pattern: ([\p{L}\p{Z}\p{N}_.:/=+\-@]*) Shorthand Syntax: KeyName1=string,KeyName2=string JSON Syntax: {"string": "string" ...}
     /// </summary>
     [CliOption("--tags", CollectionSeparator = ",")]
     public IReadOnlyList<KeyValue>? Tags { get; set; }
@@ -129,6 +129,15 @@ public record AwsRoute53globalresolverCreateAccessSourceOptions : AwsOptions, IV
         }
 
         yield break;
+    }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
     }
 
 }

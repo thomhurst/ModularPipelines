@@ -23,19 +23,19 @@ namespace ModularPipelines.AmazonWebServices.Options;
 public record AwsLexv2ModelsListTestExecutionsOptions : AwsOptions
 {
     /// <summary>
-    /// The sort order of the test set executions. attribute -&gt; (string) [required] Specifies whether to sort the test set executions by the date and time at which the test sets were created. Possible values: o TestSetName o CreationDateTime order -&gt; (string) [required] Specifies whether to sort in ascending or descending order. Possible values: o Ascending o Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "TestSetName"|"CreationDateTime", "order": "Ascending"|"Descending" }
+    /// The sort order of the test set executions. attribute -&gt; (string) [required] Specifies whether to sort the test set executions by the date and time at which the test sets were created. Possible values: • TestSetName • CreationDateTime order -&gt; (string) [required] Specifies whether to sort in ascending or descending order. Possible values: • Ascending • Descending Shorthand Syntax: attribute=string,order=string JSON Syntax: { "attribute": "TestSetName"|"CreationDateTime", "order": "Ascending"|"Descending" }
     /// </summary>
     [CliOption("--sort-by")]
     public string? SortBy { get; set; }
 
     /// <summary>
-    /// The maximum number of test executions to return in each page. If there are fewer results than the max page size, only the actual num- ber of results are returned. Constraints: o min: 1 o max: 1000
+    /// The maximum number of test executions to return in each page. If there are fewer results than the max page size, only the actual number of results are returned. Constraints: • min: 1 • max: 1000
     /// </summary>
     [CliOption("--max-results")]
     public int? MaxResults { get; set; }
 
     /// <summary>
-    /// If the response from the ListTestExecutions operation contains more results than specified in the maxResults parameter, a token is re- turned in the response. Use that token in the nextToken parameter to return the next page of results.
+    /// If the response from the ListTestExecutions operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
     /// </summary>
     [SecretValue]
     [CliOption("--next-token")]
@@ -46,5 +46,14 @@ public record AwsLexv2ModelsListTestExecutionsOptions : AwsOptions
 
     [CliOption("--generate-cli-skeleton")]
     public string? GenerateCliSkeleton { get; set; }
+
+    /// <summary>Appends diagnostic members without exposing command option values.</summary>
+    /// <param name="builder">The builder receiving the record members.</param>
+    /// <returns>True because a redaction marker was appended.</returns>
+    protected override bool PrintMembers(global::System.Text.StringBuilder builder)
+    {
+        builder.Append("Options = <redacted>");
+        return true;
+    }
 
 }
