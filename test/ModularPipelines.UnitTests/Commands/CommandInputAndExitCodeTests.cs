@@ -9,7 +9,6 @@ using ModularPipelines.ProcessTestHost;
 using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
-using NReco.Logging.File;
 
 namespace ModularPipelines.UnitTests.Commands;
 
@@ -18,12 +17,12 @@ public class CommandInputAndExitCodeTests : TestBase
     [Test]
     public async Task Startup_Failure_Is_Not_Logged_As_An_Accepted_Negative_Exit_Code()
     {
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
         var executable = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N"));
         var (command, pipeline) = await GetService<ICommandContext>(services =>
         {
             services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-            services.AddLogging(builder => builder.AddFile(file));
+            services.AddLogging(builder => builder.AddProvider(new RecordingLoggerProvider(messages)));
         });
 
         await Assert.ThrowsAsync<ToolNotFoundException>(() => command.ExecuteCommandLineToolAsync(
@@ -31,7 +30,7 @@ public class CommandInputAndExitCodeTests : TestBase
             new CommandExecutionOptions { SuccessExitCodes = [-1] }));
 
         await pipeline.DisposeAsync();
-        var log = await File.ReadAllTextAsync(file);
+        var log = string.Join(Environment.NewLine, messages);
         await Assert.That(log).Contains($"✗ {executable}");
         await Assert.That(log).DoesNotContain($"✓ {executable}");
     }
@@ -65,11 +64,11 @@ public class CommandInputAndExitCodeTests : TestBase
     {
         const string secret = "embedded-stdin-password";
         var input = new string('x', 64 * 1024) + "\n" + secret + "\n";
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
         var (command, pipeline) = await GetService<ICommandContext>(services =>
         {
             services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-            services.AddLogging(builder => builder.AddFile(file));
+            services.AddLogging(builder => builder.AddProvider(new RecordingLoggerProvider(messages)));
         });
         pipeline.Services.GetRequiredService<ISecretRegistry>().AddSecret(secret);
         var secrets = pipeline.Services.GetRequiredService<ISecretProvider>();
@@ -83,7 +82,7 @@ public class CommandInputAndExitCodeTests : TestBase
         await Assert.That(result.StandardOutput).IsEqualTo(input);
         await Assert.That(secrets.GetSnapshot().Secrets).IsEquivalentTo(registeredSecrets);
         await pipeline.DisposeAsync();
-        var log = await File.ReadAllTextAsync(file);
+        var log = string.Join(Environment.NewLine, messages);
         await Assert.That(log).DoesNotContain(secret);
         await Assert.That(log).Contains("********");
     }
@@ -175,11 +174,11 @@ public class CommandInputAndExitCodeTests : TestBase
     public async Task Secret_Input_Is_Masked_In_Logs_And_Failure_Diagnostics(int exitCode, bool rewriteOptions)
     {
         const string secret = "stdin-password-secret";
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
         var (command, pipeline) = await GetService<ICommandContext>(services =>
         {
             services.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-            services.AddLogging(builder => builder.AddFile(file));
+            services.AddLogging(builder => builder.AddProvider(new RecordingLoggerProvider(messages)));
             if (rewriteOptions)
             {
                 services.AddSingleton<ICommandInterceptor>(new StandardInputInterceptor(secret + "\n", isSecret: true));
@@ -195,6 +194,7 @@ public class CommandInputAndExitCodeTests : TestBase
         {
             var result = await command.ExecuteCommandLineToolAsync(tool, options);
             await Assert.That(result.StandardOutput).IsEqualTo(secret + "\n");
+            await Assert.That(result.StandardError).IsEqualTo(secret + "\n");
             await Assert.That(result.CommandInput).DoesNotContain(secret);
         }
         else
@@ -203,12 +203,15 @@ public class CommandInputAndExitCodeTests : TestBase
             await Assert.That(exception!.ToString()).DoesNotContain(secret);
             await Assert.That(exception.Result.StandardOutput).DoesNotContain(secret);
             await Assert.That(exception.Result.StandardError).DoesNotContain(secret);
+            await Assert.That(exception.Result.StandardOutput).Contains("********");
+            await Assert.That(exception.Result.StandardError).Contains("********");
         }
 
         await pipeline.DisposeAsync();
-        var log = await File.ReadAllTextAsync(file);
+        var log = string.Join(Environment.NewLine, messages);
         await Assert.That(log).DoesNotContain(secret);
-        await Assert.That(log).Contains("********");
+        // stdin-echo writes the secret to both streams, so both must reach the logger masked.
+        await Assert.That(messages.Count(message => message.Contains("********", StringComparison.Ordinal))).IsEqualTo(2);
     }
 
     [Test]
@@ -326,6 +329,32 @@ public class CommandInputAndExitCodeTests : TestBase
 
         var activity = activities.Single(activity => Equals(activity.GetTagItem(ModuleActivityTracing.CommandExitCodeTag), result.ExitCode));
         await Assert.That(activity.Status).IsEqualTo(ActivityStatusCode.Unset);
+    }
+
+    // Record at the synchronous logger boundary: the file provider's bounded disposal
+    // wait can return before queued entries reach disk under full-suite concurrency.
+    private sealed class RecordingLoggerProvider(ConcurrentQueue<string> messages) : ILoggerProvider, ILogger
+    {
+        public ILogger CreateLogger(string categoryName) => this;
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            messages.Enqueue(formatter(state, exception));
+        }
+
+        public void Dispose()
+        {
+        }
     }
 
     private sealed class SuccessCodesInterceptor : ICommandInterceptor
