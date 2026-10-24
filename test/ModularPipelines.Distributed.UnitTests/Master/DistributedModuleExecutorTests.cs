@@ -491,6 +491,7 @@ public class DistributedModuleExecutorTests
         return scheduler;
     }
 
+    // Host shutdown is independent of the execution and test-deadline cancellation tokens.
     private static DistributedModuleExecutor CreateExecutor(
         Mock<IModuleScheduler> scheduler,
         Mock<IModuleRunner>? moduleRunner = null,
@@ -508,9 +509,9 @@ public class DistributedModuleExecutorTests
         PipelineOptions? pipelineOptions = null,
         IParallelLimitProvider? parallelLimitProvider = null,
         IEnumerable<IModule>? registeredModules = null,
-        CancellationToken applicationStopping = default,
         IMetricsCollector? metricsCollector = null,
-        IFileSystemProvider? fileSystemProvider = null)
+        IFileSystemProvider? fileSystemProvider = null,
+        CancellationToken applicationStopping = default)
     {
         var lifetime = new Mock<IHostApplicationLifetime>();
         lifetime.Setup(l => l.ApplicationStopping).Returns(applicationStopping);
@@ -613,7 +614,8 @@ public class DistributedModuleExecutorTests
             coordinator: coordinator.Object,
             resultCollector: new DistributedResultCollector(coordinator.Object, serializer),
             cacheResultRepository: fromCache ? cache.Object : null,
-            fileSystemProvider: provider);
+            fileSystemProvider: provider,
+            applicationStopping: CancellationToken.None);
 
         await executor.ExecuteAsync([module], new Dictionary<Type, TimeSpan>(),
             new ExecutionBackendContext(new ModuleResultRegistry()), cancellationToken);
@@ -808,7 +810,7 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync(CreateSuccessResult(new SimpleResult { Message = "cached value" }, nameof(CachedDistributedModule)));
         var coordinator = new InMemoryDistributedCoordinator();
         var tracking = new ResultTrackingCoordinator(coordinator);
-        var executor = CreateExecutor(scheduler, coordinator: tracking, cacheResultRepository: cache.Object);
+        var executor = CreateExecutor(scheduler, coordinator: tracking, cacheResultRepository: cache.Object, applicationStopping: CancellationToken.None);
         var types = new ModuleTypeRegistry();
         types.Register(cached.GetType());
         types.Register(dependent.GetType());
@@ -831,7 +833,8 @@ public class DistributedModuleExecutorTests
                 DependencyResultApplicator.BuildModuleLookup([workerCached, new CachedDependentModule()]),
                 serializer,
                 workerRegistry,
-                NullLogger.Instance).WaitAsync(testCancellation);
+                NullLogger.Instance,
+                cancellationToken: testCancellation).WaitAsync(testCancellation);
             var restored = await ((IInternalModule) workerCached).ResultTask.WaitAsync(testCancellation);
             await Assert.That(restored.Status).IsEqualTo(ModuleStatus.RestoredFromCache);
             await Assert.That(((SimpleResult) restored.ValueOrDefault!).Message).IsEqualTo("cached value");
@@ -1478,7 +1481,8 @@ public class DistributedModuleExecutorTests
             scheduler,
             resultRegistry: resultRegistry,
             coordinator: coordinator.Object,
-            resultCollector: resultCollector);
+            resultCollector: resultCollector,
+            applicationStopping: CancellationToken.None);
 
         await Assert.That(async () => await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation)).Throws<InvalidOperationException>();
@@ -1515,7 +1519,8 @@ public class DistributedModuleExecutorTests
             resultRegistry: resultRegistry,
             coordinator: coordinator,
             distributedOptions: options,
-            pipelineOptions: new PipelineOptions { DefaultModuleTimeout = Timeout.InfiniteTimeSpan });
+            pipelineOptions: new PipelineOptions { DefaultModuleTimeout = Timeout.InfiniteTimeSpan },
+            applicationStopping: CancellationToken.None);
 
         var execution = executor.ExecuteAsync(
             [module],
@@ -1564,7 +1569,8 @@ public class DistributedModuleExecutorTests
             resultRegistry: resultRegistry,
             coordinator: coordinator,
             distributedOptions: options,
-            pipelineOptions: new PipelineOptions { DefaultRetryCount = 2 });
+            pipelineOptions: new PipelineOptions { DefaultRetryCount = 2 },
+            applicationStopping: CancellationToken.None);
 
         var execution = executor.ExecuteAsync([module]);
         await coordinator.WaitForResultStartedAsync(typeof(ShortTimeoutDistributedModule)).WaitAsync(testCancellation);
@@ -1680,7 +1686,8 @@ public class DistributedModuleExecutorTests
             scheduler,
             resultRegistry: resultRegistry,
             coordinator: coordinator,
-            distributedOptions: options);
+            distributedOptions: options,
+            applicationStopping: CancellationToken.None);
 
         var execution = executor.ExecuteAsync([module]);
         await coordinator.WaitForResultStartedAsync(typeof(GpuOnlyModule)).WaitAsync(testCancellation);
@@ -1796,7 +1803,8 @@ public class DistributedModuleExecutorTests
             scheduler,
             resultRegistry: resultRegistry,
             coordinator: coordinator,
-            distributedOptions: options);
+            distributedOptions: options,
+            applicationStopping: CancellationToken.None);
 
         var execution = executor.ExecuteAsync([module]);
 
@@ -1895,7 +1903,8 @@ public class DistributedModuleExecutorTests
                 await Assert.That(serializer.Deserialize(published)?.Status).IsEqualTo(ModuleStatus.Canceled);
             });
         var executor = CreateExecutor(scheduler, coordinator: tracking, conditionHandler: conditions.Object,
-            alwaysRunHandler: alwaysRun.Object);
+            alwaysRunHandler: alwaysRun.Object,
+            applicationStopping: CancellationToken.None);
 
         await executor.ExecuteAsync([failed, pending]).WaitAsync(testCancellation);
 
@@ -1943,7 +1952,8 @@ public class DistributedModuleExecutorTests
             {
                 WorkerHeartbeatInterval = TimeSpan.FromMilliseconds(10),
                 WorkerTimeout = TimeSpan.FromMilliseconds(200),
-            });
+            },
+            applicationStopping: CancellationToken.None);
         using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
         var execution = executor.ExecuteAsync([pending, cleanup], new Dictionary<Type, TimeSpan>(),
             new ExecutionBackendContext(new ModuleResultRegistry()), cancellation.Token);
@@ -1990,7 +2000,8 @@ public class DistributedModuleExecutorTests
             })
             .Returns(cleanup.Task);
         var executor = CreateExecutor(scheduler, coordinator: coordinator.Object,
-            alwaysRunHandler: alwaysRunHandler.Object);
+            alwaysRunHandler: alwaysRunHandler.Object,
+            applicationStopping: CancellationToken.None);
         using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
         await cancellation.CancelAsync();
         try
@@ -2026,7 +2037,7 @@ public class DistributedModuleExecutorTests
         coordinator.Setup(instance => instance.PublishResultAsync(
                 It.IsAny<SerializedModuleResult>(), null, It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("Broker unavailable"));
-        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object, cacheResultRepository: cache.Object);
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object, cacheResultRepository: cache.Object, applicationStopping: CancellationToken.None);
 
         await Assert.That(async () => await executor.ExecuteAsync([module]).WaitAsync(testCancellation))
             .Throws<InvalidOperationException>();
@@ -2060,7 +2071,7 @@ public class DistributedModuleExecutorTests
                     await releasePublication.Task.WaitAsync(testCancellation);
                 }
             });
-        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object, conditionHandler: conditions.Object);
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object, conditionHandler: conditions.Object, applicationStopping: CancellationToken.None);
         var execution = executor.ExecuteAsync([failed, pending]);
         try
         {
@@ -2638,6 +2649,8 @@ public class DistributedModuleExecutorTests
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
+            // Moq inspects this expression to assert no matching log call; it does not emit a log.
+#pragma warning disable CA1873 // Argument matchers must be evaluated regardless of whether logging is enabled.
             executorLogger.Verify(
                 logger => logger.Log(
                     It.IsAny<LogLevel>(),
@@ -2646,6 +2659,7 @@ public class DistributedModuleExecutorTests
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Never);
+#pragma warning restore CA1873
         }
         finally
         {
@@ -2913,7 +2927,8 @@ public class DistributedModuleExecutorTests
                 TotalInstances = 2,
                 MinimumWorkerCount = 1,
                 WorkerRegistrationTimeout = TestHostSettings.DefaultTestTimeout,
-            });
+            },
+            applicationStopping: CancellationToken.None);
         var execution = executor.ExecuteAsync(
             [new DistributedModule()],
             new Dictionary<Type, TimeSpan>(),
@@ -2966,7 +2981,8 @@ public class DistributedModuleExecutorTests
             CreateMockScheduler(new ModuleState(module, typeof(DistributedModule))),
             resultRegistry: resultRegistry,
             coordinator: coordinator.Object,
-            conditionHandler: conditionHandler.Object);
+            conditionHandler: conditionHandler.Object,
+            applicationStopping: CancellationToken.None);
         using var executionCancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
 
         var execution = executor.ExecuteAsync(
@@ -3060,7 +3076,8 @@ public class DistributedModuleExecutorTests
             moduleRunner,
             resultRegistry,
             coordinator.Object,
-            alwaysRunHandler: alwaysRunHandler.Object);
+            alwaysRunHandler: alwaysRunHandler.Object,
+            applicationStopping: CancellationToken.None);
         using var executionCancellation = CancellationTokenSource.CreateLinkedTokenSource(testCancellation);
 
         var execution = executor.ExecuteAsync(
@@ -3557,7 +3574,8 @@ public class DistributedModuleExecutorTests
             scheduler,
             resultRegistry: resultRegistry,
             coordinator: coordinator.Object,
-            distributedOptions: new DistributedOptions { ModuleResultTimeout = TimeSpan.FromMilliseconds(200) });
+            distributedOptions: new DistributedOptions { ModuleResultTimeout = TimeSpan.FromMilliseconds(200) },
+            applicationStopping: CancellationToken.None);
 
         await executor.ExecuteAsync([module])
             .WaitAsync(TimeSpan.FromSeconds(3), testCancellation);
@@ -3872,7 +3890,7 @@ public class DistributedModuleExecutorTests
         var resultCollector = new DistributedResultCollector(coordinator.Object, serializer);
 
         var lifetime = new Mock<IHostApplicationLifetime>();
-        lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
+        lifetime.Setup(l => l.ApplicationStopping).Returns(cancellationToken);
         var factory = new Mock<IModuleSchedulerFactory>();
         factory.Setup(f => f.Create()).Returns(scheduler.Object);
         var regEventExecutor = new Mock<IRegistrationEventExecutor>();
