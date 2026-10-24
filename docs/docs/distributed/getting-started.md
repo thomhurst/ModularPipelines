@@ -121,8 +121,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Distributed;
 using ModularPipelines.Distributed.Redis;
-using ModularPipelines.Extensions;
-using ModularPipelines.Modules;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = Pipeline.CreateBuilder(args);

@@ -53,7 +53,8 @@ Modules are strongly typed, so we can return clear, concrete objects, and other 
 var myModule = await context.GetModule<MyFirstModule>();
 
 // Access a required dependency value directly.
-// This throws with module context if it failed, was skipped, or returned null.
+// This throws with module context if it failed or was skipped.
+// A successful result returns its value, including null for nullable module types.
 var requiredValue = myModule.Value;
 var firstString = requiredValue.MyFirstString;
 var secondString = requiredValue.MySecondString;

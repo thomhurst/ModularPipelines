@@ -28,13 +28,16 @@ Then declare every file input that can affect a module:
 [ProducesArtifact("application", "artifacts/publish/**/*")]
 public sealed class BuildModule : Module<BuildOutput>
 {
-    protected override Task<BuildOutput?> ExecuteAsync(
+    protected override Task<BuildOutput> ExecuteAsync(
         IModuleContext context,
         CancellationToken cancellationToken)
     {
-        // Build the application.
+        // Build the application here, then return its output location.
+        return Task.FromResult(new BuildOutput("artifacts/publish"));
     }
 }
+
+public sealed record BuildOutput(string OutputPath);
 ```
 
 Patterns are relative to `ModuleCacheOptions.WorkingDirectory`. They support `*`, `?`, and recursive `**` wildcards.

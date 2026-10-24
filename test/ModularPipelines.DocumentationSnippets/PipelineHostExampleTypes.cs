@@ -1,5 +1,4 @@
 using ModularPipelines.Context;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.DocumentationSnippets.PipelineHostExample;
 

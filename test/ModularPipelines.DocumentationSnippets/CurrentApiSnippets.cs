@@ -6,8 +6,6 @@ using ModularPipelines;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Enums;
-using ModularPipelines.Extensions;
-using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
 
