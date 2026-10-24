@@ -83,6 +83,7 @@
     <Project Path="test/ModularPipelines.Buildah.UnitTests/ModularPipelines.Buildah.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Chocolatey.UnitTests/ModularPipelines.Chocolatey.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj" />
+    <Project Path="test/ModularPipelines.Consumer.UnitTests/ModularPipelines.Consumer.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Cosign.UnitTests/ModularPipelines.Cosign.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Development.Analyzers.UnitTests/ModularPipelines.Development.Analyzers.UnitTests.csproj" />
     <Project Path="test/ModularPipelines.Distributed.Artifacts.S3.UnitTests/ModularPipelines.Distributed.Artifacts.S3.UnitTests.csproj" />

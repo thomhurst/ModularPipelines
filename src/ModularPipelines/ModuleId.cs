@@ -77,14 +77,22 @@ internal sealed class ModuleIdTypeConverter : TypeConverter
             : base.ConvertFrom(context, culture, value);
 }
 
-internal sealed class ModuleIdJsonConverter : JsonConverter<ModuleId>
+/// <summary>
+/// Converts module identifiers to JSON strings and dictionary property names.
+/// </summary>
+/// <remarks>
+/// Public so JSON source generation in consumer assemblies can instantiate the converter.
+/// </remarks>
+public sealed class ModuleIdJsonConverter : JsonConverter<ModuleId>
 {
+    /// <inheritdoc />
     public override ModuleId ReadAsPropertyName(
         ref Utf8JsonReader reader,
         Type typeToConvert,
         JsonSerializerOptions options) =>
         ReadValue(reader.GetString());
 
+    /// <inheritdoc />
     public override ModuleId Read(
         ref Utf8JsonReader reader,
         Type typeToConvert,
@@ -98,6 +106,7 @@ internal sealed class ModuleIdJsonConverter : JsonConverter<ModuleId>
             ? throw new JsonException("A module identifier cannot be empty.")
             : new ModuleId(value);
 
+    /// <inheritdoc />
     public override void Write(
         Utf8JsonWriter writer,
         ModuleId value,
@@ -111,6 +120,7 @@ internal sealed class ModuleIdJsonConverter : JsonConverter<ModuleId>
         writer.WriteStringValue(value.Value);
     }
 
+    /// <inheritdoc />
     public override void WriteAsPropertyName(
         Utf8JsonWriter writer,
         ModuleId value,

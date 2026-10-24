@@ -11,6 +11,7 @@ $removedPackages = [Collections.Generic.List[string]]::new()
 if (-not $IsGeneratedIntegration) {
     # These projects are already covered by core/analyzer validation and use different layouts.
     $corePackages = @('ModularPipelines.Build', 'ModularPipelines.Cmd',
+        'ModularPipelines.Consumer',
         'ModularPipelines.SourceGenerator', 'ModularPipelines.Analyzers',
         'ModularPipelines.Development.Analyzers', 'ModularPipelines.Distributed')
     $packages = @($ChangedPath | ForEach-Object {

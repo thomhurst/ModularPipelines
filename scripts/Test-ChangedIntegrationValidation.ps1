@@ -58,6 +58,9 @@ Assert-IntegrationRoute 'multiple packages' @($google, 'src/ModularPipelines.Dot
 Assert-IntegrationRoute 'source and test deduplication' @($google, 'test/ModularPipelines.Google.UnitTests/ChangedTests.cs') @('ModularPipelines.Google')
 Assert-IntegrationRoute 'core and integration' @($google, 'src/ModularPipelines/Context/Http.cs') @('ModularPipelines.Google') -ExpectedFull $true
 Assert-IntegrationRoute 'distributed core tests' @('test/ModularPipelines.Distributed.UnitTests/ChangedTests.cs') @() -ExpectedFull $true
+Assert-IntegrationRoute 'consumer core tests' @('test/ModularPipelines.Consumer.UnitTests/ModuleIdJsonTests.cs') @() -ExpectedFull $true
+Assert-IntegrationRoute 'consumer core tests Windows separators' @('test\ModularPipelines.Consumer.UnitTests\ModuleIdJsonTests.cs') @() -ExpectedFull $true
+Assert-IntegrationRoute 'consumer tests and integration' @($google, 'test/ModularPipelines.Consumer.UnitTests/ModuleIdJsonTests.cs') @('ModularPipelines.Google') -ExpectedFull $true
 Assert-IntegrationRoute 'core-only' @('src/ModularPipelines/Context/Http.cs') @() -ExpectedFull $true
 Assert-IntegrationRoute 'removed package without project consumers' @('src/ModularPipelines.Removed/Deleted.cs') @() -ExpectedFull $true
 Assert-IntegrationRoute 'docs-only' @('docs/docs/mp-packages/cli/gcloud.md') @()

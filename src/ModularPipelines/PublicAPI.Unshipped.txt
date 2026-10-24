@@ -3973,3 +3973,9 @@ ModularPipelines.PipelinePlanModule.ModuleId.get -> ModularPipelines.ModuleId
 ModularPipelines.PipelinePlanModule.TypeName.get -> string!
 ModularPipelines.Reporting.ModuleTimeline.ModuleId.get -> ModularPipelines.ModuleId
 ModularPipelines.Reporting.ModuleTimeline.ModuleId.init -> void
+ModularPipelines.ModuleIdJsonConverter
+ModularPipelines.ModuleIdJsonConverter.ModuleIdJsonConverter() -> void
+override ModularPipelines.ModuleIdJsonConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> ModularPipelines.ModuleId
+override ModularPipelines.ModuleIdJsonConverter.ReadAsPropertyName(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> ModularPipelines.ModuleId
+override ModularPipelines.ModuleIdJsonConverter.Write(System.Text.Json.Utf8JsonWriter! writer, ModularPipelines.ModuleId value, System.Text.Json.JsonSerializerOptions! options) -> void
+override ModularPipelines.ModuleIdJsonConverter.WriteAsPropertyName(System.Text.Json.Utf8JsonWriter! writer, ModularPipelines.ModuleId value, System.Text.Json.JsonSerializerOptions! options) -> void
