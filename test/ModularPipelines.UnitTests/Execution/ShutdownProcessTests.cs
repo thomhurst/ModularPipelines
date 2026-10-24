@@ -5,6 +5,7 @@ using ModularPipelines.UnitTests.Helpers;
 
 namespace ModularPipelines.UnitTests.Execution;
 
+[TUnit.Core.ParallelGroup(nameof(ProcessFixtureParallelLimit))]
 [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class ShutdownProcessTests
 {

@@ -20,6 +20,7 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
+[TUnit.Core.ParallelGroup(nameof(ProcessFixtureParallelLimit))]
 [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class CommandTests : TestBase
 {
@@ -1140,7 +1141,10 @@ public class CommandTests : TestBase
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "parent-exit", TimeSpan.FromMilliseconds(50));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(10));
+        var parent = await fixture.WaitForProcessAsync("parent", TimeSpan.FromSeconds(5));
         await fixture.TriggerAsync("parent-exit");
+        // Separate parent scheduling/exit from the bounded drain of the descendant's pipes.
+        await parent.WaitForExitAsync(cancellationToken).WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
 
         var result = await fixture.Execution.WaitAsync(TimeSpan.FromSeconds(5), cancellationToken);
 
