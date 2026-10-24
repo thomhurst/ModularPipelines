@@ -1,4 +1,5 @@
 using ModularPipelines.Secrets;
+using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -84,22 +85,24 @@ public class ModuleLoggerTests
     [Arguments(typeof(Module3))]
     public async Task Can_Obfuscate_Secret(Type moduleType)
     {
-        var file = FilePath.GetNewTemporaryFilePath();
+        using var loggingProvider = new RecordingLoggerProvider();
 
         var pipelineBuilder = TestPipelineBuilder.Create();
         pipelineBuilder.Services.Configure<MySecrets>(pipelineBuilder.Configuration);
-        pipelineBuilder.Services.AddLogging(builder => { builder.AddFile(file); });
+        pipelineBuilder.Logging.AddProvider(loggingProvider);
         pipelineBuilder.Services.AddSingleton(typeof(IModule), moduleType);
         pipelineBuilder.Logging.SetMinimumLevel(LogLevel.Information);
 
-        var host = await pipelineBuilder.BuildAsync();
+        await using (var host = await pipelineBuilder.BuildAsync())
+        {
+            await host.RunAsync();
+        }
 
-        await host.RunAsync();
-
-        await host.DisposeAsync();
-
-        await Assert.That(await file.ReadAsync()).DoesNotContain("Secret Value!!!");
-        await Assert.That(await file.ReadAsync()).Contains("**********");
+        // Record provider calls synchronously: the file provider's bounded disposal
+        // wait does not guarantee that its background queue has drained under load.
+        var output = string.Join(Environment.NewLine, loggingProvider.Messages);
+        await Assert.That(output).DoesNotContain("Secret Value!!!");
+        await Assert.That(output).Contains("**********");
     }
 
     [Test]
@@ -613,6 +616,32 @@ public class ModuleLoggerTests
     }
 
     private readonly record struct TestLogState(string Value);
+
+    private sealed class RecordingLoggerProvider : ILoggerProvider, ILogger
+    {
+        public ConcurrentQueue<string> Messages { get; } = new();
+
+        public ILogger CreateLogger(string categoryName) => this;
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            Messages.Enqueue(formatter(state, exception));
+        }
+
+        public void Dispose()
+        {
+        }
+    }
 
     private sealed class CaptureLogger : ILogger
     {
