@@ -256,8 +256,10 @@ internal sealed class DistributedAssignmentExecutor(
         try
         {
             var resultTask = module.AsInternal().ResultTask;
-            // A transport failure cannot replace an outcome already accepted by the module.
-            var terminalResult = resultTask.IsCompletedSuccessfully
+            // Artifact failures can replace a completed local result only in the registry.
+            // A transport failure must retain that replacement when publication is retried.
+            var registeredResult = resultRegistry.GetResult(module.GetType());
+            var terminalResult = registeredResult ?? (resultTask.IsCompletedSuccessfully
                 ? resultTask.Result
                 : ModuleResultFactory.CreateException(
                     resultType,
@@ -266,10 +268,15 @@ internal sealed class DistributedAssignmentExecutor(
                     {
                         Status = exception is OperationCanceledException ? ModuleStatus.Canceled : ModuleStatus.Failed,
                         Exception = exception,
-                    });
+                    }));
 
             // Record the failure locally too, so this process's summary reports the module.
-            new ExecutionBackendContext(resultRegistry).TryApplyResult(module, terminalResult);
+            // Applying a registered replacement would re-register the immutable original result.
+            if (registeredResult is null)
+            {
+                new ExecutionBackendContext(resultRegistry).TryApplyResult(module, terminalResult);
+            }
+
             SerializedModuleResult serialized;
             try
             {
