@@ -77,7 +77,7 @@ internal static class TimeoutHelper
     /// <param name="timeout">The timeout duration, or null/zero to disable timeout.</param>
     /// <param name="cancellationToken">Cancellation token for external cancellation.</param>
     /// <param name="cancellationGracePeriod">Maximum wait for task completion after external cancellation.</param>
-    /// <param name="timeProvider">Clock used to schedule the attempt deadline. Defaults to the system clock.</param>
+    /// <param name="timeProvider">Clock used to schedule the attempt deadline and cancellation grace periods. Defaults to the system clock.</param>
     /// <returns>A result containing execution details including timeout status and token cooperation.</returns>
     public static async Task<TimeoutExecutionResult<T>> ExecuteWithTimeoutAndDetailsAsync<T>(
         Func<CancellationToken, Task<T>> taskFactory,
@@ -86,18 +86,19 @@ internal static class TimeoutHelper
         TimeSpan cancellationGracePeriod = default,
         TimeProvider? timeProvider = null)
     {
+        timeProvider ??= TimeProvider.System;
         var stopwatch = Stopwatch.StartNew();
 
         // Fast path: no timeout specified
         if (!timeout.HasValue || timeout.Value == TimeSpan.Zero)
         {
-            return await ExecuteWithoutTimeoutAsync(taskFactory, stopwatch, cancellationGracePeriod, cancellationToken)
+            return await ExecuteWithoutTimeoutAsync(taskFactory, stopwatch, cancellationGracePeriod, cancellationToken, timeProvider)
                 .ConfigureAwait(false);
         }
 
         // Keep the attempt token separate so signal ordering is recorded before
         // cancellation is propagated to the executing task.
-        using var deadlineCts = new CancellationTokenSource(timeout.Value, timeProvider ?? TimeProvider.System);
+        using var deadlineCts = new CancellationTokenSource(timeout.Value, timeProvider);
         using var attemptCts = new CancellationTokenSource();
 
         var cancellationSignals = new CancellationSignals<T>(attemptCts);
@@ -125,14 +126,14 @@ internal static class TimeoutHelper
         if (externalCancellationState.Signal.Task.IsCompletedSuccessfully
             && !await externalCancellationState.Signal.Task.ConfigureAwait(false))
         {
-            await DidTaskRespondDuringGracePeriodAsync(executionTask, cancellationGracePeriod, CancellationToken.None).ConfigureAwait(false);
+            await DidTaskRespondDuringGracePeriodAsync(executionTask, cancellationGracePeriod, CancellationToken.None, timeProvider).ConfigureAwait(false);
             throw new OperationCanceledException(cancellationToken);
         }
 
         if (deadlineState.Signal.Task.IsCompletedSuccessfully
             && !await deadlineState.Signal.Task.ConfigureAwait(false))
         {
-            return await CreateTimeoutResultAsync(executionTask, stopwatch, cancellationGracePeriod, cancellationToken)
+            return await CreateTimeoutResultAsync(executionTask, stopwatch, cancellationGracePeriod, cancellationToken, timeProvider)
                 .ConfigureAwait(false);
         }
 
@@ -144,7 +145,8 @@ internal static class TimeoutHelper
         Func<CancellationToken, Task<T>> taskFactory,
         Stopwatch stopwatch,
         TimeSpan cancellationGracePeriod,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        TimeProvider timeProvider)
     {
         var task = taskFactory(cancellationToken);
 
@@ -163,7 +165,7 @@ internal static class TimeoutHelper
         var winner = await Task.WhenAny(task, cancellationTaskSource.Task).ConfigureAwait(false);
         if (winner != task)
         {
-            await DidTaskRespondDuringGracePeriodAsync(task, cancellationGracePeriod, CancellationToken.None).ConfigureAwait(false);
+            await DidTaskRespondDuringGracePeriodAsync(task, cancellationGracePeriod, CancellationToken.None, timeProvider).ConfigureAwait(false);
             throw new OperationCanceledException(cancellationToken);
         }
 
@@ -175,14 +177,15 @@ internal static class TimeoutHelper
         Task<T> executionTask,
         Stopwatch stopwatch,
         TimeSpan cancellationGracePeriod,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        TimeProvider timeProvider)
     {
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             var taskRespondedDuringGrace = await DidTaskRespondDuringGracePeriodAsync(
-                    executionTask, GracePeriod, cancellationToken)
+                    executionTask, GracePeriod, cancellationToken, timeProvider)
                 .ConfigureAwait(false);
             var elapsedTime = stopwatch.Elapsed;
 
@@ -193,7 +196,7 @@ internal static class TimeoutHelper
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             // Pipeline cancellation during the deadline grace period gets its own cleanup budget.
-            await DidTaskRespondDuringGracePeriodAsync(executionTask, cancellationGracePeriod, CancellationToken.None).ConfigureAwait(false);
+            await DidTaskRespondDuringGracePeriodAsync(executionTask, cancellationGracePeriod, CancellationToken.None, timeProvider).ConfigureAwait(false);
             throw new OperationCanceledException(cancellationToken);
         }
     }
@@ -201,11 +204,12 @@ internal static class TimeoutHelper
     private static async Task<bool> DidTaskRespondDuringGracePeriodAsync(
         Task executionTask,
         TimeSpan gracePeriod,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        TimeProvider timeProvider)
     {
         try
         {
-            await executionTask.WaitAsync(gracePeriod, cancellationToken).ConfigureAwait(false);
+            await executionTask.WaitAsync(gracePeriod, timeProvider, cancellationToken).ConfigureAwait(false);
             return true;
         }
         catch (TimeoutException)
