@@ -58,6 +58,10 @@ public class DistributedBuildConfigurationTests
         await Assert.That(distributed.Capabilities.Contains(new Capability("ci-master"))).IsEqualTo(index == "0");
         await Assert.That(distributed.ModuleResultTimeout < TimeSpan.FromMinutes(90)).IsTrue();
         await Assert.That(redis.TimeToLive > distributed.ModuleResultTimeout).IsTrue();
+        // Independently scheduled runners may spend more than five minutes waiting for the master.
+        // Bound startup while leaving execution time inside the workflow's 90-minute job budget.
+        await Assert.That(redis.MasterStartTimeout).IsEqualTo(TimeSpan.FromMinutes(30));
+        await Assert.That(redis.MasterStartTimeout < TimeSpan.FromMinutes(90)).IsTrue();
         await Assert.That(connection.Endpoints.Count).IsEqualTo(1);
         await Assert.That(connection.UseTls).IsTrue();
         await Assert.That(connection.Password).IsEqualTo("key,with=special;characters");

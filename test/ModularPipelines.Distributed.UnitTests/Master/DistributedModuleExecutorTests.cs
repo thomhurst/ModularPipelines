@@ -526,6 +526,7 @@ public class DistributedModuleExecutorTests
         if (coordinator is IMocked<IDistributedMasterCoordinator> mockedCoordinator)
         {
             mockedCoordinator.Mock.SetReturnsDefault(Task.FromResult<IReadOnlyList<string>>([]));
+            mockedCoordinator.Mock.SetReturnsDefault(Task.FromResult<IReadOnlyList<WorkerStatus>>([]));
         }
 
         var typeRegistry = new ModuleTypeRegistry();
@@ -4101,6 +4102,70 @@ public class DistributedModuleExecutorTests
         await Assert.That(failure!.Message).Contains("worker instance-1 schema");
         coordinator.Verify(instance => instance.EnqueueModuleAsync(
             It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    [Test]
+    public async Task Executor_Does_Not_Count_Finished_Workers_Toward_The_Startup_Barrier()
+    {
+        var module = new DistributedModule();
+        var coordinator = new InMemoryDistributedCoordinator();
+        var secondSnapshot = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseSnapshot = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var queryCount = 0;
+        var tracking = new ResultTrackingCoordinator(coordinator, afterWorkerSnapshot: async token =>
+        {
+            if (Interlocked.Increment(ref queryCount) == 2)
+            {
+                secondSnapshot.TrySetResult();
+                await releaseSnapshot.Task.WaitAsync(token);
+            }
+        });
+        tracking.ReleaseWorkerQuery();
+        var registry = new ModuleTypeRegistry();
+        registry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(registry);
+        var finished = new WorkerRegistration
+        {
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Capabilities = [],
+            RegisteredAt = DateTimeOffset.UtcNow,
+            PipelineSchemaVersion = registry.GetPipelineSchemaVersion(),
+        };
+        await coordinator.RegisterWorkerAsync(finished, CancellationToken.None);
+        await coordinator.SendHeartbeatAsync(new WorkerStatus { WorkerId = finished.WorkerId, IsFinal = true }, CancellationToken.None);
+        var resultRegistry = new ModuleResultRegistry();
+        var executor = CreateExecutor(
+            CreateMockScheduler(new ModuleState(module, typeof(DistributedModule))),
+            coordinator: tracking,
+            resultRegistry: resultRegistry,
+            resultCollector: new DistributedResultCollector(tracking, serializer),
+            distributedOptions: new DistributedOptions
+            {
+                TotalInstances = 3,
+                MinimumWorkerCount = 1,
+                WorkerRegistrationTimeout = TimeSpan.FromMinutes(1),
+            });
+
+        var execution = executor.ExecuteAsync([module]);
+        try
+        {
+            // The barrier must query again instead of distributing work to a departed worker.
+            var next = await Task.WhenAny(secondSnapshot.Task, tracking.ResultWaitStarted.Task)
+                .WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await Assert.That(next).IsSameReferenceAs(secondSnapshot.Task);
+        }
+        finally
+        {
+            await coordinator.RegisterWorkerAsync(finished with { WorkerId = WorkerId.FromInstanceIndex(2) }, CancellationToken.None);
+            releaseSnapshot.TrySetResult();
+            await tracking.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            await coordinator.PublishResultAsync(serializer.Serialize(
+                CreateSuccessResult(new SimpleResult { Message = "ok" }, nameof(DistributedModule)),
+                ModuleId.FromType(typeof(DistributedModule)), WorkerId.FromInstanceIndex(2)), null, CancellationToken.None);
+            await execution.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        }
+
+        await Assert.That(resultRegistry.GetResult(typeof(DistributedModule))?.Status).IsEqualTo(ModuleStatus.Succeeded);
     }
 
     private static string CreateSchema(params Type[] moduleTypes)

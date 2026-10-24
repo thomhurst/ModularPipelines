@@ -706,18 +706,25 @@ internal class DistributedModuleExecutor(
         {
             var workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken)
                 .ConfigureAwait(false);
-            ValidateWorkerSchemas(workers);
-            if (workers.Count != lastCount)
+            // Final registrations remain visible for reporting after a worker has stopped.
+            // Only workers that can still execute work may satisfy the startup barrier.
+            var finishedWorkers = (await _masterCoordinator.GetWorkerStatusesAsync(cancellationToken).ConfigureAwait(false))
+                .Where(static status => status.IsFinal)
+                .Select(static status => status.WorkerId)
+                .ToHashSet();
+            var availableWorkers = workers.Where(worker => !finishedWorkers.Contains(worker.WorkerId)).ToArray();
+            ValidateWorkerSchemas(availableWorkers);
+            if (availableWorkers.Length != lastCount)
             {
-                lastCount = workers.Count;
-                _logger.LogInformation("{Count}/{Expected} worker(s) registered", workers.Count, expectedWorkers);
+                lastCount = availableWorkers.Length;
+                _logger.LogInformation("{Count}/{Expected} worker(s) registered", availableWorkers.Length, expectedWorkers);
             }
 
-            if (workers.Count >= minimumWorkers)
+            if (availableWorkers.Length >= minimumWorkers)
             {
                 _logger.LogInformation(
                     "Minimum worker count reached — starting work distribution with {Count} worker(s)",
-                    workers.Count);
+                    availableWorkers.Length);
                 return;
             }
 
