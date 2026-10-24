@@ -8,6 +8,9 @@ using Moq;
 
 namespace ModularPipelines.UnitTests.Helpers;
 
+// Keep unrelated suite work out of the test host's pipeline timeout: under full
+// concurrency it can expire before the synchronous ZIP module starts executing.
+[TUnit.Core.ParallelGroup(nameof(ZipTests))]
 public class ZipTests : TestBase
 {
     private sealed class ZipFixture : IDisposable
