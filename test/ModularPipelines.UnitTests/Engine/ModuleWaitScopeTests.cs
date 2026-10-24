@@ -1,11 +1,45 @@
+using Mediator;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
+using ModularPipelines.Logging;
+using ModularPipelines.Modules;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
 
 public class ModuleWaitScopeTests
 {
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Lookup_Without_Awaiting_Does_Not_Register_A_Runtime_Wait(bool optionalLookup)
+    {
+        var module = Mock.Of<IModule>();
+        var dependency = new TestModule();
+        var pipelineContext = new Mock<IPipelineContext>();
+        pipelineContext.As<IInternalPipelineContext>()
+            .Setup(context => context.GetModule<TestModule>()).Returns(dependency);
+        var context = new ModuleContext(
+            pipelineContext.Object,
+            module,
+            new ModuleExecutionContext(module, module.GetType()),
+            Mock.Of<IModuleLogger>(),
+            Mock.Of<IMediator>(),
+            Mock.Of<ISafeModuleEstimatedTimeProvider>());
+        var scheduler = new Mock<IModuleScheduler>(MockBehavior.Strict);
+
+        using (new ModuleWaitScope(module, scheduler.Object))
+        {
+            var result = optionalLookup
+                ? context.GetModuleIfRegistered<TestModule>()
+                : context.GetModule<TestModule>();
+
+            await Assert.That(result).IsSameReferenceAs(dependency);
+        }
+
+        scheduler.VerifyNoOtherCalls();
+    }
+
     [Test]
     public async Task Wait_Attribution_Flows_To_Child_Tasks_And_Ends_With_Scope()
     {
