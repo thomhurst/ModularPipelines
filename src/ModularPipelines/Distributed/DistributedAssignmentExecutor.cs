@@ -81,30 +81,27 @@ internal sealed class DistributedAssignmentExecutor(
             return null;
         }
 
+        SerializedModuleResult? serialized = null;
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await ExecuteAndPublishAsync(
+            serialized = await ExecuteAndSerializeAsync(
                     lease, module, executionTimer, moduleLookup, dependencyResultCache, cancellationToken, leaseLostToken)
                 .ConfigureAwait(false);
+            if (serialized is not null)
+            {
+                // Publication alone does not confirm acceptance: an expired lease is ignored.
+                // Dependencies and summaries read the coordinator's final result and artifacts.
+                await coordinator.PublishResultAsync(serialized, lease, cancellationToken).ConfigureAwait(false);
+            }
         }
         catch (Exception exception)
         {
-            if (WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
-            {
-                if (logger.IsEnabled(LogLevel.Debug))
-                {
-                    logger.LogDebug(exception, "Distributed module {Module} was canceled", assignment.ModuleId);
-                }
-            }
-            else
-            {
-                logger.LogError(exception, "Distributed module {Module} failed", assignment.ModuleId);
-            }
+            LogExecutionFailure(exception, cancellationToken, assignment.ModuleId);
 
             if (!leaseLostToken.IsCancellationRequested)
             {
-                await PublishFailureAsync(lease, resolved.Value.ResultType, module, exception, executionTimer)
+                await PublishFailureAsync(lease, resolved.Value.ResultType, module, exception, executionTimer, serialized)
                     .ConfigureAwait(false);
             }
         }
@@ -112,7 +109,22 @@ internal sealed class DistributedAssignmentExecutor(
         return module;
     }
 
-    private async Task ExecuteAndPublishAsync(
+    private void LogExecutionFailure(Exception exception, CancellationToken cancellationToken, ModuleId moduleId)
+    {
+        if (WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
+        {
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug(exception, "Distributed module {Module} was canceled", moduleId);
+            }
+        }
+        else
+        {
+            logger.LogError(exception, "Distributed module {Module} failed", moduleId);
+        }
+    }
+
+    private async Task<SerializedModuleResult?> ExecuteAndSerializeAsync(
         ModuleLease lease,
         IModule module,
         DistributedModuleExecutionTimer executionTimer,
@@ -204,21 +216,18 @@ internal sealed class DistributedAssignmentExecutor(
                 var failure = new ModuleFailedException(moduleType, exception);
                 moduleLogger.LogError(exception, "Failed to upload artifacts for module {Module}", assignment.ModuleId);
                 await PublishReplacementFailureAsync(lease, module, failure, executionTimer).ConfigureAwait(false);
-                return;
+                return null;
             }
             finally
             {
                 executionTimer.ArtifactUploadDuration = Stopwatch.GetElapsedTime(uploadStartedAt);
             }
 
-            var serialized = serializer.Serialize(result, assignment.ModuleId, lease.WorkerId) with
+            return serializer.Serialize(result, assignment.ModuleId, lease.WorkerId) with
             {
                 Artifacts = artifacts,
                 ExecutionTelemetry = executionTimer.CreateTelemetry(),
             };
-            // Publication alone does not confirm acceptance: an expired lease is ignored.
-            // Dependencies and summaries read the coordinator's final result and artifacts.
-            await coordinator.PublishResultAsync(serialized, lease, cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -250,11 +259,19 @@ internal sealed class DistributedAssignmentExecutor(
         Type resultType,
         IModule module,
         Exception exception,
-        DistributedModuleExecutionTimer executionTimer)
+        DistributedModuleExecutionTimer executionTimer,
+        SerializedModuleResult? preparedResult)
     {
         var assignment = lease.Assignment;
         try
         {
+            if (preparedResult is not null)
+            {
+                // A failed publication must retry the exact payload, including uploaded artifacts and telemetry.
+                await DistributedFailurePublisher.PublishAsync(coordinator, preparedResult, lease).ConfigureAwait(false);
+                return;
+            }
+
             var resultTask = module.AsInternal().ResultTask;
             // Artifact failures can replace a completed local result only in the registry.
             // A transport failure must retain that replacement when publication is retried.
