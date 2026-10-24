@@ -73,6 +73,8 @@ public static class Host
     private static async Task<int> RunProcessRoleAsync(string[] args)
     {
         var role = args[0];
+        var directory = args[1];
+        RecordStartupStage(directory, role + "-entered");
         // The Unix intermediate retains the shell's inherited SIG_IGN disposition. A managed
         // signal handler would reset on exec and leave a newly spawned grandchild vulnerable
         // to SIGINT before it can install its own handler.
@@ -81,7 +83,6 @@ public static class Host
             System.Console.CancelKeyPress += (_, eventArgs) => eventArgs.Cancel = true;
         }
 
-        var directory = args[1];
         var runtimeConfiguration = args[2];
         var name = role is "gated-parent" or "gated-parent-exit" or "threaded-parent" or "parent-error-exit" or "draining-parent" or "parent-exit" or "graceful-exit" or "grace-parent" or "interruptible-parent" or "startup-failure" or "never-ready" or "child-failure-parent" or "orphaning-parent" or "background-parent" ? "parent" : role;
         // Every fixture process publishes its own identity. A parent killed between starting a
@@ -310,9 +311,11 @@ public static class Host
             RedirectStandardError = redirectOutput,
             CreateNoWindow = true,
         };
-        if (redirectOutput && OperatingSystem.IsWindows())
+        if (OperatingSystem.IsWindows())
         {
-            // A background child must not inherit the command's original output pipe handles.
+            // .NET retains standard handles. Exclude unrelated inheritable handles even
+            // when output is shared with the parent; redirected background children must
+            // also exclude the command's original output pipe handles.
             startInfo.InheritedHandles = [];
         }
 
@@ -378,6 +381,10 @@ public static class Host
             await Task.Delay(10);
         }
     }
+
+    // Immutable markers distinguish host entry from pipeline/module initialization in timeout diagnostics.
+    internal static void RecordStartupStage(string directory, string stage)
+        => Publish(directory, stage + ".stage", $"PID {Environment.ProcessId} at {DateTimeOffset.UtcNow:O}");
 
     private static void Publish(string directory, string name, string value)
     {

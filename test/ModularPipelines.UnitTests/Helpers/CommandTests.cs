@@ -1692,6 +1692,7 @@ public class CommandTests : TestBase
         var exception = await Assert.ThrowsAsync<TimeoutException>(() =>
             fixture.WaitForReadyAsync("parent", TimeSpan.FromMilliseconds(100)));
         await Assert.That(exception!.Message).Contains("parent.pid:");
+        await Assert.That(exception.Message).Contains("never-ready-entered.stage: PID " + parent.Id);
         await fixture.DisposeAsync();
         await Assert.That(observer.HasExited).IsTrue();
         await Assert.That(childObserver.HasExited).IsTrue();
