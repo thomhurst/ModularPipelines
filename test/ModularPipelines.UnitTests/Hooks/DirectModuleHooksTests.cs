@@ -12,9 +12,19 @@ using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Hooks;
 
+// Keep concurrent suite startup from consuming the harness's cancellation budget
+// before these ordering fixtures reach their hooks (#7105).
+[TUnit.Core.NotInParallel]
 public class DirectModuleHooksTests : TestBase
 {
     #region Test Modules
+
+    private class NoHooksModule : Module<string>
+    {
+        protected internal override Task<string> ExecuteAsync(
+            IModuleContext context,
+            CancellationToken cancellationToken) => Task.FromResult("Success");
+    }
 
     /// <summary>
     /// Module that tracks which lifecycle hooks were called and in what order.
@@ -242,10 +252,22 @@ public class DirectModuleHooksTests : TestBase
 
     #region Tests
 
+    private async Task<T> RunHookModule<T>(ModuleStatus expectedStatus = ModuleStatus.Succeeded)
+        where T : Module<string>
+    {
+        var module = await RunModule<T>();
+        var result = await module;
+
+        await Assert.That(result.Status).IsEqualTo(expectedStatus)
+            .Because($"{typeof(T).Name} must finish before inspecting hooks. Failure: {result.ExceptionOrDefault}");
+
+        return module;
+    }
+
     [Test]
     public async Task OnBeforeExecuteAsync_CalledBeforeExecuteAsync()
     {
-        var module = await RunModule<HookTrackingModule>();
+        var module = await RunHookModule<HookTrackingModule>();
 
         await Assert.That(module.HooksCalled).Contains("OnBeforeExecuteAsync");
         await Assert.That(module.HooksCalled).Contains("ExecuteAsync");
@@ -258,7 +280,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnAfterExecuteAsync_CalledAfterExecuteAsync()
     {
-        var module = await RunModule<HookTrackingModule>();
+        var module = await RunHookModule<HookTrackingModule>();
 
         await Assert.That(module.HooksCalled).Contains("ExecuteAsync");
         await Assert.That(module.HooksCalled).Contains("OnAfterExecuteAsync");
@@ -273,7 +295,7 @@ public class DirectModuleHooksTests : TestBase
     public async Task OnAfterExecuteAsync_Can_Await_Its_Own_Module(
         CancellationToken cancellationToken)
     {
-        var module = await RunModule<SelfAwaitingAfterHookModule>()
+        var module = await RunHookModule<SelfAwaitingAfterHookModule>()
             .WaitAsync(cancellationToken);
         var result = await module;
 
@@ -283,7 +305,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnAfterExecuteAsync_PublishesTransformedResult()
     {
-        var module = await RunModule<ResultModifyingModule>();
+        var module = await RunHookModule<ResultModifyingModule>();
         var result = await module;
 
         await Assert.That(result.ValueOrDefault).IsEqualTo("Transformed");
@@ -292,7 +314,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnSkippedAsync_CalledWhenModuleSkipped()
     {
-        var module = await RunModule<SkippableHookTrackingModule>();
+        var module = await RunHookModule<SkippableHookTrackingModule>(ModuleStatus.Skipped);
 
         await Assert.That(module.HooksCalled).Contains("OnSkippedAsync");
         await Assert.That(module.HooksCalled).DoesNotContain("ExecuteAsync");
@@ -303,7 +325,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnSkippedAsync_CalledWhenAttributeSkipsModule()
     {
-        var module = await RunModule<AttributeSkippableHookTrackingModule>();
+        var module = await RunHookModule<AttributeSkippableHookTrackingModule>(ModuleStatus.Skipped);
 
         await Assert.That(module.HooksCalled).Contains("OnSkippedAsync");
         await Assert.That(module.HooksCalled).DoesNotContain("ExecuteAsync");
@@ -315,7 +337,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnFailedAsync_CalledWhenModuleFails()
     {
-        var module = await RunModule<FailingHookTrackingModule>();
+        var module = await RunHookModule<FailingHookTrackingModule>(ModuleStatus.FailureIgnored);
 
         await Assert.That(module.HooksCalled).Contains("ExecuteAsync");
         await Assert.That(module.HooksCalled).Contains("OnFailedAsync");
@@ -326,7 +348,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnAfterExecuteAsync_CalledWhenModuleFails()
     {
-        var module = await RunModule<FailingHookTrackingModule>();
+        var module = await RunHookModule<FailingHookTrackingModule>(ModuleStatus.FailureIgnored);
 
         // OnAfterExecuteAsync should be called even when module fails
         await Assert.That(module.HooksCalled).Contains("OnAfterExecuteAsync");
@@ -375,7 +397,7 @@ public class DirectModuleHooksTests : TestBase
     [Test]
     public async Task OnBeforeExecuteAsync_ExceptionPreventsExecution()
     {
-        var module = await RunModule<BeforeHookFailingModule>();
+        var module = await RunHookModule<BeforeHookFailingModule>(ModuleStatus.FailureIgnored);
 
         await Assert.That(module.HooksCalled).Contains("OnBeforeExecuteAsync");
         await Assert.That(module.HooksCalled).DoesNotContain("ExecuteAsync");
@@ -404,11 +426,15 @@ public class DirectModuleHooksTests : TestBase
     {
         // A module that doesn't override any hooks should work fine
         await using var host = await TestPipelineBuilder.Create()
-            .AddModule<ResultModifyingModule>()
+            .AddModule<NoHooksModule>()
             .BuildAsync();
 
         var result = await host.RunAsync();
 
+        var moduleResult = result.GetResult<NoHooksModule, string>();
+        await Assert.That(moduleResult.Status).IsEqualTo(ModuleStatus.Succeeded)
+            .Because($"The module must finish without hook overrides. Failure: {moduleResult.ExceptionOrDefault}");
+        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo("Success");
         await Assert.That(result.Modules).Count().IsEqualTo(1);
     }
 
