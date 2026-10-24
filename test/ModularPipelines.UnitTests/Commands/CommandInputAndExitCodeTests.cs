@@ -9,9 +9,12 @@ using ModularPipelines.ProcessTestHost;
 using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.Tracing;
+using ModularPipelines.UnitTests.Helpers;
 
 namespace ModularPipelines.UnitTests.Commands;
 
+// Share the process startup budget without changing the pipe-deadlock deadline.
+[TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
 public class CommandInputAndExitCodeTests : TestBase
 {
     [Test]
