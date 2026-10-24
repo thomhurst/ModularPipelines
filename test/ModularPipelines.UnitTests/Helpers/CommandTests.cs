@@ -1714,11 +1714,17 @@ public class CommandTests : TestBase
 
         // Only the owner can release the live process; the failed lookup must not end cleanup.
         var cleanup = fixture.DisposeAsync().AsTask();
-        await Assert.That(lookupObserved).IsTrue();
-        await Assert.That(cleanup.IsCompleted).IsFalse();
+        var lookupObservedBeforeExit = lookupObserved;
+        var cleanupWasPending = !cleanup.IsCompleted;
 
-        await ownerFixture.TriggerAsync("parent-exit");
-        await cleanup.WaitAsync(TimeSpan.FromSeconds(5));
+        // Release the retained handle without waiting for the host's managed trigger loop.
+        // Keep asynchronous assertions outside the fixture's five-second exit budget.
+        parent.Kill();
+        // DisposeAsync already bounds the retained-process wait and reports fixture diagnostics.
+        await cleanup;
+        await Assert.That(lookupObservedBeforeExit).IsTrue();
+        await Assert.That(cleanupWasPending).IsTrue();
+        await Assert.That(parent.HasExited).IsTrue();
         await Assert.That(Directory.Exists(fixture.DirectoryPath)).IsFalse();
     }
 
@@ -1745,9 +1751,12 @@ public class CommandTests : TestBase
     public async Task ProcessTreeFixture_Does_Not_Kill_A_Reused_Process_Id()
     {
         await using var otherFixture = new ProcessTreeFixture();
-        otherFixture.Start(await GetService<ICommandContext>(), "parent", TimeSpan.FromMilliseconds(50));
+        otherFixture.Start(await GetService<ICommandContext>(), "gated-parent", TimeSpan.FromMilliseconds(50));
         var parent = await otherFixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(5));
-        var child = await otherFixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
+        // Start descendants after command containment is installed. PID reuse only needs a
+        // live child identity; loading its managed host is unrelated to the cleanup assertion.
+        await otherFixture.TriggerAsync("start-child");
+        var child = await otherFixture.WaitForProcessAsync("child", TimeSpan.FromSeconds(5));
         await using var staleFixture = new ProcessTreeFixture();
         var identity = ModularPipelines.ProcessTestHost.ProcessIdentity.Capture(parent);
         var staleIdentity = identity with { StartTimeValue = identity.StartTimeValue - 1 };
