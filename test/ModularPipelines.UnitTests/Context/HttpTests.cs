@@ -1,4 +1,4 @@
-using ModularPipelines.Secrets;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -12,11 +12,10 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
+using ModularPipelines.Secrets;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Helpers;
 using Moq;
-using NReco.Logging.File;
-using File = System.IO.File;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests.Context;
@@ -948,14 +947,14 @@ public class HttpTests : TestBase
     public async Task When_Log_Request_False_Then_Do_Not_Log_Request()
     {
         await using var server = LocalHttpServer.Start();
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
 
         var (http, host) = await GetService<IHttpContext>(collection =>
         {
             collection.AddLogging(builder =>
             {
                 collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-                builder.AddFile(file);
+                builder.AddProvider(new RecordingLoggerProvider(messages));
             });
         });
 
@@ -967,25 +966,25 @@ public class HttpTests : TestBase
 
         await host.DisposeAsync();
 
-        var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).DoesNotContain("HTTP Request:");
-        await Assert.That(logFile).DoesNotContain($"GET {server.Uri} HTTP/1.1");
-        await Assert.That(logFile).Contains("HTTP Response:");
-        await Assert.That(logFile).Contains("Server: LocalHttpServer");
+        var log = string.Join(Environment.NewLine, messages);
+        await Assert.That(log).DoesNotContain("HTTP Request:");
+        await Assert.That(log).DoesNotContain($"GET {server.Uri} HTTP/1.1");
+        await Assert.That(log).Contains("HTTP Response:");
+        await Assert.That(log).Contains("Server: LocalHttpServer");
     }
 
     [Test]
     public async Task When_Log_Response_False_Then_Do_Not_Log_Response()
     {
         await using var server = LocalHttpServer.Start();
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
 
         var (http, host) = await GetService<IHttpContext>(collection =>
         {
             collection.AddLogging(builder =>
             {
                 collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-                builder.AddFile(file);
+                builder.AddProvider(new RecordingLoggerProvider(messages));
             });
         });
 
@@ -997,11 +996,11 @@ public class HttpTests : TestBase
 
         await host.DisposeAsync();
 
-        var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Contains("HTTP Request:");
-        await Assert.That(logFile).Contains($"GET {server.Uri} HTTP/1.1");
-        await Assert.That(logFile).DoesNotContain("HTTP Response:");
-        await Assert.That(logFile).DoesNotContain("Server: LocalHttpServer");
+        var log = string.Join(Environment.NewLine, messages);
+        await Assert.That(log).Contains("HTTP Request:");
+        await Assert.That(log).Contains($"GET {server.Uri} HTTP/1.1");
+        await Assert.That(log).DoesNotContain("HTTP Response:");
+        await Assert.That(log).DoesNotContain("Server: LocalHttpServer");
     }
 
     [Test]
@@ -1010,14 +1009,14 @@ public class HttpTests : TestBase
     public async Task Assert_SendAsync_Logs_As_Expected(bool customHttpClient)
     {
         await using var server = LocalHttpServer.Start();
-        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+        var messages = new ConcurrentQueue<string>();
 
         var (http, host) = await GetService<IHttpContext>(collection =>
         {
             collection.AddLogging(builder =>
             {
                 collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
-                builder.AddFile(file);
+                builder.AddProvider(new RecordingLoggerProvider(messages));
             });
         });
 
@@ -1036,28 +1035,54 @@ public class HttpTests : TestBase
 
         await host.DisposeAsync();
 
-        var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).Contains("HTTP Request:");
-        await Assert.That(logFile).Contains($"GET {server.Uri} HTTP/1.1");
-        await Assert.That(logFile).Contains("HTTP Response:");
-        await Assert.That(logFile).Contains("Headers");
-        await Assert.That(logFile).Contains("Server: LocalHttpServer");
-        await Assert.That(logFile).DoesNotContain("Body");
-        await Assert.That(logFile).Contains("Duration:");
-        await Assert.That(logFile).Contains("HTTP Status:");
+        var log = string.Join(Environment.NewLine, messages);
+        await Assert.That(log).Contains("HTTP Request:");
+        await Assert.That(log).Contains($"GET {server.Uri} HTTP/1.1");
+        await Assert.That(log).Contains("HTTP Response:");
+        await Assert.That(log).Contains("Headers");
+        await Assert.That(log).Contains("Server: LocalHttpServer");
+        await Assert.That(log).DoesNotContain("Body");
+        await Assert.That(log).Contains("Duration:");
+        await Assert.That(log).Contains("HTTP Status:");
 
-        var logFileLines = (await File.ReadAllLinesAsync(file)).ToList();
+        var logEntries = messages.ToList();
 
-        var indexOfRequest = logFileLines.FindIndex(x => x.Contains("HTTP Request:"));
-        var indexOfStatusCode = logFileLines.FindIndex(x => x.Contains("HTTP Status:"));
-        var indexOfDuration = logFileLines.FindIndex(x => x.Contains("Duration:"));
-        var indexOfResponse = logFileLines.FindIndex(x => x.Contains("HTTP Response:"));
+        var indexOfRequest = logEntries.FindIndex(x => x.Contains("HTTP Request:"));
+        var indexOfStatusCode = logEntries.FindIndex(x => x.Contains("HTTP Status:"));
+        var indexOfDuration = logEntries.FindIndex(x => x.Contains("Duration:"));
+        var indexOfResponse = logEntries.FindIndex(x => x.Contains("HTTP Response:"));
 
         using (Assert.Multiple())
         {
             await Assert.That(indexOfRequest).IsLessThan(indexOfStatusCode);
             await Assert.That(indexOfStatusCode).IsLessThan(indexOfDuration);
             await Assert.That(indexOfDuration).IsLessThan(indexOfResponse);
+        }
+    }
+
+    // Capture synchronously at the provider boundary: the file provider's bounded
+    // disposal wait does not guarantee that queued entries reach disk under load.
+    private sealed class RecordingLoggerProvider(ConcurrentQueue<string> messages) : ILoggerProvider, ILogger
+    {
+        public ILogger CreateLogger(string categoryName) => this;
+
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull => null;
+
+        public bool IsEnabled(LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            messages.Enqueue(formatter(state, exception));
+        }
+
+        public void Dispose()
+        {
         }
     }
 
