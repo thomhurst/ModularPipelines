@@ -54,7 +54,7 @@
     "node": "^22.15.0 || ^24.0.0 || >=26.0.0"
   },
   "overrides": {
-    "body-parser": "1.20.9",
+    "body-parser": "2.4.0",
     "fast-uri": "3.1.9",
     "http-cache-semantics": "4.3.0",
     "js-yaml": "5.5.0",
@@ -67,7 +67,7 @@
     "uuid": "14.0.3"
   },
   "resolutions": {
-    "body-parser": "1.20.9",
+    "body-parser": "2.4.0",
     "fast-uri": "3.1.9",
     "http-cache-semantics": "4.3.0",
     "js-yaml": "5.5.0",
