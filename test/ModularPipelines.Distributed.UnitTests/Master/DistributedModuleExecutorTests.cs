@@ -1390,7 +1390,7 @@ public class DistributedModuleExecutorTests
         // Act
         await executor.ExecuteAsync([module]);
 
-        // Assert — cancellation should register a failure result
+        // Assert - cancellation should register a failure result
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(registeredResult).IsNotNull();
         await Assert.That(registeredResult!.ExceptionOrDefault).IsNotNull();
@@ -1825,7 +1825,7 @@ public class DistributedModuleExecutorTests
     [Test]
     public async Task Failed_Module_Cancels_Pipeline_For_Remaining_Modules()
     {
-        // Arrange: two modules — first fails, second should be canceled
+        // Arrange: two modules - first fails, second should be canceled
         var moduleA = new DistributedModule();
         var moduleB = new AnotherDistributedModule();
         var stateA = new ModuleState(moduleA, typeof(DistributedModule));
@@ -1856,10 +1856,10 @@ public class DistributedModuleExecutorTests
         var executionTask = executor.ExecuteAsync([moduleA, moduleB]);
         await noDequeue.ResultWaitStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         await coordinator.PublishResultAsync(serializedFailure, lease: null, CancellationToken.None);
-        // Don't publish moduleB result — it should be canceled
+        // Don't publish moduleB result - it should be canceled
         await executionTask;
 
-        // Assert — module A has failure, module B also gets a failure (canceled)
+        // Assert - module A has failure, module B also gets a failure (canceled)
         var resultA = resultRegistry.GetResult(typeof(DistributedModule));
         await Assert.That(resultA).IsNotNull();
         await Assert.That(resultA!.ExceptionOrDefault).IsNotNull();
@@ -2710,7 +2710,7 @@ public class DistributedModuleExecutorTests
         // Act
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — "linux" capability auto-detected from [RunIf<OnLinux>]
+        // Assert - "linux" capability auto-detected from [RunIf<OnLinux>]
         await Assert.That(assignment.RequiredCapabilities).IsEqualTo(CapabilityRequirement.AllOf(Capability.Linux));
     }
 
@@ -2879,7 +2879,7 @@ public class DistributedModuleExecutorTests
         // Act
         await executor.ExecuteAsync([module]);
 
-        // Assert — always signals completion, even on failure
+        // Assert - always signals completion, even on failure
         coordinator.Verify(c => c.BroadcastCancellationAsync(DistributedCancellationReason.PipelineFailed, CancellationToken.None), Times.Once());
         coordinator.Verify(c => c.SignalCompletionAsync(CancellationToken.None), Times.Once());
     }
@@ -3659,7 +3659,7 @@ public class DistributedModuleExecutorTests
         // Act
         await executor.ExecuteAsync([moduleA, moduleB]);
 
-        // Assert — both types are registered and resolvable
+        // Assert - both types are registered and resolvable
         var resolvedA = typeRegistry.Resolve(ModuleId.FromType(typeof(DistributedModule)));
         var resolvedB = typeRegistry.Resolve(ModuleId.FromType(typeof(AnotherDistributedModule)));
         await Assert.That(resolvedA).IsNotNull();
@@ -3720,7 +3720,7 @@ public class DistributedModuleExecutorTests
         await coordinator.PublishResultAsync(serialized, lease: null, CancellationToken.None);
         await executionTask;
 
-        // Assert — result collection started while no external workers were registered.
+        // Assert - result collection started while no external workers were registered.
         var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
         using (Assert.Multiple())
         {
@@ -3857,6 +3857,8 @@ public class DistributedModuleExecutorTests
         };
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(() => registeredWorkers.AsReadOnly());
+        coordinator.Setup(c => c.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
@@ -3915,6 +3917,84 @@ public class DistributedModuleExecutorTests
     }
 
     [Test]
+    [Arguments(true, true)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(false, false)]
+    [Timeout(30_000)]
+    public async Task Initial_Routing_Excludes_Finished_Workers(
+        bool finishedWorkerIsCapable,
+        bool replacementArrives,
+        CancellationToken cancellationToken)
+    {
+        var options = new DistributedOptions
+        {
+            TotalInstances = 2,
+            WorkerRegistrationTimeout = TimeSpan.FromSeconds(1),
+        };
+        var finishedWorker = new WorkerRegistration
+        {
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            Capabilities = finishedWorkerIsCapable ? [Capability.Gpu] : [],
+            RegisteredAt = DateTimeOffset.UtcNow,
+            PipelineSchemaVersion = CreateSchema(typeof(GpuOnlyModule)),
+        };
+        var replacement = finishedWorker with
+        {
+            WorkerId = WorkerId.FromInstanceIndex(2),
+            Capabilities = [Capability.Gpu],
+        };
+        var registrationQueries = 0;
+        var coordinator = new Mock<IDistributedMasterCoordinator>();
+        coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(() => Interlocked.Increment(ref registrationQueries) > 1 && replacementArrives
+                ? [finishedWorker, replacement]
+                : [finishedWorker]);
+        coordinator.Setup(c => c.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([new WorkerStatus { WorkerId = finishedWorker.WorkerId, IsFinal = true }]);
+        coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(GpuOnlyModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(serializer.Serialize(
+                CreateSuccessResult("gpu done", nameof(GpuOnlyModule)),
+                ModuleId.FromType(typeof(GpuOnlyModule)),
+                replacement.WorkerId));
+
+        var module = new GpuOnlyModule();
+        var resultRegistry = new ModuleResultRegistry();
+        var scheduler = CreateMockScheduler(new ModuleState(module, typeof(GpuOnlyModule)));
+        var executor = CreateExecutor(
+            scheduler,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator.Object,
+            distributedOptions: options,
+            applicationStopping: cancellationToken);
+
+        await executor.ExecuteAsync([module]);
+
+        var result = resultRegistry.GetResult(typeof(GpuOnlyModule));
+        await Assert.That(result?.Status).IsEqualTo(replacementArrives ? ModuleStatus.Succeeded : ModuleStatus.Failed);
+        if (!replacementArrives)
+        {
+            await Assert.That(result?.ExceptionOrDefault).IsTypeOf<DistributedRoutingException>();
+            await Assert.That(result?.ExceptionOrDefault?.Message).Contains("Registered external workers: 0.");
+        }
+
+        // A finished registration must neither provide a route nor fill the expected worker count.
+        coordinator.Verify(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()), Times.AtLeast(2));
+        coordinator.Verify(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()),
+            replacementArrives ? Times.Once() : Times.Never());
+        coordinator.Verify(c => c.WaitForResultAsync(It.IsAny<ModuleId>(), It.IsAny<CancellationToken>()),
+            replacementArrives ? Times.Once() : Times.Never());
+    }
+
+    [Test]
     [Timeout(5_000)]
     public async Task Capability_Routing_Grace_Is_Not_Limited_By_Module_Timeout(
         CancellationToken cancellationToken)
@@ -3926,6 +4006,8 @@ public class DistributedModuleExecutorTests
         };
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
+        coordinator.Setup(c => c.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([]);
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
@@ -3976,6 +4058,8 @@ public class DistributedModuleExecutorTests
             .ReturnsAsync(() => Interlocked.Increment(ref registrationQueryCount) == 1
                 ? []
                 : capableWorkers);
+        coordinator.Setup(c => c.GetWorkerStatusesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
         coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))

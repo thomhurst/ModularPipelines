@@ -1138,6 +1138,11 @@ internal class DistributedModuleExecutor(
         {
             workers = await _masterCoordinator.GetRegisteredWorkersAsync(cancellationToken)
                 .ConfigureAwait(false);
+            var finishedWorkers = (await _masterCoordinator.GetWorkerStatusesAsync(cancellationToken).ConfigureAwait(false))
+                .Where(static status => status.IsFinal)
+                .Select(static status => status.WorkerId)
+                .ToHashSet();
+            workers = workers.Where(worker => !finishedWorkers.Contains(worker.WorkerId)).ToArray();
             ValidateWorkerSchemas(workers);
             if (workers.Any(worker => assignment.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities)))
             {
