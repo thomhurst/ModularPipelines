@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.SignalR.Coordination;
 using ModularPipelines.Testing.Distributed;
@@ -10,12 +11,12 @@ namespace ModularPipelines.Distributed.SignalR.UnitTests;
 /// </summary>
 public class SignalRMasterCoordinatorContractTests
 {
-    private static SignalRMasterCoordinator Create(TimeSpan? workerTimeout = null, int budget = 2) =>
+    private static SignalRMasterCoordinator Create(TimeSpan? workerTimeout = null, int budget = 2, TimeProvider? clock = null) =>
         new(new InMemoryDistributedCoordinator(MsOptions.Create(new DistributedOptions
         {
             WorkerTimeout = workerTimeout ?? DistributedCoordinatorContract.LeaseTimeout,
             MaxModuleLeaseExpirations = budget,
-        })));
+        }), clock));
 
     [Test]
     [Arguments(1)]
@@ -25,8 +26,16 @@ public class SignalRMasterCoordinatorContractTests
         DistributedCoordinatorContract.LeaseExpirationBudgetFailsModuleAsync(Create(budget: budget), budget);
 
     [Test]
-    public Task Lease_Expiration_Recovery_Succeeds() =>
-        DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(Create());
+    public Task Lease_Expiration_Recovery_Succeeds()
+    {
+        var clock = new FakeTimeProvider();
+        return DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(Create(clock: clock), token =>
+        {
+            token.ThrowIfCancellationRequested();
+            clock.Advance(DistributedCoordinatorContract.LeaseTimeout * 3);
+            return Task.CompletedTask;
+        });
+    }
 
     [Test]
     public Task Enqueue_And_Dequeue_RoundTrips() =>

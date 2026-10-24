@@ -317,8 +317,22 @@ public static class DistributedCoordinatorContract
     /// <summary>Verifies independent module recovery and final results through later expiry scans.</summary>
     /// <param name="coordinator">A fresh coordinator with the default expiration budget and <see cref="LeaseTimeout"/>.</param>
     /// <returns>The asynchronous contract check.</returns>
-    public static async Task LeaseExpirationRecoverySucceedsAsync(IDistributedMasterCoordinator coordinator)
+    public static Task LeaseExpirationRecoverySucceedsAsync(IDistributedMasterCoordinator coordinator) =>
+        LeaseExpirationRecoverySucceedsAsync(coordinator, token => Task.Delay(LeaseTimeout * 3, token));
+
+    /// <summary>Verifies recovery with backend-controlled lease expiration, independent of scheduling latency.</summary>
+    /// <param name="coordinator">A fresh coordinator with the default expiration budget.</param>
+    /// <param name="expireLeases">
+    /// Expires active leases or advances the backend clock beyond their lifetime. Recovered leases must
+    /// remain valid until the next invocation; for a wall-clock backend, configure their lifetime to
+    /// exceed the bounded check duration (one minute is sufficient).
+    /// </param>
+    /// <returns>The asynchronous contract check.</returns>
+    public static async Task LeaseExpirationRecoverySucceedsAsync(
+        IDistributedMasterCoordinator coordinator,
+        Func<CancellationToken, Task> expireLeases)
     {
+        ArgumentNullException.ThrowIfNull(expireLeases);
         string[] moduleNames = ["Contract.Recovery", "Contract.IndependentRecovery"];
         using var timeout = new CancellationTokenSource(ExpirationCheckTimeout(moduleNames.Length + 1));
         var token = timeout.Token;
@@ -328,7 +342,7 @@ public static class DistributedCoordinatorContract
             var assignment = CreateAssignment(name);
             await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
             Check(await coordinator.DequeueModuleAsync(Worker, new HashSet<Capability>(), token).ConfigureAwait(false) is not null);
-            await Task.Delay(LeaseTimeout * 3, token).ConfigureAwait(false);
+            await expireLeases(token).ConfigureAwait(false);
             Check((await coordinator.RequeueExpiredLeasesAsync(token).ConfigureAwait(false)).Contains(assignment.ModuleId));
             var recovered = await coordinator.DequeueModuleAsync(OtherWorker, new HashSet<Capability>(), token).ConfigureAwait(false);
             Check(recovered is not null);
@@ -337,7 +351,7 @@ public static class DistributedCoordinatorContract
             successes.Add(success);
         }
 
-        await Task.Delay(LeaseTimeout * 3, token).ConfigureAwait(false);
+        await expireLeases(token).ConfigureAwait(false);
         Check((await coordinator.RequeueExpiredLeasesAsync(token).ConfigureAwait(false)).Count == 0);
         foreach (var success in successes)
         {

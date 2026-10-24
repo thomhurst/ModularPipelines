@@ -503,13 +503,14 @@ public class RedisDistributedCoordinatorContractTests
             [.. keys.ScriptKeys.Select(static key => (RespireKey) key)],
             ["[]", "worker", claimId, 30000, 60000]);
 
-    private static async Task ExpireLeaseAsync(IRespireClient client, RedisKeyBuilder keys, ModuleId moduleId) =>
+    private static async Task ExpireLeaseAsync(
+        IRespireClient client, RedisKeyBuilder keys, ModuleId moduleId, CancellationToken cancellationToken = default) =>
         await client.Scripts.ExecuteIntegerAsync(RespireScript.Create("""
             local lease = cjson.decode(redis.call('HGET', KEYS[1], ARGV[1]))
             lease['ExpiresAt'] = '0'
             redis.call('HSET', KEYS[1], ARGV[1], cjson.encode(lease))
             return 1
-            """), [keys.Leases], [moduleId.Value]);
+            """), [keys.Leases], [moduleId.Value], cancellationToken);
 
     [Test]
     [Arguments(1)]
@@ -521,7 +522,14 @@ public class RedisDistributedCoordinatorContractTests
 
     [Test]
     public Task Lease_Expiration_Recovery_Succeeds() =>
-        RunContractAsync((coordinator, _) => DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(coordinator));
+        RunAsync((coordinator, client, keys, _) =>
+            DistributedCoordinatorContract.LeaseExpirationRecoverySucceedsAsync(coordinator, async token =>
+            {
+                foreach (var lease in await coordinator.GetActiveLeasesAsync(token))
+                {
+                    await ExpireLeaseAsync(client, keys, lease.Assignment.ModuleId, token);
+                }
+            }), readySignalCount: 1, workerTimeout: TimeSpan.FromMinutes(1));
 
     [Test]
     public Task Reads_All_Pages_Of_Leases_Workers_And_Statuses() =>
@@ -1098,7 +1106,7 @@ public class RedisDistributedCoordinatorContractTests
         var options = new RedisOptions
         {
             ConnectionString = connectionString,
-            TimeToLive = TimeSpan.FromMinutes(1),
+            TimeToLive = TimeSpan.FromMinutes(1) + (workerTimeout ?? TimeSpan.Zero),
             KeyPrefix = "modpipe-contract",
         };
         var keys = new RedisKeyBuilder(options.KeyPrefix, runId);
