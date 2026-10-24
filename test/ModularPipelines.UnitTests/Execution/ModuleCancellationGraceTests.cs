@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Time.Testing;
 using ModularPipelines.Configuration;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -57,40 +58,100 @@ public class ModuleCancellationGraceTests
     }
 
     [Test]
-    public async Task Cancellation_During_Deadline_Grace_Allows_Pipeline_Cleanup_Budget()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Cancellation_During_Deadline_Grace_Allows_Pipeline_Cleanup_Budget(bool faultDuringCleanup)
     {
         using var cancellation = new CancellationTokenSource();
-        var deadlineSignaled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var time = new GraceTimeProvider();
         var task = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        CancellationTokenRegistration registration = default;
         var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
-            token =>
-            {
-                registration = token.Register(() => deadlineSignaled.TrySetResult());
-                return task.Task;
-            },
+            _ => task.Task,
             TimeSpan.FromMilliseconds(1),
             cancellation.Token,
-            cancellationGracePeriod: TestHostSettings.DefaultTestTimeout);
+            cancellationGracePeriod: TestHostSettings.DefaultTestTimeout,
+            timeProvider: time);
 
         try
         {
-            await deadlineSignaled.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            time.Advance(TimeSpan.FromMilliseconds(1));
+            await time.DeadlineGraceStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            // Keep the deadline grace open regardless of how long the test continuation is queued.
+            time.Advance(TimeSpan.FromMilliseconds(100));
             cancellation.Cancel();
+            await time.CleanupGraceStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+
             // The original one-second deadline grace must not dispose resources during pipeline cleanup.
-            await Task.WhenAny(execution, Task.Delay(TimeSpan.FromMilliseconds(1100)));
+            time.Advance(TimeSpan.FromMilliseconds(1100));
             await Assert.That(execution.IsCompleted).IsFalse();
         }
         finally
         {
-            task.TrySetResult(true);
-            await registration.DisposeAsync();
+            if (faultDuringCleanup)
+            {
+                task.TrySetException(new IOException("Cleanup failed."));
+            }
+            else
+            {
+                task.TrySetResult(true);
+            }
         }
 
         var exception = await Assert.ThrowsAsync<OperationCanceledException>(async () =>
             await execution.WaitAsync(TestHostSettings.DefaultTestTimeout));
         await Assert.That(exception!.CancellationToken).IsEqualTo(cancellation.Token);
+    }
+
+    [Test]
+    public async Task Cancellation_After_Deadline_Grace_Does_Not_Reopen_Cleanup_Budget()
+    {
+        using var cancellation = new CancellationTokenSource();
+        var time = new GraceTimeProvider();
+        var task = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var execution = TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            _ => task.Task,
+            TimeSpan.FromMilliseconds(1),
+            cancellation.Token,
+            cancellationGracePeriod: TestHostSettings.DefaultTestTimeout,
+            timeProvider: time);
+
+        try
+        {
+            time.Advance(TimeSpan.FromMilliseconds(1));
+            await time.DeadlineGraceStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            time.Advance(TimeSpan.FromSeconds(1));
+            var result = await execution.WaitAsync(TestHostSettings.DefaultTestTimeout);
+            cancellation.Cancel();
+
+            await Assert.That(result.TimedOut).IsTrue();
+            await Assert.That(result.WasCancellationTokenRespected).IsFalse();
+            await Assert.That(time.CleanupGraceStarted.Task.IsCompleted).IsFalse();
+        }
+        finally
+        {
+            task.TrySetResult(true);
+        }
+    }
+
+    private sealed class GraceTimeProvider : FakeTimeProvider
+    {
+        public TaskCompletionSource DeadlineGraceStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public TaskCompletionSource CleanupGraceStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
+        {
+            var timer = base.CreateTimer(callback, state, dueTime, period);
+            if (dueTime == TimeSpan.FromSeconds(1))
+            {
+                DeadlineGraceStarted.TrySetResult();
+            }
+            else if (dueTime == TestHostSettings.DefaultTestTimeout)
+            {
+                CleanupGraceStarted.TrySetResult();
+            }
+
+            return timer;
+        }
     }
 
     [Test]
