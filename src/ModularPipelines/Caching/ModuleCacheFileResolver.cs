@@ -1,6 +1,4 @@
 using System.Collections.Concurrent;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace ModularPipelines.Caching;
 
@@ -98,7 +96,7 @@ internal static class ModuleCacheFileResolver
             if (pattern.IndexOfAny(['*', '?']) >= 0)
             {
                 if (relativePath != "."
-                    && CreateGlobRegex(pattern, ignoreCase).IsMatch(relativePath))
+                    && new ModuleCacheGlob(pattern, ignoreCase).IsMatch(relativePath))
                 {
                     return true;
                 }
@@ -157,7 +155,7 @@ internal static class ModuleCacheFileResolver
 
         var pathComparer = GetPathComparer(root);
         var paths = new HashSet<string>(pathComparer);
-        var globs = new List<Regex>();
+        var globs = new List<ModuleCacheGlob>();
 
         foreach (var rawPattern in patterns)
         {
@@ -166,7 +164,7 @@ internal static class ModuleCacheFileResolver
 
             if (pattern.IndexOfAny(['*', '?']) >= 0)
             {
-                globs.Add(CreateGlobRegex(
+                globs.Add(new ModuleCacheGlob(
                     pattern,
                     pathComparer == StringComparer.OrdinalIgnoreCase));
                 continue;
@@ -191,7 +189,7 @@ internal static class ModuleCacheFileResolver
             foreach (var path in enumeratePaths(root))
             {
                 var relativePath = NormalizeSeparators(Path.GetRelativePath(root, path));
-                if (globs.Any(regex => regex.IsMatch(relativePath)))
+                if (globs.Any(glob => glob.IsMatch(relativePath)))
                 {
                     AddPath(paths, path, maximumPaths, excludedRoot, expansionLimitMessage);
                 }
@@ -348,7 +346,7 @@ internal static class ModuleCacheFileResolver
         string searchRoot,
         string pattern)
     {
-        var glob = CreateGlobRegex(
+        var glob = new ModuleCacheGlob(
             pattern,
             GetPathComparer(root) == StringComparer.OrdinalIgnoreCase);
         var linkedComponent = GetLinkedComponent(root, searchRoot);
@@ -368,7 +366,7 @@ internal static class ModuleCacheFileResolver
             .FirstOrDefault(linkedPath => LinkedPathMatchesGlob(root, linkedPath, glob));
     }
 
-    private static bool LinkedPathMatchesGlob(string root, string linkedPath, Regex glob)
+    private static bool LinkedPathMatchesGlob(string root, string linkedPath, ModuleCacheGlob glob)
     {
         var relativePath = NormalizeSeparators(Path.GetRelativePath(root, linkedPath));
         if (!IsDirectoryLink(linkedPath))
@@ -559,55 +557,6 @@ internal static class ModuleCacheFileResolver
 
         return path.Length > prefixLength
                && pathComparer.Equals(root, path[..prefixLength]);
-    }
-
-    private static Regex CreateGlobRegex(string glob, bool ignoreCase)
-    {
-        var expression = new StringBuilder("^");
-        for (var index = 0; index < glob.Length; index++)
-        {
-            switch (glob[index])
-            {
-                case '*':
-                    if (index + 1 < glob.Length && glob[index + 1] == '*')
-                    {
-                        index++;
-                        if (index + 1 < glob.Length && glob[index + 1] == '/')
-                        {
-                            index++;
-                            expression.Append("(?:.*/)?");
-                        }
-                        else
-                        {
-                            expression.Append(".*");
-                        }
-                    }
-                    else
-                    {
-                        expression.Append("[^/]*");
-                    }
-
-                    break;
-                case '?':
-                    expression.Append("[^/]");
-                    break;
-                default:
-                    expression.Append(Regex.Escape(glob[index].ToString()));
-                    break;
-            }
-        }
-
-        expression.Append('$');
-        var options = RegexOptions.CultureInvariant | RegexOptions.Compiled;
-        if (ignoreCase)
-        {
-            options |= RegexOptions.IgnoreCase;
-        }
-
-        return new Regex(
-            expression.ToString(),
-            options,
-            TimeSpan.FromSeconds(1));
     }
 
     private static string NormalizeSeparators(string path) => path.Replace('\\', '/');
