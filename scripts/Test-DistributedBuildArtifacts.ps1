@@ -16,8 +16,8 @@ foreach ($step in $artifactSteps) {
     }
     else { $downloads += $name }
 }
-if ($uploads.Count -ne 9 -or $downloads.Count -ne 3) {
-    throw 'Expected nine attempt-scoped uploads and three producer-bound downloads, including the validated release packages.'
+if ($uploads.Count -ne 10 -or $downloads.Count -ne 3) {
+    throw 'Expected ten attempt-scoped uploads and three producer-bound downloads, including the validated release packages and Cmd regression diagnostics.'
 }
 $producers = @(
     @{ Job = 'fast-fail'; Output = 'test_results_artifact' },
@@ -33,4 +33,4 @@ foreach ($producer in $producers) {
     $name = [regex]::Match($job, '(?m)^      ' + $producer.Output + ': (.+)$').Groups[1].Value.Trim()
     if ($name -cnotin $uploads) { throw "Producer output '$name' does not match an attempt-scoped upload." }
 }
-Write-Output 'Distributed artifacts: nine retry-safe uploads and three producer-bound downloads passed.'
+Write-Output 'Distributed artifacts: ten retry-safe uploads and three producer-bound downloads passed.'
