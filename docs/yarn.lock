@@ -9128,10 +9128,10 @@ undici-types@~6.11.1:
   resolved "https://registry.npmjs.org/undici-types/-/undici-types-6.11.1.tgz"
   integrity sha512-mIDEX2ek50x0OlRgxryxsenE5XaQD4on5U2inY7RApK3SOJpofyw7uW2AyfMKkhAxXIceo2DeWGVGwyvng1GNQ==
 
-undici@7.30.1, undici@^7.19.0:
-  version "7.30.1"
-  resolved "https://registry.npmjs.org/undici/-/undici-7.30.1.tgz"
-  integrity sha512-03KrMbjIFDWQR5RNPrSw3bd1r12JpyFQl9/yxjUbJtqkjmllqC5lFjZh6ujeuJCKr8EOQvRW872Oy/az+nLYxg==
+undici@8.12.3, undici@^7.19.0:
+  version "8.12.3"
+  resolved "https://registry.npmjs.org/undici/-/undici-8.12.3.tgz"
+  integrity sha512-+fdndUTwBP86cVjihTp21hZHo7d6oj1c/47XPA3lL8mM0XHs+C4EkcjmgRsFnFk2f/UONGDy9ItBItmXsLOQHw==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.1"
