@@ -14,7 +14,6 @@ namespace ModularPipelines.Build.Modules;
 [RequiresCapability("ci-master")]
 [DependsOn<NugetVersionGeneratorModule>]
 [RunIf<ModularPipelines.OnLinux>]
-[ProducesArtifact("build-output", "../../" + BuildOutputArchive.FileName)]
 public class BuildSolutionsModule(IOptions<PipelineSettings> pipelineSettings) : Module<CommandResult[]>
 {
     protected override async Task<CommandResult[]> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
