@@ -496,23 +496,27 @@ public class ArtifactContextApiTests
         var destinationPath = Path.Combine(destinationDirectory.FullName, "payload.bin");
         await File.WriteAllTextAsync(destinationPath, "existing output");
         await using var archiveStream = new MemoryStream(archiveBytes, writable: false);
-        await using var blockingStream = new SwitchableBlockingReadStream(archiveStream);
+        await using var blockingStream = new GatedAsyncReadStream(archiveStream);
         using var archiveToExtract = new ZipArchive(
             blockingStream,
             ZipArchiveMode.Read,
             leaveOpen: true);
         using var cancellationTokenSource = new CancellationTokenSource();
         _ = archiveToExtract.Entries.Count;
-        blockingStream.BlockReads(cancellationTokenSource.Token);
-        var extractionTask = Task.Run(() =>
-            ArtifactContextImpl.ExtractDirectoryArchiveAsync(
-                archiveToExtract,
-                destinationDirectory.FullName,
-                cancellationTokenSource.Token));
+        blockingStream.BlockAsyncReads(cancellationTokenSource.Token);
+        // Run inline to reach the async payload gate without waiting for a pool worker.
+        // Synchronous ZIP header reads must remain unblocked so setup can finish.
+        var extractionTask = ArtifactContextImpl.ExtractDirectoryArchiveAsync(
+            archiveToExtract,
+            destinationDirectory.FullName,
+            cancellationTokenSource.Token);
 
         try
         {
-            await blockingStream.ReadStarted.WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(blockingStream.ReadStarted.IsCompleted).IsTrue();
+            await Assert.That(extractionTask.IsCompleted).IsFalse();
+            await Assert.That(Directory.GetFiles(
+                destinationDirectory.FullName, ".modularpipelines-download-*.tmp").Length).IsEqualTo(1);
             cancellationTokenSource.Cancel();
             await Assert.ThrowsAsync<OperationCanceledException>(() =>
                 extractionTask.WaitAsync(TimeSpan.FromSeconds(5)));
@@ -637,13 +641,13 @@ public class ArtifactContextApiTests
             => Task.FromResult(string.Empty);
     }
 
-    private sealed class SwitchableBlockingReadStream(Stream inner) : Stream
+    private sealed class GatedAsyncReadStream(Stream inner) : Stream
     {
         private readonly TaskCompletionSource _readStarted = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
         private readonly TaskCompletionSource _releaseReads = new(
             TaskCreationOptions.RunContinuationsAsynchronously);
-        private volatile bool _blockReads;
+        private volatile bool _blockAsyncReads;
         private CancellationToken _blockingCancellationToken;
 
         public Task ReadStarted => _readStarted.Task;
@@ -662,27 +666,20 @@ public class ArtifactContextApiTests
             set => inner.Position = value;
         }
 
-        public void BlockReads(CancellationToken cancellationToken)
+        public void BlockAsyncReads(CancellationToken cancellationToken)
         {
             _blockingCancellationToken = cancellationToken;
-            _blockReads = true;
+            _blockAsyncReads = true;
         }
 
         public void ReleaseReads() => _releaseReads.TrySetResult();
 
         public override void Flush() => inner.Flush();
 
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            WaitForRelease();
-            return inner.Read(buffer, offset, count);
-        }
+        public override int Read(byte[] buffer, int offset, int count) =>
+            inner.Read(buffer, offset, count);
 
-        public override int Read(Span<byte> buffer)
-        {
-            WaitForRelease();
-            return inner.Read(buffer);
-        }
+        public override int Read(Span<byte> buffer) => inner.Read(buffer);
 
         public override async Task<int> ReadAsync(
             byte[] buffer,
@@ -711,7 +708,7 @@ public class ArtifactContextApiTests
 
         private Task WaitForReleaseAsync(CancellationToken cancellationToken)
         {
-            if (!_blockReads)
+            if (!_blockAsyncReads)
             {
                 return Task.CompletedTask;
             }
@@ -719,17 +716,6 @@ public class ArtifactContextApiTests
             _readStarted.TrySetResult();
             // ZIP streams can omit the caller token on asynchronous reads.
             return _releaseReads.Task.WaitAsync(_blockingCancellationToken).WaitAsync(cancellationToken);
-        }
-
-        private void WaitForRelease()
-        {
-            if (!_blockReads)
-            {
-                return;
-            }
-
-            _readStarted.TrySetResult();
-            _releaseReads.Task.Wait(_blockingCancellationToken);
         }
     }
 
