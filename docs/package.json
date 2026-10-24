@@ -63,7 +63,7 @@
     "qs": "6.16.1",
     "serialize-javascript": "7.1.4",
     "tinypool": "2.2.0",
-    "undici": "7.30.1",
+    "undici": "8.12.3",
     "uuid": "14.0.3"
   },
   "resolutions": {
@@ -76,7 +76,7 @@
     "qs": "6.16.1",
     "serialize-javascript": "7.1.4",
     "tinypool": "2.2.0",
-    "undici": "7.30.1",
+    "undici": "8.12.3",
     "uuid": "14.0.3"
   }
 }
