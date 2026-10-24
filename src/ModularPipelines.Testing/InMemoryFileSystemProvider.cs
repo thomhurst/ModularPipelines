@@ -224,6 +224,16 @@ public sealed class InMemoryFileSystemProvider : IFileSystemProvider
         bool exists,
         string normalizedPath)
     {
+        if (mode is < FileMode.CreateNew or > FileMode.Append)
+        {
+            throw new ArgumentOutOfRangeException(nameof(mode), mode, "Invalid file mode.");
+        }
+
+        if (access is < FileAccess.Read or > FileAccess.ReadWrite)
+        {
+            throw new ArgumentOutOfRangeException(nameof(access), access, "Invalid file access.");
+        }
+
         if (mode == FileMode.Append && access != FileAccess.Write)
         {
             throw new ArgumentException("Append mode requires write-only access.", nameof(access));
