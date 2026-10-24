@@ -56,7 +56,7 @@ for (const [version, property] of [['4.2.3', 'VersionPrefix'], ['4.2.3-alpha0012
     const directory = mkdtempSync(join(tmpdir(), 'release-build-'));
     t.after(() => rmSync(directory, { recursive: true, force: true }));
     writeFileSync(join(directory, 'BuildSolutions.txt'), '# fixture\nCore.slnx\nDistributed.slnx\n');
-    const step = workflow.match(/- name: Build solutions[\s\S]*?        run: \|\r?\n([\s\S]*?)(?=      - name: NuGet login)/)?.[1];
+    const step = workflow.match(/- name: Build solutions[\s\S]*?        run: \|\r?\n([\s\S]*?)(?=      - (?:name:|uses:))/)?.[1];
     assert.ok(step, 'The workflow must build solutions');
     const script = step.replace(/^ {10}/gm, '');
     // Capture the actual build arguments without compiling fixture solutions.

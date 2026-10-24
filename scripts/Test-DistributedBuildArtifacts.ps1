@@ -16,12 +16,13 @@ foreach ($step in $artifactSteps) {
     }
     else { $downloads += $name }
 }
-if ($uploads.Count -ne 8 -or $downloads.Count -ne 2) {
-    throw 'Expected the host, prerequisite results, three pipeline output artifacts, core platform test diagnostics, publish rehearsal evidence, and Redis test results with two matching downloads.'
+if ($uploads.Count -ne 9 -or $downloads.Count -ne 3) {
+    throw 'Expected nine attempt-scoped uploads and three producer-bound downloads, including the validated release packages.'
 }
 $producers = @(
     @{ Job = 'fast-fail'; Output = 'test_results_artifact' },
-    @{ Job = 'pipeline-host'; Output = 'artifact_name' }
+    @{ Job = 'pipeline-host'; Output = 'artifact_name' },
+    @{ Job = 'pipeline'; Output = 'release_artifact' }
 )
 foreach ($producer in $producers) {
     $reference = '${{ needs.' + $producer.Job + '.outputs.' + $producer.Output + ' }}'
@@ -32,4 +33,4 @@ foreach ($producer in $producers) {
     $name = [regex]::Match($job, '(?m)^      ' + $producer.Output + ': (.+)$').Groups[1].Value.Trim()
     if ($name -cnotin $uploads) { throw "Producer output '$name' does not match an attempt-scoped upload." }
 }
-Write-Output 'Distributed artifacts: eight retry-safe uploads and two producer-bound downloads passed.'
+Write-Output 'Distributed artifacts: nine retry-safe uploads and three producer-bound downloads passed.'
