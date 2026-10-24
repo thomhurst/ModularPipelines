@@ -8,13 +8,14 @@ namespace ModularPipelines.Distributed.SignalR;
 public sealed record SignalRDistributedOptions
 {
     /// <summary>
-    /// Gets the absolute HTTP or HTTPS URL the master binds its SignalR server to. Use port 0 to let the operating
-    /// system choose a port. Default: <c>http://localhost:5099</c>.
+    /// Gets the absolute HTTPS URL the master binds its SignalR server to. HTTP is allowed only on loopback.
+    /// Use port 0 to let the operating system choose a port. Default: <c>http://localhost:5099</c>.
     /// </summary>
     public Uri ListenUrl { get; init; } = new("http://localhost:5099");
 
     /// <summary>
-    /// Gets the URL workers use to reach the master. The master advertises it through
+    /// Gets the absolute HTTPS URL workers use to reach the master. HTTP is allowed only on loopback.
+    /// The master advertises it through
     /// <see cref="IMasterDiscovery"/>, and workers without discovery connect to it. When unset, the
     /// master advertises the tunnel URL or the bound listen URL, and workers without discovery
     /// connect to <see cref="ListenUrl"/>. Workers preserve any path prefix in the endpoint URL when

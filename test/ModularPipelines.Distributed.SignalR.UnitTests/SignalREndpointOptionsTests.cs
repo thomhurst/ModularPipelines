@@ -26,14 +26,98 @@ public class SignalREndpointOptionsTests
     [Test]
     [Arguments("http://127.0.0.1:0")]
     [Arguments("https://master.example:6000")]
-    public async Task Listener_Accepts_Http_And_Https_Uris(string endpoint)
+    [Arguments("http://localhost:5099")]
+    [Arguments("http://127.0.0.2:5099")]
+    [Arguments("http://[::1]:5099")]
+    [Arguments("https://0.0.0.0:5099")]
+    public async Task Endpoints_Accept_Https_Or_Loopback_Http(string endpoint)
     {
         var builder = Pipeline.CreateBuilder();
-        builder.AddSignalRDistributedCoordinator(options => options with { ListenUrl = new Uri(endpoint) });
+        builder.AddSignalRDistributedCoordinator(options => options with
+        {
+            ListenUrl = new Uri(endpoint),
+            AdvertisedUrl = new Uri(endpoint),
+        });
         using var services = builder.Services.BuildServiceProvider();
 
-        await Assert.That(services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value.ListenUrl)
-            .IsEqualTo(new Uri(endpoint));
+        var options = services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value;
+        await Assert.That(options.ListenUrl).IsEqualTo(new Uri(endpoint));
+        await Assert.That(options.AdvertisedUrl).IsEqualTo(new Uri(endpoint));
+    }
+
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
+    public async Task Non_Loopback_Http_Endpoints_Fail_Validation(bool advertised, bool withToken)
+    {
+        foreach (var endpoint in new[] { "http://master.example:5099", "http://192.0.2.1:5099", "http://0.0.0.0:5099", "http://[::]:5099", "http://[2001:db8::1]:5099" })
+        {
+            var builder = Pipeline.CreateBuilder();
+            builder.AddSignalRDistributedCoordinator(options => options with
+            {
+                ListenUrl = advertised ? options.ListenUrl : new Uri(endpoint),
+                AdvertisedUrl = advertised ? new Uri(endpoint) : null,
+                AccessToken = withToken ? "private-token" : null,
+            });
+            using var services = builder.Services.BuildServiceProvider();
+
+            var exception = await Assert.That(() => services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value)
+                .Throws<OptionsValidationException>()
+                .WithMessageContaining(advertised ? nameof(SignalRDistributedOptions.AdvertisedUrl) : nameof(SignalRDistributedOptions.ListenUrl));
+
+            await Assert.That(exception!.Message).Contains("HTTPS");
+        }
+    }
+
+    [Test]
+    [Arguments("relative/path")]
+    [Arguments("ftp://master.example")]
+    [Arguments("file:///master")]
+    public async Task Advertised_Endpoint_Requires_An_Absolute_Http_Uri(string endpoint)
+    {
+        var builder = Pipeline.CreateBuilder();
+        builder.AddSignalRDistributedCoordinator(options => options with { AdvertisedUrl = new Uri(endpoint, UriKind.RelativeOrAbsolute) });
+        using var services = builder.Services.BuildServiceProvider();
+
+        await Assert.That(() => services.GetRequiredService<IOptions<SignalRDistributedOptions>>().Value)
+            .Throws<OptionsValidationException>().WithMessageContaining(nameof(SignalRDistributedOptions.AdvertisedUrl));
+    }
+
+    [Test]
+    [Arguments("http://private-user:private-password@master.example:5099/?secret=private-query", false, true)]
+    [Arguments("http://private-user:private-password@master.example:5099/?secret=private-query", true, true)]
+    [Arguments("http://master.example:5099", false, false)]
+    [Arguments("http://master.example:5099", true, false)]
+    [Arguments("http://192.0.2.1:5099", true, true)]
+    [Arguments("http://0.0.0.0:5099", true, true)]
+    [Arguments("http://[2001:db8::1]:5099", true, true)]
+    [Arguments("relative/path", true, true)]
+    [Arguments("ftp://master.example", true, true)]
+    [Arguments((string?) null, true, true)]
+    public async Task Worker_Rejects_Unsafe_Endpoints_Before_Connecting(string? endpoint, bool useDiscovery, bool withToken)
+    {
+        var url = endpoint is null ? null! : new Uri(endpoint, UriKind.RelativeOrAbsolute);
+        var discovery = new SignalRTestMaster.CapturingDiscovery
+        {
+            Override = new MasterEndpoint { Url = url, AccessToken = withToken ? "private-discovered-token" : null },
+        };
+        var factory = new SignalRDistributedCoordinatorFactory(
+            MsOptions.Create(new SignalRDistributedOptions
+            {
+                AdvertisedUrl = useDiscovery ? null : url,
+                AccessToken = withToken ? "private-configured-token" : null,
+            }),
+            MsOptions.Create(new DistributedOptions()),
+            NullLoggerFactory.Instance,
+            useDiscovery ? discovery : null);
+
+        var exception = await Assert.That(async () =>
+                await factory.CreateWorkerAsync(CancellationToken.None).WaitAsync(TimeSpan.FromSeconds(5)))
+            .Throws<InvalidOperationException>().WithMessageContaining("HTTPS");
+
+        await Assert.That(exception!.Message).DoesNotContain("private");
     }
 
     [Test]

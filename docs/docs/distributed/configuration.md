@@ -436,7 +436,7 @@ invokes again and never misses a broadcast.
 ```csharp
 builder.AddSignalRDistributedCoordinator(options => options with
 {
-    ListenUrl = new Uri("http://0.0.0.0:5099"),
+    ListenUrl = new Uri("https://0.0.0.0:5099"),
     AdvertisedUrl = new Uri("https://pipeline-master.example.com"),
     AccessToken = Environment.GetEnvironmentVariable("PIPELINE_HUB_TOKEN"),
 });
@@ -444,8 +444,8 @@ builder.AddSignalRDistributedCoordinator(options => options with
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `ListenUrl` | `Uri` | `http://localhost:5099` | URL the master binds. Port `0` lets the operating system choose a port. |
-| `AdvertisedUrl` | `Uri?` | `null` | URL workers connect to. The master advertises it through discovery; workers without discovery connect to it, or to `ListenUrl` when it is unset. |
+| `ListenUrl` | `Uri` | `http://localhost:5099` | HTTPS URL the master binds (HTTP only on loopback). Port `0` lets the operating system choose a port. |
+| `AdvertisedUrl` | `Uri?` | `null` | HTTPS URL workers connect to (HTTP only on loopback). The master advertises it through discovery; workers without discovery connect to it, or to `ListenUrl` when it is unset. |
 | `HubPath` | `string` | `/pipeline-hub` | Hub path, starting with `/`. |
 | `AccessToken` | `string?` | `null` | Token workers present to the master. When unset, the master generates one whenever it is reachable beyond the machine (a tunnel or a non-loopback `ListenUrl`) and shares it through master discovery; without discovery such a master fails at startup until every process configures a token. The token is never logged. |
 | `ConnectionTimeout` | `TimeSpan` | `00:02:00` | How long a worker keeps trying to connect. |
@@ -456,6 +456,13 @@ builder.AddSignalRDistributedCoordinator(options => options with
 | `Tunnel.Enabled` | `bool` | `false` | Start a cloudflared quick tunnel to the bound URL and advertise its public URL. |
 | `Tunnel.CloudflaredPath` | `string` | `cloudflared` | Path to the cloudflared binary. |
 | `Tunnel.StartupTimeout` | `TimeSpan` | `00:00:30` | How long to wait for the tunnel URL. |
+
+SignalR requires HTTPS for every non-loopback endpoint, whether configured directly or returned by
+master discovery, even when no access token is configured. Configure Kestrel's server certificate on
+the master, for example with `Kestrel__Certificates__Default__Path` and
+`Kestrel__Certificates__Default__Password`, and ensure workers trust its certificate. For a reverse
+proxy or cloudflared tunnel that terminates HTTPS, the local listener can use
+`http://127.0.0.1:5099` while workers connect to the public HTTPS URL.
 
 The hub rejects registrations for another `RunId`, a second live worker with the same `WorkerId`, and every
 call from a connection that has not registered; results and heartbeats must come from the registered worker.
@@ -531,12 +538,14 @@ endpoint strings in `new Uri("https://host.example")`. Endpoints must be absolut
 HTTP or HTTPS URLs; relative URLs and other schemes fail options validation.
 Redis REST endpoints require HTTPS except on loopback because requests include a bearer token.
 They may include a path prefix, but must not contain a query string or fragment.
+SignalR listener, advertised and discovered endpoints also require HTTPS except on loopback, to
+protect access tokens and module payloads. Non-loopback HTTP URLs now fail validation or worker startup.
 Empty or whitespace optional S3/Redis endpoints are treated as omitted.
 
 `ListenUrl` represents one endpoint, not a semicolon-separated list of Kestrel
-addresses. Kestrel wildcard hosts such as `http://+:5099` and `http://*:5099` are
+addresses. Kestrel wildcard hosts such as `https://+:5099` and `https://*:5099` are
 not valid `Uri` values. To listen on all IPv4 interfaces, use
-`new Uri("http://0.0.0.0:5099")` and set `AdvertisedUrl` to an address workers can reach.
+`new Uri("https://0.0.0.0:5099")` and set `AdvertisedUrl` to an HTTPS address workers can reach.
 
 Configuration files and environment variables still contain URL strings; normal
 configuration binding converts them to `Uri`. SignalR retains its
