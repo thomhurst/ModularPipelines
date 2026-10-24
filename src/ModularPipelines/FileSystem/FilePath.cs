@@ -290,9 +290,13 @@ public class FilePath : IEquatable<FilePath>
         return new FilePath(path, _provider);
     }
 
-    /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
+    /// <summary>Moves the file to a folder using the same file-system provider.</summary>
+    /// <param name="folder">The destination folder, bound to the same provider instance as this file.</param>
+    /// <returns>A new FilePath instance at the destination path.</returns>
+    /// <exception cref="ArgumentException">The folder uses a different file-system provider instance.</exception>
     public FilePath MoveTo(FolderPath folder)
     {
+        ValidateDestinationProvider(folder);
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, folder);
 
         folder.Create();
@@ -326,12 +330,14 @@ public class FilePath : IEquatable<FilePath>
     /// <remarks>
     /// Uses thread pool offloading as no native async move API exists in .NET.
     /// </remarks>
-    /// <param name="folder">The destination folder.</param>
+    /// <param name="folder">The destination folder, bound to the same provider instance as this file.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FilePath instance at the destination path.</returns>
+    /// <exception cref="ArgumentException">The folder uses a different file-system provider instance.</exception>
     public async Task<FilePath> MoveToAsync(FolderPath folder, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        ValidateDestinationProvider(folder);
         LogFileOperationWithDestination("Moving File: {Source} > {Destination}", this, folder);
 
         await folder.CreateAsync(cancellationToken).ConfigureAwait(false);
@@ -349,8 +355,13 @@ public class FilePath : IEquatable<FilePath>
         return new FilePath(path, _provider);
     }
 
+    /// <summary>Copies the file to a folder using the same file-system provider.</summary>
+    /// <param name="folder">The destination folder, bound to the same provider instance as this file.</param>
+    /// <returns>A new FilePath instance representing the copied file.</returns>
+    /// <exception cref="ArgumentException">The folder uses a different file-system provider instance.</exception>
     public FilePath CopyTo(FolderPath folder)
     {
+        ValidateDestinationProvider(folder);
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, folder);
 
         folder.Create();
@@ -390,12 +401,14 @@ public class FilePath : IEquatable<FilePath>
     /// <summary>
     /// Asynchronously copies the file to a folder using stream-based copying.
     /// </summary>
-    /// <param name="folder">The destination folder.</param>
+    /// <param name="folder">The destination folder, bound to the same provider instance as this file.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A new FilePath instance representing the copied file.</returns>
+    /// <exception cref="ArgumentException">The folder uses a different file-system provider instance.</exception>
     public async Task<FilePath> CopyToAsync(FolderPath folder, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        ValidateDestinationProvider(folder);
         LogFileOperationWithDestination("Copying File: {Source} > {Destination}", this, folder);
 
         await folder.CreateAsync(cancellationToken).ConfigureAwait(false);
@@ -512,6 +525,14 @@ public class FilePath : IEquatable<FilePath>
     public static bool operator !=(FilePath? left, FilePath? right)
     {
         return !Equals(left, right);
+    }
+
+    private void ValidateDestinationProvider(FolderPath folder)
+    {
+        if (!ReferenceEquals(_provider, folder.Provider))
+        {
+            throw new ArgumentException("The destination folder must use the same file-system provider instance as this file.", nameof(folder));
+        }
     }
 
     /// <summary>
