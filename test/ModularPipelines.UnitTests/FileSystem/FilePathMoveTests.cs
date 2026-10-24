@@ -59,7 +59,6 @@ public class FilePathMoveTests
     {
         await using var temporary = new TempFolder();
         var sourceProvider = CreateProvider();
-        var folderProvider = CreateProvider();
         var sourcePath = Path.Combine(temporary.Folder.Path, "source.txt");
         var folderPath = Path.Combine(temporary.Folder.Path, "destination");
         await File.WriteAllTextAsync(sourcePath, "source");
@@ -69,7 +68,7 @@ public class FilePathMoveTests
         }
 
         var source = new FilePath(sourcePath, useCustomProvider ? sourceProvider.Object : SystemFileSystemProvider.Instance);
-        var folder = new FolderPath(folderPath, useCustomProvider ? folderProvider.Object : SystemFileSystemProvider.Instance);
+        var folder = new FolderPath(folderPath, useCustomProvider ? sourceProvider.Object : SystemFileSystemProvider.Instance);
         using var cancellation = new CancellationTokenSource();
 
         var moved = await source.MoveToAsync(folder, cancellation.Token);
@@ -80,7 +79,7 @@ public class FilePathMoveTests
         await Assert.That(ReferenceEquals(moved.Provider, source.Provider)).IsTrue();
         if (useCustomProvider)
         {
-            folderProvider.Verify(p => p.CreateDirectory(folderPath), Times.Once);
+            sourceProvider.Verify(p => p.CreateDirectory(folderPath), Times.Once);
             sourceProvider.Verify(p => p.MoveFile(sourcePath, moved.Path), Times.Once);
         }
     }
