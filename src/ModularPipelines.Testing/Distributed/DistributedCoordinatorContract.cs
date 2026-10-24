@@ -258,7 +258,7 @@ public static class DistributedCoordinatorContract
     /// <returns>The asynchronous contract check.</returns>
     public static async Task LeaseExpirationBudgetFailsModuleAsync(IDistributedMasterCoordinator coordinator, int budget = 2)
     {
-        using var timeout = new CancellationTokenSource(Timeout);
+        using var timeout = new CancellationTokenSource(ExpirationCheckTimeout(budget));
         var token = timeout.Token;
         var assignment = CreateAssignment("Contract.Poison");
         var lostWorkers = new List<WorkerId>();
@@ -319,10 +319,11 @@ public static class DistributedCoordinatorContract
     /// <returns>The asynchronous contract check.</returns>
     public static async Task LeaseExpirationRecoverySucceedsAsync(IDistributedMasterCoordinator coordinator)
     {
-        using var timeout = new CancellationTokenSource(Timeout);
+        string[] moduleNames = ["Contract.Recovery", "Contract.IndependentRecovery"];
+        using var timeout = new CancellationTokenSource(ExpirationCheckTimeout(moduleNames.Length + 1));
         var token = timeout.Token;
         var successes = new List<SerializedModuleResult>();
-        foreach (var name in new[] { "Contract.Recovery", "Contract.IndependentRecovery" })
+        foreach (var name in moduleNames)
         {
             var assignment = CreateAssignment(name);
             await coordinator.EnqueueModuleAsync(assignment, token).ConfigureAwait(false);
@@ -605,6 +606,14 @@ public static class DistributedCoordinatorContract
         RegisteredAt = new DateTimeOffset(2026, 1, 1, 12, 0, 0, TimeSpan.Zero),
         RunId = "contract-run",
     };
+
+    private static TimeSpan ExpirationCheckTimeout(int expirationWaitCount)
+    {
+        // Allow the deliberate expiry delays plus backend/scheduling time for every expiry round
+        // (including concurrent scans), setup, and final assertions/publication. A single operation
+        // timeout leaves progressively less headroom as the expiration budget grows.
+        return (LeaseTimeout * 3 * expirationWaitCount) + (Timeout * (expirationWaitCount + 2));
+    }
 
     private static async Task WaitUntilReadyAsync(Task? waitUntilReady)
     {
