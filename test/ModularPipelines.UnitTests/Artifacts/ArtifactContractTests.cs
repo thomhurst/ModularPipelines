@@ -2317,6 +2317,9 @@ public class ArtifactContractTests
             "independent artifact store cancellation",
             tokenlessException ? CancellationToken.None : storeCancellation.Token);
         var signal = new ArtifactUploadSignal();
+        var uploadReady = CreateSignal();
+        var releaseUpload = CreateSignal();
+        var uploadToken = CancellationToken.None;
         var store = new Mock<IDistributedArtifactStore>();
         store.Setup(x => x.UploadAsync(
                 It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
@@ -2335,6 +2338,10 @@ public class ArtifactContractTests
                     }
                 }
 
+                uploadToken = token;
+                uploadReady.TrySetResult();
+                // Pipeline cancellation is an input to this test, not the store failure's cause.
+                await releaseUpload.Task;
                 throw cancellation;
             });
 
@@ -2360,28 +2367,41 @@ public class ArtifactContractTests
             builder.AddModule<LocalConsumerModule>();
             await using var pipeline = await builder.BuildAsync();
 
-            if (cancelPipeline && !customBackend)
+            var execution = pipeline.RunAsync();
+            try
             {
-                var aggregate = await Assert.ThrowsAsync<AggregateException>(
-                    () => pipeline.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
-                var failures = aggregate!.Flatten().InnerExceptions.OfType<ModuleFailedException>().ToArray();
-                await Assert.That(failures.Length).IsEqualTo(2);
-                await Assert.That(failures.Any(failure => failure.ModuleType == typeof(LocalProducerModule))).IsTrue();
-            }
-            else
-            {
-                var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-                    () => pipeline.RunAsync().WaitAsync(TimeSpan.FromSeconds(10)));
-                await Assert.That(exception!.ModuleType).IsEqualTo(
-                    cancelPipeline ? typeof(FailDuringArtifactUploadModule) : typeof(LocalProducerModule));
-            }
-            var producerResult = pipeline.Services.GetRequiredService<IModuleResultRegistry>()
-                .GetResult(typeof(LocalProducerModule));
+                // File creation and scheduling under suite load must finish before timing failure propagation.
+                await uploadReady.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+                await Assert.That(uploadToken.IsCancellationRequested).IsEqualTo(cancelPipeline);
+                await Assert.That(execution.IsCompleted).IsFalse();
+                var completion = execution.WaitAsync(TimeSpan.FromSeconds(10));
+                releaseUpload.TrySetResult();
 
-            using (Assert.Multiple())
+                if (cancelPipeline && !customBackend)
+                {
+                    var aggregate = await Assert.ThrowsAsync<AggregateException>(() => completion);
+                    var failures = aggregate!.Flatten().InnerExceptions.OfType<ModuleFailedException>().ToArray();
+                    await Assert.That(failures.Length).IsEqualTo(2);
+                    await Assert.That(failures.Any(failure => failure.ModuleType == typeof(LocalProducerModule))).IsTrue();
+                }
+                else
+                {
+                    var exception = await Assert.ThrowsAsync<ModuleFailedException>(() => completion);
+                    await Assert.That(exception!.ModuleType).IsEqualTo(
+                        cancelPipeline ? typeof(FailDuringArtifactUploadModule) : typeof(LocalProducerModule));
+                }
+                var producerResult = pipeline.Services.GetRequiredService<IModuleResultRegistry>()
+                    .GetResult(typeof(LocalProducerModule));
+
+                using (Assert.Multiple())
+                {
+                    await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
+                    await Assert.That(producerResult.ExceptionOrDefault!.GetBaseException()).IsSameReferenceAs(cancellation);
+                }
+            }
+            finally
             {
-                await Assert.That(producerResult!.Status).IsEqualTo(ModularPipelines.ModuleStatus.Failed);
-                await Assert.That(producerResult.ExceptionOrDefault!.GetBaseException()).IsSameReferenceAs(cancellation);
+                releaseUpload.TrySetResult();
             }
         }
         finally
