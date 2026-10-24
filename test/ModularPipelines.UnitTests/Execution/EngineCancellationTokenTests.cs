@@ -26,6 +26,7 @@ public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
     private static TaskCompletionSource AwaitingPendingModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private static TaskCompletionSource AwaitingPendingModuleCompleted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static TaskCompletionSource AwaitingTerminatedModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static TaskCompletionSource PeerModuleStarted = new(TaskCreationOptions.RunContinuationsAsynchronously);
     private static string CommandReadyFile = string.Empty;
@@ -160,13 +161,26 @@ public class EngineCancellationTokenTests : TestBase
 
     private class AwaitingPendingModule : Module<bool>
     {
-        protected internal override async Task<bool> ExecuteAsync(
+        protected internal override Task<bool> ExecuteAsync(
             IModuleContext context,
             CancellationToken cancellationToken)
         {
+            var pendingResult = AwaitPendingResult(context);
             AwaitingPendingModuleStarted.TrySetResult();
-            var result = await context.GetModule<CanceledBeforeStartModule>();
-            return result.ValueOrDefault == true;
+            return pendingResult;
+        }
+
+        private static async Task<bool> AwaitPendingResult(IModuleContext context)
+        {
+            try
+            {
+                var result = await context.GetModule<CanceledBeforeStartModule>();
+                return result.ValueOrDefault == true;
+            }
+            finally
+            {
+                AwaitingPendingModuleCompleted.TrySetResult();
+            }
         }
     }
 
@@ -929,9 +943,13 @@ public class EngineCancellationTokenTests : TestBase
     }
 
     [Test]
+    // Keep unrelated full-suite work from starving the coordinated modules and their deadlines.
+    [TUnit.Core.ParallelGroup(nameof(CanceledBeforeStartModule_UnblocksRuntimeAwaiter))]
     public async Task CanceledBeforeStartModule_UnblocksRuntimeAwaiter()
     {
         AwaitingPendingModuleStarted =
+            new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        AwaitingPendingModuleCompleted =
             new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var builder = TestPipelineBuilder.Create()
@@ -949,8 +967,18 @@ public class EngineCancellationTokenTests : TestBase
             .AddModule<CanceledBeforeStartModule>();
 
         await using var host = await builder.BuildAsync();
+        var cancellationRequested = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var cancellationRegistration = host.Services.GetRequiredService<PipelineEngineCancellationToken>()
+            .Token.Register(() => cancellationRequested.TrySetResult());
+        var pipelineTask = host.RunAsync();
+
+        // Separate module startup and failure cancellation from the runtime await's completion budget.
+        await AwaitingPendingModuleStarted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await cancellationRequested.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+        await AwaitingPendingModuleCompleted.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
+
         var exception = await Assert.ThrowsAsync<ModuleFailedException>(
-            async () => await host.RunAsync().WaitAsync(TestHostSettings.DefaultTestTimeout));
+            async () => await pipelineTask.WaitAsync(TestHostSettings.DefaultTestTimeout));
 
         await Assert.That(exception!.InnerException).IsTypeOf<InvalidOperationException>();
         await Assert.That(exception.InnerException!).HasMessageEqualTo("Coordinated failure");
