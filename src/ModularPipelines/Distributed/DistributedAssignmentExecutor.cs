@@ -97,17 +97,7 @@ internal sealed class DistributedAssignmentExecutor(
         }
         catch (Exception exception)
         {
-            if (WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
-            {
-                if (logger.IsEnabled(LogLevel.Debug))
-                {
-                    logger.LogDebug(exception, "Distributed module {Module} was canceled", assignment.ModuleId);
-                }
-            }
-            else
-            {
-                logger.LogError(exception, "Distributed module {Module} failed", assignment.ModuleId);
-            }
+            LogExecutionFailure(exception, cancellationToken, assignment.ModuleId);
 
             if (!leaseLostToken.IsCancellationRequested)
             {
@@ -117,6 +107,21 @@ internal sealed class DistributedAssignmentExecutor(
         }
 
         return module;
+    }
+
+    private void LogExecutionFailure(Exception exception, CancellationToken cancellationToken, ModuleId moduleId)
+    {
+        if (WorkerCancellationClassifier.IsExpected(exception, cancellationToken))
+        {
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug(exception, "Distributed module {Module} was canceled", moduleId);
+            }
+        }
+        else
+        {
+            logger.LogError(exception, "Distributed module {Module} failed", moduleId);
+        }
     }
 
     private async Task<SerializedModuleResult?> ExecuteAndSerializeAsync(
