@@ -18,26 +18,7 @@ internal sealed class ModuleCacheGlob(string pattern, bool ignoreCase)
             var character = pattern[index];
             if (character == '*')
             {
-                var recursive = index + 1 < pattern.Length && pattern[index + 1] == '*';
-                if (recursive)
-                {
-                    index++;
-                }
-
-                if (recursive && index + 1 < pattern.Length && pattern[index + 1] == '/')
-                {
-                    index++;
-                    MatchDirectories(path, matches);
-                }
-                else
-                {
-                    for (var length = 1; length <= path.Length; length++)
-                    {
-                        matches[length] |= matches[length - 1]
-                                           && (recursive || path[length - 1] != '/');
-                    }
-                }
-
+                MatchWildcard(path, matches, ref index);
                 continue;
             }
 
@@ -71,6 +52,29 @@ internal sealed class ModuleCacheGlob(string pattern, bool ignoreCase)
         }
 
         return matches[path.Length];
+    }
+
+    private void MatchWildcard(string path, Span<bool> matches, ref int index)
+    {
+        var recursive = index + 1 < pattern.Length && pattern[index + 1] == '*';
+        if (recursive)
+        {
+            index++;
+        }
+
+        if (recursive && index + 1 < pattern.Length && pattern[index + 1] == '/')
+        {
+            index++;
+            MatchDirectories(path, matches);
+        }
+        else
+        {
+            for (var length = 1; length <= path.Length; length++)
+            {
+                matches[length] |= matches[length - 1]
+                                   && (recursive || path[length - 1] != '/');
+            }
+        }
     }
 
     private static void MatchDirectories(string path, Span<bool> matches)

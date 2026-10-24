@@ -56,6 +56,7 @@ public class ModuleCacheGlobTests
 
         await Assert.That(matches).IsFalse();
     }
+
     [Test]
     [Arguments(false, false)]
     [Arguments(true, true)]
