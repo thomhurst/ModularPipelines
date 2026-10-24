@@ -751,6 +751,10 @@ jobs:
         if: needs.fast-fail.outputs.distributed == 'true'
         working-directory: .github/actions/run-pipeline
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Protect parallel PowerShell startup on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: node .github/actions/run-pipeline/powershell-cache.mjs
       - name: Run Pipeline
         # A JavaScript action supplies job-scoped runtime credentials to its children.
         # Build outputs use durable GitHub artifacts; Redis carries coordination only.
@@ -881,6 +885,10 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/global.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+      - name: Protect parallel PowerShell startup on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: node .github/actions/run-pipeline/powershell-cache.mjs
       - name: Build and test core
         shell: pwsh
         run: |
