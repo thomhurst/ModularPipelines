@@ -492,16 +492,17 @@ public sealed class ModuleConfigurationBuilder
     /// Pass <see cref="Timeout.InfiniteTimeSpan"/> to disable the pipeline default timeout for this module.
     /// </remarks>
     /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown when <paramref name="timeout"/> is zero or negative and is not <see cref="Timeout.InfiniteTimeSpan"/>.
+    /// Thrown when <paramref name="timeout"/> exceeds 4,294,967,294 milliseconds,
+    /// or is zero or negative other than <see cref="Timeout.InfiniteTimeSpan"/>.
     /// </exception>
     public ModuleConfigurationBuilder WithTimeout(TimeSpan timeout)
     {
-        if (timeout != Timeout.InfiniteTimeSpan && timeout <= TimeSpan.Zero)
+        if (!Validation.TimeoutValidation.IsValid(timeout))
         {
             throw new ArgumentOutOfRangeException(
                 nameof(timeout),
                 timeout,
-                "The module timeout must be positive, or Timeout.InfiniteTimeSpan to disable the timeout.");
+                Validation.TimeoutValidation.GetErrorMessage(nameof(WithTimeout)));
         }
 
         _timeout = timeout;

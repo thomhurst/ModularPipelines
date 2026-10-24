@@ -585,11 +585,14 @@ public class ValidationTests
     }
 
     [Test]
-    [Arguments(0, false)]
-    [Arguments(-1, true)]
-    [Arguments(-2, false)]
-    [Arguments(100, true)]
-    public async Task ModuleTimeoutSentinels_AreValidated(int milliseconds, bool valid)
+    [Arguments(0L, false)]
+    [Arguments(-1L, true)]
+    [Arguments(-2L, false)]
+    [Arguments(100L, true)]
+    [Arguments(4294967294L, true)]
+    [Arguments(4294967295L, false)]
+    [Arguments(long.MaxValue / TimeSpan.TicksPerMillisecond, false)]
+    public async Task ModuleTimeoutSentinels_AreValidated(long milliseconds, bool valid)
     {
         var validator = new OptionsValidator();
         var options = new PipelineOptions
@@ -604,6 +607,22 @@ public class ValidationTests
             .IsEqualTo(!valid);
         await Assert.That(result.Errors.Any(error => error.Message.Contains(nameof(PipelineOptions.AlwaysRunProgressTimeout))))
             .IsEqualTo(!valid);
+    }
+
+    [Test]
+    [Arguments(0L, false)]
+    [Arguments(-1L, true)]
+    [Arguments(-2L, false)]
+    [Arguments(4294967294L, true)]
+    [Arguments(4294967295L, false)]
+    public async Task ModuleConfigurationTimeout_IsValidated(long milliseconds, bool valid)
+    {
+        var configuration = new ModuleConfiguration { Timeout = TimeSpan.FromMilliseconds(milliseconds) };
+        var module = Moq.Mock.Of<IModule>(module => module.Configuration == configuration && module.ResultType == typeof(string));
+
+        var result = new ModuleConfigurationValidator().ValidateModules([module]);
+
+        await Assert.That(result.Errors.Any(error => error.Message.Contains("invalid timeout"))).IsEqualTo(!valid);
     }
 
     [Test]

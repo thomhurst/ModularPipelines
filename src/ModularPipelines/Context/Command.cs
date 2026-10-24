@@ -14,6 +14,7 @@ using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.Secrets;
 using ModularPipelines.Tracing;
+using ModularPipelines.Validation;
 using CommandResult = ModularPipelines.CommandResult;
 
 namespace ModularPipelines.Context;
@@ -72,7 +73,29 @@ internal sealed class Command(
         return ExecuteCommandAsync(options, executionOptions, interceptCommands: true, cancellationToken);
     }
 
-    private async Task<CommandResult> ExecuteCommandAsync(
+    private Task<CommandResult> ExecuteCommandAsync(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions,
+        bool interceptCommands,
+        CancellationToken cancellationToken)
+    {
+        executionOptions ??= new CommandExecutionOptions();
+        ValidateTimeouts(executionOptions);
+        return ExecuteValidatedCommandAsync(options, executionOptions, interceptCommands, cancellationToken);
+    }
+
+    private static void ValidateTimeouts(CommandExecutionOptions options)
+    {
+        if (options.ExecutionTimeout is { } timeout)
+        {
+            TimeoutValidation.ThrowIfInvalid(timeout, nameof(CommandExecutionOptions.ExecutionTimeout));
+        }
+
+        TimeoutValidation.ThrowIfInvalid(options.GracefulShutdownTimeout,
+            nameof(CommandExecutionOptions.GracefulShutdownTimeout), allowZero: true);
+    }
+
+    private async Task<CommandResult> ExecuteValidatedCommandAsync(
         CommandLineToolOptions options,
         CommandExecutionOptions? executionOptions,
         bool interceptCommands,
@@ -242,6 +265,7 @@ internal sealed class Command(
         Activity? activity)
     {
         var toolOptions = invocation.ToolOptions ?? received.ToolOptions;
+        ValidateTimeouts(invocation.ExecutionOptions);
         var workingDirectory = string.Equals(
             invocation.WorkingDirectory,
             received.WorkingDirectory,

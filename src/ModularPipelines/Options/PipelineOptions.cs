@@ -105,7 +105,7 @@ public sealed record PipelineOptions
     /// <summary>
     /// Gets the default per-attempt timeout for modules that do not configure their own timeout.
     /// Set to <see cref="Timeout.InfiniteTimeSpan"/> to disable the default module timeout.
-    /// Zero and other negative durations are invalid.
+    /// Finite values must be positive and no greater than 4,294,967,294 milliseconds.
     /// Retry delays do not count toward this timeout.
     /// </summary>
     public TimeSpan DefaultModuleTimeout { get; init; } = TimeSpan.FromMinutes(30);
@@ -122,7 +122,7 @@ public sealed record PipelineOptions
     /// <summary>
     /// Gets the maximum cumulative time to wait for scheduler progress before retrying deferred
     /// <c>AlwaysRun</c> modules. Set to <see cref="Timeout.InfiniteTimeSpan"/> to disable this watchdog.
-    /// Zero and other negative durations are invalid.
+    /// Finite values must be positive and no greater than 4,294,967,294 milliseconds.
     /// </summary>
     public TimeSpan AlwaysRunProgressTimeout { get; init; } = TimeSpan.FromSeconds(30);
 

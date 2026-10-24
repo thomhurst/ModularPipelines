@@ -62,11 +62,11 @@ internal class OptionsValidator : IOptionsValidator
                 $"DefaultRetryCount cannot be negative. Current value: {options.DefaultRetryCount}"));
         }
 
-        if (options.DefaultModuleTimeout != Timeout.InfiniteTimeSpan && options.DefaultModuleTimeout <= TimeSpan.Zero)
+        if (!TimeoutValidation.IsValid(options.DefaultModuleTimeout))
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"DefaultModuleTimeout must be positive or Timeout.InfiniteTimeSpan. Current value: {options.DefaultModuleTimeout}"));
+                $"{TimeoutValidation.GetErrorMessage(nameof(PipelineOptions.DefaultModuleTimeout))} Current value: {options.DefaultModuleTimeout}"));
         }
 
         if (options.ModuleCancellationGracePeriod < TimeSpan.Zero
@@ -77,11 +77,11 @@ internal class OptionsValidator : IOptionsValidator
                 $"ModuleCancellationGracePeriod must be non-negative and no greater than {uint.MaxValue - 1} milliseconds. Current value: {options.ModuleCancellationGracePeriod}"));
         }
 
-        if (options.AlwaysRunProgressTimeout != Timeout.InfiniteTimeSpan && options.AlwaysRunProgressTimeout <= TimeSpan.Zero)
+        if (!TimeoutValidation.IsValid(options.AlwaysRunProgressTimeout))
         {
             result.AddError(new ValidationError(
                 ValidationErrorCategory.Options,
-                $"AlwaysRunProgressTimeout must be positive or Timeout.InfiniteTimeSpan. Current value: {options.AlwaysRunProgressTimeout}"));
+                $"{TimeoutValidation.GetErrorMessage(nameof(PipelineOptions.AlwaysRunProgressTimeout))} Current value: {options.AlwaysRunProgressTimeout}"));
         }
 
         ValidateConsoleOptions(options.Console, result);

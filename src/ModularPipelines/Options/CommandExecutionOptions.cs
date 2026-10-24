@@ -105,7 +105,8 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets the maximum time allowed for the command to complete.
-    /// Defaults to 30 minutes. Set to <see langword="null"/> to disable the timeout.
+    /// Defaults to 30 minutes. Set to <see langword="null"/> or <see cref="Timeout.InfiniteTimeSpan"/> to disable the timeout.
+    /// Finite values must be positive and no greater than 4,294,967,294 milliseconds.
     /// </summary>
     /// <remarks>
     /// When the timeout elapses, the command is stopped and a <see cref="TimeoutException"/> naming this
@@ -115,6 +116,8 @@ public record CommandExecutionOptions
 
     /// <summary>
     /// Gets the time to wait for graceful shutdown before forcefully terminating.
+    /// Must be non-negative and no greater than 4,294,967,294 milliseconds, or
+    /// <see cref="Timeout.InfiniteTimeSpan"/> to wait indefinitely. Zero schedules immediate forceful termination.
     /// Ignored on Windows, where cancellation immediately schedules forceful termination because
     /// commands cannot receive a graceful interrupt.
     /// </summary>
