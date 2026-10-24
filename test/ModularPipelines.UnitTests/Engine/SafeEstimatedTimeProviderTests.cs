@@ -67,7 +67,7 @@ public class SafeEstimatedTimeProviderTests
             .BuildAsync();
         using var cancellationTokenSource = new CancellationTokenSource();
         var runTask = host.RunAsync(cancellationTokenSource.Token);
-        await CancellableModule.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        await CancellableModule.Entered.Task.WaitAsync(TestHostSettings.DefaultTestTimeout);
         cancellationTokenSource.Cancel();
 
         try
