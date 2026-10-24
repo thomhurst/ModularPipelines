@@ -6,13 +6,24 @@ namespace ModularPipelines.UnitTests.Configuration;
 public class ModuleConfigurationBuilderValidationTests
 {
     [Test]
-    [Arguments(0)]
-    [Arguments(-2)]
-    [Arguments(-5000)]
-    public async Task WithTimeout_Rejects_Zero_And_Negative_Timeouts(int milliseconds)
+    [Arguments(0L)]
+    [Arguments(-2L)]
+    [Arguments(-5000L)]
+    [Arguments(4294967295L)]
+    [Arguments(long.MaxValue / TimeSpan.TicksPerMillisecond)]
+    public async Task WithTimeout_Rejects_Invalid_Timeouts(long milliseconds)
     {
         await Assert.That(() => new ModuleConfigurationBuilder().WithTimeout(TimeSpan.FromMilliseconds(milliseconds)))
             .Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task WithTimeout_Accepts_Maximum_Timer_Duration()
+    {
+        var timeout = TimeSpan.FromMilliseconds(uint.MaxValue - 1);
+        var configuration = new ModuleConfigurationBuilder().WithTimeout(timeout).Build();
+
+        await Assert.That(configuration.Timeout).IsEqualTo(timeout);
     }
 
     [Test]

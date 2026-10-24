@@ -60,6 +60,22 @@ not when timeouts are disabled. An explicit disabled timeout remains `Timeout.In
 in the built configuration. `DefaultModuleTimeout` and `AlwaysRunProgressTimeout` also require a
 positive duration or `Timeout.InfiniteTimeSpan`; zero is rejected.
 
+Finite module and `AlwaysRun` timeouts cannot exceed 4,294,967,294 milliseconds
+(about 49.7 days), the maximum supported timer duration. Use `Timeout.InfiniteTimeSpan`
+to wait indefinitely instead of `TimeSpan.MaxValue`.
+
+## Command timeouts
+
+`CommandExecutionOptions.ExecutionTimeout` defaults to 30 minutes. Finite values must be
+positive and no greater than 4,294,967,294 milliseconds. Set it to `null` or
+`Timeout.InfiniteTimeSpan` to disable the command deadline.
+
+On Unix, `CommandExecutionOptions.GracefulShutdownTimeout` controls the wait after a graceful
+interrupt before forceful termination. It accepts zero for immediate forceful termination,
+a positive duration up to the same timer limit, or `Timeout.InfiniteTimeSpan` to wait
+indefinitely for graceful shutdown. Windows always schedules immediate forceful termination.
+Both options are validated before launching a process, including on Windows.
+
 ## Combining with Other Behaviors
 
 Timeouts can be combined with other module behaviors:
