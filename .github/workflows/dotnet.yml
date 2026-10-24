@@ -780,7 +780,8 @@ jobs:
           name: release-packages-${{ github.run_attempt }}
           path: ${{ runner.temp }}/nuget-publish-rehearsal/
           if-no-files-found: error
-          retention-days: 1
+          # Preserve the validated bytes through delayed Production approval and retries.
+          retention-days: 90
 
       - name: Upload publish rehearsal evidence
         if: always() && matrix.instance == 0 && runner.os == 'Linux'

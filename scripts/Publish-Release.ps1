@@ -67,13 +67,34 @@ if ([string]::IsNullOrWhiteSpace($env:NUGET_API_KEY) -or [string]::IsNullOrWhite
     throw 'Publication requires NuGet and GitHub credentials, a repository, and an exact commit.'
 }
 
+# An existing tag wins over gh release create --target, including on a release retry.
+# Query the remote so lightweight and peeled annotated tags are checked before any push.
+$tag = "v$ExpectedVersion"
+$tagRef = "refs/tags/$tag"
+$remoteTags = @(& git ls-remote --exit-code --tags "https://github.com/$Repository.git" $tagRef "$tagRef^{}")
+$tagLookupExitCode = $LASTEXITCODE
+if ($tagLookupExitCode -eq 0) {
+    $tagTargets = @{}
+    foreach ($line in $remoteTags) {
+        $parts = $line -split '\s+', 2
+        if ($parts.Count -ne 2 -or $parts[0] -notmatch '^[a-fA-F0-9]{40}$' -or
+            $parts[1] -notin @($tagRef, "$tagRef^{}") -or $tagTargets.ContainsKey($parts[1])) {
+            throw 'The remote release tag lookup returned invalid data.'
+        }
+        $tagTargets[$parts[1]] = $parts[0]
+    }
+    if (-not $tagTargets.ContainsKey($tagRef)) { throw 'The remote release tag lookup returned no tag.' }
+    $tagCommit = if ($tagTargets.ContainsKey("$tagRef^{}")) { $tagTargets["$tagRef^{}"] } else { $tagTargets[$tagRef] }
+    if ($tagCommit -ne $Commit) { throw "Release tag '$tag' does not point at the validated commit '$Commit'." }
+}
+elseif ($tagLookupExitCode -ne 2) { throw 'Could not verify the remote release tag; publication stopped.' }
+
 # Push symbols explicitly as well: NuGet skips automatic symbols when the primary already exists.
 foreach ($file in $files) {
     & dotnet nuget push (Join-Path $PackageDirectory $file) --source 'https://api.nuget.org/v3/index.json' --api-key $env:NUGET_API_KEY --skip-duplicate
     if ($LASTEXITCODE -ne 0) { throw "NuGet upload failed for '$file'; release creation stopped." }
 }
 
-$tag = "v$ExpectedVersion"
 & gh release view $tag --repo $Repository *> $null
 if ($LASTEXITCODE -ne 0) {
     $releaseArguments = @('release', 'create', $tag, '--repo', $Repository, '--target', $Commit,

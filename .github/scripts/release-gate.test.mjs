@@ -88,3 +88,9 @@ test('publication consumes the producer attempt and the exact rehearsed packages
   assert.match(jobs.publish, /-Commit \$env:GITHUB_SHA/);
   assert.doesNotMatch(jobs.publish, /dotnet (?:build|pack|run)/);
 });
+
+test('release packages survive delayed production approval and publication retries', () => {
+  const releaseUpload = jobs.pipeline.match(/- name: Upload release packages\r?\n([\s\S]*?)(?=\r?\n      - name:)/)?.[1];
+  assert.ok(releaseUpload, 'The rehearsed release needs its own artifact upload');
+  assert.match(releaseUpload, /retention-days: 90\b/);
+});
