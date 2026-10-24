@@ -156,7 +156,9 @@ jobs:
       - name: Test generated options provenance
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh
-        run: ./scripts/Test-GeneratedOptionsProvenance.ps1
+        run: |
+          ./scripts/Test-GeneratedOptionsProvenanceTestCleanup.ps1
+          ./scripts/Test-GeneratedOptionsProvenance.ps1
       - name: Test generator formatting selection
         if: steps.generated_integration.outputs.is_generated_integration != 'true'
         shell: pwsh

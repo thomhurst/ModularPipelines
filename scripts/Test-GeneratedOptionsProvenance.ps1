@@ -1,4 +1,5 @@
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'GeneratedOptionsProvenanceTestCleanup.ps1')
 . (Join-Path $PSScriptRoot 'Resolve-GeneratedIntegrationValidation.ps1') `
     -HeadRef ignored `
     -ChangedPath @()
@@ -70,6 +71,7 @@ $stageScript = Join-Path `
     $repositoryRoot `
     'tools/ModularPipelines.OptionsGenerator/scripts/Stage-GeneratedChanges.ps1'
 $changeManifest = "$tempRoot.manifest"
+$assertionError = $null
 
 try {
     . $provenanceFunctions
@@ -203,6 +205,9 @@ try {
     Set-Content -LiteralPath $changeManifest -Value 'src/ModularPipelines.Fake/Options.Generated.cs'
 
     Invoke-Git $tempRoot init -b main
+    # This short-lived fixture needs no detached maintenance writing during cleanup.
+    Invoke-Git $tempRoot config maintenance.auto false
+    Invoke-Git $tempRoot config gc.auto 0
     Invoke-Git $tempRoot config user.email test@example.com
     Invoke-Git $tempRoot config user.name 'Generated Options Test'
     Invoke-Git $tempRoot add .
@@ -713,9 +718,11 @@ internal static class OptionsGeneratorCommand
 
     Write-Host 'Generated options provenance tests passed.'
 }
+catch {
+    $assertionError = $_
+    throw
+}
 finally {
-    if (Test-Path -LiteralPath $tempRoot) {
-        Remove-Item -LiteralPath $tempRoot -Recurse -Force
-    }
-    Remove-Item -LiteralPath $changeManifest -Force -ErrorAction SilentlyContinue
+    Remove-GeneratedOptionsProvenanceTestArtifacts -LiteralPath @($tempRoot, $changeManifest) `
+        -AssertionError $assertionError
 }
