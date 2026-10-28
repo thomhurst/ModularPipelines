@@ -163,7 +163,7 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 foreach ($requiredText in @(
              'name: pipeline (ubuntu-latest)',
              'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]',
-             'if: always()',
+             "if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)",
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
              '-WorkerPipelineResult ''${{ needs.pipeline-workers.result }}''',
@@ -177,6 +177,31 @@ foreach ($requiredText in @(
          )) {
     if (-not $requiredJob.Contains($requiredText, [StringComparison]::Ordinal)) {
         throw "Required pipeline aggregate omitted '$requiredText'."
+    }
+}
+
+# Drafts are reviewed before CI: every job depends on fast-fail, so gating it skips the
+# workflow before any build runner starts, and readiness starts the run.
+$pullRequestTrigger = [regex]::Match($workflow, '(?ms)^  pull_request:.*?(?=^  [a-z_]+:)').Value
+if (-not $pullRequestTrigger.Contains(
+        'types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]',
+        [StringComparison]::Ordinal)) {
+    throw 'Pull request CI must start when a draft becomes ready and cancel when it returns to draft.'
+}
+$fastFailJob = [regex]::Match(
+    $workflow,
+    '(?ms)^  fast-fail:.*?(?=^  [a-z0-9-]+:)').Value
+if (-not $fastFailJob.Contains(
+        "if: github.event_name != 'pull_request' || github.event.pull_request.draft == false",
+        [StringComparison]::Ordinal)) {
+    throw 'Fast fail must skip draft pull requests before allocating a runner.'
+}
+$jobsSection = $workflow.Substring([regex]::Match($workflow, '(?m)^jobs:').Index)
+foreach ($job in [regex]::Matches($jobsSection, '(?ms)^  ([a-z0-9-]+):\r?\n(.*?)(?=^  [a-z0-9-]+:|\z)')) {
+    $name = $job.Groups[1].Value
+    if ($name -eq 'fast-fail') { continue }
+    if ($job.Groups[2].Value -notmatch '(?m)^    needs: \[?[^\]\r\n]*\b(fast-fail|required-pipeline)\b') {
+        throw "Job '$name' must depend on fast-fail (directly or through required-pipeline) so drafts skip it."
     }
 }
 

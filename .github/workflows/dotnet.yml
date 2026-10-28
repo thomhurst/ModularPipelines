@@ -4,7 +4,11 @@ on:
   push:
     branches: ["main"]
   # Generated refreshes also target feature branches and need the same validation gates.
+  # Drafts are reviewed before CI: draft events skip every job (see fast-fail), marking a PR
+  # ready starts the run, and converting it back to draft cancels an in-flight run through
+  # the concurrency group below.
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
   workflow_dispatch:
     inputs:
       publish-packages:
@@ -34,6 +38,8 @@ concurrency:
 jobs:
   fast-fail:
     name: Fast fail
+    # Skip drafts before renting a runner. Every other job depends on this one.
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 25
     outputs:
@@ -1131,7 +1137,8 @@ jobs:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     name: pipeline (ubuntu-latest)
     needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]
-    if: always()
+    # A draft run reports no required context, so branch protection waits for the ready run.
+    if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:

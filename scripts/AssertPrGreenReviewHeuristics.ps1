@@ -370,3 +370,30 @@ function Get-ActionableReviewBodyReason {
 
     return $null
 }
+
+# Workflow concurrency cancels an in-flight run when a newer event starts one on the same
+# head, for example when a PR returns to draft and is marked ready again. The cancelled
+# run's checks stay in the head's rollup. Drop them only when GitHub reports the run as
+# cancelled and a later run of the same workflow on this head was not cancelled. Checks
+# without an Actions run link, or whose run could not be read, are always evaluated.
+function Get-CheckRunId($Check) {
+    if ("$($Check.detailsUrl)" -match '/actions/runs/(\d+)/') { return [long]$Matches[1] }
+    return $null
+}
+
+function Remove-SupersededRunChecks {
+    [CmdletBinding()]
+    param(
+        [object[]]$Checks,
+        # Run id -> @{ Workflow; Cancelled; Started }
+        [hashtable]$Runs
+    )
+
+    $superseded = @($Runs.Keys | Where-Object {
+            $run = $Runs[$_]
+            $run.Cancelled -and @($Runs.Values | Where-Object {
+                    $_.Workflow -eq $run.Workflow -and -not $_.Cancelled -and $_.Started -gt $run.Started
+                }).Count -gt 0
+        })
+    @($Checks | Where-Object { $superseded -notcontains (Get-CheckRunId $_) })
+}

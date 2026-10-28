@@ -2,11 +2,12 @@
 # Fail-closed merge gate for the issue-pr-loop skill.
 #
 # Exits 0 ONLY when PR #<N> is provably safe to merge:
-#   - state OPEN
+#   - state OPEN and not a draft
 #   - mergeable == MERGEABLE
 #   - mergeStateStatus == CLEAN
 #   - every status check is terminal AND passing (CheckRun: status=COMPLETED and
-#     conclusion in SUCCESS/SKIPPED/NEUTRAL; StatusContext: state=SUCCESS)
+#     conclusion in SUCCESS/SKIPPED/NEUTRAL; StatusContext: state=SUCCESS), ignoring
+#     checks of a cancelled run that a later run of the same workflow superseded
 #   - no current-head top-level review has actionable finding headings, unless
 #     the trusted review workflow posts an exact-head CLEAR verdict
 #   - no unresolved review threads
@@ -43,7 +44,7 @@ $repoArgs = @()
 if ($Repo) { $repoArgs = @('--repo', $Repo) }
 
 # Re-fetch fresh — survey output goes stale within seconds.
-$raw = gh pr view $Pr @repoArgs --json number,state,mergeable,mergeStateStatus,statusCheckRollup,commits,headRefOid,headRefName 2>$null
+$raw = gh pr view $Pr @repoArgs --json number,state,isDraft,mergeable,mergeStateStatus,statusCheckRollup,commits,headRefOid,headRefName 2>$null
 if ($LASTEXITCODE -ne 0) { Deny "gh pr view failed (exit $LASTEXITCODE)" }
 try {
     $view = $raw | ConvertFrom-Json
@@ -53,12 +54,39 @@ catch {
 }
 
 if ($view.state -ne 'OPEN') { Deny "state=$($view.state) (need OPEN)" }
+if ($view.isDraft) { Deny "PR is a draft; mark it ready after review approval so CI runs" }
 if ($view.mergeable -ne 'MERGEABLE') { Deny "mergeable=$($view.mergeable) (need MERGEABLE)" }
 if ($view.mergeStateStatus -ne 'CLEAN') { Deny "mergeStateStatus=$($view.mergeStateStatus) (need CLEAN)" }
 
 $checks = @($view.statusCheckRollup | Where-Object { $null -ne $_ })
 if ($checks.Count -eq 0) {
     Deny "statusCheckRollup is empty -- no checks registered yet; refusing to merge blind"
+}
+
+if ($Repo) {
+    $owner, $name = $Repo -split '/', 2
+}
+else {
+    $nwo = gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>$null
+    if ($LASTEXITCODE -ne 0 -or -not $nwo) { Deny "could not resolve repo for review checks" }
+    $owner, $name = $nwo.Trim() -split '/', 2
+}
+
+# Read runs only when a check was cancelled; see Remove-SupersededRunChecks.
+if (@($checks | Where-Object { $_.conclusion -eq 'CANCELLED' }).Count -gt 0) {
+    $runs = @{}
+    foreach ($runId in @($checks | ForEach-Object { Get-CheckRunId $_ } | Where-Object { $null -ne $_ } | Sort-Object -Unique)) {
+        $runRaw = gh api "repos/$owner/$name/actions/runs/$runId" --jq '{workflow_id, conclusion, run_started_at}' 2>$null
+        if ($LASTEXITCODE -ne 0) { continue }
+        try { $run = $runRaw | ConvertFrom-Json } catch { continue }
+        if ($null -eq $run.run_started_at) { continue }
+        $runs[$runId] = @{
+            Workflow  = $run.workflow_id
+            Cancelled = $run.conclusion -eq 'cancelled'
+            Started   = ConvertTo-UtcDateTimeOffset $run.run_started_at
+        }
+    }
+    $checks = @(Remove-SupersededRunChecks -Checks $checks -Runs $runs)
 }
 
 $allowedConclusions = @('SUCCESS', 'SKIPPED', 'NEUTRAL')
@@ -90,15 +118,6 @@ if ($bad.Count -gt 0) {
 
 $headCommit = @($view.commits | Where-Object { $null -ne $_ }) | Select-Object -Last 1
 $headCommittedAt = if ($headCommit) { ConvertTo-UtcDateTimeOffset $headCommit.committedDate } else { $null }
-
-if ($Repo) {
-    $owner, $name = $Repo -split '/', 2
-}
-else {
-    $nwo = gh repo view --json nameWithOwner --jq '.nameWithOwner' 2>$null
-    if ($LASTEXITCODE -ne 0 -or -not $nwo) { Deny "could not resolve repo for review checks" }
-    $owner, $name = $nwo.Trim() -split '/', 2
-}
 
 # gh pr view's latestReviews selection leaves commit.oid empty. Request it
 # explicitly and paginate the connection before authenticating workflow verdicts.

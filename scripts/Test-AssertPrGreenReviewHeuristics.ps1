@@ -1366,4 +1366,64 @@ foreach ($change in @(
     $dispatchCaseCount++
 }
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases, $dispatchCaseCount dispatch cases)."
+function New-RunCheck([string]$Name, [long]$RunId, [string]$Conclusion) {
+    [pscustomobject]@{
+        name = $Name; status = 'COMPLETED'; conclusion = $Conclusion
+        detailsUrl = "https://github.com/owner/repo/actions/runs/$RunId/job/$($RunId + 1)"
+    }
+}
+$cancelledCheck = New-RunCheck 'Fast fail' 10 'CANCELLED'
+$laterCheck = New-RunCheck 'Fast fail' 20 'SUCCESS'
+$supersededRunCases = @(
+    @{
+        Name = 'drops a cancelled run superseded by a later run of the same workflow'
+        Runs = @{
+            [long]10 = @{ Workflow = 1; Cancelled = $true; Started = [datetimeoffset]'2026-10-28T10:00:00Z' }
+            [long]20 = @{ Workflow = 1; Cancelled = $false; Started = [datetimeoffset]'2026-10-28T10:05:00Z' }
+        }
+        Expected = @('20')
+    },
+    @{
+        Name = 'keeps a cancelled run when the other run started earlier'
+        Runs = @{
+            [long]10 = @{ Workflow = 1; Cancelled = $true; Started = [datetimeoffset]'2026-10-28T10:05:00Z' }
+            [long]20 = @{ Workflow = 1; Cancelled = $false; Started = [datetimeoffset]'2026-10-28T10:00:00Z' }
+        }
+        Expected = @('10', '20')
+    },
+    @{
+        Name = 'keeps a cancelled run when only another workflow ran later'
+        Runs = @{
+            [long]10 = @{ Workflow = 1; Cancelled = $true; Started = [datetimeoffset]'2026-10-28T10:00:00Z' }
+            [long]20 = @{ Workflow = 2; Cancelled = $false; Started = [datetimeoffset]'2026-10-28T10:05:00Z' }
+        }
+        Expected = @('10', '20')
+    },
+    @{
+        Name = 'keeps a cancelled run when the later run was also cancelled'
+        Runs = @{
+            [long]10 = @{ Workflow = 1; Cancelled = $true; Started = [datetimeoffset]'2026-10-28T10:00:00Z' }
+            [long]20 = @{ Workflow = 1; Cancelled = $true; Started = [datetimeoffset]'2026-10-28T10:05:00Z' }
+        }
+        Expected = @('10', '20')
+    },
+    @{
+        Name = 'keeps checks whose run could not be read'
+        Runs = @{ [long]20 = @{ Workflow = 1; Cancelled = $false; Started = [datetimeoffset]'2026-10-28T10:05:00Z' } }
+        Expected = @('10', '20')
+    }
+)
+foreach ($case in $supersededRunCases) {
+    $kept = @(Remove-SupersededRunChecks -Checks @($cancelledCheck, $laterCheck) -Runs $case.Runs |
+            ForEach-Object { [string](Get-CheckRunId $_) })
+    if (($kept -join ',') -ne ($case.Expected -join ',')) {
+        throw "$($case.Name): expected runs $($case.Expected -join ','), kept $($kept -join ',')."
+    }
+}
+$statusContext = [pscustomobject]@{ context = 'legacy'; state = 'SUCCESS' }
+if ($null -ne (Get-CheckRunId $statusContext) -or
+    @(Remove-SupersededRunChecks -Checks @($statusContext) -Runs @{}).Count -ne 1) {
+    throw 'A check without an Actions run link must always be evaluated.'
+}
+
+Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases, $dispatchCaseCount dispatch cases, $($supersededRunCases.Count + 1) superseded run cases)."

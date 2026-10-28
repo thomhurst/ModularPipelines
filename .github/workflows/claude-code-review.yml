@@ -10,7 +10,9 @@ on:
   # PR head is UNTRUSTED CODE. Keep permissions minimal, never check the head
   # out at the workspace root, and never grant Claude an unrestricted tool.
   pull_request_target:
-    types: [opened, synchronize, ready_for_review, reopened]
+    # Drafts are reviewed on every push, before CI runs. Marking a PR ready does not change
+    # its head, so `ready_for_review` is not a trigger: the draft review already covers it.
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
     inputs:
       pr_number:

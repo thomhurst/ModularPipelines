@@ -8,10 +8,11 @@
 #      down), it backs off without starting an agent.
 #   2. Runs the merged-worktree sweep and surveys open PRs and issues with `gh`. When
 #      the latest push CI run of any workflow on main failed, fixing main comes first.
-#   3. Skips drafts, `needs-human` and `on-hold` items, PRs whose checks are still
-#      running, and items whose GitHub state is unchanged since an agent last deferred
-#      them. Also skips issues that cannot be worked yet: issues with open native
-#      sub-issues or open `blocked_by` dependencies, issues that already have an open
+#   3. Includes draft PRs, which the skill reviews before marking them ready. Skips
+#      `needs-human` and `on-hold` items, PRs whose checks are still running, and items
+#      whose GitHub state is unchanged since an agent last deferred them. Also skips
+#      issues that cannot be worked yet: issues with open native sub-issues or open
+#      `blocked_by` dependencies, issues that already have an open
 #      closing PR, and bot-owned tracking issues. Stranded branches follow the same
 #      rules. Ranks local `issue-*` branches with unpublished commits and no open PR
 #      above new issues, then parents whose sub-issues are all closed, then issues that
@@ -248,7 +249,14 @@ function Get-PrFingerprint($Pr) {
     $review = @($Pr.reviews | Where-Object { $_.author.login -ne $Pr.author.login } |
         ForEach-Object { [string]$_.submittedAt } | Sort-Object) | Select-Object -Last 1
     $comment = Get-LatestOutsideComment $Pr.comments
-    Get-Hash ((@($Pr.headRefOid, $Pr.mergeable, ($labels -join ','), $review, $comment) + $checks) -join '|')
+    # Codex can approve a draft with a reaction on the loop's review request instead of a
+    # review. Wake the agent on reaction changes; it verifies the reacting account and verdict.
+    $codexReactions = @($Pr.comments | Where-Object {
+            ([string]$_.body).Contains("<!-- codex-review:$($Pr.headRefOid) -->")
+        } | ForEach-Object {
+            '{0}={1}' -f $_.id, (ConvertTo-Json -InputObject $_.reactionGroups -Compress -Depth 10)
+        } | Sort-Object)
+    Get-Hash ((@($Pr.headRefOid, $Pr.isDraft, $Pr.mergeable, ($labels -join ','), $review, $comment) + $checks + $codexReactions) -join '|')
 }
 
 function Get-IssueFingerprint($Issue) {
@@ -456,7 +464,7 @@ function Get-Candidates {
     if ($LASTEXITCODE -ne 0) { throw 'gh pr list failed.' }
     $surveyStats['prs'] = @($prs).Count
     $ranked = foreach ($pr in $prs) {
-        if ($pr.isDraft) { $surveyStats['pr-draft']++; continue }
+        if ($pr.isDraft) { $surveyStats['pr-draft']++ }
         if (@($pr.labels | Where-Object { $_.name -in $excludedPrLabels }).Count -gt 0) { $surveyStats['pr-excluded']++; continue }
         $checks = @($pr.statusCheckRollup)
         $pending = @($checks | Where-Object { (Get-CheckState $_) -in 'PENDING', 'EXPECTED', 'QUEUED', 'IN_PROGRESS', 'WAITING', 'REQUESTED', '' })
@@ -464,7 +472,8 @@ function Get-Candidates {
         $conflicting = $pr.mergeable -eq 'CONFLICTING'
         # Running checks leave nothing to do yet; the next survey picks the PR up.
         if ($pending.Count -gt 0 -and -not $conflicting) { $surveyStats['pr-pending']++; continue }
-        $rank = if ($pr.mergeStateStatus -eq 'CLEAN' -and $failed.Count -eq 0) { 0 }
+        # A draft is never a merge candidate: it needs review processing and promotion.
+        $rank = if (-not $pr.isDraft -and $pr.mergeStateStatus -eq 'CLEAN' -and $failed.Count -eq 0) { 0 }
         elseif ($conflicting) { 1 }
         elseif ($failed.Count -gt 0) { 2 }
         else { 3 }

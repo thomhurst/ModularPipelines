@@ -2,6 +2,7 @@ name: Test Deploy to GitHub Pages
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
     branches:
       - main
     paths:
@@ -19,6 +20,8 @@ permissions:
 jobs:
   test-deploy:
     name: Test Deploy to GitHub Pages
+    # Skip drafts before renting a runner; marking the PR ready starts this workflow.
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
