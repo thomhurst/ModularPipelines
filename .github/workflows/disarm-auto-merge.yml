@@ -1,0 +1,34 @@
+name: Disarm auto-merge
+
+# Auto-merge is armed only for a reviewed head (scripts/Enable-AutoMerge.ps1). A later
+# push would otherwise merge once the required CI passes, without a review of the new
+# head, so every push to an armed PR disarms it. Re-arm after the new head's review.
+#
+# A standalone workflow, not a job in claude-code-review.yml: that workflow serializes
+# runs per PR, and a disarm queued behind a running review could lose the race to CI.
+#
+# pull_request_target runs the trusted base-branch workflow with a write token, also for
+# fork PRs. It never checks out or runs PR code.
+on:
+  pull_request_target:
+    types: [synchronize]
+
+permissions: {}
+
+jobs:
+  disarm-auto-merge:
+    if: github.event.pull_request.auto_merge != null
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Disarm auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr merge "$PR_NUMBER" --disable-auto
+          echo "::notice::Auto-merge disarmed by a push; re-arm with scripts/Enable-AutoMerge.ps1 after this head's review."

@@ -1426,4 +1426,57 @@ if ($null -ne (Get-CheckRunId $statusContext) -or
     throw 'A check without an Actions run link must always be evaluated.'
 }
 
-Write-Host "OK review heuristic tests passed ($($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases, $dispatchCaseCount dispatch cases, $($supersededRunCases.Count + 1) superseded run cases)."
+function New-GateCheck([string]$Name, [string]$Status, [string]$Conclusion) {
+    [pscustomobject]@{ name = $Name; status = $Status; conclusion = $Conclusion }
+}
+$completedReview = New-GateCheck 'claude-review' 'COMPLETED' 'SUCCESS'
+$pendingRequired = New-GateCheck 'pipeline (ubuntu-latest)' 'IN_PROGRESS' $null
+$checkGateCases = @(
+    @{ Name = 'merge requires terminal checks'; Checks = @($completedReview, $pendingRequired); AutoMerge = $false; Fails = $true },
+    @{ Name = 'auto-merge waits for pending CI itself'; Checks = @($completedReview, $pendingRequired); AutoMerge = $true; Fails = $false },
+    @{ Name = 'auto-merge accepts queued and expected checks'; AutoMerge = $true; Fails = $false
+        Checks = @($completedReview, (New-GateCheck 'Fast fail' 'QUEUED' $null), [pscustomobject]@{ context = 'legacy'; state = 'PENDING' }) },
+    @{ Name = 'auto-merge denies a failed check'; AutoMerge = $true; Fails = $true
+        Checks = @($completedReview, (New-GateCheck 'Fast fail' 'COMPLETED' 'FAILURE')) },
+    @{ Name = 'auto-merge denies a cancelled check'; AutoMerge = $true; Fails = $true
+        Checks = @($completedReview, (New-GateCheck 'Fast fail' 'COMPLETED' 'CANCELLED')) },
+    @{ Name = 'auto-merge denies a failed legacy status'; AutoMerge = $true; Fails = $true
+        Checks = @($completedReview, [pscustomobject]@{ context = 'legacy'; state = 'FAILURE' }) },
+    @{ Name = 'auto-merge never waits for the review'; AutoMerge = $true; Fails = $true
+        Checks = @((New-GateCheck 'claude-review' 'IN_PROGRESS' $null), $pendingRequired) },
+    @{ Name = 'auto-merge requires the review check'; Checks = @($pendingRequired); AutoMerge = $true; Fails = $true },
+    @{ Name = 'auto-merge denies an unknown check state'; AutoMerge = $true; Fails = $true
+        Checks = @($completedReview, (New-GateCheck 'odd' 'SOMETHING_NEW' $null)) },
+    @{ Name = 'auto-merge denies an unrecognized entry'; Checks = @($completedReview, [pscustomobject]@{ name = 'x' }); AutoMerge = $true; Fails = $true },
+    @{ Name = 'merge accepts green, skipped and neutral checks'; AutoMerge = $false; Fails = $false
+        Checks = @($completedReview, (New-GateCheck 'a' 'COMPLETED' 'SKIPPED'), (New-GateCheck 'b' 'COMPLETED' 'NEUTRAL')) }
+)
+foreach ($case in $checkGateCases) {
+    $failures = @(Get-CheckGateFailures -Checks $case.Checks -ForAutoMerge:$case.AutoMerge)
+    if (($failures.Count -gt 0) -ne $case.Fails) {
+        throw "$($case.Name): expected failure=$($case.Fails), got [$($failures -join '; ')]."
+    }
+}
+
+$reviewHead = 'd' * 40
+function New-HeadReview([string]$Login, [string]$Commit, [string]$Verdict, [string]$MarkerHead = $reviewHead) {
+    [pscustomobject]@{
+        author = @{ login = $Login }; commit = @{ oid = $Commit }; state = 'COMMENTED'
+        body = "## Claude Review`n`nNo actionable findings.`n`n<!-- REVIEW_VERDICT: $Verdict HEAD: $MarkerHead -->"
+    }
+}
+$headReviewCases = @(
+    @{ Name = 'clear current-head workflow review'; Reviews = @(New-HeadReview 'github-actions' $reviewHead 'CLEAR'); Expected = $true },
+    @{ Name = 'blocking verdict'; Reviews = @(New-HeadReview 'github-actions' $reviewHead 'BLOCKING'); Expected = $false },
+    @{ Name = 'older commit'; Reviews = @(New-HeadReview 'github-actions' ('e' * 40) 'CLEAR'); Expected = $false },
+    @{ Name = 'marker for another head'; Reviews = @(New-HeadReview 'github-actions' $reviewHead 'CLEAR' ('e' * 40)); Expected = $false },
+    @{ Name = 'other author'; Reviews = @(New-HeadReview 'someone' $reviewHead 'CLEAR'); Expected = $false },
+    @{ Name = 'no reviews'; Reviews = @(); Expected = $false }
+)
+foreach ($case in $headReviewCases) {
+    if ((Test-CurrentHeadClaudeClear -Reviews $case.Reviews -HeadSha $reviewHead) -ne $case.Expected) {
+        throw "Current-head Claude review ($($case.Name)) should be $($case.Expected)."
+    }
+}
+
+Write-Host "OK review heuristic tests passed ($($checkGateCases.Count) check gate cases, $($headReviewCases.Count) current-head review cases, $($cases.Count) body cases, $($staleReviewCases.Count) stale review cases, $($verdictCases.Count) verdict cases, $workflowProvenanceCaseCount workflow provenance cases, $dispatchCaseCount dispatch cases, $($supersededRunCases.Count + 1) superseded run cases)."

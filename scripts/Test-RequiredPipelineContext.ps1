@@ -161,7 +161,12 @@ if ([string]::IsNullOrWhiteSpace($requiredJob)) {
 }
 
 foreach ($requiredText in @(
-             'name: pipeline (ubuntu-latest)',
+             # A job skipped by `if:` reports success under its literal name, which would
+             # satisfy branch protection on a draft. A matrix name stays unexpanded
+             # (`pipeline (${{ matrix.os }})`) when skipped, so only a real run reports it.
+             'name: pipeline (${{ matrix.os }})',
+             'os: [ubuntu-latest]',
+             'runs-on: ${{ matrix.os }}',
              'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]',
              "if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)",
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',

@@ -1,7 +1,7 @@
 # Assert-PrGreen.ps1
 # Fail-closed merge gate for the issue-pr-loop skill.
 #
-# Exits 0 ONLY when PR #<N> is provably safe to merge:
+# Default mode exits 0 ONLY when PR #<N> is provably safe to merge now:
 #   - state OPEN and not a draft
 #   - mergeable == MERGEABLE
 #   - mergeStateStatus == CLEAN
@@ -11,6 +11,13 @@
 #   - no current-head top-level review has actionable finding headings, unless
 #     the trusted review workflow posts an exact-head CLEAR verdict
 #   - no unresolved review threads
+#
+# -ForAutoMerge mode is the gate for arming native auto-merge (Enable-AutoMerge.ps1).
+# GitHub then waits for the required checks itself, so CI may still be pending or not
+# yet started, and mergeStateStatus need not be CLEAN. It still denies drafts, conflicts,
+# failed or cancelled checks, a missing or unfinished `claude-review` check, a current
+# head without a CLEAR Claude Code Review verdict, actionable reviews, and unresolved
+# review threads.
 #
 # Any other state — pending/queued/in-progress checks, an empty rollup, a failed
 # check, an unresolved thread, or an API hiccup — exits 1 so the caller MUST NOT
@@ -22,13 +29,14 @@
 # findings and required approvals, and the wrapper calls this deterministic gate
 # immediately before `gh pr merge`, merging only if it exits 0.
 #
-# Usage: pwsh scripts/Assert-PrGreen.ps1 -Pr 1234 [-Repo owner/name]
-# Exit:  0 = safe to merge; 1 = DO NOT MERGE (reason printed to stderr).
+# Usage: pwsh scripts/Assert-PrGreen.ps1 -Pr 1234 [-Repo owner/name] [-ForAutoMerge] [-Json]
+# Exit:  0 = safe to merge (or arm); 1 = DO NOT MERGE (reason printed to stderr).
 
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][int]$Pr,
     [string]$Repo,
+    [switch]$ForAutoMerge,
     [switch]$Json
 )
 
@@ -56,7 +64,7 @@ catch {
 if ($view.state -ne 'OPEN') { Deny "state=$($view.state) (need OPEN)" }
 if ($view.isDraft) { Deny "PR is a draft; mark it ready after review approval so CI runs" }
 if ($view.mergeable -ne 'MERGEABLE') { Deny "mergeable=$($view.mergeable) (need MERGEABLE)" }
-if ($view.mergeStateStatus -ne 'CLEAN') { Deny "mergeStateStatus=$($view.mergeStateStatus) (need CLEAN)" }
+if (-not $ForAutoMerge -and $view.mergeStateStatus -ne 'CLEAN') { Deny "mergeStateStatus=$($view.mergeStateStatus) (need CLEAN)" }
 
 $checks = @($view.statusCheckRollup | Where-Object { $null -ne $_ })
 if ($checks.Count -eq 0) {
@@ -89,29 +97,7 @@ if (@($checks | Where-Object { $_.conclusion -eq 'CANCELLED' }).Count -gt 0) {
     $checks = @(Remove-SupersededRunChecks -Checks $checks -Runs $runs)
 }
 
-$allowedConclusions = @('SUCCESS', 'SKIPPED', 'NEUTRAL')
-$bad = @()
-foreach ($c in $checks) {
-    if ($null -ne $c.status) {
-        # CheckRun: must be terminal AND passing.
-        if ($c.status -ne 'COMPLETED') {
-            $bad += "$($c.name): status=$($c.status)"
-            continue
-        }
-        if ($allowedConclusions -notcontains $c.conclusion) {
-            $bad += "$($c.name): conclusion=$($c.conclusion)"
-        }
-    }
-    elseif ($null -ne $c.state) {
-        # StatusContext: state must be SUCCESS.
-        if ($c.state -ne 'SUCCESS') {
-            $bad += "$($c.context): state=$($c.state)"
-        }
-    }
-    else {
-        $bad += "unrecognized check entry: $($c | ConvertTo-Json -Compress)"
-    }
-}
+$bad = @(Get-CheckGateFailures -Checks $checks -ForAutoMerge:$ForAutoMerge)
 if ($bad.Count -gt 0) {
     Deny ("checks not green: " + ($bad -join '; '))
 }
@@ -202,6 +188,11 @@ foreach ($review in $latestReviews) {
 if ($actionableReviews.Count -gt 0) {
     Deny ("latest top-level review comment has actionable finding(s): " + ($actionableReviews -join '; '))
 }
+# Arming hands the merge to GitHub, which cannot read review bodies. Require the
+# current head's own CLEAR verdict; readiness does not re-run the review.
+if ($ForAutoMerge -and -not (Test-CurrentHeadClaudeClear -Reviews $latestReviews -HeadSha $view.headRefOid)) {
+    Deny "no CLEAR Claude Code Review verdict for head $($view.headRefOid); dispatch claude-code-review.yml with pr_number=$Pr if the review run failed"
+}
 
 # Unresolved review threads block merge even when a review's state is COMMENTED.
 $query = 'query($owner:String!,$repo:String!,$pr:Int!,$after:String){repository(owner:$owner,name:$repo){pullRequest(number:$pr){reviewThreads(first:100,after:$after){pageInfo{hasNextPage endCursor} nodes{isResolved}}}}}'
@@ -249,6 +240,11 @@ if ($Json) {
     [pscustomobject]@{ headRefOid = $view.headRefOid; headRefName = $view.headRefName } | ConvertTo-Json -Compress
 }
 else {
-    Write-Host "OK #${Pr} -- MERGEABLE, CLEAN, $($checks.Count) check(s) green, no unresolved threads. Safe to merge."
+    if ($ForAutoMerge) {
+        Write-Host "OK #${Pr} -- MERGEABLE, no failed checks, Claude review CLEAR for head, no unresolved threads. Safe to arm auto-merge."
+    }
+    else {
+        Write-Host "OK #${Pr} -- MERGEABLE, CLEAN, $($checks.Count) check(s) green, no unresolved threads. Safe to merge."
+    }
 }
 exit 0

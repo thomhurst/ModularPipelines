@@ -1135,11 +1135,17 @@ jobs:
 
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
-    name: pipeline (ubuntu-latest)
+    # Branch protection and native auto-merge wait only for this context, so it must exist
+    # only when the job really runs. A job skipped by `if:` reports success under its literal
+    # name, but a skipped matrix job keeps the unexpanded name `pipeline (${{ matrix.os }})`.
+    # The one-entry matrix therefore keeps a skipped draft run from satisfying the check.
+    name: pipeline (${{ matrix.os }})
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
     needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]
-    # A draft run reports no required context, so branch protection waits for the ready run.
     if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     permissions:
       contents: read

@@ -397,3 +397,64 @@ function Remove-SupersededRunChecks {
         })
     @($Checks | Where-Object { $superseded -notcontains (Get-CheckRunId $_) })
 }
+
+# Returns why the status checks block. Merging needs every check terminal and passing.
+# Arming auto-merge lets GitHub wait for pending CI, but never for the Claude review:
+# its findings must exist before arming. Unknown states fail closed.
+function Get-CheckGateFailures {
+    [CmdletBinding()]
+    param(
+        [object[]]$Checks,
+        [switch]$ForAutoMerge,
+        [string]$ReviewCheck = 'claude-review'
+    )
+
+    $allowedConclusions = @('SUCCESS', 'SKIPPED', 'NEUTRAL')
+    $pendingStatuses = @('QUEUED', 'IN_PROGRESS', 'WAITING', 'PENDING', 'REQUESTED')
+    $pendingStates = @('PENDING', 'EXPECTED')
+    $bad = @()
+    foreach ($c in $Checks) {
+        if ($null -ne $c.status) {
+            # CheckRun
+            if ($c.status -eq 'COMPLETED') {
+                if ($allowedConclusions -notcontains $c.conclusion) { $bad += "$($c.name): conclusion=$($c.conclusion)" }
+            }
+            elseif (-not ($ForAutoMerge -and $c.name -ne $ReviewCheck -and $pendingStatuses -contains $c.status)) {
+                $bad += "$($c.name): status=$($c.status)"
+            }
+        }
+        elseif ($null -ne $c.state) {
+            # StatusContext
+            if ($c.state -ne 'SUCCESS' -and -not ($ForAutoMerge -and $pendingStates -contains $c.state)) {
+                $bad += "$($c.context): state=$($c.state)"
+            }
+        }
+        else {
+            $bad += "unrecognized check entry: $($c | ConvertTo-Json -Compress)"
+        }
+    }
+    if ($ForAutoMerge -and -not @($Checks | Where-Object { $_.name -eq $ReviewCheck })) {
+        $bad += "no $ReviewCheck check on the current head yet; wait for the review before arming auto-merge"
+    }
+    $bad
+}
+
+# True when the Claude Code Review workflow posted a CLEAR verdict bound to this head.
+# Arming auto-merge requires it; the merge gate's body heuristics still apply.
+function Test-CurrentHeadClaudeClear {
+    [CmdletBinding()]
+    param(
+        [object[]]$Reviews,
+        [Parameter(Mandatory)][string]$HeadSha
+    )
+
+    foreach ($review in @($Reviews | Where-Object { $null -ne $_ })) {
+        if ([string]$review.author.login -notmatch '^github-actions(?:\[bot\])?$' -or
+            [string]$review.commit.oid -ne $HeadSha) { continue }
+        $markers = [regex]::Matches([string]$review.body,
+            '(?im)^\s*<!--\s*REVIEW_VERDICT:\s*(CLEAR|BLOCKING)\s+HEAD:\s*([0-9a-f]{40})\s*-->\s*$')
+        if ($markers.Count -eq 1 -and $markers[0].Groups[1].Value -eq 'CLEAR' -and
+            $markers[0].Groups[2].Value -eq $HeadSha) { return $true }
+    }
+    return $false
+}
