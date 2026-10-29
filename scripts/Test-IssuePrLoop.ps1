@@ -6,7 +6,7 @@ $ast = [Management.Automation.Language.Parser]::ParseFile(
     (Join-Path $PSScriptRoot 'Start-IssuePrLoop.ps1'), [ref]$null, [ref]$parseErrors)
 if ($parseErrors.Count) { throw ($parseErrors -join "`n") }
 foreach ($name in 'Get-Hash', 'Get-CheckState', 'Get-LatestOutsideComment', 'Get-PrFingerprint',
-    'Reset-SurveyStats', 'New-Candidate', 'Get-Candidates') {
+    'Reset-SurveyStats', 'New-Candidate', 'Get-Candidates', 'Get-ReasonReferences') {
     $definition = $ast.Find({ param($node)
         $node -is [Management.Automation.Language.FunctionDefinitionAst] -and $node.Name -eq $name
     }, $false)
@@ -85,5 +85,7 @@ $draft.headRefOid = 'new-head'
 $before = Get-PrFingerprint $draft
 $request.reactionGroups = @(@{ content = 'EYES'; users = @{ totalCount = 1 } })
 Assert-Equal (Get-PrFingerprint $draft) $before 'Reactions on an old-head request must not wake the new head'
+
+Assert-Equal @(Get-ReasonReferences 'Blocked on #12 and #4019; CI run #6494214847 failed, see #12' 4019) @(12) 'Deferral references must skip the item itself and ids too long for issue numbers'
 
 Write-Host 'Issue/PR loop survey and fingerprint tests passed.'

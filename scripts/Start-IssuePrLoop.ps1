@@ -296,8 +296,9 @@ function Get-ReferenceStates([int[]]$Numbers) {
 
 # A deferral reason names its blockers as #N. Recording their states lets a survey retry
 # the item as soon as a blocker closes or merges, even though the item itself is unchanged.
+# Longer digit runs after # are run, job or comment ids, not issue numbers, and overflow [int].
 function Get-ReasonReferences([string]$Reason, [int]$Self) {
-    @([regex]::Matches($Reason, '#(\d+)') | ForEach-Object { [int]$_.Groups[1].Value } |
+    @([regex]::Matches($Reason, '#(\d{1,7})(?!\d)') | ForEach-Object { [int]$_.Groups[1].Value } |
         Where-Object { $_ -ne $Self } | Sort-Object -Unique | Select-Object -First 20)
 }
 
