@@ -7,7 +7,7 @@
     <PackageVersion Include="ModularPipelines.DotNet" Version="__MODULAR_PIPELINES_VERSION__" />
     <!--#if (tests)-->
     <PackageVersion Include="ModularPipelines.Testing" Version="__MODULAR_PIPELINES_VERSION__" />
-    <PackageVersion Include="TUnit" Version="1.76.28" />
+    <PackageVersion Include="TUnit" Version="1.76.45" />
     <!--#endif-->
   </ItemGroup>
 </Project>
