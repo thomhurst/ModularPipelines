@@ -160,6 +160,8 @@ Survey with `gh pr list --author @me --state open --json number,title,headRefNam
 
 Inspect all review surfaces, including pagination and replies: REST `pulls/<N>/reviews`, `pulls/<N>/comments`, `issues/<N>/comments` under `repos/{owner}/{repo}`, and GraphQL `reviewThreads` with IDs, resolution state, bodies, authors, and timestamps.
 
+Never infer a reviewer's surface from its identity: Claude often posts its review as a PR conversation comment (`issues/<N>/comments`), while other agents usually post review threads. Check both surfaces every cycle. Treat a conversation comment that carries findings or a verdict as a review; it has no thread to resolve, so disposition it with one PR comment that quotes or links it.
+
 A `COMMENTED` review body can block with zero unresolved threads. Address outstanding concerns, `CHANGES_REQUESTED`, current inline findings, and unresolved threads. Empty acknowledgments are non-blocking. Assess older findings against the current head and later discussion; uncertain concerns block merging.
 
 | State | Action |
