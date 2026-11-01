@@ -3,5 +3,5 @@
   "toolName": "argocd",
   "toolVersion": "3.5.5+a5038b0",
   "commandTreeSha256": "951ade3726a8bc9d9a626206b54853b4c1cd449a489fd7c056feffacaa82ed61",
-  "generatorSourceSha256": "3dd8b3d35d07123ae23c4fa2a8447e629df5eee9211e3a092232e170ad6710d9"
+  "generatorSourceSha256": "52eaacce35eb3e156012187f9b2ea12d6fc63158aff8c92f8dd96d5f71a2c200"
 }
