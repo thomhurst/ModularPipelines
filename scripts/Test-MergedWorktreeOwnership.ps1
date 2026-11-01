@@ -184,13 +184,29 @@ exit 0
         Assert-Fixture (Test-Path -LiteralPath $path) 'Active branch identity was ignored.'
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
 
+        # A merged checkout with leftover changes goes; the changes move to a retained branch.
         $path = New-FixtureWorktree 'pr-900006-dirty'
         Set-FixtureLock 'pr-900006' 'FREE'
         Set-Content -LiteralPath (Join-Path $path 'unpublished.txt') -Value 'valuable source'
+        Invoke-FixtureSweep -Preview
+        Assert-Fixture ($script:fixtureSweepOutput -match 'WOULD remove .*pr-900006-dirty -- .*\(saving 1 ') 'Preview did not report saving merged leftover work.'
+        Assert-Fixture (Test-Path -LiteralPath (Join-Path $path 'unpublished.txt')) 'Preview saved or removed merged leftover work.'
         Invoke-FixtureSweep
-        Assert-Fixture (Test-Path -LiteralPath (Join-Path $path 'unpublished.txt')) 'Free ownership bypassed source preservation.'
+        Assert-Fixture (-not (Test-Path -LiteralPath $path)) 'Merged checkout with leftover changes was not removed.'
+        $wip = @(& git -C $fixtureRepo for-each-ref --format='%(refname:short)' 'refs/heads/retained-worktrees/pr-900006-dirty-wip-*')
+        Assert-Fixture ($wip.Count -eq 1) 'Merged leftover changes were not saved to a retained branch.'
+        Assert-Fixture ((& git -C $fixtureRepo show "$($wip[0])^3:unpublished.txt") -eq 'valuable source') 'Saved merged leftover file is wrong.'
+        Assert-Fixture (@(& git -C $fixtureRepo stash list).Count -eq 0) 'Saving merged leftover work left a stash entry.'
         $states = Get-Content -LiteralPath $fixtureState -Raw | ConvertFrom-Json -AsHashtable
-        Assert-Fixture ($states['pr-900006'] -eq 'FREE') 'Preserving dirty work leaked a reservation.'
+        Assert-Fixture ($states['pr-900006'] -eq 'FREE') 'Retaining merged leftover work leaked a reservation.'
+
+        # Unknown ignored files (secrets, local settings) cannot be stashed: keep the checkout.
+        Add-Content -LiteralPath (Join-Path $fixtureRepo '.git/info/exclude') -Value '.env'
+        $path = New-FixtureWorktree 'pr-900008-env'
+        Set-FixtureLock 'pr-900008' 'FREE'
+        Set-Content -LiteralPath (Join-Path $path '.env') -Value 'SECRET=1'
+        Invoke-FixtureSweep
+        Assert-Fixture (Test-Path -LiteralPath (Join-Path $path '.env')) 'Merged checkout with an unknown ignored file was removed.'
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
 
         $path = New-FixtureWorktree 'pr-900003-released' -Marker 'pr-900003'
@@ -266,7 +282,6 @@ exit 0
 
         # Closed work items that no merge tier recognizes: their checkouts go, their work stays.
         $global:fixtureClosedItems = @('900020', '900021', '900023')
-        Add-Content -LiteralPath (Join-Path $fixtureRepo '.git/info/exclude') -Value '.env'
         $review = New-FixtureWorktree 'pr-900020-review' -Branch 'pr-900020-review-local'
         Set-Content -LiteralPath (Join-Path $review 'README.md') -Value 'local review commit'
         Invoke-FixtureGit -C $review add README.md
@@ -289,10 +304,11 @@ exit 0
         New-Item -ItemType Directory -Path (Split-Path $evidence) -Force | Out-Null
         Set-Content -LiteralPath $evidence -Value 'evidence'
 
+        $retainedBefore = @(& git -C $fixtureRepo for-each-ref 'refs/heads/retained-worktrees/').Count
         Invoke-FixtureSweep -Preview
         Assert-Fixture ($script:fixtureSweepOutput -match 'WOULD remove .*pr-900020-review -- \(closed work item pr-900020\) \(saving 2 ') 'Preview did not report retained work.'
         Assert-Fixture (Test-Path -LiteralPath (Join-Path $review 'Draft.cs')) 'Preview saved or removed closed-item work.'
-        Assert-Fixture (@(& git -C $fixtureRepo for-each-ref 'refs/heads/retained-worktrees/').Count -eq 0) 'Preview created a retained branch.'
+        Assert-Fixture (@(& git -C $fixtureRepo for-each-ref 'refs/heads/retained-worktrees/').Count -eq $retainedBefore) 'Preview created a retained branch.'
 
         Invoke-FixtureSweep
         Assert-Fixture (-not (Test-Path -LiteralPath $review)) 'Closed PR review checkout was not removed.'

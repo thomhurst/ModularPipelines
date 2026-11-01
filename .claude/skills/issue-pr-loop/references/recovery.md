@@ -2,7 +2,7 @@
 
 Use this procedure only when a cleanup survey preserves a merged-PR worktree with potentially valuable changes. Prioritize actionable open PRs first. Recovery is not permission to discard another agent's work.
 
-The sweep removes a closed item's checkout itself but keeps its work: the branch stays, uncommitted changes go to `retained-worktrees/<item>-wip-<sha>` (inspect with `git stash show -p --include-untracked <branch>`, restore with `git stash apply <branch>`), and a detached HEAD to `retained-worktrees/<SHA>`. Recover from those branches the same way.
+The sweep removes the checkout of a merged PR or closed item itself but keeps its work: the branch stays, uncommitted changes go to `retained-worktrees/<item>-wip-<sha>` (inspect with `git stash show -p --include-untracked <branch>`, restore with `git stash apply <branch>`), and a detached HEAD to `retained-worktrees/<SHA>`. Recover from those branches the same way.
 
 1. Verify the original merged PR identity and acquire `pr-<original-N>` through the canonical lock script. Confirm no active agent, open PR, or harness owns the worktree; otherwise leave it untouched.
 2. Compare tracked changes, untracked source, and local-only commits against both the original PR and fresh `origin/main`. Identify coherent, unique source/test changes separately from obsolete or generated churn. Search for an existing recovery PR/issue before creating another.

@@ -59,9 +59,10 @@
 #   - skip locked worktrees (an agent session may still own them)
 #   - reserve canonical Redis item locks before removing a candidate; preserve active or unverifiable ownership
 #   - skip a branch/tip that has an OPEN PR (branch reused for active work)
-#   - PRESERVE uncommitted changes and unknown ignored files (shared helper); a closed
-#     work item's changes move to a retained branch instead (tier 7), but unknown
-#     ignored files (secrets, local settings) always preserve the checkout
+#   - PRESERVE uncommitted changes and unknown ignored files (shared helper); the changes
+#     of a merged PR (tiers 1, 2, 4-6) or closed work item (tier 7) move to a retained
+#     branch instead, but unknown ignored files (secrets, local settings) always
+#     preserve the checkout
 #   - keep a merged branch that has local commits after its merged head: the checkout
 #     goes, the branch stays; tier 7 never deletes a branch
 #   - worktrees with NO merge evidence are kept and listed; opt in to reaping old
@@ -344,6 +345,10 @@ try {
         }
 
         if (-not $why) { $unmatched += $w; continue }
+
+        # A merged PR is a closed work item too: leftover changes move to a retained
+        # branch. Tier 3 and the stale tier prove no PR, so they still preserve them.
+        if ($why -like 'merged PR*' -or $why -like 'canonical worktree identity for merged PR*') { $retainWork = $true }
 
         Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -LockNames $evidenceLocks -Preview:$WhatIf -Action {
             Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -LockNames $evidenceLocks -RetainWork:$retainWork -WhatIf:$WhatIf
