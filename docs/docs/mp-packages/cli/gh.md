@@ -115,6 +115,13 @@ public class RunCommandModule : Module<CommandResult>
 | `gh gpg-key delete` | `GhGpgKeyDeleteOptions` |
 | `gh gpg-key list` | `GhGpgKeyListOptions` |
 | `gh issue` | `GhIssueOptions` |
+| `gh issue artifact` | `GhIssueArtifactOptions` |
+| `gh issue artifact create` | `GhIssueArtifactCreateOptions` |
+| `gh issue artifact delete` | `GhIssueArtifactDeleteOptions` |
+| `gh issue artifact download` | `GhIssueArtifactDownloadOptions` |
+| `gh issue artifact edit` | `GhIssueArtifactEditOptions` |
+| `gh issue artifact list` | `GhIssueArtifactListOptions` |
+| `gh issue artifact view` | `GhIssueArtifactViewOptions` |
 | `gh issue close` | `GhIssueCloseOptions` |
 | `gh issue comment` | `GhIssueCommentOptions` |
 | `gh issue create` | `GhIssueCreateOptions` |

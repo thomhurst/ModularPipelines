@@ -22,6 +22,11 @@ namespace ModularPipelines.GitHub.Services;
 public interface IGhIssue
 {
     /// <summary>
+    /// gh issue artifact sub-commands.
+    /// </summary>
+    GhIssueArtifact Artifact { get; }
+
+    /// <summary>
     /// Work with GitHub issues.
     /// </summary>
     /// <param name="options">The command options.</param>

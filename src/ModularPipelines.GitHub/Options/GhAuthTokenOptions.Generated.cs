@@ -27,6 +27,12 @@ public record GhAuthTokenOptions : GhOptions
     public string? Hostname { get; set; }
 
     /// <summary>
+    /// Do not automatically refresh an expired token
+    /// </summary>
+    [CliFlag("--no-refresh")]
+    public bool? NoRefresh { get; set; }
+
+    /// <summary>
     /// The account to output the token for
     /// </summary>
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]

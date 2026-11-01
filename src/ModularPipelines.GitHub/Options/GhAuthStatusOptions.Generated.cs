@@ -45,6 +45,12 @@ public record GhAuthStatusOptions : GhOptions
     public string? Json { get; set; }
 
     /// <summary>
+    /// Do not automatically refresh expired tokens
+    /// </summary>
+    [CliFlag("--no-refresh")]
+    public bool? NoRefresh { get; set; }
+
+    /// <summary>
     /// Display the auth token
     /// </summary>
     [CliFlag("--show-token", ShortForm = "-t")]
