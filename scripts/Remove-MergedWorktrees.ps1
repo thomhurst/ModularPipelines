@@ -39,7 +39,9 @@
 #
 # AGENT EVIDENCE:
 #   Entries under <main checkout>-evidence/ (one folder per work item) are removed once
-#   their newest write is older than -EvidenceRetentionDays (default 7).
+#   their pr-<N>/issue-<N> item is closed (merged or not) and no registered worktree
+#   still uses it, under a temporary Redis reservation. Any other entry is removed once
+#   its newest write is older than -EvidenceRetentionDays (default 7).
 #
 # Guards (never delete work):
 #   - skip the main checkout and anything inside it (.claude/worktrees is harness-managed)
@@ -374,10 +376,37 @@ try {
     # Removals that a busy directory interrupted, whatever started them.
     $pendingRemoved = Complete-PendingWorktreeRemovals -Repo $mainRepo -WhatIf:$WhatIf
 
-    $evidenceRemoved = Remove-StaleAgentEvidence -Root (Get-AgentEvidenceRoot -MainCheckout $mainRepo) -RetentionDays $EvidenceRetentionDays -WhatIf:$WhatIf
+    # Evidence of a finished item goes with its last worktree. Work items still named by
+    # a registered worktree (or one whose identity cannot be read) keep their evidence.
+    $evidenceRoot = Get-AgentEvidenceRoot -MainCheckout $mainRepo
+    $finished = @()
+    if ($slug) {
+        $activeLockNames = [Collections.Generic.List[string]]::new()
+        $identitiesReadable = $true
+        foreach ($w in $wts) {
+            if ($w.Path -eq $mainRepo) { continue }
+            try { foreach ($name in @(Get-WorktreeAgentLockNames -Worktree $w.Path -Branch ([string]$w.Branch))) { $activeLockNames.Add($name) } }
+            catch { $identitiesReadable = $false }
+        }
+        if ($identitiesReadable) {
+            $isClosed = {
+                param([string]$LockName)
+                $number = $LockName.Substring($LockName.IndexOf('-') + 1)
+                # The issues endpoint also serves pull requests; a merged PR is closed.
+                $state = gh api "repos/$slug/issues/$number" --jq .state 2>$null
+                if ($LASTEXITCODE -ne 0) { throw "could not read state of $LockName" }
+                return ($state | Out-String).Trim() -ceq 'closed'
+            }
+            $finished = @(Remove-FinishedAgentEvidence -Root $evidenceRoot -AgentLocks (Join-Path $mainRepo 'scripts/AgentLocks.ps1') -IsClosed $isClosed -ActiveLockNames $activeLockNames.ToArray() -WhatIf:$WhatIf)
+        } else {
+            Warn 'could not read every worktree identity -- keeping finished evidence this round'
+        }
+    }
+
+    $staleRemoved = Remove-StaleAgentEvidence -Root $evidenceRoot -RetentionDays $EvidenceRetentionDays -Skip $finished -WhatIf:$WhatIf
 
     if (-not $WhatIf) { git -C $mainRepo worktree prune }
-    Write-Host "sweep: removed $removed merged worktree(s), $orphansRemoved orphaned dir(s), $pendingRemoved pending removal(s), $evidenceRemoved stale evidence entr(ies)."
+    Write-Host "sweep: removed $removed merged worktree(s), $orphansRemoved orphaned dir(s), $pendingRemoved pending removal(s), $($finished.Count) finished and $staleRemoved stale evidence entr(ies)."
 }
 catch {
     Warn "unexpected sweep error (ignored, loop continues): $_"
