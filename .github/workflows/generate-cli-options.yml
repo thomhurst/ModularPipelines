@@ -1215,7 +1215,7 @@ jobs:
             ## Verification
             - [x] Solution builds successfully in the read-only generation job
 
-            Review the generated output and all required checks before merging manually.
+            Auto-merge arms once Claude and Codex clear this head (auto-merge-generated-options.yml), and GitHub merges after the required checks pass. A PR with findings is not armed.
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator

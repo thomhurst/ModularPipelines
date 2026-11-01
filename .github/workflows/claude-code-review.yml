@@ -109,7 +109,10 @@ jobs:
 
       - name: Test review merge gate
         shell: pwsh
-        run: ./scripts/Test-AssertPrGreenReviewHeuristics.ps1
+        run: |
+          ./scripts/Test-AssertPrGreenReviewHeuristics.ps1
+          ./scripts/Test-EnableAutoMerge.ps1
+          ./scripts/Test-AssertCodexReviewClear.ps1
 
       # The action's claude.ai/install.sh bootstrap returned HTTP 429 before
       # Claude could start (#6846). Use Anthropic's supported npm distribution
