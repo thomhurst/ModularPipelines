@@ -5,7 +5,7 @@
 # SQUASH-SAFE DETECTION — this is the whole point:
 #   A squash (or rebase) merge rewrites history, so the branch tip is NOT an ancestor
 #   of main and `git merge-base --is-ancestor` reports "not merged". Ancestry is never
-#   used as a merge signal for branches. GitHub's own records are, in four tiers:
+#   used as a merge signal for branches. GitHub's own records are, in these tiers:
 #     1. merged-PR head branch name  (cheap, bulk: one `gh pr list` call)
 #     2. merged-PR head tip SHA      (same call: catches detached/renamed checkouts
 #                                     sitting exactly on a merged PR's tip)
@@ -21,6 +21,17 @@
 #                                     window aging out)
 #     6. canonical detached identity (pr-<N>-* path only after a successful association
 #                                     lookup proves the current tip has no open PR)
+#     7. closed work item            (`gh api repos/../issues/<N>`, one call per item for
+#                                     a worktree still unmatched whose every identity --
+#                                     marker, canonical directory, branch -- is a closed
+#                                     `pr-<N>`/`issue-<N>`). Catches review branches named
+#                                     unlike the PR head, PRs closed unmerged, and leftover
+#                                     uncommitted changes. Nothing comes back for such a
+#                                     checkout, so its work is retained instead of the
+#                                     directory: the branch is kept, uncommitted changes
+#                                     are saved to `retained-worktrees/<item>-wip-<sha>`
+#                                     (restore with `git stash apply`), and a detached
+#                                     HEAD to `retained-worktrees/<SHA>`.
 #
 #   DELIBERATELY NOT a signal: a [gone] upstream branch. [gone] only means the remote
 #   ref was deleted — which also happens when a PR is CLOSED UNMERGED and its branch
@@ -48,7 +59,11 @@
 #   - skip locked worktrees (an agent session may still own them)
 #   - reserve canonical Redis item locks before removing a candidate; preserve active or unverifiable ownership
 #   - skip a branch/tip that has an OPEN PR (branch reused for active work)
-#   - PRESERVE any worktree with uncommitted tracked changes (shared helper)
+#   - PRESERVE uncommitted changes and unknown ignored files (shared helper); a closed
+#     work item's changes move to a retained branch instead (tier 7), but unknown
+#     ignored files (secrets, local settings) always preserve the checkout
+#   - keep a merged branch that has local commits after its merged head: the checkout
+#     goes, the branch stays; tier 7 never deletes a branch
 #   - worktrees with NO merge evidence are kept and listed; opt in to reaping old
 #     clean ones with -StaleDays <n>
 #
@@ -172,6 +187,18 @@ try {
         if ($LASTEXITCODE -ne 0) { $slug = $null }
     }
 
+    # Work-item state for tier 7 and finished evidence, one call per item. The issues
+    # endpoint also serves pull requests; a merged PR is closed. $null when unreadable.
+    $itemStates = @{}
+    function Get-WorkItemState([string]$Number) {
+        if (-not $slug) { return $null }
+        if (-not $itemStates.ContainsKey($Number)) {
+            $state = gh api "repos/$slug/issues/$Number" --jq .state 2>$null
+            $itemStates[$Number] = if ($LASTEXITCODE -eq 0) { ($state | Out-String).Trim() } else { $null }
+        }
+        return $itemStates[$Number]
+    }
+
     $mainRepo = ((git worktree list --porcelain) | Where-Object { $_ -like 'worktree *' } |
         Select-Object -First 1) -replace '^worktree ', ''
     $mainNorm = ($mainRepo -replace '\\', '/').TrimEnd('/')
@@ -222,7 +249,7 @@ try {
         # reserved. Detached checkouts never borrow one: a fresh setup checkout of main
         # may sit on a merged tip before its owner registers.
         $why = $null; $evidenceLocks = @()
-        $freshBranch = $false
+        $freshBranch = $false; $keepBranch = $false; $retainWork = $false
         $containsCommit = if ($sha) { Get-CommitAncestorPredicate -RepoPath $w.Path -Descendant $sha } else { { $false } }
         if ($w.Branch -and $sha -and $mergedNames.ContainsKey($w.Branch)) {
             $why = Get-MergedNameReason -Branch $w.Branch -MergedHeadShas $mergedNames[$w.Branch] -IsAncestor $containsCommit
@@ -230,6 +257,9 @@ try {
                 $evidenceLocks = @($mergedNames[$w.Branch] |
                     Where-Object { $mergedNumberByOid.ContainsKey($_) -and (& $containsCommit $_) } |
                     ForEach-Object { "pr-$($mergedNumberByOid[$_])" })
+                # Commits after the merged head exist only on this branch: keep it.
+                $keepBranch = @($mergedNames[$w.Branch] |
+                    Where-Object { Test-IsAncestorCommit -RepoPath $w.Path -Ancestor $sha -Descendant $_ }).Count -eq 0
             }
         }
 
@@ -288,6 +318,22 @@ try {
             }
         }
 
+        # Tier 7: every work item the checkout names is closed (merged or not). Removal
+        # retains its work (see header) and never deletes the branch.
+        if (-not $why -and $slug) {
+            try { $items = @(Get-WorktreeAgentLockNames -Worktree $w.Path -Branch ([string]$w.Branch)) }
+            catch { $items = @() }
+            $closedItems = @($items | Where-Object {
+                $_ -cmatch '^(?:pr|issue)-(\d+)$' -and
+                (Get-WorkItemState -Number $Matches[1]) -ceq 'closed'
+            })
+            if ($items.Count -gt 0 -and $closedItems.Count -eq $items.Count) {
+                $why = "closed work item $($items -join ', ')"
+                $evidenceLocks = $items
+                $retainWork = $true
+            }
+        }
+
         # Opt-in stale tier: no PR evidence anywhere (never-pushed scratch). Only age
         # can justify removal, and only when the caller asked for it.
         if (-not $why -and $StaleDays -gt 0 -and $sha) {
@@ -300,11 +346,12 @@ try {
         if (-not $why) { $unmatched += $w; continue }
 
         Invoke-WithWorktreeCleanupLocks -RepoPath $mainRepo -Worktree $w.Path -Branch $w.Branch -LockNames $evidenceLocks -Preview:$WhatIf -Action {
-            Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -LockNames $evidenceLocks -WhatIf:$WhatIf
+            Remove-MergedWorktree -Repo $mainRepo -Worktree $w.Path -Label "($why)" -LockNames $evidenceLocks -RetainWork:$retainWork -WhatIf:$WhatIf
             # Keep the item reservation through branch cleanup so a new owner cannot
             # reuse the branch between removal and deletion.
             if (-not $WhatIf -and -not (Test-Path -LiteralPath $w.Path) -and $w.Branch -and $why -like 'merged PR*') {
-                git -C $mainRepo branch -D $w.Branch 2>$null
+                if ($keepBranch) { Write-Host "sweep: keeping branch '$($w.Branch)' (local commits after its merged head)" }
+                else { git -C $mainRepo branch -D $w.Branch 2>$null }
             }
         }
         if ($WhatIf) { continue }
@@ -385,19 +432,19 @@ try {
         $identitiesReadable = $true
         foreach ($w in $wts) {
             if ($w.Path -eq $mainRepo) { continue }
+            # Removed above (or already gone): it no longer uses its item's evidence.
+            if (-not (Test-Path -LiteralPath $w.Path)) { continue }
             try { foreach ($name in @(Get-WorktreeAgentLockNames -Worktree $w.Path -Branch ([string]$w.Branch))) { $activeLockNames.Add($name) } }
             catch { $identitiesReadable = $false }
         }
         if ($identitiesReadable) {
             $isClosed = {
                 param([string]$LockName)
-                $number = $LockName.Substring($LockName.IndexOf('-') + 1)
-                # The issues endpoint also serves pull requests; a merged PR is closed.
-                $state = gh api "repos/$slug/issues/$number" --jq .state 2>$null
-                if ($LASTEXITCODE -ne 0) { throw "could not read state of $LockName" }
-                return ($state | Out-String).Trim() -ceq 'closed'
+                $state = Get-WorkItemState -Number $LockName.Substring($LockName.IndexOf('-') + 1)
+                if (-not $state) { throw "could not read state of $LockName" }
+                return $state -ceq 'closed'
             }
-            $finished = @(Remove-FinishedAgentEvidence -Root $evidenceRoot -AgentLocks (Join-Path $mainRepo 'scripts/AgentLocks.ps1') -IsClosed $isClosed -ActiveLockNames $activeLockNames.ToArray() -WhatIf:$WhatIf)
+            $finished = Remove-FinishedAgentEvidence -Root $evidenceRoot -AgentLocks (Join-Path $mainRepo 'scripts/AgentLocks.ps1') -IsClosed $isClosed -ActiveLockNames $activeLockNames.ToArray() -WhatIf:$WhatIf
         } else {
             Warn 'could not read every worktree identity -- keeping finished evidence this round'
         }

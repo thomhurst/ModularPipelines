@@ -54,7 +54,10 @@ function gh {
         }
         return '[]'
     }
-    if ($args[0] -eq 'api') { return '[]' }
+    if ($args[0] -eq 'api') {
+        if ($args[1] -match '/issues/(\d+)$') { return $(if ($Matches[1] -in $global:fixtureClosedItems) { 'closed' } else { 'open' }) }
+        return '[]'
+    }
     throw "Unexpected GitHub invocation in fixture: $args"
 }
 
@@ -247,6 +250,65 @@ exit 0
         Assert-Fixture (Test-Path -LiteralPath $path) 'Missing canonical lock script did not preserve the worktree.'
         Move-Item -LiteralPath "$fixtureLockScript.disabled" -Destination $fixtureLockScript
         Invoke-FixtureGit -C $fixtureRepo worktree remove --force $path
+
+        # A merged branch with local commits after its merged head loses the checkout,
+        # never the commits.
+        Set-FixtureLock 'pr-999999' 'FREE'
+        $path = New-FixtureWorktree 'ad-hoc-diverged' -Branch 'merged-fixture'
+        Set-Content -LiteralPath (Join-Path $path 'after-merge.txt') -Value 'local commit after the merge'
+        Invoke-FixtureGit -C $path add after-merge.txt
+        Invoke-FixtureGit -C $path commit -m 'after merge'
+        $divergedHead = & git -C $path rev-parse HEAD
+        Invoke-FixtureSweep
+        Assert-Fixture (-not (Test-Path -LiteralPath $path)) 'Merged branch checkout with later commits was not removed.'
+        Assert-Fixture ((& git -C $fixtureRepo rev-parse refs/heads/merged-fixture) -eq $divergedHead) 'Branch with commits after its merged head was deleted.'
+        Invoke-FixtureGit -C $fixtureRepo branch -D merged-fixture
+
+        # Closed work items that no merge tier recognizes: their checkouts go, their work stays.
+        $global:fixtureClosedItems = @('900020', '900021', '900023')
+        Add-Content -LiteralPath (Join-Path $fixtureRepo '.git/info/exclude') -Value '.env'
+        $review = New-FixtureWorktree 'pr-900020-review' -Branch 'pr-900020-review-local'
+        Set-Content -LiteralPath (Join-Path $review 'README.md') -Value 'local review commit'
+        Invoke-FixtureGit -C $review add README.md
+        Invoke-FixtureGit -C $review commit -m 'local review commit'
+        $reviewHead = & git -C $review rev-parse HEAD
+        Set-Content -LiteralPath (Join-Path $review 'README.md') -Value 'uncommitted edit'
+        Set-Content -LiteralPath (Join-Path $review 'Draft.cs') -Value 'untracked draft'
+        $closedDetached = New-FixtureWorktree 'issue-900021-detached'
+        Set-Content -LiteralPath (Join-Path $closedDetached 'detached.txt') -Value 'detached commit'
+        Invoke-FixtureGit -C $closedDetached add detached.txt
+        Invoke-FixtureGit -C $closedDetached commit -m 'detached commit'
+        $detachedHead = & git -C $closedDetached rev-parse HEAD
+        $openItem = New-FixtureWorktree 'pr-900022-open' -Branch 'pr-900022-open'
+        Set-Content -LiteralPath (Join-Path $openItem 'open.txt') -Value 'open work'
+        Invoke-FixtureGit -C $openItem add open.txt
+        Invoke-FixtureGit -C $openItem commit -m 'open work'
+        $ignoredItem = New-FixtureWorktree 'pr-900023-ignored' -Branch 'pr-900023-ignored'
+        Set-Content -LiteralPath (Join-Path $ignoredItem '.env') -Value 'SECRET=1'
+        $evidence = Join-Path "$fixtureRepo-evidence" 'pr-900020/build.log'
+        New-Item -ItemType Directory -Path (Split-Path $evidence) -Force | Out-Null
+        Set-Content -LiteralPath $evidence -Value 'evidence'
+
+        Invoke-FixtureSweep -Preview
+        Assert-Fixture ($script:fixtureSweepOutput -match 'WOULD remove .*pr-900020-review -- \(closed work item pr-900020\) \(saving 2 ') 'Preview did not report retained work.'
+        Assert-Fixture (Test-Path -LiteralPath (Join-Path $review 'Draft.cs')) 'Preview saved or removed closed-item work.'
+        Assert-Fixture (@(& git -C $fixtureRepo for-each-ref 'refs/heads/retained-worktrees/').Count -eq 0) 'Preview created a retained branch.'
+
+        Invoke-FixtureSweep
+        Assert-Fixture (-not (Test-Path -LiteralPath $review)) 'Closed PR review checkout was not removed.'
+        Assert-Fixture ((& git -C $fixtureRepo rev-parse refs/heads/pr-900020-review-local) -eq $reviewHead) 'Closed item branch was not kept.'
+        $wip = @(& git -C $fixtureRepo for-each-ref --format='%(refname:short)' 'refs/heads/retained-worktrees/pr-900020-wip-*')
+        Assert-Fixture ($wip.Count -eq 1) 'Uncommitted work was not saved to a retained branch.'
+        Assert-Fixture ((& git -C $fixtureRepo show "$($wip[0]):README.md") -eq 'uncommitted edit') 'Saved tracked change is wrong.'
+        Assert-Fixture ((& git -C $fixtureRepo show "$($wip[0])^3:Draft.cs") -eq 'untracked draft') 'Saved untracked file is wrong.'
+        Assert-Fixture (@(& git -C $fixtureRepo stash list).Count -eq 0) 'Saving work left a stash entry.'
+        Assert-Fixture (-not (Test-Path -LiteralPath $closedDetached)) 'Closed detached checkout was not removed.'
+        Assert-Fixture ((& git -C $fixtureRepo rev-parse "refs/heads/retained-worktrees/$detachedHead") -eq $detachedHead) 'Detached commit was not retained.'
+        Assert-Fixture (Test-Path -LiteralPath $openItem) 'Open item checkout was removed.'
+        Assert-Fixture (Test-Path -LiteralPath (Join-Path $ignoredItem '.env')) 'Unknown ignored file of a closed item was removed.'
+        Assert-Fixture (-not (Test-Path -LiteralPath $evidence)) 'Evidence of a removed closed item survived the sweep.'
+        $states = Get-Content -LiteralPath $fixtureState -Raw | ConvertFrom-Json -AsHashtable
+        Assert-Fixture ($states['pr-900020'] -eq 'FREE' -and $states['issue-900021'] -eq 'FREE') 'Closed-item cleanup leaked a reservation.'
     }
     finally { Pop-Location }
 }
@@ -258,6 +320,7 @@ finally {
         throw 'Refusing cleanup outside the disposable fixture root.'
     }
     Remove-Item -LiteralPath $resolvedRoot -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Variable -Name fixtureClosedItems -Scope Global -ErrorAction SilentlyContinue
 }
 
 Write-Output 'OK merged-worktree ownership guards passed.'
