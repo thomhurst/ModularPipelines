@@ -45,6 +45,18 @@ public record BrewOutdatedOptions : BrewOptions
     public string? MinimumVersion { get; set; }
 
     /// <summary>
+    /// Only list outdated formulae with open vulnerabilities from OSV.dev. Stop if any candidate cannot be reliably scanned. Implies --formula.
+    /// </summary>
+    [CliFlag("--vulnerable")]
+    public bool? Vulnerable { get; set; }
+
+    /// <summary>
+    /// Only select findings at or above low, medium, high or critical.
+    /// </summary>
+    [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
+    public string? Severity { get; set; }
+
+    /// <summary>
     /// Fetch the upstream repository to detect if the HEAD installation of the formula is outdated. Otherwise, the repository's HEAD will only be checked for updates when a new stable or development version has been released.
     /// </summary>
     [CliFlag("--fetch-HEAD")]

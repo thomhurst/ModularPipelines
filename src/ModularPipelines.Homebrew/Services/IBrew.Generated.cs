@@ -39,7 +39,7 @@ public partial interface IBrew
     public Task<CommandResult> AsBrewUserAsync(BrewAsBrewUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Run a Homebrew command as the active macOS console user.
+    /// Run a Homebrew command as the user logged in to the macOS desktop.
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

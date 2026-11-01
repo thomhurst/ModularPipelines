@@ -45,6 +45,18 @@ public record BrewUpgradeOptions : BrewOptions
     public string? MinimumVersion { get; set; }
 
     /// <summary>
+    /// Only select outdated formulae with open vulnerabilities from OSV.dev. Stop if any candidate cannot be reliably scanned. Implies --formula; dependencies and dependants may also be upgraded. The available version is not guaranteed to fix every finding.
+    /// </summary>
+    [CliFlag("--vulnerable")]
+    public bool? Vulnerable { get; set; }
+
+    /// <summary>
+    /// Only select findings at or above low, medium, high or critical.
+    /// </summary>
+    [CliOption("--severity", Format = OptionFormat.EqualsSeparated)]
+    public string? Severity { get; set; }
+
+    /// <summary>
     /// Do not ask for confirmation before downloading and upgrading. Ask mode is the default. Enabled by default if $HOMEBREW_NO_ASK is set.
     /// </summary>
     [CliFlag("--no-ask", ShortForm = "-y")]
