@@ -1,0 +1,141 @@
+name: Auto-merge generated options
+
+# Arms native auto-merge for generated CLI options PRs (automated/update-cli-options-*,
+# opened by generate-cli-options.yml) once both reviewers have cleared the current head:
+#
+#   - Claude: scripts/Enable-AutoMerge.ps1 runs Assert-PrGreen.ps1 -ForAutoMerge, which
+#     requires an exact-head CLEAR verdict, no actionable reviews, no unresolved threads,
+#     no conflicts, and no failed checks.
+#   - Codex: scripts/Assert-CodexReviewClear.ps1 requires a completed exact-head review
+#     with no unresolved findings.
+#
+# GitHub then merges once the required checks pass. Either reviewer can finish last, so
+# this runs after every Claude review and every Codex summary update. A later push disarms
+# auto-merge (disarm-auto-merge.yml) and the next reviews re-arm it. A PR with findings is
+# never armed; handle it per AGENTS.md (close, fix the generator, regenerate).
+#
+# Runs trusted default-branch code only and never checks out or executes PR code. Event
+# data is used only to find the PR; every decision re-reads PR state from the API.
+on:
+  workflow_run:
+    workflows: [Claude Code Review]
+    types: [completed]
+  issue_comment:
+    types: [created, edited]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Generated options pull request number'
+        required: true
+        type: number
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.issue.number || inputs.pr_number || github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+jobs:
+  arm:
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || (
+        github.event_name == 'workflow_run'
+        && github.event.workflow_run.head_repository.full_name == github.repository
+        && startsWith(github.event.workflow_run.head_branch, 'automated/update-cli-options-')
+      )
+      || (
+        github.event_name == 'issue_comment'
+        && github.event.issue.pull_request
+        && github.event.comment.user.login == 'chatgpt-codex-connector[bot]'
+        && contains(github.event.comment.body, 'codex-review-state:v1')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout trusted gate scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+
+      - name: Resolve generated options PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          DISPATCH_PR: ${{ inputs.pr_number }}
+          COMMENT_PR: ${{ github.event.issue.number }}
+          RUN_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          if [ -n "$DISPATCH_PR" ]; then
+            pr="$DISPATCH_PR"
+          elif [ -n "$COMMENT_PR" ]; then
+            pr="$COMMENT_PR"
+          else
+            pr="$(gh pr list --state open --head "$RUN_BRANCH" --json number --jq '.[0].number // empty')"
+          fi
+          if [ -z "$pr" ]; then
+            echo "::notice::No open pull request for this event."
+            exit 0
+          fi
+
+          gh pr view "$pr" --json number,state,isDraft,isCrossRepository,headRefName,baseRefName,headRefOid,autoMergeRequest \
+            > "$RUNNER_TEMP/pr.json"
+          eligible="$(jq -r --arg base "$DEFAULT_BRANCH" '
+            .state == "OPEN" and (.isDraft | not) and (.isCrossRepository | not)
+            and (.headRefName | startswith("automated/update-cli-options-"))
+            and .baseRefName == $base' "$RUNNER_TEMP/pr.json")"
+          if [ "$eligible" != "true" ]; then
+            echo "::notice::#$pr is not an open generated options PR against $DEFAULT_BRANCH; nothing to arm."
+            exit 0
+          fi
+          head="$(jq -r '.headRefOid' "$RUNNER_TEMP/pr.json")"
+          if [ "$(jq -r '.autoMergeRequest != null' "$RUNNER_TEMP/pr.json")" = "true" ]; then
+            echo "::notice::Auto-merge is already armed for #$pr."
+            exit 0
+          fi
+          {
+            echo "number=$pr"
+            echo "head=$head"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Require a clear Codex review of the head
+        id: codex
+        if: steps.pr.outputs.number != ''
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PR_HEAD: ${{ steps.pr.outputs.head }}
+        run: |
+          ./scripts/Assert-CodexReviewClear.ps1 -Pr $env:PR_NUMBER -HeadSha $env:PR_HEAD -Repo $env:GITHUB_REPOSITORY
+          if ($LASTEXITCODE -ne 0) {
+            # Not a failure: Codex may still be reviewing, and its next summary update re-runs this.
+            Write-Output "::notice::Not arming #$($env:PR_NUMBER) yet; see the Codex reason above."
+            exit 0
+          }
+          "clear=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
+      - name: Arm auto-merge after the Claude gate
+        if: steps.codex.outputs.clear == 'true'
+        shell: pwsh
+        env:
+          # The repository PAT, not GITHUB_TOKEN: a merge made with GITHUB_TOKEN would not
+          # trigger the push workflows on the default branch.
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          PR_HEAD: ${{ steps.pr.outputs.head }}
+        run: |
+          ./scripts/Enable-AutoMerge.ps1 -Pr $env:PR_NUMBER -Repo $env:GITHUB_REPOSITORY -ExpectedHeadSha $env:PR_HEAD
+          if ($LASTEXITCODE -ne 0) {
+            # Not a failure: Claude may still be reviewing, and its completion re-runs this.
+            Write-Output "::notice::Not arming #$($env:PR_NUMBER) yet; see the gate reason above."
+          }
+          exit 0
