@@ -13,7 +13,7 @@ using ModularPipelines.Homebrew.Options;
 namespace ModularPipelines.Homebrew.Options;
 
 /// <summary>
-/// Run a Homebrew command as the active macOS console user.
+/// Run a Homebrew command as the user logged in to the macOS desktop.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "2.0.0")]
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ namespace ModularPipelines.Homebrew.Options;
 public record BrewAsConsoleUserOptions : BrewOptions
 {
     /// <summary>
-    /// Run a Homebrew command as the active macOS console user.
+    /// Run a Homebrew command as the user logged in to the macOS desktop.
     /// </summary>
     /// <param name="Command">The command operand.</param>
     public BrewAsConsoleUserOptions(

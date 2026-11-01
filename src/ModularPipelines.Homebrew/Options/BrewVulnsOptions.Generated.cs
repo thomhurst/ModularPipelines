@@ -75,7 +75,7 @@ public record BrewVulnsOptions : BrewOptions
     public string? MaxSummary { get; set; }
 
     /// <summary>
-    /// Output JSON.
+    /// Output findings and scan coverage as JSON. A complete scan does not guarantee the absence of vulnerabilities.
     /// </summary>
     [CliFlag("--json", ShortForm = "-j")]
     public bool? Json { get; set; }

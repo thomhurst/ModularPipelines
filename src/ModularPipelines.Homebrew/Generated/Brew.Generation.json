@@ -1,7 +1,7 @@
 {
   "formatVersion": 2,
   "toolName": "brew",
-  "toolVersion": "7.0.9",
+  "toolVersion": "7.0.10",
   "commandTreeSha256": "b97ddd8650aaeae4adfa6c751d8bcd12bb50a54fcf686b06fbb19682c1287d8b",
-  "generatorSourceSha256": "67e618a5f1bde442503a42a1fae9d0ec30e87a8fe0d7699bbc678f3569ee3ccb"
+  "generatorSourceSha256": "938623e28e6c1fb3af09ac5f8f779db15dfc291cc4cfe725c93ddd9f652dd7f0"
 }
