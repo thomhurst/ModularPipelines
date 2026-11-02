@@ -13,10 +13,10 @@ Run unattended. At each iteration, run `pwsh scripts/Remove-MergedWorktrees.ps1`
 
 1. Fix a red `main`, following [Red main](#red-main).
 2. Merge an eligible PR.
-3. Fix conflicts, failed CI, or review findings on an open PR and push.
+3. Fix conflicts, failed CI, or review findings on an open PR and push. Handle review feedback that has no disposition yet (an unresolved thread, or changes requested since the last push) even while that PR's checks still run.
 4. Publish finished work stranded on a local `issue-<N>-*` branch that has no PR, or recover valuable changes from a preserved merged-PR worktree, following [recovery guidance](references/recovery.md).
 5. Tidy the issue queue: close a parent whose native sub-issues are all closed, and close an issue that `origin/main` already implements or that another issue supersedes.
-6. Claim an available issue, implement its full scope, and open a PR. Prefer issues that block other issues.
+6. Claim an available issue, implement its full scope, and open a PR, but only while fewer than 8 of your PRs are open without `needs-human` or `on-hold` (`-MaxOpenPrs` in `scripts/Start-IssuePrLoop.ps1`): each PR in flight is another chance of a conflict, so at the limit finish existing work, then triage. Prefer issues that block other issues.
 7. When nothing above is actionable, run a [triage unit](#triage) instead of waiting.
 
 Apply repository-specific PR maintenance rules before choosing repair work; some PR categories require closure and a linked issue instead.
