@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
 Runs a local dotnet command with workstation-safe limits for autonomous agents.

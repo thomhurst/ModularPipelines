@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
 $publishScript = Join-Path $PSScriptRoot 'Publish-Release.ps1'

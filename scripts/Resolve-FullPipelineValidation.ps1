@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 [CmdletBinding(DefaultParameterSetName = 'Git')]
 param(
     [Parameter(Mandatory)]

@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 
 $cleanupScript = Join-Path $PSScriptRoot 'WorktreeCleanup.ps1'

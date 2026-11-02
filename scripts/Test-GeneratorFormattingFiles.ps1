@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $originalExitCode = $global:LASTEXITCODE
 $selector = Join-Path $PSScriptRoot 'Get-GeneratorFormattingFiles.ps1'

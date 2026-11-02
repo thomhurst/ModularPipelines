@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Regression test for Test-HeadHasNoWorkBeyondMain: Remove-MergedWorktrees.ps1 must not
 # treat a branch cut from main, with no commits of its own, as merged.
 $ErrorActionPreference = 'Stop'

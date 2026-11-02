@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 [CmdletBinding()]
 param(
     [string]$RedisEndpoint = $env:REDIS_ENDPOINT,

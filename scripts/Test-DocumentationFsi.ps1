@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 <#
 .SYNOPSIS
 Compiles the documented F# Interactive example against freshly packed packages.

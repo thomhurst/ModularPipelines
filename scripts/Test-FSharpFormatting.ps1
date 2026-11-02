@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 param(
     [string]$DotNetPath = 'dotnet',
     [string]$ArtifactsPath = [System.IO.Path]::GetTempPath()

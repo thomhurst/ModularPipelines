@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 function Assert-GeneratedOptionsToken {
     param(
         [Parameter(Mandatory)][string]$Name,

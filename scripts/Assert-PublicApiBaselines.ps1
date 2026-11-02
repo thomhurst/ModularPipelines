@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 [CmdletBinding()]
 param(
     [string] $RepositoryRoot = (Split-Path $PSScriptRoot -Parent)

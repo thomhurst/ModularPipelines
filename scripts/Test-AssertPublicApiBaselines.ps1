@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 
 $scriptPath = Join-Path $PSScriptRoot 'Assert-PublicApiBaselines.ps1'

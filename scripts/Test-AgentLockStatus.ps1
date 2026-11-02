@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Exercise the real status verb with a fake Docker command; no shared Redis state is touched.
 $ErrorActionPreference = 'Stop'
 $agentLocks = Join-Path $PSScriptRoot 'AgentLocks.ps1'

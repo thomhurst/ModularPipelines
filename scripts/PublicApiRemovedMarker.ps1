@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Shared helpers for public API baseline lines and the *REMOVED* convention.
 #
 # A marker in PublicAPI.Unshipped.txt retires an entry that stays in

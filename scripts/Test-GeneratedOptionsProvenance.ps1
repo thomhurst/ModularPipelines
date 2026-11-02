@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'GeneratedOptionsProvenanceTestCleanup.ps1')
 . (Join-Path $PSScriptRoot 'Resolve-GeneratedIntegrationValidation.ps1') `

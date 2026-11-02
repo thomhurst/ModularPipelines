@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Exercise Enable-AutoMerge.ps1 with the gate and GitHub CLI stubbed out.
 $ErrorActionPreference = 'Stop'
 

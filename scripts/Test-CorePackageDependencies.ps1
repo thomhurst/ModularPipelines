@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 param([string]$DotNetPath = 'dotnet')
 
 $ErrorActionPreference = 'Stop'

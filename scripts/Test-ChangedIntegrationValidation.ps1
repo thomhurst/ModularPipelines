@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
 $resolver = Join-Path $PSScriptRoot 'Resolve-FullPipelineValidation.ps1'

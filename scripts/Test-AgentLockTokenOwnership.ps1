@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Regression tests for AgentLocks token-cache ownership isolation.
 
 $ErrorActionPreference = 'Stop'

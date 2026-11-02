@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidatePattern('^[a-z0-9][a-z0-9-]*$')][string]$Tool,

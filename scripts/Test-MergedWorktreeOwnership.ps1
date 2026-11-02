@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Runs the real sweep against a disposable repository and a fake canonical lock CLI.
 # No GitHub requests or shared Redis keys are used.
 $ErrorActionPreference = 'Stop'

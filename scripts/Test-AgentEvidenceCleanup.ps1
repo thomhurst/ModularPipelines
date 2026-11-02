@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Regression tests for agent evidence retention. Requires only PowerShell 7.
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'WorktreeCleanup.ps1')

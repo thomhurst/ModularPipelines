@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $originalExitCode = $global:LASTEXITCODE
 $resolveScript = Join-Path $PSScriptRoot 'Resolve-FullPipelineValidation.ps1'

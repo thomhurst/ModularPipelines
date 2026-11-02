@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $resolver = Join-Path $PSScriptRoot 'Resolve-DistributedBuildMatrix.ps1'
 foreach ($endpoint in @('', ' ', 'private-endpoint')) {

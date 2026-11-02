@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 function Remove-GeneratedOptionsProvenanceTestArtifacts {
     [CmdletBinding()]
     param(

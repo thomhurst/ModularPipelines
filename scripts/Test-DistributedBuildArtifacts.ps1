@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $workflowPath = Join-Path (Split-Path $PSScriptRoot -Parent) '.github/workflows/dotnet.yml'
 $workflow = Get-Content -LiteralPath $workflowPath -Raw

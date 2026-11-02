@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $reportPath = [IO.Path]::GetTempFileName()
 $summaryPath = [IO.Path]::GetTempFileName()

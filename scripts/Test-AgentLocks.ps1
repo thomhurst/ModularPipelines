@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 # Regression tests for per-worktree AgentLocks markers.
 
 $ErrorActionPreference = 'Stop'

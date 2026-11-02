@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'AssertPrGreenReviewHeuristics.ps1')
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env pwsh
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path $PSScriptRoot -Parent
 $testRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("public-api-tracking-{0}" -f [guid]::NewGuid())
