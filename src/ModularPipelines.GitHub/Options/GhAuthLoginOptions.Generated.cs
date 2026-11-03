@@ -27,6 +27,12 @@ public record GhAuthLoginOptions : GhOptions
     public bool? Clipboard { get; set; }
 
     /// <summary>
+    /// Prefer expiring credentials that gh refreshes automatically, if the host supports them
+    /// </summary>
+    [CliFlag("--expiring")]
+    public bool? Expiring { get; set; }
+
+    /// <summary>
     /// The protocol to use for git operations on this host: {ssh|https}
     /// </summary>
     [CliOption("--git-protocol", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]

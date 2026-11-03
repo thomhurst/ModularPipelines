@@ -20,6 +20,7 @@ namespace ModularPipelines.GitHub.Services;
 public class GhIssue : IGhIssue
 {
     private readonly ICommandContext _command;
+    private GhIssueArtifact? _artifact;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GhIssue"/> class.
@@ -28,6 +29,15 @@ public class GhIssue : IGhIssue
     {
         _command = command;
     }
+
+    #region Sub-command Groups
+
+    /// <summary>
+    /// gh issue artifact sub-commands.
+    /// </summary>
+    public GhIssueArtifact Artifact => _artifact ??= new GhIssueArtifact(_command);
+
+    #endregion
 
     #region Commands
 

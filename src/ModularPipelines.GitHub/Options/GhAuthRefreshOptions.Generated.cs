@@ -27,6 +27,12 @@ public record GhAuthRefreshOptions : GhOptions
     public bool? Clipboard { get; set; }
 
     /// <summary>
+    /// Prefer expiring credentials that gh refreshes automatically, if the host supports them
+    /// </summary>
+    [CliFlag("--expiring")]
+    public bool? Expiring { get; set; }
+
+    /// <summary>
     /// The GitHub host to use for authentication
     /// </summary>
     [CliOption("--hostname", ShortForm = "-h", Format = OptionFormat.EqualsSeparated)]
