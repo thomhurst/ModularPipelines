@@ -1,5 +1,7 @@
+next-version: 4.0.0
 mode: ContinuousDeployment
 strategies:
+  - ConfiguredNextVersion
   - Mainline
 ignore:
   sha: 
