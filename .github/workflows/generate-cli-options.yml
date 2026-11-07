@@ -336,7 +336,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gradle'
         uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6
         with:
-          gradle-version: 9.8.2
+          gradle-version: 9.9.0
 
       - name: Install Node.js for npm and npx
         if: steps.should-run.outputs.run == 'true' && (matrix.tool == 'npm' || matrix.tool == 'npx')
