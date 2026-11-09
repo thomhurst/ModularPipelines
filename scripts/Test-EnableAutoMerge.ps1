@@ -87,3 +87,6 @@ finally {
 }
 
 Write-Output 'OK Enable-AutoMerge gate, validated-head binding, expected-head pinning, and failure semantics passed.'
+
+# Expected child failures must not leak into the GitHub Actions PowerShell wrapper.
+$global:LASTEXITCODE = 0

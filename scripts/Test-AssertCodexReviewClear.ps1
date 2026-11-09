@@ -12,23 +12,28 @@ try {
         [string]$Sha = $head,
         [string]$Status = 'completed',
         [object]$Unresolved = $false,
+        [object]$AnyFindings = $false,
         [string]$UpdatedAt = '2026-11-01T00:00:00Z',
         [string]$Login = 'chatgpt-codex-connector[bot]',
         [string]$Security = '{"commit_sha":null,"has_any_findings":null,"has_unresolved_findings":null,"status":null}') {
+        $anyJson = if ($null -eq $AnyFindings) { 'null' } else { "$AnyFindings".ToLowerInvariant() }
         $unresolvedJson = if ($null -eq $Unresolved) { 'null' } else { "$Unresolved".ToLowerInvariant() }
-        $stateJson = "{`"code_review`":{`"commit_sha`":`"$Sha`",`"has_any_findings`":$unresolvedJson,`"has_unresolved_findings`":$unresolvedJson,`"status`":`"$Status`"},`"security_review`":$Security}"
+        $stateJson = "{`"code_review`":{`"commit_sha`":`"$Sha`",`"has_any_findings`":$anyJson,`"has_unresolved_findings`":$unresolvedJson,`"status`":`"$Status`"},`"security_review`":$Security}"
         @{
+            id         = 1
+            created_at = $UpdatedAt
             user       = @{ login = $Login }
             updated_at = $UpdatedAt
             body       = "<!-- codex-pull-request-review-summary -->`n<!-- codex-review-state:v1 $stateJson -->`n## Codex Review Summary"
         }
     }
 
-    function Invoke-Gate([object[]]$Comments, [switch]$Slurped) {
+    function Invoke-Gate([object[]]$Comments, [switch]$Slurped, [switch]$Conversation) {
         $path = Join-Path $testDirectory 'comments.json'
         $payload = if ($Slurped) { , @($Comments) } else { $Comments }
         ConvertTo-Json -InputObject @($payload) -Depth 10 | Set-Content -LiteralPath $path
-        $output = & pwsh -NoProfile -File $scriptPath -Pr 7 -HeadSha $head -CommentsPath $path 2>&1
+        $conversationArgs = @{ RequireConversationClearance = $Conversation }
+        $output = & pwsh -NoProfile -File $scriptPath -Pr 7 -HeadSha $head -CommentsPath $path @conversationArgs 2>&1
         [pscustomobject]@{ Exit = $LASTEXITCODE; Output = ($output -join "`n") }
     }
 
@@ -50,6 +55,31 @@ try {
     Assert-Result (Invoke-Gate @(New-CodexComment -Unresolved $null)) 1 'unresolved findings' 'An unknown findings state must deny'
     Assert-Result (Invoke-Gate @(New-CodexComment -Security '{"commit_sha":null,"has_unresolved_findings":true,"status":"completed"}')) 1 'security' 'Unresolved security findings must deny'
 
+    Assert-Result (Invoke-Gate @(New-CodexComment -AnyFindings $true)) 1 'findings' 'A review with findings must deny even when marked resolved'
+    Assert-Result (Invoke-Gate @(New-CodexComment -AnyFindings $null)) 1 'unknown findings' 'An unknown any-findings state must deny'
+    $malformed = New-CodexComment
+    $malformed.body = '<!-- codex-review-state:v1 invalid -->'
+    Assert-Result (Invoke-Gate @($malformed)) 1 'malformed' 'Malformed state must deny'
+
+    $clearance = @{
+        id = 2; author_association = 'OWNER'
+        body = "<!-- generated-options-conversation-clear:$head -->"
+        created_at = '2026-11-01T02:00:00Z'; updated_at = '2026-11-01T02:00:00Z'
+    }
+    Assert-Result (Invoke-Gate @(New-CodexComment) -Conversation) 1 'no trusted' 'Automatic arming requires manual conversation clearance'
+    Assert-Result (Invoke-Gate @((New-CodexComment), $clearance) -Conversation) 0 'clear' 'A trusted clearance after every conversation comment passes'
+    Assert-Result (Invoke-Gate @((New-CodexComment), $clearance) -Conversation -Slurped) 0 'clear' 'Clearance works with paginated comments'
+    $untrusted = $clearance.Clone(); $untrusted.author_association = 'CONTRIBUTOR'
+    Assert-Result (Invoke-Gate @((New-CodexComment), $untrusted) -Conversation) 1 'no trusted' 'An untrusted commenter cannot clear findings'
+    $staleClearance = $clearance.Clone(); $staleClearance.body = "<!-- generated-options-conversation-clear:$other -->"
+    Assert-Result (Invoke-Gate @((New-CodexComment), $staleClearance) -Conversation) 1 'no trusted' 'Clearance must bind the current head'
+    $newFinding = @{ id = 3; body = 'Blocking finding'; updated_at = '2026-11-01T03:00:00Z' }
+    Assert-Result (Invoke-Gate @((New-CodexComment), $clearance, $newFinding) -Conversation) 1 'changed since' 'A later conversation finding invalidates clearance'
+    $edited = New-CodexComment -UpdatedAt '2026-11-01T03:00:00Z'
+    Assert-Result (Invoke-Gate @($edited, $clearance) -Conversation) 1 'changed since' 'An edited older comment invalidates clearance'
+    $editedClearance = $clearance.Clone(); $editedClearance.updated_at = '2026-11-01T03:00:00Z'
+    Assert-Result (Invoke-Gate @((New-CodexComment), $editedClearance) -Conversation) 1 'unedited' 'Editing a clearance cannot hide newer findings'
+
     $stale = New-CodexComment -Unresolved $true -UpdatedAt '2026-11-01T00:00:00Z'
     $fresh = New-CodexComment -UpdatedAt '2026-11-01T01:00:00Z'
     Assert-Result (Invoke-Gate @($fresh, $stale)) 0 'clear' 'The newest Codex state must win regardless of listing order'
@@ -68,3 +98,6 @@ finally {
 }
 
 Write-Output 'OK Assert-CodexReviewClear head binding, newest-state selection, and denial semantics passed.'
+
+# Expected child failures must not leak into the GitHub Actions PowerShell wrapper.
+$global:LASTEXITCODE = 0

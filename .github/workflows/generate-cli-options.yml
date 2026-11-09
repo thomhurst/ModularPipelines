@@ -1215,7 +1215,7 @@ jobs:
             ## Verification
             - [x] Solution builds successfully in the read-only generation job
 
-            Auto-merge arms once Claude and Codex clear this head (auto-merge-generated-options.yml), and GitHub merges after the required checks pass. A PR with findings is not armed.
+            Auto-merge arms once Claude and Codex clear this head and an owner or collaborator posts `<!-- generated-options-conversation-clear:<full-head-SHA> -->` after dispositioning all conversation findings (see AGENTS.md). GitHub then merges after the required checks pass. A later conversation update requires fresh clearance; a PR with findings is not armed.
 
             ---
             🤖 Generated with ModularPipelines.OptionsGenerator
