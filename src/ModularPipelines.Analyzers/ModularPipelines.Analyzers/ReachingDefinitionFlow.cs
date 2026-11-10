@@ -134,14 +134,10 @@ internal sealed class ReachingDefinitionFlow(
         ImmutableArray<int> continuation, FilterContext? filter)
     {
         var arithmeticExceptions = GetArithmeticExceptions(operation);
-        var field = GetFieldAccess(operation);
-        if (field is { Field: { IsStatic: true, IsConst: false } })
+        var receiverException = GetReceiverExceptionName(operation);
+        if (receiverException is not null)
         {
-            FollowKnownException("System.TypeInitializationException");
-        }
-        else if ((field is not null && HasNullableReceiver(field.Instance)) || IsThrowingMethodReference(operation))
-        {
-            FollowKnownException("System.NullReferenceException");
+            FollowKnownException(receiverException);
         }
         else if (GetArrayAccess(operation) is { } array)
         {
@@ -171,6 +167,19 @@ internal sealed class ReachingDefinitionFlow(
 
         void FollowKnownException(string exceptionName) => FollowException(block,
             invocation.SemanticModel?.Compilation.GetTypeByMetadataName(exceptionName), state, continuation, filter);
+    }
+
+    private string? GetReceiverExceptionName(IOperation operation)
+    {
+        var field = GetFieldAccess(operation);
+        if (field is { Field: { IsStatic: true, IsConst: false } })
+        {
+            return "System.TypeInitializationException";
+        }
+
+        return (field is not null && HasNullableReceiver(field.Instance)) || IsThrowingMethodReference(operation)
+            ? "System.NullReferenceException"
+            : null;
     }
 
     private static bool IsSimpleAssignmentTarget(IOperation operation) =>
@@ -299,7 +308,9 @@ internal sealed class ReachingDefinitionFlow(
 
     private bool IsKnownNonNull(IOperation value, HashSet<ILocalSymbol> visited)
     {
-        while (value is IConversionOperation { OperatorMethod: null } conversion)
+        while (value is IConversionOperation
+            { Conversion: { IsIdentity: true } or { IsReference: true } } conversion
+            && (!conversion.IsTryCast || conversion.Conversion.IsImplicit))
         {
             value = conversion.Operand;
         }

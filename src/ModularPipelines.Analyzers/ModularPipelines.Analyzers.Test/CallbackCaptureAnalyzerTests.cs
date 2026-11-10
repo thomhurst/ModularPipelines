@@ -565,6 +565,40 @@ public class CallbackCaptureAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("new object() as Holder", "_ = holder.Value;", true)]
+    [DataRow("new object() as Holder", "holder.Value = 1;", true)]
+    [DataRow("new object() as Holder", "holder.Value += 1;", true)]
+    [DataRow("new object() as Holder", "holder.Value++;", true)]
+    [DataRow("new object() as Holder", "Func<string?> text = holder.ToString;", true)]
+    [DataRow("(Holder)(new object() as Holder)!", "_ = holder.Value;", true)]
+    [DataRow("(dynamic)new NullHolder()", "_ = holder.Value;", true)]
+    [DataRow("new NullHolder()", "_ = holder.Value;", true)]
+    [DataRow("(Holder)(object)new Holder()", "_ = holder.Value;", false)]
+    [DataRow("(Holder)(object)new Holder()", "Func<string?> text = holder.ToString;", false)]
+    [DataRow("new Holder() as Holder", "_ = holder.Value;", false)]
+    public async Task Non_Null_Receiver_Proof_Respects_Conversions(string receiver, string operation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Holder original = ({{receiver}})!;
+                Holder holder = original;
+                Action register = () => {};
+                try { {{operation}} }
+                catch (NullReferenceException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public class Holder { public int Value; }
+            public class NullHolder
+            {
+                public static implicit operator Holder(NullHolder value) => null!;
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("InvalidOperationException", false)]
     [DataRow("IndexOutOfRangeException", true)]
     [DataRow("NullReferenceException", true)]
