@@ -21,6 +21,10 @@ the [V4 release notes](https://github.com/thomhurst/ModularPipelines/blob/main/R
 > 5. Use `Task<T>` for `Module<T>`, typed result variants, and `summary.Results`.
 > 6. Use `Async` command methods, `cancellationToken:`, and the regenerated CLI option contracts.
 
+Still using a **3.x** package? Read the
+[frozen v3.2.8 documentation source](https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs)
+for the released APIs. This migration guide describes the upcoming V4 release.
+
 ## Quick Migration Checklist
 
 - [ ] Upgrade all used ModularPipelines packages together, including custom integration projects and test helpers.
