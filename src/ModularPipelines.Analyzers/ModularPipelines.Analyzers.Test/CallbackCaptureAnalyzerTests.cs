@@ -9,6 +9,78 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("set + empty", true)]
+    [DataRow("empty + set", true)]
+    [DataRow("set + clear", false)]
+    [DataRow("clear + set", true)]
+    [DataRow("(set + clear) + set", true)]
+    [DataRow("set + (clear + empty)", false)]
+    [DataRow("set + (Action?)null", true)]
+    [DataRow("(Action?)null + set", true)]
+    [DataRow("args.Length > 0 ? set + empty : clear + empty", true)]
+    public async Task Transfers_Combined_Delegate_Writes_In_Invocation_Order(string receiver, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                Action set = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); };
+                Action clear = () => { register = () => {}; };
+                Action empty = () => {};
+                Action? replace = {{receiver}};
+                replace!();
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("args.Length > 0 ? clear : null", true)]
+    [DataRow("args.Length > 0 ? null : clear", true)]
+    [DataRow("args.Length switch { 0 => null, _ => clear }", true)]
+    [DataRow("true ? clear : null", false)]
+    [DataRow("false ? clear : null", true)]
+    [DataRow("((Action?)null) ?? clear", false)]
+    public async Task Preserves_Null_Delegate_Exception_Paths(string receiver, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                Action clear = () => { register = () => {}; };
+                Action? replace = {{receiver}};
+                try { replace!(); }
+                catch (NullReferenceException) { }
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("(register = () => Pipeline.CreateBuilder().AddModule<BuildModule>()) != null", true)]
+    [DataRow("(register = () => {}) != null", false)]
+    [DataRow("args.Length > 0 ? (register = () => Pipeline.CreateBuilder().AddModule<BuildModule>()) != null : false", true)]
+    [DataRow("false ? (register = () => Pipeline.CreateBuilder().AddModule<BuildModule>()) != null : false", false)]
+    [DataRow("args.Length > 0 && (register = () => Pipeline.CreateBuilder().AddModule<BuildModule>()) != null", true)]
+    [DataRow("false", false)]
+    public async Task Evaluates_ConfigureAwait_Arguments_Before_Observing_Faults(string argument, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = async _ =>
+            {
+                Action register = () => {};
+                async Task Fail() { await Task.CompletedTask; throw new InvalidOperationException(); }
+                try { await Fail().ConfigureAwait({{argument}}); }
+                catch (InvalidOperationException) { }
+                register!();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("async Task Clear() { await Task.Yield(); register = () => {}; } await Clear();", false)]
     [DataRow("async Task Clear() { await Task.Yield(); register = () => {}; } await Clear().ConfigureAwait(false);", false)]
     [DataRow("Func<Task> clear = async () => { await Task.Yield(); register = () => {}; }; await clear();", false)]
