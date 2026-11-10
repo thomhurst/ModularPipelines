@@ -18,13 +18,18 @@
 # Auto-merge leaves the PR's worktree in place. scripts/Remove-MergedWorktrees.ps1 cleans
 # it up after the merge.
 #
-# Usage: pwsh scripts/Enable-AutoMerge.ps1 -Pr 1234 [-Repo owner/name]
+# -ExpectedHeadSha refuses to arm unless the gate validated exactly that head, so a caller
+# that checked something else about a specific head (for example the Codex review state)
+# cannot arm a different one.
+#
+# Usage: pwsh scripts/Enable-AutoMerge.ps1 -Pr 1234 [-Repo owner/name] [-ExpectedHeadSha <40-hex>]
 # Exit:  0 = armed; 1 = not armed (reason printed to stderr).
 
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][int]$Pr,
-    [string]$Repo
+    [string]$Repo,
+    [ValidatePattern('^[0-9a-f]{40}$')][string]$ExpectedHeadSha
 )
 
 $ErrorActionPreference = 'Stop'
@@ -46,6 +51,9 @@ catch {
     Fail "could not parse the gate result: $($_.Exception.Message)"
 }
 if ($headSha -notmatch '^[0-9a-f]{40}$') { Fail "the gate did not return a validated head SHA" }
+if ($ExpectedHeadSha -and $headSha -ne $ExpectedHeadSha) {
+    Fail "the gate validated $headSha, not the expected head $ExpectedHeadSha"
+}
 
 # --match-head-commit makes GitHub refuse if a push moved the head after the gate ran.
 gh pr merge $Pr @repoArgs --auto --squash --match-head-commit $headSha

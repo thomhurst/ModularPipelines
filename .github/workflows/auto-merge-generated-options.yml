@@ -1,0 +1,133 @@
+name: Auto-merge generated options
+
+# Arms native auto-merge for generated CLI options PRs (automated/update-cli-options-*,
+# opened by generate-cli-options.yml) once both reviewers have cleared the current head:
+#
+#   - Claude: scripts/Enable-AutoMerge.ps1 runs Assert-PrGreen.ps1 -ForAutoMerge, which
+#     requires an exact-head CLEAR verdict, no actionable reviews, no unresolved threads,
+#     no conflicts, and no failed checks.
+#   - Codex: scripts/Assert-CodexReviewClear.ps1 requires a completed exact-head review
+#     with no findings and explicit current-head conversation clearance.
+#
+# GitHub then merges once the required checks pass.
+# This runs after every Claude review and every conversation or inline review update.
+# Every eligible armed PR is disarmed before revalidation. A later push disarms
+# auto-merge (disarm-auto-merge.yml); fresh reviews and conversation clearance re-arm it.
+# A PR with findings is never armed; handle it per AGENTS.md (close, fix the generator, regenerate).
+#
+# Runs trusted default-branch code only and never checks out or executes PR code. Event
+# data is used only to find the PR; every decision re-reads PR state from the API.
+on:
+  workflow_run:
+    workflows: [Claude Code Review]
+    types: [completed]
+  issue_comment:
+    types: [created, edited, deleted]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+  pull_request_review_comment:
+    types: [created, edited, deleted]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Generated options pull request number'
+        required: true
+        type: number
+
+permissions: {}
+
+jobs:
+  resolve:
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || (
+        github.event_name == 'workflow_run'
+        && github.event.workflow_run.head_repository.full_name == github.repository
+      )
+      || (
+        github.event_name == 'issue_comment'
+        && github.event.issue.pull_request
+      )
+      || github.event_name == 'pull_request_review'
+      || github.event_name == 'pull_request_review_comment'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      number: ${{ steps.pr.outputs.number }}
+    steps:
+      - name: Resolve generated options PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          DISPATCH_PR: ${{ inputs.pr_number }}
+          COMMENT_PR: ${{ github.event.issue.number || github.event.pull_request.number }}
+          RUN_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          RUN_TITLE: ${{ github.event.workflow_run.display_title }}
+        run: |
+          if [ -n "$DISPATCH_PR" ]; then
+            pr="$DISPATCH_PR"
+          elif [ -n "$COMMENT_PR" ]; then
+            pr="$COMMENT_PR"
+          elif [[ "$RUN_TITLE" =~ ^Claude\ review\ \#([1-9][0-9]*)$ ]]; then
+            # Manual Claude retries run on main, not on the reviewed PR branch.
+            # The trusted Claude workflow names both automatic and manual runs by PR.
+            pr="${BASH_REMATCH[1]}"
+          elif [[ "$RUN_BRANCH" == automated/update-cli-options-* ]]; then
+            # Runs started before the explicit run-name was introduced.
+            pr="$(gh pr list --state open --head "$RUN_BRANCH" --json number --jq '.[0].number // empty')"
+          else
+            pr=''
+          fi
+          if [ -z "$pr" ]; then
+            echo "::notice::No open pull request for this event."
+            exit 0
+          fi
+
+          # Filter before checkout: handwritten PRs can introduce this workflow before
+          # its trusted helper scripts exist on the default branch.
+          eligible="$(gh pr view "$pr" --json state,isCrossRepository,headRefName,baseRefName \
+            | jq -r --arg base "$DEFAULT_BRANCH" '
+              .state == "OPEN" and (.isCrossRepository | not)
+              and (.headRefName | startswith("automated/update-cli-options-"))
+              and .baseRefName == $base')"
+          if [ "$eligible" != "true" ]; then
+            echo "::notice::#$pr is not an eligible generated options PR."
+            exit 0
+          fi
+          echo "number=$pr" >> "$GITHUB_OUTPUT"
+
+  arm:
+    needs: resolve
+    if: needs.resolve.outputs.number != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    concurrency:
+      # Resolve first: all trigger types for one PR must share this group.
+      group: ${{ github.workflow }}-${{ needs.resolve.outputs.number }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout trusted gate scripts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: scripts
+          sparse-checkout-cone-mode: true
+
+      - name: Revalidate reviews and update auto-merge
+        shell: pwsh
+        env:
+          # PAT merges trigger default-branch push workflows; GITHUB_TOKEN merges do not.
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
+          PR_NUMBER: ${{ needs.resolve.outputs.number }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          ./scripts/Sync-GeneratedOptionsAutoMerge.ps1 -Pr $env:PR_NUMBER -Repo $env:GITHUB_REPOSITORY -DefaultBranch $env:DEFAULT_BRANCH

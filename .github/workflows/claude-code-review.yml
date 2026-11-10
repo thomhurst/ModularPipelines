@@ -1,4 +1,5 @@
 name: Claude Code Review
+run-name: 'Claude review #${{ github.event.pull_request.number || inputs.pr_number }}'
 
 on:
   # pull_request_target, not pull_request: for pull requests from forks GitHub
@@ -105,11 +106,15 @@ jobs:
           done
 
       - name: Test trusted review publisher
-        run: node --test .github/scripts/install-claude-code.test.mjs .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs .github/scripts/report-claude-failure.test.mjs
+        run: node --test .github/scripts/install-claude-code.test.mjs .github/scripts/post-claude-review.test.mjs .github/scripts/review-evidence-limits.test.mjs .github/scripts/validate-claude-review-stop.test.mjs .github/scripts/report-claude-failure.test.mjs .github/scripts/resolve-generated-options-pr.test.mjs
 
       - name: Test review merge gate
         shell: pwsh
-        run: ./scripts/Test-AssertPrGreenReviewHeuristics.ps1
+        run: |
+          ./scripts/Test-AssertPrGreenReviewHeuristics.ps1
+          ./scripts/Test-EnableAutoMerge.ps1
+          ./scripts/Test-AssertCodexReviewClear.ps1
+          ./scripts/Test-SyncGeneratedOptionsAutoMerge.ps1
 
       # The action's claude.ai/install.sh bootstrap returned HTTP 429 before
       # Claude could start (#6846). Use Anthropic's supported npm distribution
