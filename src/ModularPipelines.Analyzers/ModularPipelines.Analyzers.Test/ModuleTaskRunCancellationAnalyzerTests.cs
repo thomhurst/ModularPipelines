@@ -157,6 +157,11 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("void ResetLocal<T>() { token = default; } Store(ResetLocal<int>);", false)]
     [DataRow("var other = default(CancellationToken); (Environment.TickCount > 0 ? ref token : ref other) = default;", false)]
     [DataRow("ref var alias = ref token; alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; alias = ref token; alias = default;", false)]
+    [DataRow("ref var first = ref token; ref var second = ref first; second = default;", false)]
+    [DataRow("ref var alias = ref token; Reset(ref alias);", false)]
+    [DataRow("ref var alias = ref token; ResetOut(out alias);", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; alias = ref (Environment.TickCount > 0 ? ref token : ref other); alias = default;", false)]
     public async Task Reports_Overwritten_Helper_Token_Captured_By_Callback(string write, bool insideCallback)
     {
         var source = ModuleSource($$"""
@@ -187,6 +192,12 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("void ResetLocal() { token = default; }")]
     [DataRow("var other = default(CancellationToken); (false ? ref token : ref other) = default;")]
     [DataRow("ref readonly var alias = ref token; _ = alias.CanBeCanceled;")]
+    [DataRow("ref var alias = ref token; _ = alias.CanBeCanceled;")]
+    [DataRow("ref var alias = ref token; Read(in alias);")]
+    [DataRow("ref var alias = ref token; if (false) { alias = default; }")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; alias = ref token; _ = alias.CanBeCanceled;")]
+    [DataRow("ref var first = ref token; ref var second = ref first; _ = second.CanBeCanceled;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref (false ? ref token : ref other); alias = default;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); dictionary[token] = 1;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); (dictionary[token], _) = (1, 2);")]
     public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)

@@ -859,17 +859,52 @@ internal static class ModuleAuthoringAnalysis
     {
         var operations = operation.DescendantsAndSelf().ToImmutableArray();
         var reachableCallables = GetPotentiallyExecutedCallables(operation, operations);
-        return operations
+        var reachableOperations = operations
             .Where(IsInReachableBranch)
             .Where(candidate => IsInsideReachableCallable(candidate, reachableCallables))
+            .ToImmutableArray();
+        var storage = GetParameterStorage(reachableOperations, parameter);
+        return reachableOperations
             .Select(static candidate => candidate switch
             {
+                ISimpleAssignmentOperation { IsRef: true } => null,
                 IAssignmentOperation assignment => assignment.Target,
                 IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
-                IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } } initializer => initializer.Value,
                 _ => null,
             })
-            .Any(target => AssignsParameter(target, parameter));
+            .Any(target => ReferencesStorage(target, storage));
+    }
+
+    private static HashSet<ISymbol> GetParameterStorage(
+        ImmutableArray<IOperation> operations,
+        IParameterSymbol parameter)
+    {
+        var storage = new HashSet<ISymbol>(SymbolEqualityComparer.Default) { parameter };
+        int previousCount;
+        do
+        {
+            previousCount = storage.Count;
+            foreach (var candidate in operations)
+            {
+                // Ref bindings expose storage; only a subsequent write changes its value.
+                var binding = candidate switch
+                {
+                    IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref, Initializer: { } initializer } declarator =>
+                        (Alias: declarator.Symbol, Value: initializer.Value),
+                    ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation target } assignment
+                        when target.Local.RefKind == RefKind.Ref =>
+                        (Alias: target.Local, Value: assignment.Value),
+                    _ => (Alias: (ILocalSymbol?) null, Value: (IOperation?) null),
+                };
+                if (binding.Alias is not null && ReferencesStorage(binding.Value, storage))
+                {
+                    storage.Add(binding.Alias);
+                }
+            }
+        }
+        while (previousCount != storage.Count);
+
+        return storage;
     }
 
     private static HashSet<IMethodSymbol> GetPotentiallyExecutedCallables(
@@ -900,18 +935,21 @@ internal static class ModuleAuthoringAnalysis
         return reachable;
     }
 
-    private static bool AssignsParameter(IOperation? target, IParameterSymbol parameter) =>
+    private static bool ReferencesStorage(IOperation? target, HashSet<ISymbol> storage) =>
         target switch
         {
             IParameterReferenceOperation reference =>
-                SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
+                storage.Contains(reference.Parameter)
                 && IsInReachableBranch(reference),
-            ITupleOperation tuple => tuple.Elements.Any(element => AssignsParameter(element, parameter)),
+            ILocalReferenceOperation reference =>
+                storage.Contains(reference.Local)
+                && IsInReachableBranch(reference),
+            ITupleOperation tuple => tuple.Elements.Any(element => ReferencesStorage(element, storage)),
             IConditionalOperation conditional =>
-                AssignsParameter(conditional.WhenTrue, parameter)
-                || AssignsParameter(conditional.WhenFalse, parameter),
-            IConversionOperation conversion => AssignsParameter(conversion.Operand, parameter),
-            IParenthesizedOperation parenthesized => AssignsParameter(parenthesized.Operand, parameter),
+                ReferencesStorage(conditional.WhenTrue, storage)
+                || ReferencesStorage(conditional.WhenFalse, storage),
+            IConversionOperation conversion => ReferencesStorage(conversion.Operand, storage),
+            IParenthesizedOperation parenthesized => ReferencesStorage(parenthesized.Operand, storage),
             _ => false,
         };
 
