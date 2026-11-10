@@ -319,7 +319,7 @@ test('workflow keeps credentials and execution on opposite sides of handoff', ()
   assert.match(workflow, /os: \[ubuntu-latest, windows-latest\]/);
 });
 
-test('generated pull requests require reviewed manual merging and clear inherited auto-merge', () => {
+test('generated pull requests require review-gated auto-merge and clear inherited auto-merge', () => {
   const workflow = readFileSync(path.join(repositoryRoot, '.github/workflows/generate-cli-options.yml'), 'utf8');
   assert.doesNotMatch(workflow, /enable-auto-merge:|gh pr merge[^\n]*--auto\b|github\.event_name == 'push'/);
   const disableStart = workflow.indexOf('      - name: Disable inherited auto-merge');
@@ -330,7 +330,10 @@ test('generated pull requests require reviewed manual merging and clear inherite
   assert.match(disable, /gh pr list --state open --head "\$GENERATED_OPTIONS_BRANCH"/);
   assert.match(disable, /gh pr view "\$pr_number" --json autoMergeRequest/);
   assert.match(disable, /gh pr merge "\$pr_number" --disable-auto/);
-  assert.match(workflow, /Review the generated output and all required checks before merging manually/);
+  assert.match(workflow, /Auto-merge arms once Claude and Codex clear this head/);
+  assert.match(workflow, /an owner or collaborator posts `<!-- generated-options-conversation-clear:<full-head-SHA> -->` after dispositioning all conversation findings/);
+  assert.match(workflow, /GitHub then merges after the required checks pass/);
+  assert.match(workflow, /A later conversation update requires fresh clearance; a PR with findings is not armed/);
 });
 
 test('handoff selection uses the latest tool job and preserves publisher-only retries', () => {
