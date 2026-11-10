@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: go-validation-${{ github.ref }}
-  cancel-in-progress: true
+  group: go-validation-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read

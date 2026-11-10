@@ -328,6 +328,15 @@ foreach ($route in @(
     if ($called.Contains('group: ${{ github.workflow }}', [StringComparison]::Ordinal)) {
         throw "Reusable workflow '$($route.Workflow)' must not share the caller concurrency group."
     }
+    $concurrency = [regex]::Match($called, '(?ms)^concurrency:\r?\n.*?(?=^\S|\z)').Value
+    foreach ($text in @(
+            '${{ github.ref == ''refs/heads/main'' && github.run_id || github.ref }}',
+            'cancel-in-progress: ${{ github.ref != ''refs/heads/main'' }}'
+        )) {
+        if (-not $concurrency.Contains($text, [StringComparison]::Ordinal)) {
+            throw "Reusable workflow '$($route.Workflow)' must isolate main runs and never cancel their required checks. Missing '$text'."
+        }
+    }
 }
 Write-Host 'Supplemental workflow wiring tests passed.'
 
