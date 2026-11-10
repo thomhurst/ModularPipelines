@@ -92,6 +92,11 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
+    announcementBar: {
+      id: 'upcoming-v4-documentation',
+      content: 'This site documents the upcoming <strong>v4</strong> release. Using 3.x? Read the <a href="https://github.com/thomhurst/ModularPipelines/tree/v3.2.8/docs/docs">frozen v3.2.8 documentation source</a>.',
+      isCloseable: false,
+    },
     navbar: {
       title: 'Modular Pipelines',
       logo: {
