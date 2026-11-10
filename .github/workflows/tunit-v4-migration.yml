@@ -41,7 +41,7 @@ jobs:
         with:
           repository: thomhurst/TUnit
           # Reviewed migration fixture; update deliberately when the consumer changes.
-          ref: 0629181a43a8fa584a50896691aca0c7b0edadfb
+          ref: d6f517675ee46e810f0d3cbda085d55ec7409c74
           path: consumer
           fetch-depth: 0
           persist-credentials: false
