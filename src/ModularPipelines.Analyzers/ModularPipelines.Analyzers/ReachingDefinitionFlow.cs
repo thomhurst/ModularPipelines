@@ -383,7 +383,7 @@ internal sealed class ReachingDefinitionFlow(
         assignment.OperatorKind == BinaryOperatorKind.Add && assignment.Target.Type?.TypeKind == TypeKind.Delegate;
 
     private static bool HasKnownAssignedValue(IAssignmentOperation assignment) =>
-        assignment is ISimpleAssignmentOperation { IsRef: false }
+        assignment is ISimpleAssignmentOperation { IsRef: false } or ICoalesceAssignmentOperation
         || (assignment is ICompoundAssignmentOperation compound && IsDelegateAddition(compound));
 
     private static IEnumerable<IOperation?> GetAssignedValues(IOperation operation, ILocalSymbol localSymbol)

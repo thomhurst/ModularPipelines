@@ -130,6 +130,16 @@ public class ReachingDefinitionFlowTests
         AssertFlow(body, expected);
 
     [TestMethod]
+    [DataRow("string value = null; value ??= \"new\"; [|Use(value)|];", "\"new\"|null")]
+    [DataRow("string value = \"old\"; value ??= \"new\"; [|Use(value)|];", "\"new\"|\"old\"")]
+    [DataRow("string value = null; if (flag) value ??= \"new\"; [|Use(value)|];", "\"new\"|null")]
+    [DataRow("string value = null; value ??= \"new\"; value = \"known\"; [|Use(value)|];", "\"known\"")]
+    [DataRow("string value = null; [|Use(value)|]; value ??= \"new\";", "null")]
+    [DataRow("Action value = null; value ??= A; [|Use(value)|];", "A|null")]
+    public void Coalescing_Assignments_Transfer_Their_Conditional_Stores(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
     public void Delegate_Addition_Preserves_Previous_Definitions() => AssertFlow(
         "Action value = A; value += B; [|Use(value)|];", "A|B");
 
