@@ -540,6 +540,78 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = values[0];", "InvalidOperationException", false)]
+    [DataRow("_ = values[0];", "ArrayTypeMismatchException", false)]
+    [DataRow("_ = values[0];", "IndexOutOfRangeException", true)]
+    [DataRow("_ = values[0];", "NullReferenceException", true)]
+    [DataRow("values[0] = item;", "InvalidOperationException", false)]
+    [DataRow("values[0] = item;", "ArrayTypeMismatchException", true)]
+    [DataRow("values[0] = item;", "IndexOutOfRangeException", true)]
+    [DataRow("values[0] = item;", "SystemException", true)]
+    [DataRow("values[0] = null!;", "ArrayTypeMismatchException", false)]
+    [DataRow("args[0] = string.Empty;", "ArrayTypeMismatchException", false)]
+    [DataRow("ref object reference = ref values[0];", "ArrayTypeMismatchException", true)]
+    [DataRow("ref readonly object reference = ref values[0];", "ArrayTypeMismatchException", false)]
+    public async Task Matches_Array_Access_Exception_Type(string access, string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            object[] values = args;
+            object item = new object();
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{access}}
+                command.SetAction(_ => {});
+            }
+            catch ({{caught}}) { }
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("InvalidOperationException", false)]
+    [DataRow("IndexOutOfRangeException", true)]
+    [DataRow("NullReferenceException", true)]
+    [DataRow("Exception", true)]
+    public async Task Matches_Array_Exception_Type_For_Callback_Definitions(string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            command.SetAction(parseResult =>
+            {
+                Action register = () => {};
+                try { _ = args[0]; }
+                catch ({{caught}}) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            });
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    public async Task Array_Write_Evaluates_Callback_Value_Before_Access_Checks(bool initiallyRegisters, bool replacementRegisters)
+    {
+        await VerifyAsync(Source($$"""
+            Action[] values = null!;
+            Action register = {{(initiallyRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            command.SetAction(parseResult =>
+            {
+                try
+                {
+                    values[0] = register = {{(replacementRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+                    register = () => {};
+                }
+                catch (NullReferenceException) { }
+                register();
+            });
+            return command.Parse(args).Invoke();
+            """, replacementRegisters), replacementRegisters ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("catch", false)]
     [DataRow("catch (Exception)", false)]
     [DataRow("catch (InvalidOperationException)", true)]

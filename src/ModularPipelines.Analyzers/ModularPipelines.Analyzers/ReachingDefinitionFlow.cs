@@ -144,17 +144,59 @@ internal sealed class ReachingDefinitionFlow(
             _reaching.UnionWith(state);
         }
 
-        var throwsNullReference = IsThrowingFieldAccess(operation);
-        if (throwsNullReference || CanThrow(operation, block))
-        {
-            var exceptionType = throwsNullReference
-                ? invocation.SemanticModel?.Compilation.GetTypeByMetadataName("System.NullReferenceException")
-                : null;
-            FollowException(block, exceptionType, state, continuation, filter);
-        }
-
+        FollowOperationExceptions(operation, state, block, continuation, filter);
         ApplyDefinition(operation, state);
     }
+
+    private void FollowOperationExceptions(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+        ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        if (IsThrowingFieldAccess(operation))
+        {
+            FollowKnownException("System.NullReferenceException");
+        }
+        else if (GetArrayAccess(operation) is { } array)
+        {
+            FollowKnownException("System.NullReferenceException");
+            FollowKnownException("System.IndexOutOfRangeException");
+            if (CanArrayAccessMismatch(operation, array))
+            {
+                FollowKnownException("System.ArrayTypeMismatchException");
+            }
+        }
+        else if (CanThrow(operation, block))
+        {
+            FollowException(block, null, state, continuation, filter);
+        }
+
+        void FollowKnownException(string exceptionName) => FollowException(block,
+            invocation.SemanticModel?.Compilation.GetTypeByMetadataName(exceptionName), state, continuation, filter);
+    }
+
+    private static bool IsSimpleAssignmentTarget(IOperation operation) =>
+        operation.Parent is ISimpleAssignmentOperation assignment && ReferenceEquals(assignment.Target, operation);
+
+    private static IArrayElementReferenceOperation? GetArrayAccess(IOperation operation) => operation switch
+    {
+        // A store checks the array after evaluating its assigned value.
+        ISimpleAssignmentOperation { Target: IArrayElementReferenceOperation array } => array,
+        IArrayElementReferenceOperation array when !IsSimpleAssignmentTarget(array) => array,
+        _ => null,
+    };
+
+    private static bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array) =>
+        array.Type is not { IsValueType: true } and not INamedTypeSymbol { IsSealed: true }
+        && operation switch
+        {
+            ISimpleAssignmentOperation assignment =>
+                !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
+            IArrayElementReferenceOperation
+            {
+                Parent: ISimpleAssignmentOperation
+                { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
+            } => true,
+            _ => false,
+        };
 
     private bool TryApplyCommandSetter(IOperation operation, HashSet<TextSpan> state)
     {
@@ -206,7 +248,7 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
-        IInvocationOperation or IPropertyReferenceOperation or IArrayElementReferenceOperation
+        IInvocationOperation or IPropertyReferenceOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
 
@@ -215,7 +257,7 @@ internal sealed class ReachingDefinitionFlow(
         // A simple field write checks the receiver after evaluating the assigned value.
         ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => HasNullableFieldReceiver(field),
         IFieldReferenceOperation field => HasNullableFieldReceiver(field)
-            && (field.Parent is not ISimpleAssignmentOperation assignment || !ReferenceEquals(assignment.Target, field)),
+            && !IsSimpleAssignmentTarget(field),
         _ => false,
     };
 
