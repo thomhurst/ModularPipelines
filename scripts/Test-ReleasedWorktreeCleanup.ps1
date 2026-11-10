@@ -12,10 +12,50 @@ function Invoke-TestGit {
     & git @args 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) { throw "Git failed: $args" }
 }
+function Invoke-TestLock([string[]]$Arguments) {
+    $start = [Diagnostics.ProcessStartInfo]::new('pwsh')
+    $start.UseShellExecute = $false
+    $start.CreateNoWindow = $true
+    $start.RedirectStandardOutput = $true
+    $start.RedirectStandardError = $true
+    $start.WorkingDirectory = (Get-Location).ProviderPath
+    foreach ($argument in @('-NoProfile', '-File', $agentLocks) + $Arguments + @('-OwnerId', $owner)) {
+        $start.ArgumentList.Add($argument)
+    }
+    $process = [Diagnostics.Process]::new()
+    $process.StartInfo = $start
+    try {
+        $null = $process.Start()
+        # Drain both streams concurrently so a full stderr pipe cannot block stdout.
+        $stdout = $process.StandardOutput.ReadToEndAsync()
+        $stderr = $process.StandardError.ReadToEndAsync()
+        $process.WaitForExit()
+        return [pscustomobject]@{
+            Verb = $Arguments[0]
+            ExitCode = $process.ExitCode
+            StdOut = $stdout.GetAwaiter().GetResult()
+            StdErr = $stderr.GetAwaiter().GetResult()
+        }
+    }
+    finally { $process.Dispose() }
+}
+function Format-TestLockResult($Result) {
+    return "AgentLocks $($Result.Verb): exit=$($Result.ExitCode)`nstdout: [$($Result.StdOut)]`nstderr: [$($Result.StdErr)]"
+}
+function Assert-ReleasedLock($Release, $Status, [string]$Name) {
+    $diagnostics = (Format-TestLockResult $Release) + "`n" + (Format-TestLockResult $Status)
+    if ($Release.ExitCode -ne 0 -or $Status.ExitCode -ne 0) {
+        throw "$Name release/status invocation failed.`n$diagnostics"
+    }
+    if ($Status.StdOut.TrimEnd("`r", "`n") -cne 'FREE') {
+        throw "$Name lock was not released (expected exactly FREE).`n$diagnostics"
+    }
+}
 function Lock {
-    $output = @(& pwsh -NoProfile -File $agentLocks @args -OwnerId $owner 2>&1)
-    if ($LASTEXITCODE -ne 0) { throw "AgentLocks failed: $output" }
-    if ($args[0] -eq 'release') { $output | ForEach-Object { Write-Host $_ } }
+    $script:lastLockResult = Invoke-TestLock -Arguments $args
+    if ($args[0] -in 'release', 'status') { Write-Host (Format-TestLockResult $script:lastLockResult) }
+    if ($script:lastLockResult.ExitCode -ne 0) { throw (Format-TestLockResult $script:lastLockResult) }
+    if ($args[0] -eq 'release') { $null = $locks.Remove($args[2]) }
 }
 function Assert([bool]$Condition, [string]$Message) {
     if (-not $Condition) { throw $Message }
@@ -144,17 +184,20 @@ try {
         $key = Claim $kind $path
         if ($kind -eq 'reassigned') { Invoke-TestGit -C $path config --worktree agent.lockName 'another-item' }
         Lock release -LockName $key
+        $release = $script:lastLockResult
         Assert (Test-Path $path) "$kind checkout was removed."
-        $status = & pwsh -NoProfile -File $agentLocks status -LockName $key -OwnerId $owner
-        Assert ($status -eq 'FREE') "$kind lock was not released."
+        $status = Invoke-TestLock -Arguments @('status', '-LockName', $key)
+        Write-Host (Format-TestLockResult $status)
+        Assert-ReleasedLock -Release $release -Status $status -Name $kind
     }
     Write-Host 'OK released worktree cleanup: generated output, unpublished branches, detached commits, re-checkout, busy-directory pending removal, dirty/ignored/locked/main/foreign/harness/reassigned preservation.'
 } finally {
     if (Test-Path $repo) {
         Set-Location $repo
-        foreach ($key in $locks) {
-            $status = & pwsh -NoProfile -File $agentLocks status -LockName $key -OwnerId $owner
-            if ($status -eq 'HELD-BY-ME') { Lock release -LockName $key }
+        foreach ($key in $locks.ToArray()) {
+            # Do not let a failed status probe prevent release of a lock we acquired.
+            try { Lock release -LockName $key }
+            catch { Write-Warning "Cleanup release failed for ${key}: $_" }
         }
     }
     Pop-Location -ErrorAction SilentlyContinue
