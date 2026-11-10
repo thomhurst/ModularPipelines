@@ -179,6 +179,22 @@ public class ReachingDefinitionFlowTests
         "string value = \"old\"; Holder holder = null; try { " + statement + " } catch { [|Use(value)|]; }", expected);
 
     [TestMethod]
+    [DataRow("if (holder is (var first, var second)) { }", "\"old\"")]
+    [DataRow("if (holder is Holder(var first, var second)) { }", "\"old\"")]
+    [DataRow("var match = holder switch { (var first, var second) => true, _ => false };", "\"old\"")]
+    [DataRow("var pair = (\"one\", \"two\"); if (pair is (var first, var second)) { }", "")]
+    public void Positional_Pattern_Deconstruct_Exceptions_Reach_Handlers(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; Holder holder = new Holder(); try { " + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    public void Positional_Pattern_Deconstruct_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
+        string value = "old";
+        Holder holder = new Holder();
+        try { try { if (holder is (var first, var second)) { } } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"");
+
+    [TestMethod]
     [DataRow("(value, _) = (source, 0);", "\"old\"")]
     [DataRow("(value, string declared) = (source, \"other\");", "\"old\"")]
     [DataRow("((value, _), _) = ((source, 0), 0);", "\"old\"")]

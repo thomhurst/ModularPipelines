@@ -554,6 +554,7 @@ internal sealed class ReachingDefinitionFlow(
 
         return operation switch
         {
+            IRecursivePatternOperation { DeconstructSymbol: not null } => true,
             // Deconstruct calls and element conversions need not appear as operation children.
             IDeconstructionAssignmentOperation deconstruction =>
                 deconstruction.Syntax is not AssignmentExpressionSyntax syntax
