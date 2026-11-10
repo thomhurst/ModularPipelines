@@ -125,6 +125,7 @@ function ConvertTo-WorkflowReviewChecks {
         [pscustomobject]@{
             name = $job.name
             workflowName = $Run.name
+            workflowId = $Run.workflow_id
             status = $job.status
             conclusion = $job.conclusion
             startedAt = $job.started_at
@@ -397,6 +398,47 @@ function Remove-SupersededRunChecks {
                 }).Count -gt 0
         })
     @($Checks | Where-Object { $superseded -notcontains (Get-CheckRunId $_) })
+}
+
+# A trusted recovery can attach to main instead of the PR head. Replace only the
+# cancelled Claude check, after authenticating an exact-head review against a later
+# successful job of the same workflow. All other checks keep their original state.
+function Restore-RecoveredReviewChecks {
+    [CmdletBinding()]
+    param(
+        [object[]]$Checks,
+        [hashtable]$Runs,
+        [object[]]$Reviews,
+        [object[]]$WorkflowChecks,
+        [Parameter(Mandatory)][string]$HeadSha
+    )
+
+    foreach ($check in $Checks) {
+        $replacement = $null
+        $runId = Get-CheckRunId $check
+        if ($check.name -eq 'claude-review' -and $check.workflowName -eq 'Claude Code Review' -and
+            $check.status -eq 'COMPLETED' -and $check.conclusion -eq 'CANCELLED' -and
+            $null -ne $runId -and $Runs.ContainsKey($runId)) {
+            $run = $Runs[$runId]
+            foreach ($workflowCheck in $WorkflowChecks) {
+                $startedAt = ConvertTo-UtcDateTimeOffset $workflowCheck.startedAt
+                if (-not $run.Cancelled -or $null -eq $run.Started -or $null -eq $startedAt -or
+                    [string]$run.Workflow -notmatch '^[1-9]\d*$' -or
+                    [string]$workflowCheck.workflowId -ne [string]$run.Workflow -or
+                    $startedAt -le $run.Started) { continue }
+
+                $verifiedReviews = @($Reviews | Where-Object {
+                        $_.state -eq 'COMMENTED' -and $_.author.login -match '^github-actions(?:\[bot\])?$' -and
+                        (Test-TrustedBotClearVerdict -Review $_ -HeadSha $HeadSha -Checks @($workflowCheck))
+                    })
+                if ($verifiedReviews.Count -gt 0) {
+                    $replacement = $workflowCheck
+                    break
+                }
+            }
+        }
+        if ($null -ne $replacement) { $replacement } else { $check }
+    }
 }
 
 # Returns why the status checks block. Merging needs every check terminal and passing.
