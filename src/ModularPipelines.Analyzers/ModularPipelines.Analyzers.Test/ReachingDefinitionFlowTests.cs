@@ -89,6 +89,37 @@ public class ReachingDefinitionFlowTests
         "string value = \"old\"; Holder holder = null; try { " + statement + " } catch { [|Use(value)|]; }", expected);
 
     [TestMethod]
+    [DataRow("(value, _) = (source, 0);", "\"old\"")]
+    [DataRow("(value, string declared) = (source, \"other\");", "\"old\"")]
+    [DataRow("((value, _), _) = ((source, 0), 0);", "\"old\"")]
+    [DataRow("(value, other) = (\"new\", source);", "\"old\"")]
+    [DataRow("(value, other) = (value = \"rhs\", source);", "\"rhs\"")]
+    [DataRow("(value, _) = pair;", "\"old\"")]
+    [DataRow("((value, _), _) = (pair, 0);", "\"old\"")]
+    [DataRow("var second = (\"new\", source); (value, other) = second;", "\"old\"")]
+    [DataRow("(value, _) = (\"plain\", 0);", "")]
+    public void Deconstruction_Conversion_Exceptions_Precede_All_Stores(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; string other = null; ConversionSource source = null; var pair = (source, 0); try { "
+        + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    public void Deconstruction_Conversion_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
+        string value = "old";
+        ConversionSource source = null;
+        var pair = (source, 0);
+        try { try { (value, _) = pair; } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"");
+
+    [TestMethod]
+    public void Deconstruction_Dynamic_Conversion_Can_Throw() => AssertFlow("""
+        string value = "old";
+        dynamic source = item;
+        try { (value, _) = (source, 0); }
+        catch { [|Use(value)|]; }
+        """, "\"old\"");
+
+    [TestMethod]
     [DataRow("(value, holder.Property) = (\"new\", \"x\");", "\"new\"")]
     [DataRow("(holder.Property, value) = (\"x\", \"new\");", "\"old\"")]
     [DataRow("(value, holder.Property, value) = (\"first\", \"x\", \"last\");", "\"first\"")]
@@ -103,6 +134,7 @@ public class ReachingDefinitionFlowTests
     public void Deconstruction_Stores_Follow_Assignment_Order(string statement, string expected) => AssertFlow(
         "string value = \"old\"; Holder holder = new Holder(); Holder missing = null; string[] array = new string[1]; try { "
         + statement + " } catch { [|Use(value)|]; }", expected);
+
     [TestMethod]
     [DataRow("item", "\"new\"")]
     [DataRow("null", "")]
@@ -120,6 +152,7 @@ public class ReachingDefinitionFlowTests
         try { try { (value, holder.Property) = ("new", "x"); } finally { value = "cleanup"; } }
         catch when ([|Observe(value)|]) { }
         """, "\"new\"");
+
     [TestMethod]
     public void Deconstruct_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
         string value = "old";
@@ -219,6 +252,10 @@ public class ReachingDefinitionFlowTests
     {
         var source = $$"""
             using System;
+            class ConversionSource
+            {
+                public static implicit operator string(ConversionSource source) => throw new Exception();
+            }
             class Holder
             {
                 public Holder(string text = null) { }

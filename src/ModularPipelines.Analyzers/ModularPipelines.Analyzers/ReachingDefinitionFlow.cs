@@ -143,7 +143,7 @@ internal sealed class ReachingDefinitionFlow(
                 _reaching.UnionWith(state);
             }
 
-            // Deconstruct calls run before stores; each later store sees earlier local writes.
+            // Deconstruct calls and element conversions precede stores; later stores see earlier local writes.
             FollowOperationExceptions(deconstruction, state, block, continuation, filter);
             StoreDeconstructionTarget(deconstruction.Target, deconstruction.Value, state, block, continuation, filter);
             return;
@@ -211,18 +211,7 @@ internal sealed class ReachingDefinitionFlow(
 
         if (target is ITupleOperation tuple)
         {
-            while (value is IConversionOperation conversion)
-            {
-                value = conversion.Operand;
-            }
-
-            var values = value as ITupleOperation;
-            for (var index = 0; index < tuple.Elements.Length; index++)
-            {
-                StoreDeconstructionTarget(tuple.Elements[index], values?.Elements[index], state, block,
-                    continuation, filter);
-            }
-
+            StoreDeconstructionTuple(tuple, value, state, block, continuation, filter);
             return;
         }
 
@@ -238,6 +227,22 @@ internal sealed class ReachingDefinitionFlow(
         else if (target is not IPropertyReferenceOperation { Property.ReturnsByRef: true })
         {
             FollowOperationExceptions(target, state, block, continuation, filter, deconstructionStore: true, storedValue: value);
+        }
+    }
+
+    private void StoreDeconstructionTuple(ITupleOperation tuple, IOperation? value, HashSet<TextSpan> state,
+        BasicBlock block, ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        while (value is IConversionOperation conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        var values = value as ITupleOperation;
+        for (var index = 0; index < tuple.Elements.Length; index++)
+        {
+            StoreDeconstructionTarget(tuple.Elements[index], values?.Elements[index], state, block,
+                continuation, filter);
         }
     }
 
@@ -471,18 +476,19 @@ internal sealed class ReachingDefinitionFlow(
 
         return operation switch
         {
-            // Roslyn does not expose implicit Deconstruct calls as invocation children.
+            // Deconstruct calls and element conversions need not appear as operation children.
             IDeconstructionAssignmentOperation deconstruction =>
                 deconstruction.Syntax is not AssignmentExpressionSyntax syntax
                 || _operationRoot.SemanticModel is not { } model
-                || HasDeconstructionCall(model.GetDeconstructionInfo(syntax)),
+                || CanDeconstructionThrow(model.GetDeconstructionInfo(syntax)),
             IConversionOperation conversion => CanConversionThrow(conversion),
             _ => false,
         };
     }
 
-    private static bool HasDeconstructionCall(DeconstructionInfo info) =>
-        info.Method is not null || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(HasDeconstructionCall));
+    private static bool CanDeconstructionThrow(DeconstructionInfo info) =>
+        info.Method is not null || info.Conversion is { IsUserDefined: true } or { IsDynamic: true }
+        || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(CanDeconstructionThrow));
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
