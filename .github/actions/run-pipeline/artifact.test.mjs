@@ -3,6 +3,7 @@ import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promis
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { ArtifactNotFoundError } from '@actions/artifact';
 import { transfer } from './artifact.mjs';
 
 const archiveName = '_build-output.tar.gz';
@@ -78,34 +79,122 @@ for (const runId of ['', 'run/id', 'run\\id', 'run:id', 'run id', 'run\nid']) {
   });
 }
 
-for (const corruption of ['truncated', 'same-size', 'manifest-missing', 'digest-mismatch', 'download-failure']) {
-  test(`rejects ${corruption} without exposing a partial archive`, async t => {
-    const { producer, consumer, client } = await fixture(t);
-    await transfer(client, 'upload', '123-2', producer);
-    const download = client.downloadArtifact;
-    client.downloadArtifact = async (id, options) => {
-      await download(id, options);
-      const archive = path.join(options.path, archiveName);
-      if (corruption === 'truncated') await writeFile(archive, 'partial');
-      if (corruption === 'same-size') await writeFile(archive, 'x'.repeat('complete build output'.length));
-      if (corruption === 'manifest-missing') await rm(`${archive}.json`);
-      if (corruption === 'download-failure') throw new Error('connection lost');
-      return { digestMismatch: corruption === 'digest-mismatch' };
-    };
-    await assert.rejects(transfer(client, 'download', '123-2', consumer));
-    assert.deepEqual(await readdir(consumer), []);
-  });
+for (const waitForVisibility of [false, true]) {
+  for (const corruption of ['truncated', 'same-size', 'manifest-missing', 'malformed-manifest', 'archive-missing', 'digest-mismatch', 'download-failure']) {
+    test(`rejects ${corruption} without exposing a partial archive (visibility check: ${waitForVisibility})`, async t => {
+      const { producer, consumer, client } = await fixture(t);
+      await transfer(client, 'upload', '123-2', producer);
+      const download = client.downloadArtifact;
+      let calls = 0;
+      client.downloadArtifact = async (id, options) => {
+        calls++;
+        await download(id, options);
+        const archive = path.join(options.path, archiveName);
+        if (corruption === 'truncated') await writeFile(archive, 'partial');
+        if (corruption === 'same-size') await writeFile(archive, 'x'.repeat('complete build output'.length));
+        if (corruption === 'manifest-missing') await rm(`${archive}.json`);
+        if (corruption === 'malformed-manifest') await writeFile(`${archive}.json`, '{');
+        if (corruption === 'archive-missing') await rm(archive);
+        if (corruption === 'download-failure') throw new Error('connection lost');
+        return { digestMismatch: corruption === 'digest-mismatch' };
+      };
+      await assert.rejects(transfer(client, 'download', '123-2', consumer, {
+        waitForVisibility,
+        wait: async () => assert.fail('Corruption and download failures must not wait'),
+      }));
+      assert.equal(calls, 1);
+      assert.deepEqual(await readdir(consumer), []);
+    });
+  }
 }
 
 test('failed uploads remove their local manifest and propagate failure', async t => {
   const { producer, client } = await fixture(t);
   client.uploadArtifact = async () => { throw new Error('storage unavailable'); };
-  await assert.rejects(transfer(client, 'upload', '123-2', producer), /storage unavailable/);
+  await assert.rejects(transfer(client, 'upload', '123-2', producer), /artifact publication failed/);
+  assert.deepEqual(await readdir(producer), [archiveName]);
+});
+
+test('uploads without a published artifact ID fail and remove their local manifest', async t => {
+  const { producer, client } = await fixture(t);
+  client.uploadArtifact = async () => ({});
+  await assert.rejects(transfer(client, 'upload', '123-2', producer), /GitHub did not publish/);
   assert.deepEqual(await readdir(producer), [archiveName]);
 });
 
 test('missing artifacts fail without fallback or hidden retry', async t => {
   const { consumer, client } = await fixture(t);
-  await assert.rejects(transfer(client, 'download', '123-2', consumer));
+  let calls = 0;
+  client.getArtifact = async () => {
+    calls++;
+    throw new ArtifactNotFoundError();
+  };
+  await assert.rejects(transfer(client, 'download', '123-2', consumer, {
+    wait: async () => assert.fail('Ordinary downloads must not wait'),
+  }), /artifact lookup failed: artifact not found/);
+  assert.equal(calls, 1);
   assert.deepEqual(await readdir(consumer), []);
 });
+
+for (const stage of ['lookup', 'download']) {
+  test(`waits for newly published artifacts missing during ${stage}`, async t => {
+    const { producer, consumer, client } = await fixture(t);
+    await transfer(client, 'upload', '123-2', producer);
+    const method = stage === 'lookup' ? 'getArtifact' : 'downloadArtifact';
+    const original = client[method];
+    let calls = 0;
+    client[method] = async (...args) => {
+      if (++calls < 3) throw new ArtifactNotFoundError('https://storage.invalid/?sig=secret');
+      return original(...args);
+    };
+    const delays = [];
+    await transfer(client, 'download', '123-2', consumer, {
+      waitForVisibility: true,
+      wait: async delay => { delays.push(delay); },
+    });
+    assert.equal(calls, 3);
+    assert.deepEqual(delays, [1000, 2000]);
+    assert.equal(await readFile(path.join(consumer, archiveName), 'utf8'), 'complete build output');
+    assert.deepEqual(await readdir(consumer), [archiveName]);
+  });
+}
+
+for (const stage of ['lookup', 'download']) {
+  test(`permanently invisible artifacts fail after the bounded ${stage} visibility check`, async t => {
+    const { producer, consumer, client } = await fixture(t);
+    await transfer(client, 'upload', '123-2', producer);
+    let calls = 0;
+    const method = stage === 'lookup' ? 'getArtifact' : 'downloadArtifact';
+    client[method] = async () => {
+      calls++;
+      throw new ArtifactNotFoundError('https://storage.invalid/?sig=secret');
+    };
+    const delays = [];
+    await assert.rejects(transfer(client, 'download', '123-2', consumer, {
+      waitForVisibility: true,
+      wait: async delay => { delays.push(delay); },
+    }), /visibility check failed after 7 attempts/);
+    assert.equal(calls, 7);
+    assert.deepEqual(delays, [1000, 2000, 4000, 8000, 16000, 30000]);
+    assert.deepEqual(await readdir(consumer), []);
+  });
+}
+
+for (const stage of ['lookup', 'download']) {
+  test(`does not retry unrelated ${stage} failures during visibility checks`, async t => {
+    const { producer, consumer, client } = await fixture(t);
+    await transfer(client, 'upload', '123-2', producer);
+    const method = stage === 'lookup' ? 'getArtifact' : 'downloadArtifact';
+    let calls = 0;
+    client[method] = async () => {
+      calls++;
+      throw new Error('https://storage.invalid/?sig=secret');
+    };
+    await assert.rejects(transfer(client, 'download', '123-2', consumer, {
+      waitForVisibility: true,
+      wait: async () => assert.fail('Only artifact-not-found may wait'),
+    }), new RegExp(`artifact ${stage} failed`));
+    assert.equal(calls, 1);
+    assert.deepEqual(await readdir(consumer), []);
+  });
+}

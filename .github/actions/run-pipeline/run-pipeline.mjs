@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { artifactErrorMessage } from './artifact-errors.mjs';
 import { startDiagnostics } from './diagnostics.mjs';
 
 // JavaScript actions receive the runtime token needed by @actions/artifact.
@@ -28,8 +29,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     try {
       const { validate } = await import('./validate.mjs');
       await validate();
-    } catch {
-      console.error('Concurrent GitHub artifact validation failed.');
+    } catch (error) {
+      console.error(`Concurrent GitHub artifact validation failed: ${artifactErrorMessage(error)}`);
       process.exitCode = 1;
     }
   } else {
