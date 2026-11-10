@@ -40,7 +40,7 @@ internal static class HttpContentPreviewReader
             var unboundedReplayContent = new ByteArrayContent(bytes);
             CopyHeaders(content, unboundedReplayContent);
             content.Dispose();
-            return (DecodeCompletePrefix(unboundedReplayContent, bytes, bytes.Length),
+            return (DecodePreview(unboundedReplayContent, bytes, bytes.Length, isComplete: true),
                 false,
                 unboundedReplayContent,
                 totalLength ?? bytes.LongLength);
@@ -93,7 +93,7 @@ internal static class HttpContentPreviewReader
         var bytesRead = bufferedBytes.Length;
         var isTruncated = bytesRead > maxBytes;
         var previewLength = Math.Min(bytesRead, maxBytes);
-        var preview = DecodeCompletePrefix(content, bufferedBytes, previewLength);
+        var preview = DecodePreview(content, bufferedBytes, previewLength, isComplete: !isTruncated);
         var replayContent = CreateReplayContent(content, stream, bufferedBytes);
 
         return (preview, isTruncated, replayContent, content.Headers.ContentLength);
@@ -119,7 +119,7 @@ internal static class HttpContentPreviewReader
             ? bytes.Length
             : Math.Min(bytes.Length, maxBytes);
         var isTruncated = previewLength < bytes.Length;
-        var preview = DecodeCompletePrefix(content, bytes, previewLength);
+        var preview = DecodePreview(content, bytes, previewLength, isComplete: !isTruncated);
         var replayContent = new ByteArrayContent(bytes);
         CopyHeaders(content, replayContent);
         content.Dispose();
@@ -192,7 +192,11 @@ internal static class HttpContentPreviewReader
         }
     }
 
-    private static string DecodeCompletePrefix(HttpContent content, byte[] buffer, int length)
+    private static string DecodePreview(
+        HttpContent content,
+        byte[] buffer,
+        int length,
+        bool isComplete)
     {
         var encoding = GetEncoding(content, buffer);
         var preambleLength = buffer.AsSpan().StartsWith(encoding.Preamble)
@@ -204,7 +208,7 @@ internal static class HttpContentPreviewReader
         decoder.Convert(
             prefix,
             characters,
-            flush: false,
+            flush: isComplete,
             out _,
             out var charactersUsed,
             out _);

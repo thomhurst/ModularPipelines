@@ -404,6 +404,97 @@ public class HttpFormatterTests
         }
     }
 
+    [Test]
+    [MatrixDataSource]
+    public async Task Formatters_FinishDecodingCompleteMalformedBodies(
+        [Matrix("utf-8", "utf-16", "utf-16BE")] string charset,
+        [Matrix("exact", "larger", "zero", "negative", "maximum")] string previewLimit)
+    {
+        byte[] bytes = charset switch
+        {
+            "utf-16" => [0x61, 0x00, 0xE2],
+            "utf-16BE" => [0x00, 0x61, 0x00],
+            _ => [0x61, 0xE2],
+        };
+        var maxBytes = previewLimit switch
+        {
+            "exact" => bytes.Length,
+            "larger" => bytes.Length + 1,
+            "negative" => -1,
+            "maximum" => int.MaxValue,
+            _ => 0,
+        };
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test")
+        {
+            Content = CreateTextContent(new CountingReadStream(bytes)),
+        };
+        using var response = new HttpResponseMessage
+        {
+            Content = CreateTextContent(new CountingReadStream(bytes)),
+        };
+        request.Content.Headers.ContentType!.CharSet = charset;
+        response.Content.Headers.ContentType!.CharSet = charset;
+        var options = new HttpLoggingOptions
+        {
+            ShowRequestBody = true,
+            ShowResponseBody = true,
+            MaxBodySizeToLog = maxBytes,
+        };
+
+        var formattedRequest = await CreateRequestFormatter().FormatAsync(request, options);
+        var formattedResponse = await CreateResponseFormatter().FormatAsync(response, options);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formattedRequest).Contains("\ta\uFFFD");
+            await Assert.That(formattedResponse).Contains("\ta\uFFFD");
+            await Assert.That(formattedRequest).DoesNotContain("[truncated");
+            await Assert.That(formattedResponse).DoesNotContain("[truncated");
+            await Assert.That((await request.Content.ReadAsByteArrayAsync()).SequenceEqual(bytes)).IsTrue();
+            await Assert.That((await response.Content.ReadAsByteArrayAsync()).SequenceEqual(bytes)).IsTrue();
+        }
+    }
+
+    [Test]
+    [MatrixDataSource]
+    public async Task Formatters_OmitPartialCharactersAtPreviewLimit(
+        [Matrix("utf-8", "utf-16", "utf-16BE")] string charset)
+    {
+        var encoding = Encoding.GetEncoding(charset);
+        var bytes = encoding.GetBytes("a€z");
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test")
+        {
+            Content = CreateTextContent(new CountingReadStream(bytes)),
+        };
+        using var response = new HttpResponseMessage
+        {
+            Content = CreateTextContent(new CountingReadStream(bytes)),
+        };
+        request.Content.Headers.ContentType!.CharSet = charset;
+        response.Content.Headers.ContentType!.CharSet = charset;
+        var options = new HttpLoggingOptions
+        {
+            ShowRequestBody = true,
+            ShowResponseBody = true,
+            MaxBodySizeToLog = encoding.GetByteCount("a") + 1,
+        };
+
+        var formattedRequest = await CreateRequestFormatter().FormatAsync(request, options);
+        var formattedResponse = await CreateResponseFormatter().FormatAsync(response, options);
+
+        using (Assert.Multiple())
+        {
+            await Assert.That(formattedRequest).Contains($"\ta{Environment.NewLine}");
+            await Assert.That(formattedResponse).Contains($"\ta{Environment.NewLine}");
+            await Assert.That(formattedRequest).Contains("[truncated");
+            await Assert.That(formattedResponse).Contains("[truncated");
+            await Assert.That(formattedRequest).DoesNotContain("\uFFFD");
+            await Assert.That(formattedResponse).DoesNotContain("\uFFFD");
+            await Assert.That((await request.Content.ReadAsByteArrayAsync()).SequenceEqual(bytes)).IsTrue();
+            await Assert.That((await response.Content.ReadAsByteArrayAsync()).SequenceEqual(bytes)).IsTrue();
+        }
+    }
+
     private static CountingStreamContent CreateTextContent(Stream stream)
     {
         var content = new CountingStreamContent(stream);
