@@ -588,6 +588,40 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ref", "object", "args", true)]
+    [DataRow("out", "object", "args", true)]
+    [DataRow("in", "object", "args", false)]
+    [DataRow("", "object", "args", false)]
+    [DataRow("ref", "string", "args", false)]
+    [DataRow("out", "string", "args", false)]
+    [DataRow("ref", "int", "new int[1]", false)]
+    [DataRow("out", "int", "new int[1]", false)]
+    public async Task Array_Argument_Checks_Precede_Later_Argument_Evaluation(
+        string modifier, string elementType, string values, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            command.SetAction(parseResult =>
+            {
+                {{elementType}}[] values = {{values}};
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                try
+                {
+                    Touch({{modifier}} values[0], register = () => {});
+                    register = () => {};
+                }
+                catch (ArrayTypeMismatchException) { }
+                register();
+            });
+            return command.Parse(args).Invoke();
+
+            void Touch({{modifier}} {{elementType}} value, Action replacement)
+            {
+                {{(modifier == "out" ? "value = default!;" : string.Empty)}}
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow(false, false)]
     [DataRow(false, true)]
     [DataRow(true, false)]

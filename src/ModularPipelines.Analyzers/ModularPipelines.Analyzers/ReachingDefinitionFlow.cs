@@ -195,6 +195,10 @@ internal sealed class ReachingDefinitionFlow(
                 Parent: ISimpleAssignmentOperation
                 { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
             } => true,
+            IArrayElementReferenceOperation
+            {
+                Parent: IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+            } => true,
             _ => false,
         };
 
