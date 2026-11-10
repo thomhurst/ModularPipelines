@@ -24,3 +24,8 @@ The pipeline author is trusted: a pipeline running commands, reading environment
 is expected behaviour. Issues in scope include secrets leaking into output despite being registered as secrets,
 argument injection from option values, path traversal, and unauthenticated access in distributed mode.
 See [.oss-scanner/threat_model.md](.oss-scanner/threat_model.md) for the full threat model.
+
+## Dependency assessments
+
+See [documentation dependency security assessments](docs/DEPENDENCY_SECURITY.md)
+for the investigated exposure and disposition of documentation tooling alerts.
