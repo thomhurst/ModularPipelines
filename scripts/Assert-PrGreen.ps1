@@ -9,6 +9,7 @@
 #   - every status check is terminal AND passing (CheckRun: status=COMPLETED and
 #     conclusion in SUCCESS/SKIPPED/NEUTRAL; StatusContext: state=SUCCESS), ignoring
 #     checks of a cancelled run that a later run of the same workflow superseded
+#     or a trusted exact-head Claude recovery replaced
 #   - no current-head top-level review has actionable finding headings, unless
 #     the trusted review workflow posts an exact-head CLEAR verdict
 #   - no unresolved review threads
@@ -82,8 +83,8 @@ else {
 }
 
 # Read runs only when a check was cancelled; see Remove-SupersededRunChecks.
+$runs = @{}
 if (@($checks | Where-Object { $_.conclusion -eq 'CANCELLED' }).Count -gt 0) {
-    $runs = @{}
     foreach ($runId in @($checks | ForEach-Object { Get-CheckRunId $_ } | Where-Object { $null -ne $_ } | Sort-Object -Unique)) {
         $runRaw = gh api "repos/$owner/$name/actions/runs/$runId" --jq '{workflow_id, conclusion, run_started_at}' 2>$null
         if ($LASTEXITCODE -ne 0) { continue }
@@ -96,11 +97,6 @@ if (@($checks | Where-Object { $_.conclusion -eq 'CANCELLED' }).Count -gt 0) {
         }
     }
     $checks = @(Remove-SupersededRunChecks -Checks $checks -Runs $runs)
-}
-
-$bad = @(Get-CheckGateFailures -Checks $checks -ForAutoMerge:$ForAutoMerge)
-if ($bad.Count -gt 0) {
-    Deny ("checks not green: " + ($bad -join '; '))
 }
 
 $headCommit = @($view.commits | Where-Object { $null -ne $_ }) | Select-Object -Last 1
@@ -139,7 +135,9 @@ if ($requestedChanges.Count -gt 0) {
 
 $actionableReviews = @()
 $workflowRuns = $null
+$workflowChecks = @()
 $reviewChecks = @($checks)
+$needsReviewRecovery = @($checks | Where-Object { $_.name -eq 'claude-review' -and $_.conclusion -eq 'CANCELLED' }).Count -gt 0
 foreach ($review in $latestReviews) {
     if ($review.state -ne 'COMMENTED') { continue }
     if (Test-StaleBotReviewCanBeIgnored -Review $review -HeadCommitCommittedAt $headCommittedAt -Checks $checks) {
@@ -150,7 +148,8 @@ foreach ($review in $latestReviews) {
     $reason = Get-ActionableReviewBodyReason -Body $body
     # Dispatch and pull_request_target checks can belong to the base ref.
     # Fetch its actual workflow jobs before deciding whether its verdict is trusted.
-    if ($reason -and $review.author.login -match '^github-actions(?:\[bot\])?$' -and
+    # Clean review bodies also need provenance when replacing a cancelled check.
+    if (($reason -or $needsReviewRecovery) -and $review.author.login -match '^github-actions(?:\[bot\])?$' -and
         [string]$review.commit.oid -eq [string]$view.headRefOid -and
         -not (Test-TrustedBotClearVerdict -Review $review -HeadSha $view.headRefOid -Checks $reviewChecks)) {
         try {
@@ -172,7 +171,9 @@ foreach ($review in $latestReviews) {
                 $jobsRaw = gh api --paginate --slurp "repos/$owner/$name/actions/runs/$($run.id)/jobs?per_page=100" 2>$null
                 if ($LASTEXITCODE -ne 0) { throw "Could not fetch review jobs (exit $LASTEXITCODE)." }
                 $jobs = @(($jobsRaw | ConvertFrom-Json).jobs)
-                $reviewChecks += @(ConvertTo-WorkflowReviewChecks -Run $run -Jobs $jobs)
+                $verifiedChecks = @(ConvertTo-WorkflowReviewChecks -Run $run -Jobs $jobs)
+                $workflowChecks += $verifiedChecks
+                $reviewChecks += $verifiedChecks
             }
         }
         catch {
@@ -189,6 +190,16 @@ foreach ($review in $latestReviews) {
 if ($actionableReviews.Count -gt 0) {
     Deny ("latest top-level review comment has actionable finding(s): " + ($actionableReviews -join '; '))
 }
+
+# Authenticate dispatched reviews before checking cancelled statuses: recovery jobs
+# can live on main and therefore never appear in this PR head's check rollup.
+$checks = @(Restore-RecoveredReviewChecks -Checks $checks -Runs $runs -Reviews $latestReviews `
+        -WorkflowChecks $workflowChecks -HeadSha $view.headRefOid)
+$bad = @(Get-CheckGateFailures -Checks $checks -ForAutoMerge:$ForAutoMerge)
+if ($bad.Count -gt 0) {
+    Deny ("checks not green: " + ($bad -join '; '))
+}
+
 # Arming hands the merge to GitHub, which cannot read review bodies. Require the
 # current head's own CLEAR verdict; readiness does not re-run the review.
 if ($ForAutoMerge -and -not (Test-CurrentHeadClaudeClear -Reviews $latestReviews -HeadSha $view.headRefOid)) {

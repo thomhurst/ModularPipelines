@@ -112,6 +112,7 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/Test-AssertPrGreenReviewHeuristics.ps1
+          ./scripts/Test-AssertPrGreen.ps1
           ./scripts/Test-EnableAutoMerge.ps1
           ./scripts/Test-AssertCodexReviewClear.ps1
           ./scripts/Test-SyncGeneratedOptionsAutoMerge.ps1
