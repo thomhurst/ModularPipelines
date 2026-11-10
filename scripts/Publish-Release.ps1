@@ -100,7 +100,10 @@ foreach ($file in $files) {
 if ($LASTEXITCODE -ne 0) {
     $releaseArguments = @('release', 'create', $tag, '--repo', $Repository, '--target', $Commit,
         '--title', $ExpectedVersion, '--generate-notes')
-    if ($ExpectedVersion.Split('+')[0].Contains('-')) { $releaseArguments += '--prerelease' }
+    if ($ExpectedVersion.Split('+')[0].Contains('-')) { $releaseArguments += @('--prerelease', '--latest=false') }
+    if ($ExpectedVersion -match '^4\.0\.0-rc\.\d+$') {
+        $releaseArguments += @('--notes-file', (Join-Path $PSScriptRoot '../RELEASE_NOTES_V4_RC.md'))
+    }
     & gh @releaseArguments
     if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation failed.' }
 }

@@ -8,5 +8,7 @@ public record PublishSettings
 
     public string? ExpectedVersion { get; init; }
 
+    public string? PrereleaseVersion { get; init; }
+
     public string? RehearsalFeedPath { get; init; }
 }

@@ -9,6 +9,70 @@ namespace ModularPipelines.Build.UnitTests;
 public class NugetVersionGeneratorTests
 {
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Explicit_Release_Candidate_Overrides_GitVersion_And_Alpha(bool shouldPublish)
+    {
+        var (module, context) = CreateModule(shouldPublish, true, "4.0.0-rc.1", "3.2.2838",
+            prereleaseVersion: "4.0.0-rc.1");
+
+        await Assert.That(await module.Execute(context)).IsEqualTo("4.0.0-rc.1");
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
+    [Test]
+    [Arguments("4.0.0")]
+    [Arguments("v4.0.0-rc.1")]
+    [Arguments("4.0.0-beta.1")]
+    [Arguments("4.0.0-rc.01")]
+    [Arguments("04.0.0-rc.1")]
+    [Arguments("4.0.0-rc.1+build.1")]
+    [Arguments("4.0.0-rc.1\n")]
+    [Arguments(" ")]
+    public async Task Rejects_Invalid_Explicit_Release_Candidate(string version)
+    {
+        var (module, context) = CreateModule(true, false, version, "3.2.2838", prereleaseVersion: version);
+
+        await Assert.That(async () => { await module.Execute(context); })
+            .Throws<InvalidOperationException>().And.HasMessageContaining("prerelease-version");
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
+    [Test]
+    [Arguments(null)]
+    [Arguments("4.0.0")]
+    [Arguments("4.0.0-rc.2")]
+    public async Task Publishing_Validates_Expected_Release_Candidate(string? expectedVersion)
+    {
+        var (module, context) = CreateModule(true, false, expectedVersion, "3.2.2838",
+            prereleaseVersion: "4.0.0-rc.1");
+
+        await Assert.That(async () => { await module.Execute(context); }).Throws<InvalidOperationException>();
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
+    [Test]
+    [Arguments("4.0.0-rc.1", true)]
+    [Arguments("4.0.0-rc.2", false)]
+    public async Task Explicit_Release_Candidate_Must_Match_Prebuild(string prebuiltVersion, bool matches)
+    {
+        var (module, context) = CreateModule(false, true, null, "3.2.2838",
+            new PipelineSettings { BuildAlreadyCompleted = true, PackageVersion = prebuiltVersion }, "4.0.0-rc.1");
+
+        if (matches)
+        {
+            await Assert.That(await module.Execute(context)).IsEqualTo(prebuiltVersion);
+        }
+        else
+        {
+            await Assert.That(async () => { await module.Execute(context); })
+                .Throws<InvalidOperationException>().And.HasMessageContaining("prebuilt");
+        }
+
+        Mock.Get(context).Verify(x => x.Tools.Get<IGit>(), Times.Never);
+    }
+
+    [Test]
     [Arguments(null)]
     [Arguments("")]
     [Arguments(" ")]
@@ -93,7 +157,8 @@ public class NugetVersionGeneratorTests
     }
 
     private static (ExposedVersionModule Module, IModuleContext Context) CreateModule(
-        bool shouldPublish, bool isAlpha, string? expectedVersion, string computedVersion, PipelineSettings? pipelineSettings = null)
+        bool shouldPublish, bool isAlpha, string? expectedVersion, string computedVersion,
+        PipelineSettings? pipelineSettings = null, string? prereleaseVersion = null)
     {
         var git = new Mock<IGit> { DefaultValue = DefaultValue.Mock };
         git.Setup(x => x.Versioning.GetVersioningInformationAsync(It.IsAny<CancellationToken>()))
@@ -109,6 +174,7 @@ public class NugetVersionGeneratorTests
             ShouldPublish = shouldPublish,
             IsAlpha = isAlpha,
             ExpectedVersion = expectedVersion,
+            PrereleaseVersion = prereleaseVersion,
         }), Microsoft.Extensions.Options.Options.Create(pipelineSettings ?? new PipelineSettings()));
         return (module, context.Object);
     }

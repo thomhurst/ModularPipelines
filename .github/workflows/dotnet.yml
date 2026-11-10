@@ -17,7 +17,11 @@ on:
         required: true
         default: false
       expected-version:
-        description: 'Exact package version required when publishing (e.g. 4.0.0; include alpha suffix when selected)'
+        description: 'Exact package version required when publishing (e.g. 4.0.0 or 4.0.0-rc.1)'
+        type: string
+        required: false
+      prerelease-version:
+        description: 'Optional major.minor.patch-rc.N override (e.g. 4.0.0-rc.1); overrides GitVersion and is-alpha, also in rehearsals'
         type: string
         required: false
       distributed:
@@ -722,6 +726,7 @@ jobs:
         env:
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
           Publish__ExpectedVersion: ${{ inputs.expected-version }}
+          Publish__PrereleaseVersion: ${{ inputs.prerelease-version }}
           Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
         run: dotnet "$RUNNER_TEMP/pipeline-host/ModularPipelines.Build.dll" --write-package-version "$GITHUB_ENV"
 
@@ -773,9 +778,10 @@ jobs:
           GitHub__Repository__Id: ${{ github.repository_id }}
           Publish__ShouldPublish: ${{ github.ref == 'refs/heads/main' && inputs.publish-packages == true && matrix.instance == 0 }}
           Publish__ExpectedVersion: ${{ inputs.expected-version }}
+          Publish__PrereleaseVersion: ${{ inputs.prerelease-version }}
           # Exercise every packed package and its symbols against a disposable local feed.
           Publish__RehearsalFeedPath: ${{ matrix.instance == 0 && runner.os == 'Linux' && format('{0}/nuget-publish-rehearsal', runner.temp) || '' }}
-          # Only a publishing dispatch may select stable versions; validation runs use alpha package versions.
+          # Validation defaults to alpha; an explicit RC override applies to rehearsals and publication alike.
           Publish__IsAlpha: ${{ github.event_name != 'workflow_dispatch' || inputs.publish-packages != true || inputs.is-alpha }}
           Codacy__ApiKey: ${{ matrix.instance == 0 && secrets.CODACY_APIKEY || '' }}
           CodeCov__Token: ${{ matrix.instance == 0 && secrets.CODECOV_TOKEN || '' }}
