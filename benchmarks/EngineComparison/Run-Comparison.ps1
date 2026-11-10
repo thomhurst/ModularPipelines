@@ -5,7 +5,9 @@ Compares ModularPipelines 3.2.8 with the current source on one machine.
 .DESCRIPTION
 Run from an isolated checkout using the SDK in global.json. Requires PowerShell 7
 and NuGet access. All builds and worker launches use Invoke-AgentDotNet.ps1.
-The script generates two standalone projects outside the checkout. Both target
+The script generates two standalone projects per scenario/count outside the checkout.
+Each binary contains exactly N concrete module types, so unrelated scenarios do
+not distort assembly scanning, generated metadata or peak memory. Both versions target
 the same runtime; only the framework reference and API adapter differ. No BDN
 dependency is needed: the operation is a complete asynchronous pipeline lifecycle.
 
@@ -26,6 +28,7 @@ processes. Do not interpret it as incremental retained heap or tree-wide RSS.
 summary.md reports median [min, max], paired ratios and candidates exceeding 20%
 in every paired sample. Candidates require a second independent run before filing
 regressions. samples.json retains raw data and machine/runtime/source metadata.
+SourceDirty covers the core, generators, build settings and benchmark inputs.
 Compare versions only within the same OS/machine/run, never Windows against Linux.
 Use an idle machine. Container measurements must identify image and resource limits.
 .EXAMPLE
@@ -60,7 +63,12 @@ if (Test-Path (Join-Path $OutputDirectory 'samples.json')) {
 New-Item -ItemType Directory -Force $OutputDirectory | Out-Null
 $sourceCommit = git -C $repo rev-parse HEAD
 if ($LASTEXITCODE -ne 0) { throw 'Cannot identify source commit.' }
-$sourceDirty = @(git -C $repo status --porcelain --untracked-files=normal).Count -gt 0
+$inputPaths = @('global.json', '*.props', '*.targets', 'NuGet.Config', 'nuget.config',
+    'src/ModularPipelines', 'src/ModularPipelines.SourceGenerator',
+    'src/ModularPipelines.Development.Analyzers', 'src/ModularPipelines.Analyzers',
+    'benchmarks/EngineComparison', 'scripts/Invoke-AgentDotNet.ps1')
+$sourceDirty = @(git -C $repo status --porcelain --untracked-files=normal -- $inputPaths).Count -gt 0
+if ($LASTEXITCODE -ne 0) { throw 'Cannot check benchmark input state.' }
 $sdk = (Get-Content (Join-Path $repo 'global.json') -Raw | ConvertFrom-Json).sdk.version
 $framework = 'net' + ($sdk -split '\.')[0] + '.0'
 Push-Location $repo
@@ -70,54 +78,48 @@ try {
 }
 finally { Pop-Location }
 $resolvedSdk = (Get-Content (Join-Path $OutputDirectory 'sdk-version.log') -Raw).Trim()
-$maximumCount = ($Counts | Measure-Object -Maximum).Maximum
-$moduleSource = [Text.StringBuilder]::new()
-[void]$moduleSource.AppendLine(@'
+function Build-Worker([string]$Shape, [int]$Count, [string]$Version) {
+    $moduleSource = [Text.StringBuilder]::new()
+    [void]$moduleSource.AppendLine(@'
 using ModularPipelines;
-using ModularPipelines.Extensions;
 #if LEGACY
+using ModularPipelines.Extensions;
 using ModularPipelines.Attributes;
 #endif
 namespace EngineComparison;
 '@)
-$registrationSource = [Text.StringBuilder]::new()
-[void]$registrationSource.AppendLine('internal static class Scenarios { internal static readonly Dictionary<string, Action<PipelineBuilder>[]> Registrations = new() {')
-foreach ($shape in $Shapes) {
-    [void]$registrationSource.AppendLine("[`"$shape`"] = [")
-    for ($i = 0; $i -lt $maximumCount; $i++) {
-        $name = "$($shape)Module$i"
+    $registrationSource = [Text.StringBuilder]::new()
+    [void]$registrationSource.AppendLine('internal static class Scenarios { internal static readonly Dictionary<string, Action<PipelineBuilder>[]> Registrations = new() {')
+    [void]$registrationSource.AppendLine("[`"$Shape`"] = [")
+    for ($i = 0; $i -lt $Count; $i++) {
+        $name = "$($Shape)Module$i"
         $predecessor = -1
-        if ($shape -eq 'chain' -and $i -gt 0) { $predecessor = $i - 1 }
-        if ($shape -eq 'fanout' -and $i -gt 0) { $predecessor = 0 }
+        if ($Shape -eq 'chain' -and $i -gt 0) { $predecessor = $i - 1 }
+        if ($Shape -eq 'fanout' -and $i -gt 0) { $predecessor = 0 }
         if ($predecessor -ge 0) {
-            [void]$moduleSource.AppendLine("[DependsOn<$($shape)Module$predecessor>]")
+            [void]$moduleSource.AppendLine("[DependsOn<$($Shape)Module$predecessor>]")
         }
         [void]$moduleSource.AppendLine("public sealed class $name() : TrivialModule($i, $predecessor);")
         [void]$registrationSource.AppendLine("static builder => builder.AddModule<$name>(),")
     }
-    [void]$registrationSource.AppendLine('],')
-}
-[void]$registrationSource.AppendLine('}; }')
-[void]$moduleSource.Append($registrationSource)
-
-$previousTiering = $env:DOTNET_TieredCompilation
-$samples = [Collections.Generic.List[object]]::new()
-try {
-    $env:DOTNET_TieredCompilation = '0'
-    foreach ($version in @('v3', 'v4')) {
-        $directory = Join-Path $OutputDirectory $version
-        New-Item -ItemType Directory -Force $directory | Out-Null
-        Copy-Item (Join-Path $PSScriptRoot 'Worker.cs') $directory
-        [IO.File]::WriteAllText((Join-Path $directory 'Scenarios.cs'), $moduleSource.ToString())
-        $reference = '<PackageReference Include="ModularPipelines" Version="[3.2.8]" />'
-        $define = 'LEGACY'
-        if ($version -eq 'v4') {
-            $escapedPath = [Security.SecurityElement]::Escape((Join-Path $repo 'src/ModularPipelines/ModularPipelines.csproj'))
-            $generatorPath = [Security.SecurityElement]::Escape((Join-Path $repo 'src/ModularPipelines.SourceGenerator/ModularPipelines.SourceGenerator.csproj'))
-            $reference = "<ProjectReference Include=`"$escapedPath`" /><ProjectReference Include=`"$generatorPath`" ReferenceOutputAssembly=`"false`" OutputItemType=`"Analyzer`" SetTargetFramework=`"TargetFramework=netstandard2.0`" />"
-            $define = ''
-        }
-        @"
+    [void]$registrationSource.AppendLine('], }; }')
+    [void]$moduleSource.Append($registrationSource)
+    $directory = Join-Path $OutputDirectory "$Shape-$Count/$Version"
+    $projectName = "Worker_${Shape}_${Count}"
+    $projectPath = Join-Path $directory "$projectName.csproj"
+    $artifacts = Join-Path $OutputDirectory "$Version/artifacts"
+    New-Item -ItemType Directory -Force $directory | Out-Null
+    Copy-Item (Join-Path $PSScriptRoot 'Worker.cs') $directory
+    [IO.File]::WriteAllText((Join-Path $directory 'Scenarios.cs'), $moduleSource.ToString())
+    $reference = '<PackageReference Include="ModularPipelines" Version="[3.2.8]" />'
+    $define = 'LEGACY'
+    if ($Version -eq 'v4') {
+        $escapedPath = [Security.SecurityElement]::Escape((Join-Path $repo 'src/ModularPipelines/ModularPipelines.csproj'))
+        $generatorPath = [Security.SecurityElement]::Escape((Join-Path $repo 'src/ModularPipelines.SourceGenerator/ModularPipelines.SourceGenerator.csproj'))
+        $reference = "<ProjectReference Include=`"$escapedPath`" /><ProjectReference Include=`"$generatorPath`" ReferenceOutputAssembly=`"false`" OutputItemType=`"Analyzer`" SetTargetFramework=`"TargetFramework=netstandard2.0`" />"
+        $define = ''
+    }
+    @"
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -131,26 +133,35 @@ try {
   </PropertyGroup>
   <ItemGroup>$reference</ItemGroup>
 </Project>
-"@ | Set-Content (Join-Path $directory 'Worker.csproj')
-        # Resolve the pinned SDK even though the generated project is outside the checkout.
-        Push-Location $repo
-        try {
-            & $guard -SingleNode -LogPath (Join-Path $OutputDirectory "build-$version.log") `
-                -DotNetArguments @('build', (Join-Path $directory 'Worker.csproj'), '-c', 'Release', '--artifacts-path', (Join-Path $directory 'artifacts'), '-p:RunAnalyzers=false')
-            if ($LASTEXITCODE -ne 0) { throw "Build $version failed with exit $LASTEXITCODE. See build-$version.log; limits are not retried." }
-        }
-        finally { Pop-Location }
+"@ | Set-Content $projectPath
+    # Resolve the pinned SDK even though the generated project is outside the checkout.
+    Push-Location $repo
+    try {
+        & $guard -SingleNode -LogPath (Join-Path $OutputDirectory "build-$Shape-$Count-$Version.log") `
+            -DotNetArguments @('build', $projectPath, '-c', 'Release', '--artifacts-path', $artifacts, '-p:RunAnalyzers=false')
+        if ($LASTEXITCODE -ne 0) { throw "Build $Shape-$Count-$Version failed with exit $LASTEXITCODE. Limits are not retried." }
     }
+    finally { Pop-Location }
+    return Join-Path $artifacts "bin/$projectName/release/$projectName.dll"
+}
 
+$previousTiering = $env:DOTNET_TieredCompilation
+$samples = [Collections.Generic.List[object]]::new()
+try {
+    $env:DOTNET_TieredCompilation = '0'
     foreach ($shape in $Shapes) {
         foreach ($count in $Counts) {
+            $workers = @{}
+            foreach ($version in @('v3', 'v4')) {
+                $workers[$version] = Build-Worker $shape $count $version
+            }
             for ($repeat = 1; $repeat -le $Repetitions; $repeat++) {
                 $versions = @('v3', 'v4')
                 if ($repeat % 2 -eq 0) { $versions = @('v4', 'v3') }
                 foreach ($version in $versions) {
                     $name = "$shape-$count-$repeat-$version"
                     $resultPath = Join-Path $OutputDirectory "$name.json"
-                    $dll = Join-Path $OutputDirectory "$version/artifacts/bin/Worker/release/Worker.dll"
+                    $dll = $workers[$version]
                     Push-Location $repo
                     try {
                         & $guard -TimeoutSeconds 180 -LogPath (Join-Path $OutputDirectory "$name.log") `

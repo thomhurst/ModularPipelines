@@ -23,9 +23,16 @@ internal static class Worker
         Shape = args[0];
         var count = int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture);
         var registrations = Scenarios.Registrations[Shape];
-        if (count < 1 || count > registrations.Length)
+        if (count < 1 || count != registrations.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(count));
+        }
+
+        var concreteModules = typeof(Worker).Assembly.GetTypes()
+            .Count(type => !type.IsAbstract && typeof(TrivialModule).IsAssignableFrom(type));
+        if (concreteModules != count)
+        {
+            throw new InvalidOperationException("The worker must contain exactly N concrete module types.");
         }
 
         // Warm the same generic registrations, dependency graph, JIT and command path.
