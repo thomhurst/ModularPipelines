@@ -183,12 +183,9 @@ public class KubectlCliScraperTests
     }
 
     [Test]
-    [Arguments("history", "(TYPE NAME | TYPE/NAME)", "TypeName")]
     [Arguments("pause", "RESOURCE", "Resource")]
     [Arguments("restart", "RESOURCE", "Resource")]
     [Arguments("resume", "RESOURCE", "Resource")]
-    [Arguments("status", "(TYPE NAME | TYPE/NAME)", "TypeName")]
-    [Arguments("undo", "(TYPE NAME | TYPE/NAME)", "TypeName")]
     public async Task Rollout_Commands_Allow_File_Without_Resource(
         string commandName,
         string usageOperand,
@@ -203,6 +200,21 @@ public class KubectlCliScraperTests
             argument.PropertyName == propertyName);
         await Assert.That(resource.IsRequired).IsTrue();
         await Assert.That(resource.IsValidationRequired).IsFalse();
+    }
+
+    [Test]
+    [Arguments("history")]
+    [Arguments("status")]
+    [Arguments("undo")]
+    public async Task Rollout_Resource_Alternatives_Use_Separate_Optional_Properties(string commandName)
+    {
+        var command = await new TestKubectlCliScraper().Parse(
+            ["kubectl", "rollout", commandName],
+            $"Usage:\n  kubectl rollout {commandName} (TYPE NAME | TYPE/NAME) [options]");
+
+        await Assert.That(command!.PositionalArguments.Select(argument => argument.PropertyName))
+            .IsEquivalentTo(["Type", "Name", "TypeOrName"], TUnit.Assertions.Enums.CollectionOrdering.Matching);
+        await Assert.That(command.PositionalArguments.Any(argument => argument.IsRequired)).IsFalse();
     }
 
     [Test]

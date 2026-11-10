@@ -84,13 +84,18 @@ public partial class NestedArgumentGroupParsingTests
         })).Single().Content;
         await VerifyGeneratedValidation(generated, command.ClassName, async type =>
         {
-            for (var mask = 0; mask < 4; mask++)
+            foreach (var resource in new string?[] { null, "", " ", "resource" })
             {
-                var instance = Activator.CreateInstance(type)!;
-                type.GetProperty("Resource")!.SetValue(instance, (mask & 1) != 0 ? "resource" : " ");
-                type.GetProperty("Location")!.SetValue(instance, (mask & 2) != 0 ? "location" : null);
-                var errors = ((IValidatableObject) instance).Validate(new(instance));
-                await Assert.That(!errors.Any()).IsEqualTo(mask != 2);
+                foreach (var location in new string?[] { null, "", " ", "location" })
+                {
+                    var instance = Activator.CreateInstance(type)!;
+                    type.GetProperty("Resource")!.SetValue(instance, resource);
+                    type.GetProperty("Location")!.SetValue(instance, location);
+                    var errors = ((IValidatableObject) instance).Validate(new(instance));
+                    var valid = !string.IsNullOrWhiteSpace(resource) || (resource is null && location is null);
+                    await Assert.That(!errors.Any()).IsEqualTo(valid)
+                        .Because($"Resource '{resource ?? "<omitted>"}', location '{location ?? "<omitted>"}'.");
+                }
             }
         });
     }
@@ -154,20 +159,31 @@ public partial class NestedArgumentGroupParsingTests
         })).Single().Content;
         await VerifyGeneratedValidation(generated, command.ClassName, async type =>
         {
-            for (var mask = 0; mask < (includeOption ? 4 : 2); mask++)
+            foreach (var config in new string?[] { null, "", " ", "config" })
             {
-                var instance = Activator.CreateInstance(type)!;
-                type.GetProperty("Config")!.SetValue(instance, (mask & 1) != 0 ? "config" : " ");
-                if (includeOption)
+                foreach (var profile in includeOption ? new string?[] { null, "", " ", "profile" } : [null])
                 {
-                    type.GetProperty("Profile")!.SetValue(instance, (mask & 2) != 0 ? "profile" : null);
-                }
+                    var instance = Activator.CreateInstance(type)!;
+                    type.GetProperty("Config")!.SetValue(instance, config);
+                    if (includeOption)
+                    {
+                        type.GetProperty("Profile")!.SetValue(instance, profile);
+                    }
 
-                var errors = ((IValidatableObject) instance).Validate(new(instance));
-                var expected = (!required || mask != 0) && (!exclusive || mask != 3);
-                await Assert.That(!errors.Any()).IsEqualTo(expected);
+                    var errors = ((IValidatableObject) instance).Validate(new(instance));
+                    var expected = IsValidGcloudPositionalBundle(config, profile, required, exclusive);
+                    await Assert.That(!errors.Any()).IsEqualTo(expected)
+                        .Because($"Config '{config ?? "<omitted>"}', profile '{profile ?? "<omitted>"}'.");
+                }
             }
         });
+    }
+
+    private static bool IsValidGcloudPositionalBundle(string? config, string? profile, bool required, bool exclusive)
+    {
+        var hasValue = !string.IsNullOrWhiteSpace(config) || !string.IsNullOrWhiteSpace(profile);
+        var omitted = config is null && profile is null;
+        return (hasValue || (!required && omitted)) && (!exclusive || config is null || profile is null);
     }
 
     [Test]

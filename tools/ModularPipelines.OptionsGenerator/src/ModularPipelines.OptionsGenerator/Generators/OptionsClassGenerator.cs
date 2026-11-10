@@ -545,22 +545,18 @@ public class OptionsClassGenerator : ICodeGenerator
             return;
         }
 
-        string GroupPresence(CliRequiredAlternativeGroup nested) =>
-            $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(Presence))})";
+        string GroupPresence(Func<string, string> getPresence) =>
+            $"({string.Join(" || ", propertyNames.Select(getPresence))})";
 
-        var presence = GroupPresence(group);
-        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, Presence, GroupPresence);
+        var presence = GroupPresence(Presence);
+        string RenderedPresence(string propertyName) =>
+            GetPresenceExpression(command, positionalArguments, propertyName, includeBlankValues: true);
+        var renderedPresence = GroupPresence(RenderedPresence);
+        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, renderedPresence, RenderedPresence);
 
-        var activeGroup = activation is null ? presence : $"{activation} && {presence}";
-        if (!group.IsChoice && propertyNames.Length > 1)
-        {
-            foreach (var member in group.Members.Where(member => member.IsRequired))
-            {
-                WriteValidationFailure(sb, $"!({Presence(member.PropertyName)})", activeGroup,
-                    $"{member.PropertyName} must be specified when other arguments in this group are specified.",
-                    [member.PropertyName]);
-            }
-        }
+        // Rendered blank operands activate a branch, but cannot satisfy its required members.
+        var activeGroup = activation is null ? renderedPresence : $"{activation} && {renderedPresence}";
+        GenerateRequiredGroupMemberValidation(sb, group, propertyNames, activeGroup, Presence);
 
         foreach (var nested in group.Groups)
         {
@@ -568,6 +564,26 @@ public class OptionsClassGenerator : ICodeGenerator
             // one of its nested groups whenever any part of the bundle is supplied.
             GenerateGroupValidation(sb, command, positionalArguments, nested,
                 required: !group.IsChoice && nested.IsRequired, activeGroup);
+        }
+    }
+
+    private static void GenerateRequiredGroupMemberValidation(
+        StringBuilder sb,
+        CliRequiredAlternativeGroup group,
+        string[] propertyNames,
+        string activation,
+        Func<string, string> presence)
+    {
+        if (group.IsChoice || propertyNames.Length <= 1)
+        {
+            return;
+        }
+
+        foreach (var member in group.Members.Where(member => member.IsRequired))
+        {
+            WriteValidationFailure(sb, $"!({presence(member.PropertyName)})", activation,
+                $"{member.PropertyName} must be specified when other arguments in this group are specified.",
+                [member.PropertyName]);
         }
     }
 
@@ -614,19 +630,24 @@ public class OptionsClassGenerator : ICodeGenerator
         string? activation,
         string[] propertyNames,
         string presence,
-        Func<string, string> getPresence,
-        Func<CliRequiredAlternativeGroup, string> getGroupPresence)
+        string renderedPresence,
+        Func<string, string> getRenderedPresence)
     {
         if (group.IsChoice && group.IsMutuallyExclusive)
         {
             var branches = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
-                .Select(getPresence).Concat(group.Groups.Select(getGroupPresence));
+                .Select(getRenderedPresence).Concat(group.Groups.Select(nested =>
+                    $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(getRenderedPresence))})"));
             var count = string.Join(" + ", branches.Select(expression => $"({expression} ? 1 : 0)"));
             var branchNames = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
                 .Concat(group.Groups.Select(nested =>
                     $"({FormatChoice([.. nested.PropertyNames.Distinct(StringComparer.Ordinal)])})")).ToArray();
             var cardinality = required ? "Exactly one" : "At most one";
-            WriteValidationFailure(sb, $"{count} {(required ? "!= 1" : "> 1")}", activation,
+            // Blank strings still render argv tokens, but cannot satisfy a required input.
+            var invalid = required
+                ? $"!{presence} || {count} != 1"
+                : $"{count} > 1 || ({renderedPresence} && !{presence})";
+            WriteValidationFailure(sb, invalid, activation,
                 $"{cardinality} of {FormatChoice(branchNames)} {(required ? "must" : "may")} be specified.", propertyNames);
         }
         else if (required)
@@ -650,7 +671,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static string GetPresenceExpression(
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
-        string propertyName)
+        string propertyName,
+        bool includeBlankValues = false)
     {
         var option = command.Options.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
         var positional = positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
@@ -666,6 +688,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (csharpType.TrimEnd('?').Equals("string", StringComparison.Ordinal))
         {
+            if (includeBlankValues)
+            {
+                return $"{propertyName} is not null";
+            }
+
             var nonBlank = $"!string.IsNullOrWhiteSpace({propertyName})";
             return option?.AllowsEmptyValue == true
                 ? $"({propertyName} == string.Empty || {nonBlank})"

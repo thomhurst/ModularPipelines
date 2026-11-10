@@ -13,6 +13,8 @@ namespace ModularPipelines.OptionsGenerator.Tests.Scrapers.Cli;
 
 public partial class NestedArgumentGroupParsingTests
 {
+    private static readonly bool[] InteractiveValues = [false, true];
+
     [Test]
     [Arguments(false, false)]
     [Arguments(true, false)]
@@ -564,19 +566,34 @@ public partial class NestedArgumentGroupParsingTests
         })).Single().Content;
         await VerifyGeneratedValidation(generated, "GcloudExampleCreateOptions", async type =>
         {
-            for (var mask = 0; mask < 8; mask++)
+            foreach (var token in new string?[] { null, "", " ", "token" })
             {
-                var instance = Activator.CreateInstance(type)!;
-                type.GetProperty("Token")!.SetValue(instance, (mask & 1) != 0 ? "token" : " ");
-                type.GetProperty("Profile")!.SetValue(instance, (mask & 2) != 0 ? "profile" : "");
-                type.GetProperty("Interactive")!.SetValue(instance, (mask & 4) != 0);
-                var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
-                var valid = heading.StartsWith("At most", StringComparison.Ordinal)
-                    ? (mask & 1) == 0 || (mask & 6) == 0
-                    : mask != 0;
-                await Assert.That(!errors.Any()).IsEqualTo(valid);
+                foreach (var profile in new string?[] { null, "", " ", "profile" })
+                {
+                    foreach (var interactive in InteractiveValues)
+                    {
+                        var instance = Activator.CreateInstance(type)!;
+                        type.GetProperty("Token")!.SetValue(instance, token);
+                        type.GetProperty("Profile")!.SetValue(instance, profile);
+                        type.GetProperty("Interactive")!.SetValue(instance, interactive);
+                        var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
+                        var valid = IsValidGcloudConditionalBranch(heading, token, profile, interactive);
+                        await Assert.That(!errors.Any()).IsEqualTo(valid)
+                            .Because($"Token '{token ?? "<omitted>"}', profile '{profile ?? "<omitted>"}', interactive {interactive}.");
+                    }
+                }
             }
         });
+    }
+
+    private static bool IsValidGcloudConditionalBranch(string heading, string? token, string? profile, bool interactive)
+    {
+        // Non-null strings render even when blank; required inputs still need a value.
+        var hasValue = !string.IsNullOrWhiteSpace(token) || !string.IsNullOrWhiteSpace(profile) || interactive;
+        return heading.StartsWith("At most", StringComparison.Ordinal)
+            ? (token is null && profile is null && !interactive)
+              || (hasValue && (token is null || (profile is null && !interactive)))
+            : hasValue;
     }
 
     [Test]
@@ -703,6 +720,7 @@ public partial class NestedArgumentGroupParsingTests
             foreach (var (source, directory, valid) in new (string?, string?, bool)[]
             {
                 (null, null, false), (" ", "", false), ("file.txt", "directory", false),
+                ("file.txt", "", false), (" ", "directory", false),
                 ("file.txt", null, true), (null, "directory", true),
             })
             {
@@ -710,7 +728,8 @@ public partial class NestedArgumentGroupParsingTests
                 type.GetProperty("Source")!.SetValue(instance, source);
                 type.GetProperty("SourceDirectory")!.SetValue(instance, directory);
                 var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance)).ToArray();
-                await Assert.That(errors.Length).IsEqualTo(valid ? 0 : 1);
+                await Assert.That(errors.Length == 0).IsEqualTo(valid)
+                    .Because($"Source '{source ?? "<omitted>"}', directory '{directory ?? "<omitted>"}'.");
             }
         });
 

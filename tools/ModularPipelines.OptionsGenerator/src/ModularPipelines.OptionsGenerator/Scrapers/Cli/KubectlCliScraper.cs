@@ -151,6 +151,10 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
             ? [.. command.Options.Where(option => option.SwitchName != "--kustomize")]
             : command.Options;
         var normalized = groups.Select(group => NormalizeResourceInputs(group, resourceOptions, selectionOptions)).ToList();
+        if (command.CommandParts is ["rollout", "history" or "status" or "undo"])
+        {
+            normalized = [.. normalized.SelectMany(group => NormalizeRolloutResourceAlternatives(group, command.Options))];
+        }
         // Update values can come from operands or options. Only --list=true selects
         // the env listing mode; resources always needs at least one limits/requests update.
         UsageRequiredAlternativeMember[] updateSources = command.CommandParts switch
@@ -170,6 +174,26 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
             normalized.Add(new UsageRequiredAlternativeGroup { Members = updateSources });
         }
         return normalized;
+    }
+
+    // File inputs and positional targets are mutually exclusive.
+    // Validate selection separately so value patterns still enforce complete forms.
+    private static IEnumerable<UsageRequiredAlternativeGroup> NormalizeRolloutResourceAlternatives(
+        UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options)
+    {
+        if (!group.IsMutuallyExclusive
+            || !group.Members.Any(member => member.PositionalPropertyName == "TypeOrName"))
+        {
+            return [group];
+        }
+
+        var resourceInputs = new UsageRequiredAlternativeGroup
+        {
+            Members = [.. options.Where(option => option.SwitchName is "--filename" or "--kustomize")
+                .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName })],
+            Groups = [group],
+        };
+        return [resourceInputs with { IsRequired = false, IsMutuallyExclusive = true }, resourceInputs];
     }
 
     // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.
@@ -259,7 +283,7 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
                 "LocalPortNRemotePortN",
                 "LocalPortRemotePort"),
             ["rollout", "history" or "pause" or "restart" or "resume" or "status" or "undo"] =>
-                AllowOmittedValue(positionalArguments, "Resource", "TypeName"),
+                AllowOmittedValue(positionalArguments, "Resource"),
             ["taint"] => NormalizeTaintArguments(positionalArguments),
             _ => positionalArguments,
         };
