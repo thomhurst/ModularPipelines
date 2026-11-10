@@ -428,6 +428,27 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("new Holder()", "NullReferenceException", false)]
+    [DataRow("null!", "InvalidOperationException", false)]
+    [DataRow("null!", "NullReferenceException", true)]
+    public async Task Tracks_Field_Exception_Paths_For_Callback_Definitions(string receiver, string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            command.SetAction(parseResult =>
+            {
+                Holder holder = {{receiver}};
+                Action register = () => {};
+                try { _ = holder.Value; }
+                catch ({{caught}}) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            });
+            return command.Parse(args).Invoke();
+
+            public class Holder { public int Value; }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("_ = args[0];", "IndexOutOfRangeException")]
     [DataRow("_ = System.Environment.CurrentDirectory;", "Exception")]
     [DataRow("_ = new object();", "Exception")]
@@ -447,6 +468,60 @@ public class CommandLineModuleRegistrationAnalyzerTests
             catch ({{caught}}) { }
             return command.Parse(args).Invoke();
             """));
+    }
+
+    [TestMethod]
+    [DataRow("var holder = new Holder();", "_ = holder.Value;", false)]
+    [DataRow("var holder = new Holder();", "holder.Value = 1;", false)]
+    [DataRow("var original = new Holder(); var holder = original;", "_ = holder.Value;", false)]
+    [DataRow("Holder holder; if (args.Length > 0) holder = new Holder(); else holder = new Holder();", "_ = holder.Value;", false)]
+    [DataRow("var holder = new Holder(); holder = null!;", "_ = holder.Value;", true)]
+    [DataRow("Holder holder = null!; holder = new Holder();", "_ = holder.Value;", false)]
+    [DataRow("var holder = new Holder(); if (args.Length > 0) holder = null!;", "_ = holder.Value;", true)]
+    [DataRow("var holder = new Holder(); Clear(ref holder); static void Clear(ref Holder value) { value = null!; }", "_ = holder.Value;", true)]
+    [DataRow("var holder = new Holder(); Action clear = () => holder = null!; clear();", "_ = holder.Value;", true)]
+    [DataRow("Holder holder = new Holder(); ref Holder alias = ref holder; alias = null!;", "_ = holder.Value;", true)]
+    [DataRow("Holder holder = new Holder(); (holder, _) = ((Holder)null!, 1);", "_ = holder.Value;", true)]
+    public async Task Tracks_Known_NonNull_Field_Receivers(string setup, string access, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            {{setup}}
+            command.SetAction(_ => {});
+            try
+            {
+                {{access}}
+            }
+            catch (NullReferenceException)
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            }
+            return command.Parse(args).Invoke();
+
+            public class Holder { public int Value; }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("_ = holder.Value;", "InvalidOperationException", false)]
+    [DataRow("holder.Value = 1;", "InvalidOperationException", false)]
+    [DataRow("_ = holder.Value;", "NullReferenceException", true)]
+    [DataRow("holder.Value = 1;", "SystemException", true)]
+    [DataRow("_ = holder.Value;", "Exception", true)]
+    public async Task Matches_Field_Access_Exception_Type(string access, string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            Holder holder = null!;
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{access}}
+                command.SetAction(_ => {});
+            }
+            catch ({{caught}}) { }
+            return command.Parse(args).Invoke();
+
+            public class Holder { public int Value; }
+            """, registered), registered ? [] : [UnregisteredModule()]);
     }
 
     [TestMethod]
