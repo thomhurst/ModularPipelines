@@ -844,7 +844,8 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol helperMethod,
         ImmutableArray<IParameterSymbol> mappedTokens)
     {
-        if (SymbolEqualityComparer.Default.Equals(helperMethod, containingMethod)
+        if (mappedTokens.IsEmpty
+            || SymbolEqualityComparer.Default.Equals(helperMethod, containingMethod)
             || GetMethodOperation(helperMethod, context.Compilation, context.CancellationToken)
                 is not { } operation)
         {
@@ -852,31 +853,20 @@ internal static class ModuleAuthoringAnalysis
         }
 
         // A captured parameter can change even after its callback is scheduled.
-        return [.. mappedTokens.Where(token => !IsParameterWritten(operation, token))];
+        var roots = GetParameterWriteRoots(operation);
+        return [.. mappedTokens.Where(token => !roots.Any(root => IsParameterWrittenInCallable(root, token)))];
     }
 
-    private static bool IsParameterWritten(IOperation operation, IParameterSymbol parameter)
+    private static ImmutableArray<IOperation> GetParameterWriteRoots(IOperation operation)
     {
         var operations = operation.DescendantsAndSelf().ToImmutableArray();
         var reachableCallables = GetPotentiallyExecutedCallables(operation, operations);
         // Ref locals cannot be captured, so alias bindings stay within one callable.
-        foreach (var root in operations.Where(candidate => ReferenceEquals(candidate, operation)
-                     || candidate is IAnonymousFunctionOperation or ILocalFunctionOperation))
-        {
-            if (!IsInReachableBranch(root)
-                || !IsInsideReachableCallable(root, reachableCallables)
-                || (GetCallableSymbol(root) is { } callable && !reachableCallables.Contains(callable)))
-            {
-                continue;
-            }
-
-            if (IsParameterWrittenInCallable(root, parameter))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return [.. operations.Where(candidate => ReferenceEquals(candidate, operation)
+                || candidate is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            .Where(IsInReachableBranch)
+            .Where(root => IsInsideReachableCallable(root, reachableCallables))
+            .Where(root => GetCallableSymbol(root) is not { } callable || reachableCallables.Contains(callable))];
     }
 
     private static bool IsParameterWrittenInCallable(IOperation root, IParameterSymbol parameter)
@@ -1041,6 +1031,19 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool VisitParameterWriteChildren(IOperation operation, HashSet<ISymbol> storage)
     {
+        if (operation is IAssignmentOperation assignment
+            && operation is not ISimpleAssignmentOperation { IsRef: true })
+        {
+            if (VisitParameterWrites(assignment.Target, storage))
+            {
+                return true;
+            }
+
+            // C# fixes the destination before the RHS can rebind a ref local.
+            var writesParameter = ReferencesStorage(assignment.Target, storage);
+            return VisitParameterWrites(assignment.Value, storage) || writesParameter;
+        }
+
         if (operation.ChildOperations.Any(child => VisitParameterWrites(child, storage)))
         {
             return true;
@@ -1140,7 +1143,12 @@ internal static class ModuleAuthoringAnalysis
                 }
 
                 branchStorage.UnionWith(conditionStorage);
-                // A failed guard keeps its side effects when selection continues.
+                // Only a failed pattern skips the guard's side effects.
+                if (SwitchPatternAlwaysMatches(branch is ISwitchExpressionArmOperation ? branch : condition!))
+                {
+                    remaining.Clear();
+                }
+
                 remaining.UnionWith(conditionStorage);
             }
 
@@ -1160,6 +1168,19 @@ internal static class ModuleAuthoringAnalysis
         storage.Clear();
         storage.UnionWith(merged);
         return false;
+    }
+
+    private static bool SwitchPatternAlwaysMatches(IOperation operation)
+    {
+        var pattern = operation switch
+        {
+            IPatternCaseClauseOperation clause => clause.Pattern,
+            ISwitchExpressionArmOperation arm => arm.Pattern,
+            _ => null,
+        };
+        return pattern is IDiscardPatternOperation or IDeclarationPatternOperation { MatchesNull: true }
+            || (pattern is IDeclarationPatternOperation { InputType.IsValueType: true } declaration
+                && SymbolEqualityComparer.Default.Equals(declaration.InputType, declaration.MatchedType));
     }
 
     private static void UpdateParameterStorage(
@@ -1198,14 +1219,15 @@ internal static class ModuleAuthoringAnalysis
         var invocations = operations.OfType<IInvocationOperation>().ToImmutableArray();
         var callables = operations.Select(GetCallableSymbol).OfType<IMethodSymbol>().ToImmutableArray();
         var reachable = GetReachableCallables(invocations, callables, GetCallableSymbol(operation));
+        var delegateReferences = operations
+            .Where(static candidate => candidate is IAnonymousFunctionOperation or IMethodReferenceOperation)
+            .Where(IsInReachableBranch)
+            .ToImmutableArray();
         int previousCount;
         do
         {
             previousCount = reachable.Count;
-            foreach (var candidate in operations
-                         .Where(static candidate => candidate is IAnonymousFunctionOperation or IMethodReferenceOperation)
-                         .Where(IsInReachableBranch)
-                         .Where(candidate => IsInsideReachableCallable(candidate, reachable)))
+            foreach (var candidate in delegateReferences.Where(candidate => IsInsideReachableCallable(candidate, reachable)))
             {
                 // Referenced delegates can escape even when their invoker is unknown.
                 var target = candidate is IAnonymousFunctionOperation anonymous
@@ -1234,6 +1256,7 @@ internal static class ModuleAuthoringAnalysis
                 || ReferencesStorage(conditional.WhenFalse, storage),
             IConversionOperation conversion => ReferencesStorage(conversion.Operand, storage),
             IParenthesizedOperation parenthesized => ReferencesStorage(parenthesized.Operand, storage),
+            ISimpleAssignmentOperation { IsRef: true } assignment => ReferencesStorage(assignment.Value, storage),
             _ => false,
         };
 
