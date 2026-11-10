@@ -302,7 +302,8 @@ public class InstallersContextTests : TestBase
         }
 
         var directory = Directory.CreateTempSubdirectory("installer test's ");
-        var path = Path.Combine(directory.FullName, "installer");
+        // Multicall implementations of echo dispatch by the executable's name.
+        var path = Path.Combine(directory.FullName, nativeBinary ? "echo" : "installer");
         try
         {
             if (nativeBinary)
