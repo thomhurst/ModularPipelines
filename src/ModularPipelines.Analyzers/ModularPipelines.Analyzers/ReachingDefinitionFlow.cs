@@ -18,6 +18,8 @@ internal sealed class ReachingDefinitionFlow(
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
     private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
+    // An unresolved tuple element invalidates only queries this write can reach.
+    private static readonly TextSpan UnknownValue = new(int.MaxValue - 1, 0);
     private readonly IOperation _operationRoot = operationRoot ?? GetOperationRoot(invocation);
     private readonly HashSet<TextSpan> _reaching = [];
     private readonly Dictionary<string, HashSet<TextSpan>> _inputs = [];
@@ -40,20 +42,26 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         var definitions = root.DescendantsAndSelf().SelectMany(candidate => GetAssignedValues(candidate, local))
+            .OfType<IOperation>()
             .GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
         var flow = new ReachingDefinitionFlow(graph, operation, definitions, local, analyzeReceiverTypes,
             operationRoot: root);
-        values = [.. flow.Analyze()];
+        flow.Analyze();
+        if (flow._reaching.Contains(UnknownValue))
+        {
+            return false;
+        }
+
+        values = [.. flow._reaching.Where(span => span != IncomingValue).Select(span => definitions[span])];
         inheritsIncomingValue = flow._reaching.Contains(IncomingValue);
         return true;
     }
 
-    private IEnumerable<IOperation> Analyze()
+    private void Analyze()
     {
         Enqueue(0, [], [IncomingValue]);
         AnalyzePendingBlocks();
-        return _reaching.Where(span => span != IncomingValue).Select(span => definitions[span]);
     }
 
     private void AnalyzePendingBlocks()
@@ -260,7 +268,7 @@ internal sealed class ReachingDefinitionFlow(
     private static bool IsDelegateAddition(ICompoundAssignmentOperation assignment) =>
         assignment.OperatorKind == BinaryOperatorKind.Add && assignment.Target.Type?.TypeKind == TypeKind.Delegate;
 
-    private static IEnumerable<IOperation> GetAssignedValues(IOperation operation, ILocalSymbol localSymbol)
+    private static IEnumerable<IOperation?> GetAssignedValues(IOperation operation, ILocalSymbol localSymbol)
     {
         if (operation is IVariableDeclaratorOperation { Initializer: { } initializer } declarator
             && SymbolEqualityComparer.Default.Equals(declarator.Symbol, localSymbol))
@@ -283,7 +291,7 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
-    private static IEnumerable<IOperation> GetDeconstructedValues(IOperation target, IOperation value,
+    private static IEnumerable<IOperation?> GetDeconstructedValues(IOperation target, IOperation value,
         ILocalSymbol localSymbol)
     {
         if (target is IDeclarationExpressionOperation declaration)
@@ -303,8 +311,19 @@ internal sealed class ReachingDefinitionFlow(
             value = conversion.Operand;
         }
 
-        if (target is not ITupleOperation targets || value is not ITupleOperation values)
+        if (target is not ITupleOperation targets)
         {
+            yield break;
+        }
+
+        if (value is not ITupleOperation values)
+        {
+            // The tuple source has no element expressions to return for this write.
+            if (TargetsLocal(target, localSymbol))
+            {
+                yield return null;
+            }
+
             yield break;
         }
 
@@ -314,7 +333,7 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
-    private static IEnumerable<IOperation> GetTupleElementValues(ITupleOperation targets, ITupleOperation values,
+    private static IEnumerable<IOperation?> GetTupleElementValues(ITupleOperation targets, ITupleOperation values,
         ILocalSymbol localSymbol)
     {
         for (var index = 0; index < targets.Elements.Length && index < values.Elements.Length; index++)
@@ -335,7 +354,7 @@ internal sealed class ReachingDefinitionFlow(
 
         foreach (var value in GetAssignedValues(operation, local))
         {
-            if (!definitions.ContainsKey(value.Syntax.Span))
+            if (value is not null && !definitions.ContainsKey(value.Syntax.Span))
             {
                 continue;
             }
@@ -346,7 +365,7 @@ internal sealed class ReachingDefinitionFlow(
                 state.UnionWith(addedTargets);
             }
 
-            state.Add(value.Syntax.Span);
+            state.Add(value?.Syntax.Span ?? UnknownValue);
         }
     }
 
@@ -467,6 +486,7 @@ internal sealed class ReachingDefinitionFlow(
     private static bool TargetsLocal(IOperation target, ILocalSymbol local) => target switch
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
+        IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local)),
         IConditionalOperation conditional => TargetsLocal(conditional.WhenTrue, local)
             || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local)),

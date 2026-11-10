@@ -29,6 +29,27 @@ public class ReachingDefinitionFlowTests
         AssertFlow(body, expected);
 
     [TestMethod]
+    [DataRow("string value = \"old\"; string other = \"other\"; var pair = (\"new\", \"next\"); (value, other) = pair; [|Use(value)|];")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); (value, string other) = pair; [|Use(value)|];")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); (_, value) = pair; [|Use(value)|];")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); ((value, _), _) = (pair, 0); [|Use(value)|];")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); (value, (value, _)) = (\"known\", pair); [|Use(value)|];")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); if (flag) (value, _) = pair; [|Use(value)|];")]
+    [DataRow("string value = \"old\"; var pair = ((string, string))item; (value, _) = pair; [|Use(value)|];")]
+    public void Unresolved_Tuple_Element_Definitions_Are_Unsupported(string body) =>
+        AssertFlow(body, "", supported: false);
+
+    [TestMethod]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); (value, _) = pair; value = \"known\"; [|Use(value)|];", "\"known\"")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); ((value, _), value) = (pair, \"known\"); [|Use(value)|];", "\"known\"")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); if (false) (value, _) = pair; [|Use(value)|];", "\"old\"")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); [|Use(value)|]; (value, _) = pair;", "\"old\"")]
+    [DataRow("string value = \"old\"; var pair = (\"new\", \"next\"); Action nested = () => (value, _) = pair; [|Use(value)|];", "\"old\"")]
+    [DataRow("string value = \"old\"; string other = \"other\"; var pair = (\"new\", \"next\"); (other, _) = pair; [|Use(value)|];", "\"old\"")]
+    public void Unresolved_Tuple_Writes_Only_Affect_Reaching_Paths(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
     public void Delegate_Addition_Preserves_Previous_Definitions() => AssertFlow(
         "Action value = A; value += B; [|Use(value)|];", "A|B");
 
@@ -144,7 +165,8 @@ public class ReachingDefinitionFlowTests
         try { array[0] = item; } catch (ArrayTypeMismatchException) { [|Use(value)|]; }
         """, expected);
 
-    private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false)
+    private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false,
+        bool supported = true)
     {
         var source = $$"""
             using System;
@@ -189,7 +211,7 @@ public class ReachingDefinitionFlowTests
         var root = model.GetOperation(method)!;
         var operation = root.DescendantsAndSelf().First(candidate => candidate.Syntax.Span == span);
         var local = root.DescendantsAndSelf().OfType<IVariableDeclaratorOperation>().First(static declarator => declarator.Symbol.Name == "value").Symbol;
-        Assert.IsTrue(ReachingDefinitionFlow.TryGetReachingLocalValues(root, operation, local, out var values, out var inherits));
+        Assert.AreEqual(supported, ReachingDefinitionFlow.TryGetReachingLocalValues(root, operation, local, out var values, out var inherits));
         Assert.AreEqual(incoming, inherits);
         Assert.AreSequenceEqual([.. expected.Split('|', StringSplitOptions.RemoveEmptyEntries).Order(StringComparer.Ordinal)], [.. values.Select(static value => value.Syntax.ToString()).Order(StringComparer.Ordinal)], "Actual definitions: " + string.Join(" | ", values.Select(static value => value.Syntax.ToString())));
     }
