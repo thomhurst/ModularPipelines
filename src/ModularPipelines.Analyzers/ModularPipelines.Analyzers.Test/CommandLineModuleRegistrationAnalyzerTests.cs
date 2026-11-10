@@ -271,6 +271,32 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("double", "1.0", "/", false)]
+    [DataRow("double", "1.0", "%", false)]
+    [DataRow("float", "1.0f", "/", false)]
+    [DataRow("float", "1.0f", "%", false)]
+    [DataRow("double?", "1.0", "/", false)]
+    [DataRow("double", "1.0", "+", false)]
+    [DataRow("int", "1", "/", true)]
+    [DataRow("int", "1", "%", true)]
+    [DataRow("int", "1", "+", true)]
+    [DataRow("decimal", "1.0m", "/", true)]
+    public async Task Tracks_Only_Throwing_Binary_Operations(string type, string value, string operation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            {{type}} divisor = 0;
+            command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            try
+            {
+                _ = checked({{value}} {{operation}} divisor);
+                command.SetAction(_ => { });
+            }
+            catch (Exception) { }
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("_ = args[0];", "IndexOutOfRangeException")]
     [DataRow("_ = System.Environment.CurrentDirectory;", "Exception")]
     [DataRow("_ = new object();", "Exception")]
@@ -449,6 +475,26 @@ public class CommandLineModuleRegistrationAnalyzerTests
             """, registered);
 
         await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("var freshCommand = new System.CommandLine.RootCommand();", "freshCommand", "", false)]
+    [DataRow("var freshCommand = new System.CommandLine.RootCommand(); var alias = freshCommand;", "alias", "", false)]
+    [DataRow("command = new System.CommandLine.RootCommand();", "command", "", false)]
+    [DataRow("var freshCommand = new System.CommandLine.RootCommand();", "freshCommand", "freshCommand.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });", true)]
+    [DataRow("var freshCommand = command;", "freshCommand", "", true)]
+    public async Task Resets_Actions_When_Loop_Creates_Command(string declaration, string receiver, string beforeInvocation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            for (var i = 0; i < 2; i++)
+            {
+                {{declaration}}
+                {{beforeInvocation}}
+                {{receiver}}.Parse(args).Invoke();
+                {{receiver}}.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            }
+            return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
     }
 
     [TestMethod]

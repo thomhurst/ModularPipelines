@@ -9,6 +9,7 @@ namespace ModularPipelines.Analyzers;
 internal sealed class CommandLineActionFlow(
     ControlFlowGraph graph,
     IInvocationOperation invocation,
+    IOperation command,
     Dictionary<TextSpan, IInvocationOperation> setters)
 {
     private readonly HashSet<TextSpan> _reaching = [];
@@ -18,6 +19,7 @@ internal sealed class CommandLineActionFlow(
     public static IEnumerable<IInvocationOperation> GetReachingSetters(
         IOperation root,
         IInvocationOperation invocation,
+        IOperation command,
         Dictionary<TextSpan, IInvocationOperation> setters)
     {
         if (setters.Count == 0 || CreateGraph(root) is not { } rootGraph
@@ -26,7 +28,7 @@ internal sealed class CommandLineActionFlow(
             return [];
         }
 
-        return new CommandLineActionFlow(graph, invocation, setters).Analyze();
+        return new CommandLineActionFlow(graph, invocation, command, setters).Analyze();
     }
 
     private IEnumerable<IInvocationOperation> Analyze()
@@ -104,6 +106,13 @@ internal sealed class CommandLineActionFlow(
         {
             FollowException(block, null, state, continuation, filter);
         }
+
+        if (operation is IObjectCreationOperation && operation.Syntax.Span == command.Syntax.Span)
+        {
+            // Re-executing an allocation creates a fresh command, including on loop back-edges.
+            // Constructor exceptions retain the previous instance's state on their exception path.
+            state.Clear();
+        }
     }
 
     private static bool CanThrow(IOperation operation, BasicBlock block)
@@ -135,9 +144,22 @@ internal sealed class CommandLineActionFlow(
         || (!conversion.IsTryCast && !conversion.Conversion.IsImplicit
             && !conversion.Conversion.IsNumeric && !conversion.Conversion.IsIdentity);
 
-    private static bool CanBinaryThrow(IBinaryOperation binary) =>
-        binary.IsChecked || binary.OperatorMethod is not null
-        || binary.OperatorKind is BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder;
+    private static bool CanBinaryThrow(IBinaryOperation binary)
+    {
+        if (binary.OperatorMethod is not null)
+        {
+            return true;
+        }
+
+        var operandType = binary.LeftOperand.Type;
+        if (operandType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
+        {
+            operandType = nullable.TypeArguments[0];
+        }
+
+        return operandType?.SpecialType is not (SpecialType.System_Single or SpecialType.System_Double)
+            && (binary.IsChecked || binary.OperatorKind is BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder);
+    }
 
     private void Follow(ControlFlowBranch? branch, HashSet<TextSpan> state, ImmutableArray<int> continuation,
         FilterContext? filter)
@@ -155,15 +177,7 @@ internal sealed class CommandLineActionFlow(
 
         if (branch.Semantics == ControlFlowBranchSemantics.StructuredExceptionHandling)
         {
-            if (filter is not null)
-            {
-                RejectFilter(filter, state);
-            }
-            else if (!continuation.IsEmpty)
-            {
-                Enqueue(continuation[0], continuation.RemoveAt(0), state);
-            }
-
+            FollowStructuredExceptionHandling(state, continuation, filter);
             return;
         }
 
@@ -173,6 +187,19 @@ internal sealed class CommandLineActionFlow(
         }
 
         FollowDestination(branch, destination, state, continuation, filter);
+    }
+
+    private void FollowStructuredExceptionHandling(HashSet<TextSpan> state, ImmutableArray<int> continuation,
+        FilterContext? filter)
+    {
+        if (filter is not null)
+        {
+            RejectFilter(filter, state);
+        }
+        else if (!continuation.IsEmpty)
+        {
+            Enqueue(continuation[0], continuation.RemoveAt(0), state);
+        }
     }
 
     private static ITypeSymbol? GetThrownType(IOperation? thrown)

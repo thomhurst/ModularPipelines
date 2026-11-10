@@ -456,7 +456,7 @@ internal static class ModuleAuthoringAnalysis
                 && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command))
             .ToDictionary(static setter => setter.Syntax.Span);
 
-        return CommandLineActionFlow.GetReachingSetters(root, invocation, setters);
+        return CommandLineActionFlow.GetReachingSetters(root, invocation, command, setters);
     }
 
     private static IOperation? GetCommandLineReceiverOrigin(IInvocationOperation invocation)
