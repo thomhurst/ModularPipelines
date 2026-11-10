@@ -270,6 +270,49 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("tokens[0] == (alias = ref other)", false, true)]
+    [DataRow("MayThrow() | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(alias = ref token).CanBeCanceled | tokens[0].CanBeCanceled | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(1 / tokens.Length > 0) | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("tokens[0] == (alias = ref other)", true, false)]
+    [DataRow("(alias = ref other).CanBeCanceled | MayThrow()", false, false)]
+    [DataRow("(alias = ref other).CanBeCanceled | tokens[0].CanBeCanceled", false, false)]
+    [DataRow("tokens[(alias = ref other).GetHashCode()] == other", false, false)]
+    [DataRow("choice switch { 1 => (alias = ref other).CanBeCanceled }", false, true)]
+    [DataRow("choice switch { _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("checked(++number) > 0 | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(alias = ref other).CanBeCanceled | checked(++number) > 0", false, false)]
+    public async Task Tracks_Throwing_Exception_Filter_Bindings(string filter, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                var tokens = Array.Empty<CancellationToken>();
+                var choice = Environment.TickCount;
+                var number = int.MaxValue;
+                try { throw new Exception(); }
+                catch (Exception) when ({{filter}}) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static bool MayThrow() => throw new Exception();
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""
