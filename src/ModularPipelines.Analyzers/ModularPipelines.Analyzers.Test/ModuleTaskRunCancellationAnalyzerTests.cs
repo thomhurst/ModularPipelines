@@ -151,6 +151,10 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("ResetOut(out token);", false)]
     [DataRow("(token, _) = (CancellationToken.None, 0);", false)]
     [DataRow("token = CancellationToken.None;", true)]
+    [DataRow("void ResetLocal() { token = default; } ResetLocal();", false)]
+    [DataRow("void ResetLocal() { token = default; } Action reset = ResetLocal; reset();", false)]
+    [DataRow("Action reset = () => token = default; Store(reset);", false)]
+    [DataRow("void ResetLocal<T>() { token = default; } Store(ResetLocal<int>);", false)]
     public async Task Reports_Overwritten_Helper_Token_Captured_By_Callback(string write, bool insideCallback)
     {
         var source = ModuleSource($$"""
@@ -169,6 +173,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
 
             private static void Reset(ref CancellationToken token) => token = default;
             private static void ResetOut(out CancellationToken token) => token = default;
+            private static void Store(Action callback) { }
             """);
 
         await VerifyCallAsync(source, false, "Delay");
@@ -177,6 +182,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [TestMethod]
     [DataRow("Read(in token);")]
     [DataRow("if (false) { token = default; }")]
+    [DataRow("void ResetLocal() { token = default; }")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); dictionary[token] = 1;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); (dictionary[token], _) = (1, 2);")]
     public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)

@@ -857,8 +857,11 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsParameterWritten(IOperation operation, IParameterSymbol parameter)
     {
-        return operation.DescendantsAndSelf()
+        var operations = operation.DescendantsAndSelf().ToImmutableArray();
+        var reachableCallables = GetPotentiallyExecutedCallables(operation, operations);
+        return operations
             .Where(IsInReachableBranch)
+            .Where(candidate => IsInsideReachableCallable(candidate, reachableCallables))
             .Select(static candidate => candidate switch
             {
                 IAssignmentOperation assignment => assignment.Target,
@@ -866,6 +869,34 @@ internal static class ModuleAuthoringAnalysis
                 _ => null,
             })
             .Any(target => AssignsParameter(target, parameter));
+    }
+
+    private static HashSet<IMethodSymbol> GetPotentiallyExecutedCallables(
+        IOperation operation,
+        ImmutableArray<IOperation> operations)
+    {
+        var invocations = operations.OfType<IInvocationOperation>().ToImmutableArray();
+        var callables = operations.Select(GetCallableSymbol).OfType<IMethodSymbol>().ToImmutableArray();
+        var reachable = GetReachableCallables(invocations, callables, GetCallableSymbol(operation));
+        int previousCount;
+        do
+        {
+            previousCount = reachable.Count;
+            foreach (var candidate in operations
+                         .Where(static candidate => candidate is IAnonymousFunctionOperation or IMethodReferenceOperation)
+                         .Where(IsInReachableBranch)
+                         .Where(candidate => IsInsideReachableCallable(candidate, reachable)))
+            {
+                // Referenced delegates can escape even when their invoker is unknown.
+                var target = candidate is IAnonymousFunctionOperation anonymous
+                    ? anonymous.Symbol
+                    : ((IMethodReferenceOperation) candidate).Method.OriginalDefinition;
+                reachable.UnionWith(GetReachableCallables(invocations, callables, target));
+            }
+        }
+        while (previousCount != reachable.Count);
+
+        return reachable;
     }
 
     private static bool AssignsParameter(IOperation? target, IParameterSymbol parameter) =>
