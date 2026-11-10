@@ -94,7 +94,7 @@ building, and restore it even if validation fails:
 ```powershell
 Rename-Item -LiteralPath node_modules/deepmerge -NewName deepmerge-assessment-disabled
 try {
-  node -e 'try { require.resolve("deepmerge"); process.exit(1); } catch (error) { if (error.code !== "MODULE_NOT_FOUND") throw error; }'
+  node -e 'try { require.resolve(''deepmerge''); process.exit(1); } catch (error) { if (error.code !== ''MODULE_NOT_FOUND'') throw error; }'
   if ($LASTEXITCODE -ne 0) { throw 'deepmerge still resolves; check ancestor node_modules directories' }
   yarn build
   if ($LASTEXITCODE -ne 0) { throw 'Documentation build failed' }
