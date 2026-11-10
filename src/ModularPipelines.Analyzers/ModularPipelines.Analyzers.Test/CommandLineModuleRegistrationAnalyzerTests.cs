@@ -160,6 +160,172 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("", true)]
+    [DataRow("return 0;", false)]
+    [DataRow("throw;", false)]
+    [DataRow("command.SetAction(_ => { });", false)]
+    public async Task Tracks_Actions_After_Caught_Exception(string handler, bool registered)
+    {
+        var source = Source($$"""
+            try
+            {
+                if (args.Length > 0)
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    throw new InvalidOperationException();
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                {{handler}}
+            }
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_After_Unconditional_Caught_Exception()
+    {
+        await VerifyAsync(Source("""
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                throw new InvalidOperationException();
+            }
+            catch (InvalidOperationException) { }
+            return command.Parse(args).Invoke();
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("InvalidOperationException", "", true)]
+    [DataRow("ArgumentException", "", false)]
+    [DataRow("InvalidOperationException", "when (true)", true)]
+    [DataRow("InvalidOperationException", "when (false)", false)]
+    [DataRow("ArgumentException", "when (true)", false)]
+    public async Task Matches_Exception_Handler_Before_Later_Invocation(string caught, string filter, bool registered)
+    {
+        var source = Source($$"""
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                throw new InvalidOperationException();
+            }
+            catch ({{caught}}) {{filter}} { }
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("", true)]
+    [DataRow("command.SetAction(_ => { });", false)]
+    [DataRow("throw new InvalidOperationException();", false)]
+    public async Task Tracks_Action_Through_Finally_Before_Later_Invocation(string cleanup, bool registered)
+    {
+        var source = Source($$"""
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            }
+            finally { {{cleanup}} }
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_Invoked_In_Filter_Before_Finally_Replacement()
+    {
+        await VerifyAsync(Source("""
+            try
+            {
+                try
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    throw new InvalidOperationException();
+                }
+                finally { command.SetAction(_ => { }); }
+            }
+            catch (InvalidOperationException) when (command.Parse(args).Invoke() == 0) { }
+            """));
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_When_Thrown_Variable_Has_Base_Type()
+    {
+        await VerifyAsync(Source("""
+            Exception error = new InvalidOperationException();
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                throw error;
+            }
+            catch (InvalidOperationException) { }
+            return command.Parse(args).Invoke();
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("for (var i = 0; i < 2; i++)", "", "", true)]
+    [DataRow("for (var i = 0; i < 2; i++)", "", "break;", false)]
+    [DataRow("for (var i = 0; i < 2; i++)", "", "return 0;", false)]
+    [DataRow("for (var i = 0; i < 2; i++)", "command.SetAction(_ => { });", "", false)]
+    [DataRow("for (var i = 0; i < 2; i++)", "", "command.SetAction(_ => { });", false)]
+    [DataRow("do", "", "", false)]
+    [DataRow("do", "", "if (args.Length > 0) goto Again;", true)]
+    public async Task Tracks_Actions_Installed_After_Invocation(string loop, string beforeInvocation, string afterSetter, bool registered)
+    {
+        var source = Source($$"""
+            command.SetAction(_ => { });
+            {{loop}}
+            {
+                Again:
+                {{beforeInvocation}}
+                command.Parse(args).Invoke();
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{afterSetter}}
+            } {{(loop == "do" ? "while (false);" : string.Empty)}}
+            return 0;
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_Invoked_Before_Replacement_In_Loop()
+    {
+        await VerifyAsync(Source("""
+            for (var i = 0; i < 2; i++)
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                command.Parse(args).Invoke();
+                command.SetAction(_ => { });
+            }
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("Action run = () =>", ";")]
+    [DataRow("void run()", "")]
+    public async Task Recognizes_Action_In_Invoked_Nested_Callable(string declaration, string terminator)
+    {
+        await VerifyAsync(Source($$"""
+            {{declaration}}
+            {
+                var nestedCommand = new System.CommandLine.RootCommand();
+                nestedCommand.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                nestedCommand.Parse(args).Invoke();
+            }{{terminator}}
+            run();
+            """));
+    }
+
+    [TestMethod]
     [DataRow("Replace:", false)]
     [DataRow("Replace: Another:", false)]
     [DataRow("", true)]
