@@ -36,6 +36,13 @@ public class OperationExceptionClassifierTests
     [DataRow("long", "decimal", false)]
     [DataRow("decimal", "double", false)]
     [DataRow("decimal", "float", false)]
+    [DataRow("decimal?", "double?", false)]
+    [DataRow("decimal?", "float?", false)]
+    [DataRow("int?", "long?", false)]
+    [DataRow("E?", "long?", false)]
+    [DataRow("decimal?", "double", true)]
+    [DataRow("int?", "long", true)]
+    [DataRow("object", "int?", true)]
     [DataRow("double", "int", false)]
     public void UncheckedNumericConversions(string from, string to, bool throws)
     {

@@ -271,7 +271,14 @@ internal sealed class OperationExceptionClassifier(
         conversion.IsChecked || conversion.Conversion.IsUserDefined || CanNumericConversionOverflow(conversion)
         || (!conversion.IsTryCast && !conversion.Conversion.IsIdentity
             && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
-                || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric)));
+                || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric
+                    && !IsNullableTargetConversion(conversion))));
+
+    // CommonConversion does not mark lifted numeric conversions as numeric. A nullable target preserves null;
+    // a non-nullable target can still throw when unwrapping an empty nullable value.
+    private static bool IsNullableTargetConversion(IConversionOperation conversion) =>
+        conversion.Type is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T }
+        && conversion.GetConversion().IsNullable;
 
     // Decimal narrowing and floating-point-to-decimal conversions can overflow even in unchecked code.
     private static bool CanNumericConversionOverflow(IConversionOperation conversion) =>
