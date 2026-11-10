@@ -410,7 +410,20 @@ internal sealed class ReachingDefinitionFlow(
                 yield return value;
             }
         }
+        else if (SymbolEqualityComparer.Default.Equals(GetPatternLocal(operation), localSymbol))
+        {
+            // Pattern matching defines the local, but its extracted value has no independent expression.
+            yield return null;
+        }
     }
+
+    private static ISymbol? GetPatternLocal(IOperation operation) => operation switch
+    {
+        IDeclarationPatternOperation pattern => pattern.DeclaredSymbol,
+        IRecursivePatternOperation pattern => pattern.DeclaredSymbol,
+        IListPatternOperation pattern => pattern.DeclaredSymbol,
+        _ => null,
+    };
 
     private static IEnumerable<IOperation?> GetDeconstructedValues(IOperation target, IOperation value,
         ILocalSymbol localSymbol)
@@ -518,7 +531,7 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
-        if (operation is not (IAssignmentOperation or IVariableDeclaratorOperation or IIncrementOrDecrementOperation))
+        if (operation is not (IAssignmentOperation or IVariableDeclaratorOperation or IIncrementOrDecrementOperation or IPatternOperation))
         {
             return;
         }
@@ -568,19 +581,59 @@ internal sealed class ReachingDefinitionFlow(
         };
     }
 
-    // Each interpolation formats after its expression, before the next hole and enclosing store.
-    // FormattableString conversions defer formatting; their implicit factory does not call ToString.
+    private static bool CanFormattingThrow(IInterpolationOperation interpolation) =>
+        interpolation.Alignment is not null
+        || (interpolation.Expression.Type?.SpecialType != SpecialType.System_String
+            && interpolation.Expression is not { ConstantValue: { HasValue: true, Value: null } });
+
+    private bool DefersInterpolationFormatting(IInterpolatedStringOperation text)
+    {
+        if (_operationRoot.SemanticModel is not { } model)
+        {
+            return false;
+        }
+
+        var destination = model.GetTypeInfo(text.Syntax).ConvertedType;
+        return SymbolEqualityComparer.Default.Equals(destination, model.Compilation.GetTypeByMetadataName("System.FormattableString"))
+            || SymbolEqualityComparer.Default.Equals(destination, model.Compilation.GetTypeByMetadataName("System.IFormattable"));
+    }
+
+    private bool FormatsEachInterpolation(IInterpolatedStringOperation text)
+    {
+        if (text.Syntax.SyntaxTree.Options is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp10 }
+            || _operationRoot.SemanticModel is not { } model
+            || model.Compilation.GetTypeByMetadataName("System.Runtime.CompilerServices.DefaultInterpolatedStringHandler") is null)
+        {
+            return false;
+        }
+
+        // Await and dynamic holes require the factory lowering instead of a ref-struct handler.
+        if (text.DescendantsAndSelf().Any(static part => part is IAwaitOperation || part.Type?.TypeKind == TypeKind.Dynamic))
+        {
+            return false;
+        }
+
+        var expressionType = model.Compilation.GetTypeByMetadataName("System.Linq.Expressions.Expression`1");
+        return !text.Syntax.Ancestors().OfType<AnonymousFunctionExpressionSyntax>().Any(lambda =>
+            model.GetTypeInfo(lambda).ConvertedType is INamedTypeSymbol converted
+            && SymbolEqualityComparer.Default.Equals(converted.OriginalDefinition, expressionType));
+    }
+
+    // Handlers format after each hole; string.Format evaluates every argument before formatting.
+    // FormattableString/IFormattable defer formatting, unlike conversions of the finished string to object/interfaces.
     private bool CanInterpolationThrow(IInterpolationOperation interpolation) =>
-        interpolation.Syntax.Parent is InterpolatedStringExpressionSyntax syntax
-        && _operationRoot.SemanticModel?.GetTypeInfo(syntax).ConvertedType?.SpecialType == SpecialType.System_String
-        && (interpolation.Alignment is not null
-            || (interpolation.Expression.Type?.SpecialType != SpecialType.System_String
-                && interpolation.Expression is not { ConstantValue: { HasValue: true, Value: null } }));
+        interpolation.Parent is IInterpolatedStringOperation text
+        && !DefersInterpolationFormatting(text) && FormatsEachInterpolation(text) && CanFormattingThrow(interpolation);
+
+    private bool CanCompletedInterpolationThrow(IInterpolatedStringOperation text) =>
+        !DefersInterpolationFormatting(text) && !FormatsEachInterpolation(text)
+        && text.Parts.OfType<IInterpolationOperation>().Any(CanFormattingThrow);
 
     // Formatting and concatenation can call user code without an invocation child.
     private bool CanImplicitStringCallThrow(IOperation operation) => operation switch
     {
         IInterpolationOperation interpolation => CanInterpolationThrow(interpolation),
+        IInterpolatedStringOperation text => CanCompletedInterpolationThrow(text),
         IBinaryOperation { OperatorKind: BinaryOperatorKind.Add, Type.SpecialType: SpecialType.System_String } binary =>
             CanConcatenationOperandThrow(binary.LeftOperand) || CanConcatenationOperandThrow(binary.RightOperand),
         ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Add } assignment

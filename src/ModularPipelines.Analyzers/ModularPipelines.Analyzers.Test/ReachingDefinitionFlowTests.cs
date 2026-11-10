@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -425,8 +426,61 @@ public class ReachingDefinitionFlowTests
         catch when ([|Observe(value)|]) { }
         """, "\"old\"");
 
+    [TestMethod]
+    [DataRow("object text = $\"{item}\";", "\"old\"")]
+    [DataRow("object text = $\"{item}{(value = \"later\")}\";", "\"old\"")]
+    [DataRow("IComparable text = $\"{item}\";", "\"old\"")]
+    [DataRow("object text = $\"{(string)null}\";", "")]
+    public void Interpolation_Converted_String_Still_Formats(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; try { " + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    [DataRow("var text = $\"{item}{(value = \"later\")}\";", "\"later\"")]
+    [DataRow("object text = $\"{item}{(value = \"later\")}\";", "\"later\"")]
+    [DataRow("value = $\"{item}{(value = \"later\")}\";", "\"later\"")]
+    [DataRow("var text = $\"{(value = \"first\")}{item}\";", "\"first\"")]
+    [DataRow("FormattableString text = $\"{item}{(value = \"later\")}\";", "")]
+    [DataRow("IFormattable text = $\"{item}{(value = \"later\")}\";", "")]
+    [DataRow("var text = $\"{(string)null}{(value = \"later\")}\";", "")]
+    public void Legacy_Interpolation_Formats_After_All_Arguments(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; try { " + statement + " } catch { [|Use(value)|]; }", expected,
+        languageVersion: LanguageVersion.CSharp9);
+
+    [TestMethod]
+    public async Task Interpolation_Without_Runtime_Handler_Formats_After_All_Arguments()
+    {
+        var references = await ReferenceAssemblies.NetStandard.NetStandard20.ResolveAsync(LanguageNames.CSharp, CancellationToken.None);
+        AssertFlow("""
+            string value = "old";
+            try { var text = $"{item}{(value = "later")}"; }
+            catch { [|Use(value)|]; }
+            """, "\"later\"", references: references);
+    }
+
+    [TestMethod]
+    public void Dynamic_Interpolation_Formats_After_All_Arguments() => AssertFlow("""
+        string value = "old";
+        dynamic source = item;
+        try { var text = $"{source}{(value = "later")}"; }
+        catch { [|Use(value)|]; }
+        """, "\"later\"");
+
+    [TestMethod]
+    [DataRow("if (item is string value) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is var value) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is Holder { Field: var value }) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is Holder value) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is Holder { } value) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is string[] array && array is [var value]) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is string[] array && array is [..] value) { [|Use(value)|]; }", false, "")]
+    [DataRow("if (item is string value) { value = \"known\"; [|Use(value)|]; }", true, "\"known\"")]
+    [DataRow("if (item is string value) { Action nested = () => [|Use(value)|]; }", true, "")]
+    public void Pattern_Definitions_Are_Unsupported_Until_Overwritten(string body, bool supported, string expected) =>
+        AssertFlow(body, expected, incoming: body.Contains("Action nested", StringComparison.Ordinal), supported: supported);
+
     private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false,
-        bool supported = true)
+        bool supported = true, LanguageVersion languageVersion = LanguageVersion.Preview,
+        IEnumerable<MetadataReference>? references = null)
     {
         var source = $$"""
             using System;
@@ -479,8 +533,8 @@ public class ReachingDefinitionFlowTests
         Assert.IsGreaterThanOrEqualTo(0, start);
         var span = new TextSpan(start, end - start - 2);
         source = source.Remove(end, 2).Remove(start, 2);
-        var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.Preview));
-        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator)
+        var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(languageVersion));
+        references ??= ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator)
             .Select(static path => MetadataReference.CreateFromFile(path));
         var compilation = CSharpCompilation.Create("FlowTest", [tree], references,
             new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
@@ -490,7 +544,8 @@ public class ReachingDefinitionFlowTests
         var method = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().Single(static method => method.Identifier.ValueText == "Run");
         var root = model.GetOperation(method)!;
         var operation = root.DescendantsAndSelf().First(candidate => candidate.Syntax.Span == span);
-        var local = root.DescendantsAndSelf().OfType<IVariableDeclaratorOperation>().First(static declarator => declarator.Symbol.Name == "value").Symbol;
+        var local = method.DescendantNodes().Select(node => model.GetDeclaredSymbol(node)).OfType<ILocalSymbol>()
+            .First(static symbol => symbol.Name == "value");
         Assert.AreEqual(supported, ReachingDefinitionFlow.TryGetReachingLocalValues(root, operation, local, out var values, out var inherits));
         Assert.AreEqual(incoming, inherits);
         Assert.AreSequenceEqual([.. expected.Split('|', StringSplitOptions.RemoveEmptyEntries).Order(StringComparer.Ordinal)], [.. values.Select(static value => value.Syntax.ToString()).Order(StringComparer.Ordinal)], "Actual definitions: " + string.Join(" | ", values.Select(static value => value.Syntax.ToString())));
