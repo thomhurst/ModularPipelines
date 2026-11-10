@@ -29,19 +29,23 @@ internal sealed class OperationExceptionClassifier(
             return [receiver];
         }
 
+        var result = ImmutableArray.CreateBuilder<string?>();
         if (GetArrayAccess(operation) is { } array)
         {
-            return CanArrayAccessMismatch(operation, array, deconstructionStore, storedValue)
-                ? ["System.NullReferenceException", "System.IndexOutOfRangeException", "System.ArrayTypeMismatchException"]
-                : ["System.NullReferenceException", "System.IndexOutOfRangeException"];
+            result.Add("System.NullReferenceException");
+            result.Add("System.IndexOutOfRangeException");
+            if (CanArrayAccessMismatch(operation, array, deconstructionStore, storedValue))
+            {
+                result.Add("System.ArrayTypeMismatchException");
+            }
         }
 
         if (arithmetic == ArithmeticExceptions.Unknown || CanThrow(operation))
         {
-            return [null];
+            result.Add(null);
+            return result.ToImmutable();
         }
 
-        var result = ImmutableArray.CreateBuilder<string?>();
         if ((arithmetic & ArithmeticExceptions.DivideByZero) != 0)
         {
             result.Add("System.DivideByZeroException");
@@ -64,12 +68,15 @@ internal sealed class OperationExceptionClassifier(
     private string? GetReceiverExceptionName(IOperation operation)
     {
         var field = GetFieldAccess(operation);
-        if (field is { Field: { IsStatic: true, IsConst: false } })
+        var eventAccess = GetEventAccess(operation);
+        if (field is { Field: { IsStatic: true, IsConst: false } } || eventAccess is { Event.IsStatic: true })
         {
             return "System.TypeInitializationException";
         }
 
-        return (field is not null && HasNullableReceiver(field.Instance)) || IsThrowingMethodReference(operation)
+        return (field is not null && HasNullableReceiver(field.Instance))
+            || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance))
+            || IsThrowingMethodReference(operation)
             ? "System.NullReferenceException"
             : null;
     }
@@ -80,7 +87,7 @@ internal sealed class OperationExceptionClassifier(
     private static IArrayElementReferenceOperation? GetArrayAccess(IOperation operation) => operation switch
     {
         // A store checks the array after evaluating its assigned value.
-        ISimpleAssignmentOperation { Target: IArrayElementReferenceOperation array } => array,
+        IAssignmentOperation { Target: IArrayElementReferenceOperation array } => array,
         IArrayElementReferenceOperation array when !IsSimpleAssignmentTarget(array) => array,
         _ => null,
     };
@@ -99,7 +106,8 @@ internal sealed class OperationExceptionClassifier(
         {
             Parent: IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } }
         } => true,
-        ISimpleAssignmentOperation assignment =>
+        ICompoundAssignmentOperation { Target: IArrayElementReferenceOperation } => true,
+        IAssignmentOperation assignment =>
             !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
         IArrayElementReferenceOperation
         {
@@ -185,7 +193,7 @@ internal sealed class OperationExceptionClassifier(
         }
 
         // Await and dynamic holes require the factory lowering instead of a ref-struct handler.
-        if (text.DescendantsAndSelf().Any(static part => part is IAwaitOperation || part.Type?.TypeKind == TypeKind.Dynamic))
+        if (EvaluatedInterpolationParts(text).Any(static part => part is IAwaitOperation || part.Type?.TypeKind == TypeKind.Dynamic))
         {
             return false;
         }
@@ -194,6 +202,24 @@ internal sealed class OperationExceptionClassifier(
         return !text.Syntax.Ancestors().OfType<AnonymousFunctionExpressionSyntax>().Any(lambda =>
             model.GetTypeInfo(lambda).ConvertedType is INamedTypeSymbol converted
             && SymbolEqualityComparer.Default.Equals(converted.OriginalDefinition, expressionType));
+    }
+
+    // Deferred function bodies do not affect the enclosing string's lowering.
+    private static IEnumerable<IOperation> EvaluatedInterpolationParts(IOperation operation)
+    {
+        yield return operation;
+        if (operation is IAnonymousFunctionOperation or ILocalFunctionOperation)
+        {
+            yield break;
+        }
+
+        foreach (var child in operation.ChildOperations)
+        {
+            foreach (var part in EvaluatedInterpolationParts(child))
+            {
+                yield return part;
+            }
+        }
     }
 
     // Handlers format after each hole; string.Format evaluates every argument before formatting.
@@ -259,6 +285,16 @@ internal sealed class OperationExceptionClassifier(
         _ => null,
     };
 
+    // Field-like event reads and direct writes use backing-field timing. Add/remove calls
+    // are classified separately at event-assignment completion.
+    private static IEventReferenceOperation? GetEventAccess(IOperation operation) => operation switch
+    {
+        ISimpleAssignmentOperation { Target: IEventReferenceOperation eventAccess } => eventAccess,
+        IEventReferenceOperation eventAccess when !IsSimpleAssignmentTarget(eventAccess)
+            && eventAccess.Parent is not IEventAssignmentOperation => eventAccess,
+        _ => null,
+    };
+
     private bool IsThrowingMethodReference(IOperation operation) =>
         operation is IMethodReferenceOperation { Method: { IsStatic: false, ReducedFrom: null } } method
         && HasNullableReceiver(method.Instance);
@@ -267,12 +303,36 @@ internal sealed class OperationExceptionClassifier(
         receiver is { Type.IsReferenceType: true } and not IInstanceReferenceOperation
         && isKnownNonNull?.Invoke(receiver) != true;
 
-    private static bool CanConversionThrow(IConversionOperation conversion) =>
+    private bool CanConversionThrow(IConversionOperation conversion) =>
         conversion.IsChecked || conversion.Conversion.IsUserDefined || CanNumericConversionOverflow(conversion)
         || (!conversion.IsTryCast && !conversion.Conversion.IsIdentity
             && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
                 || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric
-                    && !IsNullableTargetConversion(conversion))));
+                    && !IsNullableTargetConversion(conversion) && !IsSafeEnumerationConversion(conversion))));
+
+    private bool IsSafeEnumerationConversion(IConversionOperation conversion) =>
+        conversion.GetConversion().IsEnumeration
+        && conversion.Operand.Type is not INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T }
+        && !IsInCheckedContext(conversion);
+
+    // Roslyn does not set IConversionOperation.IsChecked for every enumeration conversion.
+    private bool IsInCheckedContext(IOperation operation)
+    {
+        foreach (var syntax in operation.Syntax.Ancestors())
+        {
+            if (syntax is CheckedExpressionSyntax expression)
+            {
+                return expression.Keyword.IsKind(SyntaxKind.CheckedKeyword);
+            }
+
+            if (syntax is CheckedStatementSyntax statement)
+            {
+                return statement.Keyword.IsKind(SyntaxKind.CheckedKeyword);
+            }
+        }
+
+        return semanticModel?.Compilation.Options is CSharpCompilationOptions { CheckOverflow: true };
+    }
 
     // CommonConversion does not mark lifted numeric conversions as numeric. A nullable target preserves null;
     // a non-nullable target can still throw when unwrapping an empty nullable value.

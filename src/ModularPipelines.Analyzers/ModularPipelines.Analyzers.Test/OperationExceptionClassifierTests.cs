@@ -40,13 +40,18 @@ public class OperationExceptionClassifierTests
     [DataRow("decimal?", "float?", false)]
     [DataRow("int?", "long?", false)]
     [DataRow("E?", "long?", false)]
+    [DataRow("E", "long", false)]
+    [DataRow("int", "E", false)]
+    [DataRow("E", "Other", false)]
+    [DataRow("decimal", "E?", true)]
+    [DataRow("E?", "long", true)]
     [DataRow("decimal?", "double", true)]
     [DataRow("int?", "long", true)]
     [DataRow("object", "int?", true)]
     [DataRow("double", "int", false)]
     public void UncheckedNumericConversions(string from, string to, bool throws)
     {
-        var (root, classifier) = Compile($"enum E {{ A }} class C {{ {to} M({from} x) => unchecked(({to})x); }}");
+        var (root, classifier) = Compile($"enum E {{ A }} enum Other {{ A }} class C {{ {to} M({from} x) => unchecked(({to})x); }}");
         var conversion = root.DescendantsAndSelf().OfType<IConversionOperation>()
             .Single(operation => operation.Syntax is CastExpressionSyntax);
         Assert.AreEqual(throws, !classifier.Classify(conversion).IsEmpty);
@@ -104,6 +109,51 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("() => d.P")]
+    [DataRow("async () => await task")]
+    public void NestedLambdaDoesNotDeferOuterInterpolationFormatting(string lambda)
+    {
+        var (root, classifier) = Compile($$"""
+            class C {
+                object Make(System.Func<object> action) => null;
+                object Make(System.Func<System.Threading.Tasks.Task<object>> action) => null;
+                object Later() => null;
+                string M(dynamic d, System.Threading.Tasks.Task<object> task) => $"{Make({{lambda}})}{Later()}";
+            }
+            """);
+        var text = root.DescendantsAndSelf().OfType<IInterpolatedStringOperation>().Single();
+        Assert.IsTrue(classifier.Classify(text).IsEmpty);
+        Assert.IsTrue(text.Parts.OfType<IInterpolationOperation>().All(hole => !classifier.Classify(hole).IsEmpty));
+    }
+
+    [TestMethod]
+    [DataRow("??= value", true)]
+    [DataRow("??= null", false)]
+    [DataRow("+= (dynamic)value", true)]
+    public void ConditionalAndCompoundArrayStoresClassifyMismatchAfterValue(string store, bool mismatch)
+    {
+        var (root, classifier) = Compile($"class C {{ void M(object[] a, object value) {{ a[0] {store}; }} }}");
+        var assignment = root.DescendantsAndSelf().OfType<IAssignmentOperation>().Single();
+        Assert.DoesNotContain("System.ArrayTypeMismatchException", classifier.Classify(assignment.Target));
+        Assert.Contains("System.NullReferenceException", classifier.Classify(assignment.Target));
+        Assert.Contains("System.IndexOutOfRangeException", classifier.Classify(assignment.Target));
+        Assert.AreEqual(mismatch, classifier.Classify(assignment).Contains("System.ArrayTypeMismatchException"));
+        Assert.DoesNotContain("System.ArrayTypeMismatchException",
+            new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(assignment));
+    }
+
+    [TestMethod]
+    [DataRow("object", "a[0] += (dynamic)value;", "?")]
+    [DataRow("int", "checked { a[0] += value; }", "System.OverflowException")]
+    [DataRow("int", "a[0] /= value;", "System.DivideByZeroException")]
+    public void CompoundArrayStoresPreserveOperatorExceptions(string type, string statement, string expected)
+    {
+        var (root, classifier) = Compile($"class C {{ void M({type}[] a, {type} value) {{ {statement} }} }}");
+        var assignment = root.DescendantsAndSelf().OfType<ICompoundAssignmentOperation>().Single();
+        Assert.Contains(expected, classifier.Classify(assignment).Select(name => name ?? "?"));
+    }
+
+    [TestMethod]
     [DataRow("x + y", true)]
     [DataRow("x + (string)y", false)]
     [DataRow("x + 1", true)]
@@ -127,6 +177,44 @@ public class OperationExceptionClassifierTests
         Assert.IsTrue(classifier.Classify(array.Target).IsEmpty);
         Assert.Contains("System.ArrayTypeMismatchException", classifier.Classify(array));
         Assert.DoesNotContain("System.ArrayTypeMismatchException", new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+    }
+
+    [TestMethod]
+    [DataRow("c.E", false, false)]
+    [DataRow("c.E = value", true, false)]
+    [DataRow("E", false, true)]
+    [DataRow("E = value", true, true)]
+    public void FieldLikeEventAccessPreservesReceiverTiming(string expression, bool store, bool isStatic)
+    {
+        var (root, classifier) = Compile($$"""
+            class C {
+                {{(isStatic ? "static " : "")}}event System.Action E;
+                System.Action M(C c, System.Action value) => {{expression}};
+            }
+            """);
+        var access = root.DescendantsAndSelf().OfType<IEventReferenceOperation>().Single();
+        var operation = store ? access.Parent! : access;
+        if (store)
+        {
+            Assert.IsTrue(classifier.Classify(access).IsEmpty);
+        }
+
+        Assert.AreSequenceEqual(isStatic ? StaticInitializationExceptions : NullReceiverExceptions,
+            classifier.Classify(operation).ToArray());
+        if (!isStatic)
+        {
+            Assert.IsTrue(new OperationExceptionClassifier(isKnownNonNull: _ => true).Classify(operation).IsEmpty);
+        }
+    }
+
+    [TestMethod]
+    [DataRow("checked((E)x)", true)]
+    [DataRow("checked(unchecked((E)x))", false)]
+    public void EnumerationConversionsRespectCheckedContext(string expression, bool throws)
+    {
+        var (root, classifier) = Compile($"enum E : byte {{ A }} class C {{ E M(int x) => {expression}; }}");
+        var conversion = root.DescendantsAndSelf().OfType<IConversionOperation>().Single();
+        Assert.AreEqual(throws, !classifier.Classify(conversion).IsEmpty);
     }
 
     [TestMethod]
