@@ -1341,14 +1341,7 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            var (conditions, body) = branch switch
-            {
-                ISwitchCaseOperation @case =>
-                    (@case.Clauses.Cast<IOperation?>(), @case.Body.AsEnumerable()),
-                ISwitchExpressionArmOperation arm =>
-                    (new IOperation?[] { arm.Guard }, new[] { arm.Value }.AsEnumerable()),
-                _ => throw new InvalidOperationException("Expected a switch case or expression arm."),
-            };
+            var (conditions, body) = GetParameterWriteSwitchBranch(branch);
             var branchStorage = new ParameterWriteState(storage, copyAliases: false);
             if (VisitParameterWriteSwitchConditions(branch, conditions, remaining, branchStorage, filterExceptions))
             {
@@ -1377,6 +1370,19 @@ internal static class ModuleAuthoringAnalysis
         storage.Clear();
         storage.UnionWith(merged);
         return false;
+    }
+
+    private static (IEnumerable<IOperation?> Conditions, IEnumerable<IOperation> Body) GetParameterWriteSwitchBranch(
+        IOperation branch)
+    {
+        return branch switch
+        {
+            ISwitchCaseOperation @case =>
+                (@case.Clauses.Cast<IOperation?>(), @case.Body.AsEnumerable()),
+            ISwitchExpressionArmOperation arm =>
+                (new IOperation?[] { arm.Guard }, new[] { arm.Value }.AsEnumerable()),
+            _ => throw new InvalidOperationException("Expected a switch case or expression arm."),
+        };
     }
 
     private static bool VisitParameterWriteSwitchConditions(
