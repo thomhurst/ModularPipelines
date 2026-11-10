@@ -48,12 +48,14 @@ internal interface IHttpLogger
     /// <param name="logger">The current module logger.</param>
     /// <param name="options">Options controlling what parts of the request to log.</param>
     /// <param name="cancellationToken">A token to cancel request formatting.</param>
+    /// <param name="baseAddress">The client base address used to identify webhook credentials.</param>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     Task PrintRequest(
         HttpRequestMessage request,
         ILogger logger,
         HttpLoggingOptions options,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Uri? baseAddress = null)
     {
         return PrintRequest(request, logger, options).WaitAsync(cancellationToken);
     }

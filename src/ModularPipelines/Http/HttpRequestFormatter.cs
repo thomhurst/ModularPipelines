@@ -57,11 +57,11 @@ internal class HttpRequestFormatter(
         return FormatAsync(request, HttpLoggingOptions.Default, cancellationToken);
     }
 
-    public async Task<string> FormatAsync(HttpRequestMessage request, HttpLoggingOptions options, CancellationToken cancellationToken = default)
+    public async Task<string> FormatAsync(HttpRequestMessage request, HttpLoggingOptions options, CancellationToken cancellationToken = default, Uri? baseAddress = null)
     {
         var sb = new StringBuilder();
 
-        sb.AppendLine($"{request.Method} {HttpUriRedactor.Redact(request.RequestUri, options)} HTTP/{request.Version}");
+        sb.AppendLine($"{request.Method} {HttpUriRedactor.Redact(request.RequestUri, options, baseAddress)} HTTP/{request.Version}");
         sb.AppendLine();
 
         if (options.ShowRequestHeaders)

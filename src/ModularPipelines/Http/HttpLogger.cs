@@ -9,16 +9,10 @@ namespace ModularPipelines.Http;
 /// <summary>
 /// Logs HTTP Requests and Responses.
 /// </summary>
-internal class HttpLogger : IHttpLogger
+internal class HttpLogger(IHttpRequestFormatter requestFormatter, IHttpResponseFormatter responseFormatter) : IHttpLogger
 {
-    private readonly IHttpRequestFormatter _requestFormatter;
-    private readonly IHttpResponseFormatter _responseFormatter;
-
-    public HttpLogger(IHttpRequestFormatter requestFormatter, IHttpResponseFormatter responseFormatter)
-    {
-        _requestFormatter = requestFormatter;
-        _responseFormatter = responseFormatter;
-    }
+    private readonly IHttpRequestFormatter _requestFormatter = requestFormatter;
+    private readonly IHttpResponseFormatter _responseFormatter = responseFormatter;
 
     /// <summary>
     /// Prints the HTTP request.
@@ -61,7 +55,8 @@ internal class HttpLogger : IHttpLogger
         HttpRequestMessage request,
         ILogger logger,
         HttpLoggingOptions options,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Uri? baseAddress = null)
     {
         if (!options.ShowRequest)
         {
@@ -69,7 +64,7 @@ internal class HttpLogger : IHttpLogger
         }
 
         var formattedRequest = await _requestFormatter
-            .FormatAsync(request, options, cancellationToken)
+            .FormatAsync(request, options, cancellationToken, baseAddress)
             .ConfigureAwait(false);
         logger.LogInformation("HTTP Request:\n{Request}", formattedRequest);
     }

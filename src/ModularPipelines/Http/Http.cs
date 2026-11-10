@@ -111,7 +111,8 @@ internal class Http : IHttpContext
                 httpOptions.HttpRequestMessage,
                 logger,
                 loggingOptions,
-                cancellationToken)
+                cancellationToken,
+                httpClient.BaseAddress)
             .ConfigureAwait(false);
 
         var stopWatch = Stopwatch.StartNew();
