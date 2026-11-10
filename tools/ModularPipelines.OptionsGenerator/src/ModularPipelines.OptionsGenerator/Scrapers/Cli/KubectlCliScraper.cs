@@ -176,8 +176,8 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
         return normalized;
     }
 
-    // File inputs can satisfy requiredness without selecting a positional branch.
-    // Keep positional exclusivity separate from complete resource-form validation.
+    // File inputs and positional targets are mutually exclusive.
+    // Validate selection separately so value patterns still enforce complete forms.
     private static IEnumerable<UsageRequiredAlternativeGroup> NormalizeRolloutResourceAlternatives(
         UsageRequiredAlternativeGroup group, IReadOnlyList<CliOptionDefinition> options)
     {
@@ -187,16 +187,13 @@ public class KubectlCliScraper(ICliCommandExecutor executor, IHelpTextCache help
             return [group];
         }
 
-        return
-        [
-            group with { IsRequired = false },
-            new UsageRequiredAlternativeGroup
-            {
-                Members = [.. options.Where(option => option.SwitchName is "--filename" or "--kustomize")
-                    .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName })],
-                Groups = [group],
-            },
-        ];
+        var resourceInputs = new UsageRequiredAlternativeGroup
+        {
+            Members = [.. options.Where(option => option.SwitchName is "--filename" or "--kustomize")
+                .Select(option => new UsageRequiredAlternativeMember { OptionSwitch = option.SwitchName })],
+            Groups = [group],
+        };
+        return [resourceInputs with { IsRequired = false, IsMutuallyExclusive = true }, resourceInputs];
     }
 
     // Resource input can use TYPE NAME, TYPE/NAME, selectors, filenames, or a kustomization.

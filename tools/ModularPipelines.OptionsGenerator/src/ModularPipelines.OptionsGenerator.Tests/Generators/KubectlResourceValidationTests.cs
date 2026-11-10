@@ -45,6 +45,17 @@ public partial class RequiredConstructorValidationTests
             (null, null, null, ["manifest.yaml"], null, true),
             (null, null, null, null, "overlay", true),
             ("deployments", "web", "deployments/web", null, null, false),
+            ("deployments", "web", null, ["manifest.yaml"], null, false),
+            ("deployments", "web", null, null, "overlay", false),
+            (null, null, "deployments/web", ["manifest.yaml"], null, false),
+            (null, null, "deployments/web", null, "overlay", false),
+            ("deployments", null, null, ["manifest.yaml"], null, false),
+            ("deployments", null, null, null, "overlay", false),
+            (null, "web", null, ["manifest.yaml"], null, false),
+            (null, "web", null, null, "overlay", false),
+            (null, null, null, ["manifest.yaml"], "overlay", false),
+            ("deployments", "web", null, [" "], " ", false),
+            (null, null, "deployments/web", [], " ", true),
         ];
         foreach (var input in cases)
         {
