@@ -58,3 +58,4 @@ try {
     Pop-Location
 }
 Write-Host "TUnit v4 migration validation passed. Logs: $EvidenceDirectory"
+exit 0
