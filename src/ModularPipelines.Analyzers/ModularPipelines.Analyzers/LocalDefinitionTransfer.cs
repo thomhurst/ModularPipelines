@@ -13,6 +13,8 @@ namespace ModularPipelines.Analyzers;
 /// Snapshot delegate inputs before evaluating the RHS. Apply deconstruction targets separately when intervening
 /// setters or exceptions need observation. Invalidate member stores before a setter can mutate and throw.
 /// Branch selection, state unions and exception routing belong to the caller.
+/// Retained ref escapes and ref-return aliases are not tracked; callers must conservatively handle later writes
+/// through such escaped storage rather than treating call-time invalidation as complete alias analysis.
 /// </remarks>
 internal sealed class LocalDefinitionTransfer
 {
@@ -165,10 +167,7 @@ internal sealed class LocalDefinitionTransfer
     }
 
     private bool MayReferenceLocal(IOperation value) =>
-        _aliases.Any(alias => TargetsLocal(value, alias))
-        // Conditional ref expressions are lowered to captures; consult the original storage tree.
-        || (value is IFlowCaptureReferenceOperation && _operationRoot.DescendantsAndSelf().Any(candidate =>
-            candidate.Syntax.Span == value.Syntax.Span && _aliases.Any(alias => TargetsLocal(candidate, alias))));
+        _aliases.Any(alias => TargetsLocal(value, alias, _operationRoot));
 
     private static bool IsDelegateAddition(ICompoundAssignmentOperation assignment) =>
         assignment.OperatorKind == BinaryOperatorKind.Add && assignment.Target.Type?.TypeKind == TypeKind.Delegate;
@@ -346,17 +345,21 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
-    private static bool TargetsLocal(IOperation target, ILocalSymbol local) => target switch
+    private static bool TargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot = null) => target switch
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
-        IFieldReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local),
-        IPropertyReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local),
-        IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local),
-        ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local)),
-        IConditionalOperation conditional => TargetsLocal(conditional.WhenTrue, local)
-            || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local)),
-        IConversionOperation conversion => TargetsLocal(conversion.Operand, local),
-        IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local),
+        IFieldReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local, operationRoot),
+        IPropertyReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local, operationRoot),
+        IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
+        ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
+        IConditionalOperation conditional => TargetsLocal(conditional.WhenTrue, local, operationRoot)
+            || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local, operationRoot)),
+        IConversionOperation conversion => TargetsLocal(conversion.Operand, local, operationRoot),
+        IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local, operationRoot),
+        // Conditional ref expressions can lower to captures anywhere along the storage receiver path.
+        // Resolve against the original tree without recursing back into lowered captures.
+        IFlowCaptureReferenceOperation when operationRoot is not null => operationRoot.DescendantsAndSelf().Any(candidate =>
+            candidate.Syntax.Span == target.Syntax.Span && TargetsLocal(candidate, local)),
         _ => false,
     };
 }

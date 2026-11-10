@@ -204,6 +204,40 @@ public class LocalDefinitionTransferTests
     }
 
     [TestMethod]
+    [DataRow("(flag ? ref value : ref other).Field = 1")]
+    [DataRow("(flag ? ref other : ref value).Property++")]
+    [DataRow("(flag ? ref value : ref other).Nested.Field += 1")]
+    [DataRow("(flag ? ref value : ref other)[0] = 1")]
+    [DataRow("Change(ref (flag ? ref value : ref other).Nested.Field)")]
+    public void Lowered_Conditional_Ref_Member_Storage_Is_Recognized(string expression)
+    {
+        var scenario = new Scenario("Mutable value = new Mutable(); Mutable other = new Mutable();" + expression + ";");
+        var graph = ControlFlowGraph.Create((IMethodBodyOperation) scenario.Root, TestContext.CancellationToken);
+        var operation = graph.Blocks.SelectMany(static block => block.Operations)
+            .SelectMany(static operation => operation.DescendantsAndSelf())
+            .Single(operation => operation.Syntax.ToString() == expression
+                && operation is IAssignmentOperation or IIncrementOrDecrementOperation or IInvocationOperation);
+        scenario.Transfer.ApplyStore(operation, scenario.State);
+        scenario.Transfer.InvalidateByReferenceArguments(operation, scenario.State);
+        scenario.AssertUnknown();
+    }
+
+    [TestMethod]
+    [DataRow("(flag ? ref value : ref other).Reference.Field = 1")]
+    [DataRow("(value.Field == 0 ? ref other : ref third).Field = 1")]
+    public void Lowered_Conditional_Ref_Unrelated_Member_Storage_Preserves_Local(string expression)
+    {
+        var scenario = new Scenario("Mutable value = new Mutable(); Mutable other = new Mutable(); Mutable third = new Mutable();" + expression + ";");
+        var graph = ControlFlowGraph.Create((IMethodBodyOperation) scenario.Root, TestContext.CancellationToken);
+        var operation = graph.Blocks.SelectMany(static block => block.Operations)
+            .SelectMany(static operation => operation.DescendantsAndSelf())
+            .OfType<ISimpleAssignmentOperation>()
+            .Single(operation => operation.Syntax.ToString() == expression);
+        scenario.Transfer.ApplyStore(operation, scenario.State);
+        scenario.AssertValues("new Mutable()");
+    }
+
+    [TestMethod]
     public void Caller_Can_Apply_Deconstruction_Stores_Individually()
     {
         var scenario = new Scenario("string value = \"old\"; (value, value) = (\"first\", \"second\");");
@@ -459,5 +493,5 @@ public class LocalDefinitionTransferTests
         }
     }
 
-    public TestContext TestContext { get; set; }
+    public TestContext TestContext { get; set; } = null!;
 }
