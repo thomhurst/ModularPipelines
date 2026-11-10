@@ -1,40 +1,24 @@
 name: Distributed template smoke
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
-    paths:
-      - 'src/ModularPipelines/**'
-      - 'src/ModularPipelines.GitHub/**'
-      - 'src/ModularPipelines.Distributed.Redis/**'
-      - 'test/ModularPipelines.Distributed.SmokeTests/**'
-      - 'test/ModularPipelines.GitHub.UnitTests/**'
-      - 'Directory.*'
-      - 'global.json'
-      - '.github/workflows/distributed-template-smoke.yml'
-  push:
-    branches: [main]
-    paths:
-      - 'src/ModularPipelines/**'
-      - 'src/ModularPipelines.GitHub/**'
-      - 'src/ModularPipelines.Distributed.Redis/**'
-      - 'test/ModularPipelines.Distributed.SmokeTests/**'
-      - 'test/ModularPipelines.GitHub.UnitTests/**'
-      - 'Directory.*'
-      - 'global.json'
-      - '.github/workflows/distributed-template-smoke.yml'
+  workflow_call:
+    secrets:
+      REDIS_ENDPOINT:
+        required: false
+      REDIS_KEY:
+        required: false
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: distributed-template-${{ github.ref }}
-  cancel-in-progress: true
+  group: distributed-template-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   initialize:
-    # Skip drafts before renting a runner; marking the PR ready starts this workflow.
+    # The caller routes changes and skips drafts before invoking this workflow.
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -163,7 +147,7 @@ jobs:
           if-no-files-found: error
 
   identities:
-    needs: pipeline
+    needs: [initialize, pipeline]
     if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -194,3 +178,12 @@ jobs:
           }
           $rows += @('', 'Checkout/build inputs are retained in the identity artifacts.')
           $rows >> $env:GITHUB_STEP_SUMMARY
+      - name: Validate smoke results
+        shell: pwsh
+        env:
+          INITIALIZE_RESULT: ${{ needs.initialize.result }}
+          PIPELINE_RESULT: ${{ needs.pipeline.result }}
+        run: |
+          if ($env:INITIALIZE_RESULT -ne 'success' -or $env:PIPELINE_RESULT -ne 'success') {
+            throw "Distributed smoke failed: initialize=$env:INITIALIZE_RESULT pipeline=$env:PIPELINE_RESULT."
+          }

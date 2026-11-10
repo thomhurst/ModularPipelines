@@ -47,13 +47,40 @@ param(
 
     [Parameter(Mandatory)]
     [ValidateSet('success', 'failure', 'cancelled', 'skipped')]
-    [string]$TrimAotResult
+    [string]$TrimAotResult,
+
+    [AllowEmptyString()]
+    [string]$RunDistributedTemplate = 'false',
+    [AllowEmptyString()]
+    [string]$DistributedTemplateResult = 'skipped',
+    [AllowEmptyString()]
+    [string]$RunGoValidation = 'false',
+    [AllowEmptyString()]
+    [string]$GoValidationResult = 'skipped',
+    [AllowEmptyString()]
+    [string]$RunDocsDeploy = 'false',
+    [AllowEmptyString()]
+    [string]$DocsDeployResult = 'skipped'
 )
 
 $ErrorActionPreference = 'Stop'
 
 if ($FastFailResult -ne 'success') {
     throw "Fast-fail result was '$FastFailResult'; required context cannot pass."
+}
+
+foreach ($validation in @(
+        @{ Name = 'Distributed template smoke'; Required = $RunDistributedTemplate; Result = $DistributedTemplateResult },
+        @{ Name = 'Go validation'; Required = $RunGoValidation; Result = $GoValidationResult },
+        @{ Name = 'Docs deploy test'; Required = $RunDocsDeploy; Result = $DocsDeployResult }
+    )) {
+    if ($validation.Required -notin @('true', 'false')) {
+        throw "$($validation.Name) routing value was '$($validation.Required)'; required context cannot pass."
+    }
+    $expected = if ($validation.Required -eq 'true') { 'success' } else { 'skipped' }
+    if ($validation.Result -ne $expected) {
+        throw "$($validation.Name) result was '$($validation.Result)'; expected '$expected'."
+    }
 }
 
 if ($IsGeneratedIntegration -notin @('true', 'false')) {
