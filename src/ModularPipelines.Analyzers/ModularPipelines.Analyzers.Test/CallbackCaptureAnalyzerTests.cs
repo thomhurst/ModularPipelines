@@ -9,6 +9,108 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("_ = Holder.Value;", "TypeInitializationException", true)]
+    [DataRow("Holder.Value = 1;", "TypeInitializationException", true)]
+    [DataRow("Holder.Value += 1;", "TypeInitializationException", true)]
+    [DataRow("Holder.Value++;", "TypeInitializationException", true)]
+    [DataRow("ref int value = ref Holder.Value;", "TypeInitializationException", true)]
+    [DataRow("_ = Holder.Value;", "Exception", true)]
+    [DataRow("_ = Holder.Value;", "InvalidOperationException", false)]
+    [DataRow("_ = Holder.Constant;", "TypeInitializationException", false)]
+    public async Task Tracks_Static_Field_Initialization_Exception_Paths(string operation, string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try { {{operation}} }
+                catch ({{caught}}) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public static class Holder
+            {
+                public static int Value;
+                public const int Constant = 1;
+                static Holder() => throw new InvalidOperationException();
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public async Task Static_Field_Initialization_Follows_Assigned_Value(bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try
+                {
+                    Holder.Value = register = () => {{(registered ? "Pipeline.CreateBuilder().AddModule<BuildModule>()" : "{}")}};
+                }
+                catch (TypeInitializationException) { register(); }
+            };
+            callback(null!); return 0;
+
+            public static class Holder
+            {
+                public static Action Value = null!;
+                static Holder() => throw new InvalidOperationException();
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("throw new CustomException();", "InvalidOperationException")]
+    [DataRow("throw new CustomException();", "CustomException")]
+    [DataRow("_ = true ? throw new CustomException() : 0;", "InvalidOperationException")]
+    public async Task Tracks_Thrown_Exception_Constructor_Failures(string operation, string caught)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try { {{operation}} }
+                catch ({{caught}}) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public class CustomException : Exception
+            {
+                public CustomException() => throw new InvalidOperationException();
+            }
+            """));
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public async Task Exception_Construction_Follows_Argument_Evaluation(bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try
+                {
+                    throw new CustomException(register = () => {{(registered ? "Pipeline.CreateBuilder().AddModule<BuildModule>()" : "{}")}});
+                }
+                catch (InvalidOperationException) { register(); }
+            };
+            callback(null!); return 0;
+
+            public class CustomException : Exception
+            {
+                public CustomException(Action value) => throw new InvalidOperationException();
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("int number = argument;", true)]
     [DataRow("int? number = argument;", true)]
     [DataRow("string text = argument;", true)]
@@ -892,13 +994,13 @@ public class CallbackCaptureAnalyzerTests
     }
 
     [TestMethod]
-    [DataRow("ArgumentException", "", false)]
-    [DataRow("InvalidOperationException", "", true)]
+    [DataRow("NullReferenceException", "", false)]
+    [DataRow("OverflowException", "", true)]
     [DataRow("Exception", "", true)]
-    [DataRow("ArgumentException", "try { throw new ArgumentException(); } catch (ArgumentException) { }", false)]
-    [DataRow("InvalidOperationException", "try { throw new ArgumentException(); } catch (ArgumentException) { }", true)]
-    [DataRow("ArgumentException", "try { throw; } catch (InvalidOperationException) { throw; }", false)]
-    [DataRow("InvalidOperationException", "try { throw; } catch (InvalidOperationException) { throw; }", true)]
+    [DataRow("NullReferenceException", "try { object target = null!; Func<string?> method = target.ToString; } catch (NullReferenceException) { }", false)]
+    [DataRow("OverflowException", "try { object target = null!; Func<string?> method = target.ToString; } catch (NullReferenceException) { }", true)]
+    [DataRow("NullReferenceException", "try { throw; } catch (OverflowException) { throw; }", false)]
+    [DataRow("OverflowException", "try { throw; } catch (OverflowException) { throw; }", true)]
     public async Task Preserves_Active_Exception_Type_Across_Rethrows(string caught, string nestedHandler, bool registered)
     {
         await VerifyAsync(Source($$"""
@@ -908,9 +1010,10 @@ public class CallbackCaptureAnalyzerTests
                 try
                 {
                     register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
-                    throw new InvalidOperationException();
+                    int maximum = int.MaxValue;
+                    checked { maximum++; }
                 }
-                catch (InvalidOperationException)
+                catch (OverflowException)
                 {
                     {{nestedHandler}}
                     throw;

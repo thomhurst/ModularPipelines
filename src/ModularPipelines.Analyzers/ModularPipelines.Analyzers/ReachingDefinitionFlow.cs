@@ -134,7 +134,12 @@ internal sealed class ReachingDefinitionFlow(
         ImmutableArray<int> continuation, FilterContext? filter)
     {
         var arithmeticExceptions = GetArithmeticExceptions(operation);
-        if (IsThrowingFieldAccess(operation) || IsThrowingMethodReference(operation))
+        var field = GetFieldAccess(operation);
+        if (field is { Field: { IsStatic: true, IsConst: false } })
+        {
+            FollowKnownException("System.TypeInitializationException");
+        }
+        else if ((field is not null && HasNullableReceiver(field.Instance)) || IsThrowingMethodReference(operation))
         {
             FollowKnownException("System.NullReferenceException");
         }
@@ -147,7 +152,7 @@ internal sealed class ReachingDefinitionFlow(
                 FollowKnownException("System.ArrayTypeMismatchException");
             }
         }
-        else if (arithmeticExceptions == ArithmeticExceptions.Unknown || CanThrow(operation, block))
+        else if (arithmeticExceptions == ArithmeticExceptions.Unknown || CanThrow(operation))
         {
             FollowException(block, null, state, continuation, filter);
         }
@@ -245,7 +250,7 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
-    private static bool CanThrow(IOperation operation, BasicBlock block)
+    private static bool CanThrow(IOperation operation)
     {
         if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation))
         {
@@ -254,16 +259,13 @@ internal sealed class ReachingDefinitionFlow(
 
         return operation switch
         {
-            // The explicit throw edge below carries the constructed exception's type.
-            IObjectCreationOperation => block.FallThroughSuccessor?.Semantics != ControlFlowBranchSemantics.Throw
-                || block.BranchValue?.Syntax.Span != operation.Syntax.Span,
             IConversionOperation conversion => CanConversionThrow(conversion),
             _ => false,
         };
     }
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
-        IInvocationOperation or IEventAssignmentOperation or IDynamicObjectCreationOperation
+        IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
 
@@ -279,13 +281,12 @@ internal sealed class ReachingDefinitionFlow(
         _ => false,
     };
 
-    private bool IsThrowingFieldAccess(IOperation operation) => operation switch
+    private static IFieldReferenceOperation? GetFieldAccess(IOperation operation) => operation switch
     {
         // A simple field write checks the receiver after evaluating the assigned value.
-        ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => HasNullableReceiver(field.Instance),
-        IFieldReferenceOperation field => HasNullableReceiver(field.Instance)
-            && !IsSimpleAssignmentTarget(field),
-        _ => false,
+        ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => field,
+        IFieldReferenceOperation field when !IsSimpleAssignmentTarget(field) => field,
+        _ => null,
     };
 
     private bool IsThrowingMethodReference(IOperation operation) =>
@@ -404,18 +405,21 @@ internal sealed class ReachingDefinitionFlow(
             return ArithmeticExceptions.None;
         }
 
-        var signedOverflow = type is SpecialType.System_Int32 or SpecialType.System_Int64 or SpecialType.System_IntPtr;
-        var divisionCanOverflow = signedOverflow || CanNarrowOrDecimalDivisionOverflow(type, isChecked);
         return operatorKind switch
         {
-            BinaryOperatorKind.Divide => ArithmeticExceptions.DivideByZero
-                | (divisionCanOverflow ? ArithmeticExceptions.Overflow : ArithmeticExceptions.None),
-            BinaryOperatorKind.Remainder => ArithmeticExceptions.DivideByZero
-                | (signedOverflow ? ArithmeticExceptions.Overflow : ArithmeticExceptions.None),
+            BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder => GetDivisionExceptions(operatorKind, type, isChecked),
             BinaryOperatorKind.Add or BinaryOperatorKind.Subtract or BinaryOperatorKind.Multiply
                 when isChecked || type == SpecialType.System_Decimal => ArithmeticExceptions.Overflow,
             _ => ArithmeticExceptions.None,
         };
+    }
+
+    private static ArithmeticExceptions GetDivisionExceptions(BinaryOperatorKind operatorKind, SpecialType? type, bool isChecked)
+    {
+        var canOverflow = type is SpecialType.System_Int32 or SpecialType.System_Int64 or SpecialType.System_IntPtr
+            || (operatorKind == BinaryOperatorKind.Divide && CanNarrowOrDecimalDivisionOverflow(type, isChecked));
+        return ArithmeticExceptions.DivideByZero
+            | (canOverflow ? ArithmeticExceptions.Overflow : ArithmeticExceptions.None);
     }
 
     private static bool CanNarrowOrDecimalDivisionOverflow(SpecialType? type, bool isChecked) =>
