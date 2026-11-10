@@ -5865,14 +5865,22 @@ internal static class ModuleAuthoringAnalysis
         IOperation value,
         HashSet<ILocalSymbol> visitedLocals,
         bool stopAtDelegate = false,
-        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null,
+        HashSet<IOperation>? visitedReferences = null)
     {
         yield return value;
 
         var operations = stopAtDelegate ? GetCallbackValueOperations(value) : value.DescendantsAndSelf();
         foreach (var localReference in operations.OfType<ILocalReferenceOperation>())
         {
-            if (!visitedLocals.Add(localReference.Local))
+            if (stopAtDelegate && localReference.Parent is ISimpleAssignmentOperation assignment
+                && ReferenceEquals(assignment.Target, localReference))
+            {
+                continue;
+            }
+
+            visitedReferences ??= [];
+            if (stopAtDelegate ? !visitedReferences.Add(localReference) : !visitedLocals.Add(localReference.Local))
             {
                 continue;
             }
@@ -5890,7 +5898,8 @@ internal static class ModuleAuthoringAnalysis
             foreach (var candidate in localValues)
             {
                 foreach (var operation in GetValueAndReachingLocalValues(
-                             candidate, CloneVisitedLocals(visitedLocals), stopAtDelegate, callbackInvocations))
+                             candidate, CloneVisitedLocals(visitedLocals), stopAtDelegate, callbackInvocations,
+                             [.. visitedReferences]))
                 {
                     yield return operation;
                 }

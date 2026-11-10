@@ -9,6 +9,58 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; void Forward() => replace(); Forward();", true)]
+    [DataRow("Action replace = () => {}; void Forward() => replace(); replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; Forward();", true)]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; void Forward() => replace(); replace = () => {}; Forward();", false)]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; void Forward() => replace(); void Outer() => Forward(); Outer();", true)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); void Replace() { register = () => {}; } Replace();", false)]
+    [DataRow("void Replace() { throw new Exception(); } Replace(); register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", false)]
+    [DataRow("void Replace() { object? target = null; Func<string?> method = target!.ToString; } try { Replace(); } catch (ArgumentException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", false)]
+    [DataRow("void Replace() { object? target = null; Func<string?> method = target!.ToString; } try { Replace(); } catch (NullReferenceException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); register = () => {}; } Replace();", false)]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); register = () => {}; }; replace();", false)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); if (args.Length > 0) register = () => {}; } Replace();", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); if (args.Length > 0) register = () => {}; else register = () => {}; } Replace();", false)]
+    [DataRow("void Replace() { try { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return; } finally { register = () => {}; } } Replace();", false)]
+    [DataRow("void Replace() { try { register = () => {}; return; } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } } Replace();", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); register = () => {}; throw new Exception(); } try { Replace(); } catch (Exception) {}", false)]
+    [DataRow("void Replace() { try { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); throw new Exception(); } finally { register = () => {}; } } try { Replace(); } catch (Exception) {}", false)]
+    [DataRow("void Replace() { try { throw new Exception(); } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } } try { Replace(); } catch (Exception) {}", true)]
+    public async Task Transfers_Captured_Delegate_Writes_In_Execution_Order(string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("(register, _) = (register, 0);", true)]
+    [DataRow("(_, register) = (0, register);", true)]
+    [DataRow("((register, _), _) = ((register, 0), 1);", true)]
+    [DataRow("(register, _) = (register, register = () => {});", true)]
+    [DataRow("(register, _) = (register = () => {}, register);", false)]
+    [DataRow("Action copy = register; (register, _) = (copy, 0);", true)]
+    [DataRow("(register, _) = (register, 0); (register, _) = (register, 1);", true)]
+    public async Task Resolves_Tuple_Copies_At_Their_Read_Sites(string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } Replace();", true)]
     [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; replace();", true)]
     [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", false)]

@@ -14,7 +14,9 @@ internal sealed class ReachingDefinitionFlow(
     ILocalSymbol local,
     bool analyzeReceiverTypes = true,
     bool completingReturn = false,
-    bool analyzeCapturedWrites = true)
+    bool analyzeCapturedWrites = true,
+    ImmutableDictionary<IMethodSymbol, IInvocationOperation>? callSites = null,
+    Action<ITypeSymbol?, HashSet<TextSpan>>? escapingException = null)
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
     private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
@@ -60,6 +62,14 @@ internal sealed class ReachingDefinitionFlow(
         {
             var (ordinal, continuation, filter, exceptions) = _queue.Dequeue();
             _activeExceptions = exceptions;
+            // The synthetic destination resumes the caller only after all exceptional cleanup completes.
+            if (ordinal == -1)
+            {
+                escapingException?.Invoke(exceptions.GetValueOrDefault(-1),
+                    _inputs[Key(ordinal, continuation, filter, exceptions)]);
+                continue;
+            }
+
             var block = graph.Blocks[ordinal];
             var state = new HashSet<TextSpan>(_inputs[Key(ordinal, continuation, filter, _activeExceptions)]);
             if (completingReturn && block.Kind == BasicBlockKind.Exit)
@@ -107,6 +117,11 @@ internal sealed class ReachingDefinitionFlow(
     private void Visit(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
         ImmutableArray<int> continuation, FilterContext? filter)
     {
+        if (state.Count == 0)
+        {
+            return;
+        }
+
         // Delegate bodies have their own graph and execute only when invoked.
         if (operation is IFlowAnonymousFunctionOperation)
         {
@@ -122,13 +137,20 @@ internal sealed class ReachingDefinitionFlow(
             Visit(child, state, block, continuation, filter);
         }
 
+        if (state.Count == 0)
+        {
+            return;
+        }
+
         if (operation.Syntax.Span == invocation.Syntax.Span)
         {
             _reaching.UnionWith(state);
         }
 
-        ApplyCapturedWrites(operation, state);
-        FollowOperationExceptions(operation, state, block, continuation, filter);
+        if (!ApplyCapturedWrites(operation, state, block, continuation, filter))
+        {
+            FollowOperationExceptions(operation, state, block, continuation, filter);
+        }
         ApplyDefinition(operation, state, addedTargets);
     }
 
@@ -343,12 +365,13 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
-    private void ApplyCapturedWrites(IOperation operation, HashSet<TextSpan> state)
+    private bool ApplyCapturedWrites(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+        ImmutableArray<int> continuation, FilterContext? filter)
     {
         if (!analyzeCapturedWrites || operation is not IInvocationOperation
             { TargetMethod.MethodKind: MethodKind.LocalFunction or MethodKind.DelegateInvoke } call)
         {
-            return;
+            return false;
         }
 
         var root = invocation;
@@ -357,92 +380,121 @@ internal sealed class ReachingDefinitionFlow(
             root = parent;
         }
 
-        var pending = new Stack<IInvocationOperation>();
-        var visited = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
-        pending.Push(call);
-        while (pending.Count > 0)
+        var sites = callSites ?? ImmutableDictionary.Create<IMethodSymbol, IInvocationOperation>(SymbolEqualityComparer.Default);
+        var output = new HashSet<TextSpan>();
+        var handled = false;
+        foreach (var method in GetInvokedMethods(root, call, sites))
         {
-            RetainInvokedBodies(root, pending.Pop(), state, pending, visited);
-        }
-    }
-
-    private void RetainInvokedBodies(IOperation root, IInvocationOperation call, HashSet<TextSpan> state,
-        Stack<IInvocationOperation> pending, HashSet<IMethodSymbol> visited)
-    {
-        foreach (var method in GetInvokedMethods(root, call))
-        {
-            if (visited.Add(method.OriginalDefinition) && FindCallableBody(root, method) is { } body)
+            if (sites.ContainsKey(method.OriginalDefinition) || CreateGraph(root) is not { } rootGraph
+                || FindCallableGraph(rootGraph, method) is not { } bodyGraph)
             {
-                RetainCapturedWrites(body, state, pending);
-            }
-        }
-    }
-
-    private void RetainCapturedWrites(IOperation body, HashSet<TextSpan> state, Stack<IInvocationOperation> pending)
-    {
-        foreach (var operation in body.DescendantsAndSelf())
-        {
-            if (GetEnclosingCallback(operation) != body.Syntax.Span)
-            {
-                continue;
+                return false;
             }
 
-            RetainAssignedValues(operation, state);
-
-            if (operation is IInvocationOperation call)
-            {
-                pending.Push(call);
-            }
+            // Transfer normal exits separately from exceptions so discarded writes cannot reach the caller.
+            var body = new ReachingDefinitionFlow(bodyGraph, invocation, definitions, local, analyzeReceiverTypes,
+                completingReturn: true, analyzeCapturedWrites, sites.Add(method.OriginalDefinition, call),
+                (exceptionType, escaped) => FollowException(block, exceptionType, escaped, continuation, filter));
+            body.Enqueue(0, [], state);
+            body.AnalyzePendingBlocks();
+            output.UnionWith(body._reaching);
+            handled = true;
         }
-    }
 
-    private void RetainAssignedValues(IOperation operation, HashSet<TextSpan> state)
-    {
-        foreach (var value in GetAssignedValues(operation, local))
+        if (handled)
         {
-            if (definitions.ContainsKey(value.Syntax.Span))
-            {
-                // A called body may write the capture. Retain both incoming and possible written values.
-                state.Add(value.Syntax.Span);
-            }
+            state.Clear();
+            state.UnionWith(output);
         }
+
+        return handled;
     }
 
-    private static IOperation? FindCallableBody(IOperation root, IMethodSymbol method) =>
-        root.DescendantsAndSelf().FirstOrDefault(operation => SymbolEqualityComparer.Default.Equals(
-            GetCallableMethod(operation)?.OriginalDefinition, method.OriginalDefinition));
-
-    private static IMethodSymbol? GetCallableMethod(IOperation operation) => operation switch
+    private static ControlFlowGraph? FindCallableGraph(ControlFlowGraph root, IMethodSymbol method)
     {
-        IAnonymousFunctionOperation anonymous => anonymous.Symbol,
-        ILocalFunctionOperation localFunction => localFunction.Symbol,
-        _ => null,
-    };
+        foreach (var localFunction in root.LocalFunctions)
+        {
+            var nested = root.GetLocalFunctionControlFlowGraph(localFunction);
+            if (SymbolEqualityComparer.Default.Equals(localFunction.OriginalDefinition, method.OriginalDefinition))
+            {
+                return nested;
+            }
 
-    private static IEnumerable<IMethodSymbol> GetInvokedMethods(IOperation root, IInvocationOperation call) =>
+            if (FindCallableGraph(nested, method) is { } found)
+            {
+                return found;
+            }
+        }
+
+        foreach (var anonymous in root.Blocks.SelectMany(static block => block.Operations
+                     .Concat(block.BranchValue is { } value ? [value] : []))
+                     .SelectMany(static operation => operation.DescendantsAndSelf()).OfType<IFlowAnonymousFunctionOperation>())
+        {
+            var nested = root.GetAnonymousFunctionControlFlowGraph(anonymous);
+            if (SymbolEqualityComparer.Default.Equals(anonymous.Symbol.OriginalDefinition, method.OriginalDefinition))
+            {
+                return nested;
+            }
+
+            if (FindCallableGraph(nested, method) is { } found)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<IMethodSymbol> GetInvokedMethods(IOperation root, IInvocationOperation call,
+        ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites) =>
         call.TargetMethod.MethodKind switch
         {
             MethodKind.DelegateInvoke when call.Instance is { } receiver =>
-                GetDelegateMethods(root, receiver, [with(SymbolEqualityComparer.Default)]),
+                GetDelegateMethods(root, receiver, [], sites),
             MethodKind.LocalFunction => [call.TargetMethod],
             _ => [],
         };
 
     private static IEnumerable<IMethodSymbol> GetDelegateMethods(IOperation root, IOperation value,
-        HashSet<ILocalSymbol> visited)
+        HashSet<IOperation> visited, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites)
     {
         return value switch
         {
             IAnonymousFunctionOperation anonymous => [anonymous.Symbol],
             IMethodReferenceOperation method => [method.Method],
-            IDelegateCreationOperation creation => GetDelegateMethods(root, creation.Target, visited),
-            IConversionOperation conversion => GetDelegateMethods(root, conversion.Operand, visited),
-            ILocalReferenceOperation reference when visited.Add(reference.Local)
-                            && TryGetReachingLocalValues(root, value, reference.Local, out var values, out _,
-                                analyzeReceiverTypes: false, analyzeCapturedWrites: false) => values.SelectMany(candidate => GetDelegateMethods(root, candidate,
-                                new HashSet<ILocalSymbol>(visited, SymbolEqualityComparer.Default))),
+            IDelegateCreationOperation creation => GetDelegateMethods(root, creation.Target, visited, sites),
+            IConversionOperation conversion => GetDelegateMethods(root, conversion.Operand, visited, sites),
+            ILocalReferenceOperation reference when visited.Add(value) =>
+                GetDelegateLocalMethods(root, reference, value, visited, sites),
             _ => [],
         };
+    }
+
+    private static IEnumerable<IMethodSymbol> GetDelegateLocalMethods(IOperation root, ILocalReferenceOperation reference,
+        IOperation site, HashSet<IOperation> visited, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites)
+    {
+        if (!TryGetReachingLocalValues(root, site, reference.Local, out var values, out var incoming,
+                analyzeReceiverTypes: false, analyzeCapturedWrites: false))
+        {
+            yield break;
+        }
+
+        foreach (var method in values.SelectMany(candidate => GetDelegateMethods(root, candidate,
+                     [.. visited], sites)))
+        {
+            yield return method;
+        }
+
+        // Captures inherit their receiver at the enclosing callable's execution site, not its declaration.
+        var enclosing = root.SemanticModel?.GetEnclosingSymbol(site.Syntax.SpanStart) as IMethodSymbol;
+        if (incoming && enclosing is not null && sites.TryGetValue(enclosing.OriginalDefinition, out var outer)
+            && visited.Add(outer))
+        {
+            foreach (var method in GetDelegateLocalMethods(root, reference, outer, visited, sites))
+            {
+                yield return method;
+            }
+        }
     }
 
     private static bool CanThrow(IOperation operation)
@@ -657,14 +709,14 @@ internal sealed class ReachingDefinitionFlow(
     private void Follow(ControlFlowBranch? branch, HashSet<TextSpan> state, ImmutableArray<int> continuation,
         FilterContext? filter)
     {
-        if (branch is null || !IsFeasible(branch))
+        if (state.Count == 0 || branch is null || !IsFeasible(branch))
         {
             return;
         }
 
         if (branch.Semantics == ControlFlowBranchSemantics.Return)
         {
-            if (completingReturn)
+            if (completingReturn && escapingException is null)
             {
                 // A handler returning another value abandons the selected factory return.
                 return;
@@ -706,7 +758,7 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         var completion = new ReachingDefinitionFlow(graph, invocation, definitions,
-            local, analyzeReceiverTypes, completingReturn: true, analyzeCapturedWrites)
+            local, analyzeReceiverTypes, completingReturn: true, analyzeCapturedWrites, callSites, escapingException)
         {
             _activeExceptions = _activeExceptions,
         };
@@ -814,7 +866,12 @@ internal sealed class ReachingDefinitionFlow(
             }
         }
 
-        if (cleanup.Count > 0)
+        if (escapingException is not null)
+        {
+            var path = cleanup.ToImmutable().Add(-1);
+            Enqueue(path[0], path.RemoveAt(0), state, exceptions: _activeExceptions.SetItem(-1, exceptionType));
+        }
+        else if (cleanup.Count > 0)
         {
             var path = cleanup.ToImmutable();
             Enqueue(path[0], path.RemoveAt(0), state);
