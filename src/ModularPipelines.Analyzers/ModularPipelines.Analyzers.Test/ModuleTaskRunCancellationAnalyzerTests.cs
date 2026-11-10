@@ -155,6 +155,8 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("void ResetLocal() { token = default; } Action reset = ResetLocal; reset();", false)]
     [DataRow("Action reset = () => token = default; Store(reset);", false)]
     [DataRow("void ResetLocal<T>() { token = default; } Store(ResetLocal<int>);", false)]
+    [DataRow("var other = default(CancellationToken); (Environment.TickCount > 0 ? ref token : ref other) = default;", false)]
+    [DataRow("ref var alias = ref token; alias = default;", false)]
     public async Task Reports_Overwritten_Helper_Token_Captured_By_Callback(string write, bool insideCallback)
     {
         var source = ModuleSource($$"""
@@ -183,6 +185,8 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("Read(in token);")]
     [DataRow("if (false) { token = default; }")]
     [DataRow("void ResetLocal() { token = default; }")]
+    [DataRow("var other = default(CancellationToken); (false ? ref token : ref other) = default;")]
+    [DataRow("ref readonly var alias = ref token; _ = alias.CanBeCanceled;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); dictionary[token] = 1;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); (dictionary[token], _) = (1, 2);")]
     public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)

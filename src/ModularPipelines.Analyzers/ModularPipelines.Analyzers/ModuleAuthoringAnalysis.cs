@@ -866,6 +866,7 @@ internal static class ModuleAuthoringAnalysis
             {
                 IAssignmentOperation assignment => assignment.Target,
                 IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
+                IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } } initializer => initializer.Value,
                 _ => null,
             })
             .Any(target => AssignsParameter(target, parameter));
@@ -903,8 +904,12 @@ internal static class ModuleAuthoringAnalysis
         target switch
         {
             IParameterReferenceOperation reference =>
-                SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter),
+                SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
+                && IsInReachableBranch(reference),
             ITupleOperation tuple => tuple.Elements.Any(element => AssignsParameter(element, parameter)),
+            IConditionalOperation conditional =>
+                AssignsParameter(conditional.WhenTrue, parameter)
+                || AssignsParameter(conditional.WhenFalse, parameter),
             IConversionOperation conversion => AssignsParameter(conversion.Operand, parameter),
             IParenthesizedOperation parenthesized => AssignsParameter(parenthesized.Operand, parameter),
             _ => false,
