@@ -234,7 +234,7 @@ internal sealed class ReachingDefinitionFlow(
 
     private static bool CanThrow(IOperation operation, BasicBlock block)
     {
-        if (IsThrowingAccessOrCall(operation))
+        if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation))
         {
             return true;
         }
@@ -252,9 +252,21 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
-        IInvocationOperation or IPropertyReferenceOperation or IEventAssignmentOperation
+        IInvocationOperation or IEventAssignmentOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
+
+    private static bool IsThrowingPropertyAccess(IOperation operation) => operation switch
+    {
+        // Setters run after the assigned value; ref-return getters run while evaluating the target.
+        IAssignmentOperation { Target: IPropertyReferenceOperation property } =>
+            !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
+        IIncrementOrDecrementOperation { Target: IPropertyReferenceOperation property } =>
+            !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
+        IPropertyReferenceOperation property => !IsSimpleAssignmentTarget(property)
+            || property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly,
+        _ => false,
+    };
 
     private bool IsThrowingFieldAccess(IOperation operation) => operation switch
     {

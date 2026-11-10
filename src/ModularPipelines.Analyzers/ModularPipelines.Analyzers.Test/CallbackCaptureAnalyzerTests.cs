@@ -9,6 +9,95 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Publisher.Callback", "public static Action Callback", false)]
+    [DataRow("Publisher.Callback", "public static Action Callback", true)]
+    [DataRow("publisher.Callback", "public Action Callback", false)]
+    [DataRow("publisher.Callback", "public Action Callback", true)]
+    [DataRow("publisher[0]", "public Action this[int index]", false)]
+    [DataRow("publisher[0]", "public Action this[int index]", true)]
+    public async Task Property_Setter_Exceptions_Follow_Value_Evaluation(string target, string property, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                var publisher = new Publisher();
+                Action register = {{(registered ? "() => {}" : "() => Pipeline.CreateBuilder().AddModule<BuildModule>()")}};
+                try { {{target}} = register = {{(registered ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}}; }
+                catch (InvalidOperationException) { register(); }
+            };
+            callback(null!); return 0;
+
+            public class Publisher
+            {
+                {{property}}
+                {
+                    set { throw new InvalidOperationException(); }
+                }
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("+=")]
+    [DataRow("-=")]
+    public async Task Compound_Property_Setter_Exceptions_Follow_Value_Evaluation(string assignment)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try { Publisher.Callback {{assignment}} register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                catch (InvalidOperationException) { register(); }
+            };
+            callback(null!); return 0;
+
+            public static class Publisher
+            {
+                public static Action? Callback
+                {
+                    get => () => {};
+                    set { throw new InvalidOperationException(); }
+                }
+            }
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("Publisher.Callback", "public static ref Action? Callback", "=", false)]
+    [DataRow("Publisher.Callback", "public static ref Action? Callback", "=", true)]
+    [DataRow("Publisher.Callback", "public static ref Action? Callback", "+=", false)]
+    [DataRow("Publisher.Callback", "public static ref Action? Callback", "+=", true)]
+    [DataRow("Publisher.Callback", "public static ref Action? Callback", "-=", false)]
+    [DataRow("Publisher.Callback", "public static ref Action? Callback", "-=", true)]
+    [DataRow("publisher[0]", "public ref Action? this[int index]", "=", false)]
+    [DataRow("publisher[0]", "public ref Action? this[int index]", "=", true)]
+    [DataRow("publisher[0]", "public ref Action? this[int index]", "+=", false)]
+    [DataRow("publisher[0]", "public ref Action? this[int index]", "+=", true)]
+    [DataRow("publisher[0]", "public ref Action? this[int index]", "-=", false)]
+    [DataRow("publisher[0]", "public ref Action? this[int index]", "-=", true)]
+    public async Task Ref_Property_Getter_Exceptions_Precede_Value_Evaluation(string target, string property, string assignment, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                var publisher = new Publisher();
+                Action register = {{(registered ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+                try { {{target}} {{assignment}} register = {{(registered ? "() => {}" : "() => Pipeline.CreateBuilder().AddModule<BuildModule>()")}}; }
+                catch (InvalidOperationException) { register(); }
+            };
+            callback(null!); return 0;
+
+            public class Publisher
+            {
+                {{property}}
+                {
+                    get { throw new InvalidOperationException(); }
+                }
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("+=")]
     [DataRow("-=")]
     public async Task Tracks_Event_Accessor_Exception_Paths_For_Callback_Definitions(string assignment)
