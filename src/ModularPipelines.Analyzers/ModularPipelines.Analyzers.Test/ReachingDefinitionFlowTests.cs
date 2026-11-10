@@ -398,6 +398,33 @@ public class ReachingDefinitionFlowTests
         try { array[0] = item; } catch (ArrayTypeMismatchException) { [|Use(value)|]; }
         """, expected);
 
+    [TestMethod]
+    [DataRow("object source = item;", "var text = $\"{source}\";", "\"old\"")]
+    [DataRow("TextSource source = null;", "var text = $\"{source}\";", "\"old\"")]
+    [DataRow("TextStruct source = default;", "var text = $\"{source}\";", "\"old\"")]
+    [DataRow("FormattedSource source = null;", "var text = $\"{source:X}\";", "\"old\"")]
+    [DataRow("object source = item;", "value = $\"{source}\";", "\"old\"")]
+    [DataRow("object source = item;", "var text = $\"{(value = \"rhs\")}{source}\";", "\"rhs\"")]
+    [DataRow("object source = item;", "var text = $\"{source}{(value = \"later\")}\";", "\"old\"")]
+    [DataRow("string source = null;", "var text = $\"{source}\";", "")]
+    [DataRow("", "var text = $\"{(string)null}\";", "")]
+    [DataRow("", "var text = $\"literal\";", "")]
+    [DataRow("object source = item;", "FormattableString text = $\"{source}\";", "")]
+    [DataRow("object source = item;", "IFormattable text = $\"{source}\";", "")]
+    [DataRow("", "var text = $\"{1:Q}\";", "\"old\"")]
+    [DataRow("string source = null;", "var text = $\"{source,-2147483648}\";", "\"old\"")]
+    [DataRow("", "var text = $\"{(object)null}\";", "")]
+    public void Interpolation_Exceptions_Respect_Formatting_Timing(string declaration, string statement, string expected) => AssertFlow(
+        "string value = \"old\"; " + declaration + " try { " + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    public void Interpolation_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
+        string value = "old";
+        object source = item;
+        try { try { var text = $"{source}"; } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"");
+
     private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false,
         bool supported = true)
     {
@@ -406,6 +433,10 @@ public class ReachingDefinitionFlowTests
             class ConversionSource
             {
                 public static implicit operator string(ConversionSource source) => throw new Exception();
+            }
+            class FormattedSource : IFormattable
+            {
+                public string ToString(string format, IFormatProvider provider) => throw new Exception();
             }
             class TextSource { public override string ToString() => throw new Exception(); }
             struct TextStruct { public override string ToString() => throw new Exception(); }

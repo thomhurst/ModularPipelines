@@ -547,7 +547,7 @@ internal sealed class ReachingDefinitionFlow(
 
     private bool CanThrow(IOperation operation)
     {
-        if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation) || CanStringConcatenationThrow(operation))
+        if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation) || CanImplicitStringCallThrow(operation))
         {
             return true;
         }
@@ -568,9 +568,19 @@ internal sealed class ReachingDefinitionFlow(
         };
     }
 
-    // String concatenation can call a non-string operand's ToString without an invocation child.
-    private static bool CanStringConcatenationThrow(IOperation operation) => operation switch
+    // Each interpolation formats after its expression, before the next hole and enclosing store.
+    // FormattableString conversions defer formatting; their implicit factory does not call ToString.
+    private bool CanInterpolationThrow(IInterpolationOperation interpolation) =>
+        interpolation.Syntax.Parent is InterpolatedStringExpressionSyntax syntax
+        && _operationRoot.SemanticModel?.GetTypeInfo(syntax).ConvertedType?.SpecialType == SpecialType.System_String
+        && (interpolation.Alignment is not null
+            || (interpolation.Expression.Type?.SpecialType != SpecialType.System_String
+                && interpolation.Expression is not { ConstantValue: { HasValue: true, Value: null } }));
+
+    // Formatting and concatenation can call user code without an invocation child.
+    private bool CanImplicitStringCallThrow(IOperation operation) => operation switch
     {
+        IInterpolationOperation interpolation => CanInterpolationThrow(interpolation),
         IBinaryOperation { OperatorKind: BinaryOperatorKind.Add, Type.SpecialType: SpecialType.System_String } binary =>
             CanConcatenationOperandThrow(binary.LeftOperand) || CanConcatenationOperandThrow(binary.RightOperand),
         ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Add } assignment
