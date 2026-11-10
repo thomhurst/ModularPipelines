@@ -13,6 +13,44 @@ the runner's `externals/node24/bin/node.exe` launching both actions and exiting
 with code 0. This establishes that diagnostic collection works, but does not
 explain the original failures or establish that they were hosted-runner faults.
 
+The first failing attempt of
+[run 42810597995, job 129816105318](https://github.com/thomhurst/ModularPipelines/actions/runs/42810597995/job/129816105318)
+now retains worker diagnostics. At 12:03:32 UTC on 2026-11-10, the build shell
+exits 0, then the test shell exits `-1073741502` after 8.8 ms. Both Node actions
+exit with that code after about 10 ms, while `chcp.COM` still exits 0 between
+them. The archive contains no failing DLL or Windows event record.
+[Microsoft's NTSTATUS reference](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55)
+names this code `STATUS_DLL_INIT_FAILED` (`0xC0000142`); the code alone does not
+identify a cause. [Aspire's independent tracker](https://github.com/microsoft/aspire/issues/18720)
+has a matching signature, without proving that our occurrence shares its cause.
+
+## Collect evidence before another shell must initialize
+
+`Invoke-CmdRegression.ps1` keeps one PowerShell process alive across restore,
+build and test. The guard still enforces their respective 180, 300 and 120 second
+budgets; the 15 minute job deadline, no-build test execution, artifact upload,
+checkout cleanup and required gate remain authoritative.
+
+After each phase, a ten-second PowerShell startup probe records its exit code
+and elapsed time. The surviving shell prints process counts, handle counts and
+console/build process metadata. On phase or probe failure it also reads at most
+20 recent records from each of Application and System, with bounded event reads,
+retaining event identity and selected application/module/exception fields only.
+It excludes command lines, environment values, paths and arbitrary event
+messages. Snapshot failures cannot replace the original phase exit code. A failed
+probe fails the job and prevents later phases; it never retries the phase.
+
+The snapshot is written to `<phase>-startup.log` beside the phase log **and** to
+the ordinary step log, so failed Node artifact upload does not lose that output.
+Capture does not require starting a new diagnostic shell. This covers failures
+visible before the phase shell exits; faults that occur only after that shell
+exits still need runner/post-action evidence. No successful probe or green run
+proves the root cause fixed. #6895 remains open for diagnosis and correction.
+
+Run `pwsh scripts/Test-CmdRegression.ps1` for fixture-based checks of phase budgets,
+arguments, failure propagation, probe deadlines and event-field filtering. The
+fixtures do not execute .NET builds or require a failing hosted runner.
+
 ## Keep diagnostics enabled until an affected run is captured
 
 On 2026-10-24, repository variables `ACTIONS_RUNNER_DEBUG` and
