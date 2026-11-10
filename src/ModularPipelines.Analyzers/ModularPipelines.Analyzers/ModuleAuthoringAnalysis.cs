@@ -386,6 +386,11 @@ internal static class ModuleAuthoringAnalysis
             CollectCallbackCalls(receiver, containingMethod, compilation, methodCalls);
         }
 
+        foreach (var action in GetInvokedCommandLineActions(invocation))
+        {
+            CollectCallbackCalls(action, containingMethod, compilation, methodCalls);
+        }
+
         var targetMethod = NormalizeMethod(invocation.TargetMethod);
         foreach (var argument in invocation.Arguments)
         {
@@ -404,6 +409,79 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static IEnumerable<IOperation> GetInvokedCommandLineActions(
+        IInvocationOperation invocation)
+    {
+        if (invocation.TargetMethod.Name is not ("Invoke" or "InvokeAsync")
+            || invocation.TargetMethod.ContainingType.ToDisplayString()
+                != "System.CommandLine.ParseResult"
+            || GetInvocationReceiver(invocation) is not { } receiver)
+        {
+            yield break;
+        }
+
+        foreach (var parse in GetValueAndReachingLocalValues(
+                         receiver,
+                         [with(SymbolEqualityComparer.Default)])
+                     .OfType<IInvocationOperation>()
+                     .Where(static candidate => candidate.TargetMethod.Name == "Parse"
+                         && candidate.TargetMethod.ContainingType.ToDisplayString()
+                             == "System.CommandLine.Command"))
+        {
+            var command = GetCommandLineReceiverOrigin(parse);
+            if (command is null)
+            {
+                continue;
+            }
+
+            // SetAction stores a delegate; only invoking a result parsed from that
+            // command makes the action reachable. A later SetAction replaces it.
+            foreach (var setter in GetRoot(invocation).DescendantsAndSelf()
+                         .OfType<IInvocationOperation>()
+                         .Where(candidate => candidate.TargetMethod.Name == "SetAction"
+                             && candidate.TargetMethod.ContainingType.ToDisplayString()
+                                 == "System.CommandLine.Command"
+                             && candidate.Syntax.SpanStart < invocation.Syntax.SpanStart
+                             && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
+                             && IsInReachableBranch(candidate)
+                             && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command))
+                         .OrderByDescending(static candidate => candidate.Syntax.SpanStart))
+            {
+                foreach (var argument in setter.Arguments)
+                {
+                    yield return argument.Value;
+                }
+
+                if (IsLinearPredecessor(setter, invocation))
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    private static IOperation? GetCommandLineReceiverOrigin(IInvocationOperation invocation)
+    {
+        var receiver = GetInvocationReceiver(invocation);
+        var visitedLocals = new HashSet<ILocalSymbol>(SymbolEqualityComparer.Default);
+        while (receiver is not null)
+        {
+            switch (receiver)
+            {
+                case IConversionOperation conversion:
+                    receiver = conversion.Operand;
+                    break;
+                case ILocalReferenceOperation local when visitedLocals.Add(local.Local):
+                    receiver = FindReachingLocalValue(receiver, local.Local);
+                    break;
+                default:
+                    return receiver;
+            }
+        }
+
+        return null;
+    }
+
     private static void CollectCallbackCalls(
         IOperation value,
         IMethodSymbol containingMethod,
@@ -416,14 +494,7 @@ internal static class ModuleAuthoringAnalysis
                          [with(SymbolEqualityComparer.Default)],
                          [with(SymbolEqualityComparer.Default)],
                          [with(SymbolEqualityComparer.Default)])
-                     .SelectMany(static candidate => candidate.DescendantsAndSelf())
-                     .Select(static operation => operation switch
-                     {
-                         IMethodReferenceOperation methodReference => methodReference.Method,
-                         IAnonymousFunctionOperation anonymousFunction => anonymousFunction.Symbol,
-                         _ => null,
-                     })
-                     .OfType<IMethodSymbol>())
+                     .SelectMany(GetCallbackTargets))
         {
             methodCalls.Add((
                 NormalizeMethod(containingMethod),
@@ -4116,7 +4187,7 @@ internal static class ModuleAuthoringAnalysis
                          [with(SymbolEqualityComparer.Default)],
                          [with(SymbolEqualityComparer.Default)]))
             {
-                foreach (var callback in GetConfigurationCallbackTargets(value)
+                foreach (var callback in GetCallbackTargets(value)
                              .Where(static callback => callback.Parameters.Any(IsCancellationToken)
                                  && IsTaskLike(callback.ReturnType)))
                 {
@@ -4138,7 +4209,7 @@ internal static class ModuleAuthoringAnalysis
                && IsTaskLike(invokeMethod.ReturnType);
     }
 
-    private static IEnumerable<IMethodSymbol> GetConfigurationCallbackTargets(IOperation value)
+    private static IEnumerable<IMethodSymbol> GetCallbackTargets(IOperation value)
     {
         if (GetDirectDelegateTarget(value) is { } callback)
         {
@@ -4148,7 +4219,7 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var child in value.ChildOperations)
         {
-            foreach (var target in GetConfigurationCallbackTargets(child))
+            foreach (var target in GetCallbackTargets(child))
             {
                 yield return target;
             }
