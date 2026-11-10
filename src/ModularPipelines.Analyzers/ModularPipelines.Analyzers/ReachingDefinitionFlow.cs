@@ -133,7 +133,8 @@ internal sealed class ReachingDefinitionFlow(
     private void FollowOperationExceptions(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
         ImmutableArray<int> continuation, FilterContext? filter)
     {
-        if (IsThrowingFieldAccess(operation))
+        var arithmeticExceptions = GetArithmeticExceptions(operation);
+        if (IsThrowingFieldAccess(operation) || IsThrowingMethodReference(operation))
         {
             FollowKnownException("System.NullReferenceException");
         }
@@ -146,9 +147,21 @@ internal sealed class ReachingDefinitionFlow(
                 FollowKnownException("System.ArrayTypeMismatchException");
             }
         }
-        else if (CanThrow(operation, block))
+        else if (arithmeticExceptions == ArithmeticExceptions.Unknown || CanThrow(operation, block))
         {
             FollowException(block, null, state, continuation, filter);
+        }
+        else
+        {
+            if ((arithmeticExceptions & ArithmeticExceptions.DivideByZero) != 0)
+            {
+                FollowKnownException("System.DivideByZeroException");
+            }
+
+            if ((arithmeticExceptions & ArithmeticExceptions.Overflow) != 0)
+            {
+                FollowKnownException("System.OverflowException");
+            }
         }
 
         void FollowKnownException(string exceptionName) => FollowException(block,
@@ -245,15 +258,6 @@ internal sealed class ReachingDefinitionFlow(
             IObjectCreationOperation => block.FallThroughSuccessor?.Semantics != ControlFlowBranchSemantics.Throw
                 || block.BranchValue?.Syntax.Span != operation.Syntax.Span,
             IConversionOperation conversion => CanConversionThrow(conversion),
-            IBinaryOperation binary => CanArithmeticThrow(binary.OperatorKind, binary.IsChecked,
-                binary.OperatorMethod, binary.LeftOperand.Type),
-            ICompoundAssignmentOperation assignment => assignment.InConversion.IsUserDefined
-                || assignment.OutConversion.IsUserDefined
-                || CanArithmeticThrow(assignment.OperatorKind, assignment.IsChecked,
-                    assignment.OperatorMethod, assignment.Target.Type),
-            IIncrementOrDecrementOperation increment => CanArithmeticThrow(BinaryOperatorKind.Add,
-                increment.IsChecked, increment.OperatorMethod, increment.Target.Type),
-            IUnaryOperation unary => unary.IsChecked || unary.OperatorMethod is not null,
             _ => false,
         };
     }
@@ -278,15 +282,19 @@ internal sealed class ReachingDefinitionFlow(
     private bool IsThrowingFieldAccess(IOperation operation) => operation switch
     {
         // A simple field write checks the receiver after evaluating the assigned value.
-        ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => HasNullableFieldReceiver(field),
-        IFieldReferenceOperation field => HasNullableFieldReceiver(field)
+        ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => HasNullableReceiver(field.Instance),
+        IFieldReferenceOperation field => HasNullableReceiver(field.Instance)
             && !IsSimpleAssignmentTarget(field),
         _ => false,
     };
 
-    private bool HasNullableFieldReceiver(IFieldReferenceOperation field) =>
-        field.Instance is { Type.IsReferenceType: true } and not IInstanceReferenceOperation
-        && (!analyzeReceiverTypes || !IsKnownNonNull(field.Instance, [with(SymbolEqualityComparer.Default)]));
+    private bool IsThrowingMethodReference(IOperation operation) =>
+        operation is IMethodReferenceOperation { Method: { IsStatic: false, ReducedFrom: null } } method
+        && HasNullableReceiver(method.Instance);
+
+    private bool HasNullableReceiver(IOperation? receiver) =>
+        receiver is { Type.IsReferenceType: true } and not IInstanceReferenceOperation
+        && (!analyzeReceiverTypes || !IsKnownNonNull(receiver, [with(SymbolEqualityComparer.Default)]));
 
     private bool IsKnownNonNull(IOperation value, HashSet<ILocalSymbol> visited)
     {
@@ -359,12 +367,28 @@ internal sealed class ReachingDefinitionFlow(
         || (!conversion.IsTryCast && !conversion.Conversion.IsImplicit
             && !conversion.Conversion.IsNumeric && !conversion.Conversion.IsIdentity);
 
-    private static bool CanArithmeticThrow(BinaryOperatorKind operatorKind, bool isChecked,
+    private static ArithmeticExceptions GetArithmeticExceptions(IOperation operation) => operation switch
+    {
+        IBinaryOperation binary => GetArithmeticExceptions(binary.OperatorKind, binary.IsChecked,
+            binary.OperatorMethod, binary.LeftOperand.Type),
+        ICompoundAssignmentOperation assignment => assignment.InConversion.IsUserDefined
+            || assignment.OutConversion.IsUserDefined
+                ? ArithmeticExceptions.Unknown
+                : GetArithmeticExceptions(assignment.OperatorKind, assignment.IsChecked,
+                    assignment.OperatorMethod, assignment.Target.Type),
+        IIncrementOrDecrementOperation increment => GetArithmeticExceptions(BinaryOperatorKind.Add,
+            increment.IsChecked, increment.OperatorMethod, increment.Target.Type),
+        IUnaryOperation { OperatorMethod: not null } => ArithmeticExceptions.Unknown,
+        IUnaryOperation { IsChecked: true } => ArithmeticExceptions.Overflow,
+        _ => ArithmeticExceptions.None,
+    };
+
+    private static ArithmeticExceptions GetArithmeticExceptions(BinaryOperatorKind operatorKind, bool isChecked,
         IMethodSymbol? operatorMethod, ITypeSymbol? operandType)
     {
         if (operatorMethod is not null)
         {
-            return true;
+            return ArithmeticExceptions.Unknown;
         }
 
         if (operandType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
@@ -372,10 +396,39 @@ internal sealed class ReachingDefinitionFlow(
             operandType = nullable.TypeArguments[0];
         }
 
-        return operandType?.SpecialType is not (SpecialType.System_Single or SpecialType.System_Double)
-            && (isChecked || operatorKind is BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder
-                || (operandType?.SpecialType == SpecialType.System_Decimal
-                    && operatorKind is BinaryOperatorKind.Add or BinaryOperatorKind.Subtract or BinaryOperatorKind.Multiply));
+        if (operandType is INamedTypeSymbol { EnumUnderlyingType: { } underlyingType })
+        {
+            operandType = underlyingType;
+        }
+
+        var type = operandType?.SpecialType;
+        if (type is SpecialType.System_Single or SpecialType.System_Double)
+        {
+            return ArithmeticExceptions.None;
+        }
+
+        var signedOverflow = type is SpecialType.System_Int32 or SpecialType.System_Int64 or SpecialType.System_IntPtr;
+        var divisionCanOverflow = signedOverflow || type == SpecialType.System_Decimal
+            || (isChecked && type is SpecialType.System_SByte or SpecialType.System_Int16);
+        return operatorKind switch
+        {
+            BinaryOperatorKind.Divide => ArithmeticExceptions.DivideByZero
+                | (divisionCanOverflow ? ArithmeticExceptions.Overflow : ArithmeticExceptions.None),
+            BinaryOperatorKind.Remainder => ArithmeticExceptions.DivideByZero
+                | (signedOverflow ? ArithmeticExceptions.Overflow : ArithmeticExceptions.None),
+            BinaryOperatorKind.Add or BinaryOperatorKind.Subtract or BinaryOperatorKind.Multiply
+                when isChecked || type == SpecialType.System_Decimal => ArithmeticExceptions.Overflow,
+            _ => ArithmeticExceptions.None,
+        };
+    }
+
+    [Flags]
+    private enum ArithmeticExceptions
+    {
+        None = 0,
+        Unknown = 1,
+        DivideByZero = 2,
+        Overflow = 4,
     }
 
     private void Follow(ControlFlowBranch? branch, HashSet<TextSpan> state, ImmutableArray<int> continuation,

@@ -9,6 +9,62 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("object target = null!;", "target.ToString", "NullReferenceException", true)]
+    [DataRow("object target = null!;", "new Func<string?>(target.ToString)", "NullReferenceException", true)]
+    [DataRow("object target = null!;", "target.ToString", "ArgumentException", false)]
+    [DataRow("var target = new object();", "target.ToString", "NullReferenceException", false)]
+    [DataRow("", "MethodGroups.StaticText", "NullReferenceException", false)]
+    [DataRow("object target = null!;", "target.ExtensionText", "NullReferenceException", false)]
+    [DataRow("int target = 0;", "target.ToString", "NullReferenceException", false)]
+    [DataRow("int? target = null;", "target.ToString", "NullReferenceException", false)]
+    [DataRow("object target = null!;", "() => target.ToString()", "NullReferenceException", false)]
+    [DataRow("object target = null!; string? Text() => target.ToString();", "Text", "NullReferenceException", false)]
+    [DataRow("var target = new object(); Clear(ref target);", "target.ToString", "NullReferenceException", true)]
+    public async Task Tracks_Method_Group_Exception_Paths(string setup, string value, string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                {{setup}}
+                Action register = () => {};
+                try { Func<string?> text = {{value}}; }
+                catch ({{caught}}) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+                static void Clear(ref object value) => value = null!;
+            };
+            callback(null!); return 0;
+
+            public static class MethodGroups
+            {
+                public static string StaticText() => "";
+                public static string ExtensionText(this object value) => "";
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("object target = null!;", true)]
+    [DataRow("var target = new object();", false)]
+    public async Task Preserves_Capture_Before_Method_Group_Exception(string setup, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                {{setup}}
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                try
+                {
+                    Func<string?> text = target.ToString;
+                    register = () => {};
+                }
+                catch (NullReferenceException) { }
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("int counter = 1; int divisor = 0;", "counter /= divisor;", "DivideByZeroException", true)]
     [DataRow("int counter = 1; int divisor = 0;", "counter %= divisor;", "DivideByZeroException", true)]
     [DataRow("int counter = int.MaxValue;", "checked { counter += 1; }", "OverflowException", true)]
@@ -30,6 +86,24 @@ public class CallbackCaptureAnalyzerTests
     [DataRow("decimal counter = decimal.MaxValue;", "counter++;", "OverflowException", true)]
     [DataRow("decimal counter = 1; decimal divisor = 0;", "counter /= divisor;", "DivideByZeroException", true)]
     [DataRow("decimal counter = decimal.MaxValue;", "counter = counter + 1;", "OverflowException", true)]
+    [DataRow("int counter = int.MaxValue;", "checked { counter++; }", "InvalidOperationException", false)]
+    [DataRow("int counter = int.MaxValue;", "checked { counter += 1; }", "ArgumentException", false)]
+    [DataRow("int counter = int.MaxValue;", "checked { counter = counter + 1; }", "InvalidOperationException", false)]
+    [DataRow("int counter = int.MinValue;", "checked { counter = -counter; }", "InvalidOperationException", false)]
+    [DataRow("int counter = int.MinValue;", "checked { counter = -counter; }", "OverflowException", true)]
+    [DataRow("int counter = 1; int divisor = 0;", "counter /= divisor;", "InvalidOperationException", false)]
+    [DataRow("int counter = int.MinValue; int divisor = -1;", "counter /= divisor;", "OverflowException", true)]
+    [DataRow("int counter = int.MinValue; int divisor = -1;", "counter %= divisor;", "OverflowException", true)]
+    [DataRow("long counter = long.MinValue; long divisor = -1;", "counter %= divisor;", "OverflowException", true)]
+    [DataRow("nint counter = nint.MinValue; nint divisor = -1;", "counter %= divisor;", "OverflowException", true)]
+    [DataRow("int? counter = int.MinValue; int divisor = -1;", "counter %= divisor;", "OverflowException", true)]
+    [DataRow("short counter = short.MinValue; short divisor = -1;", "checked { counter /= divisor; }", "OverflowException", true)]
+    [DataRow("short counter = short.MinValue; short divisor = -1;", "unchecked { counter /= divisor; }", "OverflowException", false)]
+    [DataRow("uint counter = 1; uint divisor = 0;", "counter /= divisor;", "OverflowException", false)]
+    [DataRow("uint counter = 1; uint divisor = 0;", "checked { counter /= divisor; }", "OverflowException", false)]
+    [DataRow("decimal counter = decimal.MaxValue;", "counter *= 2;", "ArgumentException", false)]
+    [DataRow("decimal counter = 1; decimal divisor = 0;", "counter %= divisor;", "OverflowException", false)]
+    [DataRow("int counter = int.MinValue;", "checked { counter--; }", "ArithmeticException", true)]
     public async Task Tracks_Arithmetic_Assignment_Exception_Paths(string setup, string operation, string caught, bool registered)
     {
         await VerifyAsync(Source($$"""
