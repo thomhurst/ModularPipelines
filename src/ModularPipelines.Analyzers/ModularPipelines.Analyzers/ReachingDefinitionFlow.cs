@@ -129,6 +129,26 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
+        if (operation is IDeconstructionAssignmentOperation deconstruction)
+        {
+            VisitDeconstructionTarget(deconstruction.Target, state, block, continuation, filter);
+            Visit(deconstruction.Value, state, block, continuation, filter);
+            if (state.Count == 0)
+            {
+                return;
+            }
+
+            if (operation.Syntax.Span == invocation.Syntax.Span)
+            {
+                _reaching.UnionWith(state);
+            }
+
+            // Deconstruct calls run before stores; each later store sees earlier local writes.
+            FollowOperationExceptions(deconstruction, state, block, continuation, filter);
+            StoreDeconstructionTarget(deconstruction.Target, deconstruction.Value, state, block, continuation, filter);
+            return;
+        }
+
         // Compound assignment reads its previous targets before evaluating the right-hand side.
         var addedTargets = operation is ICompoundAssignmentOperation { Target: ILocalReferenceOperation target } assignment
             && SymbolEqualityComparer.Default.Equals(target.Local, local) && IsDelegateAddition(assignment)
@@ -152,8 +172,78 @@ internal sealed class ReachingDefinitionFlow(
         ApplyDefinition(operation, state, addedTargets);
     }
 
-    private void FollowOperationExceptions(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+    private void VisitDeconstructionTarget(IOperation target, HashSet<TextSpan> state, BasicBlock block,
         ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        if (target is ITupleOperation or IDeclarationExpressionOperation)
+        {
+            foreach (var child in target.ChildOperations)
+            {
+                VisitDeconstructionTarget(child, state, block, continuation, filter);
+            }
+        }
+        else if (target is IPropertyReferenceOperation { Property.ReturnsByRef: true })
+        {
+            Visit(target, state, block, continuation, filter);
+        }
+        else
+        {
+            // Receivers and indices are evaluated now; the actual store happens after the RHS.
+            foreach (var child in target.ChildOperations)
+            {
+                Visit(child, state, block, continuation, filter);
+            }
+        }
+    }
+
+    private void StoreDeconstructionTarget(IOperation target, IOperation? value, HashSet<TextSpan> state,
+        BasicBlock block, ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        if (state.Count == 0)
+        {
+            return;
+        }
+
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        if (target is ITupleOperation tuple)
+        {
+            while (value is IConversionOperation conversion)
+            {
+                value = conversion.Operand;
+            }
+
+            var values = value as ITupleOperation;
+            for (var index = 0; index < tuple.Elements.Length; index++)
+            {
+                StoreDeconstructionTarget(tuple.Elements[index], values?.Elements[index], state, block,
+                    continuation, filter);
+            }
+
+            return;
+        }
+
+        if (target is ILocalReferenceOperation reference
+            && SymbolEqualityComparer.Default.Equals(reference.Local, local))
+        {
+            if (value is null || definitions.ContainsKey(value.Syntax.Span))
+            {
+                state.Clear();
+                state.Add(value?.Syntax.Span ?? UnknownValue);
+            }
+        }
+        else if (target is not IPropertyReferenceOperation { Property.ReturnsByRef: true })
+        {
+            FollowOperationExceptions(target, state, block, continuation, filter, deconstructionStore: true, storedValue: value);
+        }
+    }
+
+    private void FollowOperationExceptions(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+        ImmutableArray<int> continuation, FilterContext? filter, bool deconstructionStore = false,
+        IOperation? storedValue = null)
     {
         var arithmeticExceptions = GetArithmeticExceptions(operation);
         var receiverException = GetReceiverExceptionName(operation);
@@ -165,7 +255,7 @@ internal sealed class ReachingDefinitionFlow(
         {
             FollowKnownException("System.NullReferenceException");
             FollowKnownException("System.IndexOutOfRangeException");
-            if (CanArrayAccessMismatch(operation, array))
+            if (CanArrayAccessMismatch(operation, array, deconstructionStore, storedValue))
             {
                 FollowKnownException("System.ArrayTypeMismatchException");
             }
@@ -215,9 +305,11 @@ internal sealed class ReachingDefinitionFlow(
         _ => null,
     };
 
-    private bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array) =>
+    private bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array,
+        bool deconstructionStore, IOperation? storedValue) =>
         array.Type is not { IsValueType: true } and not INamedTypeSymbol { IsSealed: true }
-        && IsWritableArrayAccess(operation)
+        && (deconstructionStore ? storedValue is not { ConstantValue: { HasValue: true, Value: null } }
+            : IsWritableArrayAccess(operation))
         && (!analyzeReceiverTypes || !HasExactArrayType(array.ArrayReference, array.ArrayReference.Type,
             [with(SymbolEqualityComparer.Default)]));
 

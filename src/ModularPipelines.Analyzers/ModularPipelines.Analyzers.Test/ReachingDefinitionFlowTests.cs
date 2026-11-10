@@ -89,6 +89,38 @@ public class ReachingDefinitionFlowTests
         "string value = \"old\"; Holder holder = null; try { " + statement + " } catch { [|Use(value)|]; }", expected);
 
     [TestMethod]
+    [DataRow("(value, holder.Property) = (\"new\", \"x\");", "\"new\"")]
+    [DataRow("(holder.Property, value) = (\"x\", \"new\");", "\"old\"")]
+    [DataRow("(value, holder.Property, value) = (\"first\", \"x\", \"last\");", "\"first\"")]
+    [DataRow("((value, holder.Property), value) = ((\"first\", \"x\"), \"last\");", "\"first\"")]
+    [DataRow("(value, holder.Field) = (\"new\", \"x\");", "")]
+    [DataRow("(value, missing.Field) = (\"new\", \"x\");", "\"new\"")]
+    [DataRow("(value, array[2]) = (\"new\", \"x\");", "\"new\"")]
+    [DataRow("(array[2], value) = (\"x\", \"new\");", "\"old\"")]
+    [DataRow("(value, holder.RefProperty) = (\"new\", \"x\");", "\"old\"")]
+    [DataRow("(value, holder.Property) = (\"new\", value = \"rhs\");", "\"new\"")]
+    [DataRow("(holder.Property, value) = (\"x\", value = \"rhs\");", "\"rhs\"")]
+    public void Deconstruction_Stores_Follow_Assignment_Order(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; Holder holder = new Holder(); Holder missing = null; string[] array = new string[1]; try { "
+        + statement + " } catch { [|Use(value)|]; }", expected);
+    [TestMethod]
+    [DataRow("item", "\"new\"")]
+    [DataRow("null", "")]
+    public void Deconstruction_Array_Stores_Check_Covariance(string assigned, string expected) => AssertFlow($$"""
+        string value = "old";
+        object[] array = new string[1];
+        try { (value, array[0]) = ("new", {{assigned}}); }
+        catch (ArrayTypeMismatchException) { [|Use(value)|]; }
+        """, expected);
+
+    [TestMethod]
+    public void Deconstruction_Setter_Exception_Reaches_Filter_Before_Finally() => AssertFlow("""
+        string value = "old";
+        Holder holder = new Holder();
+        try { try { (value, holder.Property) = ("new", "x"); } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"new\"");
+    [TestMethod]
     public void Deconstruct_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
         string value = "old";
         Holder holder = null;
