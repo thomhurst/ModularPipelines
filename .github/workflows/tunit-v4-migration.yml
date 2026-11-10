@@ -1,0 +1,61 @@
+name: TUnit v4 migration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
+    paths:
+      - '.github/workflows/tunit-v4-migration.yml'
+      - 'scripts/Validate-TUnitMigration.ps1'
+      - 'src/ModularPipelines/**'
+      - 'src/ModularPipelines.DotNet/**'
+      - 'src/ModularPipelines.Git/**'
+      - 'src/ModularPipelines.GitHub/**'
+      - 'src/ModularPipelines.SourceGenerator/**'
+      - 'src/ModularPipelines.Analyzers/**'
+      - 'src/ModularPipelines.Development.Analyzers/**'
+      - 'src/Directory.Build.targets'
+      - 'scripts/Invoke-AgentDotNet.ps1'
+      - 'Directory.Build.props'
+      - 'Directory.Packages.props'
+      - 'global.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tunit-migration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  consumer:
+    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: framework
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: thomhurst/TUnit
+          # Reviewed migration fixture; update deliberately when the consumer changes.
+          ref: 9d16f127a94bb8e5416997612e277fb0896658cc
+          path: consumer
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: framework/global.json
+      - name: Validate the real consumer with local v4 packages
+        shell: pwsh
+        run: |
+          & ./framework/scripts/Validate-TUnitMigration.ps1 -ConsumerPath ./consumer -EvidenceDirectory ./migration-evidence
+      - name: Upload migration evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: tunit-v4-migration
+          path: migration-evidence/*.log
+          if-no-files-found: warn

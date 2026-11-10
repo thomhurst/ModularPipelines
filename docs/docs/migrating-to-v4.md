@@ -131,6 +131,9 @@ and generated CLI option namespaces.
 
 Remove `using ModularPipelines.Extensions;` from V4 code. That namespace now contains only internal
 types; public builder APIs are available through `ModularPipelines`.
+For file-system extension methods such as `AssertExists()`, add
+`using ModularPipelines.FileSystem;`. For example, a migrated Git root search still uses
+`root.FindFile(file => file.Name == "Example.csproj").AssertExists()` with that import.
 
 Replace `using ModularPipelines.Models;` with `using ModularPipelines;` for CLI contracts and their
 value validation attributes. Update fully qualified references as well, for example
