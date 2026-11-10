@@ -5913,18 +5913,19 @@ internal static class ModuleAuthoringAnalysis
         ILocalSymbol local,
         ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
     {
-        var visited = new HashSet<IOperation>();
-        var pending = new Stack<IOperation>();
-        pending.Push(value);
+        var visited = new HashSet<(IOperation Site, IMethodSymbol? Callback)>();
+        var pending = new Stack<(IOperation Site, IMethodSymbol? Callback)>();
+        pending.Push((value, null));
         while (pending.Count > 0)
         {
-            value = pending.Pop();
-            if (!visited.Add(value))
+            var (site, callback) = pending.Pop();
+            value = site;
+            if (!visited.Add((site, callback)))
             {
                 continue;
             }
 
-            var (reachingValues, inheritsIncomingValue) = GetCallbackLocalDefinitions(value, local, callbackInvocations);
+            var (reachingValues, inheritsIncomingValue) = GetCallbackLocalDefinitions(value, local, callbackInvocations, callback);
             foreach (var candidate in reachingValues)
             {
                 yield return candidate;
@@ -5932,15 +5933,15 @@ internal static class ModuleAuthoringAnalysis
 
             if (inheritsIncomingValue)
             {
-                foreach (var site in GetOuterCallbackCaptureSites(value, local, callbackInvocations))
+                foreach (var outer in GetOuterCallbackCaptureSites(value, local, callbackInvocations))
                 {
-                    pending.Push(site);
+                    pending.Push(outer);
                 }
             }
         }
     }
 
-    private static IEnumerable<IOperation> GetOuterCallbackCaptureSites(
+    private static IEnumerable<(IOperation Site, IMethodSymbol? Callback)> GetOuterCallbackCaptureSites(
         IOperation value,
         ILocalSymbol local,
         ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
@@ -5956,7 +5957,7 @@ internal static class ModuleAuthoringAnalysis
         // Cancellation configuration discovery uses lexical scope without an execution map.
         if (callbackInvocations is null)
         {
-            return [callable];
+            return [(callable, null)];
         }
 
         // Closures capture the variable. Cross the callable boundary at its execution site.
@@ -5967,8 +5968,9 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return IsWithinLocalScope(invocation, local)
-            ? [invocation]
-            : GetReturnedCallbackCaptureSites(callableSymbol, local, value, callbackInvocations);
+            ? [(invocation, callableSymbol)]
+            : GetReturnedCallbackCaptureSites(callableSymbol, local, value, callbackInvocations)
+                .Select(static site => (site, (IMethodSymbol?) null));
     }
 
     private static bool IsWithinLocalScope(IOperation operation, ILocalSymbol local)
@@ -6023,10 +6025,12 @@ internal static class ModuleAuthoringAnalysis
     private static (IEnumerable<IOperation> Values, bool InheritsIncomingValue) GetCallbackLocalDefinitions(
         IOperation value,
         ILocalSymbol local,
-        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations,
+        IMethodSymbol? invokedCallback = null)
     {
         if (callbackInvocations is not null && ReachingDefinitionFlow.TryGetReachingLocalValues(
-                GetRoot(value), value, local, out var reachingValues, out var inheritsIncomingValue))
+                GetRoot(value), value, local, out var reachingValues, out var inheritsIncomingValue,
+                invokedCallback: invokedCallback))
         {
             return (reachingValues, inheritsIncomingValue);
         }

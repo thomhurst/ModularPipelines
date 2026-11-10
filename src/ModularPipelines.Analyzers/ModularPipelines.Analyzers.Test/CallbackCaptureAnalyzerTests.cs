@@ -9,6 +9,71 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("set + run", true)]
+    [DataRow("run + set", false)]
+    [DataRow("set + clear + run", false)]
+    [DataRow("clear + set + run", true)]
+    [DataRow("set + run + clear", true)]
+    [DataRow("set + fail + run", false)]
+    [DataRow("set + cleanup + run", false)]
+    [DataRow("set + optionalClear + run", true)]
+    [DataRow("(set + clear) + (set + run)", true)]
+    [DataRow("args.Length > 0 ? set + run : clear + run", true)]
+    [DataRow("true ? clear + run : set + run", false)]
+    [DataRow("false ? clear + run : set + run", true)]
+    [DataRow("set + forward", true)]
+    [DataRow("set + run + run", true)]
+    public async Task Resolves_Captures_At_Each_Multicast_Target_Entry(string receiver, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                Action set = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); };
+                Action clear = () => { register = () => {}; };
+                Action run = () => register();
+                Action forward = () => run();
+                Action fail = () => { throw new InvalidOperationException(); };
+                Action cleanup = () => { try { } finally { register = () => {}; } };
+                Action optionalClear = () => { if (args.Length > 0) register = () => {}; };
+                Action combined = {{receiver}};
+                try { combined(); } catch (InvalidOperationException) { }
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("publisher.Callback", "=", true)]
+    [DataRow("publisher[0]", "=", true)]
+    [DataRow("publisher.Callback", "+=", true)]
+    [DataRow("publisher[0]", "+=", true)]
+    [DataRow("publisher.Callback", "=", false)]
+    [DataRow("publisher[0]", "=", false)]
+    public async Task Evaluates_Dynamic_Setters_After_Assigned_Values(string target, string assignment, bool registered)
+    {
+        var value = registered ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}";
+        var initial = registered ? "() => {}" : "() => Pipeline.CreateBuilder().AddModule<BuildModule>()";
+        // Compound writes also read the getter before the value, so the early definition can survive.
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = {{initial}};
+                dynamic publisher = new Publisher();
+                try { {{target}} {{assignment}} register = {{value}}; }
+                catch (Exception) { register(); }
+            };
+            callback(null!); return 0;
+
+            public class Publisher
+            {
+                public Action Callback { get => () => {}; set => throw new InvalidOperationException(); }
+                public Action this[int index] { get => () => {}; set => throw new InvalidOperationException(); }
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("set + empty", true)]
     [DataRow("empty + set", true)]
     [DataRow("set + clear", false)]

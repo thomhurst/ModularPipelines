@@ -32,10 +32,12 @@ internal sealed class ReachingDefinitionFlow(
     private ImmutableDictionary<int, ITypeSymbol?> _activeExceptions = ImmutableDictionary<int, ITypeSymbol?>.Empty;
     private AwaitFault? _awaitFault;
     private bool _resumingFaultedCall;
+    private IMethodSymbol? _entryCallback;
 
     public static bool TryGetReachingLocalValues(IOperation root, IOperation operation, ILocalSymbol local,
         out ImmutableArray<IOperation> values, out bool inheritsIncomingValue, bool analyzeReceiverTypes = true,
-        bool analyzeCapturedWrites = true, ImmutableHashSet<TextSpan>? receiverQueries = null)
+        bool analyzeCapturedWrites = true, ImmutableHashSet<TextSpan>? receiverQueries = null,
+        IMethodSymbol? invokedCallback = null)
     {
         values = [];
         inheritsIncomingValue = false;
@@ -50,7 +52,10 @@ internal sealed class ReachingDefinitionFlow(
             .GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
         var flow = new ReachingDefinitionFlow(graph, operation, definitions, local, analyzeReceiverTypes,
-            analyzeCapturedWrites: analyzeCapturedWrites, receiverQueries: receiverQueries, operationRoot: root);
+            analyzeCapturedWrites: analyzeCapturedWrites, receiverQueries: receiverQueries, operationRoot: root)
+        {
+            _entryCallback = invokedCallback,
+        };
         values = [.. flow.Analyze()];
         inheritsIncomingValue = flow._reaching.Contains(IncomingValue);
         return true;
@@ -153,11 +158,18 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
-        if (operation.Syntax.Span == invocation.Syntax.Span)
+        if (_entryCallback is null && operation.Syntax.Span == invocation.Syntax.Span)
         {
             _reaching.UnionWith(state);
         }
 
+        TransferOperation(operation, state, block, continuation, filter);
+        ApplyDefinition(operation, state, addedTargets);
+    }
+
+    private void TransferOperation(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+        ImmutableArray<int> continuation, FilterContext? filter)
+    {
         if (operation is IAwaitOperation awaitOperation && CanSuspend(awaitOperation))
         {
             asyncSuspension?.Invoke(state);
@@ -165,9 +177,14 @@ internal sealed class ReachingDefinitionFlow(
 
         if (!ApplyCapturedWrites(operation, state, block, continuation, filter))
         {
+            // Unknown callback implementations retain the ordinary pre-invocation capture lookup.
+            if (_entryCallback is not null && operation.Syntax.Span == invocation.Syntax.Span)
+            {
+                _reaching.UnionWith(state);
+            }
+
             FollowOperationExceptions(operation, state, block, continuation, filter);
         }
-        ApplyDefinition(operation, state, addedTargets);
     }
 
     private bool SkipBeforeFaultedCall(IOperation operation)
@@ -452,6 +469,13 @@ internal sealed class ReachingDefinitionFlow(
         IInvocationOperation call, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites,
         HashSet<TextSpan> state, bool awaited, BasicBlock block, ImmutableArray<int> continuation, FilterContext? filter)
     {
+        // Each multicast target sees the writes completed by earlier invocation-list entries.
+        if (call.Syntax.Span == invocation.Syntax.Span
+            && SymbolEqualityComparer.Default.Equals(method.OriginalDefinition, _entryCallback?.OriginalDefinition))
+        {
+            _reaching.UnionWith(state);
+        }
+
         var output = new HashSet<TextSpan>();
         Action<HashSet<TextSpan>>? suspension = null;
         if (method.IsAsync)
@@ -508,6 +532,7 @@ internal sealed class ReachingDefinitionFlow(
             completedCleanup, _operationRoot, asyncSuspension)
         {
             _activeExceptions = _activeExceptions,
+            _entryCallback = _entryCallback,
             _awaitFault = new AwaitFault(this, call.Syntax.Span, GetAwaitedOperation(call)!.Syntax.Span, exceptionType),
             _resumingFaultedCall = true,
         };
@@ -701,12 +726,14 @@ internal sealed class ReachingDefinitionFlow(
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
         or ITypeParameterObjectCreationOperation
-        or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
-        or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
+        or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation;
 
     private static bool IsThrowingPropertyAccess(IOperation operation) => operation switch
     {
         // Setters run after the assigned value; ref-return getters run while evaluating the target.
+        IAssignmentOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
+        IIncrementOrDecrementOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
+        IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation => !IsSimpleAssignmentTarget(operation),
         IAssignmentOperation { Target: IPropertyReferenceOperation property } =>
             !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
         IIncrementOrDecrementOperation { Target: IPropertyReferenceOperation property } =>
