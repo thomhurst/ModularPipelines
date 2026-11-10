@@ -551,10 +551,10 @@ public class OptionsClassGenerator : ICodeGenerator
         var presence = GroupPresence(Presence);
         string RenderedPresence(string propertyName) =>
             GetPresenceExpression(command, positionalArguments, propertyName, includeBlankValues: true);
-        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, RenderedPresence);
+        var renderedPresence = GroupPresence(RenderedPresence);
+        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, renderedPresence, RenderedPresence);
 
         // Rendered blank operands activate a branch, but cannot satisfy its required members.
-        var renderedPresence = GroupPresence(RenderedPresence);
         var activeGroup = activation is null ? renderedPresence : $"{activation} && {renderedPresence}";
         GenerateRequiredGroupMemberValidation(sb, group, propertyNames, activeGroup, Presence);
 
@@ -630,6 +630,7 @@ public class OptionsClassGenerator : ICodeGenerator
         string? activation,
         string[] propertyNames,
         string presence,
+        string renderedPresence,
         Func<string, string> getRenderedPresence)
     {
         if (group.IsChoice && group.IsMutuallyExclusive)
@@ -643,7 +644,9 @@ public class OptionsClassGenerator : ICodeGenerator
                     $"({FormatChoice([.. nested.PropertyNames.Distinct(StringComparer.Ordinal)])})")).ToArray();
             var cardinality = required ? "Exactly one" : "At most one";
             // Blank strings still render argv tokens, but cannot satisfy a required input.
-            var invalid = required ? $"!{presence} || {count} != 1" : $"{count} > 1";
+            var invalid = required
+                ? $"!{presence} || {count} != 1"
+                : $"{count} > 1 || ({renderedPresence} && !{presence})";
             WriteValidationFailure(sb, invalid, activation,
                 $"{cardinality} of {FormatChoice(branchNames)} {(required ? "must" : "may")} be specified.", propertyNames);
         }

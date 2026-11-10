@@ -76,7 +76,9 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
-    public async Task Explicit_Empty_Values_Participate_In_Exclusive_Groups_Without_Allowing_Blank_Operands()
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Explicit_Empty_Values_Participate_In_Exclusive_Groups_Without_Allowing_Blank_Operands(bool required)
     {
         var generated = await Generate(
             [new() { SwitchName = "--reset", PropertyName = "Reset", CSharpType = "string?", AllowsEmptyValue = true }],
@@ -84,6 +86,7 @@ public partial class RequiredConstructorValidationTests
             alternativeGroups:
             [new()
             {
+                IsRequired = required,
                 IsMutuallyExclusive = true,
                 Members =
                 [
@@ -94,7 +97,7 @@ public partial class RequiredConstructorValidationTests
         var optionsType = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
         var instance = Activator.CreateInstance(optionsType)!;
         foreach (var (reset, resource, valid) in new (string?, string?, bool)[]
-                 { (null, null, false), ("", null, true), ("", "resource", false), (null, "", false),
+                 { (null, null, !required), ("", null, true), ("", "resource", false), (null, "", false),
                      (null, " \t", false), (null, "resource", true), ("rule", null, true), (" \t", null, false),
                      (" \t", "resource", false), ("rule", " \t", false), ("rule", "", false) })
         {

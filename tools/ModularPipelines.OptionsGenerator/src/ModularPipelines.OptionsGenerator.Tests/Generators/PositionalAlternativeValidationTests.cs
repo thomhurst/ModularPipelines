@@ -86,6 +86,7 @@ public partial class RequiredConstructorValidationTests
                  { (null, null, null, true), ("", null, null, false), (" \t", null, null, false),
                      (null, "", null, false), (null, " \t", null, false), ("", " \t", null, false),
                      ("142", "", null, false), (" \t", "2", null, false), ("142", "2", null, true),
+                     (null, null, "", false), (null, null, " \t", false),
                      (null, null, "https://example.test/artifact/2", true) })
         {
             optionsType.GetProperty("Issue")!.SetValue(instance, issue);
