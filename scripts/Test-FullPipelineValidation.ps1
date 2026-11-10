@@ -162,6 +162,79 @@ try {
     if ((Get-Content $outputPath) -notcontains 'run_full_pipeline=false') {
         throw 'Expected a lowercase boolean GitHub output.'
     }
+
+    $routePaths = [ordered]@{
+        run_distributed_template = @(
+            'src/ModularPipelines/Engine.cs',
+            'src/ModularPipelines.GitHub/Workflow.cs',
+            'src/ModularPipelines.Distributed.Redis/Coordinator.cs',
+            'test/ModularPipelines.Distributed.SmokeTests/Program.cs',
+            'test/ModularPipelines.GitHub.UnitTests/WorkflowTests.cs',
+            'Directory.Build.props', 'global.json',
+            '.github/workflows/distributed-template-smoke.yml'
+        )
+        run_go_validation = @(
+            'src/ModularPipelines.Go/Go.cs',
+            'test/ModularPipelines.Go.UnitTests/GoTests.cs',
+            '.github/workflows/go-validation.yml'
+        )
+        run_docs_deploy = @(
+            'docs/docs/intro.md', 'docs/package.json',
+            '.github/workflows/deploy-pages.yml', '.github/workflows/deploy-pages-test.yml'
+        )
+    }
+    function Assert-SupplementalRoutes {
+        param([hashtable]$Arguments, [string[]]$ExpectedRoutes)
+        Set-Content -LiteralPath $outputPath -Value ''
+        & $resolveScript @Arguments -GitHubOutput $outputPath 6>$null | Out-Null
+        $outputs = Get-Content -LiteralPath $outputPath
+        foreach ($route in $routePaths.Keys) {
+            $expected = ($route -in $ExpectedRoutes).ToString().ToLowerInvariant()
+            if ($outputs -notcontains "$route=$expected") {
+                throw "Supplemental route '$route' expected '$expected' for $($Arguments | ConvertTo-Json -Compress)."
+            }
+        }
+    }
+    foreach ($eventName in @('pull_request', 'push')) {
+        foreach ($route in $routePaths.Keys) {
+            foreach ($path in $routePaths[$route]) {
+                Assert-SupplementalRoutes @{ EventName = $eventName; ChangedPath = @($path) } @($route)
+                Assert-SupplementalRoutes @{ EventName = $eventName; ChangedPath = @($path.Replace('/', '\')) } @($route)
+            }
+        }
+        foreach ($path in @(
+                '.github/workflows/dotnet.yml',
+                'scripts/Resolve-FullPipelineValidation.ps1',
+                'scripts/Test-FullPipelineValidation.ps1',
+                'scripts/Assert-RequiredPipelineContext.ps1',
+                'scripts/Test-RequiredPipelineContext.ps1'
+            )) {
+            Assert-SupplementalRoutes @{ EventName = $eventName; ChangedPath = @($path) } @($routePaths.Keys)
+        }
+        foreach ($paths in @(@(), @('README.md'), @('tools/ModularPipelines.OptionsGenerator/src/Scraper.cs'))) {
+            Assert-SupplementalRoutes @{ EventName = $eventName; ChangedPath = $paths } @()
+        }
+        Assert-SupplementalRoutes @{
+            EventName = $eventName
+            ChangedPath = @('docs/docs/intro.md', 'src/ModularPipelines.Go/Go.cs', 'src/ModularPipelines/Engine.cs')
+        } @($routePaths.Keys)
+    }
+    Assert-SupplementalRoutes @{ EventName = 'workflow_dispatch'; ChangedPath = @() } @($routePaths.Keys)
+    Assert-SupplementalRoutes @{ EventName = 'push'; BaseSha = ('0' * 40) } @($routePaths.Keys)
+    Assert-SupplementalRoutes @{
+        EventName = 'pull_request'; ChangedPath = @('docs/docs/mp-packages/cli/docker.md')
+        IsGeneratedIntegration = 'true'
+    } @('run_docs_deploy')
+    Assert-SupplementalRoutes @{
+        EventName = 'pull_request'; ChangedPath = @('src/ModularPipelines.Go/Options/GoBuildOptions.Generated.cs')
+        IsGeneratedIntegration = 'true'
+    } @('run_go_validation')
+    # The Git diff route must pass its changed paths to supplemental validation too.
+    Assert-SupplementalRoutes @{
+        EventName = 'push'; BaseSha = $branch; RepositoryRoot = $repository
+    } @('run_distributed_template')
+    Write-Host 'Supplemental path routing tests passed.'
+
 }
 finally {
     $resolvedRepository = [IO.Path]::GetFullPath($repository)

@@ -1,16 +1,11 @@
 name: Go validation
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
-    paths:
-      - 'src/ModularPipelines.Go/**'
-      - 'test/ModularPipelines.Go.UnitTests/**'
-      - '.github/workflows/go-validation.yml'
+  workflow_call:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: go-validation-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -19,7 +14,7 @@ permissions:
 jobs:
   validate:
     name: Go build, tests and formatting
-    # Skip drafts before renting a runner; marking the PR ready starts this workflow.
+    # The caller routes changes and skips drafts before invoking this workflow.
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 20

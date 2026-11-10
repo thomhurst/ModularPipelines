@@ -153,6 +153,32 @@ foreach ($route in @('full', 'distributed', 'generated', 'integration', 'fast-on
 }
 Write-Host "Required analyzer and trim/AOT routing: $qualityCaseCount cases passed."
 
+# Each supplemental workflow is required exactly when its path route selects it.
+$supplementalCaseCount = 0
+foreach ($validation in @('DistributedTemplate', 'GoValidation', 'DocsDeploy')) {
+    foreach ($required in @('true', 'false', '', 'invalid')) {
+        foreach ($result in @('success', 'failure', 'cancelled', 'skipped', '', 'invalid')) {
+            $arguments = @{
+                RunFullPipeline = 'false'; IsGeneratedIntegration = 'false'
+                FastFailResult = 'success'; FullPipelineResult = 'skipped'
+                GeneratedIntegrationResult = 'skipped'; RunIntegrationValidation = 'false'
+                IntegrationResult = 'skipped'; AnalyzersResult = 'skipped'; TrimAotResult = 'skipped'
+            }
+            $arguments["Run$validation"] = $required
+            $arguments["${validation}Result"] = $result
+            $passed = $true
+            try { & $assertScript @arguments *> $null } catch { $passed = $false }
+            $expected = if ($required -eq 'true') { 'success' } else { 'skipped' }
+            $shouldPass = $required -in @('true', 'false') -and $result -eq $expected
+            if ($passed -ne $shouldPass) {
+                throw "Unexpected supplemental gate: validation=$validation required=$required result=$result."
+            }
+            $supplementalCaseCount++
+        }
+    }
+}
+Write-Host "Required supplemental routing: $supplementalCaseCount cases passed."
+
 $workflow = Get-Content -LiteralPath (Join-Path $repositoryRoot '.github/workflows/dotnet.yml') -Raw
 $requiredJob = [regex]::Match(
     $workflow,
@@ -168,7 +194,7 @@ foreach ($requiredText in @(
              'name: pipeline (${{ matrix.os }})',
              'os: [ubuntu-latest]',
              'runs-on: ${{ matrix.os }}',
-             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]',
+             'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests, distributed-template, go-validation, docs-deploy]',
              "if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)",
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
@@ -179,6 +205,12 @@ foreach ($requiredText in @(
              '-TrimAotResult ''${{ needs.trim-aot.result }}''',
              '-RunIntegrationValidation ''${{ needs.fast-fail.outputs.run_integration_validation }}''',
              '-IntegrationResult ''${{ needs.changed-integration.result }}''',
+             '-RunDistributedTemplate ''${{ needs.fast-fail.outputs.run_distributed_template }}''',
+             '-DistributedTemplateResult ''${{ needs.distributed-template.result }}''',
+             '-RunGoValidation ''${{ needs.fast-fail.outputs.run_go_validation }}''',
+             '-GoValidationResult ''${{ needs.go-validation.result }}''',
+             '-RunDocsDeploy ''${{ needs.fast-fail.outputs.run_docs_deploy }}''',
+             '-DocsDeployResult ''${{ needs.docs-deploy.result }}''',
              './scripts/Assert-RequiredPipelineContext.ps1'
          )) {
     if (-not $requiredJob.Contains($requiredText, [StringComparison]::Ordinal)) {
@@ -267,3 +299,73 @@ finally {
     $env:CMD_TEST_RESULT = $originalCmdResult
 }
 Write-Host 'Required pipeline context tests passed.'
+
+# Supplemental CI must run under the required aggregate, with no duplicate PR triggers
+# or reusable concurrency group that cancels its caller.
+foreach ($route in @(
+        @{ Job = 'distributed-template'; Output = 'run_distributed_template'; Workflow = 'distributed-template-smoke' },
+        @{ Job = 'go-validation'; Output = 'run_go_validation'; Workflow = 'go-validation' },
+        @{ Job = 'docs-deploy'; Output = 'run_docs_deploy'; Workflow = 'deploy-pages-test' }
+    )) {
+    $job = [regex]::Match($workflow, "(?ms)^  $($route.Job):.*?(?=^  [a-z0-9-]+:|\z)").Value
+    foreach ($text in @(
+            'needs: fast-fail',
+            "if: needs.fast-fail.outputs.$($route.Output) == 'true'",
+            "uses: ./.github/workflows/$($route.Workflow).yml"
+        )) {
+        if (-not $job.Contains($text, [StringComparison]::Ordinal)) {
+            throw "Supplemental job '$($route.Job)' omitted '$text'."
+        }
+    }
+    $output = "$($route.Output): " + '${{ steps.full_pipeline.outputs.' + $route.Output + ' }}'
+    if (-not $fastFailJob.Contains($output, [StringComparison]::Ordinal)) {
+        throw "Fast fail must expose '$($route.Output)' to the caller and aggregate."
+    }
+    $called = Get-Content (Join-Path $repositoryRoot ".github/workflows/$($route.Workflow).yml") -Raw
+    if ($called -notmatch '(?m)^  workflow_call:' -or $called -match '(?m)^  (pull_request|push):') {
+        throw "Supplemental workflow '$($route.Workflow)' must be called only through the required pipeline or manual dispatch."
+    }
+    if ($called.Contains('group: ${{ github.workflow }}', [StringComparison]::Ordinal)) {
+        throw "Reusable workflow '$($route.Workflow)' must not share the caller concurrency group."
+    }
+}
+Write-Host 'Supplemental workflow wiring tests passed.'
+
+# Execute the reusable smoke workflow's final assertion so an always-running
+# identity summary cannot conceal failed initialization or matrix workers.
+$smokeWorkflow = Get-Content (Join-Path $repositoryRoot '.github/workflows/distributed-template-smoke.yml') -Raw
+$identities = [regex]::Match($smokeWorkflow, '(?ms)^  identities:.*?(?=^  [a-z0-9-]+:|\z)').Value
+if (-not $identities.Contains('needs: [initialize, pipeline]', [StringComparison]::Ordinal)) {
+    throw 'The smoke assertion must observe both initialization and matrix workers.'
+}
+$smokeGate = [regex]::Match($identities, '(?ms)      - name: Validate smoke results.*?        run: \|\r?\n(?<script>.*)')
+if (-not $smokeGate.Success) { throw 'Smoke result gate was not found.' }
+foreach ($text in @(
+        'INITIALIZE_RESULT: ${{ needs.initialize.result }}',
+        'PIPELINE_RESULT: ${{ needs.pipeline.result }}'
+    )) {
+    if (-not $smokeGate.Value.Contains($text, [StringComparison]::Ordinal)) {
+        throw "Smoke result gate omitted '$text'."
+    }
+}
+$smokeGateScript = [scriptblock]::Create(($smokeGate.Groups['script'].Value -replace '(?m)^          ', ''))
+$originalInitialize = $env:INITIALIZE_RESULT
+$originalPipeline = $env:PIPELINE_RESULT
+try {
+    foreach ($initialize in @('success', 'failure', 'cancelled', 'skipped', '')) {
+        foreach ($pipeline in @('success', 'failure', 'cancelled', 'skipped', '')) {
+            $env:INITIALIZE_RESULT = $initialize
+            $env:PIPELINE_RESULT = $pipeline
+            $passed = $true
+            try { & $smokeGateScript } catch { $passed = $false }
+            if ($passed -ne ($initialize -eq 'success' -and $pipeline -eq 'success')) {
+                throw "Unexpected smoke result: initialize=$initialize pipeline=$pipeline."
+            }
+        }
+    }
+}
+finally {
+    $env:INITIALIZE_RESULT = $originalInitialize
+    $env:PIPELINE_RESULT = $originalPipeline
+}
+Write-Host 'Reusable smoke result tests passed.'

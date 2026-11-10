@@ -73,11 +73,44 @@ $corePaths = @(
     'test/ModularPipelines.Distributed.Redis.UnitTests/*'
 )
 
+$supplementalPaths = [ordered]@{
+    run_distributed_template = @(
+        'src/ModularPipelines/*',
+        'src/ModularPipelines.GitHub/*',
+        'src/ModularPipelines.Distributed.Redis/*',
+        'test/ModularPipelines.Distributed.SmokeTests/*',
+        'test/ModularPipelines.GitHub.UnitTests/*',
+        'Directory.*',
+        'global.json',
+        '.github/workflows/distributed-template-smoke.yml'
+    )
+    run_go_validation = @(
+        'src/ModularPipelines.Go/*',
+        'test/ModularPipelines.Go.UnitTests/*',
+        '.github/workflows/go-validation.yml'
+    )
+    run_docs_deploy = @(
+        'docs/*',
+        '.github/workflows/deploy-pages.yml',
+        '.github/workflows/deploy-pages-test.yml'
+    )
+}
+# Changes to the orchestration itself must exercise every supplemental route.
+$sharedSupplementalPaths = @(
+    '.github/workflows/dotnet.yml',
+    'scripts/Resolve-FullPipelineValidation.ps1',
+    'scripts/Test-FullPipelineValidation.ps1',
+    'scripts/Assert-RequiredPipelineContext.ps1',
+    'scripts/Test-RequiredPipelineContext.ps1'
+)
+
 $runFullPipeline = $EventName -eq 'workflow_dispatch'
+$runAllValidation = $runFullPipeline
 if (-not $runFullPipeline -and $PSCmdlet.ParameterSetName -eq 'Git') {
     if ($EventName -eq 'push' -and ([string]::IsNullOrWhiteSpace($BaseSha) -or $BaseSha -match '^0+$')) {
         # Initial pushes have no comparison commit; retain full validation.
         $runFullPipeline = $true
+        $runAllValidation = $true
     }
     else {
         if ([string]::IsNullOrWhiteSpace($BaseSha)) {
@@ -117,6 +150,20 @@ $integrations = & (Join-Path $PSScriptRoot 'Resolve-ChangedIntegrationValidation
     -IsGeneratedIntegration ($IsGeneratedIntegration -eq 'true')
 $runFullPipeline = $runFullPipeline -or $integrations.RequiresFullPipeline
 
+$supplementalRoutes = [ordered]@{}
+foreach ($route in $supplementalPaths.Keys) {
+    $required = $runAllValidation
+    foreach ($path in $ChangedPath) {
+        foreach ($pattern in ($supplementalPaths[$route] + $sharedSupplementalPaths)) {
+            if ($path.Replace('\', '/') -like $pattern) {
+                $required = $true
+                break
+            }
+        }
+    }
+    $supplementalRoutes[$route] = $required.ToString().ToLowerInvariant()
+}
+
 if ($GitHubOutput) {
     "run_full_pipeline=$($runFullPipeline.ToString().ToLowerInvariant())" |
         Add-Content -LiteralPath $GitHubOutput -Encoding utf8
@@ -124,6 +171,9 @@ if ($GitHubOutput) {
         Add-Content -LiteralPath $GitHubOutput -Encoding utf8
     "integration_matrix=$($integrations.Matrix | ConvertTo-Json -Depth 4 -Compress)" |
         Add-Content -LiteralPath $GitHubOutput -Encoding utf8
+    foreach ($route in $supplementalRoutes.Keys) {
+        "$route=$($supplementalRoutes[$route])" | Add-Content -LiteralPath $GitHubOutput -Encoding utf8
+    }
 }
 
 Write-Host "Run full pipeline: $runFullPipeline"

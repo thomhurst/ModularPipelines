@@ -1,17 +1,10 @@
 name: Test Deploy to GitHub Pages
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
-    branches:
-      - main
-    paths:
-      - 'docs/**'
-      - '.github/workflows/deploy-pages.yml'
-      - '.github/workflows/deploy-pages-test.yml'
+  workflow_call:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
+  group: deploy-pages-test-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
@@ -20,7 +13,7 @@ permissions:
 jobs:
   test-deploy:
     name: Test Deploy to GitHub Pages
-    # Skip drafts before renting a runner; marking the PR ready starts this workflow.
+    # The caller routes changes and skips drafts before invoking this workflow.
     if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     timeout-minutes: 15

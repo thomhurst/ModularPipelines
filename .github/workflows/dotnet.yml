@@ -50,6 +50,9 @@ jobs:
       run_identifier: ${{ steps.distribution.outputs.run_identifier }}
       run_full_pipeline: ${{ steps.full_pipeline.outputs.run_full_pipeline }}
       run_integration_validation: ${{ steps.full_pipeline.outputs.run_integration_validation }}
+      run_distributed_template: ${{ steps.full_pipeline.outputs.run_distributed_template }}
+      run_go_validation: ${{ steps.full_pipeline.outputs.run_go_validation }}
+      run_docs_deploy: ${{ steps.full_pipeline.outputs.run_docs_deploy }}
       integration_matrix: ${{ steps.full_pipeline.outputs.integration_matrix }}
       is_generated_integration: ${{ steps.generated_integration.outputs.is_generated_integration }}
       integration_tool: ${{ steps.generated_integration.outputs.tool }}
@@ -1133,6 +1136,30 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+  distributed-template:
+    needs: fast-fail
+    if: needs.fast-fail.outputs.run_distributed_template == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/distributed-template-smoke.yml
+    secrets:
+      REDIS_ENDPOINT: ${{ secrets.REDIS_ENDPOINT }}
+      REDIS_KEY: ${{ secrets.REDIS_KEY }}
+
+  go-validation:
+    needs: fast-fail
+    if: needs.fast-fail.outputs.run_go_validation == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/go-validation.yml
+
+  docs-deploy:
+    needs: fast-fail
+    if: needs.fast-fail.outputs.run_docs_deploy == 'true'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/deploy-pages-test.yml
+
   required-pipeline:
     # Stable branch-protection check for full, generated, or fast-fail-only validation.
     # Branch protection and native auto-merge wait only for this context, so it must exist
@@ -1143,7 +1170,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests]
+    needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests, distributed-template, go-validation, docs-deploy]
     if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
@@ -1181,7 +1208,13 @@ jobs:
             -TrimAotResult '${{ needs.trim-aot.result }}' `
             -GeneratedIntegrationResult '${{ needs.generated-integration.result }}' `
             -RunIntegrationValidation '${{ needs.fast-fail.outputs.run_integration_validation }}' `
-            -IntegrationResult '${{ needs.changed-integration.result }}'
+            -IntegrationResult '${{ needs.changed-integration.result }}' `
+            -RunDistributedTemplate '${{ needs.fast-fail.outputs.run_distributed_template }}' `
+            -DistributedTemplateResult '${{ needs.distributed-template.result }}' `
+            -RunGoValidation '${{ needs.fast-fail.outputs.run_go_validation }}' `
+            -GoValidationResult '${{ needs.go-validation.result }}' `
+            -RunDocsDeploy '${{ needs.fast-fail.outputs.run_docs_deploy }}' `
+            -DocsDeployResult '${{ needs.docs-deploy.result }}'
 
   publish:
     name: Publish validated release
