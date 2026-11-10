@@ -237,14 +237,8 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
-    private void StoreLocalDefinition(IOperation? value, HashSet<TextSpan> state)
-    {
-        if (value is null || definitions.ContainsKey(value.Syntax.Span))
-        {
-            state.Clear();
-            state.Add(value?.Syntax.Span ?? UnknownValue);
-        }
-    }
+    private void StoreLocalDefinition(IOperation? value, HashSet<TextSpan> state) =>
+        ApplyAssignedValue(value, state, addedTargets: null);
 
     private void StoreDeconstructionTuple(ITupleOperation tuple, IOperation? value, HashSet<TextSpan> state,
         BasicBlock block, ImmutableArray<int> continuation, FilterContext? filter)
@@ -546,7 +540,8 @@ internal sealed class ReachingDefinitionFlow(
     {
         if (value is not null && !definitions.ContainsKey(value.Syntax.Span))
         {
-            return;
+            // Lowered stores such as foreach iteration variables can have no registered source expression.
+            value = null;
         }
 
         state.Clear();

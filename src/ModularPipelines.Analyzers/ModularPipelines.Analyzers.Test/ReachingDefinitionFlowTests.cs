@@ -478,6 +478,29 @@ public class ReachingDefinitionFlowTests
     public void Pattern_Definitions_Are_Unsupported_Until_Overwritten(string body, bool supported, string expected) =>
         AssertFlow(body, expected, incoming: body.Contains("Action nested", StringComparison.Ordinal), supported: supported);
 
+    [TestMethod]
+    [DataRow("foreach (string value in new[] { \"item\" }) { [|Use(value)|]; }")]
+    [DataRow("foreach (var value in (System.Collections.Generic.IEnumerable<string>)new[] { \"item\" }) { [|Use(value)|]; }")]
+    [DataRow("foreach (char value in \"text\") { [|Use(value)|]; }")]
+    [DataRow("foreach (var (value, other) in new[] { (\"item\", 0) }) { [|Use(value)|]; }")]
+    [DataRow("foreach (var (other, (value, last)) in new[] { (0, (\"item\", 1)) }) { [|Use(value)|]; }")]
+    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { [|Use(value)|]; }")]
+    [DataRow("foreach (ref readonly string value in new ReadOnlySpan<string>(new[] { \"item\" })) { [|Use(value)|]; }")]
+    [DataRow("foreach (string other in new[] { \"outer\" }) { foreach (string value in new[] { \"inner\" }) { [|Use(value)|]; } }")]
+    public void Foreach_Definitions_Are_Unsupported(string body) =>
+        AssertFlow(body, "", supported: false);
+
+    [TestMethod]
+    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { value = \"known\"; [|Use(value)|]; }", "\"known\"")]
+    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { if (flag) value = \"first\"; else value = \"second\"; [|Use(value)|]; }", "\"first\"|\"second\"")]
+    [DataRow("string value = \"old\"; foreach (string other in new[] { \"item\" }) { [|Use(value)|]; }", "\"old\"")]
+    public void Foreach_Definitions_Only_Affect_Reaching_Paths(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
+    public void Nested_Callable_Inherits_Foreach_Capture() =>
+        AssertFlow("foreach (string value in new[] { \"item\" }) { Action nested = () => [|Use(value)|]; }", "", incoming: true);
+
     private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false,
         bool supported = true, LanguageVersion languageVersion = LanguageVersion.Preview,
         IEnumerable<MetadataReference>? references = null)
