@@ -5998,8 +5998,9 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            var returnsCallback = GetValueAndReachingLocalValues(returnedValue,
-                    [with(SymbolEqualityComparer.Default)], stopAtDelegate: true, callbackInvocations)
+            var returnsCallback = GetValueAndReachingCallbackValues(returnedValue, model.Compilation,
+                    [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default)],
+                    [with(SymbolEqualityComparer.Default)], callbackInvocations)
                 .SelectMany(GetCallbackTargets)
                 .Any(target => SymbolEqualityComparer.Default.Equals(NormalizeMethod(target), NormalizeMethod(callback)));
             if (returnsCallback)

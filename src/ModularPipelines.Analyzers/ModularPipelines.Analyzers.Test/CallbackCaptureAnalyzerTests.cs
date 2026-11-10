@@ -421,6 +421,14 @@ public class CallbackCaptureAnalyzerTests
     [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { return _ => register(); } finally { if (Environment.TickCount > 0) register = () => {}; }", true, false)]
     [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { try { return _ => register(); } finally { throw new InvalidOperationException(); } } catch (InvalidOperationException) { return _ => {}; }", false, true)]
     [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { return _ => register(); } finally { try { throw new InvalidOperationException(); } catch (InvalidOperationException) { register = () => {}; } }", false, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<object> Inner() => _ => register(); return Inner();", true, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<object> Inner() => _ => register(); return Inner();", true, false)]
+    [DataRow("Action register = () => {}; Action<object> Inner() => _ => register(); return Inner();", false, true)]
+    [DataRow("Action register = () => {}; Action<object> Inner() => _ => register(); return Inner();", false, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<object> Inner() => _ => register(); try { return Inner(); } finally { register = () => {}; }", false, true)]
+    [DataRow("Action register = () => {}; Action<object> Inner() => _ => register(); try { return Inner(); } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<object> Inner() => _ => register(); Action<object> Forward() => Inner(); return Forward();", true, true)]
+    [DataRow("Action register = () => {}; Action<object> Inner() => _ => register(); Action<object> Forward() => Inner(); return Forward();", false, false)]
     public async Task Preserves_Captures_In_Returned_Actions(string factoryBody, bool registered, bool localFactory)
     {
         var factory = $$"""
