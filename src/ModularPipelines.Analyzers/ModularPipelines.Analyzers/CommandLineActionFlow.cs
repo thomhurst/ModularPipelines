@@ -13,7 +13,7 @@ internal sealed class CommandLineActionFlow(
 {
     private readonly HashSet<TextSpan> _reaching = [];
     private readonly Dictionary<string, HashSet<TextSpan>> _inputs = [];
-    private readonly Queue<(int Block, ImmutableArray<int> Continuation)> _queue = [];
+    private readonly Queue<(int Block, ImmutableArray<int> Continuation, FilterContext? Filter)> _queue = [];
 
     public static IEnumerable<IInvocationOperation> GetReachingSetters(
         IOperation root,
@@ -34,29 +34,29 @@ internal sealed class CommandLineActionFlow(
         Enqueue(0, [], []);
         while (_queue.Count > 0)
         {
-            var (ordinal, continuation) = _queue.Dequeue();
+            var (ordinal, continuation, filter) = _queue.Dequeue();
             var block = graph.Blocks[ordinal];
-            var state = new HashSet<TextSpan>(_inputs[Key(ordinal, continuation)]);
+            var state = new HashSet<TextSpan>(_inputs[Key(ordinal, continuation, filter)]);
             foreach (var operation in block.Operations)
             {
-                Visit(operation, state, block);
+                Visit(operation, state, block, continuation, filter);
             }
 
             if (block.BranchValue is { } branchValue)
             {
-                Visit(branchValue, state, block);
+                Visit(branchValue, state, block, continuation, filter);
             }
 
-            Follow(block.FallThroughSuccessor, state, continuation);
-            Follow(block.ConditionalSuccessor, state, continuation);
+            Follow(block.FallThroughSuccessor, state, continuation, filter);
+            Follow(block.ConditionalSuccessor, state, continuation, filter);
         }
 
         return _reaching.Select(span => setters[span]);
     }
 
-    private void Enqueue(int ordinal, ImmutableArray<int> continuation, HashSet<TextSpan> state)
+    private void Enqueue(int ordinal, ImmutableArray<int> continuation, HashSet<TextSpan> state, FilterContext? filter = null)
     {
-        var key = Key(ordinal, continuation);
+        var key = Key(ordinal, continuation, filter);
         if (!_inputs.TryGetValue(key, out var previous))
         {
             _inputs.Add(key, [.. state]);
@@ -71,10 +71,11 @@ internal sealed class CommandLineActionFlow(
             }
         }
 
-        _queue.Enqueue((ordinal, continuation));
+        _queue.Enqueue((ordinal, continuation, filter));
     }
 
-    private void Visit(IOperation operation, HashSet<TextSpan> state, BasicBlock block)
+    private void Visit(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+        ImmutableArray<int> continuation, FilterContext? filter)
     {
         // Delegate bodies have their own graph and execute only when invoked.
         if (operation is IFlowAnonymousFunctionOperation)
@@ -84,32 +85,62 @@ internal sealed class CommandLineActionFlow(
 
         foreach (var child in operation.ChildOperations)
         {
-            Visit(child, state, block);
+            Visit(child, state, block, continuation, filter);
         }
 
-        if (operation is not IInvocationOperation call)
-        {
-            return;
-        }
-
-        if (setters.ContainsKey(call.Syntax.Span))
+        if (operation is IInvocationOperation call && setters.ContainsKey(call.Syntax.Span))
         {
             state.Clear();
             state.Add(call.Syntax.Span);
+            return;
         }
-        else
-        {
-            if (call.Syntax.Span == invocation.Syntax.Span)
-            {
-                _reaching.UnionWith(state);
-            }
 
-            // Calls can throw before the following statement is reached.
-            FollowException(block, null, state);
+        if (operation is IInvocationOperation target && target.Syntax.Span == invocation.Syntax.Span)
+        {
+            _reaching.UnionWith(state);
+        }
+
+        if (CanThrow(operation, block))
+        {
+            FollowException(block, null, state, continuation, filter);
         }
     }
 
-    private void Follow(ControlFlowBranch? branch, HashSet<TextSpan> state, ImmutableArray<int> continuation)
+    private static bool CanThrow(IOperation operation, BasicBlock block)
+    {
+        if (IsThrowingAccessOrCall(operation))
+        {
+            return true;
+        }
+
+        return operation switch
+        {
+            // The explicit throw edge below carries the constructed exception's type.
+            IObjectCreationOperation => block.FallThroughSuccessor?.Semantics != ControlFlowBranchSemantics.Throw
+                || block.BranchValue?.Syntax.Span != operation.Syntax.Span,
+            IConversionOperation conversion => CanConversionThrow(conversion),
+            IBinaryOperation binary => CanBinaryThrow(binary),
+            IUnaryOperation unary => unary.IsChecked || unary.OperatorMethod is not null,
+            _ => false,
+        };
+    }
+
+    private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
+        IInvocationOperation or IPropertyReferenceOperation or IArrayElementReferenceOperation
+        or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
+        or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
+
+    private static bool CanConversionThrow(IConversionOperation conversion) =>
+        conversion.IsChecked || conversion.Conversion.IsUserDefined
+        || (!conversion.IsTryCast && !conversion.Conversion.IsImplicit
+            && !conversion.Conversion.IsNumeric && !conversion.Conversion.IsIdentity);
+
+    private static bool CanBinaryThrow(IBinaryOperation binary) =>
+        binary.IsChecked || binary.OperatorMethod is not null
+        || binary.OperatorKind is BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder;
+
+    private void Follow(ControlFlowBranch? branch, HashSet<TextSpan> state, ImmutableArray<int> continuation,
+        FilterContext? filter)
     {
         if (branch is null || !IsFeasible(branch))
         {
@@ -118,19 +149,17 @@ internal sealed class CommandLineActionFlow(
 
         if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
         {
-            var thrown = branch.Source.BranchValue;
-            while (thrown is IConversionOperation conversion)
-            {
-                thrown = conversion.Operand;
-            }
-
-            FollowException(branch.Source, thrown is IObjectCreationOperation ? thrown.Type : null, state);
+            FollowException(branch.Source, GetThrownType(branch.Source.BranchValue), state, continuation, filter);
             return;
         }
 
         if (branch.Semantics == ControlFlowBranchSemantics.StructuredExceptionHandling)
         {
-            if (!continuation.IsEmpty && !IsInRegion(branch.Source, ControlFlowRegionKind.Filter))
+            if (filter is not null)
+            {
+                RejectFilter(filter, state);
+            }
+            else if (!continuation.IsEmpty)
             {
                 Enqueue(continuation[0], continuation.RemoveAt(0), state);
             }
@@ -143,38 +172,66 @@ internal sealed class CommandLineActionFlow(
             return;
         }
 
-        FollowDestination(branch, destination, state, continuation);
+        FollowDestination(branch, destination, state, continuation, filter);
+    }
+
+    private static ITypeSymbol? GetThrownType(IOperation? thrown)
+    {
+        while (thrown is IConversionOperation conversion)
+        {
+            thrown = conversion.Operand;
+        }
+
+        return thrown is IObjectCreationOperation ? thrown.Type : null;
     }
 
     private void FollowDestination(
         ControlFlowBranch branch,
         BasicBlock destination,
         HashSet<TextSpan> state,
-        ImmutableArray<int> continuation)
+        ImmutableArray<int> continuation,
+        FilterContext? filter)
     {
         var remaining = branch.Semantics == ControlFlowBranchSemantics.Return ? [] : continuation;
-        if (!remaining.IsEmpty && IsInRegion(branch.Source, ControlFlowRegionKind.Filter)
-            && IsInRegion(destination, ControlFlowRegionKind.Catch))
+        if (filter is not null && IsInRegion(destination, ControlFlowRegionKind.Catch))
         {
             // Filters run during exception search, before intervening finally blocks unwind.
-            Enqueue(remaining[0], remaining.RemoveAt(0).Add(destination.Ordinal), state);
+            EnqueueHandler(filter.Source, destination.Ordinal, filter.Cleanup, filter.Continuation, state);
             return;
         }
 
         if (branch.FinallyRegions.IsEmpty)
         {
-            Enqueue(destination.Ordinal, remaining, state);
+            Enqueue(destination.Ordinal, remaining, state, filter);
             return;
         }
 
         var cleanup = branch.FinallyRegions.Select(static region => region.FirstBlockOrdinal)
             .Append(destination.Ordinal).Concat(remaining).ToImmutableArray();
-        Enqueue(cleanup[0], cleanup.RemoveAt(0), state);
+        Enqueue(cleanup[0], cleanup.RemoveAt(0), state, filter);
     }
 
-    private void FollowException(BasicBlock source, ITypeSymbol? exceptionType, HashSet<TextSpan> state)
+    private void FollowException(BasicBlock source, ITypeSymbol? exceptionType, HashSet<TextSpan> state,
+        ImmutableArray<int> continuation, FilterContext? filter = null)
+    {
+        // An exception in a filter rejects that filter; it does not replace the original exception.
+        if (filter is not null)
+        {
+            RejectFilter(filter, state);
+            return;
+        }
+
+        SearchException(source, exceptionType, state, continuation);
+    }
+
+    private void RejectFilter(FilterContext filter, HashSet<TextSpan> state) =>
+        SearchException(filter.Source, filter.ExceptionType, state, filter.Continuation, filter.Handler);
+
+    private void SearchException(BasicBlock source, ITypeSymbol? exceptionType, HashSet<TextSpan> state,
+        ImmutableArray<int> continuation, ControlFlowRegion? rejectedHandler = null)
     {
         var cleanup = ImmutableArray.CreateBuilder<int>();
+        var skipping = rejectedHandler is not null;
         for (var region = source.EnclosingRegion; region is not null; region = region.EnclosingRegion)
         {
             if (region.Kind != ControlFlowRegionKind.Try || region.EnclosingRegion is not { } group)
@@ -188,27 +245,15 @@ internal sealed class CommandLineActionFlow(
                 continue;
             }
 
-            foreach (var handler in group.NestedRegions.Where(static nested => nested.Kind is
-                         ControlFlowRegionKind.Catch or ControlFlowRegionKind.FilterAndHandler))
+            foreach (var handler in GetHandlers(group))
             {
-                var caught = handler.Kind == ControlFlowRegionKind.FilterAndHandler
-                    ? handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch).ExceptionType
-                    : handler.ExceptionType;
-                if (!CanCatch(caught, exceptionType))
+                if (skipping)
                 {
+                    skipping = handler != rejectedHandler;
                     continue;
                 }
 
-                if (handler.Kind == ControlFlowRegionKind.FilterAndHandler)
-                {
-                    Enqueue(handler.FirstBlockOrdinal, cleanup.ToImmutable(), state);
-                }
-                else
-                {
-                    var path = cleanup.ToImmutable().Add(handler.FirstBlockOrdinal);
-                    Enqueue(path[0], path.RemoveAt(0), state);
-                }
-                if (handler.Kind == ControlFlowRegionKind.Catch && exceptionType is not null)
+                if (TryHandler(source, exceptionType, handler, cleanup.ToImmutable(), continuation, state))
                 {
                     return;
                 }
@@ -222,8 +267,97 @@ internal sealed class CommandLineActionFlow(
         }
     }
 
-    private static string Key(int block, ImmutableArray<int> continuation) =>
-        block + ":" + string.Join(",", continuation);
+    private bool TryHandler(BasicBlock source, ITypeSymbol? exceptionType, ControlFlowRegion handler,
+        ImmutableArray<int> cleanup, ImmutableArray<int> continuation, HashSet<TextSpan> state)
+    {
+        var caught = handler.Kind == ControlFlowRegionKind.FilterAndHandler
+            ? handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch).ExceptionType
+            : handler.ExceptionType;
+        if (!CanCatch(caught, exceptionType))
+        {
+            return false;
+        }
+
+        if (handler.Kind == ControlFlowRegionKind.FilterAndHandler)
+        {
+            var filter = new FilterContext(source, exceptionType, handler, cleanup, continuation);
+            Enqueue(handler.FirstBlockOrdinal, [], state, filter);
+        }
+        else
+        {
+            EnqueueHandler(source, handler.FirstBlockOrdinal, cleanup, continuation, state);
+        }
+
+        // An unknown exception may skip a typed handler, but never an unfiltered catch-all.
+        // A matching filter continues the search only from its rejected branch.
+        return exceptionType is not null || caught is null
+            || caught.SpecialType == SpecialType.System_Object || caught.ToDisplayString() == "System.Exception";
+    }
+
+    private void EnqueueHandler(BasicBlock source, int handler, ImmutableArray<int> cleanup,
+        ImmutableArray<int> continuation, HashSet<TextSpan> state)
+    {
+        var remaining = GetHandlerContinuation(source, graph.Blocks[handler], continuation);
+        var path = cleanup.Add(handler).AddRange(remaining);
+        Enqueue(path[0], path.RemoveAt(0), state);
+    }
+
+    private static ImmutableArray<int> GetHandlerContinuation(BasicBlock source, BasicBlock handler,
+        ImmutableArray<int> continuation)
+    {
+        var handlerFinally = GetEnclosingFinally(handler);
+        if (handlerFinally is null)
+        {
+            return [];
+        }
+
+        if (GetEnclosingFinally(source) == handlerFinally)
+        {
+            return continuation;
+        }
+
+        // A handler in an outer finally abandons destinations inside that finally,
+        // but the outer finally must still resume its own pending destination.
+        return [.. continuation.SkipWhile(ordinal => ordinal >= handlerFinally.FirstBlockOrdinal
+            && ordinal <= handlerFinally.LastBlockOrdinal)];
+    }
+
+    private static ControlFlowRegion? GetEnclosingFinally(BasicBlock block)
+    {
+        for (var region = block.EnclosingRegion; region is not null; region = region.EnclosingRegion)
+        {
+            if (region.Kind == ControlFlowRegionKind.Finally)
+            {
+                return region;
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<ControlFlowRegion> GetHandlers(ControlFlowRegion group) =>
+        group.NestedRegions.Where(static nested => nested.Kind is
+            ControlFlowRegionKind.Catch or ControlFlowRegionKind.FilterAndHandler);
+
+    private static string Key(int block, ImmutableArray<int> continuation, FilterContext? filter = null) =>
+        block + ":" + string.Join(",", continuation) + ":" + filter?.Key;
+
+    private sealed class FilterContext(BasicBlock source, ITypeSymbol? exceptionType, ControlFlowRegion handler,
+        ImmutableArray<int> cleanup, ImmutableArray<int> continuation)
+    {
+        public BasicBlock Source { get; } = source;
+
+        public ITypeSymbol? ExceptionType { get; } = exceptionType;
+
+        public ControlFlowRegion Handler { get; } = handler;
+
+        public ImmutableArray<int> Cleanup { get; } = cleanup;
+
+        public ImmutableArray<int> Continuation { get; } = continuation;
+
+        public string Key { get; } = source.Ordinal + ":" + handler.FirstBlockOrdinal + ":"
+            + exceptionType?.ToDisplayString() + ":" + string.Join(",", continuation);
+    }
 
     private static bool IsInRegion(BasicBlock block, ControlFlowRegionKind kind)
     {
@@ -270,6 +404,8 @@ internal sealed class CommandLineActionFlow(
         IMethodBodyOperation method => ControlFlowGraph.Create(method),
         IConstructorBodyOperation constructor => ControlFlowGraph.Create(constructor),
         IBlockOperation block => ControlFlowGraph.Create(block),
+        IFieldInitializerOperation field => ControlFlowGraph.Create(field),
+        IPropertyInitializerOperation property => ControlFlowGraph.Create(property),
         _ => null,
     };
 

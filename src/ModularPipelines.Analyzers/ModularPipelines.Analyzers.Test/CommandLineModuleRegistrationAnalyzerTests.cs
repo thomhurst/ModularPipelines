@@ -271,6 +271,161 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = args[0];", "IndexOutOfRangeException")]
+    [DataRow("_ = System.Environment.CurrentDirectory;", "Exception")]
+    [DataRow("_ = new object();", "Exception")]
+    [DataRow("_ = new int[args.Length];", "Exception")]
+    [DataRow("_ = 1 / args.Length;", "DivideByZeroException")]
+    [DataRow("_ = checked(args.Length + 1);", "OverflowException")]
+    [DataRow("_ = (string)(object)args;", "InvalidCastException")]
+    public async Task Preserves_Action_When_Operation_Throws_Before_Replacement(string operation, string caught)
+    {
+        await VerifyAsync(Source($$"""
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{operation}}
+                command.SetAction(_ => { });
+            }
+            catch ({{caught}}) { }
+            return command.Parse(args).Invoke();
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("_ = args[0];", "IndexOutOfRangeException")]
+    [DataRow("_ = System.Environment.CurrentDirectory;", "Exception")]
+    [DataRow("_ = new object();", "Exception")]
+    public async Task Recognizes_Action_Invoked_In_Operation_Exception_Handler(string operation, string caught)
+    {
+        await VerifyAsync(Source($$"""
+            command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            try { {{operation}} }
+            catch ({{caught}}) { command.Parse(args).Invoke(); }
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("catch", false)]
+    [DataRow("catch (Exception)", false)]
+    [DataRow("catch (InvalidOperationException)", true)]
+    [DataRow("catch (Exception) when (true)", false)]
+    [DataRow("catch (Exception) when (false)", true)]
+    public async Task Stops_Exception_Search_After_Catch_All(string handler, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            try
+            {
+                try
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    System.GC.KeepAlive(args);
+                    command.SetAction(_ => { });
+                }
+                {{handler}} { return 0; }
+            }
+            catch { }
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("true", false)]
+    [DataRow("false", true)]
+    [DataRow("args.Length > 0", true)]
+    public async Task Routes_Rejected_Filter_To_Later_Handler(string filter, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            try
+            {
+                try
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    throw new InvalidOperationException();
+                }
+                catch (InvalidOperationException) when ({{filter}}) { command.SetAction(_ => { }); }
+            }
+            catch { }
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("", true)]
+    [DataRow("command.SetAction(_ => { });", false)]
+    public async Task Preserves_Finally_Destination_Through_Nested_Catch(string replacement, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            try { }
+            finally
+            {
+                try { throw new InvalidOperationException(); }
+                catch (InvalidOperationException)
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                }
+                {{replacement}}
+            }
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("true", false)]
+    [DataRow("false", true)]
+    public async Task Routes_Rejected_Filter_To_Sibling_Handler(string filter, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                throw new InvalidOperationException();
+            }
+            catch (InvalidOperationException) when ({{filter}}) { command.SetAction(_ => { }); }
+            catch (Exception) { }
+            return command.Parse(args).Invoke();
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Preserves_Outer_Finally_Destination_When_Nested_Finally_Throws()
+    {
+        await VerifyAsync(Source("""
+            try { }
+            finally
+            {
+                try
+                {
+                    try { } finally { throw new InvalidOperationException(); }
+                }
+                catch (InvalidOperationException)
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                }
+            }
+            return command.Parse(args).Invoke();
+            """));
+    }
+
+    [TestMethod]
+    public async Task Discards_Finally_Destination_When_Exception_Escapes()
+    {
+        await VerifyAsync(Source("""
+            try
+            {
+                try { }
+                finally
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    throw new InvalidOperationException();
+                }
+                command.Parse(args).Invoke();
+            }
+            catch (InvalidOperationException) { }
+            """, registered: false), UnregisteredModule());
+    }
+
+    [TestMethod]
     [DataRow("for (var i = 0; i < 2; i++)", "", "", true)]
     [DataRow("for (var i = 0; i < 2; i++)", "", "break;", false)]
     [DataRow("for (var i = 0; i < 2; i++)", "", "return 0;", false)]
@@ -323,6 +478,29 @@ public class CommandLineModuleRegistrationAnalyzerTests
             }{{terminator}}
             run();
             """));
+    }
+
+    [TestMethod]
+    [DataRow("public static Func<int> Run =", true)]
+    [DataRow("public static Func<int> Run { get; } =", true)]
+    [DataRow("public static Func<int> Run =", false)]
+    [DataRow("public static Func<int> Run { get; } =", false)]
+    public async Task Tracks_Action_In_Initializer_Lambda(string declaration, bool invoked)
+    {
+        var source = Source(invoked ? "return Startup.Run();" : "return 0;", registered: invoked) + $$"""
+
+            public static class Startup
+            {
+                {{declaration}} () =>
+                {
+                    var command = new System.CommandLine.RootCommand();
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    return command.Parse(Array.Empty<string>()).Invoke();
+                };
+            }
+            """;
+
+        await VerifyAsync(source, invoked ? [] : [UnregisteredModule()]);
     }
 
     [TestMethod]
