@@ -175,6 +175,35 @@ public class ModuleCancellationScopeAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    public async Task Checks_Token_In_Captured_Configuration_Callback(bool lambda, bool forwardsToken)
+    {
+        var call = forwardsToken ? "Task.Delay(1, token)" : "{|#0:Task.Delay(1)|}";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+
+            public static class Registration
+            {
+                public static void Configure(ModuleConfigurationBuilder module)
+                {
+                    Func<IModuleContext, CancellationToken, ValueTask<bool>> callback = async (context, token) =>
+                    {
+                        await {{call}};
+                        return false;
+                    };
+                    {{(lambda ? "Action setup = () => module.WithSkipWhen(callback);" : "void Setup() => module.WithSkipWhen(callback);")}}
+                    {{(lambda ? "setup();" : "Setup();")}}
+                }
+            }
+            """;
+
+        await VerifyTokenAsync(source, forwardsToken);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Unrelated_SameNamed_Callback_Method()
     {
         var source = ModuleSource("""

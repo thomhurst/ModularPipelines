@@ -815,6 +815,91 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false, false, false)]
+    [DataRow(false, true, true)]
+    [DataRow(true, false, true)]
+    [DataRow(true, true, true)]
+    public async Task Tracks_Captured_Delegate_Replaced_In_Every_Branch(bool firstRegisters, bool secondRegisters, bool registered)
+    {
+        var source = Source($$"""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            command.SetAction(_ =>
+            {
+                if (args.Length > 0)
+                    register = {{(firstRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+                else
+                    register = {{(secondRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+                register();
+            });
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(false, false, false)]
+    [DataRow(false, true, true)]
+    [DataRow(true, false, true)]
+    [DataRow(true, true, true)]
+    public async Task Tracks_Captured_Delegate_Replaced_In_One_Branch(bool initiallyRegisters, bool replacementRegisters, bool registered)
+    {
+        var source = Source($$"""
+            Action register = {{(initiallyRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            command.SetAction(_ =>
+            {
+                if (args.Length > 0)
+                    register = {{(replacementRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+                register();
+            });
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    [Timeout(10000, CooperativeCancellation = true)]
+    public async Task Terminates_Captured_Delegate_Lookup_In_Recursive_Callables(bool mutualRecursion, bool registered)
+    {
+        var source = Source($$"""
+            Action register = {{(registered ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            void Run(int depth)
+            {
+                if (depth > 0) {{(mutualRecursion ? "Other(depth - 1);" : "Run(depth - 1);")}}
+                register();
+            }
+            {{(mutualRecursion ? "void Other(int depth) { if (depth > 0) Run(depth - 1); register(); }" : string.Empty)}}
+            Run(2);
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("register = () => {}; if (args.Length > 0) register = () => {};")]
+    [DataRow("switch (args.Length) { case 0: register = () => {}; break; default: register = () => {}; break; }")]
+    [DataRow("if (args.Length > 0) { if (args.Length > 1) register = () => {}; else register = () => {}; } else register = () => {};")]
+    public async Task Does_Not_Resurrect_Captured_Delegate_After_Guaranteed_Replacement(string replacement)
+    {
+        var source = Source($$"""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            command.SetAction(_ =>
+            {
+                {{replacement}}
+                register();
+            });
+            return command.Parse(args).Invoke();
+            """, registered: false);
+
+        await VerifyAsync(source, UnregisteredModule());
+    }
+
+    [TestMethod]
     [DataRow("", "command", true)]
     [DataRow("command = new System.CommandLine.RootCommand();", "command", false)]
     [DataRow("command = new System.CommandLine.RootCommand();", "alias", true)]

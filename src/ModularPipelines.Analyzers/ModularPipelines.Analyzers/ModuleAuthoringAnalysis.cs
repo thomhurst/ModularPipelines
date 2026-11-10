@@ -381,6 +381,8 @@ internal static class ModuleAuthoringAnalysis
         ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
         ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
     {
+        callbackInvocations ??= ImmutableDictionary<IMethodSymbol, IOperation>.Empty
+            .WithComparers(SymbolEqualityComparer.Default);
         if (invocation.TargetMethod.MethodKind == MethodKind.DelegateInvoke
             && GetInvocationReceiver(invocation) is { } receiver)
         {
@@ -5971,56 +5973,92 @@ internal static class ModuleAuthoringAnalysis
         var operations = stopAtDelegate ? GetCallbackValueOperations(value) : value.DescendantsAndSelf();
         foreach (var localReference in operations.OfType<ILocalReferenceOperation>())
         {
-            var localValue = stopAtDelegate
-                ? FindReachingCallbackLocalValue(value, localReference.Local, callbackInvocations)
-                : FindReachingLocalValue(value, localReference.Local);
-            if (!visitedLocals.Add(localReference.Local)
-                || localValue is null)
+            if (!visitedLocals.Add(localReference.Local))
             {
                 continue;
             }
 
-            foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals, stopAtDelegate, callbackInvocations))
+            IEnumerable<IOperation> localValues = [];
+            if (stopAtDelegate)
             {
-                yield return operation;
+                localValues = FindReachingCallbackLocalValues(value, localReference.Local, callbackInvocations);
+            }
+            else if (FindReachingLocalValue(value, localReference.Local) is { } localValue)
+            {
+                localValues = [localValue];
+            }
+
+            foreach (var candidate in localValues)
+            {
+                foreach (var operation in GetValueAndReachingLocalValues(
+                             candidate, CloneVisitedLocals(visitedLocals), stopAtDelegate, callbackInvocations))
+                {
+                    yield return operation;
+                }
             }
         }
     }
 
-    private static IOperation? FindReachingCallbackLocalValue(
+    private static IEnumerable<IOperation> FindReachingCallbackLocalValues(
         IOperation value,
         ILocalSymbol local,
         ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
     {
-        while (true)
+        var visited = new HashSet<IOperation>();
+        while (visited.Add(value))
         {
-            if (FindReachingLocalValue(value, local) is { } localValue)
+            if (FindReachingLocalValue(value, local, out var isAmbiguous) is { } localValue)
             {
-                return localValue;
+                yield return localValue;
+                yield break;
             }
 
             var callable = GetEnclosingCallable(value);
-            var callableSymbol = callable switch
+            if (isAmbiguous)
             {
-                IAnonymousFunctionOperation anonymous => anonymous.Symbol,
-                ILocalFunctionOperation localFunction => localFunction.Symbol,
-                _ => null,
-            };
+                foreach (var candidate in FindReachingLocalValues(value, local))
+                {
+                    yield return candidate;
+                }
+
+                // Partial writes retain the incoming capture; guaranteed definitions replace it.
+                if (HasReachingCallbackDefinition(value, local, callable))
+                {
+                    yield break;
+                }
+            }
+
+            var callableSymbol = GetCallableSymbol(callable);
             if (callable is null
                 || SymbolEqualityComparer.Default.Equals(local.ContainingSymbol, callableSymbol))
             {
-                return null;
+                yield break;
+            }
+
+            // Cancellation configuration discovery uses lexical scope without an execution map.
+            if (callbackInvocations is null)
+            {
+                value = callable;
+                continue;
             }
 
             // Closures capture the variable. Cross the callable boundary at its execution site.
-            if (callableSymbol is null || callbackInvocations is null
+            if (callableSymbol is null
                 || !callbackInvocations.TryGetValue(NormalizeMethod(callableSymbol), out var invocation))
             {
-                return null;
+                yield break;
             }
 
             value = invocation;
         }
+    }
+
+    private static bool HasReachingCallbackDefinition(IOperation value, ILocalSymbol local, IOperation? callable)
+    {
+        var root = GetRoot(value);
+        return FindLocalDeclarator(root, value, local, callable) is not null
+            || FindLocalAssignments(root, value, local, callable).Any(assignment => IsLinearPredecessor(assignment, value))
+            || FindLatestDefinitelyAssigningBranch(root, value, local, callable) is not null;
     }
 
     private static IEnumerable<IOperation> GetValueAndReachingCallbackValues(
