@@ -9,6 +9,31 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } Replace();", true)]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; replace();", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", false)]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); };", false)]
+    [DataRow("void Replace() { register = () => {}; } Replace();", false)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } Replace(); register = () => {};", false)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } if (args.Length > 0) Replace();", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } Action replace = Replace; replace();", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } void Forward() { Replace(); } Forward();", true)]
+    [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; replace = () => {}; replace();", false)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); if (args.Length > 0) Replace(); } Replace();", true)]
+    [DataRow("void Replace() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); throw new Exception(); } try { Replace(); } catch (Exception) {}", true)]
+    public async Task Tracks_Captured_Delegate_Writes_From_Executed_Callables(string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+    [TestMethod]
     [DataRow("default(T) as IDisposable", true)]
     [DataRow("value as IDisposable", true)]
     [DataRow("(object)value as IDisposable", true)]

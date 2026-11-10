@@ -13,7 +13,8 @@ internal sealed class ReachingDefinitionFlow(
     Dictionary<TextSpan, IOperation> definitions,
     ILocalSymbol local,
     bool analyzeReceiverTypes = true,
-    bool completingReturn = false)
+    bool completingReturn = false,
+    bool analyzeCapturedWrites = true)
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
     private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
@@ -24,7 +25,8 @@ internal sealed class ReachingDefinitionFlow(
     private ImmutableDictionary<int, ITypeSymbol?> _activeExceptions = ImmutableDictionary<int, ITypeSymbol?>.Empty;
 
     public static bool TryGetReachingLocalValues(IOperation root, IOperation operation, ILocalSymbol local,
-        out ImmutableArray<IOperation> values, out bool inheritsIncomingValue, bool analyzeReceiverTypes = true)
+        out ImmutableArray<IOperation> values, out bool inheritsIncomingValue, bool analyzeReceiverTypes = true,
+        bool analyzeCapturedWrites = true)
     {
         values = [];
         inheritsIncomingValue = false;
@@ -38,7 +40,8 @@ internal sealed class ReachingDefinitionFlow(
         var definitions = root.DescendantsAndSelf().SelectMany(candidate => GetAssignedValues(candidate, local))
             .GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
-        var flow = new ReachingDefinitionFlow(graph, operation, definitions, local, analyzeReceiverTypes);
+        var flow = new ReachingDefinitionFlow(graph, operation, definitions, local, analyzeReceiverTypes,
+            analyzeCapturedWrites: analyzeCapturedWrites);
         values = [.. flow.Analyze()];
         inheritsIncomingValue = flow._reaching.Contains(IncomingValue);
         return true;
@@ -124,6 +127,7 @@ internal sealed class ReachingDefinitionFlow(
             _reaching.UnionWith(state);
         }
 
+        ApplyCapturedWrites(operation, state);
         FollowOperationExceptions(operation, state, block, continuation, filter);
         ApplyDefinition(operation, state, addedTargets);
     }
@@ -337,6 +341,108 @@ internal sealed class ReachingDefinitionFlow(
 
             state.Add(value.Syntax.Span);
         }
+    }
+
+    private void ApplyCapturedWrites(IOperation operation, HashSet<TextSpan> state)
+    {
+        if (!analyzeCapturedWrites || operation is not IInvocationOperation
+            { TargetMethod.MethodKind: MethodKind.LocalFunction or MethodKind.DelegateInvoke } call)
+        {
+            return;
+        }
+
+        var root = invocation;
+        while (root.Parent is { } parent)
+        {
+            root = parent;
+        }
+
+        var pending = new Stack<IInvocationOperation>();
+        var visited = new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default);
+        pending.Push(call);
+        while (pending.Count > 0)
+        {
+            RetainInvokedBodies(root, pending.Pop(), state, pending, visited);
+        }
+    }
+
+    private void RetainInvokedBodies(IOperation root, IInvocationOperation call, HashSet<TextSpan> state,
+        Stack<IInvocationOperation> pending, HashSet<IMethodSymbol> visited)
+    {
+        foreach (var method in GetInvokedMethods(root, call))
+        {
+            if (visited.Add(method.OriginalDefinition) && FindCallableBody(root, method) is { } body)
+            {
+                RetainCapturedWrites(body, state, pending);
+            }
+        }
+    }
+
+    private void RetainCapturedWrites(IOperation body, HashSet<TextSpan> state, Stack<IInvocationOperation> pending)
+    {
+        foreach (var operation in body.DescendantsAndSelf())
+        {
+            if (GetEnclosingCallback(operation) != body.Syntax.Span)
+            {
+                continue;
+            }
+
+            RetainAssignedValues(operation, state);
+
+            if (operation is IInvocationOperation call)
+            {
+                pending.Push(call);
+            }
+        }
+    }
+
+    private void RetainAssignedValues(IOperation operation, HashSet<TextSpan> state)
+    {
+        foreach (var value in GetAssignedValues(operation, local))
+        {
+            if (definitions.ContainsKey(value.Syntax.Span))
+            {
+                // A called body may write the capture. Retain both incoming and possible written values.
+                state.Add(value.Syntax.Span);
+            }
+        }
+    }
+
+    private static IOperation? FindCallableBody(IOperation root, IMethodSymbol method) =>
+        root.DescendantsAndSelf().FirstOrDefault(operation => SymbolEqualityComparer.Default.Equals(
+            GetCallableMethod(operation)?.OriginalDefinition, method.OriginalDefinition));
+
+    private static IMethodSymbol? GetCallableMethod(IOperation operation) => operation switch
+    {
+        IAnonymousFunctionOperation anonymous => anonymous.Symbol,
+        ILocalFunctionOperation localFunction => localFunction.Symbol,
+        _ => null,
+    };
+
+    private static IEnumerable<IMethodSymbol> GetInvokedMethods(IOperation root, IInvocationOperation call) =>
+        call.TargetMethod.MethodKind switch
+        {
+            MethodKind.DelegateInvoke when call.Instance is { } receiver =>
+                GetDelegateMethods(root, receiver, [with(SymbolEqualityComparer.Default)]),
+            MethodKind.LocalFunction => [call.TargetMethod],
+            _ => [],
+        };
+
+    private static IEnumerable<IMethodSymbol> GetDelegateMethods(IOperation root, IOperation value,
+        HashSet<ILocalSymbol> visited)
+    {
+        return value switch
+        {
+            IAnonymousFunctionOperation anonymous => [anonymous.Symbol],
+            IMethodReferenceOperation method => [method.Method],
+            IDelegateCreationOperation creation => GetDelegateMethods(root, creation.Target, visited),
+            IConversionOperation conversion => GetDelegateMethods(root, conversion.Operand, visited),
+            ILocalReferenceOperation reference when visited.Add(reference.Local)
+                            && TryGetReachingLocalValues(root, value, reference.Local, out var values, out _,
+                                analyzeReceiverTypes: false, analyzeCapturedWrites: false) => values.SelectMany(candidate => GetDelegateMethods(root, candidate,
+                                new HashSet<ILocalSymbol>(visited, SymbolEqualityComparer.Default))),
+            _ => [],
+        };
     }
 
     private static bool CanThrow(IOperation operation)
@@ -600,7 +706,7 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         var completion = new ReachingDefinitionFlow(graph, invocation, definitions,
-            local, analyzeReceiverTypes, completingReturn: true)
+            local, analyzeReceiverTypes, completingReturn: true, analyzeCapturedWrites)
         {
             _activeExceptions = _activeExceptions,
         };
