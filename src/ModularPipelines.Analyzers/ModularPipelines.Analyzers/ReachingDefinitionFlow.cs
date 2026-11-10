@@ -35,17 +35,8 @@ internal sealed class ReachingDefinitionFlow(
             return false;
         }
 
-        var definitions = root.DescendantsAndSelf().Select(candidate => candidate switch
-        {
-            IVariableDeclaratorOperation { Initializer: { } initializer } declarator
-                when SymbolEqualityComparer.Default.Equals(declarator.Symbol, local) => initializer.Value,
-            ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
-                when SymbolEqualityComparer.Default.Equals(target.Local, local) => assignment.Value,
-            ICompoundAssignmentOperation { Target: ILocalReferenceOperation target } assignment
-                when IsDelegateAddition(assignment)
-                    && SymbolEqualityComparer.Default.Equals(target.Local, local) => assignment.Value,
-            _ => null,
-        }).OfType<IOperation>().GroupBy(static value => value.Syntax.Span)
+        var definitions = root.DescendantsAndSelf().SelectMany(candidate => GetAssignedValues(candidate, local))
+            .GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
         var flow = new ReachingDefinitionFlow(graph, operation, definitions, local, analyzeReceiverTypes);
         values = [.. flow.Analyze()];
@@ -258,22 +249,85 @@ internal sealed class ReachingDefinitionFlow(
     private static bool IsDelegateAddition(ICompoundAssignmentOperation assignment) =>
         assignment.OperatorKind == BinaryOperatorKind.Add && assignment.Target.Type?.TypeKind == TypeKind.Delegate;
 
+    private static IEnumerable<IOperation> GetAssignedValues(IOperation operation, ILocalSymbol localSymbol)
+    {
+        if (operation is IVariableDeclaratorOperation { Initializer: { } initializer } declarator
+            && SymbolEqualityComparer.Default.Equals(declarator.Symbol, localSymbol))
+        {
+            yield return initializer.Value;
+        }
+        else if (operation is IAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+            && (assignment is ISimpleAssignmentOperation
+                || (assignment is ICompoundAssignmentOperation compound && IsDelegateAddition(compound)))
+            && SymbolEqualityComparer.Default.Equals(target.Local, localSymbol))
+        {
+            yield return assignment.Value;
+        }
+        else if (operation is IDeconstructionAssignmentOperation deconstruction)
+        {
+            foreach (var value in GetDeconstructedValues(deconstruction.Target, deconstruction.Value, localSymbol))
+            {
+                yield return value;
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetDeconstructedValues(IOperation target, IOperation value,
+        ILocalSymbol localSymbol)
+    {
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        if (target is ILocalReferenceOperation reference
+            && SymbolEqualityComparer.Default.Equals(reference.Local, localSymbol))
+        {
+            yield return value;
+            yield break;
+        }
+
+        while (value is IConversionOperation conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        if (target is not ITupleOperation targets || value is not ITupleOperation values)
+        {
+            yield break;
+        }
+
+        for (var index = 0; index < targets.Elements.Length && index < values.Elements.Length; index++)
+        {
+            foreach (var element in GetDeconstructedValues(targets.Elements[index], values.Elements[index], localSymbol))
+            {
+                yield return element;
+            }
+        }
+    }
+
     private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
     {
-        if (operation is not IAssignmentOperation { Target: ILocalReferenceOperation target } assignment
-            || !SymbolEqualityComparer.Default.Equals(target.Local, local)
-            || !definitions.ContainsKey(assignment.Value.Syntax.Span))
+        if (operation is not (IAssignmentOperation or IVariableDeclaratorOperation))
         {
             return;
         }
 
-        state.Clear();
-        if (addedTargets is not null)
+        foreach (var value in GetAssignedValues(operation, local))
         {
-            state.UnionWith(addedTargets);
-        }
+            if (!definitions.ContainsKey(value.Syntax.Span))
+            {
+                continue;
+            }
 
-        state.Add(assignment.Value.Syntax.Span);
+            state.Clear();
+            if (addedTargets is not null)
+            {
+                state.UnionWith(addedTargets);
+            }
+
+            state.Add(value.Syntax.Span);
+        }
     }
 
     private static bool CanThrow(IOperation operation)
@@ -363,6 +417,7 @@ internal sealed class ReachingDefinitionFlow(
 
     private static bool IsNonNullBoxing(IOperation value) =>
         value is IConversionOperation { Conversion.IsUserDefined: false, Type.IsReferenceType: true } conversion
+            && (!conversion.IsTryCast || conversion.Conversion.IsImplicit)
             && IsNonNullableValueType(conversion.Operand.Type);
 
     private bool HasOnlyNonNullDefinitions(IOperation root, IOperation value, ILocalSymbol localSymbol,

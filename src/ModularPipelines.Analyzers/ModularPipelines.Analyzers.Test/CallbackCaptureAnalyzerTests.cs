@@ -9,6 +9,67 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("default(T) as IDisposable", true)]
+    [DataRow("value as IDisposable", true)]
+    [DataRow("(object)value as IDisposable", true)]
+    [DataRow("value as object", false)]
+    public async Task Preserves_Fallible_Type_Parameter_TryCasts(string expression, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            Execute<int>(0); return 0;
+            static void Execute<T>(T value) where T : struct
+            {
+                Action callback = () =>
+                {
+                    var target = {{expression}};
+                    Action register = () => {};
+                    try { Func<string?> method = target!.ToString; }
+                    catch (NullReferenceException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                    register();
+                };
+                callback();
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("(register, _) = ((Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()), 0);", true)]
+    [DataRow("(_, register) = (0, (Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()));", true)]
+    [DataRow("((_, register), _) = ((0, (Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>())), 1);", true)]
+    [DataRow("(register, _) = ((Action)(() => {}), 0);", false)]
+    [DataRow("(register, _) = ((Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()), 0); register = () => {};", false)]
+    [DataRow("(register, register) = ((Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()), (Action)(() => {}));", false)]
+    [DataRow("(register, register) = ((Action)(() => {}), (Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()));", true)]
+    [DataRow("(register, _) = ((Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()), register = () => {});", true)]
+    [DataRow("(register, _) = ((Action)(() => {}), register = () => Pipeline.CreateBuilder().AddModule<BuildModule>());", false)]
+    [DataRow("if (args.Length > 0) (register, _) = ((Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()), 0);", true)]
+    public async Task Tracks_Deconstructed_Delegate_Definitions(string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Tracks_Deconstructed_Delegate_Declaration()
+    {
+        await VerifyAsync(Source("""
+            callback = _ =>
+            {
+                var (register, number) = ((Action)(() => Pipeline.CreateBuilder().AddModule<BuildModule>()), 0);
+                register();
+            };
+            callback(null!); return 0;
+            """));
+    }
+
+    [TestMethod]
     [DataRow("Action register = () => {};", "register += () => Pipeline.CreateBuilder().AddModule<BuildModule>();", true)]
     [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "register += () => {};", true)]
     [DataRow("Action register = () => {};", "register += () => {};", false)]
