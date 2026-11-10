@@ -229,15 +229,20 @@ internal sealed class ReachingDefinitionFlow(
         else if (target is ILocalReferenceOperation reference
             && SymbolEqualityComparer.Default.Equals(reference.Local, local))
         {
-            if (value is null || definitions.ContainsKey(value.Syntax.Span))
-            {
-                state.Clear();
-                state.Add(value?.Syntax.Span ?? UnknownValue);
-            }
+            StoreLocalDefinition(value, state);
         }
         else if (target is not IPropertyReferenceOperation { Property.ReturnsByRef: true })
         {
             FollowOperationExceptions(target, state, block, continuation, filter, deconstructionStore: true, storedValue: value);
+        }
+    }
+
+    private void StoreLocalDefinition(IOperation? value, HashSet<TextSpan> state)
+    {
+        if (value is null || definitions.ContainsKey(value.Syntax.Span))
+        {
+            state.Clear();
+            state.Add(value?.Syntax.Span ?? UnknownValue);
         }
     }
 
@@ -477,16 +482,17 @@ internal sealed class ReachingDefinitionFlow(
         || (value is IFlowCaptureReferenceOperation && _operationRoot.DescendantsAndSelf().Any(candidate =>
             candidate.Syntax.Span == value.Syntax.Span && _aliases.Any(alias => TargetsLocal(candidate, alias))));
 
+    private bool WritesThroughAlias(IOperation operation) => operation switch
+    {
+        ISimpleAssignmentOperation { IsRef: true } => false,
+        IAssignmentOperation assignment => IsAliasTarget(assignment.Target),
+        IIncrementOrDecrementOperation increment => IsAliasTarget(increment.Target),
+        _ => false,
+    };
+
     private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
     {
-        var target = operation switch
-        {
-            ISimpleAssignmentOperation { IsRef: true } => null,
-            IAssignmentOperation assignment => assignment.Target,
-            IIncrementOrDecrementOperation increment => increment.Target,
-            _ => null,
-        };
-        if (target is not null && IsAliasTarget(target))
+        if (WritesThroughAlias(operation))
         {
             Invalidate(state);
             return;
