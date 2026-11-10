@@ -870,36 +870,41 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            var body = root switch
-            {
-                IAnonymousFunctionOperation anonymous => anonymous.Body,
-                ILocalFunctionOperation local => local.Body,
-                _ => root,
-            };
-            var storage = new HashSet<ISymbol>(SymbolEqualityComparer.Default) { parameter };
-            if (body is not null
-                && body.DescendantsAndSelf().OfType<IBranchOperation>().Any(static branch => branch.BranchKind == BranchKind.GoTo))
-            {
-                // Unstructured jumps can revisit bindings in any source order.
-                AddPotentialParameterStorage(body, storage);
-                if (body.DescendantsAndSelf()
-                    .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(body)))
-                    .Where(IsInReachableBranch)
-                    .Any(candidate => ReferencesStorage(GetWrittenStorage(candidate), storage)))
-                {
-                    return true;
-                }
-
-                continue;
-            }
-
-            if (body is not null && VisitParameterWrites(body, storage))
+            if (IsParameterWrittenInCallable(root, parameter))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool IsParameterWrittenInCallable(IOperation root, IParameterSymbol parameter)
+    {
+        var body = root switch
+        {
+            IAnonymousFunctionOperation anonymous => anonymous.Body,
+            ILocalFunctionOperation local => local.Body,
+            _ => root,
+        };
+        if (body is null)
+        {
+            return false;
+        }
+
+        var storage = new HashSet<ISymbol>(SymbolEqualityComparer.Default) { parameter };
+        if (!body.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Any(static branch => branch.BranchKind == BranchKind.GoTo))
+        {
+            return VisitParameterWrites(body, storage);
+        }
+
+        // Unstructured jumps can revisit bindings in any source order.
+        AddPotentialParameterStorage(body, storage);
+        return body.DescendantsAndSelf()
+            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(body)))
+            .Where(IsInReachableBranch)
+            .Any(candidate => ReferencesStorage(GetWrittenStorage(candidate), storage));
     }
 
     private static bool VisitParameterWrites(IOperation operation, HashSet<ISymbol> storage)
@@ -910,102 +915,132 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        if (operation is IConditionalOperation conditional)
+        return operation switch
         {
-            if (VisitParameterWrites(conditional.Condition, storage))
+            IConditionalOperation conditional => VisitParameterWriteConditional(conditional, storage),
+            ISwitchOperation @switch => VisitParameterWriteSwitch(@switch, storage),
+            ISwitchExpressionOperation expression =>
+                VisitParameterWrites(expression.Value, storage)
+                || VisitParameterWriteSwitchBranches(expression.Arms, storage, includeUnmatched: false),
+            ICoalesceOperation coalesce =>
+                VisitParameterWriteNullBranch(coalesce.Value, coalesce.WhenNull, storage, executeWhenNull: true),
+            IConditionalAccessOperation access =>
+                VisitParameterWriteNullBranch(access.Operation, access.WhenNotNull, storage, executeWhenNull: false),
+            ICoalesceAssignmentOperation assignment =>
+                VisitParameterWriteNullBranch(assignment.Target, assignment.Value, storage, executeWhenNull: true)
+                || ReferencesStorage(assignment.Target, storage),
+            IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary =>
+                VisitParameterWrites(binary.LeftOperand, storage)
+                || VisitParameterWriteBranches([binary.RightOperand, null], storage),
+            ILoopOperation loop => VisitParameterWriteLoop(loop, storage),
+            ITryOperation @try => VisitParameterWriteTry(@try, storage),
+            _ => VisitParameterWriteChildren(operation, storage),
+        };
+    }
+
+    private static bool VisitParameterWriteConditional(IConditionalOperation conditional, HashSet<ISymbol> storage)
+    {
+        if (VisitParameterWrites(conditional.Condition, storage))
+        {
+            return true;
+        }
+
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            var branch = condition ? conditional.WhenTrue : conditional.WhenFalse;
+            return branch is not null && VisitParameterWrites(branch, storage);
+        }
+
+        return VisitParameterWriteBranches([conditional.WhenTrue, conditional.WhenFalse], storage);
+    }
+
+    private static bool VisitParameterWriteSwitch(ISwitchOperation operation, HashSet<ISymbol> storage)
+    {
+        // A default label runs only after every pattern and guard fails, regardless of source order.
+        var cases = operation.Cases.OrderBy(static @case =>
+            @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation));
+        var hasDefault = operation.Cases.SelectMany(static @case => @case.Clauses)
+            .Any(static clause => clause is IDefaultCaseClauseOperation);
+        return VisitParameterWrites(operation.Value, storage)
+            || VisitParameterWriteSwitchBranches(cases, storage, includeUnmatched: !hasDefault);
+    }
+
+    private static bool VisitParameterWriteNullBranch(
+        IOperation value,
+        IOperation branch,
+        HashSet<ISymbol> storage,
+        bool executeWhenNull)
+    {
+        if (VisitParameterWrites(value, storage))
+        {
+            return true;
+        }
+
+        if (value.ConstantValue is { HasValue: true } constant)
+        {
+            return (constant.Value is null) == executeWhenNull && VisitParameterWrites(branch, storage);
+        }
+
+        return VisitParameterWriteBranches([branch, null], storage);
+    }
+
+    private static bool VisitParameterWriteLoop(ILoopOperation loop, HashSet<ISymbol> storage)
+    {
+        var children = loop.ChildOperations.ToImmutableArray();
+        if (loop is IForLoopOperation forLoop)
+        {
+            if (forLoop.Before.Any(child => VisitParameterWrites(child, storage)))
             {
                 return true;
             }
 
-            if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
-            {
-                var branch = condition ? conditional.WhenTrue : conditional.WhenFalse;
-                return branch is not null && VisitParameterWrites(branch, storage);
-            }
-
-            return VisitParameterWriteBranches(
-                [conditional.WhenTrue, conditional.WhenFalse], storage);
+            children = [.. children.Where(child => !forLoop.Before.Contains(child))];
         }
 
-        if (operation is ISwitchOperation @switch)
+        // A binding at the end of one iteration can affect an earlier write in the next.
+        var loopStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+        int previousCount;
+        do
         {
-            var branches = @switch.Cases.Cast<IOperation?>();
-            if (!@switch.Cases.SelectMany(static @case => @case.Clauses).Any(static clause => clause is IDefaultCaseClauseOperation))
-            {
-                branches = branches.Append(null);
-            }
-
-            return VisitParameterWrites(@switch.Value, storage)
-                || VisitParameterWriteBranches(branches, storage);
-        }
-
-        if (operation is ISwitchExpressionOperation switchExpression)
-        {
-            return VisitParameterWrites(switchExpression.Value, storage)
-                || VisitParameterWriteBranches(switchExpression.Arms, storage);
-        }
-
-        if (operation is IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary)
-        {
-            return VisitParameterWrites(binary.LeftOperand, storage)
-                || VisitParameterWriteBranches([binary.RightOperand, null], storage);
-        }
-
-        if (operation is ILoopOperation loop)
-        {
-            var children = loop.ChildOperations.ToImmutableArray();
-            if (loop is IForLoopOperation forLoop)
-            {
-                if (forLoop.Before.Any(child => VisitParameterWrites(child, storage)))
-                {
-                    return true;
-                }
-
-                children = [.. children.Where(child => !forLoop.Before.Contains(child))];
-            }
-
-            // A binding at the end of one iteration can affect an earlier write in the next.
-            var loopStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
-            int previousCount;
-            do
-            {
-                previousCount = loopStorage.Count;
-                var iterationStorage = new HashSet<ISymbol>(loopStorage, SymbolEqualityComparer.Default);
-                if (children.Any(child => VisitParameterWrites(child, iterationStorage)))
-                {
-                    return true;
-                }
-
-                loopStorage.UnionWith(iterationStorage);
-            }
-            while (previousCount != loopStorage.Count);
-
-            storage.UnionWith(loopStorage);
-            return false;
-        }
-
-        if (operation is ITryOperation @try)
-        {
-            // An exception can enter a handler or finally after any protected operation.
-            var exceptionalStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
-            AddPotentialParameterStorage(@try.Body, exceptionalStorage);
-            var handlerStorage = new HashSet<ISymbol>(exceptionalStorage, SymbolEqualityComparer.Default);
-            if (VisitParameterWrites(@try.Body, storage)
-                || VisitParameterWriteBranches(@try.Catches, handlerStorage))
+            previousCount = loopStorage.Count;
+            var iterationStorage = new HashSet<ISymbol>(loopStorage, SymbolEqualityComparer.Default);
+            if (children.Any(child => VisitParameterWrites(child, iterationStorage)))
             {
                 return true;
             }
 
-            storage.UnionWith(handlerStorage);
-            foreach (var handler in @try.Catches)
-            {
-                AddPotentialParameterStorage(handler, exceptionalStorage);
-            }
+            loopStorage.UnionWith(iterationStorage);
+        }
+        while (previousCount != loopStorage.Count);
 
-            return @try.Finally is { } cleanup
-                && (VisitParameterWrites(cleanup, exceptionalStorage) || VisitParameterWrites(cleanup, storage));
+        storage.UnionWith(loopStorage);
+        return false;
+    }
+
+    private static bool VisitParameterWriteTry(ITryOperation operation, HashSet<ISymbol> storage)
+    {
+        // An exception can enter a handler or finally after any protected operation.
+        var exceptionalStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+        AddPotentialParameterStorage(operation.Body, exceptionalStorage);
+        var handlerStorage = new HashSet<ISymbol>(exceptionalStorage, SymbolEqualityComparer.Default);
+        if (VisitParameterWrites(operation.Body, storage)
+            || VisitParameterWriteBranches(operation.Catches, handlerStorage))
+        {
+            return true;
         }
 
+        storage.UnionWith(handlerStorage);
+        foreach (var handler in operation.Catches)
+        {
+            AddPotentialParameterStorage(handler, exceptionalStorage);
+        }
+
+        return operation.Finally is { } cleanup
+            && (VisitParameterWrites(cleanup, exceptionalStorage) || VisitParameterWrites(cleanup, storage));
+    }
+
+    private static bool VisitParameterWriteChildren(IOperation operation, HashSet<ISymbol> storage)
+    {
         if (operation.ChildOperations.Any(child => VisitParameterWrites(child, storage)))
         {
             return true;
@@ -1066,6 +1101,60 @@ internal static class ModuleAuthoringAnalysis
             }
 
             merged.UnionWith(branchStorage);
+        }
+
+        storage.Clear();
+        storage.UnionWith(merged);
+        return false;
+    }
+
+    private static bool VisitParameterWriteSwitchBranches(
+        IEnumerable<IOperation> branches,
+        HashSet<ISymbol> storage,
+        bool includeUnmatched)
+    {
+        var remaining = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+        var merged = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        foreach (var branch in branches)
+        {
+            if (!IsInReachableBranch(branch))
+            {
+                continue;
+            }
+
+            var (conditions, body) = branch switch
+            {
+                ISwitchCaseOperation @case =>
+                    (@case.Clauses.Cast<IOperation?>(), @case.Body.AsEnumerable()),
+                ISwitchExpressionArmOperation arm =>
+                    (new IOperation?[] { arm.Guard }, new[] { arm.Value }.AsEnumerable()),
+                _ => throw new InvalidOperationException("Expected a switch case or expression arm."),
+            };
+            var branchStorage = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+            foreach (var condition in conditions)
+            {
+                var conditionStorage = new HashSet<ISymbol>(remaining, SymbolEqualityComparer.Default);
+                if (condition is not null && VisitParameterWrites(condition, conditionStorage))
+                {
+                    return true;
+                }
+
+                branchStorage.UnionWith(conditionStorage);
+                // A failed guard keeps its side effects when selection continues.
+                remaining.UnionWith(conditionStorage);
+            }
+
+            if (body.Any(child => VisitParameterWrites(child, branchStorage)))
+            {
+                return true;
+            }
+
+            merged.UnionWith(branchStorage);
+        }
+
+        if (includeUnmatched)
+        {
+            merged.UnionWith(remaining);
         }
 
         storage.Clear();

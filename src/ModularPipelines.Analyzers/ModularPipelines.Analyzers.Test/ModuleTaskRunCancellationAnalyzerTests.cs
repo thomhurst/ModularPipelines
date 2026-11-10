@@ -171,6 +171,12 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = Environment.TickCount > 0 && (alias = ref other).CanBeCanceled; alias = default;", false)]
     [DataRow("var other = default(CancellationToken); ref var alias = ref token; try { Read(token); alias = ref other; } finally { alias = default; }", false)]
     [DataRow("var other = default(CancellationToken); ref var alias = ref other; again: alias = default; alias = ref token; if (Environment.TickCount > 0) goto again;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = Environment.GetEnvironmentVariable(\"X\") ?? (alias = ref other).ToString(); alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = Environment.GetEnvironmentVariable(\"X\")?.Contains((alias = ref other).ToString()!); alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; var value = Environment.GetEnvironmentVariable(\"X\"); value ??= (alias = ref other).ToString(); alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; switch (Environment.TickCount) { case int n when (alias = ref token).CanBeCanceled && n > 0: break; default: alias = default; break; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; switch (Environment.TickCount) { default: alias = default; break; case int n when (alias = ref token).CanBeCanceled && n > 0: break; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; _ = Environment.TickCount switch { int n when (alias = ref token).CanBeCanceled && n > 0 => 0, _ => (alias = default).GetHashCode() };", false)]
     public async Task Reports_Overwritten_Helper_Token_Captured_By_Callback(string write, bool insideCallback)
     {
         var source = ModuleSource($$"""
@@ -220,6 +226,14 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("var other = default(CancellationToken); ref var alias = ref other; try { alias = default; alias = ref token; } finally { Read(in token); }")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); dictionary[token] = 1;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); (dictionary[token], _) = (1, 2);")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; _ = Environment.GetEnvironmentVariable(\"X\") ?? (alias = ref other).ToString(); alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; _ = Environment.GetEnvironmentVariable(\"X\")?.Contains((alias = ref other).ToString()!); alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; switch (Environment.TickCount) { case int n when (alias = ref other).CanBeCanceled && n > 0: alias = default; break; default: alias = ref other; alias = default; break; }")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = Environment.TickCount switch { int n when (alias = ref other).CanBeCanceled && n > 0 => (alias = default).GetHashCode(), _ => (alias = ref other).GetHashCode() }; alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = ((string?)null) ?? (alias = ref other).ToString(); alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; _ = \"present\" ?? (alias = ref token).ToString(); alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = \"present\"?.Contains((alias = ref other).ToString()!); alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; _ = ((string?)null)?.Contains((alias = ref token).ToString()!); alias = default;")]
     public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)
     {
         var source = ModuleSource($$"""
