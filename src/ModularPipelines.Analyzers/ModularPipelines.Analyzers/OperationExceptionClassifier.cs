@@ -1,0 +1,364 @@
+using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
+
+namespace ModularPipelines.Analyzers;
+
+/// <summary>Classifies exceptions without traversing control flow or discovering local definitions.</summary>
+/// <param name="semanticModel">The source model, including implicit calls omitted from operation children.</param>
+/// <param name="isKnownNonNull">Optional contextual proof; unknown receivers remain nullable.</param>
+/// <param name="hasExactArrayType">Optional contextual proof that an array has its declared runtime type.</param>
+internal sealed class OperationExceptionClassifier(
+    SemanticModel? semanticModel = null,
+    Func<IOperation, bool>? isKnownNonNull = null,
+    Func<IOperation, bool>? hasExactArrayType = null)
+{
+    /// <summary>Exceptions at completion of this operation, after its children have evaluated.</summary>
+    /// <remarks>A null metadata name denotes an unknown exception from user code or dynamic binding.
+    /// Assignment targets must also be classified at their own evaluation point: ordinary setters,
+    /// field stores and array stores check at assignment completion, ref getters at target evaluation.</remarks>
+    internal ImmutableArray<string?> Classify(IOperation operation, bool deconstructionStore = false,
+        IOperation? storedValue = null)
+    {
+        var arithmetic = GetArithmeticExceptions(operation);
+        if (GetReceiverExceptionName(operation) is { } receiver)
+        {
+            return [receiver];
+        }
+
+        if (GetArrayAccess(operation) is { } array)
+        {
+            return CanArrayAccessMismatch(operation, array, deconstructionStore, storedValue)
+                ? ["System.NullReferenceException", "System.IndexOutOfRangeException", "System.ArrayTypeMismatchException"]
+                : ["System.NullReferenceException", "System.IndexOutOfRangeException"];
+        }
+
+        if (arithmetic == ArithmeticExceptions.Unknown || CanThrow(operation))
+        {
+            return [null];
+        }
+
+        var result = ImmutableArray.CreateBuilder<string?>();
+        if ((arithmetic & ArithmeticExceptions.DivideByZero) != 0)
+        {
+            result.Add("System.DivideByZeroException");
+        }
+
+        if ((arithmetic & ArithmeticExceptions.Overflow) != 0)
+        {
+            result.Add("System.OverflowException");
+        }
+
+        return result.ToImmutable();
+    }
+
+    /// <summary>Source ranges requiring an early unknown-exception edge before each contained
+    /// operation. These survive CFG hoisting of branching element evaluations. Collection builders
+    /// run at collection completion instead; constructor/Add and spread iteration can run earlier.</summary>
+    internal static ImmutableArray<TextSpan> GetEarlyCollectionCallSpans(IOperation root) =>
+        [.. GetCollectionCallSpans(root)];
+
+    private string? GetReceiverExceptionName(IOperation operation)
+    {
+        var field = GetFieldAccess(operation);
+        if (field is { Field: { IsStatic: true, IsConst: false } })
+        {
+            return "System.TypeInitializationException";
+        }
+
+        return (field is not null && HasNullableReceiver(field.Instance)) || IsThrowingMethodReference(operation)
+            ? "System.NullReferenceException"
+            : null;
+    }
+
+    private static bool IsSimpleAssignmentTarget(IOperation operation) =>
+        operation.Parent is ISimpleAssignmentOperation assignment && ReferenceEquals(assignment.Target, operation);
+
+    private static IArrayElementReferenceOperation? GetArrayAccess(IOperation operation) => operation switch
+    {
+        // A store checks the array after evaluating its assigned value.
+        ISimpleAssignmentOperation { Target: IArrayElementReferenceOperation array } => array,
+        IArrayElementReferenceOperation array when !IsSimpleAssignmentTarget(array) => array,
+        _ => null,
+    };
+
+    private bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array,
+        bool deconstructionStore, IOperation? storedValue) =>
+        array.Type is not { IsValueType: true } and not INamedTypeSymbol { IsSealed: true }
+        && (deconstructionStore ? storedValue is not { ConstantValue: { HasValue: true, Value: null } }
+            : IsWritableArrayAccess(operation))
+        && hasExactArrayType?.Invoke(array.ArrayReference) != true;
+
+    private static bool IsWritableArrayAccess(IOperation operation) => operation switch
+    {
+        // Source operations retain ref-local initializers; the CFG lowers these to ref assignments.
+        IArrayElementReferenceOperation
+        {
+            Parent: IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } }
+        } => true,
+        ISimpleAssignmentOperation assignment =>
+            !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
+        IArrayElementReferenceOperation
+        {
+            Parent: ISimpleAssignmentOperation
+            { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
+        } => true,
+        IArrayElementReferenceOperation
+        {
+            Parent: IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+        } => true,
+        _ => false,
+    };
+
+    private static IEnumerable<TextSpan> GetCollectionCallSpans(IOperation root)
+    {
+        foreach (var collection in root.DescendantsAndSelf().OfType<ICollectionExpressionOperation>())
+        {
+            if (collection.ConstructMethod?.MethodKind == MethodKind.Constructor)
+            {
+                yield return collection.Syntax.Span;
+            }
+            else
+            {
+                foreach (var spread in collection.Elements.OfType<ISpreadOperation>())
+                {
+                    yield return TextSpan.FromBounds(spread.Syntax.SpanStart, collection.Syntax.Span.End);
+                }
+            }
+        }
+    }
+
+    private bool CanThrow(IOperation operation)
+    {
+        if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation) || CanImplicitStringCallThrow(operation))
+        {
+            return true;
+        }
+
+        return operation switch
+        {
+            // Construction, Add, and spread iteration can invoke user code without invocation children.
+            ICollectionExpressionOperation collection => collection.ConstructMethod is not null
+                || collection.Elements.Any(static element => element is ISpreadOperation),
+            ISpreadOperation => true,
+            IRecursivePatternOperation { DeconstructSymbol: not null } => true,
+            IListPatternOperation pattern => CanListPatternMemberThrow(pattern.LengthSymbol)
+                || CanListPatternMemberThrow(pattern.IndexerSymbol),
+            ISlicePatternOperation { SliceSymbol: not null } => true,
+            // Deconstruct calls and element conversions need not appear as operation children.
+            IDeconstructionAssignmentOperation deconstruction =>
+                deconstruction.Syntax is not AssignmentExpressionSyntax syntax
+                || semanticModel is not { } model
+                || CanDeconstructionThrow(model.GetDeconstructionInfo(syntax)),
+            IConversionOperation conversion => CanConversionThrow(conversion),
+            _ => false,
+        };
+    }
+
+    private static bool CanFormattingThrow(IInterpolationOperation interpolation) =>
+        interpolation.Alignment is not null
+        || (interpolation.Expression.Type?.SpecialType != SpecialType.System_String
+            && interpolation.Expression is not { ConstantValue: { HasValue: true, Value: null } });
+
+    private bool DefersInterpolationFormatting(IInterpolatedStringOperation text)
+    {
+        if (semanticModel is not { } model)
+        {
+            return false;
+        }
+
+        var destination = model.GetTypeInfo(text.Syntax).ConvertedType;
+        return SymbolEqualityComparer.Default.Equals(destination, model.Compilation.GetTypeByMetadataName("System.FormattableString"))
+            || SymbolEqualityComparer.Default.Equals(destination, model.Compilation.GetTypeByMetadataName("System.IFormattable"));
+    }
+
+    private bool FormatsEachInterpolation(IInterpolatedStringOperation text)
+    {
+        if (text.Syntax.SyntaxTree.Options is not CSharpParseOptions { LanguageVersion: >= LanguageVersion.CSharp10 }
+            || semanticModel is not { } model
+            || model.Compilation.GetTypeByMetadataName("System.Runtime.CompilerServices.DefaultInterpolatedStringHandler") is null)
+        {
+            return false;
+        }
+
+        // Await and dynamic holes require the factory lowering instead of a ref-struct handler.
+        if (text.DescendantsAndSelf().Any(static part => part is IAwaitOperation || part.Type?.TypeKind == TypeKind.Dynamic))
+        {
+            return false;
+        }
+
+        var expressionType = model.Compilation.GetTypeByMetadataName("System.Linq.Expressions.Expression`1");
+        return !text.Syntax.Ancestors().OfType<AnonymousFunctionExpressionSyntax>().Any(lambda =>
+            model.GetTypeInfo(lambda).ConvertedType is INamedTypeSymbol converted
+            && SymbolEqualityComparer.Default.Equals(converted.OriginalDefinition, expressionType));
+    }
+
+    // Handlers format after each hole; string.Format evaluates every argument before formatting.
+    // FormattableString/IFormattable defer formatting, unlike conversions of the finished string to object/interfaces.
+    private bool CanInterpolationThrow(IInterpolationOperation interpolation) =>
+        interpolation.Parent is IInterpolatedStringOperation text
+        && !DefersInterpolationFormatting(text) && FormatsEachInterpolation(text) && CanFormattingThrow(interpolation);
+
+    private bool CanCompletedInterpolationThrow(IInterpolatedStringOperation text) =>
+        !DefersInterpolationFormatting(text) && !FormatsEachInterpolation(text)
+        && text.Parts.OfType<IInterpolationOperation>().Any(CanFormattingThrow);
+
+    // Formatting and concatenation can call user code without an invocation child.
+    private bool CanImplicitStringCallThrow(IOperation operation) => operation switch
+    {
+        IInterpolationOperation interpolation => CanInterpolationThrow(interpolation),
+        IInterpolatedStringOperation text => CanCompletedInterpolationThrow(text),
+        IBinaryOperation { OperatorKind: BinaryOperatorKind.Add, Type.SpecialType: SpecialType.System_String } binary =>
+            CanConcatenationOperandThrow(binary.LeftOperand) || CanConcatenationOperandThrow(binary.RightOperand),
+        ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Add } assignment
+            when assignment.Target.Type?.SpecialType == SpecialType.System_String
+                || assignment.Value.Type?.SpecialType == SpecialType.System_String =>
+            CanConcatenationOperandThrow(assignment.Target) || CanConcatenationOperandThrow(assignment.Value),
+        _ => false,
+    };
+
+    private static bool CanConcatenationOperandThrow(IOperation operand) =>
+        operand.Type?.SpecialType != SpecialType.System_String && !operand.ConstantValue.HasValue;
+
+    // List patterns guard null and bounds before intrinsic array/string member accesses.
+    private static bool CanListPatternMemberThrow(ISymbol? member) => member is not null
+        && member.ContainingType.SpecialType is not (SpecialType.System_Array or SpecialType.System_String);
+
+    private static bool CanDeconstructionThrow(DeconstructionInfo info) =>
+        info.Method is not null || info.Conversion is { IsUserDefined: true } or { IsDynamic: true }
+        || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(CanDeconstructionThrow));
+
+    private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
+        IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
+        or ITypeParameterObjectCreationOperation
+        or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation;
+
+    private static bool IsThrowingPropertyAccess(IOperation operation) => operation switch
+    {
+        // Setters run after the assigned value; ref-return getters run while evaluating the target.
+        IAssignmentOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
+        IIncrementOrDecrementOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
+        IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation => !IsSimpleAssignmentTarget(operation),
+        IAssignmentOperation { Target: IPropertyReferenceOperation property } =>
+            !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
+        IIncrementOrDecrementOperation { Target: IPropertyReferenceOperation property } =>
+            !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
+        IPropertyReferenceOperation property => !IsSimpleAssignmentTarget(property)
+            || property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly,
+        _ => false,
+    };
+
+    private static IFieldReferenceOperation? GetFieldAccess(IOperation operation) => operation switch
+    {
+        // A simple field write checks the receiver after evaluating the assigned value.
+        ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => field,
+        IFieldReferenceOperation field when !IsSimpleAssignmentTarget(field) => field,
+        _ => null,
+    };
+
+    private bool IsThrowingMethodReference(IOperation operation) =>
+        operation is IMethodReferenceOperation { Method: { IsStatic: false, ReducedFrom: null } } method
+        && HasNullableReceiver(method.Instance);
+
+    private bool HasNullableReceiver(IOperation? receiver) =>
+        receiver is { Type.IsReferenceType: true } and not IInstanceReferenceOperation
+        && isKnownNonNull?.Invoke(receiver) != true;
+
+    private static bool CanConversionThrow(IConversionOperation conversion) =>
+        conversion.IsChecked || conversion.Conversion.IsUserDefined || CanNumericConversionOverflow(conversion)
+        || (!conversion.IsTryCast && !conversion.Conversion.IsIdentity
+            && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
+                || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric)));
+
+    // Decimal narrowing and floating-point-to-decimal conversions can overflow even in unchecked code.
+    private static bool CanNumericConversionOverflow(IConversionOperation conversion) =>
+        GetArithmeticOperandType(conversion.Operand.Type) switch
+        {
+            SpecialType.System_Decimal => GetArithmeticOperandType(conversion.Type) is
+                SpecialType.System_SByte or SpecialType.System_Byte or SpecialType.System_Int16 or SpecialType.System_UInt16
+                or SpecialType.System_Int32 or SpecialType.System_UInt32 or SpecialType.System_Int64 or SpecialType.System_UInt64
+                or SpecialType.System_IntPtr or SpecialType.System_UIntPtr or SpecialType.System_Char,
+            SpecialType.System_Single or SpecialType.System_Double =>
+                GetArithmeticOperandType(conversion.Type) == SpecialType.System_Decimal,
+            _ => false,
+        };
+
+    private static ArithmeticExceptions GetArithmeticExceptions(IOperation operation) => operation switch
+    {
+        IBinaryOperation { LeftOperand.Type.TypeKind: TypeKind.Dynamic }
+            or IBinaryOperation { RightOperand.Type.TypeKind: TypeKind.Dynamic }
+            or ICompoundAssignmentOperation { Target.Type.TypeKind: TypeKind.Dynamic }
+            or ICompoundAssignmentOperation { Value.Type.TypeKind: TypeKind.Dynamic }
+            or IIncrementOrDecrementOperation { Target.Type.TypeKind: TypeKind.Dynamic }
+            or IUnaryOperation { Operand.Type.TypeKind: TypeKind.Dynamic } => ArithmeticExceptions.Unknown,
+        IBinaryOperation binary => GetArithmeticExceptions(binary.OperatorKind, binary.IsChecked,
+            binary.OperatorMethod, binary.LeftOperand.Type),
+        ICompoundAssignmentOperation assignment => assignment.InConversion.IsUserDefined
+            || assignment.OutConversion.IsUserDefined
+                ? ArithmeticExceptions.Unknown
+                : GetArithmeticExceptions(assignment.OperatorKind, assignment.IsChecked,
+                    assignment.OperatorMethod, assignment.Target.Type),
+        IIncrementOrDecrementOperation increment => GetArithmeticExceptions(BinaryOperatorKind.Add,
+            increment.IsChecked, increment.OperatorMethod, increment.Target.Type),
+        IUnaryOperation { OperatorMethod: not null } => ArithmeticExceptions.Unknown,
+        IUnaryOperation { IsChecked: true } => ArithmeticExceptions.Overflow,
+        _ => ArithmeticExceptions.None,
+    };
+
+    private static ArithmeticExceptions GetArithmeticExceptions(BinaryOperatorKind operatorKind, bool isChecked,
+        IMethodSymbol? operatorMethod, ITypeSymbol? operandType)
+    {
+        if (operatorMethod is not null)
+        {
+            return ArithmeticExceptions.Unknown;
+        }
+
+        var type = GetArithmeticOperandType(operandType);
+        if (type is SpecialType.System_Single or SpecialType.System_Double)
+        {
+            return ArithmeticExceptions.None;
+        }
+
+        return operatorKind switch
+        {
+            BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder => GetDivisionExceptions(operatorKind, type, isChecked),
+            BinaryOperatorKind.Add or BinaryOperatorKind.Subtract or BinaryOperatorKind.Multiply
+                when isChecked || type == SpecialType.System_Decimal => ArithmeticExceptions.Overflow,
+            _ => ArithmeticExceptions.None,
+        };
+    }
+
+    private static ArithmeticExceptions GetDivisionExceptions(BinaryOperatorKind operatorKind, SpecialType? type, bool isChecked)
+    {
+        var canOverflow = type is SpecialType.System_Int32 or SpecialType.System_Int64 or SpecialType.System_IntPtr
+            || (operatorKind == BinaryOperatorKind.Divide && CanNarrowOrDecimalDivisionOverflow(type, isChecked));
+        return ArithmeticExceptions.DivideByZero
+            | (canOverflow ? ArithmeticExceptions.Overflow : ArithmeticExceptions.None);
+    }
+
+    private static bool CanNarrowOrDecimalDivisionOverflow(SpecialType? type, bool isChecked) =>
+        type == SpecialType.System_Decimal || (isChecked && type is SpecialType.System_SByte or SpecialType.System_Int16);
+
+    private static SpecialType? GetArithmeticOperandType(ITypeSymbol? operandType)
+    {
+        if (operandType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
+        {
+            operandType = nullable.TypeArguments[0];
+        }
+
+        return operandType is INamedTypeSymbol { EnumUnderlyingType: { } underlyingType }
+            ? underlyingType.SpecialType : operandType?.SpecialType;
+    }
+
+    [Flags]
+    private enum ArithmeticExceptions
+    {
+        None = 0,
+        Unknown = 1,
+        DivideByZero = 2,
+        Overflow = 4,
+    }
+}
