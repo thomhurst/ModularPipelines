@@ -9,6 +9,93 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("int counter = 1; int divisor = 0;", "counter /= divisor;", "DivideByZeroException", true)]
+    [DataRow("int counter = 1; int divisor = 0;", "counter %= divisor;", "DivideByZeroException", true)]
+    [DataRow("int counter = int.MaxValue;", "checked { counter += 1; }", "OverflowException", true)]
+    [DataRow("int counter = int.MinValue;", "checked { counter -= 1; }", "OverflowException", true)]
+    [DataRow("int counter = int.MaxValue;", "checked { counter *= 2; }", "OverflowException", true)]
+    [DataRow("int counter = int.MaxValue;", "checked { counter++; }", "OverflowException", true)]
+    [DataRow("int counter = int.MaxValue;", "checked { ++counter; }", "OverflowException", true)]
+    [DataRow("int counter = int.MinValue;", "checked { counter--; }", "OverflowException", true)]
+    [DataRow("int counter = int.MinValue;", "checked { --counter; }", "OverflowException", true)]
+    [DataRow("short counter = short.MaxValue;", "checked { counter++; }", "OverflowException", true)]
+    [DataRow("int counter = int.MaxValue;", "unchecked { counter++; }", "OverflowException", false)]
+    [DataRow("int counter = int.MinValue;", "unchecked { counter--; }", "OverflowException", false)]
+    [DataRow("int counter = int.MaxValue;", "unchecked { counter += 1; }", "OverflowException", false)]
+    [DataRow("float counter = 1; float divisor = 0;", "counter /= divisor;", "DivideByZeroException", false)]
+    [DataRow("double counter = 1; double divisor = 0;", "counter %= divisor;", "DivideByZeroException", false)]
+    [DataRow("double counter = double.MaxValue;", "checked { counter++; }", "OverflowException", false)]
+    [DataRow("float? counter = 1; float divisor = 0;", "counter /= divisor;", "DivideByZeroException", false)]
+    [DataRow("decimal counter = decimal.MaxValue;", "counter += 1;", "OverflowException", true)]
+    [DataRow("decimal counter = decimal.MaxValue;", "counter++;", "OverflowException", true)]
+    [DataRow("decimal counter = 1; decimal divisor = 0;", "counter /= divisor;", "DivideByZeroException", true)]
+    [DataRow("decimal counter = decimal.MaxValue;", "counter = counter + 1;", "OverflowException", true)]
+    public async Task Tracks_Arithmetic_Assignment_Exception_Paths(string setup, string operation, string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                {{setup}}
+                Action register = () => {};
+                try { {{operation}} }
+                catch ({{caught}}) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("counter += counter;")]
+    [DataRow("counter++;")]
+    [DataRow("--counter;")]
+    public async Task Tracks_Overloaded_Assignment_Operator_Exception_Paths(string operation)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Counter counter = default;
+                Action register = () => {};
+                try { {{operation}} }
+                catch (InvalidOperationException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public struct Counter
+            {
+                public static Counter operator +(Counter left, Counter right) => throw new InvalidOperationException();
+                public static Counter operator ++(Counter value) => throw new InvalidOperationException();
+                public static Counter operator --(Counter value) => throw new InvalidOperationException();
+            }
+            """));
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public async Task Tracks_Compound_Assignment_Conversion_Exception_Paths(bool inputConversionThrows)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Counter counter = default;
+                Action register = () => {};
+                try { counter += 1; }
+                catch (InvalidOperationException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public struct Counter
+            {
+                public static implicit operator int(Counter value) => {{(inputConversionThrows ? "throw new InvalidOperationException()" : "0")}};
+                public static implicit operator Counter(int value) => {{(inputConversionThrows ? "default" : "throw new InvalidOperationException()")}};
+            }
+            """));
+    }
+
+    [TestMethod]
     [DataRow("Publisher.Callback", "public static Action Callback", false)]
     [DataRow("Publisher.Callback", "public static Action Callback", true)]
     [DataRow("publisher.Callback", "public Action Callback", false)]

@@ -245,7 +245,14 @@ internal sealed class ReachingDefinitionFlow(
             IObjectCreationOperation => block.FallThroughSuccessor?.Semantics != ControlFlowBranchSemantics.Throw
                 || block.BranchValue?.Syntax.Span != operation.Syntax.Span,
             IConversionOperation conversion => CanConversionThrow(conversion),
-            IBinaryOperation binary => CanBinaryThrow(binary),
+            IBinaryOperation binary => CanArithmeticThrow(binary.OperatorKind, binary.IsChecked,
+                binary.OperatorMethod, binary.LeftOperand.Type),
+            ICompoundAssignmentOperation assignment => assignment.InConversion.IsUserDefined
+                || assignment.OutConversion.IsUserDefined
+                || CanArithmeticThrow(assignment.OperatorKind, assignment.IsChecked,
+                    assignment.OperatorMethod, assignment.Target.Type),
+            IIncrementOrDecrementOperation increment => CanArithmeticThrow(BinaryOperatorKind.Add,
+                increment.IsChecked, increment.OperatorMethod, increment.Target.Type),
             IUnaryOperation unary => unary.IsChecked || unary.OperatorMethod is not null,
             _ => false,
         };
@@ -352,21 +359,23 @@ internal sealed class ReachingDefinitionFlow(
         || (!conversion.IsTryCast && !conversion.Conversion.IsImplicit
             && !conversion.Conversion.IsNumeric && !conversion.Conversion.IsIdentity);
 
-    private static bool CanBinaryThrow(IBinaryOperation binary)
+    private static bool CanArithmeticThrow(BinaryOperatorKind operatorKind, bool isChecked,
+        IMethodSymbol? operatorMethod, ITypeSymbol? operandType)
     {
-        if (binary.OperatorMethod is not null)
+        if (operatorMethod is not null)
         {
             return true;
         }
 
-        var operandType = binary.LeftOperand.Type;
         if (operandType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
         {
             operandType = nullable.TypeArguments[0];
         }
 
         return operandType?.SpecialType is not (SpecialType.System_Single or SpecialType.System_Double)
-            && (binary.IsChecked || binary.OperatorKind is BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder);
+            && (isChecked || operatorKind is BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder
+                || (operandType?.SpecialType == SpecialType.System_Decimal
+                    && operatorKind is BinaryOperatorKind.Add or BinaryOperatorKind.Subtract or BinaryOperatorKind.Multiply));
     }
 
     private void Follow(ControlFlowBranch? branch, HashSet<TextSpan> state, ImmutableArray<int> continuation,
