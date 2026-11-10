@@ -804,19 +804,36 @@ internal static class ModuleAuthoringAnalysis
                 GetEnclosingCallable(context.Operation))
             ?? GetContainingMemberMethod(context.ContainingSymbol);
         if (containingMethod is null
-            || SymbolEqualityComparer.Default.Equals(
-                containingMethod,
-                executeMethod))
+            || SymbolEqualityComparer.Default.Equals(containingMethod, executeMethod))
         {
             return [executeCancellationToken];
         }
 
-        return [executeCancellationToken, .. FindMappedCancellationTokens(
-            executeMethod,
-            containingMethod,
-            executeCancellationToken,
-            context.Compilation,
-            context.CancellationToken)];
+        var tokens = ImmutableArray.CreateBuilder<IParameterSymbol>();
+        tokens.Add(executeCancellationToken);
+
+        // Nested callables can capture tokens mapped to any enclosing helper.
+        for (var method = containingMethod;
+             method is not null;
+             method = method.ContainingSymbol as IMethodSymbol)
+        {
+            if (SymbolEqualityComparer.Default.Equals(method, executeMethod))
+            {
+                break;
+            }
+
+            if (method.Parameters.Any(IsCancellationToken))
+            {
+                tokens.AddRange(FindMappedCancellationTokens(
+                    executeMethod,
+                    method,
+                    executeCancellationToken,
+                    context.Compilation,
+                    context.CancellationToken));
+            }
+        }
+
+        return tokens.ToImmutable();
     }
 
     private static IMethodSymbol? GetContainingMemberMethod(ISymbol symbol)
