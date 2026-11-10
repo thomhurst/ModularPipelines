@@ -1225,6 +1225,18 @@ public class CommandLineModuleRegistrationAnalyzerTests
     [DataRow("Action register = () => {}; Action<System.CommandLine.ParseResult> action = _ => register(); register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return action;", true, false)]
     [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<System.CommandLine.ParseResult> action = _ => register(); register = () => {}; return action;", false, true)]
     [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<System.CommandLine.ParseResult> action = _ => register(); register = () => {}; return action;", false, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { return _ => register(); } finally { register = () => {}; }", false, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { return _ => register(); } finally { register = () => {}; }", false, false)]
+    [DataRow("Action register = () => {}; try { return _ => register(); } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true, true)]
+    [DataRow("Action register = () => {}; try { return _ => register(); } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<System.CommandLine.ParseResult> action = _ => register(); try { return action; } finally { register = () => {}; }", false, true)]
+    [DataRow("Action register = () => {}; Action<System.CommandLine.ParseResult> action = _ => register(); try { return action; } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { try { return _ => register(); } finally { register = () => {}; } } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { try { return _ => register(); } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } } finally { register = () => {}; }", false, false)]
+    [DataRow("Action register = () => {}; try { return _ => register(); } finally { if (Environment.TickCount > 0) register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", true, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { return _ => register(); } finally { if (Environment.TickCount > 0) register = () => {}; }", true, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { try { return _ => register(); } finally { throw new InvalidOperationException(); } } catch (InvalidOperationException) { return _ => {}; }", false, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); try { return _ => register(); } finally { try { throw new InvalidOperationException(); } catch (InvalidOperationException) { register = () => {}; } }", false, false)]
     public async Task Preserves_Captures_In_Returned_Actions(string factoryBody, bool registered, bool localFactory)
     {
         var factory = $$"""

@@ -6088,7 +6088,7 @@ internal static class ModuleAuthoringAnalysis
             yield break;
         }
 
-        // An escaped closure reads factory locals at the return, including writes after its creation.
+        // An escaped closure reads factory locals after the selected return completes its cleanup.
         foreach (var returned in body.DescendantsAndSelf().OfType<IReturnOperation>())
         {
             if (returned.ReturnedValue is not { } returnedValue
@@ -6104,7 +6104,7 @@ internal static class ModuleAuthoringAnalysis
                 .Any(target => SymbolEqualityComparer.Default.Equals(NormalizeMethod(target), NormalizeMethod(callback)));
             if (returnsCallback)
             {
-                yield return returnedValue;
+                yield return returned;
             }
         }
     }

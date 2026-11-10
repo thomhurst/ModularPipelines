@@ -13,7 +13,8 @@ internal sealed class ReachingDefinitionFlow(
     IOperation? command,
     Dictionary<TextSpan, IOperation> definitions,
     ILocalSymbol? local = null,
-    bool analyzeFieldReceivers = true)
+    bool analyzeFieldReceivers = true,
+    bool completingReturn = false)
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
     private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
@@ -44,7 +45,8 @@ internal sealed class ReachingDefinitionFlow(
         values = [];
         inheritsIncomingValue = false;
         if (CreateGraph(root) is not { } rootGraph
-            || FindGraph(rootGraph, operation.Syntax.Span) is not { } graph)
+            || FindGraph(rootGraph, (operation is IReturnOperation { ReturnedValue: { } returnedValue }
+                ? returnedValue : operation).Syntax.Span) is not { } graph)
         {
             return false;
         }
@@ -67,11 +69,22 @@ internal sealed class ReachingDefinitionFlow(
     private IEnumerable<IOperation> Analyze()
     {
         Enqueue(0, [], local is null ? [] : [IncomingValue]);
+        AnalyzePendingBlocks();
+        return _reaching.Where(span => span != IncomingValue).Select(span => definitions[span]);
+    }
+
+    private void AnalyzePendingBlocks()
+    {
         while (_queue.Count > 0)
         {
             var (ordinal, continuation, filter) = _queue.Dequeue();
             var block = graph.Blocks[ordinal];
             var state = new HashSet<TextSpan>(_inputs[Key(ordinal, continuation, filter)]);
+            if (completingReturn && block.Kind == BasicBlockKind.Exit)
+            {
+                _reaching.UnionWith(state);
+            }
+
             foreach (var operation in block.Operations)
             {
                 Visit(operation, state, block, continuation, filter);
@@ -85,8 +98,6 @@ internal sealed class ReachingDefinitionFlow(
             Follow(block.FallThroughSuccessor, state, continuation, filter);
             Follow(block.ConditionalSuccessor, state, continuation, filter);
         }
-
-        return _reaching.Where(span => span != IncomingValue).Select(span => definitions[span]);
     }
 
     private void Enqueue(int ordinal, ImmutableArray<int> continuation, HashSet<TextSpan> state, FilterContext? filter = null)
@@ -305,6 +316,17 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
+        if (branch.Semantics == ControlFlowBranchSemantics.Return)
+        {
+            if (completingReturn)
+            {
+                // A handler returning another value abandons the selected factory return.
+                return;
+            }
+
+            CompleteSelectedReturn(branch, state, continuation, filter);
+        }
+
         if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
         {
             FollowException(branch.Source, GetThrownType(branch.Source.BranchValue), state, continuation, filter);
@@ -323,6 +345,23 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         FollowDestination(branch, destination, state, continuation, filter);
+    }
+
+    private void CompleteSelectedReturn(ControlFlowBranch branch, HashSet<TextSpan> state,
+        ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        if (invocation is not IReturnOperation { ReturnedValue: { } returnedValue }
+            || branch.Source.BranchValue?.Syntax.Span != returnedValue.Syntax.Span
+            || branch.Destination is not { } destination)
+        {
+            return;
+        }
+
+        var completion = new ReachingDefinitionFlow(graph, invocation, command, definitions,
+            local, analyzeFieldReceivers, completingReturn: true);
+        completion.FollowDestination(branch, destination, state, continuation, filter);
+        completion.AnalyzePendingBlocks();
+        _reaching.UnionWith(completion._reaching);
     }
 
     private void FollowStructuredExceptionHandling(HashSet<TextSpan> state, ImmutableArray<int> continuation,
@@ -395,7 +434,8 @@ internal sealed class ReachingDefinitionFlow(
     {
         var cleanup = ImmutableArray.CreateBuilder<int>();
         var skipping = rejectedHandler is not null;
-        for (var region = source.EnclosingRegion; region is not null; region = region.EnclosingRegion)
+        for (var region = source.EnclosingRegion; region is not null && region != graph.Root.EnclosingRegion;
+             region = region.EnclosingRegion)
         {
             if (region.Kind != ControlFlowRegionKind.Try || region.EnclosingRegion is not { } group)
             {
@@ -465,7 +505,7 @@ internal sealed class ReachingDefinitionFlow(
         Enqueue(path[0], path.RemoveAt(0), state);
     }
 
-    private static ImmutableArray<int> GetHandlerContinuation(BasicBlock source, BasicBlock handler,
+    private ImmutableArray<int> GetHandlerContinuation(BasicBlock source, BasicBlock handler,
         ImmutableArray<int> continuation)
     {
         var handlerFinally = GetEnclosingFinally(handler);
@@ -485,9 +525,10 @@ internal sealed class ReachingDefinitionFlow(
             && ordinal <= handlerFinally.LastBlockOrdinal)];
     }
 
-    private static ControlFlowRegion? GetEnclosingFinally(BasicBlock block)
+    private ControlFlowRegion? GetEnclosingFinally(BasicBlock block)
     {
-        for (var region = block.EnclosingRegion; region is not null; region = region.EnclosingRegion)
+        for (var region = block.EnclosingRegion; region is not null && region != graph.Root.EnclosingRegion;
+             region = region.EnclosingRegion)
         {
             if (region.Kind == ControlFlowRegionKind.Finally)
             {
@@ -522,10 +563,11 @@ internal sealed class ReachingDefinitionFlow(
             + exceptionType?.ToDisplayString() + ":" + string.Join(",", continuation);
     }
 
-    private static bool IsInRegion(BasicBlock block, ControlFlowRegionKind kind)
+    private bool IsInRegion(BasicBlock block, ControlFlowRegionKind kind)
     {
         // A nested handler takes precedence over any outer handler's region.
-        for (var region = block.EnclosingRegion; region is not null; region = region.EnclosingRegion)
+        for (var region = block.EnclosingRegion; region is not null && region != graph.Root.EnclosingRegion;
+             region = region.EnclosingRegion)
         {
             if (region.Kind is ControlFlowRegionKind.Filter or ControlFlowRegionKind.Catch or ControlFlowRegionKind.Finally)
             {
