@@ -282,6 +282,33 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("token", "other", true, false)]
+    [DataRow("other", "token", false, false)]
+    [DataRow("token", "token", true, false)]
+    [DataRow("other", "other", false, false)]
+    [DataRow("token", "other", true, true)]
+    [DataRow("other", "token", false, true)]
+    public async Task Tracks_Deconstruction_Destinations_In_Evaluation_Order(string initial, string rebound, bool reports, bool nested)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                var slots = new CancellationToken[1];
+                {{(nested ? "((alias, _), " : "(alias, ")}}slots[(alias = ref {{rebound}}).CanBeCanceled ? 0 : 0]) =
+                    {{(nested ? "((CancellationToken.None, 0), CancellationToken.None)" : "(CancellationToken.None, CancellationToken.None)")}};
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("tokens[0] == (alias = ref other)", false, true)]
     [DataRow("MayThrow() | (alias = ref other).CanBeCanceled", false, true)]
     [DataRow("(alias = ref token).CanBeCanceled | tokens[0].CanBeCanceled | (alias = ref other).CanBeCanceled", false, true)]

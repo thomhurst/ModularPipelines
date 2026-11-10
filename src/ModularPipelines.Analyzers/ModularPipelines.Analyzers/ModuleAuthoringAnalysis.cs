@@ -1240,13 +1240,8 @@ internal static class ModuleAuthoringAnalysis
         if (operation is IAssignmentOperation assignment
             && operation is not ISimpleAssignmentOperation { IsRef: true })
         {
-            if (VisitParameterWrites(assignment.Target, storage, filterExceptions))
-            {
-                return true;
-            }
-
-            // C# fixes the destination before the RHS can rebind a ref local.
-            var writesParameter = ReferencesStorage(assignment.Target, storage);
+            // Each tuple destination is fixed before later destinations or the RHS can rebind it.
+            var writesParameter = VisitParameterWriteDestination(assignment.Target, storage, filterExceptions);
             return VisitParameterWrites(assignment.Value, storage, filterExceptions) || writesParameter;
         }
 
@@ -1263,6 +1258,25 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return ReferencesStorage(GetWrittenStorage(operation), storage);
+    }
+
+    private static bool VisitParameterWriteDestination(
+        IOperation target,
+        ParameterWriteState storage,
+        ParameterWriteState? filterExceptions)
+    {
+        if (target is ITupleOperation tuple)
+        {
+            var writesParameter = false;
+            foreach (var element in tuple.Elements)
+            {
+                writesParameter |= VisitParameterWriteDestination(element, storage, filterExceptions);
+            }
+
+            return writesParameter;
+        }
+
+        return VisitParameterWrites(target, storage, filterExceptions) || ReferencesStorage(target, storage);
     }
 
     private static IOperation? GetWrittenStorage(IOperation operation) => operation switch
