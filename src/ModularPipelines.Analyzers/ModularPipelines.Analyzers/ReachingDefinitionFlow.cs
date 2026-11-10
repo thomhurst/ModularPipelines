@@ -13,7 +13,7 @@ internal sealed class ReachingDefinitionFlow(
     IOperation? command,
     Dictionary<TextSpan, IOperation> definitions,
     ILocalSymbol? local = null,
-    bool analyzeFieldReceivers = true,
+    bool analyzeReceiverTypes = true,
     bool completingReturn = false)
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
@@ -40,7 +40,7 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     public static bool TryGetReachingLocalValues(IOperation root, IOperation operation, ILocalSymbol local,
-        out ImmutableArray<IOperation> values, out bool inheritsIncomingValue, bool analyzeFieldReceivers = true)
+        out ImmutableArray<IOperation> values, out bool inheritsIncomingValue, bool analyzeReceiverTypes = true)
     {
         values = [];
         inheritsIncomingValue = false;
@@ -60,7 +60,7 @@ internal sealed class ReachingDefinitionFlow(
             _ => null,
         }).OfType<IOperation>().GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
-        var flow = new ReachingDefinitionFlow(graph, operation, null, definitions, local, analyzeFieldReceivers);
+        var flow = new ReachingDefinitionFlow(graph, operation, null, definitions, local, analyzeReceiverTypes);
         values = [.. flow.Analyze()];
         inheritsIncomingValue = flow._reaching.Contains(IncomingValue);
         return true;
@@ -184,23 +184,60 @@ internal sealed class ReachingDefinitionFlow(
         _ => null,
     };
 
-    private static bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array) =>
+    private bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array) =>
         array.Type is not { IsValueType: true } and not INamedTypeSymbol { IsSealed: true }
-        && operation switch
+        && IsWritableArrayAccess(operation)
+        && (!analyzeReceiverTypes || !HasExactArrayType(array.ArrayReference, array.ArrayReference.Type,
+            [with(SymbolEqualityComparer.Default)]));
+
+    private static bool IsWritableArrayAccess(IOperation operation) => operation switch
+    {
+        ISimpleAssignmentOperation assignment =>
+            !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
+        IArrayElementReferenceOperation
         {
-            ISimpleAssignmentOperation assignment =>
-                !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
-            IArrayElementReferenceOperation
-            {
-                Parent: ISimpleAssignmentOperation
-                { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
-            } => true,
-            IArrayElementReferenceOperation
-            {
-                Parent: IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
-            } => true,
-            _ => false,
-        };
+            Parent: ISimpleAssignmentOperation
+            { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
+        } => true,
+        IArrayElementReferenceOperation
+        {
+            Parent: IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+        } => true,
+        _ => false,
+    };
+
+    private bool HasExactArrayType(IOperation value, ITypeSymbol? arrayType, HashSet<ILocalSymbol> visited)
+    {
+        while (value is IConversionOperation { OperatorMethod: null } conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        if (value is IArrayCreationOperation)
+        {
+            return SymbolEqualityComparer.Default.Equals(value.Type, arrayType);
+        }
+
+        if (value is not ILocalReferenceOperation reference || !visited.Add(reference.Local))
+        {
+            return false;
+        }
+
+        var root = invocation;
+        while (root.Parent is { } parent)
+        {
+            root = parent;
+        }
+
+        // Disable receiver proofs in the nested flow to avoid recursive array/field analysis.
+        var known = !HasUntrackedWrites(root, reference.Local, value)
+            && TryGetReachingLocalValues(root, value, reference.Local, out var values, out var incoming,
+                analyzeReceiverTypes: false)
+            && !incoming && !values.IsEmpty
+            && values.All(candidate => HasExactArrayType(candidate, arrayType, visited));
+        visited.Remove(reference.Local);
+        return known;
+    }
 
     private bool TryApplyCommandSetter(IOperation operation, HashSet<TextSpan> state)
     {
@@ -267,7 +304,7 @@ internal sealed class ReachingDefinitionFlow(
 
     private bool HasNullableFieldReceiver(IFieldReferenceOperation field) =>
         field.Instance is { Type.IsReferenceType: true } and not IInstanceReferenceOperation
-        && (!analyzeFieldReceivers || !IsKnownNonNull(field.Instance, [with(SymbolEqualityComparer.Default)]));
+        && (!analyzeReceiverTypes || !IsKnownNonNull(field.Instance, [with(SymbolEqualityComparer.Default)]));
 
     private bool IsKnownNonNull(IOperation value, HashSet<ILocalSymbol> visited)
     {
@@ -292,7 +329,7 @@ internal sealed class ReachingDefinitionFlow(
             root = parent;
         }
 
-        // Reuse reaching definitions without recursively proving field receivers in that analysis.
+        // Reuse reaching definitions without recursively proving receivers in that analysis.
         var known = HasOnlyNonNullDefinitions(root, value, reference.Local, visited);
         visited.Remove(reference.Local);
         return known;
@@ -300,26 +337,29 @@ internal sealed class ReachingDefinitionFlow(
 
     private bool HasOnlyNonNullDefinitions(IOperation root, IOperation value, ILocalSymbol localSymbol,
         HashSet<ILocalSymbol> visited) =>
-        !HasUntrackedWrites(root, localSymbol)
+        !HasUntrackedWrites(root, localSymbol, value)
             && TryGetReachingLocalValues(root, value, localSymbol, out var values, out var incoming,
-                analyzeFieldReceivers: false)
+                analyzeReceiverTypes: false)
             && !incoming && !values.IsEmpty && values.All(candidate => IsKnownNonNull(candidate, visited));
 
-    private static bool HasUntrackedWrites(IOperation root, ILocalSymbol local) =>
+    private static bool HasUntrackedWrites(IOperation root, ILocalSymbol local, IOperation use) =>
         root.DescendantsAndSelf().Any(operation => operation switch
         {
             IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument =>
-                ReferencesLocal(argument.Value, local),
+                TargetsLocal(argument.Value, local),
             IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None, Initializer: { } initializer } =>
-                ReferencesLocal(initializer.Value, local),
-            ISimpleAssignmentOperation { IsRef: true } assignment => ReferencesLocal(assignment.Value, local),
+                TargetsLocal(initializer.Value, local),
+            ISimpleAssignmentOperation { IsRef: true } assignment => TargetsLocal(assignment.Value, local),
             IIncrementOrDecrementOperation increment => TargetsLocal(increment.Target, local),
             IAssignmentOperation assignment when TargetsLocal(assignment.Target, local) =>
                 assignment is not ISimpleAssignmentOperation { Target: ILocalReferenceOperation }
-                || assignment.Syntax.Ancestors().Any(static syntax => syntax is
-                    AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax),
+                || GetEnclosingCallback(assignment) != GetEnclosingCallback(use),
             _ => false,
         });
+
+    private static TextSpan? GetEnclosingCallback(IOperation operation) =>
+        operation.Syntax.Ancestors().FirstOrDefault(static syntax => syntax is
+            AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax)?.Span;
 
     private static bool TargetsLocal(IOperation target, ILocalSymbol local) => target switch
     {
@@ -327,10 +367,6 @@ internal sealed class ReachingDefinitionFlow(
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local)),
         _ => false,
     };
-
-    private static bool ReferencesLocal(IOperation operation, ILocalSymbol local) =>
-        operation.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
-            .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Local, local));
 
     private static bool CanConversionThrow(IConversionOperation conversion) =>
         conversion.IsChecked || conversion.Conversion.IsUserDefined
@@ -404,7 +440,7 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         var completion = new ReachingDefinitionFlow(graph, invocation, command, definitions,
-            local, analyzeFieldReceivers, completingReturn: true);
+            local, analyzeReceiverTypes, completingReturn: true);
         completion.FollowDestination(branch, destination, state, continuation, filter);
         completion.AnalyzePendingBlocks();
         _reaching.UnionWith(completion._reaching);

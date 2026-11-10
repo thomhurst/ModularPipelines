@@ -596,6 +596,8 @@ public class CommandLineModuleRegistrationAnalyzerTests
     [DataRow("out", "string", "args", false)]
     [DataRow("ref", "int", "new int[1]", false)]
     [DataRow("out", "int", "new int[1]", false)]
+    [DataRow("ref", "object", "new object[1]", false)]
+    [DataRow("out", "object", "new object[1]", false)]
     public async Task Array_Argument_Checks_Precede_Later_Argument_Evaluation(
         string modifier, string elementType, string values, bool registered)
     {
@@ -618,6 +620,61 @@ public class CommandLineModuleRegistrationAnalyzerTests
             {
                 {{(modifier == "out" ? "value = default!;" : string.Empty)}}
             }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("object[] original = new object[1]; object[] values = original;", false)]
+    [DataRow("object[] values = args; values = new object[1];", false)]
+    [DataRow("object[] values = new object[1]; values = args;", true)]
+    [DataRow("object[] values; if (args.Length > 0) values = new object[1]; else values = new object[2];", false)]
+    [DataRow("object[] values = new object[1]; if (args.Length > 0) values = args;", true)]
+    [DataRow("object[] original = args; object[] values = original;", true)]
+    [DataRow("object[] values = new object[1]; Replace(ref values);", true)]
+    [DataRow("object[] values = new object[1]; ref object[] alias = ref values; alias = args;", true)]
+    [DataRow("object[] values = new object[1]; object[] other = new object[1]; ref object[] alias = ref other; alias = ref values; alias = args;", true)]
+    [DataRow("object[] values = new object[1]; Action replace = () => values = args; replace();", true)]
+    [DataRow("object[] values = new object[1]; (values, _) = (args, 0);", true)]
+    public async Task Tracks_Runtime_Array_Types_At_Writable_Arguments(string declarations, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            command.SetAction(parseResult =>
+            {
+                {{declarations}}
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                try
+                {
+                    Touch(ref values[0], register = () => {});
+                    register = () => {};
+                }
+                catch (ArrayTypeMismatchException) { }
+                register();
+            });
+            return command.Parse(args).Invoke();
+
+            void Touch(ref object value, Action replacement) { }
+            void Replace(ref object[] array) { array = args; }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("new object[1]", "ref object reference = ref values[0];", false)]
+    [DataRow("args", "ref object reference = ref values[0];", true)]
+    [DataRow("new object[1]", "values[0] = item;", false)]
+    [DataRow("args", "values[0] = item;", true)]
+    public async Task Tracks_Runtime_Array_Types_For_Action_Setters(string values, string access, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            object[] values = {{values}};
+            object item = new object();
+            command.SetAction(_ => Pipeline.CreateBuilder().AddModule<BuildModule>());
+            try
+            {
+                {{access}}
+                command.SetAction(_ => {});
+            }
+            catch (ArrayTypeMismatchException) { }
+            return command.Parse(args).Invoke();
             """, registered), registered ? [] : [UnregisteredModule()]);
     }
 
