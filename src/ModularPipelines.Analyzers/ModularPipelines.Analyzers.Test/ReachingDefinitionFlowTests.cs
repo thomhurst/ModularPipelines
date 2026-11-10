@@ -195,6 +195,26 @@ public class ReachingDefinitionFlowTests
         """, "\"old\"");
 
     [TestMethod]
+    [DataRow("ListHolder items = new ListHolder();", "if (items is []) { }", "\"old\"")]
+    [DataRow("ListHolder items = new ListHolder();", "if (items is [var first]) { }", "\"old\"")]
+    [DataRow("ListHolder items = new ListHolder();", "var match = items switch { [var first] => true, _ => false };", "\"old\"")]
+    [DataRow("ListHolder items = new ListHolder();", "if (items is [.. var rest]) { }", "\"old\"")]
+    [DataRow("string[] items = null;", "if (items is [var first]) { }", "")]
+    [DataRow("string[] items = null;", "if (items is []) { }", "")]
+    [DataRow("string items = null;", "if (items is [var first]) { }", "")]
+    [DataRow("string items = null;", "if (items is []) { }", "")]
+    public void List_Pattern_Member_Exceptions_Reach_Handlers(string declaration, string statement, string expected) => AssertFlow(
+        "string value = \"old\"; " + declaration + " try { " + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    public void List_Pattern_Member_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
+        string value = "old";
+        ListHolder items = new ListHolder();
+        try { try { if (items is [var first]) { } } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"");
+
+    [TestMethod]
     [DataRow("(value, _) = (source, 0);", "\"old\"")]
     [DataRow("(value, string declared) = (source, \"other\");", "\"old\"")]
     [DataRow("((value, _), _) = ((source, 0), 0);", "\"old\"")]
@@ -363,6 +383,12 @@ public class ReachingDefinitionFlowTests
                 public static implicit operator string(ConversionSource source) => throw new Exception();
             }
             class RefHolder { public RefHolder(int unused, ref int item) { } }
+            class ListHolder
+            {
+                public int Length => throw new Exception();
+                public string this[int index] => throw new Exception();
+                public ListHolder Slice(int start, int length) => throw new Exception();
+            }
             class Holder
             {
                 public Holder(string text = null) { }

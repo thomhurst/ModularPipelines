@@ -555,6 +555,9 @@ internal sealed class ReachingDefinitionFlow(
         return operation switch
         {
             IRecursivePatternOperation { DeconstructSymbol: not null } => true,
+            IListPatternOperation pattern => CanListPatternMemberThrow(pattern.LengthSymbol)
+                || CanListPatternMemberThrow(pattern.IndexerSymbol),
+            ISlicePatternOperation { SliceSymbol: not null } => true,
             // Deconstruct calls and element conversions need not appear as operation children.
             IDeconstructionAssignmentOperation deconstruction =>
                 deconstruction.Syntax is not AssignmentExpressionSyntax syntax
@@ -564,6 +567,10 @@ internal sealed class ReachingDefinitionFlow(
             _ => false,
         };
     }
+
+    // List patterns guard null and bounds before intrinsic array/string member accesses.
+    private static bool CanListPatternMemberThrow(ISymbol? member) => member is not null
+        && member.ContainingType.SpecialType is not (SpecialType.System_Array or SpecialType.System_String);
 
     private static bool CanDeconstructionThrow(DeconstructionInfo info) =>
         info.Method is not null || info.Conversion is { IsUserDefined: true } or { IsDynamic: true }
