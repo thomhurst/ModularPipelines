@@ -114,6 +114,73 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("return 0;", false)]
+    [DataRow("throw new InvalidOperationException();", false)]
+    [DataRow("if (args.Length > 1) return 0; else return 1;", false)]
+    [DataRow("if (args.Length > 1) return 0;", true)]
+    [DataRow("Action exit = () => { return; }; exit();", true)]
+    [DataRow("goto Invoke;", true)]
+    public async Task Tracks_Actions_In_Branches_That_Can_Reach_Invocation(string exit, bool registered)
+    {
+        var source = Source($$"""
+            if (args.Length > 0)
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{exit}}
+            }
+            Invoke:
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("return 0;", "finally")]
+    [DataRow("throw new InvalidOperationException();", "catch (InvalidOperationException)")]
+    public async Task Recognizes_Action_Invoked_By_Exit_Handler(string exit, string handler)
+    {
+        var source = Source($$"""
+            try
+            {
+                if (args.Length > 0)
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                    {{exit}}
+                }
+            }
+            {{handler}}
+            {
+                command.Parse(args).Invoke();
+            }
+            return 0;
+            """);
+
+        await VerifyAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("Replace:", false)]
+    [DataRow("Replace: Another:", false)]
+    [DataRow("", true)]
+    public async Task Tracks_Jumps_To_Or_Past_Action_Replacement(string replacementLabel, bool registered)
+    {
+        var source = Source($$"""
+            do
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                if (args.Length > 0) goto Replace;
+                {{replacementLabel}}
+                command.SetAction(_ => { });
+                {{(registered ? "Replace: ;" : string.Empty)}}
+            } while (false);
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("if (args.Length > 0) break;", true)]
     [DataRow("if (args.Length > 0) continue;", true)]
     [DataRow("while (args.Length > 0) { break; }", false)]

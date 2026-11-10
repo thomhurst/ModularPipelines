@@ -453,14 +453,8 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IInvocationOperation> setters =
         [
             .. operations.OfType<IInvocationOperation>()
-                .Where(candidate => candidate.TargetMethod.Name == "SetAction"
-                    && candidate.TargetMethod.ContainingType.ToDisplayString()
-                        == "System.CommandLine.Command"
-                    && candidate.Syntax.SpanStart < invocation.Syntax.SpanStart
-                    && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
-                    && IsInReachableBranch(candidate)
-                    && CanReachCommandLineInvocation(candidate, invocation, operations)
-                    && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command)),
+                .Where(candidate => IsCommandLineActionSetter(candidate, invocation, command)
+                    && CanReachCommandLineInvocation(candidate, invocation, operations)),
         ];
         var replacements = operations.OfType<IConditionalOperation>()
             .Where(candidate => candidate.Syntax.Span.End < invocation.Syntax.SpanStart
@@ -474,11 +468,28 @@ internal static class ModuleAuthoringAnalysis
         // Compare paths at each setter, so replacements inside a branch also discard
         // that branch's earlier actions before the possible final actions are combined.
         return setters.Where(setter => !replacements.Any(replacement =>
-            replacement.Syntax.SpanStart > setter.Syntax.Span.End
-            && ((IsLinearPredecessor(replacement, setter)
-                    && !CanSkipCommandLineActionReplacement(setter, replacement))
-                || DominatesCommandLineInvocation(replacement, invocation))));
+            ReplacesCommandLineAction(setter, replacement, invocation)));
     }
+
+    private static bool IsCommandLineActionSetter(
+        IInvocationOperation candidate,
+        IOperation invocation,
+        IOperation command) =>
+        candidate.TargetMethod.Name == "SetAction"
+        && candidate.TargetMethod.ContainingType.ToDisplayString() == "System.CommandLine.Command"
+        && candidate.Syntax.SpanStart < invocation.Syntax.SpanStart
+        && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
+        && IsInReachableBranch(candidate)
+        && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command);
+
+    private static bool ReplacesCommandLineAction(
+        IOperation setter,
+        IOperation replacement,
+        IOperation invocation) =>
+        replacement.Syntax.SpanStart > setter.Syntax.Span.End
+        && ((IsLinearPredecessor(replacement, setter)
+                && !CanSkipCommandLineActionReplacement(setter, replacement))
+            || DominatesCommandLineInvocation(replacement, invocation));
 
     private static bool DominatesCommandLineInvocation(
         IOperation replacement,
@@ -507,6 +518,14 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var current = setter; current.Parent is { } parent; current = parent)
         {
+            if (parent is IBlockOperation block
+                && !HasAncestor(invocation, block)
+                && !HasCommandLineExitHandler(block, invocation)
+                && ExitsBeforeCommandLineInvocation(current, block))
+            {
+                return false;
+            }
+
             if (parent is not IConditionalOperation { WhenFalse: { } whenFalse } conditional
                 || !((ReferenceEquals(current, conditional.WhenTrue) && HasAncestor(invocation, whenFalse))
                     || (ReferenceEquals(current, whenFalse) && HasAncestor(invocation, conditional.WhenTrue))))
@@ -521,6 +540,38 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return true;
+    }
+
+    private static bool HasCommandLineExitHandler(IOperation operation, IOperation invocation)
+    {
+        for (var ancestor = operation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ITryOperation attempt
+                && ((attempt.Finally is { } finalizer && HasAncestor(invocation, finalizer))
+                    || attempt.Catches.Any(handler => HasAncestor(invocation, handler))))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool ExitsBeforeCommandLineInvocation(IOperation first, IBlockOperation block)
+    {
+        if (first.Syntax is not StatementSyntax firstStatement
+            || block.Operations.LastOrDefault()?.Syntax is not StatementSyntax lastStatement
+            || first.SemanticModel is not { } semanticModel)
+        {
+            return false;
+        }
+
+        // Return and throw paths cannot carry an installed action to an invocation
+        // outside this block. Loop exits and jumps may still reach that invocation.
+        return semanticModel.AnalyzeControlFlow(firstStatement, lastStatement) is
+        { Succeeded: true, EndPointIsReachable: false } controlFlow
+            && !controlFlow.ExitPoints.Any(static exit => exit is
+                BreakStatementSyntax or ContinueStatementSyntax or GotoStatementSyntax);
     }
 
     private static bool CanReenterCommandLineConditional(
@@ -566,12 +617,26 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        // Analyze only the statements before the replacement. Internal jumps stay
-        // inside this region; break, continue and goto can bypass the replacement.
+        // A jump onto the replacement's label still executes the replacement.
         var controlFlow = semanticModel.AnalyzeControlFlow(firstStatement, lastStatement);
         return controlFlow is not { Succeeded: true }
-            || controlFlow.ExitPoints.Any(static exit => exit is
-                BreakStatementSyntax or ContinueStatementSyntax or GotoStatementSyntax);
+            || controlFlow.ExitPoints.Any(exit => exit is BreakStatementSyntax or ContinueStatementSyntax
+                || (exit is GotoStatementSyntax jump && !JumpsToCommandLineActionReplacement(jump, replacement)));
+    }
+
+    private static bool JumpsToCommandLineActionReplacement(
+        GotoStatementSyntax jump,
+        IOperation replacement)
+    {
+        if (jump.Expression is null
+            || replacement.SemanticModel?.GetSymbolInfo(jump.Expression).Symbol is not ILabelSymbol label)
+        {
+            return false;
+        }
+
+        return label.DeclaringSyntaxReferences.Any(reference =>
+            reference.GetSyntax() is LabeledStatementSyntax target
+            && target.Statement.Span.Contains(replacement.Syntax.Span));
     }
 
     private static bool DefinitelySetsCommandLineAction(
