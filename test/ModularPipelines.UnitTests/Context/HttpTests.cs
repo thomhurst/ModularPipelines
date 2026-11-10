@@ -558,9 +558,10 @@ public class HttpTests : TestBase
                 It.IsAny<HttpRequestMessage>(),
                 It.IsAny<ILogger>(),
                 It.IsAny<HttpLoggingOptions>(),
-                It.IsAny<CancellationToken>()))
-            .Callback<HttpRequestMessage, ILogger, HttpLoggingOptions, CancellationToken>(
-                (_, _, options, _) => observedOptions.Add(options))
+                It.IsAny<CancellationToken>(),
+                It.IsAny<Uri?>()))
+            .Callback<HttpRequestMessage, ILogger, HttpLoggingOptions, CancellationToken, Uri?>(
+                (_, _, options, _, _) => observedOptions.Add(options))
             .Returns(Task.CompletedTask);
         httpLogger
             .Setup(x => x.PrintResponse(
@@ -1057,6 +1058,87 @@ public class HttpTests : TestBase
             await Assert.That(indexOfRequest).IsLessThan(indexOfStatusCode);
             await Assert.That(indexOfStatusCode).IsLessThan(indexOfDuration);
             await Assert.That(indexOfDuration).IsLessThan(indexOfResponse);
+        }
+    }
+
+    [Test]
+    [Arguments("https://hooks.slack.com/", "services/team/channel/webhook-secret")]
+    [Arguments("https://hooks.slack-gov.com/", "services/team/channel/webhook-secret")]
+    [Arguments("https://webhook.office.com/", "webhookb2/webhook-secret/IncomingWebhook/key")]
+    [Arguments("https://tenant.webhook.office.com/", "webhookb2/webhook-secret/IncomingWebhook/key")]
+    [Arguments("https://outlook.office.com/", "webhook/webhook-secret/IncomingWebhook/key")]
+    [Arguments("https://outlook.office365.com/", "webhook/webhook-secret/IncomingWebhook/key")]
+    [Arguments("https://hooks.slack.com/services/team/", "channel/webhook-secret")]
+    [Arguments("https://outlook.office.com/webhook/webhook-secret/", "IncomingWebhook/key")]
+    [Arguments("https://hooks.slack.com/ignored/", "/services/team/channel/webhook-secret")]
+    [Arguments("https://outlook.office.com/ignored/", "/webhook/webhook-secret/IncomingWebhook/key")]
+    [Arguments("https://hooks.slack.com/services/team/channel/webhook-secret", null)]
+    public async Task SendAsync_Redacts_Webhook_Paths_Resolved_From_BaseAddress(string baseAddress, string? requestUri)
+    {
+        var log = await SendWithBaseAddressAndCaptureLogs(baseAddress, requestUri);
+
+        await Assert.That(log).Contains($"POST https://{new Uri(baseAddress).Host}/{ModularPipelines.Constants.LoggingConstants.SecretMask} HTTP/1.1");
+        await Assert.That(log).DoesNotContain("webhook-secret");
+        await Assert.That(log).DoesNotContain("IncomingWebhook");
+    }
+
+    [Test]
+    [Arguments("https://example.test/base/", "path?custom_credential=custom-secret&token=default-secret&keep=yes", "path?custom_credential=**********&token=**********&keep=yes")]
+    [Arguments("https://outlook.office.com/webhook/private/", "/mail/public", "/mail/public")]
+    [Arguments("https://hooks.slack.com/", "https://example.test/public", "https://example.test/public")]
+    [Arguments("https://example.test/", "//hooks.slack.com/services/webhook-secret", "//hooks.slack.com/**********")]
+    [Arguments("https://hooks.slack.com/", "//example.test/public", "//example.test/public")]
+    public async Task SendAsync_Preserves_Uri_Display_With_BaseAddress(string baseAddress, string requestUri, string expectedDisplay)
+    {
+        var log = await SendWithBaseAddressAndCaptureLogs(baseAddress, requestUri, new HttpLoggingOptions
+        {
+            SensitiveQueryParameterNames = [.. HttpLoggingOptions.Default.SensitiveQueryParameterNames, "custom_credential"],
+        });
+
+        await Assert.That(log).Contains($"POST {expectedDisplay} HTTP/1.1");
+        await Assert.That(log).DoesNotContain("custom-secret");
+        await Assert.That(log).DoesNotContain("default-secret");
+        await Assert.That(log).DoesNotContain("webhook-secret");
+    }
+
+    private async Task<string> SendWithBaseAddressAndCaptureLogs(string baseAddress, string? requestUri, HttpLoggingOptions? logging = null)
+    {
+        var messages = new ConcurrentQueue<string>();
+        using var handler = new RecordingRequestHandler();
+        using var client = new HttpClient(handler) { BaseAddress = new Uri(baseAddress) };
+        using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+        var expectedDestination = request.RequestUri is null ? client.BaseAddress : new Uri(client.BaseAddress, request.RequestUri);
+        var (http, host) = await GetService<IHttpContext>(collection =>
+        {
+            collection.AddLogging(builder =>
+            {
+                collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+                builder.AddProvider(new RecordingLoggerProvider(messages));
+            });
+        });
+
+        await using (host)
+        {
+            using var response = await http.SendAsync(new HttpOptions(request) { HttpClient = client, Logging = logging });
+            await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+            await Assert.That(handler.RequestUri).IsEqualTo(expectedDestination);
+            await Assert.That(handler.Request).IsSameReferenceAs(request);
+        }
+
+        return string.Join(Environment.NewLine, messages);
+    }
+
+    private sealed class RecordingRequestHandler : HttpMessageHandler
+    {
+        public Uri? RequestUri { get; private set; }
+
+        public HttpRequestMessage? Request { get; private set; }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Request = request;
+            RequestUri = request.RequestUri;
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { RequestMessage = request });
         }
     }
 

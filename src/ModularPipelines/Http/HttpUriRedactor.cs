@@ -9,29 +9,35 @@ namespace ModularPipelines.Http;
 /// </summary>
 internal static class HttpUriRedactor
 {
-    public static string Redact(Uri? uri, HttpLoggingOptions? options = null)
+    public static string Redact(Uri? uri, HttpLoggingOptions? options = null, Uri? baseAddress = null)
     {
-        if (uri is null)
-        {
-            return string.Empty;
-        }
-
-        if (!uri.IsAbsoluteUri
+        if (uri is { IsAbsoluteUri: false }
             && uri.OriginalString.StartsWith("//", StringComparison.Ordinal)
             && Uri.TryCreate("https:" + uri.OriginalString, UriKind.Absolute, out var absoluteUri))
         {
             return Redact(absoluteUri, options)["https:".Length..];
         }
 
-        var text = RedactUserInfo(uri);
+        var effectiveUri = GetEffectiveUri(uri, baseAddress);
 
-        if (uri.IsAbsoluteUri && IsWebhook(uri))
+        if (effectiveUri is { IsAbsoluteUri: true } && IsWebhook(effectiveUri))
         {
-            // Webhook paths are credentials, including URLs used outside the integration helpers.
-            return uri.GetComponents(UriComponents.SchemeAndServer, UriFormat.UriEscaped) + "/" + LoggingConstants.SecretMask;
+            // Resolve only for display: HttpClient still owns request URI resolution.
+            // Webhook paths are credentials, including paths inherited from BaseAddress.
+            return effectiveUri.GetComponents(UriComponents.SchemeAndServer, UriFormat.UriEscaped) + "/" + LoggingConstants.SecretMask;
         }
 
-        return RedactQuery(text, options ?? HttpLoggingOptions.Default);
+        return uri is null ? string.Empty : RedactQuery(RedactUserInfo(uri), options ?? HttpLoggingOptions.Default);
+    }
+
+    private static Uri? GetEffectiveUri(Uri? uri, Uri? baseAddress)
+    {
+        if (baseAddress is not null && uri?.IsAbsoluteUri != true)
+        {
+            return uri is null ? baseAddress : new Uri(baseAddress, uri);
+        }
+
+        return uri;
     }
 
     private static string RedactUserInfo(Uri uri)

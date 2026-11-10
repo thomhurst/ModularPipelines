@@ -21,6 +21,7 @@ internal interface IHttpRequestFormatter
     /// <param name="request">The HTTP request to format.</param>
     /// <param name="options">Options controlling what parts of the request to include.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <param name="baseAddress">The client base address used to identify webhook credentials.</param>
     /// <returns>A formatted string representation of the request.</returns>
-    Task<string> FormatAsync(HttpRequestMessage request, HttpLoggingOptions options, CancellationToken cancellationToken = default);
+    Task<string> FormatAsync(HttpRequestMessage request, HttpLoggingOptions options, CancellationToken cancellationToken = default, Uri? baseAddress = null);
 }
