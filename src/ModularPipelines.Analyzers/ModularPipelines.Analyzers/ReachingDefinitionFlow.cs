@@ -490,8 +490,28 @@ internal sealed class ReachingDefinitionFlow(
         _ => false,
     };
 
+    private bool TryStoreCoalescingAssignment(IOperation operation, HashSet<TextSpan> state)
+    {
+        if (operation is not ISimpleAssignmentOperation assignment
+            || _operationRoot.SemanticModel?.GetOperation(operation.Syntax) is not ICoalesceAssignmentOperation
+            { Target: ILocalReferenceOperation reference }
+            || !SymbolEqualityComparer.Default.Equals(reference.Local, local))
+        {
+            return false;
+        }
+
+        // The CFG captures the target location, then lowers the conditional store to a simple assignment.
+        StoreLocalDefinition(assignment.Value, state);
+        return true;
+    }
+
     private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
     {
+        if (TryStoreCoalescingAssignment(operation, state))
+        {
+            return;
+        }
+
         if (WritesThroughAlias(operation))
         {
             Invalidate(state);
