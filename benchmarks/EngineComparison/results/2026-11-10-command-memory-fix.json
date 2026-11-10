@@ -1,0 +1,86 @@
+{
+  "Issue": 7356,
+  "Description": "Peak working set before and after excluding installed shared-framework assemblies from service initializer discovery.",
+  "Image": "sha256:d0a39ca4acefe992f26030f8fb8c60e1b14ac088822cb3fdfbe536ecf843a675",
+  "InitializerSourcePath": "src/ModularPipelines/DependencyInjection/PipelineServiceInitializer.cs",
+  "BeforeInitializerSha256Lf": "98ca7b801604c69e4848f8435c9f6e95abc2077dbd435af0c7e2515082d76667",
+  "AfterInitializerSha256Lf": "0abb11069247d218cb6f00e1f4729ed9212f7844b685bd0b92fd00a80a9c663c",
+  "Notes": [
+    "All batches use the unchanged EngineComparison harness, exact NuGet 3.2.8, the pinned .NET SDK/runtime, eight parallel modules, and three fresh-process repetitions per version and count. Each worker warms once, forces GC, then measures another asynchronously disposed pipeline.",
+    "Workers and build artifacts reside on a native Linux Docker volume. Source is bound read-only from the Windows worktree. The container has a four-CPU quota and 4 GiB memory; every dotnet child retains the default 2 GiB guard. Existing development containers remain running; no other benchmark or build runs concurrently.",
+    "The before batch reports SourceDirty=true because Linux Git initially lacked core.autocrlf for the CRLF Windows checkout. Windows git status was clean before the batch; its core source is the recorded d7c9eaab9d0e77424d71c3fdb4572c5a7faab1bb commit. Later batches set core.autocrlf=true and correctly report the initializer source patch as dirty. The normalized source hashes identify the before and after implementations.",
+    "PeakWorkingSetBytes measures the worker lifetime high-water mark, including startup, JIT and warmup; child processes are excluded. It is not retained managed heap or process-tree RSS.",
+    "The first after batch covers 50 commands. An independent confirmation repeats 50 commands and adds a 500-command control. The original metadata and individual samples below are preserved."
+  ],
+  "Batches": [
+    {
+      "Name": "before",
+      "SourceCommit": "d7c9eaab9d0e77424d71c3fdb4572c5a7faab1bb",
+      "SourceDirty": true,
+      "BaselinePackage": "3.2.8",
+      "SDK": "11.0.100-rc.1.26425.128",
+      "ResolvedSDK": "11.0.100-rc.1.26425.128",
+      "Environment": "Docker Ubuntu 26.04.1; four CPU quota; 4 GiB; native Linux worker volume; source bind mount; existing services running; no concurrent benchmark/build",
+      "CPU": "model name\t: 12th Gen Intel(R) Core(TM) i7-12700K",
+      "Machine": "2dd4fa85754e",
+      "TimestampUtc": "2026-11-10T04:44:53.2022387Z",
+      "TieredCompilation": "0",
+      "Samples": [
+        {"Shape":"commands","Count":50,"WallMilliseconds":5151.6956,"BuildMilliseconds":131.6459,"RunMilliseconds":5019.6629,"DisposeMilliseconds":0.382,"AllocatedBytes":23547720,"PeakWorkingSetBytes":105324544,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":1},
+        {"Shape":"commands","Count":50,"WallMilliseconds":101.6536,"BuildMilliseconds":33.361,"RunMilliseconds":68.1894,"DisposeMilliseconds":0.0993,"AllocatedBytes":17328216,"PeakWorkingSetBytes":131354624,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":1},
+        {"Shape":"commands","Count":50,"WallMilliseconds":69.4163,"BuildMilliseconds":25.0417,"RunMilliseconds":44.2868,"DisposeMilliseconds":0.0845,"AllocatedBytes":16440696,"PeakWorkingSetBytes":132300800,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":2},
+        {"Shape":"commands","Count":50,"WallMilliseconds":5169.6172,"BuildMilliseconds":151.5082,"RunMilliseconds":5017.7537,"DisposeMilliseconds":0.3504,"AllocatedBytes":22580968,"PeakWorkingSetBytes":110465024,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":2},
+        {"Shape":"commands","Count":50,"WallMilliseconds":5141.7014,"BuildMilliseconds":115.6087,"RunMilliseconds":5025.6738,"DisposeMilliseconds":0.4128,"AllocatedBytes":22452736,"PeakWorkingSetBytes":110907392,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":3},
+        {"Shape":"commands","Count":50,"WallMilliseconds":74.3728,"BuildMilliseconds":27.7165,"RunMilliseconds":46.561,"DisposeMilliseconds":0.0913,"AllocatedBytes":16477920,"PeakWorkingSetBytes":133083136,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":3}
+      ]
+    },
+    {
+      "Name": "after",
+      "SourceCommit": "d7c9eaab9d0e77424d71c3fdb4572c5a7faab1bb",
+      "SourceDirty": true,
+      "BaselinePackage": "3.2.8",
+      "SDK": "11.0.100-rc.1.26425.128",
+      "ResolvedSDK": "11.0.100-rc.1.26425.128",
+      "Environment": "Docker Ubuntu 26.04.1; four CPU quota; 4 GiB; native Linux worker volume; source bind mount; existing services running; no concurrent benchmark/build",
+      "CPU": "model name\t: 12th Gen Intel(R) Core(TM) i7-12700K",
+      "Machine": "2dd4fa85754e",
+      "TimestampUtc": "2026-11-10T05:07:14.7647328Z",
+      "TieredCompilation": "0",
+      "Samples": [
+        {"Shape":"commands","Count":50,"WallMilliseconds":5150.3329,"BuildMilliseconds":130.4029,"RunMilliseconds":5019.55,"DisposeMilliseconds":0.3747,"AllocatedBytes":23607944,"PeakWorkingSetBytes":105467904,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":1},
+        {"Shape":"commands","Count":50,"WallMilliseconds":83.658,"BuildMilliseconds":16.2659,"RunMilliseconds":67.3011,"DisposeMilliseconds":0.0879,"AllocatedBytes":17640776,"PeakWorkingSetBytes":120119296,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":1},
+        {"Shape":"commands","Count":50,"WallMilliseconds":85.4446,"BuildMilliseconds":15.8395,"RunMilliseconds":69.5189,"DisposeMilliseconds":0.0827,"AllocatedBytes":16729728,"PeakWorkingSetBytes":121507840,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":2},
+        {"Shape":"commands","Count":50,"WallMilliseconds":5140.4949,"BuildMilliseconds":122.0836,"RunMilliseconds":5017.9921,"DisposeMilliseconds":0.413,"AllocatedBytes":22807104,"PeakWorkingSetBytes":111067136,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":2},
+        {"Shape":"commands","Count":50,"WallMilliseconds":5138.6851,"BuildMilliseconds":115.1745,"RunMilliseconds":5023.0333,"DisposeMilliseconds":0.4719,"AllocatedBytes":22633912,"PeakWorkingSetBytes":106835968,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":3},
+        {"Shape":"commands","Count":50,"WallMilliseconds":87.5028,"BuildMilliseconds":16.1042,"RunMilliseconds":71.2988,"DisposeMilliseconds":0.0962,"AllocatedBytes":16770320,"PeakWorkingSetBytes":121634816,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":3}
+      ]
+    },
+    {
+      "Name": "confirmation",
+      "SourceCommit": "d7c9eaab9d0e77424d71c3fdb4572c5a7faab1bb",
+      "SourceDirty": true,
+      "BaselinePackage": "3.2.8",
+      "SDK": "11.0.100-rc.1.26425.128",
+      "ResolvedSDK": "11.0.100-rc.1.26425.128",
+      "Environment": "Docker Ubuntu 26.04.1; image sha256:d0a39ca4acefe992f26030f8fb8c60e1b14ac088822cb3fdfbe536ecf843a675; four CPU quota; 4 GiB; default 2 GiB dotnet guard; native Linux worker volume; source bind mount; existing services running; no concurrent benchmark/build",
+      "CPU": "model name\t: 12th Gen Intel(R) Core(TM) i7-12700K",
+      "Machine": "2dd4fa85754e",
+      "TimestampUtc": "2026-11-10T05:14:55.7880864Z",
+      "TieredCompilation": "0",
+      "Samples": [
+        {"Shape":"commands","Count":50,"WallMilliseconds":5155.175,"BuildMilliseconds":135.3762,"RunMilliseconds":5019.3719,"DisposeMilliseconds":0.4212,"AllocatedBytes":23353016,"PeakWorkingSetBytes":109682688,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":1},
+        {"Shape":"commands","Count":50,"WallMilliseconds":81.4604,"BuildMilliseconds":16.5162,"RunMilliseconds":64.8562,"DisposeMilliseconds":0.0845,"AllocatedBytes":17666728,"PeakWorkingSetBytes":119934976,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":1},
+        {"Shape":"commands","Count":50,"WallMilliseconds":82.9812,"BuildMilliseconds":16.0475,"RunMilliseconds":66.8428,"DisposeMilliseconds":0.0872,"AllocatedBytes":16795888,"PeakWorkingSetBytes":122183680,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":2},
+        {"Shape":"commands","Count":50,"WallMilliseconds":5141.4736,"BuildMilliseconds":121.1699,"RunMilliseconds":5019.9189,"DisposeMilliseconds":0.3801,"AllocatedBytes":22772208,"PeakWorkingSetBytes":111091712,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":2},
+        {"Shape":"commands","Count":50,"WallMilliseconds":5139.4733,"BuildMilliseconds":121.3756,"RunMilliseconds":5017.6934,"DisposeMilliseconds":0.3987,"AllocatedBytes":22673952,"PeakWorkingSetBytes":110477312,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":3},
+        {"Shape":"commands","Count":50,"WallMilliseconds":102.25,"BuildMilliseconds":16.1154,"RunMilliseconds":86.0495,"DisposeMilliseconds":0.0814,"AllocatedBytes":16821872,"PeakWorkingSetBytes":121253888,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":3},
+        {"Shape":"commands","Count":500,"WallMilliseconds":9713.6721,"BuildMilliseconds":4511.9943,"RunMilliseconds":5200.6584,"DisposeMilliseconds":1.0125,"AllocatedBytes":339932880,"PeakWorkingSetBytes":148713472,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":1},
+        {"Shape":"commands","Count":500,"WallMilliseconds":360.1955,"BuildMilliseconds":46.6365,"RunMilliseconds":313.4057,"DisposeMilliseconds":0.1478,"AllocatedBytes":168534720,"PeakWorkingSetBytes":156307456,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":1},
+        {"Shape":"commands","Count":500,"WallMilliseconds":335.3193,"BuildMilliseconds":45.8233,"RunMilliseconds":289.3512,"DisposeMilliseconds":0.1408,"AllocatedBytes":162883600,"PeakWorkingSetBytes":156811264,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":2},
+        {"Shape":"commands","Count":500,"WallMilliseconds":9672.3848,"BuildMilliseconds":4485.187,"RunMilliseconds":5186.322,"DisposeMilliseconds":0.8688,"AllocatedBytes":338475720,"PeakWorkingSetBytes":150589440,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":2},
+        {"Shape":"commands","Count":500,"WallMilliseconds":9720.7678,"BuildMilliseconds":4499.6581,"RunMilliseconds":5220.1897,"DisposeMilliseconds":0.9118,"AllocatedBytes":338792936,"PeakWorkingSetBytes":151531520,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v3","Repeat":3},
+        {"Shape":"commands","Count":500,"WallMilliseconds":324.9949,"BuildMilliseconds":44.9475,"RunMilliseconds":279.8974,"DisposeMilliseconds":0.1447,"AllocatedBytes":162566232,"PeakWorkingSetBytes":153022464,"FrameworkAssembly":"1.0.0.0","Runtime":".NET 11.0.0-rc.1.26425.128","OS":"Ubuntu 26.04.1 LTS","Architecture":"X64","ProcessorCount":4,"ServerGC":false,"Command":"/bin/sh -c 'exit 0'","MaxParallelism":8,"Version":"v4","Repeat":3}
+      ]
+    }
+  ]
+}
