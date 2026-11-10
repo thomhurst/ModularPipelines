@@ -90,14 +90,22 @@ if ($tagLookupExitCode -eq 0) {
 }
 elseif ($tagLookupExitCode -ne 2) { throw 'Could not verify the remote release tag; publication stopped.' }
 
+# Verify authenticated access to releases before interpreting a tag lookup's 404 as missing.
+& gh api "repos/$Repository/releases?per_page=1" --silent
+if ($LASTEXITCODE -ne 0) { throw 'Could not authenticate or access GitHub releases; publication stopped.' }
+$releaseResponse = @(& gh api "repos/$Repository/releases/tags/$([Uri]::EscapeDataString($tag))" --include --silent 2>$null)
+$releaseExists = $LASTEXITCODE -eq 0
+if (-not $releaseExists -and ($releaseResponse.Count -eq 0 -or $releaseResponse[0] -notmatch '^HTTP/\S+ 404(?:\s|$)')) {
+    throw 'Could not verify the GitHub release; publication stopped.'
+}
+
 # Push symbols explicitly as well: NuGet skips automatic symbols when the primary already exists.
 foreach ($file in $files) {
     & dotnet nuget push (Join-Path $PackageDirectory $file) --source 'https://api.nuget.org/v3/index.json' --api-key $env:NUGET_API_KEY --skip-duplicate
     if ($LASTEXITCODE -ne 0) { throw "NuGet upload failed for '$file'; release creation stopped." }
 }
 
-& gh release view $tag --repo $Repository *> $null
-if ($LASTEXITCODE -ne 0) {
+if (-not $releaseExists) {
     $releaseArguments = @('release', 'create', $tag, '--repo', $Repository, '--target', $Commit,
         '--title', $ExpectedVersion, '--generate-notes')
     if ($ExpectedVersion.Split('+')[0].Contains('-')) { $releaseArguments += @('--prerelease', '--latest=false') }

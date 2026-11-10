@@ -10,6 +10,8 @@ $calls = [Collections.Generic.List[object]]::new()
 $failUpload = $false
 $failRelease = $false
 $releaseExists = $false
+$preflightStatus = 200
+$releaseLookupStatus = $null
 $tagCommit = $null
 $annotatedTag = $false
 $failTagLookup = $false
@@ -31,8 +33,17 @@ function dotnet {
 }
 function gh {
     $calls.Add(@($args))
-    $global:LASTEXITCODE = if (($args[1] -eq 'view' -and -not $releaseExists) -or
-        ($args[1] -eq 'create' -and $failRelease)) { 1 } else { 0 }
+    if ($args[0] -eq 'api') {
+        $status = if ($args[1] -eq 'repos/owner/repo/releases?per_page=1') { $preflightStatus }
+        elseif ($null -ne $releaseLookupStatus) { $releaseLookupStatus }
+        elseif ($releaseExists) { 200 }
+        else { 404 }
+        $global:LASTEXITCODE = if ($status -eq 200) { 0 } else { 1 }
+        if ($args -contains '--include' -and $status -ne 0) { "HTTP/2.0 $status" }
+        return
+    }
+    if ($args[0] -ne 'release' -or $args[1] -ne 'create') { throw "Unexpected gh command: $args" }
+    $global:LASTEXITCODE = if ($failRelease) { 1 } else { 0 }
 }
 
 function Write-Fixture([string]$Version = '4.2.3') {
@@ -66,29 +77,58 @@ try {
     $env:NUGET_API_KEY = 'fixture-key'
     $env:GH_TOKEN = 'fixture-token'
     $parameters = @{ PackageDirectory = $directory; ExpectedVersion = '4.2.3'; Repository = 'owner/repo'; Commit = 'a' * 40 }
+    # A zero status simulates a transport failure without an HTTP response.
+    foreach ($status in @(401, 403, 404, 500, 0)) {
+        Write-Fixture
+        $preflightStatus = $status
+        & $publishScript @parameters -ValidateOnly | Out-Null
+        if ($calls.Count -ne 0) { throw 'Validation must not authenticate, even with unusable credentials.' }
+        $failed = $false
+        try { & $publishScript @parameters } catch { $failed = $true }
+        if (-not $failed -or $calls.Count -ne 2 -or $calls[1][0] -ne 'api' -or
+            $calls[1][1] -ne 'repos/owner/repo/releases?per_page=1') {
+            throw "GitHub preflight failure ($status) must stop before any upload or release creation."
+        }
+    }
+    $preflightStatus = 200
+    foreach ($status in @(401, 403, 500, 0)) {
+        Write-Fixture
+        $releaseLookupStatus = $status
+        $failed = $false
+        try { & $publishScript @parameters } catch { $failed = $true }
+        if (-not $failed -or $calls.Count -ne 3 -or $calls[2][0] -ne 'api' -or
+            $calls[2][1] -ne 'repos/owner/repo/releases/tags/v4.2.3') {
+            throw "Release lookup failure ($status) must not be treated as a missing release or allow uploads."
+        }
+    }
+    $releaseLookupStatus = $null
     foreach ($version in @('4.2.3', '4.2.3-alpha0012', '4.2.3+build.1', '4.0.0-rc.1')) {
         Write-Fixture $version
         $parameters.ExpectedVersion = $version
         & $publishScript @parameters -ValidateOnly | Out-Null
         if ($calls.Count -ne 0) { throw 'Validation must not authenticate or publish.' }
         & $publishScript @parameters
-        if ($calls.Count -ne 5 -or $calls[0][0] -ne 'ls-remote' -or
+        if ($calls.Count -ne 6 -or $calls[0][0] -ne 'ls-remote' -or
             $calls[0][3] -ne 'https://github.com/owner/repo.git' -or $calls[0][4] -ne "refs/tags/v$version" -or
-            $calls[0][5] -ne "refs/tags/v$version^{}" -or $calls[1][0] -ne 'nuget' -or $calls[2][0] -ne 'nuget' -or
-            $calls[1] -notcontains '--skip-duplicate' -or $calls[2] -notcontains '--skip-duplicate' -or
-            $calls[2][2] -notlike '*.snupkg' -or $calls[3][1] -ne 'view' -or $calls[4][1] -ne 'create' -or
-            $calls[4][2] -ne "v$version" -or $calls[4] -notcontains '--generate-notes' -or
-            ($calls[4] -contains '--prerelease') -ne $version.Split('+')[0].Contains('-') -or
-            ($calls[4] -contains '--latest=false') -ne $version.Split('+')[0].Contains('-') -or
-            $calls[4][6] -ne ('a' * 40)) {
+            $calls[0][5] -ne "refs/tags/v$version^{}" -or
+            $calls[1][0] -ne 'api' -or $calls[1][1] -ne 'repos/owner/repo/releases?per_page=1' -or
+            $calls[2][0] -ne 'api' -or $calls[2][1] -ne "repos/owner/repo/releases/tags/$([Uri]::EscapeDataString("v$version"))" -or
+            $calls[2] -notcontains '--include' -or $calls[2] -notcontains '--silent' -or
+            $calls[3][0] -ne 'nuget' -or $calls[4][0] -ne 'nuget' -or
+            $calls[3] -notcontains '--skip-duplicate' -or $calls[4] -notcontains '--skip-duplicate' -or
+            $calls[4][2] -notlike '*.snupkg' -or $calls[5][1] -ne 'create' -or
+            $calls[5][2] -ne "v$version" -or $calls[5] -notcontains '--generate-notes' -or
+            ($calls[5] -contains '--prerelease') -ne $version.Split('+')[0].Contains('-') -or
+            ($calls[5] -contains '--latest=false') -ne $version.Split('+')[0].Contains('-') -or
+            $calls[5][6] -ne ('a' * 40)) {
             throw "Publication must upload the verified packages/symbols before creating release $version at the validated commit."
         }
         if ($version -eq '4.0.0-rc.1') {
-            $notesIndex = [Array]::IndexOf($calls[4], '--notes-file')
-            if ($notesIndex -lt 0 -or -not (Test-Path -LiteralPath $calls[4][$notesIndex + 1])) {
+            $notesIndex = [Array]::IndexOf($calls[5], '--notes-file')
+            if ($notesIndex -lt 0 -or -not (Test-Path -LiteralPath $calls[5][$notesIndex + 1])) {
                 throw 'The v4 release candidate must include its upgrade feedback announcement.'
             }
-            $notes = Get-Content -LiteralPath $calls[4][$notesIndex + 1] -Raw
+            $notes = Get-Content -LiteralPath $calls[5][$notesIndex + 1] -Raw
             if ($notes -notmatch 'migrating-to-v4' -or $notes -notmatch 'issues/3997' -or $notes -notmatch 'feedback') {
                 throw 'RC notes must link the migration guide and release feedback gate.'
             }
@@ -105,7 +145,7 @@ try {
             Write-Fixture
             $tagCommit = 'a' * 40
             & $publishScript @parameters
-            if ($calls.Count -ne $(if ($existingRelease) { 4 } else { 5 })) {
+            if ($calls.Count -ne $(if ($existingRelease) { 5 } else { 6 })) {
                 throw 'A matching lightweight or annotated tag must allow publication and release retries.'
             }
             Write-Fixture
@@ -130,21 +170,21 @@ try {
     Write-Fixture
     $releaseExists = $true
     & $publishScript @parameters
-    if ($calls.Count -ne 4) { throw 'Retry must keep an existing release.' }
+    if ($calls.Count -ne 5) { throw 'Retry must keep an existing release.' }
     $releaseExists = $false
 
     Write-Fixture
     $failUpload = $true
     $failed = $false
     try { & $publishScript @parameters } catch { $failed = $true }
-    if (-not $failed -or $calls.Count -ne 2) { throw 'An upload failure must stop subsequent pushes and release creation.' }
+    if (-not $failed -or $calls.Count -ne 4) { throw 'An upload failure must stop subsequent pushes and release creation.' }
     $failUpload = $false
 
     Write-Fixture
     $failRelease = $true
     $failed = $false
     try { & $publishScript @parameters } catch { $failed = $true }
-    if (-not $failed -or $calls.Count -ne 5) { throw 'Release creation failures must fail publication.' }
+    if (-not $failed -or $calls.Count -ne 6) { throw 'Release creation failures must fail publication.' }
     $failRelease = $false
 
     Write-Fixture
@@ -156,7 +196,7 @@ try {
     $manifest.Files += @{ File = [IO.Path]::GetFileName($contentPackage); Sha256 = (Get-FileHash -LiteralPath $contentPackage).Hash }
     $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $manifestPath
     & $publishScript @parameters
-    if ($calls.Count -ne 6 -or $calls[3][2] -notlike '*Templates*.nupkg') { throw 'Content-only packages must publish without symbols.' }
+    if ($calls.Count -ne 7 -or $calls[5][2] -notlike '*Templates*.nupkg') { throw 'Content-only packages must publish without symbols.' }
 
     Write-Fixture
     $env:NUGET_API_KEY = ''
