@@ -16,7 +16,7 @@ $ConsumerPath = (Resolve-Path -LiteralPath $ConsumerPath).Path
 $EvidenceDirectory = [IO.Path]::GetFullPath($EvidenceDirectory)
 $packages = Join-Path $EvidenceDirectory 'packages'
 $guard = Join-Path $PSScriptRoot 'Invoke-AgentDotNet.ps1'
-$version = '4.0.0-local.7321'
+$version = "4.0.0-local-validation-$([Guid]::NewGuid().ToString('N'))"
 New-Item -ItemType Directory -Force $packages | Out-Null
 
 function Invoke-CheckedDotNet {
