@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Initialization.Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Serialization;
 
 namespace ModularPipelines.DependencyInjection;
 
@@ -137,8 +138,17 @@ internal static class PipelineServiceInitializer
         "Trimming",
         "IL2026",
         Justification = "Matches the Initialization library's loaded-type scan. A factory can only return a type the trimmer kept, so types removed by trimming cannot affect which factories produce initializers.")]
-    private static Type[] FindInitializerTypes(Assembly assembly) =>
-        [.. AssemblyTypeLoader.GetLoadableTypes(assembly).Where(IsInitializer)];
+    internal static Type[] FindInitializerTypes(Assembly assembly)
+    {
+        // Shared frameworks cannot implement the application's initializer interface. Avoid
+        // materializing their runtime types, including libraries loaded by an earlier run.
+        if (assembly != typeof(IInitializer).Assembly && StableTypeName.IsFrameworkAssembly(assembly))
+        {
+            return [];
+        }
+
+        return [.. AssemblyTypeLoader.GetLoadableTypes(assembly).Where(IsInitializer)];
+    }
 
     /// <summary>
     /// Lists the loaded <see cref="IInitializer"/> types, reading each non-dynamic assembly's types once

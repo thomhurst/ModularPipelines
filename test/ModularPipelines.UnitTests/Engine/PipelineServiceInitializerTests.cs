@@ -110,6 +110,62 @@ public class PipelineServiceInitializerTests
         public Task InitializeAsync() => throw new InvalidOperationException("sync failure");
     }
 
+    private sealed class ScannedAssembly(string location, bool isDynamic, Type[] types) : Assembly
+    {
+        public bool TypesRead { get; private set; }
+
+        public override bool IsDynamic => isDynamic;
+
+        public override string Location => isDynamic
+            ? throw new NotSupportedException("Dynamic assemblies do not have locations.")
+            : location;
+
+        public override Type[] GetTypes()
+        {
+            TypesRead = true;
+            return types;
+        }
+    }
+
+    [Test]
+    public async Task DoesNotMaterializeTypesFromSharedFrameworkAssemblies()
+    {
+        var assembly = new ScannedAssembly(typeof(object).Assembly.Location, isDynamic: false, types: []);
+
+        var types = PipelineServiceInitializer.FindInitializerTypes(assembly);
+
+        await Assert.That(types.Length).IsEqualTo(0);
+        await Assert.That(assembly.TypesRead).IsFalse();
+    }
+
+    [Test]
+    public async Task ScansApplicationAssembliesForInheritedInitializers()
+    {
+        var assembly = new ScannedAssembly(
+            typeof(PipelineServiceInitializerTests).Assembly.Location,
+            isDynamic: false,
+            types: [typeof(InheritedFactoryInitializer), typeof(InitializationLog)]);
+
+        var types = PipelineServiceInitializer.FindInitializerTypes(assembly);
+
+        await Assert.That(assembly.TypesRead).IsTrue();
+        await Assert.That(types.Length).IsEqualTo(1);
+        await Assert.That(types[0]).IsEqualTo(typeof(InheritedFactoryInitializer));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ScansDynamicAndLocationlessAssemblies(bool isDynamic)
+    {
+        var assembly = new ScannedAssembly(string.Empty, isDynamic, [typeof(FactoryInitializer)]);
+
+        var types = PipelineServiceInitializer.FindInitializerTypes(assembly);
+
+        await Assert.That(assembly.TypesRead).IsTrue();
+        await Assert.That(types.Length).IsEqualTo(1);
+    }
+
     [Test]
     public async Task InitializesInstanceTypeAndFactoryRegistrationsInOrder()
     {
