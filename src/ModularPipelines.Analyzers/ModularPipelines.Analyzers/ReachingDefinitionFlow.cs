@@ -297,6 +297,15 @@ internal sealed class ReachingDefinitionFlow(
             yield break;
         }
 
+        foreach (var element in GetTupleElementValues(targets, values, localSymbol))
+        {
+            yield return element;
+        }
+    }
+
+    private static IEnumerable<IOperation> GetTupleElementValues(ITupleOperation targets, ITupleOperation values,
+        ILocalSymbol localSymbol)
+    {
         for (var index = 0; index < targets.Elements.Length && index < values.Elements.Length; index++)
         {
             foreach (var element in GetDeconstructedValues(targets.Elements[index], values.Elements[index], localSymbol))
