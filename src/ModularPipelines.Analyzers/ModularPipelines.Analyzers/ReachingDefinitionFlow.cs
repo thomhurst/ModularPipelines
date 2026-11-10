@@ -132,12 +132,7 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
-        // Constructors, Add, and spread iteration can run before later element evaluations.
-        // Use source spans because CFG branching can hoist elements out of the collection operation.
-        if (_collectionCallSpans.Any(span => span.Contains(operation.Syntax.Span)))
-        {
-            FollowException(block, null, state, continuation, filter);
-        }
+        FollowEarlyCollectionExceptions(operation, state, block, continuation, filter);
 
         if (operation is IDeconstructionAssignmentOperation deconstruction)
         {
@@ -560,6 +555,17 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         state.Add(value?.Syntax.Span ?? UnknownValue);
+    }
+
+    private void FollowEarlyCollectionExceptions(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
+        ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        // Constructors, Add, and spread iteration can run before later element evaluations.
+        // Use source spans because CFG branching can hoist elements out of the collection operation.
+        if (_collectionCallSpans.Any(span => span.Contains(operation.Syntax.Span)))
+        {
+            FollowException(block, null, state, continuation, filter);
+        }
     }
 
     private static IEnumerable<TextSpan> GetCollectionCallSpans(IOperation root, ControlFlowGraph callableGraph)
