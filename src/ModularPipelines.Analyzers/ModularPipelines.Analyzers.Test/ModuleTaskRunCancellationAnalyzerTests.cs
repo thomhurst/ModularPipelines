@@ -144,6 +144,75 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 .WithLocation(1).WithArguments("Run"));
     }
 
+    [TestMethod]
+    [DataRow("token = CancellationToken.None;", false)]
+    [DataRow("token = default;", false)]
+    [DataRow("Reset(ref token);", false)]
+    [DataRow("ResetOut(out token);", false)]
+    [DataRow("(token, _) = (CancellationToken.None, 0);", false)]
+    [DataRow("token = CancellationToken.None;", true)]
+    public async Task Reports_Overwritten_Helper_Token_Captured_By_Callback(string write, bool insideCallback)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                {{(insideCallback ? "" : write)}}
+                return Task.Run(async () =>
+                {
+                    {{(insideCallback ? write : "")}}
+                    await {|#0:Task.Delay(1, token)|};
+                }, token);
+            }
+
+            private static void Reset(ref CancellationToken token) => token = default;
+            private static void ResetOut(out CancellationToken token) => token = default;
+            """);
+
+        await VerifyCallAsync(source, false, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("Read(in token);")]
+    [DataRow("if (false) { token = default; }")]
+    public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                {{statement}}
+                return Task.Run(async () => await Task.Delay(1, token), token);
+            }
+
+            private static void Read(in CancellationToken token) { }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
+    {
+        var source = ModuleSource("""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var work = Task.Run(async () => await {|#0:Task.Delay(1, token)|}, token);
+                token = default;
+                return work;
+            }
+            """);
+
+        await VerifyCallAsync(source, false, "Delay");
+    }
+
     private static string ModuleSource(string members) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
 

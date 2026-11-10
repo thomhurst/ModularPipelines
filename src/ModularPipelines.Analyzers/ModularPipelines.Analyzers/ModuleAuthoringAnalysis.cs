@@ -824,16 +824,41 @@ internal static class ModuleAuthoringAnalysis
 
             if (method.Parameters.Any(IsCancellationToken))
             {
-                tokens.AddRange(FindMappedCancellationTokens(
+                var mappedTokens = FindMappedCancellationTokens(
                     executeMethod,
                     method,
                     executeCancellationToken,
                     context.Compilation,
-                    context.CancellationToken));
+                    context.CancellationToken);
+                if (!SymbolEqualityComparer.Default.Equals(method, containingMethod)
+                    && GetMethodOperation(method, context.Compilation, context.CancellationToken)
+                        is { } operation)
+                {
+                    // A captured parameter can change even after its callback is scheduled.
+                    mappedTokens = [.. mappedTokens.Where(token => !IsParameterWritten(operation, token))];
+                }
+
+                tokens.AddRange(mappedTokens);
             }
         }
 
         return tokens.ToImmutable();
+    }
+
+    private static bool IsParameterWritten(IOperation operation, IParameterSymbol parameter)
+    {
+        return operation.DescendantsAndSelf()
+            .Where(IsInReachableBranch)
+            .Select(static candidate => candidate switch
+            {
+                IAssignmentOperation assignment => assignment.Target,
+                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
+                _ => null,
+            })
+            .Where(static target => target is not null)
+            .SelectMany(static target => target!.DescendantsAndSelf())
+            .OfType<IParameterReferenceOperation>()
+            .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter));
     }
 
     private static IMethodSymbol? GetContainingMemberMethod(ISymbol symbol)
