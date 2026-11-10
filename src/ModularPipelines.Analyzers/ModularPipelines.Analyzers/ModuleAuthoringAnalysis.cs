@@ -436,15 +436,29 @@ internal static class ModuleAuthoringAnalysis
 
             // SetAction stores a delegate; only invoking a result parsed from that
             // command makes the action reachable. A later SetAction replaces it.
-            foreach (var setter in GetRoot(invocation).DescendantsAndSelf()
-                         .OfType<IInvocationOperation>()
-                         .Where(candidate => candidate.TargetMethod.Name == "SetAction"
-                             && candidate.TargetMethod.ContainingType.ToDisplayString()
-                                 == "System.CommandLine.Command"
-                             && candidate.Syntax.SpanStart < invocation.Syntax.SpanStart
-                             && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
-                             && IsInReachableBranch(candidate)
-                             && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command))
+            var operations = GetRoot(invocation).DescendantsAndSelf().ToArray();
+            HashSet<IInvocationOperation> setters =
+            [
+                .. operations.OfType<IInvocationOperation>()
+                .Where(candidate => candidate.TargetMethod.Name == "SetAction"
+                    && candidate.TargetMethod.ContainingType.ToDisplayString()
+                        == "System.CommandLine.Command"
+                    && candidate.Syntax.SpanStart < invocation.Syntax.SpanStart
+                    && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
+                    && IsInReachableBranch(candidate)
+                    && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command)),
+            ];
+            var replacementStart = operations.OfType<IConditionalOperation>()
+                .Where(candidate => candidate.Syntax.Span.End < invocation.Syntax.SpanStart
+                    && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
+                    && IsInReachableBranch(candidate)
+                    && IsLinearPredecessor(candidate, invocation)
+                    && DefinitelySetsCommandLineAction(candidate, setters))
+                .Select(static candidate => candidate.Syntax.SpanStart)
+                .DefaultIfEmpty(int.MinValue)
+                .Max();
+            foreach (var setter in setters
+                         .Where(candidate => candidate.Syntax.SpanStart >= replacementStart)
                          .OrderByDescending(static candidate => candidate.Syntax.SpanStart))
             {
                 foreach (var argument in setter.Arguments)
@@ -459,6 +473,22 @@ internal static class ModuleAuthoringAnalysis
             }
         }
     }
+
+    private static bool DefinitelySetsCommandLineAction(
+        IOperation operation,
+        HashSet<IInvocationOperation> setters) =>
+        operation switch
+        {
+            IInvocationOperation invocation => setters.Contains(invocation),
+            IBlockOperation block => block.Operations.Any(candidate =>
+                DefinitelySetsCommandLineAction(candidate, setters)),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                DefinitelySetsCommandLineAction(conditional.WhenTrue, setters)
+                && DefinitelySetsCommandLineAction(whenFalse, setters),
+            IExpressionStatementOperation statement =>
+                DefinitelySetsCommandLineAction(statement.Operation, setters),
+            _ => false,
+        };
 
     private static IOperation? GetCommandLineReceiverOrigin(IInvocationOperation invocation)
     {
@@ -5899,22 +5929,53 @@ internal static class ModuleAuthoringAnalysis
 
     private static IEnumerable<IOperation> GetValueAndReachingLocalValues(
         IOperation value,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ILocalSymbol> visitedLocals,
+        bool stopAtDelegate = false)
     {
         yield return value;
 
-        foreach (var localReference in value.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
+        var operations = stopAtDelegate ? GetCallbackValueOperations(value) : value.DescendantsAndSelf();
+        foreach (var localReference in operations.OfType<ILocalReferenceOperation>())
         {
+            var localValue = stopAtDelegate
+                ? FindReachingCallbackLocalValue(value, localReference.Local)
+                : FindReachingLocalValue(value, localReference.Local);
             if (!visitedLocals.Add(localReference.Local)
-                || FindReachingLocalValue(value, localReference.Local) is not { } localValue)
+                || localValue is null)
             {
                 continue;
             }
 
-            foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals))
+            foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals, stopAtDelegate))
             {
                 yield return operation;
             }
+        }
+    }
+
+    private static IOperation? FindReachingCallbackLocalValue(IOperation value, ILocalSymbol local)
+    {
+        while (true)
+        {
+            if (FindReachingLocalValue(value, local) is { } localValue)
+            {
+                return localValue;
+            }
+
+            var callable = GetEnclosingCallable(value);
+            var callableSymbol = callable switch
+            {
+                IAnonymousFunctionOperation anonymous => anonymous.Symbol,
+                ILocalFunctionOperation localFunction => localFunction.Symbol,
+                _ => null,
+            };
+            if (callable is null
+                || SymbolEqualityComparer.Default.Equals(local.ContainingSymbol, callableSymbol))
+            {
+                return null;
+            }
+
+            value = callable;
         }
     }
 
@@ -5925,7 +5986,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ISymbol> visitedMembers,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        foreach (var candidate in GetValueAndReachingLocalValues(value, visitedLocals))
+        foreach (var candidate in GetValueAndReachingLocalValues(value, visitedLocals, stopAtDelegate: true))
         {
             yield return candidate;
 
@@ -5945,6 +6006,23 @@ internal static class ModuleAuthoringAnalysis
                          visitedLocals,
                          visitedMembers,
                          visitedMethods))
+            {
+                yield return operation;
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetCallbackValueOperations(IOperation value)
+    {
+        yield return value;
+        if (GetDirectDelegateTarget(value) is not null)
+        {
+            yield break;
+        }
+
+        foreach (var child in value.ChildOperations)
+        {
+            foreach (var operation in GetCallbackValueOperations(child))
             {
                 yield return operation;
             }
@@ -5988,7 +6066,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ISymbol> visitedMembers,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        foreach (var memberReference in candidate.DescendantsAndSelf()
+        foreach (var memberReference in GetCallbackValueOperations(candidate)
                      .Where(static operation => operation is
                          IFieldReferenceOperation
                              or IPropertyReferenceOperation

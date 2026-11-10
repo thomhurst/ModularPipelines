@@ -68,6 +68,63 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { }); } else { command.SetAction(_ => { }); }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { }); }", true)]
+    [DataRow("if (args.Length > 0) { if (args.Length > 1) { command.SetAction(_ => { }); } else { command.SetAction(_ => { }); } } else { command.SetAction(_ => { }); }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { }); } else { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); }", true)]
+    public async Task Tracks_Action_Replacement_Across_Branches(string replacement, bool registered)
+    {
+        var source = Source($$"""
+            command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            {{replacement}}
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Tracks_Delegate_Copied_Inside_Action(bool invoked)
+    {
+        var source = Source($$"""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            command.SetAction(_ =>
+            {
+                var copy = register;
+                {{(invoked ? "copy();" : string.Empty)}}
+            });
+            return command.Parse(args).Invoke();
+            """, registered: invoked);
+
+        await VerifyAsync(source, invoked ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Tracks_Delegate_Member_Copied_Inside_Action(bool invoked)
+    {
+        var source = Source($$"""
+            command.SetAction(_ =>
+            {
+                var copy = Callbacks.Register;
+                {{(invoked ? "copy();" : string.Empty)}}
+            });
+            return command.Parse(args).Invoke();
+            """, registered: invoked) + """
+
+            public static class Callbacks
+            {
+                public static Action Register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            }
+            """;
+
+        await VerifyAsync(source, invoked ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task Tracks_Nested_Callback_Invocation_Inside_Action(bool invoked)
