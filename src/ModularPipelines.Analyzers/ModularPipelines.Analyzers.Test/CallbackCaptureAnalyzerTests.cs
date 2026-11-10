@@ -9,6 +9,73 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("int number = argument;", true)]
+    [DataRow("int? number = argument;", true)]
+    [DataRow("string text = argument;", true)]
+    [DataRow("IDisposable disposable = argument;", true)]
+    [DataRow("int number = (int)argument;", true)]
+    [DataRow("object value = argument;", false)]
+    [DataRow("dynamic value = argument;", false)]
+    [DataRow("object value = (object)argument;", false)]
+    [DataRow("string? text = argument as string;", false)]
+    [DataRow("int? number = argument as int?;", false)]
+    public async Task Tracks_Dynamic_Conversion_Exception_Paths(string operation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                dynamic argument = new object();
+                Action register = () => {};
+                try { {{operation}} }
+                catch (Exception) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public async Task Preserves_Capture_After_Dynamic_Conversion_Operand(bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try
+                {
+                    int number = (dynamic)(register = () => {{(registered ? "Pipeline.CreateBuilder().AddModule<BuildModule>()" : "{}")}});
+                    register = () => {};
+                }
+                catch (Exception) { register(); }
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Tracks_Dynamic_User_Defined_Conversion_Exception_Path()
+    {
+        await VerifyAsync(Source("""
+            callback = _ =>
+            {
+                dynamic argument = default(Convertible);
+                Action register = () => {};
+                try { int number = argument; }
+                catch (InvalidOperationException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public struct Convertible
+            {
+                public static implicit operator int(Convertible value) => throw new InvalidOperationException();
+            }
+            """));
+    }
+
+    [TestMethod]
     [DataRow("new Thrower(argument);")]
     [DataRow("_ = new Thrower(argument);")]
     [DataRow("new Thrower(argument = register = () => Pipeline.CreateBuilder().AddModule<BuildModule>());", true)]

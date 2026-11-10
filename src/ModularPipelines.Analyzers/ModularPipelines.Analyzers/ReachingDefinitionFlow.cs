@@ -364,8 +364,9 @@ internal sealed class ReachingDefinitionFlow(
 
     private static bool CanConversionThrow(IConversionOperation conversion) =>
         conversion.IsChecked || conversion.Conversion.IsUserDefined
-        || (!conversion.IsTryCast && !conversion.Conversion.IsImplicit
-            && !conversion.Conversion.IsNumeric && !conversion.Conversion.IsIdentity);
+        || (!conversion.IsTryCast && !conversion.Conversion.IsIdentity
+            && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
+                || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric)));
 
     private static ArithmeticExceptions GetArithmeticExceptions(IOperation operation) => operation switch
     {
