@@ -6,12 +6,15 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace ModularPipelines.Analyzers;
 
-internal sealed class CommandLineActionFlow(
+internal sealed class ReachingDefinitionFlow(
     ControlFlowGraph graph,
-    IInvocationOperation invocation,
-    IOperation command,
-    Dictionary<TextSpan, IInvocationOperation> setters)
+    IOperation invocation,
+    IOperation? command,
+    Dictionary<TextSpan, IOperation> definitions,
+    ILocalSymbol? local = null)
 {
+    // A path without a local definition still reads the capture at the enclosing execution site.
+    private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
     private readonly HashSet<TextSpan> _reaching = [];
     private readonly Dictionary<string, HashSet<TextSpan>> _inputs = [];
     private readonly Queue<(int Block, ImmutableArray<int> Continuation, FilterContext? Filter)> _queue = [];
@@ -28,12 +31,40 @@ internal sealed class CommandLineActionFlow(
             return [];
         }
 
-        return new CommandLineActionFlow(graph, invocation, command, setters).Analyze();
+        return new ReachingDefinitionFlow(graph, invocation, command,
+            setters.ToDictionary(static pair => pair.Key, static pair => (IOperation) pair.Value))
+            .Analyze().Cast<IInvocationOperation>();
     }
 
-    private IEnumerable<IInvocationOperation> Analyze()
+    public static bool TryGetReachingLocalValues(IOperation root, IOperation operation, ILocalSymbol local,
+        out ImmutableArray<IOperation> values, out bool inheritsIncomingValue)
     {
-        Enqueue(0, [], []);
+        values = [];
+        inheritsIncomingValue = false;
+        if (CreateGraph(root) is not { } rootGraph
+            || FindGraph(rootGraph, operation.Syntax.Span) is not { } graph)
+        {
+            return false;
+        }
+
+        var definitions = root.DescendantsAndSelf().Select(candidate => candidate switch
+        {
+            IVariableDeclaratorOperation { Initializer: { } initializer } declarator
+                when SymbolEqualityComparer.Default.Equals(declarator.Symbol, local) => initializer.Value,
+            ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+                when SymbolEqualityComparer.Default.Equals(target.Local, local) => assignment.Value,
+            _ => null,
+        }).OfType<IOperation>().GroupBy(static value => value.Syntax.Span)
+            .ToDictionary(static group => group.Key, static group => group.First());
+        var flow = new ReachingDefinitionFlow(graph, operation, null, definitions, local);
+        values = [.. flow.Analyze()];
+        inheritsIncomingValue = flow._reaching.Contains(IncomingValue);
+        return true;
+    }
+
+    private IEnumerable<IOperation> Analyze()
+    {
+        Enqueue(0, [], local is null ? [] : [IncomingValue]);
         while (_queue.Count > 0)
         {
             var (ordinal, continuation, filter) = _queue.Dequeue();
@@ -53,7 +84,7 @@ internal sealed class CommandLineActionFlow(
             Follow(block.ConditionalSuccessor, state, continuation, filter);
         }
 
-        return _reaching.Select(span => setters[span]);
+        return _reaching.Where(span => span != IncomingValue).Select(span => definitions[span]);
     }
 
     private void Enqueue(int ordinal, ImmutableArray<int> continuation, HashSet<TextSpan> state, FilterContext? filter = null)
@@ -90,14 +121,14 @@ internal sealed class CommandLineActionFlow(
             Visit(child, state, block, continuation, filter);
         }
 
-        if (operation is IInvocationOperation call && setters.ContainsKey(call.Syntax.Span))
+        if (local is null && operation is IInvocationOperation call && definitions.ContainsKey(call.Syntax.Span))
         {
             state.Clear();
             state.Add(call.Syntax.Span);
             return;
         }
 
-        if (operation is IInvocationOperation target && target.Syntax.Span == invocation.Syntax.Span)
+        if (operation.Syntax.Span == invocation.Syntax.Span)
         {
             _reaching.UnionWith(state);
         }
@@ -107,7 +138,15 @@ internal sealed class CommandLineActionFlow(
             FollowException(block, null, state, continuation, filter);
         }
 
-        if (operation is IObjectCreationOperation && operation.Syntax.Span == command.Syntax.Span)
+        if (local is not null && operation is ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+            && SymbolEqualityComparer.Default.Equals(target.Local, local)
+            && definitions.ContainsKey(assignment.Value.Syntax.Span))
+        {
+            state.Clear();
+            state.Add(assignment.Value.Syntax.Span);
+        }
+
+        if (command is not null && operation is IObjectCreationOperation && operation.Syntax.Span == command.Syntax.Span)
         {
             // Re-executing an allocation creates a fresh command, including on loop back-edges.
             // Constructor exceptions retain the previous instance's state on their exception path.
@@ -441,7 +480,7 @@ internal sealed class CommandLineActionFlow(
         var operations = graph.Blocks.SelectMany(static block => block.Operations
                 .Concat(block.BranchValue is { } value ? [value] : []))
             .SelectMany(static operation => operation.DescendantsAndSelf()).ToArray();
-        if (operations.OfType<IInvocationOperation>().Any(call => call.Syntax.Span == invocation))
+        if (operations.Any(operation => operation.Syntax.Span == invocation))
         {
             return graph;
         }

@@ -465,7 +465,7 @@ internal static class ModuleAuthoringAnalysis
                 && IsSameCommandLineOrigin(GetCommandLineReceiverOrigin(candidate), command))
             .ToDictionary(static setter => setter.Syntax.Span);
 
-        return CommandLineActionFlow.GetReachingSetters(root, invocation, command, setters);
+        return ReachingDefinitionFlow.GetReachingSetters(root, invocation, command, setters);
     }
 
     private static IOperation? GetCommandLineReceiverOrigin(IInvocationOperation invocation)
@@ -6007,24 +6007,40 @@ internal static class ModuleAuthoringAnalysis
         var visited = new HashSet<IOperation>();
         while (visited.Add(value))
         {
-            if (FindReachingLocalValue(value, local, out var isAmbiguous) is { } localValue)
-            {
-                yield return localValue;
-                yield break;
-            }
-
             var callable = GetEnclosingCallable(value);
-            if (isAmbiguous)
+            if (callbackInvocations is not null && ReachingDefinitionFlow.TryGetReachingLocalValues(
+                    GetRoot(value), value, local, out var reachingValues, out var inheritsIncomingValue))
             {
-                foreach (var candidate in FindReachingLocalValues(value, local))
+                foreach (var candidate in reachingValues)
                 {
                     yield return candidate;
                 }
 
-                // Partial writes retain the incoming capture; guaranteed definitions replace it.
-                if (HasReachingCallbackDefinition(value, local, callable))
+                if (!inheritsIncomingValue)
                 {
                     yield break;
+                }
+            }
+            else
+            {
+                if (FindReachingLocalValue(value, local, out var isAmbiguous) is { } localValue)
+                {
+                    yield return localValue;
+                    yield break;
+                }
+
+                if (isAmbiguous)
+                {
+                    foreach (var candidate in FindReachingLocalValues(value, local))
+                    {
+                        yield return candidate;
+                    }
+
+                    // Partial writes retain the incoming capture; guaranteed definitions replace it.
+                    if (HasReachingCallbackDefinition(value, local, callable))
+                    {
+                        yield break;
+                    }
                 }
             }
 

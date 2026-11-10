@@ -859,6 +859,75 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("return;", false)]
+    [DataRow("throw new InvalidOperationException();", false)]
+    [DataRow("if (args.Length > 1) return; else return;", false)]
+    [DataRow("if (args.Length > 1) return;", true)]
+    [DataRow("goto End;", false)]
+    [DataRow("goto Invoke;", true)]
+    public async Task Excludes_Captured_Delegate_Writes_That_Cannot_Reach_Invocation(string exit, bool registered)
+    {
+        var source = Source($$"""
+            Action register = () => {};
+            command.SetAction(_ =>
+            {
+                if (args.Length > 0)
+                {
+                    register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    {{exit}}
+                }
+                Invoke:
+                register();
+                End:;
+            });
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Excludes_Delegate_Writes_In_An_Exiting_Top_Level_Branch()
+    {
+        var source = Source("""
+            Action register = () => {};
+            if (args.Length > 0)
+            {
+                register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                return 0;
+            }
+            register();
+            return 0;
+            """, registered: false);
+
+        await VerifyAsync(source, UnregisteredModule());
+    }
+
+    [TestMethod]
+    [DataRow("try { if (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); throw new InvalidOperationException(); } } catch (InvalidOperationException) { } register();", false, true)]
+    [DataRow("try { if (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return; } } finally { register(); }", false, true)]
+    [DataRow("try { if (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return; } } finally { register = () => {}; } register();", false, false)]
+    [DataRow("if (args.Length > 0) { register = () => {}; return; } register();", true, true)]
+    [DataRow("do { if (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); continue; } register(); } while (false);", false, false)]
+    [DataRow("do { if (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); break; } register(); } while (false);", false, false)]
+    [DataRow("while (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); break; } register();", false, true)]
+    [DataRow("if (args.Length > 0) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } else { register(); }", false, false)]
+    [DataRow("for (var i = 0; i < 2; i++) { register(); register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }", false, true)]
+    public async Task Tracks_Captured_Delegate_Definitions_Through_Control_Flow(string statements, bool initiallyRegisters, bool registered)
+    {
+        var source = Source($$"""
+            Action register = {{(initiallyRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            command.SetAction(_ =>
+            {
+                {{statements}}
+            });
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow(false, false)]
     [DataRow(false, true)]
     [DataRow(true, false)]
