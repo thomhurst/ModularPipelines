@@ -434,12 +434,25 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            // SetAction stores a delegate; only invoking a result parsed from that
-            // command makes the action reachable. A later SetAction replaces it.
-            var operations = GetRoot(invocation).DescendantsAndSelf().ToArray();
-            HashSet<IInvocationOperation> setters =
-            [
-                .. operations.OfType<IInvocationOperation>()
+            foreach (var setter in GetReachingCommandLineActionSetters(invocation, command))
+            {
+                foreach (var argument in setter.Arguments)
+                {
+                    yield return argument.Value;
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IInvocationOperation> GetReachingCommandLineActionSetters(
+        IInvocationOperation invocation,
+        IOperation command)
+    {
+        // SetAction stores a delegate until a later setter replaces it on the same path.
+        var operations = GetRoot(invocation).DescendantsAndSelf().ToArray();
+        HashSet<IInvocationOperation> setters =
+        [
+            .. operations.OfType<IInvocationOperation>()
                 .Where(candidate => candidate.TargetMethod.Name == "SetAction"
                     && candidate.TargetMethod.ContainingType.ToDisplayString()
                         == "System.CommandLine.Command"
@@ -447,31 +460,21 @@ internal static class ModuleAuthoringAnalysis
                     && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
                     && IsInReachableBranch(candidate)
                     && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command)),
-            ];
-            var replacementStart = operations.OfType<IConditionalOperation>()
-                .Where(candidate => candidate.Syntax.Span.End < invocation.Syntax.SpanStart
-                    && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
-                    && IsInReachableBranch(candidate)
-                    && IsLinearPredecessor(candidate, invocation)
-                    && DefinitelySetsCommandLineAction(candidate, setters))
-                .Select(static candidate => candidate.Syntax.SpanStart)
-                .DefaultIfEmpty(int.MinValue)
-                .Max();
-            foreach (var setter in setters
-                         .Where(candidate => candidate.Syntax.SpanStart >= replacementStart)
-                         .OrderByDescending(static candidate => candidate.Syntax.SpanStart))
-            {
-                foreach (var argument in setter.Arguments)
-                {
-                    yield return argument.Value;
-                }
+        ];
+        var replacements = operations.OfType<IConditionalOperation>()
+            .Where(candidate => candidate.Syntax.Span.End < invocation.Syntax.SpanStart
+                && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
+                && IsInReachableBranch(candidate)
+                && DefinitelySetsCommandLineAction(candidate, setters))
+            .Cast<IOperation>()
+            .Concat(setters)
+            .ToArray();
 
-                if (IsLinearPredecessor(setter, invocation))
-                {
-                    break;
-                }
-            }
-        }
+        // Compare paths at each setter, so replacements inside a branch also discard
+        // that branch's earlier actions before the possible final actions are combined.
+        return setters.Where(setter => !replacements.Any(replacement =>
+            replacement.Syntax.SpanStart > setter.Syntax.Span.End
+            && IsLinearPredecessor(replacement, setter)));
     }
 
     private static bool DefinitelySetsCommandLineAction(

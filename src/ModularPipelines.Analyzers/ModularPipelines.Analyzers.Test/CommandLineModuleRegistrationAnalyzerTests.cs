@@ -84,6 +84,22 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); command.SetAction(_ => { }); } else { command.SetAction(_ => { }); }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { }); } else { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); command.SetAction(_ => { }); }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); if (args.Length > 1) { command.SetAction(_ => { }); } else { command.SetAction(_ => { }); } }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); if (args.Length > 1) { command.SetAction(_ => { }); } }", true)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); command.SetAction(_ => { }); } else { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); }", true)]
+    public async Task Tracks_Action_Replacement_Within_Branches(string statements, bool registered)
+    {
+        var source = Source($$"""
+            {{statements}}
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task Tracks_Delegate_Copied_Inside_Action(bool invoked)
