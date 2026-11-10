@@ -169,8 +169,8 @@ internal class Downloader(
         [
             disposition?.FileNameStar?.Trim('"'),
             disposition?.FileName?.Trim('"'),
-            response.RequestMessage?.RequestUri?.AbsolutePath,
-            options.DownloadUri.AbsolutePath,
+            GetUriPath(response.RequestMessage?.RequestUri),
+            GetUriPath(options.DownloadUri),
         ];
 
         foreach (var candidate in candidates)
@@ -182,6 +182,23 @@ internal class Downloader(
         }
 
         return string.Empty;
+    }
+
+    private static string? GetUriPath(Uri? uri)
+    {
+        if (uri is null)
+        {
+            return null;
+        }
+
+        if (uri.IsAbsoluteUri)
+        {
+            return uri.AbsolutePath;
+        }
+
+        var path = uri.OriginalString;
+        var pathEnd = path.IndexOfAny(['?', '#']);
+        return pathEnd < 0 ? path : path[..pathEnd];
     }
 
     private static string GetExtension(string path)
