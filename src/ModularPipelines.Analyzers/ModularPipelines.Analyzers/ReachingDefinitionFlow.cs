@@ -795,6 +795,17 @@ internal sealed class ReachingDefinitionFlow(
                 {
                     changed |= aliases.Add(alias);
                 }
+
+                if (aliases.Contains(alias))
+                {
+                    foreach (var reference in source.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
+                    {
+                        if (TargetsLocal(source, reference.Local))
+                        {
+                            changed |= aliases.Add(reference.Local);
+                        }
+                    }
+                }
             }
         }
         while (changed);

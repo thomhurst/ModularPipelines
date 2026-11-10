@@ -131,6 +131,28 @@ public class ReachingDefinitionFlowTests
         AssertFlow(body, expected);
 
     [TestMethod]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; source = 2; [|Use(value)|];")]
+    [DataRow("int source = 0; ref int sibling = ref source; ref int value = ref source; value = 1; sibling = 2; [|Use(value)|];")]
+    [DataRow("int source = 0; ref int value = ref source; ref int sibling = ref source; value = 1; sibling++; [|Use(value)|];")]
+    [DataRow("int source = 0; ref int middle = ref source; ref int value = ref middle; value = 1; source = 2; [|Use(value)|];")]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; Change(ref source); [|Use(value)|];")]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; (source, _) = (2, 0); [|Use(value)|];")]
+    [DataRow("int source = 0; int other = 0; ref int value = ref (flag ? ref source : ref other); value = 1; other = 2; [|Use(value)|];")]
+    [DataRow("int source = 0; int other = 0; ref int value = ref other; value = ref source; value = 1; source = 2; [|Use(value)|];")]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; try { Change(ref source); } catch { [|Use(value)|]; }")]
+    public void Ref_Local_Source_And_Sibling_Writes_Invalidate_Definitions(string body) =>
+        AssertFlow(body, "", supported: false);
+
+    [TestMethod]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; source = 2; value = 3; [|Use(value)|];", "3")]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; if (false) source = 2; [|Use(value)|];", "1")]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; [|Use(value)|]; source = 2;", "1")]
+    [DataRow("int source = 0; int other = 0; ref int value = ref source; value = 1; other = 2; [|Use(value)|];", "1")]
+    [DataRow("int source = 0; ref int value = ref source; value = 1; ChangeWithArgument(ref source, [|value|]);", "1")]
+    public void Ref_Local_Source_Writes_Respect_Paths_And_Evaluation_Order(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
     [DataRow("string value = null; value ??= \"new\"; [|Use(value)|];", "\"new\"|null")]
     [DataRow("string value = \"old\"; value ??= \"new\"; [|Use(value)|];", "\"new\"|\"old\"")]
     [DataRow("string value = null; if (flag) value ??= \"new\"; [|Use(value)|];", "\"new\"|null")]
