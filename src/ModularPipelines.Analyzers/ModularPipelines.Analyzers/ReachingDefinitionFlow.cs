@@ -22,6 +22,7 @@ internal sealed class ReachingDefinitionFlow(
     // An unsupported local write invalidates only queries it can reach.
     private static readonly TextSpan UnknownValue = new(int.MaxValue - 1, 0);
     private readonly IOperation _operationRoot = operationRoot ?? GetOperationRoot(invocation);
+    private readonly HashSet<ILocalSymbol> _aliases = GetAliases(operationRoot ?? GetOperationRoot(invocation), local);
     private readonly HashSet<TextSpan> _reaching = [];
     private readonly Dictionary<string, HashSet<TextSpan>> _inputs = [];
     private readonly Queue<(int Block, ImmutableArray<int> Continuation, FilterContext? Filter,
@@ -168,6 +169,12 @@ internal sealed class ReachingDefinitionFlow(
             _reaching.UnionWith(state);
         }
 
+        // A ref/out callee can mutate before throwing, after all arguments finish evaluating.
+        if (GetByReferenceArguments(operation).Any(MayReferenceLocal))
+        {
+            Invalidate(state);
+        }
+
         FollowOperationExceptions(operation, state, block, continuation, filter);
         ApplyDefinition(operation, state, addedTargets);
     }
@@ -215,7 +222,11 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
-        if (target is ILocalReferenceOperation reference
+        if (IsAliasTarget(target))
+        {
+            Invalidate(state);
+        }
+        else if (target is ILocalReferenceOperation reference
             && SymbolEqualityComparer.Default.Equals(reference.Local, local))
         {
             if (value is null || definitions.ContainsKey(value.Syntax.Span))
@@ -366,6 +377,10 @@ internal sealed class ReachingDefinitionFlow(
     private static bool IsDelegateAddition(ICompoundAssignmentOperation assignment) =>
         assignment.OperatorKind == BinaryOperatorKind.Add && assignment.Target.Type?.TypeKind == TypeKind.Delegate;
 
+    private static bool HasKnownAssignedValue(IAssignmentOperation assignment) =>
+        assignment is ISimpleAssignmentOperation { IsRef: false }
+        || (assignment is ICompoundAssignmentOperation compound && IsDelegateAddition(compound));
+
     private static IEnumerable<IOperation?> GetAssignedValues(IOperation operation, ILocalSymbol localSymbol)
     {
         if (operation is IVariableDeclaratorOperation { Initializer: { } initializer } declarator
@@ -376,9 +391,7 @@ internal sealed class ReachingDefinitionFlow(
         else if (operation is IAssignmentOperation { Target: ILocalReferenceOperation target } assignment
             && SymbolEqualityComparer.Default.Equals(target.Local, localSymbol))
         {
-            yield return assignment is ISimpleAssignmentOperation
-                || (assignment is ICompoundAssignmentOperation compound && IsDelegateAddition(compound))
-                    ? assignment.Value : null;
+            yield return HasKnownAssignedValue(assignment) ? assignment.Value : null;
         }
         else if (operation is IIncrementOrDecrementOperation { Target: ILocalReferenceOperation reference }
             && SymbolEqualityComparer.Default.Equals(reference.Local, localSymbol))
@@ -448,8 +461,37 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
+    private static void Invalidate(HashSet<TextSpan> state)
+    {
+        state.Clear();
+        state.Add(UnknownValue);
+    }
+
+    private bool IsAliasTarget(IOperation target) =>
+        (target is IFlowCaptureReferenceOperation && MayReferenceLocal(target))
+        || _aliases.Any(alias => !SymbolEqualityComparer.Default.Equals(alias, local) && TargetsLocal(target, alias));
+
+    private bool MayReferenceLocal(IOperation value) =>
+        _aliases.Any(alias => TargetsLocal(value, alias))
+        // Conditional ref expressions are lowered to captures; use their original target tree.
+        || (value is IFlowCaptureReferenceOperation && _operationRoot.DescendantsAndSelf().Any(candidate =>
+            candidate.Syntax.Span == value.Syntax.Span && _aliases.Any(alias => TargetsLocal(candidate, alias))));
+
     private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
     {
+        var target = operation switch
+        {
+            ISimpleAssignmentOperation { IsRef: true } => null,
+            IAssignmentOperation assignment => assignment.Target,
+            IIncrementOrDecrementOperation increment => increment.Target,
+            _ => null,
+        };
+        if (target is not null && IsAliasTarget(target))
+        {
+            Invalidate(state);
+            return;
+        }
+
         if (operation is not (IAssignmentOperation or IVariableDeclaratorOperation or IIncrementOrDecrementOperation))
         {
             return;
@@ -594,6 +636,71 @@ internal sealed class ReachingDefinitionFlow(
     private static TextSpan? GetEnclosingCallback(IOperation operation) =>
         operation.Syntax.Ancestors().FirstOrDefault(static syntax => syntax is
             AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax)?.Span;
+
+    private static IEnumerable<IOperation> GetByReferenceArguments(IOperation operation)
+    {
+        foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>())
+        {
+            if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
+            {
+                yield return argument.Value;
+            }
+        }
+
+        var dynamicArguments = operation switch
+        {
+            IDynamicInvocationOperation invocation => invocation.Arguments,
+            IDynamicObjectCreationOperation creation => creation.Arguments,
+            _ => [],
+        };
+        for (var index = 0; index < dynamicArguments.Length; index++)
+        {
+            var refKind = operation switch
+            {
+                IDynamicInvocationOperation invocation => invocation.GetArgumentRefKind(index),
+                IDynamicObjectCreationOperation creation => creation.GetArgumentRefKind(index),
+                _ => null,
+            };
+            if (refKind is RefKind.Ref or RefKind.Out)
+            {
+                yield return dynamicArguments[index];
+            }
+        }
+    }
+
+    // Bindings are a conservative callable-wide union; only traversed writes invalidate flow.
+    private static HashSet<ILocalSymbol> GetAliases(IOperation root, ILocalSymbol local)
+    {
+        HashSet<ILocalSymbol> aliases = [with(SymbolEqualityComparer.Default), local];
+        var sources = root.DescendantsAndSelf().SelectMany(GetAliasSources).ToArray();
+        bool changed;
+        do
+        {
+            changed = false;
+            foreach (var (alias, source) in sources)
+            {
+                if (!aliases.Contains(alias) && aliases.Any(candidate => TargetsLocal(source, candidate)))
+                {
+                    changed |= aliases.Add(alias);
+                }
+            }
+        }
+        while (changed);
+
+        return aliases;
+    }
+
+    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
+    {
+        if (operation is IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None, Initializer: { } initializer } declarator)
+        {
+            yield return (declarator.Symbol, initializer.Value);
+        }
+        else if (operation is ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation reference } assignment)
+        {
+            yield return (reference.Local, assignment.Value);
+        }
+    }
 
     private static bool TargetsLocal(IOperation target, ILocalSymbol local) => target switch
     {

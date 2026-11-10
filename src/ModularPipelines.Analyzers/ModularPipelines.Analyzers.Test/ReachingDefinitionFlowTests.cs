@@ -91,6 +91,45 @@ public class ReachingDefinitionFlowTests
         AssertFlow(body, expected);
 
     [TestMethod]
+    [DataRow("int value = 1; Change(ref value); [|Use(value)|];")]
+    [DataRow("int value = 1; Assign(out value); [|Use(value)|];")]
+    [DataRow("int value = 1; try { Change(ref value); } catch { [|Use(value)|]; }")]
+    [DataRow("int value = 1; try { Assign(out value); } catch { [|Use(value)|]; }")]
+    [DataRow("int value = 1; ref int alias = ref value; alias = 2; [|Use(value)|];")]
+    [DataRow("int value = 1; ref int alias = ref value; alias++; [|Use(value)|];")]
+    [DataRow("int value = 1; ref int alias = ref value; alias *= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; ref int alias = ref value; Change(ref alias); [|Use(value)|];")]
+    [DataRow("int value = 1; ref int alias = ref value; ref int second = ref alias; second = 2; [|Use(value)|];")]
+    [DataRow("int value = 1; int other = 0; ref int alias = ref (flag ? ref value : ref other); alias = 2; [|Use(value)|];")]
+    [DataRow("int value = 1; int other = 0; ref int alias = ref other; alias = ref value; alias = 2; [|Use(value)|];")]
+    [DataRow("int value = 1; ref int alias = ref value; value = 2; alias = 3; [|Use(value)|];")]
+    [DataRow("int value = 1; ref int alias = ref value; (alias, _) = (2, 0); [|Use(value)|];")]
+    [DataRow("int value = 1; dynamic receiver = item; receiver.Change(ref value); [|Use(value)|];")]
+    [DataRow("int value = 1; dynamic receiver = item; receiver.Assign(out value); [|Use(value)|];")]
+    [DataRow("int value = 1; new RefHolder(0, ref value); [|Use(value)|];")]
+    [DataRow("int value = 1; new RefHolder((dynamic)item, ref value); [|Use(value)|];")]
+    [DataRow("int value = 1; int other = 0; Change(ref (flag ? ref value : ref other)); [|Use(value)|];")]
+    [DataRow("int value = 1; int other = 0; dynamic receiver = item; receiver.Change(ref (flag ? ref value : ref other)); [|Use(value)|];")]
+    [DataRow("int value = 1; int other = 0; (flag ? ref value : ref other) = 2; [|Use(value)|];")]
+    public void ByReference_Mutations_Invalidate_Definitions(string body) =>
+        AssertFlow(body, "", supported: false);
+
+    [TestMethod]
+    [DataRow("int value = 1; Change(ref value); value = 2; [|Use(value)|];", "2")]
+    [DataRow("int value = 1; ref int alias = ref value; alias = 2; value = 3; [|Use(value)|];", "3")]
+    [DataRow("int value = 1; if (false) Change(ref value); [|Use(value)|];", "1")]
+    [DataRow("int value = 1; [|Use(value)|]; Change(ref value);", "1")]
+    [DataRow("int value = 1; Action nested = () => Change(ref value); [|Use(value)|];", "1")]
+    [DataRow("int value = 1; int other = 0; Change(ref other); [|Use(value)|];", "1")]
+    [DataRow("int value = 1; ref int alias = ref value; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; int other = 0; ref int alias = ref other; alias = 2; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; ref int alias = ref value; if (false) alias = 2; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; ref int alias = ref value; [|Use(value)|]; alias = 2;", "1")]
+    [DataRow("int value = 1; ChangeWithArgument(ref value, [|value|]);", "1")]
+    public void ByReference_Mutations_Respect_Paths_And_Evaluation_Order(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
     public void Delegate_Addition_Preserves_Previous_Definitions() => AssertFlow(
         "Action value = A; value += B; [|Use(value)|];", "A|B");
 
@@ -297,6 +336,7 @@ public class ReachingDefinitionFlowTests
             {
                 public static implicit operator string(ConversionSource source) => throw new Exception();
             }
+            class RefHolder { public RefHolder(int unused, ref int item) { } }
             class Holder
             {
                 public Holder(string text = null) { }
@@ -316,6 +356,8 @@ public class ReachingDefinitionFlowTests
                 static bool ThrowFilter(string item) => true;
                 static bool Observe(string item) => true;
                 static void Change<T>(ref T item) { }
+                static void Assign<T>(out T item) => item = default;
+                static void ChangeWithArgument<T>(ref T item, int argument) { }
                 static {{(returns ? "string" : "void")}} Run(bool flag, object item)
                 {
                     {{body}}
