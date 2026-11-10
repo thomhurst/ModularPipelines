@@ -386,8 +386,15 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         var output = new HashSet<TextSpan>();
+        var awaited = IsAwaitedInvocation(call);
         foreach (var (method, bodyGraph) in bodies)
         {
+            Action<HashSet<TextSpan>>? suspension = null;
+            if (method.IsAsync)
+            {
+                suspension = awaited ? asyncSuspension : output.UnionWith;
+            }
+
             // Transfer normal exits separately from exceptions so discarded writes cannot reach the caller.
             var body = new ReachingDefinitionFlow(bodyGraph, invocation, definitions, local, analyzeReceiverTypes,
                 completingReturn: true, analyzeCapturedWrites, sites.Add(method.OriginalDefinition, call),
@@ -395,8 +402,7 @@ internal sealed class ReachingDefinitionFlow(
                 {
                     if (method.IsAsync)
                     {
-                        // Async failures complete the returned task; they do not throw at the call site.
-                        ApplyCleanup(cleanup, escaped, output.UnionWith);
+                        FollowAsyncException(exceptionType, escaped, cleanup, awaited, output, block, continuation, filter);
                     }
                     else
                     {
@@ -404,7 +410,7 @@ internal sealed class ReachingDefinitionFlow(
                     }
                 },
                 receiverQueries, operationRoot: _operationRoot,
-                asyncSuspension: method.IsAsync ? output.UnionWith : null);
+                asyncSuspension: suspension);
             body.Enqueue(0, [], state);
             body.AnalyzePendingBlocks();
             output.UnionWith(body._reaching);
@@ -413,6 +419,36 @@ internal sealed class ReachingDefinitionFlow(
         state.Clear();
         state.UnionWith(output);
         return true;
+    }
+
+    private void FollowAsyncException(ITypeSymbol? exceptionType, HashSet<TextSpan> escaped, PendingCleanup? cleanup,
+        bool awaited, HashSet<TextSpan> output, BasicBlock block, ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        // Await observes the fault after callee cleanup; an unawaited task lets its caller continue.
+        ApplyCleanup(cleanup, escaped, completed =>
+        {
+            if (awaited)
+            {
+                FollowException(block, exceptionType, completed, continuation, filter);
+            }
+            else
+            {
+                output.UnionWith(completed);
+            }
+        });
+    }
+
+    private static bool IsAwaitedInvocation(IInvocationOperation call)
+    {
+        IOperation value = call;
+        while (value.Parent is IConversionOperation
+               || (value.Parent is IInvocationOperation { TargetMethod.Name: "ConfigureAwait" } configured
+                   && ReferenceEquals(configured.Instance, value)))
+        {
+            value = value.Parent;
+        }
+
+        return value.Parent is IAwaitOperation;
     }
 
     private bool TryGetInvokedGraphs(IInvocationOperation call,
@@ -495,6 +531,9 @@ internal sealed class ReachingDefinitionFlow(
             IMethodReferenceOperation method => [method.Method],
             IDelegateCreationOperation creation => GetDelegateMethods(root, creation.Target, visited, sites, queries),
             IConversionOperation conversion => GetDelegateMethods(root, conversion.Operand, visited, sites, queries),
+            IConditionalOperation or ICoalesceOperation or ISwitchExpressionOperation =>
+                ModuleAuthoringAnalysis.GetReachableValueLeaves(value)
+                    .SelectMany(leaf => GetDelegateMethods(root, leaf, [.. visited], sites, queries)),
             ILocalReferenceOperation reference when visited.Add(value) =>
                 GetDelegateLocalMethods(root, reference, value, visited, sites, queries),
             _ => [],

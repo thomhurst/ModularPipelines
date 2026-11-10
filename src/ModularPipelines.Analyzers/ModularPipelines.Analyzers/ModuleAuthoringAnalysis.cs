@@ -5717,7 +5717,7 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static IEnumerable<IOperation> GetReachableValueLeaves(IOperation operation)
+    internal static IEnumerable<IOperation> GetReachableValueLeaves(IOperation operation)
     {
         return operation switch
         {
