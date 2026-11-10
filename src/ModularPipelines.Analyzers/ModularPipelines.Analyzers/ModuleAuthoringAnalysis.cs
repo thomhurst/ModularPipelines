@@ -378,17 +378,24 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         IMethodSymbol containingMethod,
         Compilation compilation,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
     {
         if (invocation.TargetMethod.MethodKind == MethodKind.DelegateInvoke
             && GetInvocationReceiver(invocation) is { } receiver)
         {
-            CollectCallbackCalls(receiver, containingMethod, compilation, methodCalls);
+            CollectCallbackCalls(receiver, containingMethod, compilation, methodCalls, invocation, callbackInvocations);
         }
 
         foreach (var action in GetInvokedCommandLineActions(invocation))
         {
-            CollectCallbackCalls(action, containingMethod, compilation, methodCalls);
+            CollectCallbackCalls(action, containingMethod, compilation, methodCalls, invocation, callbackInvocations);
+        }
+
+        if (invocation.TargetMethod.MethodKind == MethodKind.LocalFunction)
+        {
+            CollectExecutedCallbackCalls(invocation.TargetMethod, containingMethod, compilation,
+                methodCalls, invocation, callbackInvocations);
         }
 
         var targetMethod = NormalizeMethod(invocation.TargetMethod);
@@ -405,7 +412,7 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            CollectCallbackCalls(argument.Value, containingMethod, compilation, methodCalls);
+            CollectCallbackCalls(argument.Value, containingMethod, compilation, methodCalls, invocation, callbackInvocations);
         }
     }
 
@@ -453,7 +460,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(candidate => candidate.TargetMethod.Name == "SetAction"
                 && candidate.TargetMethod.ContainingType.ToDisplayString() == "System.CommandLine.Command"
                 && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
-                && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command))
+                && IsSameCommandLineOrigin(GetCommandLineReceiverOrigin(candidate), command))
             .ToDictionary(static setter => setter.Syntax.Span);
 
         return CommandLineActionFlow.GetReachingSetters(root, invocation, command, setters);
@@ -462,7 +469,7 @@ internal static class ModuleAuthoringAnalysis
     private static IOperation? GetCommandLineReceiverOrigin(IInvocationOperation invocation)
     {
         var receiver = GetInvocationReceiver(invocation);
-        var visitedLocals = new HashSet<ILocalSymbol>(SymbolEqualityComparer.Default);
+        var visitedSymbols = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
         while (receiver is not null)
         {
             switch (receiver)
@@ -470,8 +477,24 @@ internal static class ModuleAuthoringAnalysis
                 case IConversionOperation conversion:
                     receiver = conversion.Operand;
                     break;
-                case ILocalReferenceOperation local when visitedLocals.Add(local.Local):
+                case ILocalReferenceOperation local when visitedSymbols.Add(local.Local):
                     receiver = FindReachingLocalValue(receiver, local.Local);
+                    break;
+                case IParameterReferenceOperation parameter when visitedSymbols.Add(parameter.Parameter):
+                    var assignments = GetRoot(receiver).DescendantsAndSelf()
+                        .OfType<ISimpleAssignmentOperation>()
+                        .Where(assignment => assignment.Syntax.SpanStart < receiver.Syntax.SpanStart
+                            && ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(receiver))
+                            && assignment.Target is IParameterReferenceOperation target
+                            && SymbolEqualityComparer.Default.Equals(target.Parameter, parameter.Parameter))
+                        .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+                        .ToArray();
+                    if (assignments.Length == 0)
+                    {
+                        return parameter;
+                    }
+
+                    receiver = IsLinearPredecessor(assignments[0], receiver) ? assignments[0].Value : null;
                     break;
                 default:
                     return receiver;
@@ -481,23 +504,64 @@ internal static class ModuleAuthoringAnalysis
         return null;
     }
 
+    private static bool IsSameCommandLineOrigin(IOperation? candidate, IOperation command)
+    {
+        return ReferenceEquals(candidate, command)
+            || (candidate is IParameterReferenceOperation candidateParameter
+                && command is IParameterReferenceOperation commandParameter
+                && SymbolEqualityComparer.Default.Equals(candidateParameter.Parameter, commandParameter.Parameter));
+    }
+
     private static void CollectCallbackCalls(
         IOperation value,
         IMethodSymbol containingMethod,
         Compilation compilation,
-        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls)
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
+        IOperation invocation,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
     {
         foreach (var callback in GetValueAndReachingCallbackValues(
                          value,
                          compilation,
                          [with(SymbolEqualityComparer.Default)],
                          [with(SymbolEqualityComparer.Default)],
-                         [with(SymbolEqualityComparer.Default)])
+                         [with(SymbolEqualityComparer.Default)],
+                         callbackInvocations)
                      .SelectMany(GetCallbackTargets))
         {
-            methodCalls.Add((
-                NormalizeMethod(containingMethod),
-                NormalizeMethod(callback)));
+            CollectExecutedCallbackCalls(callback, containingMethod, compilation,
+                methodCalls, invocation, callbackInvocations);
+        }
+    }
+
+    private static void CollectExecutedCallbackCalls(
+        IMethodSymbol callback,
+        IMethodSymbol containingMethod,
+        Compilation compilation,
+        ConcurrentBag<(IMethodSymbol Caller, IMethodSymbol Callee)> methodCalls,
+        IOperation invocation,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
+    {
+        callback = NormalizeMethod(callback);
+        methodCalls.Add((NormalizeMethod(containingMethod), callback));
+        callbackInvocations ??= ImmutableDictionary<IMethodSymbol, IOperation>.Empty
+            .WithComparers(SymbolEqualityComparer.Default);
+        if (callbackInvocations.ContainsKey(callback)
+            || GetMethodOperation(callback, compilation, default) is not { } body)
+        {
+            return;
+        }
+
+        var nextInvocations = callbackInvocations.Add(callback, invocation);
+        foreach (var call in body.DescendantsAndSelf().OfType<IInvocationOperation>())
+        {
+            var enclosing = GetCallableSymbol(GetEnclosingCallable(call));
+            if (((enclosing is null && callback.MethodKind is not (MethodKind.AnonymousFunction or MethodKind.LocalFunction))
+                    || SymbolEqualityComparer.Default.Equals(enclosing, callback))
+                && IsInReachableBranch(call))
+            {
+                CollectInvokedCallbackCalls(call, containingMethod, compilation, methodCalls, nextInvocations);
+            }
         }
     }
 
@@ -5899,7 +5963,8 @@ internal static class ModuleAuthoringAnalysis
     private static IEnumerable<IOperation> GetValueAndReachingLocalValues(
         IOperation value,
         HashSet<ILocalSymbol> visitedLocals,
-        bool stopAtDelegate = false)
+        bool stopAtDelegate = false,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
     {
         yield return value;
 
@@ -5907,7 +5972,7 @@ internal static class ModuleAuthoringAnalysis
         foreach (var localReference in operations.OfType<ILocalReferenceOperation>())
         {
             var localValue = stopAtDelegate
-                ? FindReachingCallbackLocalValue(value, localReference.Local)
+                ? FindReachingCallbackLocalValue(value, localReference.Local, callbackInvocations)
                 : FindReachingLocalValue(value, localReference.Local);
             if (!visitedLocals.Add(localReference.Local)
                 || localValue is null)
@@ -5915,14 +5980,17 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals, stopAtDelegate))
+            foreach (var operation in GetValueAndReachingLocalValues(localValue, visitedLocals, stopAtDelegate, callbackInvocations))
             {
                 yield return operation;
             }
         }
     }
 
-    private static IOperation? FindReachingCallbackLocalValue(IOperation value, ILocalSymbol local)
+    private static IOperation? FindReachingCallbackLocalValue(
+        IOperation value,
+        ILocalSymbol local,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
     {
         while (true)
         {
@@ -5944,7 +6012,14 @@ internal static class ModuleAuthoringAnalysis
                 return null;
             }
 
-            value = callable;
+            // Closures capture the variable. Cross the callable boundary at its execution site.
+            if (callableSymbol is null || callbackInvocations is null
+                || !callbackInvocations.TryGetValue(NormalizeMethod(callableSymbol), out var invocation))
+            {
+                return null;
+            }
+
+            value = invocation;
         }
     }
 
@@ -5953,9 +6028,10 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<ISymbol> visitedMembers,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
     {
-        foreach (var candidate in GetValueAndReachingLocalValues(value, visitedLocals, stopAtDelegate: true))
+        foreach (var candidate in GetValueAndReachingLocalValues(value, visitedLocals, stopAtDelegate: true, callbackInvocations))
         {
             yield return candidate;
 
@@ -5964,7 +6040,8 @@ internal static class ModuleAuthoringAnalysis
                          compilation,
                          visitedLocals,
                          visitedMembers,
-                         visitedMethods))
+                         visitedMethods,
+                         callbackInvocations))
             {
                 yield return operation;
             }
@@ -5974,7 +6051,8 @@ internal static class ModuleAuthoringAnalysis
                          compilation,
                          visitedLocals,
                          visitedMembers,
-                         visitedMethods))
+                         visitedMethods,
+                         callbackInvocations))
             {
                 yield return operation;
             }
@@ -6003,7 +6081,8 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<ISymbol> visitedMembers,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
     {
         if (candidate is not IInvocationOperation invocation)
         {
@@ -6021,7 +6100,8 @@ internal static class ModuleAuthoringAnalysis
                          compilation,
                          CloneVisitedLocals(visitedLocals),
                          new HashSet<ISymbol>(visitedMembers, SymbolEqualityComparer.Default),
-                         CloneVisitedMethods(nextVisitedMethods)))
+                         CloneVisitedMethods(nextVisitedMethods),
+                         callbackInvocations))
             {
                 yield return operation;
             }
@@ -6033,7 +6113,8 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<ISymbol> visitedMembers,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations = null)
     {
         foreach (var memberReference in GetCallbackValueOperations(candidate)
                      .Where(static operation => operation is
@@ -6057,7 +6138,8 @@ internal static class ModuleAuthoringAnalysis
                              compilation,
                              visitedLocals,
                              visitedMembers,
-                             visitedMethods))
+                             visitedMethods,
+                             callbackInvocations))
                 {
                     yield return operation;
                 }

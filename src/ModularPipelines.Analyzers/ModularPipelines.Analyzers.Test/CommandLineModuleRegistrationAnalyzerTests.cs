@@ -745,6 +745,98 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    public async Task Tracks_Captured_Delegate_Reassigned_After_Action_Installation(bool initiallyRegistered, bool registered)
+    {
+        var source = Source($$"""
+            Action register = {{(initiallyRegistered ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            command.SetAction(_ => register());
+            register = {{(registered ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("command.SetAction(_ => { var copy = register; copy(); });")]
+    [DataRow("command.SetAction(_ => { Action inner = () => register(); inner(); });")]
+    [DataRow("command.SetAction(_ => { void Inner() => register(); Inner(); });")]
+    public async Task Tracks_Reassigned_Delegate_Through_Nested_Callbacks(string install)
+    {
+        var source = Source($$"""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            {{install}}
+            register = () => {};
+            return command.Parse(args).Invoke();
+            """, registered: false);
+
+        await VerifyAsync(source, UnregisteredModule());
+    }
+
+    [TestMethod]
+    [DataRow("Action action = () => register();", "action();")]
+    [DataRow("void Action() => register();", "Action();")]
+    public async Task Tracks_Reassigned_Delegate_Through_Direct_Callable(string declaration, string invocation)
+    {
+        var source = Source($$"""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            {{declaration}}
+            register = () => {};
+            {{invocation}}
+            """, registered: false);
+
+        await VerifyAsync(source, UnregisteredModule());
+    }
+
+    [TestMethod]
+    public async Task Tracks_Captured_Delegate_At_Each_Execution()
+    {
+        await VerifyAsync(Source("""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            command.SetAction(_ => register());
+            command.Parse(args).Invoke();
+            register = () => {};
+            return command.Parse(args).Invoke();
+            """));
+    }
+
+    [TestMethod]
+    public async Task Preserves_Delegate_Value_Copied_Before_Reassignment()
+    {
+        await VerifyAsync(Source("""
+            Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+            var copy = register;
+            command.SetAction(_ => copy());
+            register = () => {};
+            return command.Parse(args).Invoke();
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("", "command", true)]
+    [DataRow("command = new System.CommandLine.RootCommand();", "command", false)]
+    [DataRow("command = new System.CommandLine.RootCommand();", "alias", true)]
+    [DataRow("command = new System.CommandLine.RootCommand(); command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });", "command", true)]
+    public async Task Tracks_Command_Parameter_Origins(string replacement, string receiver, bool registered)
+    {
+        var source = Source($$"""
+            return Run(command, args);
+
+            static int Run(System.CommandLine.RootCommand command, string[] args)
+            {
+                var alias = command;
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{replacement}}
+                return {{receiver}}.Parse(args).Invoke();
+            }
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     public async Task Invoked_Action_Does_Not_Hide_Unregistered_Module()
     {
         var source = Source("""
