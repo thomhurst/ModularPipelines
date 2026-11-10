@@ -66,7 +66,7 @@ try {
     $env:NUGET_API_KEY = 'fixture-key'
     $env:GH_TOKEN = 'fixture-token'
     $parameters = @{ PackageDirectory = $directory; ExpectedVersion = '4.2.3'; Repository = 'owner/repo'; Commit = 'a' * 40 }
-    foreach ($version in @('4.2.3', '4.2.3-alpha0012', '4.2.3+build.1')) {
+    foreach ($version in @('4.2.3', '4.2.3-alpha0012', '4.2.3+build.1', '4.0.0-rc.1')) {
         Write-Fixture $version
         $parameters.ExpectedVersion = $version
         & $publishScript @parameters -ValidateOnly | Out-Null
@@ -79,8 +79,22 @@ try {
             $calls[2][2] -notlike '*.snupkg' -or $calls[3][1] -ne 'view' -or $calls[4][1] -ne 'create' -or
             $calls[4][2] -ne "v$version" -or $calls[4] -notcontains '--generate-notes' -or
             ($calls[4] -contains '--prerelease') -ne $version.Split('+')[0].Contains('-') -or
+            ($calls[4] -contains '--latest=false') -ne $version.Split('+')[0].Contains('-') -or
             $calls[4][6] -ne ('a' * 40)) {
             throw "Publication must upload the verified packages/symbols before creating release $version at the validated commit."
+        }
+        if ($version -eq '4.0.0-rc.1') {
+            $notesIndex = [Array]::IndexOf($calls[4], '--notes-file')
+            if ($notesIndex -lt 0 -or -not (Test-Path -LiteralPath $calls[4][$notesIndex + 1])) {
+                throw 'The v4 release candidate must include its upgrade feedback announcement.'
+            }
+            $notes = Get-Content -LiteralPath $calls[4][$notesIndex + 1] -Raw
+            if ($notes -notmatch 'migrating-to-v4' -or $notes -notmatch 'issues/3997' -or $notes -notmatch 'feedback') {
+                throw 'RC notes must link the migration guide and release feedback gate.'
+            }
+            $calls.Clear()
+            $parameters.ExpectedVersion = '4.0.0-rc.2'
+            Assert-Rejected { & $publishScript @parameters } 'wrong release candidate version'
         }
     }
     $parameters.ExpectedVersion = '4.2.3'
