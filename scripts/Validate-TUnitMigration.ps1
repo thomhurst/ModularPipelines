@@ -42,15 +42,21 @@ try {
 
 Push-Location $ConsumerPath
 try {
-    $pipeline = 'tools/TUnit.Pipeline/TUnit.Pipeline.csproj'
-    $validation = 'tools/TUnit.Pipeline.Validation/TUnit.Pipeline.Validation.csproj'
-    Invoke-CheckedDotNet 'consumer-build' @('build', $validation, '-c', 'Release', "-p:ModularPipelinesVersion=$version", "-p:RestoreAdditionalProjectSources=$packages")
-    Invoke-CheckedDotNet 'consumer-graph' @('run', '--project', $pipeline, '-c', 'Release', '--framework', 'net11.0', '--no-build', '--', '--validate-only')
-    Invoke-CheckedDotNet 'consumer-behavior' @('run', '--project', $validation, '-c', 'Release', '--framework', 'net11.0', '--no-build')
-
+    $pipeline = Join-Path $ConsumerPath 'tools/TUnit.Pipeline/bin/Release/net11.0/TUnit.Pipeline.dll'
+    $validation = Join-Path $ConsumerPath 'tools/TUnit.Pipeline.Validation/bin/Release/net11.0/TUnit.Pipeline.Validation.dll'
+    # SDK selection follows the command's working directory, not --project.
+    Push-Location (Join-Path $ConsumerPath 'tools/TUnit.Pipeline.Validation')
+    try {
+        Invoke-CheckedDotNet 'consumer-build' @('build', 'TUnit.Pipeline.Validation.csproj', '-c', 'Release', "-p:ModularPipelinesVersion=$version", "-p:RestoreAdditionalProjectSources=$packages")
+    } finally {
+        Pop-Location
+    }
+    # Run from the consumer root so product commands retain its stable SDK.
+    Invoke-CheckedDotNet 'consumer-graph' @($pipeline, '--validate-only')
+    Invoke-CheckedDotNet 'consumer-behavior' @($validation)
     # Exercise the real entry point's nonzero exit on invalid configuration.
     $invalidLog = Join-Path $EvidenceDirectory 'consumer-invalid-category.log'
-    & $guard -SingleNode -TimeoutSeconds 60 -LogPath $invalidLog -DotNetArguments @('run', '--project', $pipeline, '-c', 'Release', '--framework', 'net11.0', '--no-build', '--', '--categories', 'MigrationMissingCategory', '--validate-only')
+    & $guard -SingleNode -TimeoutSeconds 60 -LogPath $invalidLog -DotNetArguments @($pipeline, '--categories', 'MigrationMissingCategory', '--validate-only')
     if ($LASTEXITCODE -ne 1 -or (Get-Content $invalidLog -Raw) -notmatch 'MigrationMissingCategory') {
         throw "The consumer entry point must reject an unknown category with exit code 1. See $invalidLog."
     }
