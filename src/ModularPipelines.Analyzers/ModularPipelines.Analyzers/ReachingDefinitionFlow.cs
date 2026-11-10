@@ -236,13 +236,17 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         // Reuse reaching definitions without recursively proving field receivers in that analysis.
-        var known = !HasUntrackedWrites(root, reference.Local)
-            && TryGetReachingLocalValues(root, value, reference.Local, out var values, out var incoming,
-                analyzeFieldReceivers: false)
-            && !incoming && !values.IsEmpty && values.All(candidate => IsKnownNonNull(candidate, visited));
+        var known = HasOnlyNonNullDefinitions(root, value, reference.Local, visited);
         visited.Remove(reference.Local);
         return known;
     }
+
+    private bool HasOnlyNonNullDefinitions(IOperation root, IOperation value, ILocalSymbol localSymbol,
+        HashSet<ILocalSymbol> visited) =>
+        !HasUntrackedWrites(root, localSymbol)
+            && TryGetReachingLocalValues(root, value, localSymbol, out var values, out var incoming,
+                analyzeFieldReceivers: false)
+            && !incoming && !values.IsEmpty && values.All(candidate => IsKnownNonNull(candidate, visited));
 
     private static bool HasUntrackedWrites(IOperation root, ILocalSymbol local) =>
         root.DescendantsAndSelf().Any(operation => operation switch
@@ -251,6 +255,7 @@ internal sealed class ReachingDefinitionFlow(
                 ReferencesLocal(argument.Value, local),
             IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None, Initializer: { } initializer } =>
                 ReferencesLocal(initializer.Value, local),
+            ISimpleAssignmentOperation { IsRef: true } assignment => ReferencesLocal(assignment.Value, local),
             IIncrementOrDecrementOperation increment => TargetsLocal(increment.Target, local),
             IAssignmentOperation assignment when TargetsLocal(assignment.Target, local) =>
                 assignment is not ISimpleAssignmentOperation { Target: ILocalReferenceOperation }

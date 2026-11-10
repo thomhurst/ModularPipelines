@@ -6040,7 +6040,68 @@ internal static class ModuleAuthoringAnalysis
                 yield break;
             }
 
+            if (!IsWithinLocalScope(invocation, local))
+            {
+                foreach (var captureSite in GetReturnedCallbackCaptureSites(callableSymbol, local, value, callbackInvocations))
+                {
+                    foreach (var candidate in FindReachingCallbackLocalValues(captureSite, local, callbackInvocations))
+                    {
+                        yield return candidate;
+                    }
+                }
+
+                yield break;
+            }
+
             value = invocation;
+        }
+    }
+
+    private static bool IsWithinLocalScope(IOperation operation, ILocalSymbol local)
+    {
+        for (var symbol = operation.SemanticModel?.GetEnclosingSymbol(operation.Syntax.SpanStart);
+             symbol is not null; symbol = symbol.ContainingSymbol)
+        {
+            if (SymbolEqualityComparer.Default.Equals(symbol, local.ContainingSymbol))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static IEnumerable<IOperation> GetReturnedCallbackCaptureSites(
+        IMethodSymbol callback,
+        ILocalSymbol local,
+        IOperation value,
+        ImmutableDictionary<IMethodSymbol, IOperation> callbackInvocations)
+    {
+        if (local.ContainingSymbol is not IMethodSymbol owner
+            || value.SemanticModel is not { } model
+            || GetMethodOperation(owner, model.Compilation, default) is not { } body)
+        {
+            yield break;
+        }
+
+        // An escaped closure reads factory locals at the return, including writes after its creation.
+        foreach (var returned in body.DescendantsAndSelf().OfType<IReturnOperation>())
+        {
+            if (returned.ReturnedValue is not { } returnedValue
+                || !SymbolEqualityComparer.Default.Equals(
+                    returned.SemanticModel?.GetEnclosingSymbol(returned.Syntax.SpanStart), owner))
+            {
+                continue;
+            }
+
+            var returnsCallback = GetValueAndReachingLocalValues(returnedValue,
+                    [with(SymbolEqualityComparer.Default)], stopAtDelegate: true, callbackInvocations)
+                .SelectMany(GetCallbackTargets)
+                .Any(target => SymbolEqualityComparer.Default.Equals(NormalizeMethod(target), NormalizeMethod(callback)));
+            if (returnsCallback)
+            {
+                yield return returnedValue;
+            }
         }
     }
 
@@ -6212,8 +6273,9 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var returnValue in operation.DescendantsAndSelf()
                      .OfType<IReturnOperation>()
-                     .Where(static returnOperation =>
-                         GetEnclosingCallable(returnOperation) is null
+                     .Where(returnOperation =>
+                         (GetEnclosingCallable(returnOperation) is not { } callable
+                          || SymbolEqualityComparer.Default.Equals(GetCallableSymbol(callable), method))
                          && IsInReachableBranch(returnOperation))
                      .Select(static returnOperation => returnOperation.ReturnedValue)
                      .OfType<IOperation>()

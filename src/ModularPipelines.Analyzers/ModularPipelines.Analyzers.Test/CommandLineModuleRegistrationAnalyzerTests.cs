@@ -482,6 +482,8 @@ public class CommandLineModuleRegistrationAnalyzerTests
     [DataRow("var holder = new Holder(); Action clear = () => holder = null!; clear();", "_ = holder.Value;", true)]
     [DataRow("Holder holder = new Holder(); ref Holder alias = ref holder; alias = null!;", "_ = holder.Value;", true)]
     [DataRow("Holder holder = new Holder(); (holder, _) = ((Holder)null!, 1);", "_ = holder.Value;", true)]
+    [DataRow("Holder holder = new Holder(); Holder other = new Holder(); ref Holder alias = ref other; alias = ref holder; alias = null!;", "_ = holder.Value;", true)]
+    [DataRow("Holder holder = new Holder(); Holder other = new Holder(); ref Holder alias = ref other; alias = ref holder; alias = null!;", "holder.Value = 1;", true)]
     public async Task Tracks_Known_NonNull_Field_Receivers(string setup, string access, bool registered)
     {
         await VerifyAsync(Source($$"""
@@ -1212,6 +1214,44 @@ public class CommandLineModuleRegistrationAnalyzerTests
 
         await VerifyAsync(source, VerifyCS.Diagnostic(ModuleRegistrationAnalyzer.UnregisteredModuleId)
             .WithLocation(0).WithArguments("UnregisteredModule"));
+    }
+
+    [TestMethod]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return _ => register();", true, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return _ => register();", true, false)]
+    [DataRow("Action register = () => {}; return _ => register();", false, true)]
+    [DataRow("Action register = () => {}; return _ => register();", false, false)]
+    [DataRow("Action register = () => {}; Action<System.CommandLine.ParseResult> action = _ => register(); register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return action;", true, true)]
+    [DataRow("Action register = () => {}; Action<System.CommandLine.ParseResult> action = _ => register(); register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); return action;", true, false)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<System.CommandLine.ParseResult> action = _ => register(); register = () => {}; return action;", false, true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); Action<System.CommandLine.ParseResult> action = _ => register(); register = () => {}; return action;", false, false)]
+    public async Task Preserves_Captures_In_Returned_Actions(string factoryBody, bool registered, bool localFactory)
+    {
+        var factory = $$"""
+            public static class Factory
+            {
+                public static Action<System.CommandLine.ParseResult> CreateAction()
+                {
+                    {{factoryBody}}
+                }
+            }
+            """;
+        if (localFactory)
+        {
+            factory = $$"""
+                static Action<System.CommandLine.ParseResult> CreateAction()
+                {
+                    {{factoryBody}}
+                }
+                """;
+        }
+
+        await VerifyAsync(Source($$"""
+            command.SetAction({{(localFactory ? "CreateAction()" : "Factory.CreateAction()")}});
+            return command.Parse(args).Invoke();
+
+            {{factory}}
+            """, registered), registered ? [] : [UnregisteredModule()]);
     }
 
     private static string Source(string statements, bool registered = true) => $$"""
