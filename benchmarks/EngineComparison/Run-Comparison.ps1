@@ -113,7 +113,8 @@ try {
         $define = 'LEGACY'
         if ($version -eq 'v4') {
             $escapedPath = [Security.SecurityElement]::Escape((Join-Path $repo 'src/ModularPipelines/ModularPipelines.csproj'))
-            $reference = "<ProjectReference Include=`"$escapedPath`" />"
+            $generatorPath = [Security.SecurityElement]::Escape((Join-Path $repo 'src/ModularPipelines.SourceGenerator/ModularPipelines.SourceGenerator.csproj'))
+            $reference = "<ProjectReference Include=`"$escapedPath`" /><ProjectReference Include=`"$generatorPath`" ReferenceOutputAssembly=`"false`" OutputItemType=`"Analyzer`" SetTargetFramework=`"TargetFramework=netstandard2.0`" />"
             $define = ''
         }
         @"
@@ -135,7 +136,7 @@ try {
         Push-Location $repo
         try {
             & $guard -SingleNode -LogPath (Join-Path $OutputDirectory "build-$version.log") `
-                -DotNetArguments @('build', (Join-Path $directory 'Worker.csproj'), '-c', 'Release', '--artifacts-path', (Join-Path $directory 'artifacts'))
+                -DotNetArguments @('build', (Join-Path $directory 'Worker.csproj'), '-c', 'Release', '--artifacts-path', (Join-Path $directory 'artifacts'), '-p:RunAnalyzers=false')
             if ($LASTEXITCODE -ne 0) { throw "Build $version failed with exit $LASTEXITCODE. See build-$version.log; limits are not retried." }
         }
         finally { Pop-Location }
