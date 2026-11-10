@@ -18,11 +18,7 @@ internal static class HttpUriRedactor
             return Redact(absoluteUri, options)["https:".Length..];
         }
 
-        var effectiveUri = uri;
-        if (baseAddress is not null && uri?.IsAbsoluteUri != true)
-        {
-            effectiveUri = uri is null ? baseAddress : new Uri(baseAddress, uri);
-        }
+        var effectiveUri = GetEffectiveUri(uri, baseAddress);
 
         if (effectiveUri is { IsAbsoluteUri: true } && IsWebhook(effectiveUri))
         {
@@ -32,6 +28,16 @@ internal static class HttpUriRedactor
         }
 
         return uri is null ? string.Empty : RedactQuery(RedactUserInfo(uri), options ?? HttpLoggingOptions.Default);
+    }
+
+    private static Uri? GetEffectiveUri(Uri? uri, Uri? baseAddress)
+    {
+        if (baseAddress is not null && uri?.IsAbsoluteUri != true)
+        {
+            return uri is null ? baseAddress : new Uri(baseAddress, uri);
+        }
+
+        return uri;
     }
 
     private static string RedactUserInfo(Uri uri)
