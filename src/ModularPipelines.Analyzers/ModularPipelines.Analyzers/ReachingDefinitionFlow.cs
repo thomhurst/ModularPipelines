@@ -16,10 +16,15 @@ internal sealed class ReachingDefinitionFlow(
     bool completingReturn = false,
     bool analyzeCapturedWrites = true,
     ImmutableDictionary<IMethodSymbol, IInvocationOperation>? callSites = null,
-    Action<ITypeSymbol?, HashSet<TextSpan>>? escapingException = null)
+    Action<ITypeSymbol?, HashSet<TextSpan>, ReachingDefinitionFlow.PendingCleanup?>? escapingException = null,
+    ImmutableHashSet<TextSpan>? receiverQueries = null,
+    Action<HashSet<TextSpan>>? completedCleanup = null,
+    IOperation? operationRoot = null,
+    Action<HashSet<TextSpan>>? asyncSuspension = null)
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
     private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
+    private readonly IOperation _operationRoot = operationRoot ?? GetOperationRoot(invocation);
     private readonly HashSet<TextSpan> _reaching = [];
     private readonly Dictionary<string, HashSet<TextSpan>> _inputs = [];
     private readonly Queue<(int Block, ImmutableArray<int> Continuation, FilterContext? Filter,
@@ -28,7 +33,7 @@ internal sealed class ReachingDefinitionFlow(
 
     public static bool TryGetReachingLocalValues(IOperation root, IOperation operation, ILocalSymbol local,
         out ImmutableArray<IOperation> values, out bool inheritsIncomingValue, bool analyzeReceiverTypes = true,
-        bool analyzeCapturedWrites = true)
+        bool analyzeCapturedWrites = true, ImmutableHashSet<TextSpan>? receiverQueries = null)
     {
         values = [];
         inheritsIncomingValue = false;
@@ -43,7 +48,7 @@ internal sealed class ReachingDefinitionFlow(
             .GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
         var flow = new ReachingDefinitionFlow(graph, operation, definitions, local, analyzeReceiverTypes,
-            analyzeCapturedWrites: analyzeCapturedWrites);
+            analyzeCapturedWrites: analyzeCapturedWrites, receiverQueries: receiverQueries, operationRoot: root);
         values = [.. flow.Analyze()];
         inheritsIncomingValue = flow._reaching.Contains(IncomingValue);
         return true;
@@ -62,11 +67,10 @@ internal sealed class ReachingDefinitionFlow(
         {
             var (ordinal, continuation, filter, exceptions) = _queue.Dequeue();
             _activeExceptions = exceptions;
-            // The synthetic destination resumes the caller only after all exceptional cleanup completes.
+            // Exception search has selected the destination before this cleanup resumes it.
             if (ordinal == -1)
             {
-                escapingException?.Invoke(exceptions.GetValueOrDefault(-1),
-                    _inputs[Key(ordinal, continuation, filter, exceptions)]);
+                completedCleanup?.Invoke(_inputs[Key(ordinal, continuation, filter, exceptions)]);
                 continue;
             }
 
@@ -147,6 +151,11 @@ internal sealed class ReachingDefinitionFlow(
             _reaching.UnionWith(state);
         }
 
+        if (operation is IAwaitOperation awaitOperation && CanSuspend(awaitOperation))
+        {
+            asyncSuspension?.Invoke(state);
+        }
+
         if (!ApplyCapturedWrites(operation, state, block, continuation, filter))
         {
             FollowOperationExceptions(operation, state, block, continuation, filter);
@@ -190,7 +199,7 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         void FollowKnownException(string exceptionName) => FollowException(block,
-            invocation.SemanticModel?.Compilation.GetTypeByMetadataName(exceptionName), state, continuation, filter);
+            _operationRoot.SemanticModel?.Compilation.GetTypeByMetadataName(exceptionName), state, continuation, filter);
     }
 
     private string? GetReceiverExceptionName(IOperation operation)
@@ -256,11 +265,7 @@ internal sealed class ReachingDefinitionFlow(
             return false;
         }
 
-        var root = invocation;
-        while (root.Parent is { } parent)
-        {
-            root = parent;
-        }
+        var root = _operationRoot;
 
         // Disable receiver proofs in the nested flow to avoid recursive array/field analysis.
         var known = !HasUntrackedWrites(root, reference.Local, value)
@@ -374,40 +379,65 @@ internal sealed class ReachingDefinitionFlow(
             return false;
         }
 
-        var root = invocation;
-        while (root.Parent is { } parent)
+        var sites = callSites ?? ImmutableDictionary.Create<IMethodSymbol, IInvocationOperation>(SymbolEqualityComparer.Default);
+        if (!TryGetInvokedGraphs(call, sites, out var bodies))
         {
-            root = parent;
+            return false;
         }
 
-        var sites = callSites ?? ImmutableDictionary.Create<IMethodSymbol, IInvocationOperation>(SymbolEqualityComparer.Default);
         var output = new HashSet<TextSpan>();
-        var handled = false;
-        foreach (var method in GetInvokedMethods(root, call, sites))
+        foreach (var (method, bodyGraph) in bodies)
         {
-            if (sites.ContainsKey(method.OriginalDefinition) || CreateGraph(root) is not { } rootGraph
-                || FindCallableGraph(rootGraph, method) is not { } bodyGraph)
+            // Transfer normal exits separately from exceptions so discarded writes cannot reach the caller.
+            var body = new ReachingDefinitionFlow(bodyGraph, invocation, definitions, local, analyzeReceiverTypes,
+                completingReturn: true, analyzeCapturedWrites, sites.Add(method.OriginalDefinition, call),
+                (exceptionType, escaped, cleanup) =>
+                {
+                    if (method.IsAsync)
+                    {
+                        // Async failures complete the returned task; they do not throw at the call site.
+                        ApplyCleanup(cleanup, escaped, output.UnionWith);
+                    }
+                    else
+                    {
+                        FollowException(block, exceptionType, escaped, continuation, filter, cleanup);
+                    }
+                },
+                receiverQueries, operationRoot: _operationRoot,
+                asyncSuspension: method.IsAsync ? output.UnionWith : null);
+            body.Enqueue(0, [], state);
+            body.AnalyzePendingBlocks();
+            output.UnionWith(body._reaching);
+        }
+
+        state.Clear();
+        state.UnionWith(output);
+        return true;
+    }
+
+    private bool TryGetInvokedGraphs(IInvocationOperation call,
+        ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites,
+        out ImmutableArray<(IMethodSymbol Method, ControlFlowGraph Graph)> bodies)
+    {
+        bodies = [];
+        if (CreateGraph(_operationRoot) is not { } rootGraph)
+        {
+            return false;
+        }
+
+        var result = ImmutableArray.CreateBuilder<(IMethodSymbol, ControlFlowGraph)>();
+        foreach (var method in GetInvokedMethods(_operationRoot, call, sites, receiverQueries ?? []))
+        {
+            if (sites.ContainsKey(method.OriginalDefinition) || FindCallableGraph(rootGraph, method) is not { } bodyGraph)
             {
                 return false;
             }
 
-            // Transfer normal exits separately from exceptions so discarded writes cannot reach the caller.
-            var body = new ReachingDefinitionFlow(bodyGraph, invocation, definitions, local, analyzeReceiverTypes,
-                completingReturn: true, analyzeCapturedWrites, sites.Add(method.OriginalDefinition, call),
-                (exceptionType, escaped) => FollowException(block, exceptionType, escaped, continuation, filter));
-            body.Enqueue(0, [], state);
-            body.AnalyzePendingBlocks();
-            output.UnionWith(body._reaching);
-            handled = true;
+            result.Add((method, bodyGraph));
         }
 
-        if (handled)
-        {
-            state.Clear();
-            state.UnionWith(output);
-        }
-
-        return handled;
+        bodies = result.ToImmutable();
+        return !bodies.IsEmpty;
     }
 
     private static ControlFlowGraph? FindCallableGraph(ControlFlowGraph root, IMethodSymbol method)
@@ -446,41 +476,45 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private static IEnumerable<IMethodSymbol> GetInvokedMethods(IOperation root, IInvocationOperation call,
-        ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites) =>
+        ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites, ImmutableHashSet<TextSpan> queries) =>
         call.TargetMethod.MethodKind switch
         {
             MethodKind.DelegateInvoke when call.Instance is { } receiver =>
-                GetDelegateMethods(root, receiver, [], sites),
+                GetDelegateMethods(root, receiver, [], sites, queries),
             MethodKind.LocalFunction => [call.TargetMethod],
             _ => [],
         };
 
     private static IEnumerable<IMethodSymbol> GetDelegateMethods(IOperation root, IOperation value,
-        HashSet<IOperation> visited, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites)
+        HashSet<IOperation> visited, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites,
+        ImmutableHashSet<TextSpan> queries)
     {
         return value switch
         {
             IAnonymousFunctionOperation anonymous => [anonymous.Symbol],
             IMethodReferenceOperation method => [method.Method],
-            IDelegateCreationOperation creation => GetDelegateMethods(root, creation.Target, visited, sites),
-            IConversionOperation conversion => GetDelegateMethods(root, conversion.Operand, visited, sites),
+            IDelegateCreationOperation creation => GetDelegateMethods(root, creation.Target, visited, sites, queries),
+            IConversionOperation conversion => GetDelegateMethods(root, conversion.Operand, visited, sites, queries),
             ILocalReferenceOperation reference when visited.Add(value) =>
-                GetDelegateLocalMethods(root, reference, value, visited, sites),
+                GetDelegateLocalMethods(root, reference, value, visited, sites, queries),
             _ => [],
         };
     }
 
     private static IEnumerable<IMethodSymbol> GetDelegateLocalMethods(IOperation root, ILocalReferenceOperation reference,
-        IOperation site, HashSet<IOperation> visited, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites)
+        IOperation site, HashSet<IOperation> visited, ImmutableDictionary<IMethodSymbol, IInvocationOperation> sites,
+        ImmutableHashSet<TextSpan> queries)
     {
-        if (!TryGetReachingLocalValues(root, site, reference.Local, out var values, out var incoming,
-                analyzeReceiverTypes: false, analyzeCapturedWrites: false))
+        // A receiver lookup may follow earlier calls, but cannot recursively query the same read site.
+        if (queries.Contains(site.Syntax.Span)
+            || !TryGetReachingLocalValues(root, site, reference.Local, out var values, out var incoming,
+                analyzeReceiverTypes: false, receiverQueries: queries.Add(site.Syntax.Span)))
         {
             yield break;
         }
 
         foreach (var method in values.SelectMany(candidate => GetDelegateMethods(root, candidate,
-                     [.. visited], sites)))
+                     [.. visited], sites, queries)))
         {
             yield return method;
         }
@@ -490,7 +524,7 @@ internal sealed class ReachingDefinitionFlow(
         if (incoming && enclosing is not null && sites.TryGetValue(enclosing.OriginalDefinition, out var outer)
             && visited.Add(outer))
         {
-            foreach (var method in GetDelegateLocalMethods(root, reference, outer, visited, sites))
+            foreach (var method in GetDelegateLocalMethods(root, reference, outer, visited, sites, queries))
             {
                 yield return method;
             }
@@ -510,6 +544,10 @@ internal sealed class ReachingDefinitionFlow(
             _ => false,
         };
     }
+
+    private static bool CanSuspend(IAwaitOperation operation) =>
+        operation.Operation is not IPropertyReferenceOperation { Property: { IsStatic: true, Name: "CompletedTask" } } property
+        || property.Property.ContainingType.ToDisplayString() != "System.Threading.Tasks.Task";
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
@@ -562,11 +600,7 @@ internal sealed class ReachingDefinitionFlow(
             return false;
         }
 
-        var root = invocation;
-        while (root.Parent is { } parent)
-        {
-            root = parent;
-        }
+        var root = _operationRoot;
 
         // Reuse reaching definitions without recursively proving receivers in that analysis.
         var known = HasOnlyNonNullDefinitions(root, value, reference.Local, visited);
@@ -725,26 +759,35 @@ internal sealed class ReachingDefinitionFlow(
             CompleteSelectedReturn(branch, state, continuation, filter);
         }
 
+        if (FollowExceptionalBranch(branch, state, continuation, filter))
+        {
+            return;
+        }
+
+        if (branch.Destination is { } destination)
+        {
+            FollowDestination(branch, destination, state, continuation, filter);
+        }
+    }
+
+    private bool FollowExceptionalBranch(ControlFlowBranch branch, HashSet<TextSpan> state,
+        ImmutableArray<int> continuation, FilterContext? filter)
+    {
         if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
         {
             var exceptionType = branch.Semantics == ControlFlowBranchSemantics.Rethrow
                 ? GetActiveExceptionType(branch.Source) : GetThrownType(branch.Source.BranchValue);
             FollowException(branch.Source, exceptionType, state, continuation, filter);
-            return;
+            return true;
         }
 
         if (branch.Semantics == ControlFlowBranchSemantics.StructuredExceptionHandling)
         {
             FollowStructuredExceptionHandling(state, continuation, filter);
-            return;
+            return true;
         }
 
-        if (branch.Destination is not { } destination)
-        {
-            return;
-        }
-
-        FollowDestination(branch, destination, state, continuation, filter);
+        return false;
     }
 
     private void CompleteSelectedReturn(ControlFlowBranch branch, HashSet<TextSpan> state,
@@ -758,7 +801,8 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         var completion = new ReachingDefinitionFlow(graph, invocation, definitions,
-            local, analyzeReceiverTypes, completingReturn: true, analyzeCapturedWrites, callSites, escapingException)
+            local, analyzeReceiverTypes, completingReturn: true, analyzeCapturedWrites, callSites, escapingException,
+            receiverQueries, completedCleanup, _operationRoot, asyncSuspension)
         {
             _activeExceptions = _activeExceptions,
         };
@@ -801,7 +845,8 @@ internal sealed class ReachingDefinitionFlow(
         if (filter is not null && IsInRegion(destination, ControlFlowRegionKind.Catch))
         {
             // Filters run during exception search, before intervening finally blocks unwind.
-            EnqueueHandler(filter.Source, destination.Ordinal, filter.Cleanup, filter.Continuation, state, filter.ExceptionType);
+            EnqueueHandler(filter.Source, destination.Ordinal, filter.Cleanup, filter.Continuation, state,
+                filter.ExceptionType, filter.PendingCleanup);
             return;
         }
 
@@ -817,26 +862,25 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private void FollowException(BasicBlock source, ITypeSymbol? exceptionType, HashSet<TextSpan> state,
-        ImmutableArray<int> continuation, FilterContext? filter = null)
+        ImmutableArray<int> continuation, FilterContext? filter = null, PendingCleanup? pendingCleanup = null)
     {
         // An exception in a filter rejects that filter; it does not replace the original exception.
         if (filter is not null)
         {
-            RejectFilter(filter, state);
+            ApplyCleanup(pendingCleanup, state, rejected => RejectFilter(filter, rejected));
             return;
         }
 
-        SearchException(source, exceptionType, state, continuation);
+        SearchException(source, exceptionType, state, continuation, pendingCleanup: pendingCleanup);
     }
 
     private void RejectFilter(FilterContext filter, HashSet<TextSpan> state) =>
-        SearchException(filter.Source, filter.ExceptionType, state, filter.Continuation, filter.Handler);
+        SearchException(filter.Source, filter.ExceptionType, state, filter.Continuation, filter.Handler, filter.PendingCleanup);
 
     private void SearchException(BasicBlock source, ITypeSymbol? exceptionType, HashSet<TextSpan> state,
-        ImmutableArray<int> continuation, ControlFlowRegion? rejectedHandler = null)
+        ImmutableArray<int> continuation, ControlFlowRegion? rejectedHandler = null, PendingCleanup? pendingCleanup = null)
     {
         var cleanup = ImmutableArray.CreateBuilder<int>();
-        var skipping = rejectedHandler is not null;
         for (var region = source.EnclosingRegion; region is not null && region != graph.Root.EnclosingRegion;
              region = region.EnclosingRegion)
         {
@@ -851,35 +895,99 @@ internal sealed class ReachingDefinitionFlow(
                 continue;
             }
 
-            foreach (var handler in GetHandlers(group))
+            if (SearchHandlers(source, exceptionType, group, cleanup.ToImmutable(), continuation, state,
+                    pendingCleanup, ref rejectedHandler))
             {
-                if (skipping)
-                {
-                    skipping = handler != rejectedHandler;
-                    continue;
-                }
-
-                if (TryHandler(source, exceptionType, handler, cleanup.ToImmutable(), continuation, state))
-                {
-                    return;
-                }
+                return;
             }
         }
 
+        PropagateException(exceptionType, state, cleanup.ToImmutable(), pendingCleanup);
+    }
+
+    private bool SearchHandlers(BasicBlock source, ITypeSymbol? exceptionType, ControlFlowRegion group,
+        ImmutableArray<int> cleanup, ImmutableArray<int> continuation, HashSet<TextSpan> state,
+        PendingCleanup? pendingCleanup, ref ControlFlowRegion? rejectedHandler)
+    {
+        foreach (var handler in GetHandlers(group))
+        {
+            if (rejectedHandler is not null)
+            {
+                if (handler == rejectedHandler)
+                {
+                    rejectedHandler = null;
+                }
+
+                continue;
+            }
+
+            if (TryHandler(source, exceptionType, handler, cleanup, continuation, state, pendingCleanup))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void PropagateException(ITypeSymbol? exceptionType, HashSet<TextSpan> state,
+        ImmutableArray<int> cleanup, PendingCleanup? pendingCleanup)
+    {
         if (escapingException is not null)
         {
-            var path = cleanup.ToImmutable().Add(-1);
-            Enqueue(path[0], path.RemoveAt(0), state, exceptions: _activeExceptions.SetItem(-1, exceptionType));
+            // Caller filters participate in the search before any callee cleanup executes.
+            escapingException(exceptionType, state, DeferCleanup(pendingCleanup, cleanup));
         }
-        else if (cleanup.Count > 0)
+        else
         {
-            var path = cleanup.ToImmutable();
-            Enqueue(path[0], path.RemoveAt(0), state);
+            ApplyCleanup(pendingCleanup, state, unwound =>
+            {
+                if (!cleanup.IsEmpty)
+                {
+                    Enqueue(cleanup[0], cleanup.RemoveAt(0), unwound);
+                }
+            });
+        }
+    }
+
+    private PendingCleanup? DeferCleanup(PendingCleanup? pending, ImmutableArray<int> cleanup)
+    {
+        if (cleanup.IsEmpty)
+        {
+            return pending;
+        }
+
+        var exceptions = _activeExceptions;
+        var key = graph.OriginalOperation.Syntax.Span + ":" + Key(-1, cleanup, null, exceptions) + ":" + pending?.Key;
+        return new PendingCleanup(key, (state, completed) => ApplyCleanup(pending, state, unwound =>
+        {
+            var flow = new ReachingDefinitionFlow(graph, invocation, definitions, local, analyzeReceiverTypes,
+                analyzeCapturedWrites: analyzeCapturedWrites, callSites: callSites, escapingException: escapingException,
+                receiverQueries: receiverQueries, completedCleanup: completed, operationRoot: _operationRoot,
+                asyncSuspension: asyncSuspension)
+            {
+                _activeExceptions = exceptions,
+            };
+            var path = cleanup.Add(-1);
+            flow.Enqueue(path[0], path.RemoveAt(0), unwound);
+            flow.AnalyzePendingBlocks();
+        }));
+    }
+
+    private static void ApplyCleanup(PendingCleanup? cleanup, HashSet<TextSpan> state, Action<HashSet<TextSpan>> completed)
+    {
+        if (cleanup is null)
+        {
+            completed(state);
+        }
+        else
+        {
+            cleanup.Apply(state, completed);
         }
     }
 
     private bool TryHandler(BasicBlock source, ITypeSymbol? exceptionType, ControlFlowRegion handler,
-        ImmutableArray<int> cleanup, ImmutableArray<int> continuation, HashSet<TextSpan> state)
+        ImmutableArray<int> cleanup, ImmutableArray<int> continuation, HashSet<TextSpan> state, PendingCleanup? pendingCleanup)
     {
         var caught = handler.Kind == ControlFlowRegionKind.FilterAndHandler
             ? handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch).ExceptionType
@@ -891,12 +999,12 @@ internal sealed class ReachingDefinitionFlow(
 
         if (handler.Kind == ControlFlowRegionKind.FilterAndHandler)
         {
-            var filter = new FilterContext(source, exceptionType, handler, cleanup, continuation);
+            var filter = new FilterContext(source, exceptionType, handler, cleanup, continuation, pendingCleanup);
             Enqueue(handler.FirstBlockOrdinal, [], state, filter);
         }
         else
         {
-            EnqueueHandler(source, handler.FirstBlockOrdinal, cleanup, continuation, state, exceptionType);
+            EnqueueHandler(source, handler.FirstBlockOrdinal, cleanup, continuation, state, exceptionType, pendingCleanup);
         }
 
         // An unknown exception may skip a typed handler, but never an unfiltered catch-all.
@@ -906,7 +1014,7 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private void EnqueueHandler(BasicBlock source, int handler, ImmutableArray<int> cleanup,
-        ImmutableArray<int> continuation, HashSet<TextSpan> state, ITypeSymbol? exceptionType)
+        ImmutableArray<int> continuation, HashSet<TextSpan> state, ITypeSymbol? exceptionType, PendingCleanup? pendingCleanup)
     {
         var remaining = GetHandlerContinuation(source, graph.Blocks[handler], continuation);
         var path = cleanup.Add(handler).AddRange(remaining);
@@ -917,8 +1025,8 @@ internal sealed class ReachingDefinitionFlow(
             catchRegion = parent;
         }
 
-        Enqueue(path[0], path.RemoveAt(0), state, exceptions:
-            _activeExceptions.SetItem(catchRegion.FirstBlockOrdinal, exceptionType));
+        var exceptions = _activeExceptions.SetItem(catchRegion.FirstBlockOrdinal, exceptionType);
+        ApplyCleanup(pendingCleanup, state, unwound => Enqueue(path[0], path.RemoveAt(0), unwound, exceptions: exceptions));
     }
 
     private ITypeSymbol? GetActiveExceptionType(BasicBlock source)
@@ -978,8 +1086,15 @@ internal sealed class ReachingDefinitionFlow(
             + string.Join(";", exceptions.OrderBy(static pair => pair.Key)
                 .Select(static pair => pair.Key + "=" + pair.Value?.ToDisplayString()));
 
+    internal sealed class PendingCleanup(string key, Action<HashSet<TextSpan>, Action<HashSet<TextSpan>>> apply)
+    {
+        public string Key { get; } = key;
+
+        public void Apply(HashSet<TextSpan> state, Action<HashSet<TextSpan>> completed) => apply(state, completed);
+    }
+
     private sealed class FilterContext(BasicBlock source, ITypeSymbol? exceptionType, ControlFlowRegion handler,
-        ImmutableArray<int> cleanup, ImmutableArray<int> continuation)
+        ImmutableArray<int> cleanup, ImmutableArray<int> continuation, PendingCleanup? pendingCleanup)
     {
         public BasicBlock Source { get; } = source;
 
@@ -991,8 +1106,10 @@ internal sealed class ReachingDefinitionFlow(
 
         public ImmutableArray<int> Continuation { get; } = continuation;
 
+        public PendingCleanup? PendingCleanup { get; } = pendingCleanup;
+
         public string Key { get; } = source.Ordinal + ":" + handler.FirstBlockOrdinal + ":"
-            + exceptionType?.ToDisplayString() + ":" + string.Join(",", continuation);
+            + exceptionType?.ToDisplayString() + ":" + string.Join(",", continuation) + ":" + pendingCleanup?.Key;
     }
 
     private bool IsInRegion(BasicBlock block, ControlFlowRegionKind kind)
@@ -1034,6 +1151,16 @@ internal sealed class ReachingDefinitionFlow(
         return source.ConditionKind == ControlFlowConditionKind.None
             || source.BranchValue?.ConstantValue is not { HasValue: true, Value: bool value }
             || branch.IsConditionalSuccessor == (value == (source.ConditionKind == ControlFlowConditionKind.WhenTrue));
+    }
+
+    private static IOperation GetOperationRoot(IOperation operation)
+    {
+        while (operation.Parent is { } parent)
+        {
+            operation = parent;
+        }
+
+        return operation;
     }
 
     private static ControlFlowGraph? CreateGraph(IOperation root) => root switch

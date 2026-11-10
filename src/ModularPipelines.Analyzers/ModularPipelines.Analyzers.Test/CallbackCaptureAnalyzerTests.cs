@@ -9,6 +9,130 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); async Task Fail() { await Task.CompletedTask; throw new Exception(); } _ = Fail();", true)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); async Task Fail() { register = () => {}; await Task.CompletedTask; throw new Exception(); } _ = Fail();", false)]
+    [DataRow("async Task Fail() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); await Task.CompletedTask; throw new Exception(); } _ = Fail();", true)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); async Task Fail() { try { await Task.CompletedTask; throw new Exception(); } finally { register = () => {}; } } _ = Fail();", false)]
+    [DataRow("async Task Fail() { await Task.CompletedTask; throw new Exception(); } _ = Fail(); register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", true)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); async Task Set() { await Task.Delay(1); register = () => {}; } _ = Set();", true)]
+    [DataRow("async Task Set() { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); await Task.Delay(1); register = () => {}; } _ = Set();", true)]
+    public async Task Preserves_Caller_Continuation_After_Async_Calls(string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("void Set() { replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; } Set(); replace();", true)]
+    [DataRow("Action set = () => { replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; }; set(); replace();", true)]
+    [DataRow("void Set() { replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; } void Forward() { Set(); replace(); } Forward();", true)]
+    [DataRow("void Set() { replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; } Set(); replace = () => {}; replace();", false)]
+    [DataRow("void Set() { replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; } if (args.Length > 0) Set(); replace();", true)]
+    [DataRow("void Set() { replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; } Set(); Action copy = replace; copy();", true)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); replace = () => { register = () => {}; }; void Set() { replace = () => {}; } Set(); replace();", true)]
+    public async Task Resolves_Delegate_Receivers_After_Executed_Captured_Writes(string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                Action replace = () => {};
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "(register = () => {}) != null", true)]
+    [DataRow("register = () => {};", "(register = () => Pipeline.CreateBuilder().AddModule<BuildModule>()) != null", false)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "(register = () => {}) == null", true)]
+    [DataRow("register = () => {};", "(register = () => Pipeline.CreateBuilder().AddModule<BuildModule>()) == null", false)]
+    public async Task Searches_Caller_Filters_Before_Callee_Finally(string cleanup, string filter, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                void Fail() { try { throw new Exception(); } finally { {{cleanup}} } }
+                try { Fail(); }
+                catch (Exception) when ({{filter}}) { }
+                catch (Exception) { }
+                register!();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Executes_Filter_Callback_Before_Callee_Clears_It()
+    {
+        await VerifyAsync(Source("""
+            callback = _ =>
+            {
+                Func<bool> register = () => { Pipeline.CreateBuilder().AddModule<BuildModule>(); return true; };
+                void Fail() { try { throw new Exception(); } finally { register = () => false; } }
+                try { Fail(); }
+                catch (Exception) when (register()) { }
+            };
+            callback(null!); return 0;
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("void Middle() { Fail(); }", "Middle();", "(register = () => {}) != null", true)]
+    [DataRow("void Middle() { try { Fail(); } finally { register = () => {}; } }", "Middle();", "(register = () => {}) != null", false)]
+    [DataRow("Action fail = Fail;", "fail();", "(register = () => {}) != null", true)]
+    [DataRow("", "Fail();", "Reject()", true)]
+    [DataRow("", "Fail();", "ThrowFilter()", true)]
+    public async Task Preserves_Cross_Call_Unwinding_After_Filter_Search(string forwarding, string call, string filter, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                void Fail() { try { throw new Exception(); } finally { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); } }
+                bool Reject() { register = () => {}; return false; }
+                bool ThrowFilter() { register = () => {}; throw new Exception(); }
+                {{forwarding}}
+                try { {{call}} }
+                catch (Exception) when ({{filter}}) { }
+                catch (Exception) { }
+                register!();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "", true)]
+    [DataRow("register = () => {};", "register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", true)]
+    [DataRow("register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "register = () => {};", false)]
+    [DataRow("register = () => {}; throw new OverflowException();", "register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", true)]
+    public async Task Runs_Callee_Cleanup_Before_Selected_Handler(string cleanup, string handler, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                void Fail() { try { throw new Exception(); } finally { {{cleanup}} } }
+                try { Fail(); }
+                catch (Exception) when ((register = () => {}) != null) { {{handler}} }
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; void Forward() => replace(); Forward();", true)]
     [DataRow("Action replace = () => {}; void Forward() => replace(); replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; Forward();", true)]
     [DataRow("Action replace = () => { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }; void Forward() => replace(); replace = () => {}; Forward();", false)]

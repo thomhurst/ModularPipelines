@@ -5885,17 +5885,7 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            IEnumerable<IOperation> localValues = [];
-            if (stopAtDelegate)
-            {
-                localValues = FindReachingCallbackLocalValues(value, localReference.Local, callbackInvocations);
-            }
-            else if (FindReachingLocalValue(value, localReference.Local) is { } localValue)
-            {
-                localValues = [localValue];
-            }
-
-            foreach (var candidate in localValues)
+            foreach (var candidate in FindReachingValues(value, localReference.Local, stopAtDelegate, callbackInvocations))
             {
                 foreach (var operation in GetValueAndReachingLocalValues(
                              candidate, CloneVisitedLocals(visitedLocals), stopAtDelegate, callbackInvocations,
@@ -5905,6 +5895,17 @@ internal static class ModuleAuthoringAnalysis
                 }
             }
         }
+    }
+
+    private static IEnumerable<IOperation> FindReachingValues(IOperation value, ILocalSymbol local,
+        bool stopAtDelegate, ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
+    {
+        if (stopAtDelegate)
+        {
+            return FindReachingCallbackLocalValues(value, local, callbackInvocations);
+        }
+
+        return FindReachingLocalValue(value, local) is { } localValue ? [localValue] : [];
     }
 
     private static IEnumerable<IOperation> FindReachingCallbackLocalValues(
