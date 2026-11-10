@@ -830,19 +830,29 @@ internal static class ModuleAuthoringAnalysis
                     executeCancellationToken,
                     context.Compilation,
                     context.CancellationToken);
-                if (!SymbolEqualityComparer.Default.Equals(method, containingMethod)
-                    && GetMethodOperation(method, context.Compilation, context.CancellationToken)
-                        is { } operation)
-                {
-                    // A captured parameter can change even after its callback is scheduled.
-                    mappedTokens = [.. mappedTokens.Where(token => !IsParameterWritten(operation, token))];
-                }
-
-                tokens.AddRange(mappedTokens);
+                tokens.AddRange(FilterCapturedCancellationTokens(
+                    context, containingMethod, method, mappedTokens));
             }
         }
 
         return tokens.ToImmutable();
+    }
+
+    private static ImmutableArray<IParameterSymbol> FilterCapturedCancellationTokens(
+        OperationAnalysisContext context,
+        IMethodSymbol containingMethod,
+        IMethodSymbol helperMethod,
+        ImmutableArray<IParameterSymbol> mappedTokens)
+    {
+        if (SymbolEqualityComparer.Default.Equals(helperMethod, containingMethod)
+            || GetMethodOperation(helperMethod, context.Compilation, context.CancellationToken)
+                is not { } operation)
+        {
+            return mappedTokens;
+        }
+
+        // A captured parameter can change even after its callback is scheduled.
+        return [.. mappedTokens.Where(token => !IsParameterWritten(operation, token))];
     }
 
     private static bool IsParameterWritten(IOperation operation, IParameterSymbol parameter)
