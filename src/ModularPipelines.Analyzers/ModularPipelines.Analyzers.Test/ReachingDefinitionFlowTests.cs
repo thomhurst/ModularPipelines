@@ -170,6 +170,31 @@ public class ReachingDefinitionFlowTests
         AssertFlow("string value = \"old\"; " + statements, expected);
 
     [TestMethod]
+    [DataRow("var text = \"prefix\" + item;", "\"old\"")]
+    [DataRow("var text = item + \"suffix\";", "\"old\"")]
+    [DataRow("var text = \"prefix\" + source;", "\"old\"")]
+    [DataRow("var text = \"prefix\" + structure;", "\"old\"")]
+    [DataRow("var text = \"prefix\"; text += item;", "\"old\"")]
+    [DataRow("object text = item; text += \"suffix\";", "\"old\"")]
+    [DataRow("value += item;", "\"old\"")]
+    [DataRow("value = \"prefix\" + item;", "\"old\"")]
+    [DataRow("var text = (value = \"rhs\") + item;", "\"rhs\"")]
+    [DataRow("var text = item + (value = \"rhs\");", "\"rhs\"")]
+    [DataRow("var text = \"prefix\" + value;", "")]
+    [DataRow("var text = \"prefix\"; text += value;", "")]
+    [DataRow("var text = \"prefix\" + (object)null;", "")]
+    public void String_Concatenation_Exceptions_Reach_Handlers_After_Operand_Evaluation(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; TextSource source = new TextSource(); TextStruct structure = default; try { "
+        + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    public void String_Concatenation_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
+        string value = "old";
+        try { try { var text = "prefix" + item; } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"");
+
+    [TestMethod]
     [DataRow("(value, _) = holder;", "\"old\"")]
     [DataRow("(value, string other) = holder;", "\"old\"")]
     [DataRow("((value, _), _) = (holder, 0);", "\"old\"")]
@@ -382,6 +407,8 @@ public class ReachingDefinitionFlowTests
             {
                 public static implicit operator string(ConversionSource source) => throw new Exception();
             }
+            class TextSource { public override string ToString() => throw new Exception(); }
+            struct TextStruct { public override string ToString() => throw new Exception(); }
             class RefHolder { public RefHolder(int unused, ref int item) { } }
             class ListHolder
             {
