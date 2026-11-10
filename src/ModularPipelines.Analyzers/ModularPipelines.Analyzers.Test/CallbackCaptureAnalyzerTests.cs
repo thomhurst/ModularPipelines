@@ -9,6 +9,76 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Action register = () => {};", "register += () => Pipeline.CreateBuilder().AddModule<BuildModule>();", true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "register += () => {};", true)]
+    [DataRow("Action register = () => {};", "register += () => {};", false)]
+    [DataRow("Action register = () => {};", "register += () => Pipeline.CreateBuilder().AddModule<BuildModule>(); register = () => {};", false)]
+    [DataRow("Action register = () => {};", "if (args.Length > 0) register += () => Pipeline.CreateBuilder().AddModule<BuildModule>();", true)]
+    [DataRow("Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();", "register += (register = () => {});", true)]
+    [DataRow("Action register = () => {};", "register += (register = () => Pipeline.CreateBuilder().AddModule<BuildModule>());", true)]
+    public async Task Tracks_Delegate_Additions(string declaration, string mutation, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                {{declaration}}
+                {{mutation}}
+                register();
+            };
+            callback(null!); return 0;
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("new Counter()", false)]
+    [DataRow("default(Counter)", false)]
+    [DataRow("(Counter?)null", true)]
+    [DataRow("new Counter?(new Counter())", true)]
+    public async Task Preserves_NonNull_Boxing_Proofs(string expression, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                object? target = {{expression}};
+                Action register = () => {};
+                try { Func<string?> method = target!.ToString; }
+                catch (NullReferenceException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public struct Counter { }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("Exception", true)]
+    [DataRow("InvalidOperationException", true)]
+    [DataRow("Exception", false)]
+    public async Task Tracks_Type_Parameter_Constructor_Exceptions(string caught, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            Execute<Thrower>(); return 0;
+            static void Execute<T>() where T : new()
+            {
+                Action callback = () =>
+                {
+                    Action register = () => {};
+                    try { _ = new T(); }
+                    catch ({{caught}}) { register = () => {{(registered ? "Pipeline.CreateBuilder().AddModule<BuildModule>()" : "{}")}}; }
+                    register();
+                };
+                callback();
+            }
+
+            public class Thrower
+            {
+                public Thrower() => throw new InvalidOperationException();
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
     [DataRow("_ = Holder.Value;", "TypeInitializationException", true)]
     [DataRow("Holder.Value = 1;", "TypeInitializationException", true)]
     [DataRow("Holder.Value += 1;", "TypeInitializationException", true)]

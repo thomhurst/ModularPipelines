@@ -41,6 +41,9 @@ internal sealed class ReachingDefinitionFlow(
                 when SymbolEqualityComparer.Default.Equals(declarator.Symbol, local) => initializer.Value,
             ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
                 when SymbolEqualityComparer.Default.Equals(target.Local, local) => assignment.Value,
+            ICompoundAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+                when IsDelegateAddition(assignment)
+                    && SymbolEqualityComparer.Default.Equals(target.Local, local) => assignment.Value,
             _ => null,
         }).OfType<IOperation>().GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
@@ -116,6 +119,10 @@ internal sealed class ReachingDefinitionFlow(
             return;
         }
 
+        // Compound assignment reads its previous targets before evaluating the right-hand side.
+        var addedTargets = operation is ICompoundAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+            && SymbolEqualityComparer.Default.Equals(target.Local, local) && IsDelegateAddition(assignment)
+            ? new HashSet<TextSpan>(state) : null;
         foreach (var child in operation.ChildOperations)
         {
             Visit(child, state, block, continuation, filter);
@@ -127,7 +134,7 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         FollowOperationExceptions(operation, state, block, continuation, filter);
-        ApplyDefinition(operation, state);
+        ApplyDefinition(operation, state, addedTargets);
     }
 
     private void FollowOperationExceptions(IOperation operation, HashSet<TextSpan> state, BasicBlock block,
@@ -248,15 +255,25 @@ internal sealed class ReachingDefinitionFlow(
         return known;
     }
 
-    private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state)
+    private static bool IsDelegateAddition(ICompoundAssignmentOperation assignment) =>
+        assignment.OperatorKind == BinaryOperatorKind.Add && assignment.Target.Type?.TypeKind == TypeKind.Delegate;
+
+    private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
     {
-        if (operation is ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
-            && SymbolEqualityComparer.Default.Equals(target.Local, local)
-            && definitions.ContainsKey(assignment.Value.Syntax.Span))
+        if (operation is not IAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+            || !SymbolEqualityComparer.Default.Equals(target.Local, local)
+            || !definitions.ContainsKey(assignment.Value.Syntax.Span))
         {
-            state.Clear();
-            state.Add(assignment.Value.Syntax.Span);
+            return;
         }
+
+        state.Clear();
+        if (addedTargets is not null)
+        {
+            state.UnionWith(addedTargets);
+        }
+
+        state.Add(assignment.Value.Syntax.Span);
     }
 
     private static bool CanThrow(IOperation operation)
@@ -275,6 +292,7 @@ internal sealed class ReachingDefinitionFlow(
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
+        or ITypeParameterObjectCreationOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
 
@@ -308,14 +326,12 @@ internal sealed class ReachingDefinitionFlow(
 
     private bool IsKnownNonNull(IOperation value, HashSet<ILocalSymbol> visited)
     {
-        while (value is IConversionOperation
-            { Conversion: { IsIdentity: true } or { IsReference: true } } conversion
-            && (!conversion.IsTryCast || conversion.Conversion.IsImplicit))
+        while (value is IConversionOperation conversion && PreservesNonNull(conversion))
         {
             value = conversion.Operand;
         }
 
-        if (value is IObjectCreationOperation or IInstanceReferenceOperation)
+        if (value is IObjectCreationOperation or IInstanceReferenceOperation || IsNonNullBoxing(value))
         {
             return true;
         }
@@ -336,6 +352,18 @@ internal sealed class ReachingDefinitionFlow(
         visited.Remove(reference.Local);
         return known;
     }
+
+    private static bool PreservesNonNull(IConversionOperation conversion) =>
+        conversion.Conversion is { IsIdentity: true } or { IsReference: true }
+            && (!conversion.IsTryCast || conversion.Conversion.IsImplicit);
+
+    private static bool IsNonNullableValueType(ITypeSymbol? type) =>
+        type is { IsValueType: true }
+            and not INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T };
+
+    private static bool IsNonNullBoxing(IOperation value) =>
+        value is IConversionOperation { Conversion.IsUserDefined: false, Type.IsReferenceType: true } conversion
+            && IsNonNullableValueType(conversion.Operand.Type);
 
     private bool HasOnlyNonNullDefinitions(IOperation root, IOperation value, ILocalSymbol localSymbol,
         HashSet<ILocalSymbol> visited) =>
