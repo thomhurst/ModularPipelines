@@ -545,15 +545,17 @@ public class OptionsClassGenerator : ICodeGenerator
             return;
         }
 
-        string GroupPresence(CliRequiredAlternativeGroup nested) =>
-            $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(Presence))})";
+        string GroupPresence(Func<string, string> getPresence) =>
+            $"({string.Join(" || ", propertyNames.Select(getPresence))})";
 
-        var presence = GroupPresence(group);
+        var presence = GroupPresence(Presence);
         string RenderedPresence(string propertyName) =>
             GetPresenceExpression(command, positionalArguments, propertyName, includeBlankValues: true);
         GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, RenderedPresence);
 
-        var activeGroup = activation is null ? presence : $"{activation} && {presence}";
+        // Rendered blank operands activate a branch, but cannot satisfy its required members.
+        var renderedPresence = GroupPresence(RenderedPresence);
+        var activeGroup = activation is null ? renderedPresence : $"{activation} && {renderedPresence}";
         GenerateRequiredGroupMemberValidation(sb, group, propertyNames, activeGroup, Presence);
 
         foreach (var nested in group.Groups)

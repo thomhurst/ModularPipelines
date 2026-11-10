@@ -69,6 +69,40 @@ public partial class RequiredConstructorValidationTests
     }
 
     [Test]
+    public async Task Optional_Positional_Branches_Require_Complete_Nonblank_Members_When_Rendered()
+    {
+        var scraper = new GhCliScraper(new ArtifactHelpExecutor("edit", "[<issue> <artifact-number> | <artifact-url>]"),
+            new HelpTextCache(NullLogger<HelpTextCache>.Instance), NullLogger<GhCliScraper>.Instance);
+        var commands = new List<CliCommandDefinition>();
+        await foreach (var parsed in scraper.ScrapeAsync())
+        {
+            commands.Add(parsed);
+        }
+        var command = commands.Single(parsed => parsed.FullCommand == "gh issue artifact edit");
+        var generated = await Generate([], command.PositionalArguments, command.RequiredAlternativeGroups);
+        var optionsType = Compile(generated).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+        var instance = Activator.CreateInstance(optionsType)!;
+        foreach (var (issue, number, url, valid) in new (string?, string?, string?, bool)[]
+                 { (null, null, null, true), ("", null, null, false), (" \t", null, null, false),
+                     (null, "", null, false), (null, " \t", null, false), ("", " \t", null, false),
+                     ("142", "", null, false), (" \t", "2", null, false), ("142", "2", null, true),
+                     (null, null, "https://example.test/artifact/2", true) })
+        {
+            optionsType.GetProperty("Issue")!.SetValue(instance, issue);
+            optionsType.GetProperty("ArtifactNumber")!.SetValue(instance, number);
+            optionsType.GetProperty("ArtifactUrl")!.SetValue(instance, url);
+            var arguments = new CommandArgumentBuilder().BuildArguments(
+                [.. command.PositionalArguments.Select(argument => new ArgumentPart(argument.PropertyName,
+                    optionsType.GetProperty(argument.PropertyName)!.GetValue,
+                    new CliArgumentAttribute(argument.PositionIndex) { Phase = argument.Phase }))], instance);
+            await Assert.That(arguments).IsEquivalentTo(
+                new[] { issue, number, url }.Where(value => value is not null), CollectionOrdering.Matching);
+            await Assert.That(Validator.TryValidateObject(instance, new(instance), [], true)).IsEqualTo(valid)
+                .Because($"Issue '{issue ?? "<omitted>"}', number '{number ?? "<omitted>"}', URL '{url ?? "<omitted>"}'.");
+        }
+    }
+
+    [Test]
     [Arguments("{<issue> <artifact-number> | <artifact-url>}")]
     [Arguments("[<issue> <artifact-number> | <artifact-url>]")]
     public async Task Positional_Alternative_Groups_Keep_Outer_Requiredness_And_Trailing_Order(string group)
