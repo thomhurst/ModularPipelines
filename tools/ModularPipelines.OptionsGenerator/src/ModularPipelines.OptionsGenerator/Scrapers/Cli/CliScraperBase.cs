@@ -1229,7 +1229,8 @@ public abstract partial class CliScraperBase : ICliScraper
         {
             IsRequired = group.IsRequired,
             IsChoice = group.IsChoice,
-            IsUsageFormChoice = group.IsChoice && (group.Groups.Count > 0
+            IsMutuallyExclusive = group.IsMutuallyExclusive,
+            IsUsageFormChoice = group.IsChoice && !group.IsMutuallyExclusive && (group.Groups.Count > 0
                 || group.Members.Any(member => member.ValuePattern is not null || member.RequiredFlagValue is not null)),
             Members = [.. members
                 .Select((member, index) => member! with { IsRequired = !group.IsChoice && group.Members[index].IsRequired })
