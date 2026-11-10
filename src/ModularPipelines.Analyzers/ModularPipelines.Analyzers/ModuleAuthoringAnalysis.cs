@@ -1014,7 +1014,7 @@ internal static class ModuleAuthoringAnalysis
         AddPotentialParameterStorage(operation.Body, exceptionalStorage);
         var handlerStorage = new HashSet<ISymbol>(exceptionalStorage, SymbolEqualityComparer.Default);
         if (VisitParameterWrites(operation.Body, storage)
-            || VisitParameterWriteBranches(operation.Catches, handlerStorage))
+            || VisitParameterWriteCatchHandlers(operation.Catches, handlerStorage))
         {
             return true;
         }
@@ -1027,6 +1027,57 @@ internal static class ModuleAuthoringAnalysis
 
         return operation.Finally is { } cleanup
             && (VisitParameterWrites(cleanup, exceptionalStorage) || VisitParameterWrites(cleanup, storage));
+    }
+
+    private static bool VisitParameterWriteCatchHandlers(
+        ImmutableArray<ICatchClauseOperation> handlers,
+        HashSet<ISymbol> storage)
+    {
+        var remaining = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+        var merged = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        foreach (var handler in handlers)
+        {
+            var filterStorage = new HashSet<ISymbol>(remaining, SymbolEqualityComparer.Default);
+            if (handler.Filter is { } filter && VisitParameterWrites(filter, filterStorage))
+            {
+                return true;
+            }
+
+            if (handler.Filter?.ConstantValue is not { HasValue: true, Value: false })
+            {
+                var handlerStorage = new HashSet<ISymbol>(filterStorage, SymbolEqualityComparer.Default);
+                if (VisitParameterWrites(handler.Handler, handlerStorage))
+                {
+                    return true;
+                }
+
+                merged.UnionWith(handlerStorage);
+            }
+
+            // A narrower exception type can skip the filter and retain its incoming bindings.
+            var catchesAll = handler.ExceptionType is null
+                || handler.ExceptionType.SpecialType == SpecialType.System_Object
+                || handler.ExceptionType.ToDisplayString() == "System.Exception";
+            if (catchesAll)
+            {
+                remaining.Clear();
+            }
+
+            // A failed filter keeps its side effects while selecting the next handler.
+            if (handler.Filter is not null
+                && handler.Filter.ConstantValue is not { HasValue: true, Value: true })
+            {
+                remaining.UnionWith(filterStorage);
+            }
+            else if (catchesAll)
+            {
+                break;
+            }
+        }
+
+        storage.Clear();
+        storage.UnionWith(merged);
+        return false;
     }
 
     private static bool VisitParameterWriteChildren(IOperation operation, HashSet<ISymbol> storage)
