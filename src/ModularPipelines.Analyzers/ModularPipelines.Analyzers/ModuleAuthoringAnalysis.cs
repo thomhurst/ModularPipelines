@@ -865,11 +865,19 @@ internal static class ModuleAuthoringAnalysis
                 IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
                 _ => null,
             })
-            .Where(static target => target is not null)
-            .SelectMany(static target => target!.DescendantsAndSelf())
-            .OfType<IParameterReferenceOperation>()
-            .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter));
+            .Any(target => AssignsParameter(target, parameter));
     }
+
+    private static bool AssignsParameter(IOperation? target, IParameterSymbol parameter) =>
+        target switch
+        {
+            IParameterReferenceOperation reference =>
+                SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter),
+            ITupleOperation tuple => tuple.Elements.Any(element => AssignsParameter(element, parameter)),
+            IConversionOperation conversion => AssignsParameter(conversion.Operand, parameter),
+            IParenthesizedOperation parenthesized => AssignsParameter(parenthesized.Operand, parameter),
+            _ => false,
+        };
 
     private static IMethodSymbol? GetContainingMemberMethod(ISymbol symbol)
     {

@@ -177,6 +177,8 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [TestMethod]
     [DataRow("Read(in token);")]
     [DataRow("if (false) { token = default; }")]
+    [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); dictionary[token] = 1;")]
+    [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); (dictionary[token], _) = (1, 2);")]
     public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)
     {
         var source = ModuleSource($$"""
