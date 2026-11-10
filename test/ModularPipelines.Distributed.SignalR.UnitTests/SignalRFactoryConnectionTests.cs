@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Connections;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -156,13 +157,44 @@ public class SignalRFactoryConnectionTests
         await Assert.That(attempts).IsEqualTo(1);
     }
 
+    [Test]
+    [Arguments(HttpTransportType.WebSockets)]
+    [Arguments(HttpTransportType.LongPolling)]
+    public async Task Server_Disposal_Drains_Disconnect_Before_Disposing_Services(HttpTransportType transport)
+    {
+        var disconnect = new BlockingDisconnectFilter();
+        await using var server = await StartServerAsync((context, next) => next(context), transport, disconnect);
+        disconnect.RootServices = server.Application.Services;
+        var stopping = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var subscription = server.Application.Lifetime.ApplicationStopping.Register(() => stopping.TrySetResult());
+        await using var worker = (IAsyncDisposable) await CreateFactory(server).CreateWorkerAsync(CancellationToken.None).WaitAsync(Timeout);
+        var workerDisposal = worker.DisposeAsync().AsTask();
+        Task? serverDisposal = null;
+        try
+        {
+            await disconnect.Started.Task.WaitAsync(Timeout);
+            serverDisposal = Task.Run(async () => await server.DisposeAsync());
+            await stopping.Task.WaitAsync(Timeout);
+
+            await Assert.That(serverDisposal.IsCompleted).IsFalse();
+            // The disconnect callback still needs the root provider to create its hub scope.
+            using var scope = server.Application.Services.CreateScope();
+            await Assert.That(scope.ServiceProvider.GetRequiredService<IHubContext<ConnectionTestHub>>()).IsNotNull();
+        }
+        finally
+        {
+            disconnect.Finish.TrySetResult();
+            await Task.WhenAll(workerDisposal, serverDisposal ?? Task.CompletedTask, disconnect.Completed.Task).WaitAsync(Timeout);
+        }
+    }
+
     private static SignalRDistributedCoordinatorFactory CreateFactory(
-        WebApplication server,
+        TestServer server,
         TimeSpan? connectionTimeout = null,
         TimeProvider? timeProvider = null) => new(
         MsOptions.Create(new SignalRDistributedOptions
         {
-            ListenUrl = new Uri(server.Urls.Single()),
+            ListenUrl = new Uri(server.Application.Urls.Single()),
             ConnectionTimeout = connectionTimeout ?? Timeout,
             MaxReconnectAttempts = 0,
         }),
@@ -170,26 +202,80 @@ public class SignalRFactoryConnectionTests
         NullLoggerFactory.Instance,
         timeProvider: timeProvider);
 
-    private static async Task<WebApplication> StartServerAsync(
+    private static async Task<TestServer> StartServerAsync(
         Func<HttpContext, RequestDelegate, Task> middleware,
-        HttpTransportType transports = HttpTransportType.WebSockets | HttpTransportType.ServerSentEvents | HttpTransportType.LongPolling)
+        HttpTransportType transports = HttpTransportType.WebSockets | HttpTransportType.ServerSentEvents | HttpTransportType.LongPolling,
+        IHubFilter? filter = null)
     {
         var builder = WebApplication.CreateBuilder();
         builder.WebHost.UseUrls("http://127.0.0.1:0");
         builder.Logging.ClearProviders();
-        builder.Services.AddSignalR();
+        builder.Services.AddSignalR(options =>
+        {
+            if (filter is not null)
+            {
+                options.AddFilter(filter);
+            }
+        });
         var server = builder.Build();
         server.Use(middleware);
         server.MapHub<ConnectionTestHub>("/pipeline-hub", options => options.Transports = transports);
         try
         {
             await server.StartAsync();
-            return server;
+            return new TestServer(server);
         }
         catch
         {
-            await server.DisposeAsync();
+            await new TestServer(server).DisposeAsync();
             throw;
+        }
+    }
+
+    private sealed class TestServer(WebApplication application) : IAsyncDisposable
+    {
+        public WebApplication Application { get; } = application;
+
+        public async ValueTask DisposeAsync()
+        {
+            try
+            {
+                // Stop the host while its provider is still available to disconnect callbacks.
+                await Application.StopAsync();
+            }
+            finally
+            {
+                await Application.DisposeAsync();
+            }
+        }
+    }
+
+    private sealed class BlockingDisconnectFilter : IHubFilter
+    {
+        public IServiceProvider RootServices { private get; set; } = null!;
+
+        public TaskCompletionSource Started { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource Finish { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public TaskCompletionSource Completed { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public async Task OnDisconnectedAsync(HubLifetimeContext context, Exception? exception,
+            Func<HubLifetimeContext, Exception?, Task> next)
+        {
+            Started.TrySetResult();
+            await Finish.Task;
+            try
+            {
+                using var scope = RootServices.CreateScope();
+                await next(context, exception);
+                Completed.TrySetResult();
+            }
+            catch (Exception failure)
+            {
+                Completed.TrySetException(failure);
+                throw;
+            }
         }
     }
 
