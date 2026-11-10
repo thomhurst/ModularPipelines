@@ -1,0 +1,196 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace ModularPipelines.Analyzers.Test;
+
+[TestClass]
+public class ReachingDefinitionFlowTests
+{
+    [TestMethod]
+    [DataRow("string value = \"old\"; value = \"new\"; [|Use(value)|];", "\"new\"")]
+    [DataRow("string value = \"old\"; if (flag) value = \"new\"; [|Use(value)|];", "\"new\"|\"old\"")]
+    [DataRow("string value = \"old\"; while (flag) { value = \"loop\"; } [|Use(value)|];", "\"loop\"|\"old\"")]
+    [DataRow("string value = \"old\"; do { value = \"loop\"; } while (flag); [|Use(value)|];", "\"loop\"")]
+    [DataRow("string value = \"old\"; goto end; value = \"dead\"; end: [|Use(value)|];", "\"old\"")]
+    [DataRow("string value = \"old\"; while (flag) { value = \"loop\"; break; value = \"dead\"; } [|Use(value)|];", "\"loop\"|\"old\"")]
+    [DataRow("string value = \"old\"; while (flag) { value = \"loop\"; continue; value = \"dead\"; } [|Use(value)|];", "\"loop\"|\"old\"")]
+    [DataRow("string value = \"old\"; if (false) value = \"dead\"; [|Use(value)|];", "\"old\"")]
+    [DataRow("string value = \"old\"; string other = \"other\"; (value, other) = (\"tuple\", value); [|Use(value)|];", "\"tuple\"")]
+    [DataRow("string value = \"old\"; string other = value; value = other; [|Use(value)|];", "other")]
+    [DataRow("string value = \"old\"; Action nested = () => value = \"nested\"; nested(); [|Use(value)|];", "\"old\"")]
+    [DataRow("string value = \"old\"; switch (flag) { case true: value = \"switch\"; break; default: value = \"default\"; break; } [|Use(value)|];", "\"default\"|\"switch\"")]
+    [DataRow("string value = \"old\"; (value, _) = ((\"tuple\", \"ignored\")); [|Use(value)|];", "\"tuple\"")]
+    [DataRow("string value = \"old\"; void Nested() { value = \"nested\"; } Nested(); [|Use(value)|];", "\"old\"")]
+    public void Local_Definitions_Follow_Control_Flow(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
+    public void Delegate_Addition_Preserves_Previous_Definitions() => AssertFlow(
+        "Action value = A; value += B; [|Use(value)|];", "A|B");
+
+    [TestMethod]
+    [DataRow("Action nested = () => { [|Use(value)|]; };", "")]
+    [DataRow("void Nested() { [|Use(value)|]; }", "")]
+    [DataRow("Action nested = () => { if (flag) value = \"inner\"; [|Use(value)|]; };", "\"inner\"")]
+    public void Nested_Callable_Inherits_Incoming_Value(string callable, string expected) => AssertFlow(
+        "string value = \"outer\"; " + callable, expected, incoming: true);
+
+    [TestMethod]
+    public void Unreachable_Query_Has_No_Definitions() => AssertFlow(
+        "string value = \"old\"; return; [|Use(value)|];", "");
+
+    [TestMethod]
+    [DataRow("try { value = \"try\"; Unknown(); value = \"after\"; } catch { [|Use(value)|]; }", "\"try\"")]
+    [DataRow("try { throw null; value = \"dead\"; } catch { [|Use(value)|]; }", "\"old\"")]
+    [DataRow("try { Unknown(); } finally { value = \"finally\"; } [|Use(value)|];", "\"finally\"")]
+    [DataRow("try { Unknown(); } catch when ((value = \"filter\") != null) { [|Use(value)|]; }", "\"filter\"")]
+    [DataRow("try { Unknown(); } catch when ((value = \"filter\") == null) { } catch { [|Use(value)|]; }", "\"filter\"")]
+    [DataRow("try { Unknown(); } catch when (ThrowFilter(value = \"filter\")) { } catch { [|Use(value)|]; }", "\"filter\"")]
+    [DataRow("try { try { Unknown(); } finally { value = \"cleanup\"; } } catch when (flag) { [|Use(value)|]; }", "\"cleanup\"")]
+    [DataRow("try { Unknown(); } catch when (Observe(value = \"filter\")) { } finally { value = \"cleanup\"; } [|Use(value)|];", "\"cleanup\"")]
+    [DataRow("try { try { Unknown(); } finally { value = \"cleanup\"; } } catch when (Observe(value = \"filter\")) { } catch { [|Use(value)|]; }", "\"cleanup\"")]
+    [DataRow("try { try { Unknown(); } catch { value = \"inner\"; throw; } } catch { [|Use(value)|]; }", "\"inner\"")]
+    [DataRow("try { try { Unknown(); } finally { value = \"cleanup\"; } } catch when ([|Observe(value)|]) { }", "\"old\"")]
+    public void Exceptions_Filters_And_Finally_Keep_Definitions(string statements, string expected) =>
+        AssertFlow("string value = \"old\"; " + statements, expected);
+
+    [TestMethod]
+    [DataRow("DivideByZeroException", "\"rethrow\"")]
+    [DataRow("InvalidOperationException", "")]
+    public void Rethrow_Preserves_Active_Exception_Type(string caught, string expected) => AssertFlow($$"""
+        string value = "old";
+        try
+        {
+            value = "before";
+            try { int zero = 0; var number = 1 / zero; }
+            catch (Exception) { value = "rethrow"; throw; }
+        }
+        catch ({{caught}}) { [|Use(value)|]; }
+        """, expected);
+
+    [TestMethod]
+    public void Nested_Handler_Does_Not_Replace_Outer_Rethrow_Type() => AssertFlow("""
+        string value = "old";
+        try
+        {
+            value = "before";
+            try { int zero = 0; var number = 1 / zero; }
+            catch (Exception)
+            {
+                try { int zero = 0; var number = 1 / zero; } catch (DivideByZeroException) { }
+                value = "rethrow";
+                throw;
+            }
+        }
+        catch (DivideByZeroException) { [|Use(value)|]; }
+        """, "\"rethrow\"");
+
+    [TestMethod]
+    [DataRow("try { [|return value;|] } finally { value = \"cleanup\"; }", "\"cleanup\"")]
+    [DataRow("try { [|return value;|] } finally { throw null; }", "")]
+    [DataRow("try { try { [|return value;|] } finally { throw null; } } catch { return \"replacement\"; }", "")]
+    [DataRow("try { [|return value;|] } finally { try { throw null; } catch { value = \"cleanup\"; } }", "\"cleanup\"")]
+    [DataRow("try { [|return value;|] } finally { if (flag) throw null; value = \"cleanup\"; }", "\"cleanup\"")]
+    [DataRow("try { try { [|return value;|] } finally { value = \"inner\"; } } finally { value = \"outer\"; }", "\"outer\"")]
+    public void Selected_Return_Must_Complete(string statements, string expected) =>
+        AssertFlow("string value = \"old\"; " + statements, expected, returns: true);
+
+    [TestMethod]
+    [DataRow("holder.Property = (value = \"rhs\");", "\"rhs\"")]
+    [DataRow("value = holder.Property;", "\"old\"")]
+    [DataRow("holder.Field = (value = \"rhs\");", "\"rhs\"")]
+    [DataRow("holder.Number += (value = \"rhs\").Length;", "\"old\"|\"rhs\"")]
+    [DataRow("((dynamic)holder).Property = (value = \"rhs\");", "\"rhs\"")]
+    [DataRow("((dynamic)holder)[0] = (value = \"rhs\");", "\"rhs\"")]
+    [DataRow("var converted = (int)(object)(value = \"rhs\");", "\"rhs\"")]
+    [DataRow("var number = checked(int.MaxValue + (value = \"rhs\").Length);", "\"rhs\"")]
+    [DataRow("var number = 1 / (value = \"rhs\").Length;", "\"rhs\"")]
+    [DataRow("var created = new Holder(value = \"rhs\");", "\"rhs\"")]
+    [DataRow("Holder.StaticField = (value = \"rhs\");", "\"rhs\"")]
+    [DataRow("holder.RefProperty = (value = \"rhs\");", "\"old\"")]
+    [DataRow("var number = (decimal)int.MaxValue + (value = \"rhs\").Length;", "\"rhs\"")]
+    public void Exception_Timing_Respects_Evaluation_Order(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; Holder holder = null; try { " + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    [DataRow("Holder holder = new Holder();", "", "")]
+    [DataRow("Holder holder = new Holder();", "ref Holder alias = ref (flag ? ref holder : ref other);", "\"after\"")]
+    [DataRow("Holder holder = new Holder();", "ref Holder alias = ref other; alias = ref (flag ? ref holder : ref other);", "\"after\"")]
+    [DataRow("Holder holder = new Holder();", "Change(ref (flag ? ref holder : ref other));", "\"after\"")]
+    public void Conditional_Ref_Aliases_Invalidate_NonNull_Proof(string declaration, string alias, string expected) => AssertFlow($$"""
+        string value = "old";
+        {{declaration}}
+        Holder other = null;
+        {{alias}}
+        value = "after";
+        try { var field = holder.Field; } catch (NullReferenceException) { [|Use(value)|]; }
+        """, expected);
+
+    [TestMethod]
+    [DataRow("", "")]
+    [DataRow("ref object[] alias = ref (flag ? ref array : ref other);", "\"after\"")]
+    [DataRow("ref object[] alias = ref other; alias = ref (flag ? ref array : ref other);", "\"after\"")]
+    [DataRow("Change(ref (flag ? ref array : ref other));", "\"after\"")]
+    public void Conditional_Ref_Aliases_Invalidate_Exact_Array_Proof(string alias, string expected) => AssertFlow($$"""
+        string value = "old";
+        object[] array = new object[1];
+        object[] other = new string[1];
+        {{alias}}
+        value = "after";
+        try { array[0] = item; } catch (ArrayTypeMismatchException) { [|Use(value)|]; }
+        """, expected);
+
+    private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false)
+    {
+        var source = $$"""
+            using System;
+            class Holder
+            {
+                public Holder(string text = null) { }
+                public string Field;
+                public static string StaticField;
+                public string Property { get; set; }
+                public int Number { get; set; }
+                public ref string RefProperty => ref Field;
+            }
+            class Example
+            {
+                static void A() { }
+                static void B() { }
+                static void Use<T>(T item) { }
+                static void Unknown() { }
+                static bool ThrowFilter(string item) => true;
+                static bool Observe(string item) => true;
+                static void Change<T>(ref T item) { }
+                static {{(returns ? "string" : "void")}} Run(bool flag, object item)
+                {
+                    {{body}}
+                }
+            }
+            """;
+        var start = source.IndexOf("[|", StringComparison.Ordinal);
+        var end = source.IndexOf("|]", StringComparison.Ordinal);
+        Assert.IsGreaterThanOrEqualTo(0, start);
+        var span = new TextSpan(start, end - start - 2);
+        source = source.Remove(end, 2).Remove(start, 2);
+        var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.Preview));
+        var references = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator)
+            .Select(static path => MetadataReference.CreateFromFile(path));
+        var compilation = CSharpCompilation.Create("FlowTest", [tree], references,
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        var errors = compilation.GetDiagnostics().Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
+        Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(static error => error.ToString())));
+        var model = compilation.GetSemanticModel(tree);
+        var method = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().Single(static method => method.Identifier.ValueText == "Run");
+        var root = model.GetOperation(method)!;
+        var operation = root.DescendantsAndSelf().First(candidate => candidate.Syntax.Span == span);
+        var local = root.DescendantsAndSelf().OfType<IVariableDeclaratorOperation>().First(static declarator => declarator.Symbol.Name == "value").Symbol;
+        Assert.IsTrue(ReachingDefinitionFlow.TryGetReachingLocalValues(root, operation, local, out var values, out var inherits));
+        Assert.AreEqual(incoming, inherits);
+        Assert.AreSequenceEqual([.. expected.Split('|', StringSplitOptions.RemoveEmptyEntries).Order(StringComparer.Ordinal)], [.. values.Select(static value => value.Syntax.ToString()).Order(StringComparer.Ordinal)], "Actual definitions: " + string.Join(" | ", values.Select(static value => value.Syntax.ToString())));
+    }
+}
