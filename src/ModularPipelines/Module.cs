@@ -5,6 +5,7 @@ using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Events;
+using ModularPipelines.Helpers;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -88,9 +89,12 @@ public abstract class Module<T> : IInternalModule, IPlanningModuleCopyProvider
                 return Task.FromResult<IModuleResult>(provisionalResult);
             }
 
-            return (Volatile.Read(ref _acceptedDistributedResult) ?? CompletionSource.Task).ContinueWith(
+            var resultTask = (Volatile.Read(ref _acceptedDistributedResult) ?? CompletionSource.Task).ContinueWith(
                 static t => (IModuleResult) t.Result,
                 TaskContinuationOptions.ExecuteSynchronously);
+            // Status probes may never await this independently faulted projection.
+            TaskObservation.ObserveFault(resultTask);
+            return resultTask;
         }
     }
 

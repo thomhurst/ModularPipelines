@@ -1,5 +1,6 @@
 using System.Net;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Helpers;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
@@ -29,7 +30,7 @@ internal interface IHttpLogger
         ILogger logger,
         CancellationToken cancellationToken)
     {
-        return PrintRequest(request, logger).WaitAsync(cancellationToken);
+        return WaitForLoggingAsync(PrintRequest(request, logger), cancellationToken);
     }
 
     /// <summary>
@@ -57,7 +58,7 @@ internal interface IHttpLogger
         CancellationToken cancellationToken,
         Uri? baseAddress = null)
     {
-        return PrintRequest(request, logger, options).WaitAsync(cancellationToken);
+        return WaitForLoggingAsync(PrintRequest(request, logger, options), cancellationToken);
     }
 
     /// <summary>
@@ -80,7 +81,7 @@ internal interface IHttpLogger
         ILogger logger,
         CancellationToken cancellationToken)
     {
-        return PrintResponse(response, logger).WaitAsync(cancellationToken);
+        return WaitForLoggingAsync(PrintResponse(response, logger), cancellationToken);
     }
 
     /// <summary>
@@ -106,7 +107,7 @@ internal interface IHttpLogger
         HttpLoggingOptions options,
         CancellationToken cancellationToken)
     {
-        return PrintResponse(response, logger, options).WaitAsync(cancellationToken);
+        return WaitForLoggingAsync(PrintResponse(response, logger, options), cancellationToken);
     }
 
     /// <summary>
@@ -122,4 +123,11 @@ internal interface IHttpLogger
     /// <param name="duration">The duration to print.</param>
     /// <param name="logger">The current module logger.</param>
     void PrintDuration(TimeSpan duration, ILogger logger);
+
+    private static Task WaitForLoggingAsync(Task loggingTask, CancellationToken cancellationToken)
+    {
+        // Cancellation stops waiting, but a legacy logger can still fault while buffering content.
+        TaskObservation.ObserveFault(loggingTask);
+        return loggingTask.WaitAsync(cancellationToken);
+    }
 }
