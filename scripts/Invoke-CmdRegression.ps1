@@ -21,21 +21,27 @@ $phases = @(
 # Keep this shell alive across phases: a fresh shell can fail before collecting evidence.
 foreach ($phase in $phases) {
     $log = Join-Path $LogDirectory "$($phase.Name).log"
-    & $GuardScript -SingleNode:$phase.SingleNode -TimeoutSeconds $phase.Timeout -LogPath $log -DotNetArguments $phase.Arguments
-    $phaseExitCode = $LASTEXITCODE
-    Add-Content -LiteralPath $log -Value "Cmd $($phase.Name) exited with code $phaseExitCode at $([DateTimeOffset]::UtcNow.ToString('O'))"
-    Get-Content -LiteralPath $log -Tail 100
-
-    $probe = Invoke-WindowsStartupProbe -FilePath $ProbePath -Arguments $ProbeArguments -TimeoutSeconds $ProbeTimeoutSeconds
+    $phaseExitCode = 1
     try {
-        & {
-            $probe | ConvertTo-Json -Compress | Write-Output
-            Write-WindowsStartupSnapshot -Phase $phase.Name -IncludeEvents:($phaseExitCode -ne 0 -or $probe.ExitCode -ne 0)
-        } |
-            Tee-Object -FilePath (Join-Path $LogDirectory "$($phase.Name)-startup.log")
+        & $GuardScript -SingleNode:$phase.SingleNode -TimeoutSeconds $phase.Timeout -LogPath $log -DotNetArguments $phase.Arguments
+        $phaseExitCode = $LASTEXITCODE
+        Add-Content -LiteralPath $log -Value "Cmd $($phase.Name) exited with code $phaseExitCode at $([DateTimeOffset]::UtcNow.ToString('O'))"
+        Get-Content -LiteralPath $log -Tail 100
     }
-    catch {
-        Write-Output "Windows startup snapshot unavailable: $($_.Exception.GetType().FullName)"
+    finally {
+        # Capture startup evidence even when guard setup throws, preserving that error.
+        $probe = [pscustomobject]@{ ExitCode = 126 }
+        try {
+            $probe = Invoke-WindowsStartupProbe -FilePath $ProbePath -Arguments $ProbeArguments -TimeoutSeconds $ProbeTimeoutSeconds
+            & {
+                $probe | ConvertTo-Json -Compress | Write-Output
+                Write-WindowsStartupSnapshot -Phase $phase.Name -IncludeEvents:($phaseExitCode -ne 0 -or $probe.ExitCode -ne 0)
+            } |
+                Tee-Object -FilePath (Join-Path $LogDirectory "$($phase.Name)-startup.log")
+        }
+        catch {
+            Write-Output "Windows startup snapshot unavailable: $($_.Exception.GetType().FullName)"
+        }
     }
 
     # Diagnostics must never turn a phase failure (including guard limits) green.

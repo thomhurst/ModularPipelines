@@ -11,6 +11,7 @@ param([switch]$SingleNode, [int]$TimeoutSeconds, [string]$LogPath, [string[]]$Do
     SingleNode = [bool]$SingleNode
     Arguments = $DotNetArguments
 } | ConvertTo-Json -Compress | Add-Content (Join-Path $env:CASE_ROOT 'calls.jsonl')
+if ($DotNetArguments[0] -eq $env:THROW_PHASE) { throw 'GuardFixtureFailure' }
 Set-Content -LiteralPath $LogPath -Value "phase $($DotNetArguments[0])"
 if ($DotNetArguments[0] -eq $env:FAIL_PHASE) { exit ([int]$env:FAIL_CODE) }
 exit 0
@@ -18,7 +19,7 @@ exit 0
 
 function Invoke-Case {
     param([string]$Name, [int]$Expected, [int]$Phases, [string]$FailPhase = '', [int]$FailCode = 0,
-        [string]$ProbeCommand = 'exit 0', [int]$ProbeTimeout = 10, [switch]$MissingProbe)
+        [string]$ProbeCommand = 'exit 0', [int]$ProbeTimeout = 10, [switch]$MissingProbe, [switch]$ThrowGuard)
 
     $directory = Join-Path $testRoot $Name
     $null = New-Item -ItemType Directory $directory
@@ -30,6 +31,7 @@ function Invoke-Case {
     $start.Environment['CASE_ROOT'] = $directory
     $start.Environment['FAIL_PHASE'] = $FailPhase
     $start.Environment['FAIL_CODE'] = $FailCode.ToString()
+    $start.Environment['THROW_PHASE'] = if ($ThrowGuard) { $FailPhase } else { '' }
     # -Command preserves array binding for the probe's arguments.
     $literal = { param($value) "'" + $value.Replace("'", "''") + "'" }
     $probePath = if ($MissingProbe) { Join-Path $directory 'missing.exe' } else { (Get-Process -Id $PID).Path }
@@ -50,6 +52,13 @@ function Invoke-Case {
         $calls = @(Get-Content (Join-Path $directory 'calls.jsonl') | ConvertFrom-Json)
         if ($calls.Count -ne $Phases) { throw "$Name ran $($calls.Count) phases; expected $Phases." }
         if ($text -notmatch 'Windows startup snapshot:') { throw "$Name lost the in-process diagnostics." }
+        if ($ThrowGuard) {
+            if ($text -notmatch 'GuardFixtureFailure') { throw "$Name lost the original guard error." }
+            $snapshot = Get-Content -LiteralPath (Join-Path $directory "$FailPhase-startup.log") -Raw
+            if ($snapshot -notmatch 'Windows startup snapshot:' -or $snapshot -notmatch '"ExitCode":23') {
+                throw "$Name lost the startup snapshot or failed probe artifact."
+            }
+        }
         return $calls
     }
     finally { $process.Dispose() }
@@ -77,6 +86,7 @@ try {
     $null = Invoke-Case -Name test-failure -Expected 42 -Phases 3 -FailPhase run -FailCode 42
     $null = Invoke-Case -Name probe-failure -Expected 23 -Phases 1 -ProbeCommand 'exit 23'
     $null = Invoke-Case -Name preserve-phase-failure -Expected 7 -Phases 1 -FailPhase restore -FailCode 7 -ProbeCommand 'exit 23'
+    $null = Invoke-Case -Name guard-error -Expected 1 -Phases 1 -FailPhase restore -ThrowGuard -ProbeCommand 'exit 23'
     $null = Invoke-Case -Name missing-probe -Expected 126 -Phases 1 -MissingProbe
     $null = Invoke-Case -Name probe-timeout -Expected 124 -Phases 1 -ProbeCommand 'Start-Sleep -Seconds 20' -ProbeTimeout 1
     if ($IsWindows) {
