@@ -252,7 +252,7 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
-        IInvocationOperation or IPropertyReferenceOperation
+        IInvocationOperation or IPropertyReferenceOperation or IEventAssignmentOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
 

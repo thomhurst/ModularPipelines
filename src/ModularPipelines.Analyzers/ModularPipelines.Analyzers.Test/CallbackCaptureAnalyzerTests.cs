@@ -9,6 +9,58 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("+=")]
+    [DataRow("-=")]
+    public async Task Tracks_Event_Accessor_Exception_Paths_For_Callback_Definitions(string assignment)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => {};
+                try { Publisher.Event {{assignment}} () => {}; }
+                catch (InvalidOperationException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public static class Publisher
+            {
+                public static event Action Event
+                {
+                    add { throw new InvalidOperationException(); }
+                    remove { throw new InvalidOperationException(); }
+                }
+            }
+            """));
+    }
+
+    [TestMethod]
+    [DataRow("+=")]
+    [DataRow("-=")]
+    public async Task Event_Accessor_Exceptions_Follow_Handler_Evaluation(string assignment)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                try { Publisher.Event {{assignment}} register = () => {}; }
+                catch (InvalidOperationException) { }
+                register();
+            };
+            callback(null!); return 0;
+
+            public static class Publisher
+            {
+                public static event Action Event
+                {
+                    add { throw new InvalidOperationException(); }
+                    remove { throw new InvalidOperationException(); }
+                }
+            }
+            """, registered: false), UnregisteredModule());
+    }
+
+    [TestMethod]
     [DataRow("new Holder()", "NullReferenceException", false)]
     [DataRow("null!", "InvalidOperationException", false)]
     [DataRow("null!", "NullReferenceException", true)]
