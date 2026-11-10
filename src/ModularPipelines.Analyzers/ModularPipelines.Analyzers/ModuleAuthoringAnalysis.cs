@@ -859,52 +859,247 @@ internal static class ModuleAuthoringAnalysis
     {
         var operations = operation.DescendantsAndSelf().ToImmutableArray();
         var reachableCallables = GetPotentiallyExecutedCallables(operation, operations);
-        var reachableOperations = operations
-            .Where(IsInReachableBranch)
-            .Where(candidate => IsInsideReachableCallable(candidate, reachableCallables))
-            .ToImmutableArray();
-        var storage = GetParameterStorage(reachableOperations, parameter);
-        return reachableOperations
-            .Select(static candidate => candidate switch
+        // Ref locals cannot be captured, so alias bindings stay within one callable.
+        foreach (var root in operations.Where(candidate => ReferenceEquals(candidate, operation)
+                     || candidate is IAnonymousFunctionOperation or ILocalFunctionOperation))
+        {
+            if (!IsInReachableBranch(root)
+                || !IsInsideReachableCallable(root, reachableCallables)
+                || (GetCallableSymbol(root) is { } callable && !reachableCallables.Contains(callable)))
             {
-                ISimpleAssignmentOperation { IsRef: true } => null,
-                IAssignmentOperation assignment => assignment.Target,
-                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
-                _ => null,
-            })
-            .Any(target => ReferencesStorage(target, storage));
+                continue;
+            }
+
+            var body = root switch
+            {
+                IAnonymousFunctionOperation anonymous => anonymous.Body,
+                ILocalFunctionOperation local => local.Body,
+                _ => root,
+            };
+            var storage = new HashSet<ISymbol>(SymbolEqualityComparer.Default) { parameter };
+            if (body is not null
+                && body.DescendantsAndSelf().OfType<IBranchOperation>().Any(static branch => branch.BranchKind == BranchKind.GoTo))
+            {
+                // Unstructured jumps can revisit bindings in any source order.
+                AddPotentialParameterStorage(body, storage);
+                if (body.DescendantsAndSelf()
+                    .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(body)))
+                    .Where(IsInReachableBranch)
+                    .Any(candidate => ReferencesStorage(GetWrittenStorage(candidate), storage)))
+                {
+                    return true;
+                }
+
+                continue;
+            }
+
+            if (body is not null && VisitParameterWrites(body, storage))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    private static HashSet<ISymbol> GetParameterStorage(
-        ImmutableArray<IOperation> operations,
-        IParameterSymbol parameter)
+    private static bool VisitParameterWrites(IOperation operation, HashSet<ISymbol> storage)
     {
-        var storage = new HashSet<ISymbol>(SymbolEqualityComparer.Default) { parameter };
+        if (!IsInReachableBranch(operation)
+            || operation is IAnonymousFunctionOperation or ILocalFunctionOperation)
+        {
+            return false;
+        }
+
+        if (operation is IConditionalOperation conditional)
+        {
+            if (VisitParameterWrites(conditional.Condition, storage))
+            {
+                return true;
+            }
+
+            if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+            {
+                var branch = condition ? conditional.WhenTrue : conditional.WhenFalse;
+                return branch is not null && VisitParameterWrites(branch, storage);
+            }
+
+            return VisitParameterWriteBranches(
+                [conditional.WhenTrue, conditional.WhenFalse], storage);
+        }
+
+        if (operation is ISwitchOperation @switch)
+        {
+            var branches = @switch.Cases.Cast<IOperation?>();
+            if (!@switch.Cases.SelectMany(static @case => @case.Clauses).Any(static clause => clause is IDefaultCaseClauseOperation))
+            {
+                branches = branches.Append(null);
+            }
+
+            return VisitParameterWrites(@switch.Value, storage)
+                || VisitParameterWriteBranches(branches, storage);
+        }
+
+        if (operation is ISwitchExpressionOperation switchExpression)
+        {
+            return VisitParameterWrites(switchExpression.Value, storage)
+                || VisitParameterWriteBranches(switchExpression.Arms, storage);
+        }
+
+        if (operation is IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary)
+        {
+            return VisitParameterWrites(binary.LeftOperand, storage)
+                || VisitParameterWriteBranches([binary.RightOperand, null], storage);
+        }
+
+        if (operation is ILoopOperation loop)
+        {
+            var children = loop.ChildOperations.ToImmutableArray();
+            if (loop is IForLoopOperation forLoop)
+            {
+                if (forLoop.Before.Any(child => VisitParameterWrites(child, storage)))
+                {
+                    return true;
+                }
+
+                children = [.. children.Where(child => !forLoop.Before.Contains(child))];
+            }
+
+            // A binding at the end of one iteration can affect an earlier write in the next.
+            var loopStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+            int previousCount;
+            do
+            {
+                previousCount = loopStorage.Count;
+                var iterationStorage = new HashSet<ISymbol>(loopStorage, SymbolEqualityComparer.Default);
+                if (children.Any(child => VisitParameterWrites(child, iterationStorage)))
+                {
+                    return true;
+                }
+
+                loopStorage.UnionWith(iterationStorage);
+            }
+            while (previousCount != loopStorage.Count);
+
+            storage.UnionWith(loopStorage);
+            return false;
+        }
+
+        if (operation is ITryOperation @try)
+        {
+            // An exception can enter a handler or finally after any protected operation.
+            var exceptionalStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+            AddPotentialParameterStorage(@try.Body, exceptionalStorage);
+            var handlerStorage = new HashSet<ISymbol>(exceptionalStorage, SymbolEqualityComparer.Default);
+            if (VisitParameterWrites(@try.Body, storage)
+                || VisitParameterWriteBranches(@try.Catches, handlerStorage))
+            {
+                return true;
+            }
+
+            storage.UnionWith(handlerStorage);
+            foreach (var handler in @try.Catches)
+            {
+                AddPotentialParameterStorage(handler, exceptionalStorage);
+            }
+
+            return @try.Finally is { } cleanup
+                && (VisitParameterWrites(cleanup, exceptionalStorage) || VisitParameterWrites(cleanup, storage));
+        }
+
+        if (operation.ChildOperations.Any(child => VisitParameterWrites(child, storage)))
+        {
+            return true;
+        }
+
+        if (operation is ISimpleAssignmentOperation { IsRef: true }
+            or IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref })
+        {
+            UpdateParameterStorage(operation, storage, removePreviousBinding: true);
+            return false;
+        }
+
+        return ReferencesStorage(GetWrittenStorage(operation), storage);
+    }
+
+    private static IOperation? GetWrittenStorage(IOperation operation) => operation switch
+    {
+        ISimpleAssignmentOperation { IsRef: true } => null,
+        IAssignmentOperation assignment => assignment.Target,
+        IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
+        _ => null,
+    };
+
+    private static void AddPotentialParameterStorage(IOperation operation, HashSet<ISymbol> storage)
+    {
+        var bindings = operation.DescendantsAndSelf()
+            .Where(IsInReachableBranch)
+            .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(operation)))
+            .ToImmutableArray();
         int previousCount;
         do
         {
             previousCount = storage.Count;
-            foreach (var candidate in operations)
+            foreach (var candidate in bindings)
             {
-                // Ref bindings expose storage; only a subsequent write changes its value.
-                var binding = candidate switch
-                {
-                    IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref, Initializer: { } initializer } declarator =>
-                        (Alias: declarator.Symbol, Value: initializer.Value),
-                    ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation target } assignment
-                        when target.Local.RefKind == RefKind.Ref =>
-                        (Alias: target.Local, Value: assignment.Value),
-                    _ => (Alias: (ILocalSymbol?) null, Value: (IOperation?) null),
-                };
-                if (binding.Alias is not null && ReferencesStorage(binding.Value, storage))
-                {
-                    storage.Add(binding.Alias);
-                }
+                UpdateParameterStorage(candidate, storage, removePreviousBinding: false);
             }
         }
         while (previousCount != storage.Count);
+    }
 
-        return storage;
+    private static bool VisitParameterWriteBranches(
+        IEnumerable<IOperation?> branches,
+        HashSet<ISymbol> storage)
+    {
+        var merged = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        foreach (var branch in branches)
+        {
+            if (branch is not null && !IsInReachableBranch(branch))
+            {
+                continue;
+            }
+
+            var branchStorage = new HashSet<ISymbol>(storage, SymbolEqualityComparer.Default);
+            if (branch is not null && VisitParameterWrites(branch, branchStorage))
+            {
+                return true;
+            }
+
+            merged.UnionWith(branchStorage);
+        }
+
+        storage.Clear();
+        storage.UnionWith(merged);
+        return false;
+    }
+
+    private static void UpdateParameterStorage(
+        IOperation operation,
+        HashSet<ISymbol> storage,
+        bool removePreviousBinding)
+    {
+        var binding = operation switch
+        {
+            IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref, Initializer: { } initializer } declarator =>
+                (Alias: declarator.Symbol, Value: initializer.Value),
+            ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation target } assignment
+                when target.Local.RefKind == RefKind.Ref =>
+                (Alias: target.Local, Value: assignment.Value),
+            _ => (Alias: (ILocalSymbol?) null, Value: (IOperation?) null),
+        };
+        if (binding.Alias is null)
+        {
+            return;
+        }
+
+        if (ReferencesStorage(binding.Value, storage))
+        {
+            storage.Add(binding.Alias);
+        }
+        else if (removePreviousBinding)
+        {
+            storage.Remove(binding.Alias);
+        }
     }
 
     private static HashSet<IMethodSymbol> GetPotentiallyExecutedCallables(

@@ -162,6 +162,15 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("ref var alias = ref token; Reset(ref alias);", false)]
     [DataRow("ref var alias = ref token; ResetOut(out alias);", false)]
     [DataRow("var other = default(CancellationToken); ref var alias = ref other; alias = ref (Environment.TickCount > 0 ? ref token : ref other); alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; while (Environment.TickCount > 0) { alias = default; alias = ref token; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; for (alias = ref other; Environment.TickCount > 0;) { alias = default; alias = ref token; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; if (Environment.TickCount > 0) { alias = ref other; } alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; if (Environment.TickCount > 0) { alias = ref other; } else { alias = default; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; try { alias = ref other; } finally { token = default; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; switch (Environment.TickCount) { case 0: alias = ref other; break; } alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; _ = Environment.TickCount > 0 && (alias = ref other).CanBeCanceled; alias = default;", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; try { Read(token); alias = ref other; } finally { alias = default; }", false)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; again: alias = default; alias = ref token; if (Environment.TickCount > 0) goto again;", false)]
     public async Task Reports_Overwritten_Helper_Token_Captured_By_Callback(string write, bool insideCallback)
     {
         var source = ModuleSource($$"""
@@ -178,6 +187,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 }, token);
             }
 
+            private static void Read(CancellationToken token) { }
             private static void Reset(ref CancellationToken token) => token = default;
             private static void ResetOut(out CancellationToken token) => token = default;
             private static void Store(Action callback) { }
@@ -198,6 +208,16 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("var other = default(CancellationToken); ref var alias = ref other; alias = ref token; _ = alias.CanBeCanceled;")]
     [DataRow("ref var first = ref token; ref var second = ref first; _ = second.CanBeCanceled;")]
     [DataRow("var other = default(CancellationToken); ref var alias = ref (false ? ref token : ref other); alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; alias = default; alias = ref token;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; ReadWrite(ref alias); alias = ref token;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; ref var second = ref alias; second = default; alias = ref token;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; alias = ref other; alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; alias = ref other; ref var second = ref alias; second = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; if (Environment.TickCount > 0) { alias = ref other; } else { alias = ref other; } alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; if (true) { alias = ref other; } alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; while (Environment.TickCount > 0) { alias = ref other; alias = default; alias = ref token; }")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; switch (Environment.TickCount) { case 0: alias = ref other; break; default: alias = ref other; break; } alias = default;")]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref other; try { alias = default; alias = ref token; } finally { Read(in token); }")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); dictionary[token] = 1;")]
     [DataRow("var dictionary = new System.Collections.Generic.Dictionary<CancellationToken, int>(); (dictionary[token], _) = (1, 2);")]
     public async Task Recognizes_Unmodified_Helper_Token_Captured_By_Callback(string statement)
@@ -213,6 +233,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
             }
 
             private static void Read(in CancellationToken token) { }
+            private static void ReadWrite(ref CancellationToken token) { }
             """);
 
         await VerifyCS.VerifyAnalyzerAsync(source);
