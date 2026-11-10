@@ -6005,58 +6005,62 @@ internal static class ModuleAuthoringAnalysis
         ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
     {
         var visited = new HashSet<IOperation>();
-        while (visited.Add(value))
+        var pending = new Stack<IOperation>();
+        pending.Push(value);
+        while (pending.Count > 0)
         {
+            value = pending.Pop();
+            if (!visited.Add(value))
+            {
+                continue;
+            }
+
             var (reachingValues, inheritsIncomingValue) = GetCallbackLocalDefinitions(value, local, callbackInvocations);
             foreach (var candidate in reachingValues)
             {
                 yield return candidate;
             }
 
-            if (!inheritsIncomingValue)
+            if (inheritsIncomingValue)
             {
-                yield break;
-            }
-
-            var callable = GetEnclosingCallable(value);
-            var callableSymbol = GetCallableSymbol(callable);
-            if (callable is null
-                || SymbolEqualityComparer.Default.Equals(local.ContainingSymbol, callableSymbol))
-            {
-                yield break;
-            }
-
-            // Cancellation configuration discovery uses lexical scope without an execution map.
-            if (callbackInvocations is null)
-            {
-                value = callable;
-                continue;
-            }
-
-            // Closures capture the variable. Cross the callable boundary at its execution site.
-            if (callableSymbol is null
-                || !callbackInvocations.TryGetValue(NormalizeMethod(callableSymbol), out var invocation))
-            {
-                yield break;
-            }
-
-            if (!IsWithinLocalScope(invocation, local))
-            {
-                foreach (var captureSite in GetReturnedCallbackCaptureSites(callableSymbol, local, value, callbackInvocations))
+                foreach (var site in GetOuterCallbackCaptureSites(value, local, callbackInvocations))
                 {
-                    foreach (var candidate in FindReachingCallbackLocalValues(captureSite, local, callbackInvocations))
-                    {
-                        yield return candidate;
-                    }
+                    pending.Push(site);
                 }
-
-                yield break;
             }
-
-            value = invocation;
         }
     }
 
+    private static IEnumerable<IOperation> GetOuterCallbackCaptureSites(
+        IOperation value,
+        ILocalSymbol local,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
+    {
+        var callable = GetEnclosingCallable(value);
+        var callableSymbol = GetCallableSymbol(callable);
+        if (callable is null
+            || SymbolEqualityComparer.Default.Equals(local.ContainingSymbol, callableSymbol))
+        {
+            return [];
+        }
+
+        // Cancellation configuration discovery uses lexical scope without an execution map.
+        if (callbackInvocations is null)
+        {
+            return [callable];
+        }
+
+        // Closures capture the variable. Cross the callable boundary at its execution site.
+        if (callableSymbol is null
+            || !callbackInvocations.TryGetValue(NormalizeMethod(callableSymbol), out var invocation))
+        {
+            return [];
+        }
+
+        return IsWithinLocalScope(invocation, local)
+            ? [invocation]
+            : GetReturnedCallbackCaptureSites(callableSymbol, local, value, callbackInvocations);
+    }
     private static bool IsWithinLocalScope(IOperation operation, ILocalSymbol local)
     {
         for (var symbol = operation.SemanticModel?.GetEnclosingSymbol(operation.Syntax.SpanStart);
@@ -6273,10 +6277,7 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var returnValue in operation.DescendantsAndSelf()
                      .OfType<IReturnOperation>()
-                     .Where(returnOperation =>
-                         (GetEnclosingCallable(returnOperation) is not { } callable
-                          || SymbolEqualityComparer.Default.Equals(GetCallableSymbol(callable), method))
-                         && IsInReachableBranch(returnOperation))
+                     .Where(returnOperation => IsReachableMethodReturn(returnOperation, method))
                      .Select(static returnOperation => returnOperation.ReturnedValue)
                      .OfType<IOperation>()
                      .SelectMany(GetReachableValueLeaves))
@@ -6298,6 +6299,10 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
+    private static bool IsReachableMethodReturn(IReturnOperation returned, IMethodSymbol method) =>
+        (GetEnclosingCallable(returned) is not { } callable
+         || SymbolEqualityComparer.Default.Equals(GetCallableSymbol(callable), method))
+        && IsInReachableBranch(returned);
     private static IEnumerable<IOperation> GetConstructorMemberValues(
         ISymbol member,
         Compilation compilation)
