@@ -549,7 +549,9 @@ public class OptionsClassGenerator : ICodeGenerator
             $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(Presence))})";
 
         var presence = GroupPresence(group);
-        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, Presence, GroupPresence);
+        string RenderedPresence(string propertyName) =>
+            GetPresenceExpression(command, positionalArguments, propertyName, includeBlankValues: true);
+        GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, RenderedPresence);
 
         var activeGroup = activation is null ? presence : $"{activation} && {presence}";
         if (!group.IsChoice && propertyNames.Length > 1)
@@ -614,19 +616,21 @@ public class OptionsClassGenerator : ICodeGenerator
         string? activation,
         string[] propertyNames,
         string presence,
-        Func<string, string> getPresence,
-        Func<CliRequiredAlternativeGroup, string> getGroupPresence)
+        Func<string, string> getRenderedPresence)
     {
         if (group.IsChoice && group.IsMutuallyExclusive)
         {
             var branches = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
-                .Select(getPresence).Concat(group.Groups.Select(getGroupPresence));
+                .Select(getRenderedPresence).Concat(group.Groups.Select(nested =>
+                    $"({string.Join(" || ", nested.PropertyNames.Distinct(StringComparer.Ordinal).Select(getRenderedPresence))})"));
             var count = string.Join(" + ", branches.Select(expression => $"({expression} ? 1 : 0)"));
             var branchNames = group.Members.Select(member => member.PropertyName).Distinct(StringComparer.Ordinal)
                 .Concat(group.Groups.Select(nested =>
                     $"({FormatChoice([.. nested.PropertyNames.Distinct(StringComparer.Ordinal)])})")).ToArray();
             var cardinality = required ? "Exactly one" : "At most one";
-            WriteValidationFailure(sb, $"{count} {(required ? "!= 1" : "> 1")}", activation,
+            // Blank strings still render argv tokens, but cannot satisfy a required input.
+            var invalid = required ? $"!{presence} || {count} != 1" : $"{count} > 1";
+            WriteValidationFailure(sb, invalid, activation,
                 $"{cardinality} of {FormatChoice(branchNames)} {(required ? "must" : "may")} be specified.", propertyNames);
         }
         else if (required)
@@ -650,7 +654,8 @@ public class OptionsClassGenerator : ICodeGenerator
     private static string GetPresenceExpression(
         CliCommandDefinition command,
         IReadOnlyList<CliPositionalArgument> positionalArguments,
-        string propertyName)
+        string propertyName,
+        bool includeBlankValues = false)
     {
         var option = command.Options.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
         var positional = positionalArguments.FirstOrDefault(candidate => candidate.PropertyName == propertyName);
@@ -666,6 +671,11 @@ public class OptionsClassGenerator : ICodeGenerator
 
         if (csharpType.TrimEnd('?').Equals("string", StringComparison.Ordinal))
         {
+            if (includeBlankValues)
+            {
+                return $"{propertyName} is not null";
+            }
+
             var nonBlank = $"!string.IsNullOrWhiteSpace({propertyName})";
             return option?.AllowsEmptyValue == true
                 ? $"({propertyName} == string.Empty || {nonBlank})"

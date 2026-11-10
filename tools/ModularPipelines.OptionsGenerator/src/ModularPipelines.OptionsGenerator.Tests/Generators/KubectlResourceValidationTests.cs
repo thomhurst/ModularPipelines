@@ -55,7 +55,12 @@ public partial class RequiredConstructorValidationTests
             (null, "web", null, null, "overlay", false),
             (null, null, null, ["manifest.yaml"], "overlay", false),
             ("deployments", "web", null, [" "], " ", false),
-            (null, null, "deployments/web", [], " ", true),
+            (null, null, "deployments/web", [], " ", false),
+            ("deployments", "web", null, null, " \t", false),
+            (null, null, "deployments/web", null, "", false),
+            (null, null, "deployments/web", null, " \t", false),
+            (null, null, null, ["manifest.yaml"], " ", false),
+            (null, null, null, null, " ", false),
         ];
         foreach (var input in cases)
         {
@@ -74,6 +79,27 @@ public partial class RequiredConstructorValidationTests
         options.GetProperty("Name")!.SetValue(target, "web");
         await Assert.That(RenderResourceOperands(target)).IsEquivalentTo(["deployments", "web"],
             TUnit.Assertions.Enums.CollectionOrdering.Matching);
+
+        options.GetProperty("Type")!.SetValue(target, null);
+        options.GetProperty("Name")!.SetValue(target, null);
+        options.GetProperty("TypeOrName")!.SetValue(target, "deployments/web");
+        var kustomize = options.GetProperty("Kustomize")!;
+        var attribute = kustomize.CustomAttributes.Single(value => value.AttributeType.Name == nameof(CliOptionAttribute));
+        var optionAttribute = new CliOptionAttribute((string) attribute.ConstructorArguments.Single().Value!)
+        {
+            Format = (OptionFormat) attribute.NamedArguments.Single(value => value.MemberName == nameof(CliOptionAttribute.Format)).TypedValue.Value!,
+        };
+        foreach (var value in new[] { "", " ", " \t" })
+        {
+            kustomize.SetValue(target, value);
+            var arguments = new CommandArgumentBuilder().BuildArguments(
+                [new OptionPart(kustomize.Name, kustomize.GetValue, optionAttribute)], target);
+            await Assert.That(arguments).IsEquivalentTo([$"--kustomize={value}"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            await Assert.That(RenderResourceOperands(target)).IsEquivalentTo(["deployments/web"],
+                TUnit.Assertions.Enums.CollectionOrdering.Matching);
+            await Assert.That(Validator.TryValidateObject(target, new(target), [], true)).IsFalse();
+        }
     }
 
     [Test]

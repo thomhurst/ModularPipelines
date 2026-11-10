@@ -95,7 +95,8 @@ public partial class RequiredConstructorValidationTests
         var instance = Activator.CreateInstance(optionsType)!;
         foreach (var (reset, resource, valid) in new (string?, string?, bool)[]
                  { (null, null, false), ("", null, true), ("", "resource", false), (null, "", false),
-                     (null, " \t", false), (null, "resource", true), ("rule", null, true), (" \t", null, false) })
+                     (null, " \t", false), (null, "resource", true), ("rule", null, true), (" \t", null, false),
+                     (" \t", "resource", false), ("rule", " \t", false), ("rule", "", false) })
         {
             optionsType.GetProperty("Reset")!.SetValue(instance, reset);
             optionsType.GetProperty("Resource")!.SetValue(instance, resource);
