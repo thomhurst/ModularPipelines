@@ -554,15 +554,7 @@ public class OptionsClassGenerator : ICodeGenerator
         GenerateGroupPresenceValidation(sb, group, required, activation, propertyNames, presence, RenderedPresence);
 
         var activeGroup = activation is null ? presence : $"{activation} && {presence}";
-        if (!group.IsChoice && propertyNames.Length > 1)
-        {
-            foreach (var member in group.Members.Where(member => member.IsRequired))
-            {
-                WriteValidationFailure(sb, $"!({Presence(member.PropertyName)})", activeGroup,
-                    $"{member.PropertyName} must be specified when other arguments in this group are specified.",
-                    [member.PropertyName]);
-            }
-        }
+        GenerateRequiredGroupMemberValidation(sb, group, propertyNames, activeGroup, Presence);
 
         foreach (var nested in group.Groups)
         {
@@ -570,6 +562,26 @@ public class OptionsClassGenerator : ICodeGenerator
             // one of its nested groups whenever any part of the bundle is supplied.
             GenerateGroupValidation(sb, command, positionalArguments, nested,
                 required: !group.IsChoice && nested.IsRequired, activeGroup);
+        }
+    }
+
+    private static void GenerateRequiredGroupMemberValidation(
+        StringBuilder sb,
+        CliRequiredAlternativeGroup group,
+        string[] propertyNames,
+        string activation,
+        Func<string, string> presence)
+    {
+        if (group.IsChoice || propertyNames.Length <= 1)
+        {
+            return;
+        }
+
+        foreach (var member in group.Members.Where(member => member.IsRequired))
+        {
+            WriteValidationFailure(sb, $"!({presence(member.PropertyName)})", activation,
+                $"{member.PropertyName} must be specified when other arguments in this group are specified.",
+                [member.PropertyName]);
         }
     }
 
