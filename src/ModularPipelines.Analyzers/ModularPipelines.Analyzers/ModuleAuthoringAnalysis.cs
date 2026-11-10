@@ -459,6 +459,7 @@ internal static class ModuleAuthoringAnalysis
                     && candidate.Syntax.SpanStart < invocation.Syntax.SpanStart
                     && ReferenceEquals(GetEnclosingCallable(candidate), GetEnclosingCallable(invocation))
                     && IsInReachableBranch(candidate)
+                    && CanReachCommandLineInvocation(candidate, invocation, operations)
                     && ReferenceEquals(GetCommandLineReceiverOrigin(candidate), command)),
         ];
         var replacements = operations.OfType<IConditionalOperation>()
@@ -474,7 +475,103 @@ internal static class ModuleAuthoringAnalysis
         // that branch's earlier actions before the possible final actions are combined.
         return setters.Where(setter => !replacements.Any(replacement =>
             replacement.Syntax.SpanStart > setter.Syntax.Span.End
-            && IsLinearPredecessor(replacement, setter)));
+            && ((IsLinearPredecessor(replacement, setter)
+                    && !CanSkipCommandLineActionReplacement(setter, replacement))
+                || DominatesCommandLineInvocation(replacement, invocation))));
+    }
+
+    private static bool DominatesCommandLineInvocation(
+        IOperation replacement,
+        IOperation invocation)
+    {
+        if (!IsLinearPredecessor(replacement, invocation)
+            || GetContainingBlock(replacement) is not { } block
+            || block.Operations.FirstOrDefault(statement => HasAncestor(replacement, statement))?.Syntax
+                is not StatementSyntax firstStatement
+            || block.Operations.FirstOrDefault(statement => HasAncestor(invocation, statement))?.Syntax
+                is not StatementSyntax lastStatement
+            || replacement.SemanticModel is not { } semanticModel)
+        {
+            return false;
+        }
+
+        // A jump into this region can invoke the command without executing its replacement.
+        return semanticModel.AnalyzeControlFlow(firstStatement, lastStatement) is
+        { Succeeded: true, EntryPoints.IsEmpty: true };
+    }
+
+    private static bool CanReachCommandLineInvocation(
+        IOperation setter,
+        IOperation invocation,
+        IOperation[] operations)
+    {
+        for (var current = setter; current.Parent is { } parent; current = parent)
+        {
+            if (parent is not IConditionalOperation { WhenFalse: { } whenFalse } conditional
+                || !((ReferenceEquals(current, conditional.WhenTrue) && HasAncestor(invocation, whenFalse))
+                    || (ReferenceEquals(current, whenFalse) && HasAncestor(invocation, conditional.WhenTrue))))
+            {
+                continue;
+            }
+
+            if (!CanReenterCommandLineConditional(conditional, invocation, operations))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool CanReenterCommandLineConditional(
+        IConditionalOperation conditional,
+        IOperation invocation,
+        IOperation[] operations)
+    {
+        // Opposite branches can execute on separate passes through a loop or backward jump.
+        for (var ancestor = conditional.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation
+                && ancestor is not IWhileLoopOperation { Condition.ConstantValue: { HasValue: true, Value: false } }
+                && HasAncestor(invocation, ancestor))
+            {
+                return true;
+            }
+        }
+
+        return operations.OfType<IBranchOperation>().Any(branch =>
+            branch.BranchKind == BranchKind.GoTo
+            && branch.Syntax.SpanStart > conditional.Syntax.SpanStart
+            && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(invocation))
+            && branch.Target.Locations.Any(location => location.IsInSource
+                && location.SourceTree == conditional.Syntax.SyntaxTree
+                && location.SourceSpan.Start <= conditional.Syntax.SpanStart));
+    }
+
+    private static bool CanSkipCommandLineActionReplacement(
+        IOperation earlier,
+        IOperation replacement)
+    {
+        if (GetContainingBlock(replacement) is not { } block)
+        {
+            return true;
+        }
+
+        var preceding = block.Operations.TakeWhile(statement => !HasAncestor(replacement, statement)).ToArray();
+        var first = preceding.FirstOrDefault(statement => HasAncestor(earlier, statement));
+        if (first?.Syntax is not StatementSyntax firstStatement
+            || preceding.LastOrDefault()?.Syntax is not StatementSyntax lastStatement
+            || earlier.SemanticModel is not { } semanticModel)
+        {
+            return true;
+        }
+
+        // Analyze only the statements before the replacement. Internal jumps stay
+        // inside this region; break, continue and goto can bypass the replacement.
+        var controlFlow = semanticModel.AnalyzeControlFlow(firstStatement, lastStatement);
+        return controlFlow is not { Succeeded: true }
+            || controlFlow.ExitPoints.Any(static exit => exit is
+                BreakStatementSyntax or ContinueStatementSyntax or GotoStatementSyntax);
     }
 
     private static bool DefinitelySetsCommandLineAction(
@@ -484,7 +581,9 @@ internal static class ModuleAuthoringAnalysis
         {
             IInvocationOperation invocation => setters.Contains(invocation),
             IBlockOperation block => block.Operations.Any(candidate =>
-                DefinitelySetsCommandLineAction(candidate, setters)),
+                DefinitelySetsCommandLineAction(candidate, setters)
+                && (ReferenceEquals(candidate, block.Operations[0])
+                    || !CanSkipCommandLineActionReplacement(block.Operations[0], candidate))),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
                 DefinitelySetsCommandLineAction(conditional.WhenTrue, setters)
                 && DefinitelySetsCommandLineAction(whenFalse, setters),

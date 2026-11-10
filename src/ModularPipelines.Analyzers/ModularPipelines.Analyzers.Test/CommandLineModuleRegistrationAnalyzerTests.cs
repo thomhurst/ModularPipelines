@@ -100,6 +100,121 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } else { command.SetAction(_ => { }); command.Parse(args).Invoke(); }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } else { command.Parse(args).Invoke(); }", false)]
+    [DataRow("if (args.Length > 1) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } else { if (args.Length > 0) { command.Parse(args).Invoke(); } }", false)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); command.Parse(args).Invoke(); }", true)]
+    [DataRow("if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } command.Parse(args).Invoke();", true)]
+    [DataRow("foreach (var arg in args) { if (arg.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } else { command.Parse(args).Invoke(); } }", true)]
+    [DataRow("foreach (var arg in args) { if (arg.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } else { command.SetAction(_ => { }); command.Parse(args).Invoke(); } }", false)]
+    [DataRow("do { if (args.Length > 0) { command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); } else { command.Parse(args).Invoke(); } } while (false);", false)]
+    public async Task Tracks_Actions_On_Paths_Compatible_With_Invocation(string statements, bool registered)
+    {
+        await VerifyAsync(Source(statements, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("if (args.Length > 0) break;", true)]
+    [DataRow("if (args.Length > 0) continue;", true)]
+    [DataRow("while (args.Length > 0) { break; }", false)]
+    [DataRow("Action skip = () => { return; }; skip();", false)]
+    public async Task Tracks_Action_Replacement_Around_Loop_Exits(string interveningStatements, bool registered)
+    {
+        var source = Source($$"""
+            do
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{interveningStatements}}
+                command.SetAction(_ => { });
+            } while (false);
+            return command.Parse(args).Invoke();
+            """, registered);
+
+        await VerifyAsync(source, registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_When_Jump_Skips_Replacement()
+    {
+        var source = Source("""
+            command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+            if (args.Length > 0) goto Invoke;
+            command.SetAction(_ => { });
+            Invoke:
+            return command.Parse(args).Invoke();
+            """);
+
+        await VerifyAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_When_Jump_Enters_Invoked_Branch_After_Replacement()
+    {
+        var source = Source("""
+            foreach (var arg in args)
+            {
+                if (arg.Length > 0)
+                {
+                    command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                }
+                else
+                {
+                    if (args.Length > 2) goto Invoke;
+                    command.SetAction(_ => { });
+                    Invoke:
+                    command.Parse(args).Invoke();
+                }
+            }
+            """);
+
+        await VerifyAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_When_Branch_Exits_Before_Replacement()
+    {
+        var source = Source("""
+            do
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                if (args.Length > 0)
+                {
+                    if (args.Length > 1) break;
+                    command.SetAction(_ => { });
+                }
+                else
+                {
+                    command.SetAction(_ => { });
+                }
+            } while (false);
+            return command.Parse(args).Invoke();
+            """);
+
+        await VerifyAsync(source);
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Action_When_Backward_Jump_Reenters_Opposite_Branch()
+    {
+        var source = Source("""
+            var register = args.Length > 0;
+            Again:
+            if (register)
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                register = false;
+                goto Again;
+            }
+            else
+            {
+                command.Parse(args).Invoke();
+            }
+            """);
+
+        await VerifyAsync(source);
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task Tracks_Delegate_Copied_Inside_Action(bool invoked)
