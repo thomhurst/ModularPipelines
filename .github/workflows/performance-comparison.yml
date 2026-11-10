@@ -1,0 +1,51 @@
+name: Engine performance comparison
+
+on:
+  workflow_dispatch:
+    inputs:
+      repetitions:
+        description: Fresh-process samples per scenario and version (3 or more for regression candidates)
+        default: '5'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      REPETITIONS: ${{ inputs.repetitions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+      - name: Compare 3.2.8 with this commit
+        run: |
+          $output = Join-Path (Split-Path $env:GITHUB_WORKSPACE -Parent) 'ModularPipelines-evidence/issue-7322/performance'
+          "PERFORMANCE_OUTPUT=$output" >> $env:GITHUB_ENV
+          & benchmarks/EngineComparison/Run-Comparison.ps1 -OutputDirectory $output `
+            -Repetitions ([int]$env:REPETITIONS) -EnvironmentDescription "GitHub-hosted $env:RUNNER_OS runner"
+          Get-Content (Join-Path $output 'summary.md') >> $env:GITHUB_STEP_SUMMARY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: engine-comparison-${{ matrix.os }}
+          path: |
+            ${{ env.PERFORMANCE_OUTPUT }}/*.json
+            ${{ env.PERFORMANCE_OUTPUT }}/*.log
+            ${{ env.PERFORMANCE_OUTPUT }}/summary.md
+          if-no-files-found: warn
+          retention-days: 30
