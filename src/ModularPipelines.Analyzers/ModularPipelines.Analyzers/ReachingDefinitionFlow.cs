@@ -19,7 +19,7 @@ internal sealed class ReachingDefinitionFlow(
 {
     // A path without a local definition still reads the capture at the enclosing execution site.
     private static readonly TextSpan IncomingValue = new(int.MaxValue, 0);
-    // An unresolved tuple element invalidates only queries this write can reach.
+    // An unsupported local write invalidates only queries it can reach.
     private static readonly TextSpan UnknownValue = new(int.MaxValue - 1, 0);
     private readonly IOperation _operationRoot = operationRoot ?? GetOperationRoot(invocation);
     private readonly HashSet<TextSpan> _reaching = [];
@@ -374,11 +374,16 @@ internal sealed class ReachingDefinitionFlow(
             yield return initializer.Value;
         }
         else if (operation is IAssignmentOperation { Target: ILocalReferenceOperation target } assignment
-            && (assignment is ISimpleAssignmentOperation
-                || (assignment is ICompoundAssignmentOperation compound && IsDelegateAddition(compound)))
             && SymbolEqualityComparer.Default.Equals(target.Local, localSymbol))
         {
-            yield return assignment.Value;
+            yield return assignment is ISimpleAssignmentOperation
+                || (assignment is ICompoundAssignmentOperation compound && IsDelegateAddition(compound))
+                    ? assignment.Value : null;
+        }
+        else if (operation is IIncrementOrDecrementOperation { Target: ILocalReferenceOperation reference }
+            && SymbolEqualityComparer.Default.Equals(reference.Local, localSymbol))
+        {
+            yield return null;
         }
         else if (operation is IDeconstructionAssignmentOperation deconstruction)
         {
@@ -445,7 +450,7 @@ internal sealed class ReachingDefinitionFlow(
 
     private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
     {
-        if (operation is not (IAssignmentOperation or IVariableDeclaratorOperation))
+        if (operation is not (IAssignmentOperation or IVariableDeclaratorOperation or IIncrementOrDecrementOperation))
         {
             return;
         }

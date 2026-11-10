@@ -50,6 +50,47 @@ public class ReachingDefinitionFlowTests
         AssertFlow(body, expected);
 
     [TestMethod]
+    [DataRow("int value = 1; value++; [|Use(value)|];")]
+    [DataRow("int value = 1; ++value; [|Use(value)|];")]
+    [DataRow("int value = 1; value--; [|Use(value)|];")]
+    [DataRow("int value = 1; --value; [|Use(value)|];")]
+    [DataRow("int value = 1; value += 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value -= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value *= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value /= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value %= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value &= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value |= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value ^= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value <<= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value >>= 2; [|Use(value)|];")]
+    [DataRow("int value = 1; value >>>= 2; [|Use(value)|];")]
+    [DataRow("string value = \"old\"; value += \"new\"; [|Use(value)|];")]
+    [DataRow("Action value = A; value -= A; [|Use(value)|];")]
+    [DataRow("dynamic value = 1; value += 2; [|Use(value)|];")]
+    [DataRow("int value = 1; if (flag) value++; [|Use(value)|];")]
+    [DataRow("int value = 1; while (flag) value--; [|Use(value)|];")]
+    [DataRow("Action value = A; value -= A; value += B; [|Use(value)|];")]
+    public void Unsupported_Local_Mutations_Invalidate_Definitions(string body) =>
+        AssertFlow(body, "", supported: false);
+
+    [TestMethod]
+    [DataRow("int value = 1; value++; value = 2; [|Use(value)|];", "2")]
+    [DataRow("int value = 1; value *= 2; value = 3; [|Use(value)|];", "3")]
+    [DataRow("Action value = A; value -= A; value = B; [|Use(value)|];", "B")]
+    [DataRow("int value = 1; if (false) value++; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; [|Use(value)|]; value++;", "1")]
+    [DataRow("int value = 1; Action nested = () => value++; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; void Nested() { value *= 2; } [|Use(value)|];", "1")]
+    [DataRow("int value = 1; int other = 2; other++; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; int other = 2; other *= 2; [|Use(value)|];", "1")]
+    [DataRow("int value = 1; try { value /= 0; } catch (DivideByZeroException) { [|Use(value)|]; }", "1")]
+    [DataRow("int value = int.MaxValue; try { checked { value++; } } catch (OverflowException) { [|Use(value)|]; }", "int.MaxValue")]
+    [DataRow("int value = 1; try { value *= (value = 2) / 0; } catch (DivideByZeroException) { [|Use(value)|]; }", "2")]
+    public void Unsupported_Local_Mutations_Only_Affect_Reaching_Paths(string body, string expected) =>
+        AssertFlow(body, expected);
+
+    [TestMethod]
     public void Delegate_Addition_Preserves_Previous_Definitions() => AssertFlow(
         "Action value = A; value += B; [|Use(value)|];", "A|B");
 
