@@ -547,20 +547,13 @@ internal sealed class ReachingDefinitionFlow(
 
     private bool CanThrow(IOperation operation)
     {
-        if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation))
+        if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation) || CanStringConcatenationThrow(operation))
         {
             return true;
         }
 
         return operation switch
         {
-            // String concatenation can call a non-string operand's ToString without an invocation child.
-            IBinaryOperation { OperatorKind: BinaryOperatorKind.Add, Type.SpecialType: SpecialType.System_String } binary =>
-                CanConcatenationOperandThrow(binary.LeftOperand) || CanConcatenationOperandThrow(binary.RightOperand),
-            ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Add } assignment
-                when assignment.Target.Type?.SpecialType == SpecialType.System_String
-                    || assignment.Value.Type?.SpecialType == SpecialType.System_String =>
-                CanConcatenationOperandThrow(assignment.Target) || CanConcatenationOperandThrow(assignment.Value),
             IRecursivePatternOperation { DeconstructSymbol: not null } => true,
             IListPatternOperation pattern => CanListPatternMemberThrow(pattern.LengthSymbol)
                 || CanListPatternMemberThrow(pattern.IndexerSymbol),
@@ -574,6 +567,18 @@ internal sealed class ReachingDefinitionFlow(
             _ => false,
         };
     }
+
+    // String concatenation can call a non-string operand's ToString without an invocation child.
+    private static bool CanStringConcatenationThrow(IOperation operation) => operation switch
+    {
+        IBinaryOperation { OperatorKind: BinaryOperatorKind.Add, Type.SpecialType: SpecialType.System_String } binary =>
+            CanConcatenationOperandThrow(binary.LeftOperand) || CanConcatenationOperandThrow(binary.RightOperand),
+        ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Add } assignment
+            when assignment.Target.Type?.SpecialType == SpecialType.System_String
+                || assignment.Value.Type?.SpecialType == SpecialType.System_String =>
+            CanConcatenationOperandThrow(assignment.Target) || CanConcatenationOperandThrow(assignment.Value),
+        _ => false,
+    };
 
     private static bool CanConcatenationOperandThrow(IOperation operand) =>
         operand.Type?.SpecialType != SpecialType.System_String && !operand.ConstantValue.HasValue;
