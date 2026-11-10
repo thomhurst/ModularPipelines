@@ -14,6 +14,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
+using ModularPipelines.UnitTests.Helpers;
 using Moq;
 
 namespace ModularPipelines.UnitTests.Engine;
@@ -68,9 +69,46 @@ public class TaskCompletionSourceTests
     {
         var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
 
-        await AssertNoUnobservedTaskException(
+        await TaskFaultAssertions.AssertNoUnobservedException(
             expectedException,
             () => CreateFaultedModuleCompletion(expectedException));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ModuleResultTask_StatusProbe_ObservesProjectedFault(bool faultBeforeRead)
+    {
+        var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
+
+        await TaskFaultAssertions.AssertNoUnobservedException(
+            expectedException,
+            () => CreateFaultedModuleResultProjectionAsync(expectedException, faultBeforeRead));
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task ModuleResultTask_ObservedFaultStillPropagatesToAwaiter(bool faultBeforeRead)
+    {
+        var module = new TestModule();
+        var failure = new InvalidOperationException("Module projection failure");
+        if (faultBeforeRead)
+        {
+            module.CompletionSource.SetException(failure);
+        }
+
+        var resultTask = ((IInternalModule) module).ResultTask;
+        if (!faultBeforeRead)
+        {
+            module.CompletionSource.SetException(failure);
+        }
+
+        var exception = await Assert.ThrowsAsync<AggregateException>(async () => await resultTask);
+
+        await Assert.That(exception!.InnerException).IsSameReferenceAs(failure);
+        var moduleException = await Assert.ThrowsAsync<InvalidOperationException>(async () => await module);
+        await Assert.That(moduleException).IsSameReferenceAs(failure);
     }
 
     [Test]
@@ -78,7 +116,7 @@ public class TaskCompletionSourceTests
     {
         var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
 
-        await AssertNoUnobservedTaskException(
+        await TaskFaultAssertions.AssertNoUnobservedException(
             expectedException,
             () => CreateFaultedSubModuleCompletion(expectedException));
     }
@@ -88,7 +126,7 @@ public class TaskCompletionSourceTests
     {
         var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
 
-        await AssertNoUnobservedTaskException(
+        await TaskFaultAssertions.AssertNoUnobservedException(
             expectedException,
             () => CreateFastCancellationFaultAsync(expectedException));
     }
@@ -98,7 +136,7 @@ public class TaskCompletionSourceTests
     {
         var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
 
-        await AssertNoUnobservedTaskException(
+        await TaskFaultAssertions.AssertNoUnobservedException(
             expectedException,
             () => CreateExternalCancellationFaultAsync(expectedException));
     }
@@ -108,7 +146,7 @@ public class TaskCompletionSourceTests
     {
         var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
 
-        await AssertNoUnobservedTaskException(
+        await TaskFaultAssertions.AssertNoUnobservedException(
             expectedException,
             () => CreateGraceExpiryFaultAsync(expectedException));
     }
@@ -118,7 +156,7 @@ public class TaskCompletionSourceTests
     {
         var expectedException = new InvalidOperationException(Guid.NewGuid().ToString());
 
-        await AssertNoUnobservedTaskException(
+        await TaskFaultAssertions.AssertNoUnobservedException(
             expectedException,
             () => CreateAbandonedSchedulerFaultAsync(expectedException));
     }
@@ -126,63 +164,32 @@ public class TaskCompletionSourceTests
     private static bool RunsContinuationsAsynchronously(Task task) =>
         task.CreationOptions.HasFlag(TaskCreationOptions.RunContinuationsAsynchronously);
 
-    private static Task AssertNoUnobservedTaskException(
-        Exception expectedException,
-        Func<WeakReference> createFaultedOwner) =>
-        AssertNoUnobservedTaskException(
-            expectedException,
-            () => Task.FromResult(createFaultedOwner()));
-
-    private static async Task AssertNoUnobservedTaskException(
-        Exception expectedException,
-        Func<Task<WeakReference>> createFaultedOwner)
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference> CreateFaultedModuleResultProjectionAsync(
+        Exception exception,
+        bool faultBeforeRead)
     {
-        var exceptionObservedByFinalizer = 0;
-
-        void OnUnobservedTaskException(object? _, UnobservedTaskExceptionEventArgs args)
+        var module = new TestModule();
+        if (faultBeforeRead)
         {
-            if (ContainsException(args.Exception, expectedException))
-            {
-                Interlocked.Exchange(ref exceptionObservedByFinalizer, 1);
-                args.SetObserved();
-            }
+            module.CompletionSource.SetException(exception);
         }
 
-        TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
-        try
+        var resultTask = ((IInternalModule) module).ResultTask;
+        if (!faultBeforeRead)
         {
-            var ownerReference = await createFaultedOwner();
-
-            for (var attempt = 0; attempt < 10 && ownerReference.IsAlive; attempt++)
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-                await Task.Yield();
-            }
-
-            await Assert.That(ownerReference.IsAlive).IsFalse();
-            await Assert.That(Volatile.Read(ref exceptionObservedByFinalizer)).IsEqualTo(0);
-        }
-        finally
-        {
-            TaskScheduler.UnobservedTaskException -= OnUnobservedTaskException;
-        }
-    }
-
-    private static bool ContainsException(Exception candidate, Exception expected)
-    {
-        if (ReferenceEquals(candidate, expected))
-        {
-            return true;
+            module.CompletionSource.SetException(exception);
         }
 
-        return candidate switch
-        {
-            AggregateException aggregate => aggregate.InnerExceptions.Any(x => ContainsException(x, expected)),
-            { InnerException: not null } => ContainsException(candidate.InnerException, expected),
-            _ => false,
-        };
+        // Wait for completion without reading the projection's Exception or awaiting its fault.
+        await resultTask.ContinueWith(
+            static _ => { },
+            CancellationToken.None,
+            TaskContinuationOptions.ExecuteSynchronously,
+            TaskScheduler.Default);
+        await Assert.That(resultTask.IsCompletedSuccessfully).IsFalse();
+        await Assert.That(resultTask.IsFaulted).IsTrue();
+        return new WeakReference(resultTask);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]

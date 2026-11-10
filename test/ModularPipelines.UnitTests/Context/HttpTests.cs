@@ -20,7 +20,7 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.UnitTests.Context;
 
-public class HttpTests : TestBase
+public partial class HttpTests : TestBase
 {
     [Test]
     [Arguments(false)]
@@ -1223,7 +1223,8 @@ public class HttpTests : TestBase
     private sealed class BlockingReadStream(
         bool throwIOExceptionWhenDisposed = false,
         bool ignoreAsyncCancellation = false,
-        bool returnEofWhenDisposed = false) : Stream
+        bool returnEofWhenDisposed = false,
+        Exception? disposalException = null) : Stream
     {
         private readonly TaskCompletionSource _release =
             new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -1331,6 +1332,11 @@ public class HttpTests : TestBase
         {
             if (_isDisposed)
             {
+                if (disposalException is not null)
+                {
+                    throw disposalException;
+                }
+
                 throw throwIOExceptionWhenDisposed
                     ? new IOException("The stream was interrupted.")
                     : new ObjectDisposedException(nameof(BlockingReadStream));
@@ -1340,10 +1346,12 @@ public class HttpTests : TestBase
 
     private sealed class LegacyBodyLogger(bool logRequest) : IHttpLogger
     {
+        public Task? BodyTask { get; private set; }
+
         public Task PrintRequest(HttpRequestMessage request, ILogger logger)
         {
             return logRequest
-                ? request.Content!.ReadAsStringAsync()
+                ? BodyTask = request.Content!.ReadAsStringAsync()
                 : Task.CompletedTask;
         }
 
@@ -1353,7 +1361,7 @@ public class HttpTests : TestBase
             HttpLoggingOptions options)
         {
             return logRequest
-                ? request.Content!.ReadAsStringAsync()
+                ? BodyTask = request.Content!.ReadAsStringAsync()
                 : Task.CompletedTask;
         }
 
@@ -1361,7 +1369,7 @@ public class HttpTests : TestBase
         {
             return logRequest
                 ? Task.CompletedTask
-                : response.Content.ReadAsStringAsync();
+                : BodyTask = response.Content.ReadAsStringAsync();
         }
 
         public Task PrintResponse(
@@ -1371,7 +1379,7 @@ public class HttpTests : TestBase
         {
             return logRequest
                 ? Task.CompletedTask
-                : response.Content.ReadAsStringAsync();
+                : BodyTask = response.Content.ReadAsStringAsync();
         }
 
         public void PrintStatusCode(HttpStatusCode? httpStatusCode, ILogger logger)
