@@ -990,10 +990,13 @@ internal static class ModuleAuthoringAnalysis
         };
 
     private static bool CanThrowInCancellationFilter(IOperation operation) => operation is
-        IInvocationOperation or IPropertyReferenceOperation or IFieldReferenceOperation
+        IInvocationOperation or IPropertyReferenceOperation
+        or IFieldReferenceOperation { Parent: not IPropertySubpatternOperation }
         or IArrayElementReferenceOperation or IObjectCreationOperation or IArrayCreationOperation
         or IDynamicInvocationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
         or IThrowOperation
+        or IRecursivePatternOperation { DeconstructSymbol: not null }
+        or IListPatternOperation { InputType: not IArrayTypeSymbol and not { SpecialType: SpecialType.System_String } }
         or IConversionOperation { OperatorMethod: not null }
         or IConversionOperation { IsChecked: true, Conversion.IsImplicit: false }
         or IConversionOperation { Conversion.IsReference: true, Conversion.IsImplicit: false }
@@ -1329,6 +1332,13 @@ internal static class ModuleAuthoringAnalysis
             if (!IsInReachableBranch(branch))
             {
                 continue;
+            }
+
+            // Patterns run before guards and values, and can invoke getters or Deconstruct.
+            if (branch is ISwitchExpressionArmOperation expressionArm
+                && VisitParameterWrites(expressionArm.Pattern, remaining, filterExceptions))
+            {
+                return true;
             }
 
             var (conditions, body) = branch switch

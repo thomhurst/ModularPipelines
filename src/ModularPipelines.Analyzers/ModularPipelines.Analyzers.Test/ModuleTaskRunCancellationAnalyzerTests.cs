@@ -333,6 +333,61 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("state switch { { Value: true } => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
+    [DataRow("state switch { (true, _) => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
+    [DataRow("state switch { [true] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
+    [DataRow("state switch { [.. [true]] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
+    [DataRow("state is (true, _) | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("state is [true] | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("state switch { { Value: true } => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", true, false)]
+    [DataRow("(alias = ref other).CanBeCanceled | (state switch { { Value: true } => false, _ => false })", false, false)]
+    [DataRow("state switch { not null => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("state switch { PatternState _ => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("state switch { { Field: true } => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("tokens switch { [true] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("tokens switch { [.. [true]] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("text switch { ['a'] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("text switch { [.. ['a']] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("(true, false) switch { (true, _) => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, false)]
+    public async Task Tracks_Exception_Filter_Pattern_Bindings(string filter, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                var state = new PatternState();
+                var tokens = Array.Empty<bool>();
+                var text = "text";
+                try { throw new Exception(); }
+                catch (Exception) when ({{filter}}) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class PatternState
+            {
+                public bool Value => throw new Exception();
+                public bool Field;
+                public int Length => throw new Exception();
+                public bool this[int index] => throw new Exception();
+                public PatternState Slice(int start, int length) => throw new Exception();
+                public void Deconstruct(out bool first, out bool second) => throw new Exception();
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""
