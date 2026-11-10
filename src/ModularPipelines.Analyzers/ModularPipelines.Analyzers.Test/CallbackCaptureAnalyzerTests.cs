@@ -9,6 +9,70 @@ namespace ModularPipelines.Analyzers.Test;
 public class CallbackCaptureAnalyzerTests
 {
     [TestMethod]
+    [DataRow("new Thrower(argument);")]
+    [DataRow("_ = new Thrower(argument);")]
+    [DataRow("new Thrower(argument = register = () => Pipeline.CreateBuilder().AddModule<BuildModule>());", true)]
+    [DataRow("new Thrower(argument = register = () => {});", false)]
+    public async Task Tracks_Dynamic_Constructor_Exception_Paths(string operation, bool registered = true)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                dynamic argument = 1;
+                Action register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                try
+                {
+                    {{operation}}
+                    register = () => {};
+                }
+                catch (InvalidOperationException) { register(); }
+            };
+            callback(null!); return 0;
+
+            public class Thrower
+            {
+                public Thrower(object value) => throw new InvalidOperationException();
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("_ = left / right;")]
+    [DataRow("_ = 1 / right;")]
+    [DataRow("left /= right;")]
+    [DataRow("int value = 1; value /= right;")]
+    [DataRow("left += right;")]
+    [DataRow("left++;")]
+    [DataRow("--left;")]
+    [DataRow("_ = -left;")]
+    [DataRow("_ = checked(-left);")]
+    public async Task Tracks_Dynamic_Operator_Exception_Paths(string operation)
+    {
+        await VerifyAsync(Source($$"""
+            callback = _ =>
+            {
+                dynamic left = default(Counter);
+                dynamic right = default(Counter);
+                Action register = () => {};
+                try { {{operation}} }
+                catch (InvalidOperationException) { register = () => Pipeline.CreateBuilder().AddModule<BuildModule>(); }
+                register();
+            };
+            callback(null!); return 0;
+
+            public struct Counter
+            {
+                public static Counter operator /(Counter left, Counter right) => throw new InvalidOperationException();
+                public static Counter operator /(int left, Counter right) => throw new InvalidOperationException();
+                public static Counter operator +(Counter left, Counter right) => throw new InvalidOperationException();
+                public static Counter operator ++(Counter value) => throw new InvalidOperationException();
+                public static Counter operator --(Counter value) => throw new InvalidOperationException();
+                public static Counter operator -(Counter value) => throw new InvalidOperationException();
+            }
+            """));
+    }
+
+    [TestMethod]
     [DataRow("object target = null!;", "target.ToString", "NullReferenceException", true)]
     [DataRow("object target = null!;", "new Func<string?>(target.ToString)", "NullReferenceException", true)]
     [DataRow("object target = null!;", "target.ToString", "ArgumentException", false)]

@@ -263,7 +263,7 @@ internal sealed class ReachingDefinitionFlow(
     }
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
-        IInvocationOperation or IEventAssignmentOperation
+        IInvocationOperation or IEventAssignmentOperation or IDynamicObjectCreationOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
 
@@ -369,6 +369,12 @@ internal sealed class ReachingDefinitionFlow(
 
     private static ArithmeticExceptions GetArithmeticExceptions(IOperation operation) => operation switch
     {
+        IBinaryOperation { LeftOperand.Type.TypeKind: TypeKind.Dynamic }
+            or IBinaryOperation { RightOperand.Type.TypeKind: TypeKind.Dynamic }
+            or ICompoundAssignmentOperation { Target.Type.TypeKind: TypeKind.Dynamic }
+            or ICompoundAssignmentOperation { Value.Type.TypeKind: TypeKind.Dynamic }
+            or IIncrementOrDecrementOperation { Target.Type.TypeKind: TypeKind.Dynamic }
+            or IUnaryOperation { Operand.Type.TypeKind: TypeKind.Dynamic } => ArithmeticExceptions.Unknown,
         IBinaryOperation binary => GetArithmeticExceptions(binary.OperatorKind, binary.IsChecked,
             binary.OperatorMethod, binary.LeftOperand.Type),
         ICompoundAssignmentOperation assignment => assignment.InConversion.IsUserDefined
@@ -391,25 +397,14 @@ internal sealed class ReachingDefinitionFlow(
             return ArithmeticExceptions.Unknown;
         }
 
-        if (operandType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
-        {
-            operandType = nullable.TypeArguments[0];
-        }
-
-        if (operandType is INamedTypeSymbol { EnumUnderlyingType: { } underlyingType })
-        {
-            operandType = underlyingType;
-        }
-
-        var type = operandType?.SpecialType;
+        var type = GetArithmeticOperandType(operandType);
         if (type is SpecialType.System_Single or SpecialType.System_Double)
         {
             return ArithmeticExceptions.None;
         }
 
         var signedOverflow = type is SpecialType.System_Int32 or SpecialType.System_Int64 or SpecialType.System_IntPtr;
-        var divisionCanOverflow = signedOverflow || type == SpecialType.System_Decimal
-            || (isChecked && type is SpecialType.System_SByte or SpecialType.System_Int16);
+        var divisionCanOverflow = signedOverflow || CanNarrowOrDecimalDivisionOverflow(type, isChecked);
         return operatorKind switch
         {
             BinaryOperatorKind.Divide => ArithmeticExceptions.DivideByZero
@@ -420,6 +415,20 @@ internal sealed class ReachingDefinitionFlow(
                 when isChecked || type == SpecialType.System_Decimal => ArithmeticExceptions.Overflow,
             _ => ArithmeticExceptions.None,
         };
+    }
+
+    private static bool CanNarrowOrDecimalDivisionOverflow(SpecialType? type, bool isChecked) =>
+        type == SpecialType.System_Decimal || (isChecked && type is SpecialType.System_SByte or SpecialType.System_Int16);
+
+    private static SpecialType? GetArithmeticOperandType(ITypeSymbol? operandType)
+    {
+        if (operandType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
+        {
+            operandType = nullable.TypeArguments[0];
+        }
+
+        return operandType is INamedTypeSymbol { EnumUnderlyingType: { } underlyingType }
+            ? underlyingType.SpecialType : operandType?.SpecialType;
     }
 
     [Flags]
