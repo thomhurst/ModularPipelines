@@ -44,7 +44,8 @@ test('PRs, pushes, validation dispatches and feature branches cannot publish', (
 test('the publication graph waits for every validation without holding up workers', () => {
   assert.deepEqual(dependencies('publish'), ['required-pipeline', 'pipeline']);
   assert.deepEqual(dependencies('required-pipeline').sort(), ['fast-fail', 'pipeline', 'pipeline-workers',
-    'cross-platform-build', 'generated-integration', 'changed-integration', 'artifact-storage', 'analyzers', 'trim-aot', 'cmd-tests'].sort());
+    'cross-platform-build', 'generated-integration', 'changed-integration', 'artifact-storage', 'analyzers', 'trim-aot', 'cmd-tests',
+    'distributed-template', 'go-validation', 'docs-deploy'].sort());
   assert.deepEqual(dependencies('pipeline'), ['fast-fail', 'pipeline-host']);
   assert.deepEqual(dependencies('pipeline-workers'), ['fast-fail', 'pipeline-host']);
   // Reject a dependency cycle, including a publication dependency introduced into the aggregate.
