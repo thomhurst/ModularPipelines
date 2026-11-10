@@ -297,6 +297,137 @@ public class CommandLineModuleRegistrationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = holder.Value;", true)]
+    [DataRow("holder.Value = 1;", true)]
+    [DataRow("_ = holder.Child.Value;", true)]
+    [DataRow("_ = Holder.StaticValue;", false)]
+    [DataRow("Holder.StaticValue = 1;", false)]
+    [DataRow("_ = Holder.Constant;", false)]
+    [DataRow("_ = valueHolder.Value;", false)]
+    [DataRow("valueHolder.Value = 1;", false)]
+    public async Task Tracks_Field_Access_Exception_Paths(string access, bool registered)
+    {
+        await VerifyAsync(Source($$"""
+            Holder holder = null!;
+            ValueHolder valueHolder = default;
+            Action register = () => {};
+            command.SetAction(parseResult =>
+            {
+                try
+                {
+                    register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                    {{access}}
+                    register = () => {};
+                }
+                catch (NullReferenceException) { }
+                register();
+            });
+            return command.Parse(args).Invoke();
+
+            public class Holder
+            {
+                public int Value;
+                public Holder Child = null!;
+                public static int StaticValue;
+                public const int Constant = 0;
+            }
+
+            public struct ValueHolder
+            {
+                public int Value;
+            }
+            """, registered), registered ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    public async Task Field_Write_Evaluates_Callback_Value_Before_Null_Check(bool initiallyRegisters, bool replacementRegisters)
+    {
+        await VerifyAsync(Source($$"""
+            Holder holder = null!;
+            Action register = {{(initiallyRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+            command.SetAction(parseResult =>
+            {
+                try
+                {
+                    holder.Callback = register = {{(replacementRegisters ? "() => Pipeline.CreateBuilder().AddModule<BuildModule>()" : "() => {}")}};
+                    register = () => {};
+                }
+                catch (NullReferenceException) { }
+                register();
+            });
+            return command.Parse(args).Invoke();
+
+            public class Holder
+            {
+                public Action Callback = null!;
+            }
+            """, replacementRegisters), replacementRegisters ? [] : [UnregisteredModule()]);
+    }
+
+    [TestMethod]
+    [DataRow("Value")]
+    [DataRow("this.Value")]
+    [DataRow("base.Value")]
+    public async Task Does_Not_Add_Null_Exception_Path_For_Current_Instance_Field(string access)
+    {
+        await VerifyAsync(Source($$"""
+            return new Holder().Run(command, args);
+
+            public class BaseHolder
+            {
+                public int Value;
+            }
+
+            public class Holder : BaseHolder
+            {
+                public int Run(System.CommandLine.RootCommand command, string[] args)
+                {
+                    Action register = () => {};
+                    command.SetAction(parseResult =>
+                    {
+                        try
+                        {
+                            register = () => Pipeline.CreateBuilder().AddModule<BuildModule>();
+                            _ = {{access}};
+                            register = () => {};
+                        }
+                        catch (NullReferenceException) { }
+                        register();
+                    });
+                    return command.Parse(args).Invoke();
+                }
+            }
+            """, registered: false), UnregisteredModule());
+    }
+
+    [TestMethod]
+    [DataRow("_ = holder.Value;")]
+    [DataRow("holder.Value = 1;")]
+    public async Task Preserves_Command_Action_After_Caught_Field_Access(string access)
+    {
+        await VerifyAsync(Source($$"""
+            Holder holder = null!;
+            try
+            {
+                command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); });
+                {{access}}
+                command.SetAction(_ => { });
+            }
+            catch (NullReferenceException) { }
+            return command.Parse(args).Invoke();
+
+            public class Holder
+            {
+                public int Value;
+            }
+            """));
+    }
+
+    [TestMethod]
     [DataRow("_ = args[0];", "IndexOutOfRangeException")]
     [DataRow("_ = System.Environment.CurrentDirectory;", "Exception")]
     [DataRow("_ = new object();", "Exception")]

@@ -121,10 +121,8 @@ internal sealed class ReachingDefinitionFlow(
             Visit(child, state, block, continuation, filter);
         }
 
-        if (local is null && operation is IInvocationOperation call && definitions.ContainsKey(call.Syntax.Span))
+        if (TryApplyCommandSetter(operation, state))
         {
-            state.Clear();
-            state.Add(call.Syntax.Span);
             return;
         }
 
@@ -138,6 +136,23 @@ internal sealed class ReachingDefinitionFlow(
             FollowException(block, null, state, continuation, filter);
         }
 
+        ApplyDefinition(operation, state);
+    }
+
+    private bool TryApplyCommandSetter(IOperation operation, HashSet<TextSpan> state)
+    {
+        if (local is not null || operation is not IInvocationOperation call || !definitions.ContainsKey(call.Syntax.Span))
+        {
+            return false;
+        }
+
+        state.Clear();
+        state.Add(call.Syntax.Span);
+        return true;
+    }
+
+    private void ApplyDefinition(IOperation operation, HashSet<TextSpan> state)
+    {
         if (local is not null && operation is ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
             && SymbolEqualityComparer.Default.Equals(target.Local, local)
             && definitions.ContainsKey(assignment.Value.Syntax.Span))
@@ -176,7 +191,20 @@ internal sealed class ReachingDefinitionFlow(
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IPropertyReferenceOperation or IArrayElementReferenceOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
-        or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation;
+        or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
+        || IsThrowingFieldAccess(operation);
+
+    private static bool IsThrowingFieldAccess(IOperation operation) => operation switch
+    {
+        // A simple field write checks the receiver after evaluating the assigned value.
+        ISimpleAssignmentOperation { Target: IFieldReferenceOperation field } => HasNullableFieldReceiver(field),
+        IFieldReferenceOperation field => HasNullableFieldReceiver(field)
+            && (field.Parent is not ISimpleAssignmentOperation assignment || !ReferenceEquals(assignment.Target, field)),
+        _ => false,
+    };
+
+    private static bool HasNullableFieldReceiver(IFieldReferenceOperation field) =>
+        field.Instance is { Type.IsReferenceType: true } and not IInstanceReferenceOperation;
 
     private static bool CanConversionThrow(IConversionOperation conversion) =>
         conversion.IsChecked || conversion.Conversion.IsUserDefined

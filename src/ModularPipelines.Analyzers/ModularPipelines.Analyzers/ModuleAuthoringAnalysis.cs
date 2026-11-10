@@ -6007,43 +6007,18 @@ internal static class ModuleAuthoringAnalysis
         var visited = new HashSet<IOperation>();
         while (visited.Add(value))
         {
+            var (reachingValues, inheritsIncomingValue) = GetCallbackLocalDefinitions(value, local, callbackInvocations);
+            foreach (var candidate in reachingValues)
+            {
+                yield return candidate;
+            }
+
+            if (!inheritsIncomingValue)
+            {
+                yield break;
+            }
+
             var callable = GetEnclosingCallable(value);
-            if (callbackInvocations is not null && ReachingDefinitionFlow.TryGetReachingLocalValues(
-                    GetRoot(value), value, local, out var reachingValues, out var inheritsIncomingValue))
-            {
-                foreach (var candidate in reachingValues)
-                {
-                    yield return candidate;
-                }
-
-                if (!inheritsIncomingValue)
-                {
-                    yield break;
-                }
-            }
-            else
-            {
-                if (FindReachingLocalValue(value, local, out var isAmbiguous) is { } localValue)
-                {
-                    yield return localValue;
-                    yield break;
-                }
-
-                if (isAmbiguous)
-                {
-                    foreach (var candidate in FindReachingLocalValues(value, local))
-                    {
-                        yield return candidate;
-                    }
-
-                    // Partial writes retain the incoming capture; guaranteed definitions replace it.
-                    if (HasReachingCallbackDefinition(value, local, callable))
-                    {
-                        yield break;
-                    }
-                }
-            }
-
             var callableSymbol = GetCallableSymbol(callable);
             if (callable is null
                 || SymbolEqualityComparer.Default.Equals(local.ContainingSymbol, callableSymbol))
@@ -6067,6 +6042,28 @@ internal static class ModuleAuthoringAnalysis
 
             value = invocation;
         }
+    }
+
+    private static (IEnumerable<IOperation> Values, bool InheritsIncomingValue) GetCallbackLocalDefinitions(
+        IOperation value,
+        ILocalSymbol local,
+        ImmutableDictionary<IMethodSymbol, IOperation>? callbackInvocations)
+    {
+        if (callbackInvocations is not null && ReachingDefinitionFlow.TryGetReachingLocalValues(
+                GetRoot(value), value, local, out var reachingValues, out var inheritsIncomingValue))
+        {
+            return (reachingValues, inheritsIncomingValue);
+        }
+
+        if (FindReachingLocalValue(value, local, out var isAmbiguous) is { } localValue)
+        {
+            return ([localValue], false);
+        }
+
+        // Partial writes retain the incoming capture; guaranteed definitions replace it.
+        return isAmbiguous
+            ? (FindReachingLocalValues(value, local), !HasReachingCallbackDefinition(value, local, GetEnclosingCallable(value)))
+            : ([], true);
     }
 
     private static bool HasReachingCallbackDefinition(IOperation value, ILocalSymbol local, IOperation? callable)
