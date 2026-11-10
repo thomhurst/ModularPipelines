@@ -793,6 +793,23 @@ finally {
     $startGate.Dispose()
 }
 
+# CreateProcess can display a critical-error dialog for an invalid executable.
+# Preserve inherited flags; changing this disposable wrapper leaves the caller unchanged.
+Add-Type -TypeDefinition @"
+using System.Runtime.InteropServices;
+
+public static class AgentDotNetWindowsChildNative
+{
+    [DllImport("kernel32.dll", ExactSpelling = true)]
+    public static extern uint GetErrorMode();
+
+    [DllImport("kernel32.dll", ExactSpelling = true)]
+    public static extern uint SetErrorMode(uint mode);
+}
+"@
+$null = [AgentDotNetWindowsChildNative]::SetErrorMode(
+    [AgentDotNetWindowsChildNative]::GetErrorMode() -bor 0x0001) # SEM_FAILCRITICALERRORS
+
 '@ + $childLaunchScript
 }
 else {
