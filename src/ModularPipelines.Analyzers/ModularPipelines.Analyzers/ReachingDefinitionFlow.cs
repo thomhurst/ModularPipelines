@@ -525,19 +525,24 @@ internal sealed class ReachingDefinitionFlow(
 
         foreach (var value in GetAssignedValues(operation, local))
         {
-            if (value is not null && !definitions.ContainsKey(value.Syntax.Span))
-            {
-                continue;
-            }
-
-            state.Clear();
-            if (addedTargets is not null)
-            {
-                state.UnionWith(addedTargets);
-            }
-
-            state.Add(value?.Syntax.Span ?? UnknownValue);
+            ApplyAssignedValue(value, state, addedTargets);
         }
+    }
+
+    private void ApplyAssignedValue(IOperation? value, HashSet<TextSpan> state, HashSet<TextSpan>? addedTargets)
+    {
+        if (value is not null && !definitions.ContainsKey(value.Syntax.Span))
+        {
+            return;
+        }
+
+        state.Clear();
+        if (addedTargets is not null)
+        {
+            state.UnionWith(addedTargets);
+        }
+
+        state.Add(value?.Syntax.Span ?? UnknownValue);
     }
 
     private bool CanThrow(IOperation operation)
