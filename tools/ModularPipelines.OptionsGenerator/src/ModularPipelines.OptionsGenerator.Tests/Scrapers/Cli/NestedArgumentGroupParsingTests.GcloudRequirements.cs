@@ -171,14 +171,19 @@ public partial class NestedArgumentGroupParsingTests
                     }
 
                     var errors = ((IValidatableObject) instance).Validate(new(instance));
-                    var hasValue = !string.IsNullOrWhiteSpace(config) || !string.IsNullOrWhiteSpace(profile);
-                    var omitted = config is null && profile is null;
-                    var expected = (hasValue || (!required && omitted)) && (!exclusive || config is null || profile is null);
+                    var expected = IsValidGcloudPositionalBundle(config, profile, required, exclusive);
                     await Assert.That(!errors.Any()).IsEqualTo(expected)
                         .Because($"Config '{config ?? "<omitted>"}', profile '{profile ?? "<omitted>"}'.");
                 }
             }
         });
+    }
+
+    private static bool IsValidGcloudPositionalBundle(string? config, string? profile, bool required, bool exclusive)
+    {
+        var hasValue = !string.IsNullOrWhiteSpace(config) || !string.IsNullOrWhiteSpace(profile);
+        var omitted = config is null && profile is null;
+        return (hasValue || (!required && omitted)) && (!exclusive || config is null || profile is null);
     }
 
     [Test]

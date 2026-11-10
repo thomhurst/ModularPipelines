@@ -577,18 +577,23 @@ public partial class NestedArgumentGroupParsingTests
                         type.GetProperty("Profile")!.SetValue(instance, profile);
                         type.GetProperty("Interactive")!.SetValue(instance, interactive);
                         var errors = ((IValidatableObject) instance).Validate(new ValidationContext(instance));
-                        // Non-null strings render even when blank; required inputs still need a value.
-                        var hasValue = !string.IsNullOrWhiteSpace(token) || !string.IsNullOrWhiteSpace(profile) || interactive;
-                        var valid = heading.StartsWith("At most", StringComparison.Ordinal)
-                            ? (token is null && profile is null && !interactive)
-                              || (hasValue && (token is null || (profile is null && !interactive)))
-                            : hasValue;
+                        var valid = IsValidGcloudConditionalBranch(heading, token, profile, interactive);
                         await Assert.That(!errors.Any()).IsEqualTo(valid)
                             .Because($"Token '{token ?? "<omitted>"}', profile '{profile ?? "<omitted>"}', interactive {interactive}.");
                     }
                 }
             }
         });
+    }
+
+    private static bool IsValidGcloudConditionalBranch(string heading, string? token, string? profile, bool interactive)
+    {
+        // Non-null strings render even when blank; required inputs still need a value.
+        var hasValue = !string.IsNullOrWhiteSpace(token) || !string.IsNullOrWhiteSpace(profile) || interactive;
+        return heading.StartsWith("At most", StringComparison.Ordinal)
+            ? (token is null && profile is null && !interactive)
+              || (hasValue && (token is null || (profile is null && !interactive)))
+            : hasValue;
     }
 
     [Test]
