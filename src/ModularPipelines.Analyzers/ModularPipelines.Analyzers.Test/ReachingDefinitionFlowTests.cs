@@ -564,12 +564,84 @@ public class ReachingDefinitionFlowTests
     public void Nested_Callable_Inherits_Foreach_Capture() =>
         AssertFlow("foreach (string value in new[] { \"item\" }) { Action nested = () => [|Use(value)|]; }", "", incoming: true);
 
+    [TestMethod]
+    [DataRow("ThrowingCollection items = [];", "\"old\"")]
+    [DataRow("ThrowingCollection items = [(value = \"element\")];", "\"element\"|\"old\"")]
+    [DataRow("ThrowingCollection items = [(value = \"first\"), (value = \"second\")];", "\"first\"|\"old\"|\"second\"")]
+    [DataRow("ThrowingCollection items = [flag ? (value = \"first\") : (value = \"second\")];", "\"first\"|\"old\"|\"second\"")]
+    [DataRow("ThrowingValueCollection items = [];", "\"old\"")]
+    [DataRow("ThrowingValueCollection items = [(value = \"element\")];", "\"element\"|\"old\"")]
+    [DataRow("BuiltCollection items = [];", "\"old\"")]
+    [DataRow("BuiltCollection items = [(value = \"element\")];", "\"element\"")]
+    [DataRow("BuiltCollection items = [(value = \"first\"), (value = \"second\")];", "\"second\"")]
+    [DataRow("BuiltCollection items = [flag ? (value = \"first\") : (value = \"second\")];", "\"first\"|\"second\"")]
+    [DataRow("ReadOnlySpan<string> items = [];", "")]
+    [DataRow("ReadOnlySpan<string> items = [(value = \"element\")];", "")]
+    public void Collection_Construction_Exceptions_Respect_Element_Evaluation(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; try { " + statement + " } catch { [|Use(value)|]; }", expected,
+        additionalSource: CollectionTypes);
+
+    [TestMethod]
+    [DataRow("ThrowingCollection items = [];", "\"old\"")]
+    [DataRow("BuiltCollection items = [(value = \"element\")];", "\"element\"")]
+    public void Collection_Construction_Exceptions_Reach_Filters_Before_Finally(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; try { try { " + statement + " } finally { value = \"cleanup\"; } } catch when ([|Observe(value)|]) { }", expected,
+        additionalSource: CollectionTypes);
+
+    [TestMethod]
+    [DataRow("ThrowingCollection", "[..source, (value = \"later\")]", "\"later\"|\"old\"")]
+    [DataRow("BuiltCollection", "[..source, (value = \"later\")]", "\"later\"|\"old\"")]
+    [DataRow("string[]", "[..source, (value = \"later\")]", "\"later\"|\"old\"")]
+    [DataRow("ReadOnlySpan<string>", "[..source, (value = \"later\")]", "\"later\"|\"old\"")]
+    [DataRow("BuiltCollection", "[(value = \"first\"), ..source, (value = \"later\")]", "\"first\"|\"later\"")]
+    [DataRow("BuiltCollection", "[..source, flag ? (value = \"first\") : (value = \"second\")]", "\"first\"|\"old\"|\"second\"")]
+    [DataRow("BuiltCollection", "[(value = \"before\"), ..source, flag ? (value = \"first\") : (value = \"second\")]", "\"before\"|\"first\"|\"second\"")]
+    [DataRow("string[]", "[..source, flag ? (value = \"first\") : (value = \"second\")]", "\"first\"|\"old\"|\"second\"")]
+    public void Collection_Spread_Exceptions_Respect_Element_Evaluation(string target, string elements, string expected) => AssertFlow(
+        "string value = \"old\"; System.Collections.Generic.IEnumerable<string> source = null; try { " + target + " items = " + elements + "; } catch { [|Use(value)|]; }", expected,
+        additionalSource: CollectionTypes);
+
+    [TestMethod]
+    [DataRow("if (false) { ThrowingCollection items = []; }", "\"old\"")]
+    [DataRow("Action nested = () => { ThrowingCollection items = []; };", "\"old\"")]
+    [DataRow("ThrowingCollection items = []; value = \"after\";", "\"after\"")]
+    public void Collection_Construction_Only_Affects_Reaching_Paths(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; " + statement + " [|Use(value)|];", expected, additionalSource: CollectionTypes);
+
+    private const string CollectionTypes = """
+        class ThrowingCollection : System.Collections.Generic.IEnumerable<string>
+        {
+            public ThrowingCollection() => throw new Exception();
+            public void Add(string item) => throw new Exception();
+            public System.Collections.Generic.IEnumerator<string> GetEnumerator() => throw new Exception();
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+        struct ThrowingValueCollection : System.Collections.Generic.IEnumerable<string>
+        {
+            public ThrowingValueCollection() => throw new Exception();
+            public void Add(string item) => throw new Exception();
+            public System.Collections.Generic.IEnumerator<string> GetEnumerator() => throw new Exception();
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+        [System.Runtime.CompilerServices.CollectionBuilder(typeof(CollectionFactory), nameof(CollectionFactory.Create))]
+        class BuiltCollection : System.Collections.Generic.IEnumerable<string>
+        {
+            public System.Collections.Generic.IEnumerator<string> GetEnumerator() => throw new Exception();
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+        static class CollectionFactory
+        {
+            public static BuiltCollection Create(ReadOnlySpan<string> items) => throw new Exception();
+        }
+        """;
+
     private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false,
         bool supported = true, LanguageVersion languageVersion = LanguageVersion.Preview,
-        IEnumerable<MetadataReference>? references = null)
+        IEnumerable<MetadataReference>? references = null, string additionalSource = "")
     {
         var source = $$"""
             using System;
+            {{additionalSource}}
             class ConversionSource
             {
                 public static implicit operator string(ConversionSource source) => throw new Exception();

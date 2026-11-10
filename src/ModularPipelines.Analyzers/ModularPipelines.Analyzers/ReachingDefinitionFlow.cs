@@ -23,6 +23,8 @@ internal sealed class ReachingDefinitionFlow(
     private static readonly TextSpan UnknownValue = new(int.MaxValue - 1, 0);
     private readonly IOperation _operationRoot = operationRoot ?? GetOperationRoot(invocation);
     private readonly HashSet<ILocalSymbol> _aliases = GetAliases(operationRoot ?? GetOperationRoot(invocation), local);
+    private readonly ImmutableArray<TextSpan> _collectionCallSpans =
+        [.. GetCollectionCallSpans(operationRoot ?? GetOperationRoot(invocation), graph)];
     private readonly HashSet<TextSpan> _reaching = [];
     private readonly Dictionary<string, HashSet<TextSpan>> _inputs = [];
     private readonly Queue<(int Block, ImmutableArray<int> Continuation, FilterContext? Filter,
@@ -128,6 +130,13 @@ internal sealed class ReachingDefinitionFlow(
         if (operation is IFlowAnonymousFunctionOperation)
         {
             return;
+        }
+
+        // Constructors, Add, and spread iteration can run before later element evaluations.
+        // Use source spans because CFG branching can hoist elements out of the collection operation.
+        if (_collectionCallSpans.Any(span => span.Contains(operation.Syntax.Span)))
+        {
+            FollowException(block, null, state, continuation, filter);
         }
 
         if (operation is IDeconstructionAssignmentOperation deconstruction)
@@ -553,6 +562,25 @@ internal sealed class ReachingDefinitionFlow(
         state.Add(value?.Syntax.Span ?? UnknownValue);
     }
 
+    private static IEnumerable<TextSpan> GetCollectionCallSpans(IOperation root, ControlFlowGraph callableGraph)
+    {
+        foreach (var collection in root.DescendantsAndSelf().OfType<ICollectionExpressionOperation>()
+            .Where(collection => callableGraph.OriginalOperation.Syntax.Span.Contains(collection.Syntax.Span)))
+        {
+            if (collection.ConstructMethod?.MethodKind == MethodKind.Constructor)
+            {
+                yield return collection.Syntax.Span;
+            }
+            else
+            {
+                foreach (var spread in collection.Elements.OfType<ISpreadOperation>())
+                {
+                    yield return TextSpan.FromBounds(spread.Syntax.SpanStart, collection.Syntax.Span.End);
+                }
+            }
+        }
+    }
+
     private bool CanThrow(IOperation operation)
     {
         if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation) || CanImplicitStringCallThrow(operation))
@@ -562,6 +590,10 @@ internal sealed class ReachingDefinitionFlow(
 
         return operation switch
         {
+            // Construction, Add, and spread iteration can invoke user code without invocation children.
+            ICollectionExpressionOperation collection => collection.ConstructMethod is not null
+                || collection.Elements.Any(static element => element is ISpreadOperation),
+            ISpreadOperation => true,
             IRecursivePatternOperation { DeconstructSymbol: not null } => true,
             IListPatternOperation pattern => CanListPatternMemberThrow(pattern.LengthSymbol)
                 || CanListPatternMemberThrow(pattern.IndexerSymbol),
