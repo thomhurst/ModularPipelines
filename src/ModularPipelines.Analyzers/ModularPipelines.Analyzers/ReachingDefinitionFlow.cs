@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
@@ -369,7 +370,7 @@ internal sealed class ReachingDefinitionFlow(
         }
     }
 
-    private static bool CanThrow(IOperation operation)
+    private bool CanThrow(IOperation operation)
     {
         if (IsThrowingAccessOrCall(operation) || IsThrowingPropertyAccess(operation))
         {
@@ -378,10 +379,18 @@ internal sealed class ReachingDefinitionFlow(
 
         return operation switch
         {
+            // Roslyn does not expose implicit Deconstruct calls as invocation children.
+            IDeconstructionAssignmentOperation deconstruction =>
+                deconstruction.Syntax is not AssignmentExpressionSyntax syntax
+                || _operationRoot.SemanticModel is not { } model
+                || HasDeconstructionCall(model.GetDeconstructionInfo(syntax)),
             IConversionOperation conversion => CanConversionThrow(conversion),
             _ => false,
         };
     }
+
+    private static bool HasDeconstructionCall(DeconstructionInfo info) =>
+        info.Method is not null || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(HasDeconstructionCall));
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation

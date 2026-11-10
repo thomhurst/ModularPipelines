@@ -80,6 +80,23 @@ public class ReachingDefinitionFlowTests
         AssertFlow("string value = \"old\"; " + statements, expected);
 
     [TestMethod]
+    [DataRow("(value, _) = holder;", "\"old\"")]
+    [DataRow("(value, string other) = holder;", "\"old\"")]
+    [DataRow("((value, _), _) = (holder, 0);", "\"old\"")]
+    [DataRow("(value, (_, _)) = (value = \"rhs\", holder);", "\"rhs\"")]
+    [DataRow("(value, _) = (\"tuple\", 0);", "")]
+    public void Deconstruct_Exceptions_Precede_Definition_Writes(string statement, string expected) => AssertFlow(
+        "string value = \"old\"; Holder holder = null; try { " + statement + " } catch { [|Use(value)|]; }", expected);
+
+    [TestMethod]
+    public void Deconstruct_Exceptions_Reach_Filters_Before_Finally() => AssertFlow("""
+        string value = "old";
+        Holder holder = null;
+        try { try { (value, _) = holder; } finally { value = "cleanup"; } }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"");
+
+    [TestMethod]
     [DataRow("DivideByZeroException", "\"rethrow\"")]
     [DataRow("InvalidOperationException", "")]
     public void Rethrow_Preserves_Active_Exception_Type(string caught, string expected) => AssertFlow($$"""
@@ -178,6 +195,7 @@ public class ReachingDefinitionFlowTests
                 public string Property { get; set; }
                 public int Number { get; set; }
                 public ref string RefProperty => ref Field;
+                public void Deconstruct(out string first, out string second) => throw new Exception();
             }
             class Example
             {
