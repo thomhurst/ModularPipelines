@@ -1655,25 +1655,7 @@ public static partial class UsageSynopsisParser
         var alternatives = SplitTopLevelAlternatives(content);
         if (alternatives.Count > 1)
         {
-            if (GetPositionalAlternativeBranches(alternatives, phase) is { } positionalBranches)
-            {
-                arguments = [.. positionalBranches.SelectMany(static branch => branch.Arguments).Select((argument, index) => argument with
-                {
-                    PositionIndex = positionIndex + index,
-                    IsRequired = false,
-                    CSharpType = GetCSharpType(false, argument.IsVariadic),
-                })];
-                return true;
-            }
-
-            if (GetBundledOperandBranch(alternatives, options) is not { } branch)
-            {
-                return false;
-            }
-
-            // A single operand-bearing branch can bundle an operand with flags.
-            // Its operands stay optional; the enclosing choice validates complete branches.
-            return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches, options);
+            return TryParseAlternativeOperands(alternatives, positionIndex, phase, out arguments, out requiredOptionSwitches, options);
         }
 
         if (!content.Contains('[') && !nestedTokens.Any(nestedToken => GetOptionSwitches(nestedToken).Count > 0))
@@ -1687,6 +1669,37 @@ public static partial class UsageSynopsisParser
         }
 
         return TryParseNestedOperands(nestedTokens, IsRequiredUsageToken(normalizedToken), positionIndex, phase, out arguments, out requiredOptionSwitches, options);
+    }
+
+    private static bool TryParseAlternativeOperands(
+        IReadOnlyList<string> alternatives,
+        int positionIndex,
+        CommandLinePhase phase,
+        out IReadOnlyList<CliPositionalArgument> arguments,
+        out IReadOnlyList<string> requiredOptionSwitches,
+        IReadOnlyList<CliOptionDefinition>? options)
+    {
+        arguments = [];
+        requiredOptionSwitches = [];
+        if (GetPositionalAlternativeBranches(alternatives, phase) is { } positionalBranches)
+        {
+            arguments = [.. positionalBranches.SelectMany(static branch => branch.Arguments).Select((argument, index) => argument with
+            {
+                PositionIndex = positionIndex + index,
+                IsRequired = false,
+                CSharpType = GetCSharpType(false, argument.IsVariadic),
+            })];
+            return true;
+        }
+
+        if (GetBundledOperandBranch(alternatives, options) is not { } branch)
+        {
+            return false;
+        }
+
+        // A single operand-bearing branch can bundle an operand with flags.
+        // Its operands stay optional; the enclosing choice validates complete branches.
+        return TryParseNestedOperands(branch, false, positionIndex, phase, out arguments, out requiredOptionSwitches, options);
     }
 
     private static void ValidateNestedColonGroup(string token, string content, List<string> nestedTokens)
