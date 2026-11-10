@@ -15,6 +15,7 @@ Each fresh worker warms its scenario once, forces GC, then measures builder
 creation, registration, validation, execution and async disposal. Tiered JIT is
 disabled for both versions. Repetitions alternate the version order. The fixed
 module limit is eight. Console output and v4 run-history/report writes are disabled.
+Both versions use the worker binary directory as current directory and content root.
 Build/run/disposal times are also retained to expose fixed shutdown delays.
 Each command module starts one short native process:
 cmd.exe /d /c exit 0 on Windows, /bin/sh -c 'exit 0' on Linux.

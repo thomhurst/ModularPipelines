@@ -20,6 +20,7 @@ internal static class Worker
 
     public static async Task Main(string[] args)
     {
+        Directory.SetCurrentDirectory(AppContext.BaseDirectory);
         Shape = args[0];
         var count = int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture);
         var registrations = Scenarios.Registrations[Shape];
