@@ -17,7 +17,7 @@ public class DownloaderTests : TestBase
     [Test]
     public async Task DownloadStringAsync_EmptyContentReturnsEmptyString()
     {
-        IDownloaderContext downloader = CreateDownloader(new StringContent(string.Empty));
+        var downloader = CreateDownloader(new StringContent(string.Empty));
         var result = await downloader.DownloadStringAsync(new DownloadOptions(new Uri("https://example.test/download")));
         await Assert.That(result).IsEqualTo(string.Empty);
     }
@@ -25,7 +25,7 @@ public class DownloaderTests : TestBase
     [Test]
     public async Task DownloadStringAsync_HttpFailureThrows()
     {
-        IDownloaderContext downloader = CreateDownloader(new StringContent("failure"), statusCode: HttpStatusCode.BadRequest);
+        var downloader = CreateDownloader(new StringContent("failure"), statusCode: HttpStatusCode.BadRequest);
         await Assert.ThrowsAsync<PipelineHttpResponseException>(() =>
             downloader.DownloadStringAsync(new DownloadOptions(new Uri("https://example.test/download"))));
     }
@@ -227,8 +227,80 @@ public class DownloaderTests : TestBase
 
     [Test]
     [Arguments(null, null, ".zip")]
+    [Arguments("downloads/", null, ".zip")]
+    [Arguments("downloads", null, ".zip")]
+    [Arguments("explicit.bin", null, ".bin")]
+    [Arguments(null, "attachment; filename=setup.msi", ".msi")]
+    [Arguments("downloads/", "attachment; filename=setup.exe; filename*=UTF-8''setup.ps1", ".ps1")]
+    [Arguments(null, "attachment; filename=download", ".zip")]
+    public async Task DownloadFileAsync_ResolvesRelativeUriWithClientBaseAddress(
+        string? savePath, string? contentDisposition, string expectedExtension)
+    {
+        var directory = Directory.CreateTempSubdirectory("relative-download-");
+        using var client = new HttpClient(new DownloadResponseHandler(contentDisposition))
+        {
+            BaseAddress = new Uri("https://example.test/releases/"),
+        };
+        var downloader = await GetService<IDownloaderContext>();
+        FilePath? file = null;
+
+        try
+        {
+            file = await downloader.DownloadFileAsync(new DownloadFileOptions(
+                new Uri("archive.zip?token=abc.exe#fragment.txt", UriKind.Relative))
+            {
+                HttpClient = client,
+                SavePath = savePath is null ? null : Path.Combine(directory.FullName, savePath),
+            });
+
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(expectedExtension);
+            await Assert.That(await File.ReadAllBytesAsync(file.Path)).IsEquivalentTo("download"u8.ToArray());
+            if (savePath == "explicit.bin")
+            {
+                await Assert.That(Path.GetFileName(file.Path)).IsEqualTo(savePath);
+            }
+
+            if (savePath is not null)
+            {
+                var expectedDirectory = savePath == "explicit.bin"
+                    ? directory.FullName
+                    : Path.Combine(directory.FullName, "downloads");
+                await Assert.That(Path.GetDirectoryName(file.Path)).IsEqualTo(expectedDirectory);
+            }
+        }
+        finally
+        {
+            file?.Delete();
+            directory.Delete(recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments("archive.zip?token=abc.exe#fragment.txt", ".zip")]
+    [Arguments("archive.zip%00suffix?token=abc.exe", ".zipsuffix")]
+    [Arguments("archive.zip%2Fsuffix#fragment.txt", ".zipsuffix")]
+    [Arguments("download?token=abc.exe#fragment.txt", "")]
+    public async Task DownloadFileAsync_DerivesExtensionFromRelativeUri(string relativeUri, string expectedExtension)
+    {
+        var downloader = CreateDownloader(new StringContent("download"));
+        var file = await downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(relativeUri, UriKind.Relative)));
+
+        try
+        {
+            await Assert.That(Path.GetExtension(file.Path)).IsEqualTo(expectedExtension);
+            await Assert.That(await File.ReadAllBytesAsync(file.Path)).IsEquivalentTo("download"u8.ToArray());
+        }
+        finally
+        {
+            file.Delete();
+        }
+    }
+
+    [Test]
+    [Arguments(null, null, ".zip")]
     [Arguments("https://cdn.example.test/setup.msi?sig=secret.exe", null, ".msi")]
     [Arguments("https://cdn.example.test/download", null, ".zip")]
+    [Arguments("setup.msi?token=abc.exe#fragment.txt", null, ".msi")]
     [Arguments("https://cdn.example.test/setup.exe", "attachment; filename=setup.msi", ".msi")]
     [Arguments(null, "attachment; filename=\"setup file.ps1\"", ".ps1")]
     [Arguments(null, "attachment; filename=setup.exe; filename*=UTF-8''setup%20file.msi", ".msi")]
@@ -715,13 +787,19 @@ public class DownloaderTests : TestBase
             }));
     }
 
-    private sealed class DownloadResponseHandler : HttpMessageHandler
+    private sealed class DownloadResponseHandler(string? contentDisposition = null) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            var content = new StreamContent(new MemoryStream("download"u8.ToArray()));
+            if (contentDisposition is not null)
+            {
+                content.Headers.ContentDisposition = System.Net.Http.Headers.ContentDispositionHeaderValue.Parse(contentDisposition);
+            }
+
             return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StreamContent(new MemoryStream("download"u8.ToArray())),
+                Content = content,
                 RequestMessage = request,
             });
         }
