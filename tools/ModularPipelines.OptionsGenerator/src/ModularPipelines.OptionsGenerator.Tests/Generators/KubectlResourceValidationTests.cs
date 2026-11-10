@@ -17,6 +17,55 @@ public partial class RequiredConstructorValidationTests
     private static readonly string[] TypedFilename = ["manifest.yaml"];
 
     [Test]
+    [Arguments("history")]
+    [Arguments("status")]
+    [Arguments("undo")]
+    public async Task Kubectl_Rollout_Alternatives_Accept_Files_And_Complete_Operands(string commandName)
+    {
+        var command = await ScrapeResourceCommand($"rollout {commandName}", $$"""
+            Usage:
+              kubectl rollout {{commandName}} (TYPE NAME | TYPE/NAME) [options]
+
+            Options:
+              -f, --filename stringArray   Files identifying resources.
+              -k, --kustomize string       Kustomization directory.
+            """);
+        var options = Compile(await Generate([.. command.Options], command.PositionalArguments,
+            command.RequiredAlternativeGroups)).GetType("ModularPipelines.Tool.Options.ToolRunOptions")!;
+
+        (string? Type, string? Name, string? TypeOrName, string[]? Filename, string? Kustomize, bool Valid)[] cases =
+        [
+            (null, null, null, null, null, false),
+            ("deployments", null, null, null, null, false),
+            (null, "web", null, null, null, false),
+            ("deployments", "web", null, null, null, true),
+            (null, null, "deployments/web", null, null, true),
+            (null, null, "deployments/", null, null, false),
+            (null, null, "/web", null, null, false),
+            (null, null, null, ["manifest.yaml"], null, true),
+            (null, null, null, null, "overlay", true),
+            ("deployments", "web", "deployments/web", null, null, false),
+        ];
+        foreach (var input in cases)
+        {
+            var instance = Activator.CreateInstance(options)!;
+            options.GetProperty("Type")!.SetValue(instance, input.Type);
+            options.GetProperty("Name")!.SetValue(instance, input.Name);
+            options.GetProperty("TypeOrName")!.SetValue(instance, input.TypeOrName);
+            options.GetProperty("Filename")!.SetValue(instance, input.Filename);
+            options.GetProperty("Kustomize")!.SetValue(instance, input.Kustomize);
+            await Assert.That(Validator.TryValidateObject(instance, new(instance), [], true))
+                .IsEqualTo(input.Valid).Because(input.ToString());
+        }
+
+        var target = Activator.CreateInstance(options)!;
+        options.GetProperty("Type")!.SetValue(target, "deployments");
+        options.GetProperty("Name")!.SetValue(target, "web");
+        await Assert.That(RenderResourceOperands(target)).IsEquivalentTo(["deployments", "web"],
+            TUnit.Assertions.Enums.CollectionOrdering.Matching);
+    }
+
+    [Test]
     [Arguments("annotate")]
     [Arguments("label")]
     [Arguments("patch")]
@@ -280,7 +329,7 @@ public partial class RequiredConstructorValidationTests
         {
             commands.Add(definition);
         }
-        return commands.Single();
+        return commands.Single(definition => definition.FullCommand == $"kubectl {commandName}");
     }
 
     private sealed class ResourceFixtureExecutor(string commandName, string help) : ICliCommandExecutor
@@ -293,7 +342,7 @@ public partial class RequiredConstructorValidationTests
                 StandardError = string.Empty,
                 StandardOutput = arguments switch
                 {
-                    "--help" => $"Available Commands:\n  {commandName}  Update resources\n",
+                    "--help" => $"Available Commands:\n  {commandName.Split(' ')[0]}  Update resources\n",
                     "options" => """
                         The following options can be passed to any command:
                           --namespace string    Namespace scope.
@@ -302,6 +351,8 @@ public partial class RequiredConstructorValidationTests
                         """,
                     "version --client" => "Client Version: v1.37.1",
                     _ when arguments == commandName + " --help" => help,
+                    _ when commandName.Contains(' ') && arguments == commandName.Split(' ')[0] + " --help" =>
+                        $"Available Commands:\n  {commandName.Split(' ')[1]}  Update resources\n",
                     _ => throw new InvalidOperationException($"Unexpected command: {arguments}"),
                 },
             });
