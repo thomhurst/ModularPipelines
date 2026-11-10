@@ -838,10 +838,23 @@ internal sealed class ReachingDefinitionFlow(
     };
 
     private static bool CanConversionThrow(IConversionOperation conversion) =>
-        conversion.IsChecked || conversion.Conversion.IsUserDefined
+        conversion.IsChecked || conversion.Conversion.IsUserDefined || CanNumericConversionOverflow(conversion)
         || (!conversion.IsTryCast && !conversion.Conversion.IsIdentity
             && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
                 || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric)));
+
+    // Decimal narrowing and floating-point-to-decimal conversions can overflow even in unchecked code.
+    private static bool CanNumericConversionOverflow(IConversionOperation conversion) =>
+        GetArithmeticOperandType(conversion.Operand.Type) switch
+        {
+            SpecialType.System_Decimal => GetArithmeticOperandType(conversion.Type) is
+                SpecialType.System_SByte or SpecialType.System_Byte or SpecialType.System_Int16 or SpecialType.System_UInt16
+                or SpecialType.System_Int32 or SpecialType.System_UInt32 or SpecialType.System_Int64 or SpecialType.System_UInt64
+                or SpecialType.System_IntPtr or SpecialType.System_UIntPtr or SpecialType.System_Char,
+            SpecialType.System_Single or SpecialType.System_Double =>
+                GetArithmeticOperandType(conversion.Type) == SpecialType.System_Decimal,
+            _ => false,
+        };
 
     private static ArithmeticExceptions GetArithmeticExceptions(IOperation operation) => operation switch
     {

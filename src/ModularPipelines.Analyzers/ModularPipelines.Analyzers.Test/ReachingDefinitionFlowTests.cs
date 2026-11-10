@@ -394,6 +394,47 @@ public class ReachingDefinitionFlowTests
         "string value = \"old\"; Holder holder = null; try { " + statement + " } catch { [|Use(value)|]; }", expected);
 
     [TestMethod]
+    [DataRow("decimal number = decimal.MaxValue;", "sbyte", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "byte", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "short", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "ushort", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "int", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "uint", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "long", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "ulong", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "char", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "nint", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "nuint", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "DayOfWeek", "\"old\"")]
+    [DataRow("double number = double.MaxValue;", "decimal", "\"old\"")]
+    [DataRow("float number = float.MaxValue;", "decimal", "\"old\"")]
+    [DataRow("decimal? number = decimal.MaxValue;", "int?", "\"old\"")]
+    [DataRow("double? number = double.MaxValue;", "decimal?", "\"old\"")]
+    [DataRow("decimal number = decimal.MaxValue;", "double", "")]
+    [DataRow("decimal number = decimal.MaxValue;", "float", "")]
+    [DataRow("long number = long.MaxValue;", "decimal", "")]
+    [DataRow("ulong number = ulong.MaxValue;", "decimal", "")]
+    [DataRow("double number = double.MaxValue;", "int", "")]
+    public void Unchecked_Numeric_Conversion_Exceptions(string declaration, string target, string expected) => AssertFlow($$"""
+        string value = "old";
+        {{declaration}}
+        try { var converted = unchecked(({{target}})number); }
+        catch (OverflowException) { [|Use(value)|]; }
+        """, expected);
+
+    [TestMethod]
+    public void Decimal_Conversion_Exception_Follows_Operand_Evaluation_Before_Finally() => AssertFlow("""
+        string value = "old";
+        decimal number = decimal.MaxValue;
+        try
+        {
+            try { var converted = unchecked((int)(flag ? number : (value = "rhs").Length)); }
+            finally { value = "cleanup"; }
+        }
+        catch when ([|Observe(value)|]) { }
+        """, "\"old\"|\"rhs\"");
+
+    [TestMethod]
     [DataRow("Holder holder = new Holder();", "", "")]
     [DataRow("Holder holder = new Holder();", "ref Holder alias = ref (flag ? ref holder : ref other);", "\"after\"")]
     [DataRow("Holder holder = new Holder();", "ref Holder alias = ref other; alias = ref (flag ? ref holder : ref other);", "\"after\"")]
