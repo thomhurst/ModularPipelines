@@ -268,7 +268,7 @@ if (-not $fullPipelineJob.Contains('steps: &pipeline-steps', [StringComparison]:
 
 $cmdJob = [regex]::Match($workflow, '(?ms)^  cmd-tests:.*?(?=^  [a-z0-9-]+:|\z)').Value
 if (-not $cmdJob.Contains('runs-on: windows-latest', [StringComparison]::Ordinal) -or
-    -not $cmdJob.Contains('test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj', [StringComparison]::Ordinal) -or
+    -not $cmdJob.Contains('run: ./scripts/Invoke-CmdRegression.ps1 -LogDirectory', [StringComparison]::Ordinal) -or
     -not $cmdJob.Contains("needs.fast-fail.outputs.run_full_pipeline == 'true'", [StringComparison]::Ordinal)) {
     throw 'Cmd regression tests must run on Windows for full validation.'
 }

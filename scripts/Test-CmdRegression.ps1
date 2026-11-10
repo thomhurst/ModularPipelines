@@ -75,6 +75,11 @@ try {
         throw 'Event allowlist lost diagnostic fields or exposed unfiltered data.'
     }
     $calls = @(Invoke-Case -Name success -Expected 0 -Phases 3)
+    $project = 'test/ModularPipelines.Cmd.UnitTests/ModularPipelines.Cmd.UnitTests.csproj'
+    if ($project -notin $calls[0].Arguments -or $project -notin $calls[1].Arguments -or
+        $project -notin $calls[2].Arguments) {
+        throw 'Every phase must target the Cmd regression test project.'
+    }
     if (($calls.Timeout -join ',') -ne '180,300,120') { throw 'Guard phase budgets changed.' }
     if (($calls.SingleNode -join ',') -ne 'False,True,False') { throw 'Single-node build flag changed.' }
     if ('--disable-parallel' -notin $calls[0].Arguments -or '--no-restore' -notin $calls[1].Arguments -or
