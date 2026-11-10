@@ -314,6 +314,8 @@ try {
         & chmod +x $invalidExecutable
     }
 
+    # Exercise the real native launch path. Invalid Windows images can display
+    # critical-error UI; the guard must report launch failure without user input.
     foreach ($executable in @($missingExecutable, $invalidExecutable)) {
         foreach ($captureOutput in @($false, $true)) {
             $launchLogPath = if ($captureOutput) { Join-Path $testRoot 'launch-failure.log' } else { '' }
