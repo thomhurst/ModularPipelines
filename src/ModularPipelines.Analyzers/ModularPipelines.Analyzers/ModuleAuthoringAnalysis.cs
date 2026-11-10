@@ -526,14 +526,9 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (parent is not IConditionalOperation { WhenFalse: { } whenFalse } conditional
-                || !((ReferenceEquals(current, conditional.WhenTrue) && HasAncestor(invocation, whenFalse))
-                    || (ReferenceEquals(current, whenFalse) && HasAncestor(invocation, conditional.WhenTrue))))
-            {
-                continue;
-            }
-
-            if (!CanReenterCommandLineConditional(conditional, invocation, operations))
+            if (parent is IConditionalOperation conditional
+                && IsOppositeCommandLineBranch(current, conditional, invocation)
+                && !CanReenterCommandLineConditional(conditional, invocation, operations))
             {
                 return false;
             }
@@ -541,6 +536,14 @@ internal static class ModuleAuthoringAnalysis
 
         return true;
     }
+
+    private static bool IsOppositeCommandLineBranch(
+        IOperation branch,
+        IConditionalOperation conditional,
+        IOperation invocation) =>
+        conditional.WhenFalse is { } whenFalse
+        && ((ReferenceEquals(branch, conditional.WhenTrue) && HasAncestor(invocation, whenFalse))
+            || (ReferenceEquals(branch, whenFalse) && HasAncestor(invocation, conditional.WhenTrue)));
 
     private static bool HasCommandLineExitHandler(IOperation operation, IOperation invocation)
     {
@@ -603,9 +606,20 @@ internal static class ModuleAuthoringAnalysis
         IOperation earlier,
         IOperation replacement)
     {
+        // A jump onto the replacement's label still executes the replacement.
+        var controlFlow = GetCommandLinePredecessorControlFlow(earlier, replacement);
+        return controlFlow is not { Succeeded: true }
+            || controlFlow.ExitPoints.Any(exit => exit is BreakStatementSyntax or ContinueStatementSyntax
+                || (exit is GotoStatementSyntax jump && !JumpsToCommandLineActionReplacement(jump, replacement)));
+    }
+
+    private static ControlFlowAnalysis? GetCommandLinePredecessorControlFlow(
+        IOperation earlier,
+        IOperation replacement)
+    {
         if (GetContainingBlock(replacement) is not { } block)
         {
-            return true;
+            return null;
         }
 
         var preceding = block.Operations.TakeWhile(statement => !HasAncestor(replacement, statement)).ToArray();
@@ -614,14 +628,10 @@ internal static class ModuleAuthoringAnalysis
             || preceding.LastOrDefault()?.Syntax is not StatementSyntax lastStatement
             || earlier.SemanticModel is not { } semanticModel)
         {
-            return true;
+            return null;
         }
 
-        // A jump onto the replacement's label still executes the replacement.
-        var controlFlow = semanticModel.AnalyzeControlFlow(firstStatement, lastStatement);
-        return controlFlow is not { Succeeded: true }
-            || controlFlow.ExitPoints.Any(exit => exit is BreakStatementSyntax or ContinueStatementSyntax
-                || (exit is GotoStatementSyntax jump && !JumpsToCommandLineActionReplacement(jump, replacement)));
+        return semanticModel.AnalyzeControlFlow(firstStatement, lastStatement);
     }
 
     private static bool JumpsToCommandLineActionReplacement(
