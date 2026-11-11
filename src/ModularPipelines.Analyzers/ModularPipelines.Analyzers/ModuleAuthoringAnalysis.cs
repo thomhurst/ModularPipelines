@@ -6663,11 +6663,14 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanExitSwitch(IOperation operation, ILabelSymbol exitLabel)
     {
-        // Nested case transfers stay inside their switch. Ordinary labels may skip
-        // a restoring assignment, so they cannot establish definite assignment.
-        var internalLabels = operation.DescendantsAndSelf()
-            .OfType<ISwitchCaseOperation>()
-            .SelectMany(static @case => @case.Clauses.Select(static clause => clause.Label))
+        // Only nested switches prove their own internal transfers safe. Other gotos
+        // can skip an assignment that the enclosing block or try proof finds.
+        var nestedSwitches = operation.DescendantsAndSelf().OfType<ISwitchOperation>().ToArray();
+        var internalLabels = nestedSwitches
+            .SelectMany(static nested => nested.DescendantsAndSelf().OfType<ILabeledOperation>())
+            .Select(static labeled => labeled.Label)
+            .Concat(nestedSwitches.SelectMany(static nested => nested.Cases)
+                .SelectMany(static @case => @case.Clauses.Select(static clause => clause.Label)))
             .ToImmutableHashSet(SymbolEqualityComparer.Default);
         return operation.DescendantsAndSelf().OfType<IBranchOperation>()
             .Any(branch => (branch.BranchKind == BranchKind.GoTo && !internalLabels.Contains(branch.Target))

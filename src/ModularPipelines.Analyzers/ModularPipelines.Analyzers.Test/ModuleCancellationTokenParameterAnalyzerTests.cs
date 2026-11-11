@@ -218,6 +218,20 @@ public class ModuleCancellationTokenParameterAnalyzerTests
                 .WithLocation(0).WithArguments("Delay"));
     }
 
+    [TestMethod]
+    [DataRow(false, "case 0: goto default; default: break;")]
+    [DataRow(true, "case 0: goto default; default: break;")]
+    [DataRow(false, "default: if (context != null) goto skip; skip: break;")]
+    [DataRow(true, "default: if (context != null) goto skip; skip: break;")]
+    public async Task Recognizes_Original_Token_After_Nested_Switch_In_Try(bool useLocal, string cases)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}{target} = CancellationToken.None; "
+            + $"switch (context) {{ default: try {{ switch (DateTime.Now.Second) {{ {cases} }} {target} = saved; }} finally {{ }} break; }}",
+            $"Task.Delay(1, {target})"));
+    }
+
     private static string Source(string statements, string call) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
         public class BuildModule : Module<List<string>>
