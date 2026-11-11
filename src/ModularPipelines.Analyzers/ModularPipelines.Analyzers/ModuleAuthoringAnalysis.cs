@@ -1285,7 +1285,7 @@ internal static class ModuleAuthoringAnalysis
         IAssignmentOperation assignment => assignment.Target,
         IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
         // Dynamically bound arguments have no IArgumentOperation or parameter symbol.
-        _ when operation.Parent is IDynamicInvocationOperation
+        _ when operation.Parent is IDynamicInvocationOperation or IDynamicObjectCreationOperation
             && operation.Syntax.Parent is ArgumentSyntax { RefKindKeyword.ValueText: "ref" or "out" } => operation,
         _ => null,
     };

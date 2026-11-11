@@ -242,6 +242,45 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = new Resetter((dynamic)0, ref token);", false)]
+    [DataRow("_ = new OutResetter((dynamic)0, out token);", false)]
+    [DataRow("ref var alias = ref token; _ = new Resetter((dynamic)0, ref alias);", false)]
+    [DataRow("ref var alias = ref token; _ = new OutResetter((dynamic)0, out alias);", false)]
+    [DataRow("_ = new Reader((dynamic)0, token);", true)]
+    [DataRow("var other = default(CancellationToken); _ = new Resetter((dynamic)0, ref other);", true)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; alias = ref other; _ = new Resetter((dynamic)0, ref alias);", true)]
+    public async Task Tracks_Dynamic_Constructor_Writes_To_Captured_Helper_Token(string statement, bool flows)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                {{statement}}
+                return Task.Run(async () => await {{(flows ? "Task.Delay(1, token)" : "{|#0:Task.Delay(1, token)|}")}}, token);
+            }
+
+            private sealed class Resetter
+            {
+                public Resetter(int value, ref CancellationToken token) => token = default;
+            }
+
+            private sealed class OutResetter
+            {
+                public OutResetter(int value, out CancellationToken token) => token = default;
+            }
+
+            private sealed class Reader
+            {
+                public Reader(int value, CancellationToken token) { }
+            }
+            """);
+
+        await VerifyCallAsync(source, flows, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("Read(in token);")]
     [DataRow("if (false) { token = default; }")]
     [DataRow("void ResetLocal() { token = default; }")]
