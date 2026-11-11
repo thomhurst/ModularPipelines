@@ -484,8 +484,36 @@ internal static class CancellationTokenParameterProvenance
                 return EvaluateLinkedSource(invocation, state);
             }
 
+            var values = EvaluateInvocationArguments(invocation, state);
+            if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive
+                && keepAlive.ContainingType.ToDisplayString() == "System.GC")
+            {
+                return Value.None;
+            }
+
             // CFG operations have no SemanticModel. Recover the source operation
             // so the existing helper analysis can inspect its declaration.
+            var original = model.GetOperation(invocation.Syntax) as IInvocationOperation;
+            if (original is not null
+                && ModuleAuthoringAnalysis.GetIdentityHelperArgument(original) is { } returnedArgument)
+            {
+                return EvaluateIdentityResult(invocation, Get(values, returnedArgument.Syntax.Span), state);
+            }
+
+            // Scalars are copied at argument evaluation, but collections still alias
+            // their storage after later arguments or ref/out writes mutate it.
+            var arguments = values.ToDictionary(pair => pair.Key, pair => IsSafe(pair.Value, state));
+
+            foreach (var value in values.Values)
+            {
+                InvalidateArrays(value, state);
+            }
+
+            return EvaluateHelperResult(invocation, original, arguments);
+        }
+
+        private Dictionary<TextSpan, Value> EvaluateInvocationArguments(IInvocationOperation invocation, State state)
+        {
             var values = new Dictionary<TextSpan, Value>();
             var references = new List<(IOperation Target, Value Value)>();
             if (invocation.Instance is { } receiver)
@@ -513,29 +541,7 @@ internal static class CancellationTokenParameterProvenance
                 Assign(target, Value.None, state);
             }
 
-            if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive
-                && keepAlive.ContainingType.ToDisplayString() == "System.GC")
-            {
-                return Value.None;
-            }
-
-            var original = model.GetOperation(invocation.Syntax) as IInvocationOperation;
-            if (original is not null
-                && ModuleAuthoringAnalysis.GetIdentityHelperArgument(original) is { } returnedArgument)
-            {
-                return EvaluateIdentityResult(invocation, Get(values, returnedArgument.Syntax.Span), state);
-            }
-
-            // Scalars are copied at argument evaluation, but collections still alias
-            // their storage after later arguments or ref/out writes mutate it.
-            var arguments = values.ToDictionary(pair => pair.Key, pair => IsSafe(pair.Value, state));
-
-            foreach (var value in values.Values)
-            {
-                InvalidateArrays(value, state);
-            }
-
-            return EvaluateHelperResult(invocation, original, arguments);
+            return values;
         }
 
         private static Value EvaluateHelperResult(

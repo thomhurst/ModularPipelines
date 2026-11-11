@@ -5688,6 +5688,20 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
+        var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
+            .Where(returned => (GetEnclosingCallable(returned) is null
+                || ReferenceEquals(GetEnclosingCallable(returned), operation)) && IsInReachableBranch(returned))
+            .Select(static returned => returned.ReturnedValue).OfType<IOperation>().ToArray();
+        return parameters.Count > 0 && returns.Length > 0
+            && returns.SelectMany(GetReachableValueLeaves).Where(static value => !AlwaysThrows(value))
+                .All(value => parameters.Any(parameter => FlowsFromCancellationToken(
+                    value, parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default), method])));
+    }
+
+    private static List<IParameterSymbol> GetAssignedCancellationTokenParameters(
+        IInvocationOperation invocation, IMethodSymbol method, Func<IOperation, bool> flows)
+    {
         var parameters = invocation.Arguments
             .Where(argument => argument.Parameter is not null && flows(argument.Value))
             .Select(argument => GetTargetParameter(method, argument.Parameter!))
@@ -5699,14 +5713,7 @@ internal static class ModuleAuthoringAnalysis
             parameters.Add(receiverParameter);
         }
 
-        var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
-            .Where(returned => (GetEnclosingCallable(returned) is null
-                || ReferenceEquals(GetEnclosingCallable(returned), operation)) && IsInReachableBranch(returned))
-            .Select(static returned => returned.ReturnedValue).OfType<IOperation>().ToArray();
-        return parameters.Count > 0 && returns.Length > 0
-            && returns.SelectMany(GetReachableValueLeaves).Where(static value => !AlwaysThrows(value))
-                .All(value => parameters.Any(parameter => FlowsFromCancellationToken(
-                    value, parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default), method])));
+        return parameters;
     }
 
     private static bool FlowsFromCancellationTokenSourceHelper(
