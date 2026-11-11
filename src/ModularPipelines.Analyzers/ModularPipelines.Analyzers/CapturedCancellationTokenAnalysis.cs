@@ -529,7 +529,7 @@ internal static class CapturedCancellationTokenAnalysis
         {
             if (operation is IDeconstructionAssignmentOperation deconstruction)
             {
-                return DeconstructionEventStoreCanThrow(deconstruction.Target);
+                return DeconstructionStorageCanThrow(deconstruction.Target);
             }
 
             if (operation is not (ICollectionExpressionOperation or ISpreadOperation
@@ -546,7 +546,7 @@ internal static class CapturedCancellationTokenAnalysis
             var classified = operation is IFieldReferenceOperation or IEventReferenceOperation or ISimpleAssignmentOperation
                 ? _model?.GetOperation(operation.Syntax) ?? operation
                 : operation;
-            return !(classified is IEventReferenceOperation && IsDeconstructionTarget(classified))
+            return !(classified is IFieldReferenceOperation or IEventReferenceOperation && IsDeconstructionTarget(classified))
                 && !_exceptionClassifier.Classify(classified).IsEmpty;
         }
 
@@ -561,14 +561,14 @@ internal static class CapturedCancellationTokenAnalysis
                 && ReferenceEquals(assignment.Target, operation);
         }
 
-        private bool DeconstructionEventStoreCanThrow(IOperation target) => target switch
+        private bool DeconstructionStorageCanThrow(IOperation target) => target switch
         {
-            ITupleOperation tuple => tuple.Elements.Any(DeconstructionEventStoreCanThrow),
-            IConversionOperation conversion => DeconstructionEventStoreCanThrow(conversion.Operand),
-            IParenthesizedOperation parentheses => DeconstructionEventStoreCanThrow(parentheses.Operand),
+            ITupleOperation tuple => tuple.Elements.Any(DeconstructionStorageCanThrow),
+            IConversionOperation conversion => DeconstructionStorageCanThrow(conversion.Operand),
+            IParenthesizedOperation parentheses => DeconstructionStorageCanThrow(parentheses.Operand),
             // Classify the destination only after the assigned value has run. Its source
             // parent is a tuple, so the classifier recognizes the backing-field access.
-            IEventReferenceOperation => !_exceptionClassifier.Classify(target).IsEmpty,
+            IFieldReferenceOperation or IEventReferenceOperation => !_exceptionClassifier.Classify(target).IsEmpty,
             _ => false,
         };
 

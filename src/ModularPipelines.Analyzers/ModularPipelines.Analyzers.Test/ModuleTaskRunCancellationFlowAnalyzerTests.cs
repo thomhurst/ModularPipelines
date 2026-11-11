@@ -1021,10 +1021,15 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("(receiver.Ready, _) = ((alias = ref other).CanBeCanceled ? null : (Action?)null, 0)", false)]
     [DataRow("(receiver.Ready, _) = (token.CanBeCanceled ? null : (Action?)null, 0)", true)]
     [DataRow("(Ready, _) = ((Action?)null, 0)", false)]
-    public async Task Tracks_Deconstruction_Event_Store_After_Value(string statement, bool reports)
+    [DataRow("(receiver.Field, _) = (MakeHandler((alias = ref other)), 0)", false)]
+    [DataRow("(receiver.Field, _) = (MakeHandler(token), 0)", true)]
+    [DataRow("(receiver.Field, _) = ((Action?)null, 0)", true)]
+    [DataRow("(Field, _) = ((Action?)null, 0)", false)]
+    public async Task Tracks_Deconstruction_Event_And_Field_Stores_After_Value(string statement, bool reports)
     {
         var source = ModuleSource($$"""
             public event Action? Ready;
+            public Action? Field;
 
             protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
                 HelperAsync(cancellationToken);
