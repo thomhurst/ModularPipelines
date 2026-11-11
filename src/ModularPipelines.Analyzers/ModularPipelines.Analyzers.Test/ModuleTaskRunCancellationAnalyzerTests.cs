@@ -38,6 +38,28 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Accepts_ReadOnly_Ref_Aliases(string root)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource(root,
+            "ReadAlias(); void ReadAlias() { ref readonly var alias = ref cancellationToken; _ = alias.CanBeCanceled; }",
+            "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Accepts_ReadOnly_Ref_Reassignment(string root)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource(root,
+            "ReadAlias(); void ReadAlias() { CancellationToken other = default; ref readonly var alias = ref other; alias = ref cancellationToken; _ = alias.CanBeCanceled; }",
+            "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
     [DataRow("var values = new int[1]; values[cancellationToken.GetHashCode() & 0] = 1;")]
     [DataRow("var values = new int[1]; (values[cancellationToken.GetHashCode() & 0], _) = (1, 2);")]
     [DataRow("var values = new CancellationToken[1]; Reset(ref values[cancellationToken.GetHashCode() & 0]);")]
@@ -86,6 +108,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("execute", "((_, cancellationToken), _) = ((1, CancellationToken.None), 2);")]
     [DataRow("execute", "ResetAlias();")]
     [DataRow("execute", "ResetConditionalAlias();")]
+    [DataRow("execute", "ResetReassignedAlias();")]
     public async Task Reports_Potentially_Overwritten_Captured_Token(string root, string mutation)
     {
         await VerifyCS.VerifyAnalyzerAsync(
@@ -117,6 +140,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 }, cancellationToken);
                 {{afterCallback}}
                 {{(root == "configuration" ? "return false;" : "")}}
+                {{(mutation == "ResetReassignedAlias();" ? "void ResetReassignedAlias() { CancellationToken other = default; ref var alias = ref other; alias = ref cancellationToken; alias = CancellationToken.None; }" : "")}}
                 {{(mutation == "ResetAlias();" ? "void ResetAlias() { ref var alias = ref cancellationToken; alias = CancellationToken.None; }" : "")}}
                 {{(mutation == "ResetConditionalAlias();" ? "void ResetConditionalAlias() { CancellationToken other = default; ref var alias = ref (cancellationToken.CanBeCanceled ? ref cancellationToken : ref other); alias = CancellationToken.None; }" : "")}}
             }

@@ -618,8 +618,15 @@ internal static class ModuleAuthoringAnalysis
             if ((parent is IAssignmentOperation assignment
                 && ReferenceEquals(assignment.Target, current))
                 || parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
-                || parent is IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
-                || parent is ISimpleAssignmentOperation { IsRef: true }
+                || parent is IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref }
+                || (parent is ISimpleAssignmentOperation { IsRef: true } refAssignment
+                    && refAssignment.Target switch
+                    {
+                        ILocalReferenceOperation local => local.Local.RefKind == RefKind.Ref,
+                        IParameterReferenceOperation parameter => parameter.Parameter.RefKind == RefKind.Ref,
+                        IFieldReferenceOperation field => field.Field.RefKind == RefKind.Ref,
+                        _ => true,
+                    })
                 || parent is IAddressOfOperation)
             {
                 return true;
