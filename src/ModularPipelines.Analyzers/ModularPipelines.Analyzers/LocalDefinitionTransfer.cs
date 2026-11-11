@@ -401,16 +401,34 @@ internal sealed class LocalDefinitionTransfer
                 yield return (receiver.Local, memberBinding.Source);
             }
         }
-        else if (operation is IDeconstructionAssignmentOperation deconstruction)
+        else if (operation is IInvocationOperation or IObjectCreationOperation or IPropertyReferenceOperation)
         {
-            foreach (var binding in GetDeconstructionAliasSources(deconstruction.Target, deconstruction.Value))
+            foreach (var binding in GetCallAliasSources(operation))
             {
                 yield return binding;
             }
         }
-        else if (operation is IInvocationOperation or IObjectCreationOperation or IPropertyReferenceOperation)
+
+        foreach (var binding in GetLoopAndDeconstructionAliasSources(operation))
         {
-            foreach (var binding in GetCallAliasSources(operation))
+            yield return binding;
+        }
+    }
+
+    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetLoopAndDeconstructionAliasSources(IOperation operation)
+    {
+        if (operation is IForEachLoopOperation loop)
+        {
+            // Iteration bindings have no source-tree initializer. Current can retain storage
+            // from the collection through its enumerator, including ref and deconstructed values.
+            foreach (var local in loop.Locals.Where(static local => local.RefKind != RefKind.None || local.Type.IsRefLikeType))
+            {
+                yield return (local, loop.Collection);
+            }
+        }
+        else if (operation is IDeconstructionAssignmentOperation deconstruction)
+        {
+            foreach (var binding in GetDeconstructionAliasSources(deconstruction.Target, deconstruction.Value))
             {
                 yield return binding;
             }

@@ -554,8 +554,13 @@ public class ReachingDefinitionFlowTests
         AssertFlow(body, "", supported: false);
 
     [TestMethod]
-    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { value = \"known\"; [|Use(value)|]; }", "\"known\"")]
-    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { if (flag) value = \"first\"; else value = \"second\"; [|Use(value)|]; }", "\"first\"|\"second\"")]
+    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { value = \"known\"; [|Use(value)|]; }")]
+    [DataRow("foreach (ref string value in new Span<string>(new[] { \"item\" })) { if (flag) value = \"first\"; else value = \"second\"; [|Use(value)|]; }")]
+    [DataRow("var items = new[] { \"item\" }; foreach (ref string value in new Span<string>(items)) { value = \"known\"; items[0] = \"changed\"; [|Use(value)|]; }")]
+    public void Foreach_Ref_Values_With_Heap_Backing_Remain_Unsupported_After_Writes(string body) =>
+        AssertFlow(body, "", supported: false);
+
+    [TestMethod]
     [DataRow("string value = \"old\"; foreach (string other in new[] { \"item\" }) { [|Use(value)|]; }", "\"old\"")]
     public void Foreach_Definitions_Only_Affect_Reaching_Paths(string body, string expected) =>
         AssertFlow(body, expected);
@@ -821,6 +826,21 @@ public class ReachingDefinitionFlowTests
     [DataRow("_ = sink[holder]; [|Use(value)|];", "", false)]
     public void RefLike_Indexer_Arguments_Invalidate_At_Accessor_Execution(string statement, string expected, bool supported) =>
         AssertFlow("int value = 0; var holder = new Retained(ref value); var sink = new RetainedSink(); value = 3; " + statement,
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
+    [DataRow("foreach (var copy in new RetainedItems(holder)) { value = 3; copy.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("var items = new RetainedItems(holder); foreach (var copy in items) { var second = copy; value = 3; second.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("foreach (var copy in new RetainedItems(holder)) { value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; } }", "", false)]
+    [DataRow("foreach (var copy in new RetainedItems(holder)) { copy.Field = 2; value = 3; [|Use(value)|]; }", "3", true)]
+    [DataRow("foreach (var copy in new RetainedItems(holder)) { value = 3; if (false) copy.Field = 2; [|Use(value)|]; }", "3", true)]
+    [DataRow("foreach (var copy in new RetainedItems(holder)) { value = 3; copy.Field = [|value|]; }", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); foreach (var copy in new RetainedItems(unrelated)) { value = 3; copy.Field = 2; [|Use(value)|]; }", "3", true)]
+    [DataRow("foreach (ref var copy in new RetainedItems(holder)) { value = 3; copy.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("foreach (ref readonly var copy in new RetainedItems(holder)) { value = 3; copy.MutateAfterArgument(0); [|Use(value)|]; }", "", false)]
+    [DataRow("foreach (ref int copy in new RefItems(ref value)) { value = 3; copy = 2; [|Use(value)|]; }", "", false)]
+    public void Foreach_RefLike_Values_Retain_Collection_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); " + statement,
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
@@ -1143,6 +1163,23 @@ public class ReachingDefinitionFlowTests
                 get { Item = item; if (fail) throw new Exception(); return 0; }
                 set { Item = item; }
             }
+        }
+        ref struct RefItems
+        {
+            private ref int _item;
+            public RefItems(ref int item) { _item = ref item; }
+            public RefItems GetEnumerator() => this;
+            public bool MoveNext() => true;
+            public ref int Current => ref _item;
+        }
+        ref struct RetainedItems
+        {
+            private Retained _item;
+            public RetainedItems(Retained item) { _item = item; }
+            public RetainedItems GetEnumerator() => this;
+            public bool MoveNext() => true;
+            [System.Diagnostics.CodeAnalysis.UnscopedRef]
+            public ref Retained Current => ref _item;
         }
         ref struct Retained
         {
