@@ -118,7 +118,7 @@ internal sealed class LocalDefinitionTransfer
     {
         var target = operation switch
         {
-            ISimpleAssignmentOperation { IsRef: true } => null,
+            ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation } => null,
             IAssignmentOperation store => store.Target,
             IEventAssignmentOperation subscription => subscription.EventReference,
             IIncrementOrDecrementOperation increment => increment.Target,

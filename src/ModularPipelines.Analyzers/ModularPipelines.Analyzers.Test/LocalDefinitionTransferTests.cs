@@ -12,6 +12,29 @@ namespace ModularPipelines.Analyzers.Test;
 public class LocalDefinitionTransferTests
 {
     [TestMethod]
+    [DataRow("value.Field = ref other", true)]
+    [DataRow("alias.Field = ref other", true)]
+    [DataRow("unrelated.Field = ref other", false)]
+    [DataRow("alias = ref unrelated", false)]
+    public void Ref_Field_Rebinding_Invalidates_Only_Receiver_Storage(string store, bool invalidates)
+    {
+        var scenario = new Scenario("int source = 0; int other = 1; RefValue value = new RefValue(ref source);"
+            + "RefValue unrelated = new RefValue(ref source); ref RefValue alias = ref value;"
+            + store + "; value = default;");
+        scenario.Store(store);
+        if (invalidates)
+        {
+            scenario.AssertUnknown();
+            scenario.Store("value = default");
+            scenario.AssertValues("default");
+        }
+        else
+        {
+            scenario.AssertValues("new RefValue(ref source)");
+        }
+    }
+
+    [TestMethod]
     [DataRow("holder.Field", "holder.Field = 2")]
     [DataRow("holder.Nested.Field", "holder.Nested.Field = 2")]
     [DataRow("items[0]", "items[0] = 2")]
@@ -527,6 +550,11 @@ public class LocalDefinitionTransferTests
                     public Inner Nested;
                     public Holder Reference;
                     public int this[int index] { get => 0; set { } }
+                }
+                ref struct RefValue
+                {
+                    public ref int Field;
+                    public RefValue(ref int field) { Field = ref field; }
                 }
                 class RefHolder
                 {
