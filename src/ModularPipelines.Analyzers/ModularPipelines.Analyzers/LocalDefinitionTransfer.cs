@@ -105,6 +105,7 @@ internal sealed class LocalDefinitionTransfer
         {
             ISimpleAssignmentOperation { IsRef: true } => null,
             IAssignmentOperation store => store.Target,
+            IEventAssignmentOperation subscription => subscription.EventReference,
             IIncrementOrDecrementOperation increment => increment.Target,
             _ => null,
         };
@@ -363,6 +364,7 @@ internal sealed class LocalDefinitionTransfer
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IPropertyReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),

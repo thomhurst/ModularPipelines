@@ -12,6 +12,35 @@ namespace ModularPipelines.Analyzers.Test;
 public class LocalDefinitionTransferTests
 {
     [TestMethod]
+    [DataRow("Mutable value = new Mutable();", "value.Changed += A", true)]
+    [DataRow("Mutable value = new Mutable();", "value.Changed -= A", true)]
+    [DataRow("Mutable value = new Mutable(); ref Mutable alias = ref value;", "alias.Changed += A", true)]
+    [DataRow("Mutable value = new Mutable(); ref Mutable alias = ref value;", "alias.Changed -= A", true)]
+    [DataRow("Mutable value = new Mutable();", "value.Nested.Changed += A", true)]
+    [DataRow("Mutable value = new Mutable(); Mutable other = new Mutable();", "(flag ? ref value : ref other).Changed += A", true)]
+    [DataRow("Holder value = new Holder();", "value.Changed += A", false)]
+    [DataRow("Mutable value = new Mutable();", "value.Reference.Changed -= A", false)]
+    [DataRow("Mutable value = new Mutable(); Mutable other = new Mutable();", "other.Changed += A", false)]
+    public void Event_Stores_Invalidate_Only_Value_Type_Storage(string declarations, string store, bool invalidates)
+    {
+        var scenario = new Scenario(declarations + store + ";value = default;");
+        scenario.Store(store);
+        if (invalidates)
+        {
+            scenario.AssertUnknown();
+            scenario.Store("value = default");
+            scenario.AssertValues("default");
+        }
+        else
+        {
+            scenario.AssertValues(declarations.StartsWith("Holder", StringComparison.Ordinal) ? "new Holder()" : "new Mutable()");
+        }
+    }
+
+    [TestMethod]
+    [DataRow("IMutable, new()", "value.Changed += A", true)]
+    [DataRow("struct, IMutable", "value.Changed -= A", true)]
+    [DataRow("class, IMutable, new()", "value.Changed += A", false)]
     [DataRow("IMutable, new()", "value.Property = 1", true)]
     [DataRow("IMutable, new()", "value.Property++", true)]
     [DataRow("IMutable, new()", "value[0] = 1", true)]
@@ -435,6 +464,7 @@ public class LocalDefinitionTransferTests
                 using System;
                 interface IMutable
                 {
+                    event Action Changed;
                     int Property { get; set; }
                     int this[int index] { get; set; }
                 }
@@ -444,6 +474,7 @@ public class LocalDefinitionTransferTests
                 }
                 class Holder
                 {
+                    public event Action Changed { add { } remove { } }
                     public int Field;
                     public Mutable Nested;
                     public ref int this[int index] => ref Field;
@@ -451,11 +482,13 @@ public class LocalDefinitionTransferTests
                 }
                 struct Inner
                 {
+                    public event Action Changed { add { } remove { } }
                     public int Field;
                     public int Property { get; set; }
                 }
                 struct Mutable
                 {
+                    public event Action Changed { add { } remove { } }
                     public int Field;
                     public int Property { get; set; }
                     public Inner Nested;
