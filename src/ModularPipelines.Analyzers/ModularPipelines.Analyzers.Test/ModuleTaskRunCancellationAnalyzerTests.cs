@@ -393,6 +393,10 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("((CancellationToken)(object)tokens).CanBeCanceled | (alias = ref other).CanBeCanceled", false, true)]
     [DataRow("(choice > 0) switch { true => (alias = ref other).CanBeCanceled, false => (alias = ref other).CanBeCanceled }", false, false)]
     [DataRow("(choice > 0) switch { true when choice > 1 => (alias = ref other).CanBeCanceled, false => (alias = ref other).CanBeCanceled }", false, true)]
+    [DataRow("(new Thrower((dynamic)0) is not null) | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(new Thrower((dynamic)0) is not null) | (alias = ref other).CanBeCanceled", true, false)]
+    [DataRow("(alias = ref other).CanBeCanceled | (new Thrower((dynamic)0) is not null)", false, false)]
+    [DataRow("(new Thrower((dynamic)(alias = ref other)) is not null)", false, false)]
     public async Task Tracks_Throwing_Exception_Filter_Bindings(string filter, bool rebindInHandler, bool reports)
     {
         var source = ModuleSource($$"""
@@ -418,6 +422,13 @@ public class ModuleTaskRunCancellationAnalyzerTests
             }
 
             private static bool MayThrow() => throw new Exception();
+
+            private sealed class Thrower
+            {
+                public Thrower(int value) => throw new Exception();
+                public Thrower(CancellationToken value) => throw new Exception();
+            }
+
             """);
 
         await VerifyCallAsync(source, !reports, "Delay");

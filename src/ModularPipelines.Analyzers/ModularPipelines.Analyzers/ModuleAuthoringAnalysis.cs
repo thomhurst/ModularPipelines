@@ -993,7 +993,7 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation or IPropertyReferenceOperation
         or IFieldReferenceOperation { Parent: not IPropertySubpatternOperation }
         or IArrayElementReferenceOperation or IObjectCreationOperation or IArrayCreationOperation
-        or IDynamicInvocationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
+        or IDynamicInvocationOperation or IDynamicObjectCreationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
         or IThrowOperation
         or IRecursivePatternOperation { DeconstructSymbol: not null }
         or IListPatternOperation { InputType: not IArrayTypeSymbol and not { SpecialType: SpecialType.System_String } }
