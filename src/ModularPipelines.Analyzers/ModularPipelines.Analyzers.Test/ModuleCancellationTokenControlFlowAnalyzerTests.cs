@@ -791,12 +791,25 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     [DataRow("var alias = value; alias[0] = default;", true)]
     [DataRow("ref var item = ref value[0]; item = default;", true)]
     [DataRow("(value[0], value[0]) = (default, default);", true)]
+    [DataRow("System.Array.Clear(value);", true)]
+    [DataRow("System.Array.Clear((System.Array)value);", true)]
+    [DataRow("System.Array alias = value; System.Array.Clear(alias);", true)]
+    [DataRow("object alias = value; ClearObject(alias);", true)]
     [DataRow("var first = value[0];", false)]
     [DataRow("", false)]
     public async Task Rejects_Mutated_Token_Array_Helper_Inputs(string mutation, bool warning)
     {
         await Verify("var tokens = PassArray(new[] { cancellationToken }); using var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); var token = linked.Token; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
-            "private static CancellationToken[] PassArray(CancellationToken[] value) { " + mutation + " return value; }");
+            "private static CancellationToken[] PassArray(CancellationToken[] value) { " + mutation + " return value; } private static void ClearObject(object value) => System.Array.Clear((CancellationToken[])value);");
+    }
+
+    [TestMethod]
+    [DataRow("System.Array.Clear(value);", true)]
+    [DataRow("", false)]
+    public async Task Rejects_Mutated_Container_Source_Helper_Inputs(string mutation, bool warning)
+    {
+        await Verify("using var linked = Link(new[] { cancellationToken }); var token = linked.Token; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private static CancellationTokenSource Link(CancellationToken[] value) { " + mutation + " return CancellationTokenSource.CreateLinkedTokenSource(value); }");
     }
 
     private static async Task Verify(string body, bool warning, string helpers = "")

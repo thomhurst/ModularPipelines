@@ -5674,12 +5674,11 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        if (HasContainerElementMutation(operation, invocation.Type))
+        var flowedParameters = GetSourceHelperParameters(invocation, method, argumentValues, receiverValue);
+        if (HasContainerElementMutation(operation, invocation.Type, flowedParameters))
         {
             return false;
         }
-
-        var flowedParameters = GetSourceHelperParameters(invocation, method, argumentValues, receiverValue);
 
         visitedMethods = CloneVisitedMethods(visitedMethods);
         if (!visitedMethods.Add(method))
@@ -5700,19 +5699,45 @@ internal static class ModuleAuthoringAnalysis
                 visitedSources);
     }
 
-    private static bool HasContainerElementMutation(IOperation operation, ITypeSymbol? returnType)
+    private static bool HasContainerElementMutation(
+        IOperation operation, ITypeSymbol? returnType, HashSet<IParameterSymbol> flowedParameters)
     {
         // Container facts describe the presence of a source token, not individual
         // heap elements. Writes and writable ref escapes can invalidate that fact
         // through aliases, so reject such container-forwarding proofs conservatively.
-        return !IsCancellationCarrier(returnType)
-            && IsCancellationInput(returnType)
+        return (IsCancellationContainer(returnType)
+                || flowedParameters.Any(static parameter => IsCancellationContainer(parameter.Type)))
             && operation.DescendantsAndSelf().Any(static child =>
-                ((child is IArrayElementReferenceOperation { ArrayReference.Type: IArrayTypeSymbol array }
-                    && IsCancellationInput(array))
-                || (child is IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance }
-                    && IsCancellationInput(instance.Type)))
-                && MayWriteContainerElement(child));
+                ExposesCancellationContainer(child)
+                || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)));
+    }
+
+    private static bool IsCancellationContainerElement(IOperation operation)
+    {
+        return operation switch
+        {
+            IArrayElementReferenceOperation array => IsCancellationContainer(array.ArrayReference.Type),
+            IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => IsCancellationContainer(instance.Type),
+            _ => false,
+        };
+    }
+
+    private static bool ExposesCancellationContainer(IOperation operation)
+    {
+        return operation switch
+        {
+            IArgumentOperation argument => !(argument.Parent is IInvocationOperation invocation && IsKnownCancellationCarrierFactory(invocation))
+                && argument.Value.DescendantsAndSelf().Any(static value => IsCancellationContainer(value.Type)),
+            IInvocationOperation invocation => IsCancellationContainer(invocation.Instance?.Type),
+            IConversionOperation conversion => IsCancellationContainer(conversion.Operand.Type) && !IsCancellationContainer(conversion.Type),
+            IDynamicInvocationOperation or IDynamicObjectCreationOperation => true,
+            _ => false,
+        };
+    }
+
+    private static bool IsCancellationContainer(ITypeSymbol? type)
+    {
+        return !IsCancellationCarrier(type) && IsCancellationInput(type);
     }
 
     private static bool MayWriteContainerElement(IOperation element)
