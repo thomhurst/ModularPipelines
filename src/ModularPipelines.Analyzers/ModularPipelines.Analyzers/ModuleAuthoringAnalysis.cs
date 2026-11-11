@@ -6160,6 +6160,16 @@ internal static class ModuleAuthoringAnalysis
             return assignedValues;
         }
 
+        return AppendLocalInitializer(root, operation, local, callable, assignedValues);
+    }
+
+    private static IEnumerable<IOperation> AppendLocalInitializer(
+        IOperation root,
+        IOperation operation,
+        ISymbol local,
+        IOperation? callable,
+        IEnumerable<IOperation> assignedValues)
+    {
         if (local is ILocalSymbol localSymbol
             && FindLocalDeclarator(root, operation, localSymbol, callable)
                 ?.Initializer?.Value is { } initialValue)
