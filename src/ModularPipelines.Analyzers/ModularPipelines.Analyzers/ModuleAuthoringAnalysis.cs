@@ -6787,7 +6787,11 @@ internal static class ModuleAuthoringAnalysis
         for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
             if (ancestor is ITryOperation tryOperation
-                && (tryOperation.Catches.Length > 0
+                && ((BranchMayThrow(branch)
+                        && tryOperation.Catches.Any(catchClause =>
+                            HasAncestor(operation, catchClause)
+                            || catchClause.Filter is not null
+                            || !AlwaysExitsMethod(catchClause.Handler)))
                     || (tryOperation.Finally is { } finallyBlock
                     && HasAncestor(operation, finallyBlock))))
             {
@@ -6802,6 +6806,39 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool AlwaysExitsMethod(IOperation operation)
+    {
+        return operation switch
+        {
+            IReturnOperation or IThrowOperation => true,
+            IBlockOperation { Operations.Length: > 0 } block =>
+                AlwaysExitsMethod(block.Operations[block.Operations.Length - 1]),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                AlwaysExitsMethod(conditional.WhenTrue) && AlwaysExitsMethod(whenFalse),
+            _ => false,
+        };
+    }
+
+    private static bool BranchMayThrow(IOperation branch)
+    {
+        // Unknown operations remain catchable. Plain token copies and constant
+        // returns cannot transfer control to a catch, unlike calls and throws.
+        return branch.DescendantsAndSelf().Any(operation => operation switch
+        {
+            IBlockOperation or ISwitchCaseOperation or ICaseClauseOperation or IExpressionStatementOperation
+                or IReturnOperation or ILiteralOperation or ILocalReferenceOperation
+                or IParameterReferenceOperation or IConditionalOperation
+                or IIsPatternOperation or IConstantPatternOperation
+                or INegatedPatternOperation => false,
+            ISimpleAssignmentOperation { Target: ILocalReferenceOperation or IParameterReferenceOperation } => false,
+            IConversionOperation conversion when conversion.Conversion.IsIdentity
+                || (conversion.Conversion.IsReference && conversion.IsImplicit) => false,
+            IPropertyReferenceOperation property when property.Property.Name == "None"
+                && property.Property.ContainingType.ToDisplayString() == CancellationTokenMetadataName => false,
+            _ => true,
+        });
     }
 
     private static bool AreInDifferentConditionalBranches(
