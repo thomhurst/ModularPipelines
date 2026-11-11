@@ -295,21 +295,24 @@ internal sealed class OperationExceptionClassifier(
     private static bool IsThrowingPropertyAccess(IOperation operation) => operation switch
     {
         // Setters run after the assigned value; ref-return getters run while evaluating the target.
-        IAssignmentOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
-        IIncrementOrDecrementOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
+        IAssignmentOperation assignment => IsThrowingSetter(assignment.Target),
+        IIncrementOrDecrementOperation increment => IsThrowingSetter(increment.Target),
         IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation => !IsSimpleAssignmentTarget(operation),
-        IAssignmentOperation { Target: IImplicitIndexerReferenceOperation { IndexerSymbol: IPropertySymbol property } } =>
-            !property.ReturnsByRef && !property.ReturnsByRefReadonly,
-        IIncrementOrDecrementOperation { Target: IImplicitIndexerReferenceOperation { IndexerSymbol: IPropertySymbol property } } =>
-            !property.ReturnsByRef && !property.ReturnsByRefReadonly,
-        IAssignmentOperation { Target: IPropertyReferenceOperation property } =>
-            !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
-        IIncrementOrDecrementOperation { Target: IPropertyReferenceOperation property } =>
-            !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
         IPropertyReferenceOperation property => !IsSimpleAssignmentTarget(property)
             || property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly,
         _ => false,
     };
+
+    private static bool IsThrowingSetter(IOperation target) => target switch
+    {
+        IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation => true,
+        IImplicitIndexerReferenceOperation { IndexerSymbol: IPropertySymbol property } => IsValueProperty(property),
+        IPropertyReferenceOperation property => IsValueProperty(property.Property),
+        _ => false,
+    };
+
+    private static bool IsValueProperty(IPropertySymbol property) =>
+        !property.ReturnsByRef && !property.ReturnsByRefReadonly;
 
     private static IFieldReferenceOperation? GetFieldAccess(IOperation operation) => operation switch
     {
