@@ -757,6 +757,26 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             + "; var token = optional ?? cancellationToken; for (var i = 0; i < 2; i++) await CALL(1, token);", warning);
     }
 
+    [TestMethod]
+    [DataRow("new[] { value }", false)]
+    [DataRow("[value]", false)]
+    [DataRow("new[] { default(CancellationToken) }", true)]
+    [DataRow("new[] { default(CancellationToken), value }", false)]
+    public async Task Tracks_Token_Array_Helper_Returns(string expression, bool warning)
+    {
+        await Verify("var tokens = Wrap(cancellationToken); using var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); var token = linked.Token; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private static CancellationToken[] Wrap(CancellationToken value) => " + expression + ";");
+    }
+
+    [TestMethod]
+    [DataRow("value", false)]
+    [DataRow("new[] { default(CancellationToken) }", true)]
+    public async Task Tracks_Token_Array_Helper_Inputs(string expression, bool warning)
+    {
+        await Verify("var tokens = PassArray(Wrap(cancellationToken)); using var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); var token = linked.Token; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private static CancellationToken[] Wrap(CancellationToken value) => new[] { value }; private static CancellationToken[] PassArray(CancellationToken[] value) => " + expression + ";");
+    }
+
     private static async Task Verify(string body, bool warning, string helpers = "")
     {
         body = body.Replace("CALL", warning ? "{|#0:Task.Delay|}" : "Task.Delay");

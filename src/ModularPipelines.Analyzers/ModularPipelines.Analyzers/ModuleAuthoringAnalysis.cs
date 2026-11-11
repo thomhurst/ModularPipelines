@@ -5657,7 +5657,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IMethodSymbol> visitedMethods,
         HashSet<IParameterSymbol> visitedSources)
     {
-        if (!IsCancellationCarrier(invocation.Type))
+        if (!IsCancellationCarrier(invocation.Type) && !IsCancellationInput(invocation.Type))
         {
             return false;
         }
@@ -5696,14 +5696,14 @@ internal static class ModuleAuthoringAnalysis
             invocation.Arguments
                 .Where((argument, index) => argumentValues[index]
                     && argument.Parameter is not null
-                    && IsCancellationToken(argument.Parameter))
+                    && IsCancellationInput(argument.Parameter))
                 .Select(argument => GetTargetParameter(method, argument.Parameter))
                 .OfType<IParameterSymbol>(),
             SymbolEqualityComparer.Default);
         if (receiverValue
             && invocation.TargetMethod.ReducedFrom is not null
             && method.Parameters.FirstOrDefault() is { } receiverParameter
-            && IsCancellationToken(receiverParameter))
+            && IsCancellationInput(receiverParameter))
         {
             flowedParameters.Add(receiverParameter);
         }
@@ -5806,11 +5806,16 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsCancellationInput(IParameterSymbol parameter)
     {
-        return IsCancellationToken(parameter)
-               || (parameter.Type is IArrayTypeSymbol arrayType
+        return IsCancellationInput(parameter.Type);
+    }
+
+    private static bool IsCancellationInput(ITypeSymbol? type)
+    {
+        return type?.ToDisplayString() == CancellationTokenMetadataName
+               || (type is IArrayTypeSymbol arrayType
                    && arrayType.ElementType.ToDisplayString()
                    == CancellationTokenMetadataName)
-               || (parameter.Type is INamedTypeSymbol { IsGenericType: true } namedType
+               || (type is INamedTypeSymbol { IsGenericType: true } namedType
                    && namedType.TypeArguments.Length == 1
                    && namedType.OriginalDefinition.ToDisplayString() is
                        "System.Span<T>"
