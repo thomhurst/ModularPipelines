@@ -777,7 +777,7 @@ internal static class CancellationTokenParameterProvenance
         {
             // A collection result cannot use a scalar snapshot: later writes must
             // affect its allocation. Unknown collection helpers remain escapes.
-            var awaitable = invocation.TargetMethod.IsAsync && IsTokenAwaitable(invocation.Type);
+            var awaitable = IsTokenAwaitable(invocation.Type);
             if ((awaitable || invocation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource")
                 && original is not null
                 && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(

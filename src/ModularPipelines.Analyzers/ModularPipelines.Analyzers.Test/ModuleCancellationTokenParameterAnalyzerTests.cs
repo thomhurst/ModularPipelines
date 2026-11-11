@@ -7,6 +7,46 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("new ValueTask<CancellationToken>(token)")]
+    [DataRow("new ValueTask<CancellationToken>(Task.FromResult(token))")]
+    public async Task Non_Async_ValueTask_Constructors_Preserve_Helper_Payloads(string result)
+    {
+        var helper = $"static ValueTask<CancellationToken> Preserve(CancellationToken token) => {result}; ";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + "cancellationToken = await Preserve(cancellationToken);", "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Generic_Async_Helpers_Do_Not_Prove_Mutated_Local_Collections(string taskType)
+    {
+        var helper = $"static async {taskType}<CancellationToken> Replace<T>(T token) {{ await Task.Yield(); var tokens = new T[] {{ token }}; tokens[0] = default!; return (CancellationToken)(object)tokens[0]!; }} ";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + "cancellationToken = await Replace(cancellationToken);", "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", false, false)]
+    [DataRow("ValueTask", false, false)]
+    [DataRow("Task", true, false)]
+    [DataRow("ValueTask", true, false)]
+    [DataRow("Task", false, true)]
+    [DataRow("ValueTask", false, true)]
+    [DataRow("Task", true, true)]
+    [DataRow("ValueTask", true, true)]
+    public async Task Source_Helpers_Preserve_Only_Original_Scalar_Payloads(string taskType, bool genericAsync, bool replaces)
+    {
+        var value = replaces ? "default!" : "token";
+        var helper = genericAsync
+            ? $"static async {taskType}<T> Preserve<T>(T token) {{ await Task.Yield(); return {value}; }}"
+            : $"static {taskType}<CancellationToken> Preserve(CancellationToken token) => {taskType}.FromResult<CancellationToken>({value});";
+        var call = replaces ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + " cancellationToken = await Preserve(cancellationToken);", call), replaces
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
     [DataRow("Task", false)]
     [DataRow("ValueTask", false)]
     [DataRow("Task", true)]

@@ -5689,18 +5689,19 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
-        if (method.IsAsync)
+        if (method.IsAsync || IsCancellationTokenAwaitable(invocation.Type))
         {
-            // Async payload proof is scalar-only. Collection contents and aliases
+            // Awaitable payload proof is scalar-only. Collection contents and aliases
             // are not tracked across source-helper boundaries.
-            if (operation.DescendantsAndSelf().Any(static child => IsCancellationTokenCollection(child.Type)))
+            if (operation.DescendantsAndSelf().Any(static child => child.Type is IArrayTypeSymbol
+                || (child.Type is INamedTypeSymbol named && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>")))
             {
                 return false;
             }
 
             // Local-function parameter analysis retains a captured-value fallback.
-            // Do not use that fallback to prove a written async return payload.
-            parameters.RemoveAll(parameter => !IsCancellationToken(parameter) || operation.DescendantsAndSelf()
+            // Do not use that fallback to prove a written awaitable return payload.
+            parameters.RemoveAll(parameter => !HasScalarCancellationTokenArgument(invocation, method, parameter) || operation.DescendantsAndSelf()
                 .OfType<IParameterReferenceOperation>()
                 .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
                     && IsPotentialParameterWrite(reference)));
@@ -5713,7 +5714,42 @@ internal static class ModuleAuthoringAnalysis
         return parameters.Count > 0 && returns.Length > 0
             && returns.SelectMany(GetReachableValueLeaves).Where(static value => !AlwaysThrows(value))
                 .All(value => parameters.Any(parameter => FlowsFromCancellationToken(
-                    value, parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default), method])));
+                    method.IsAsync ? value : GetCancellationTokenPayload(value), parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default), method])));
+    }
+
+    private static bool IsCancellationTokenAwaitable(ITypeSymbol? type) => type is INamedTypeSymbol { TypeArguments.Length: 1 } named
+        && named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName
+        && named.OriginalDefinition.ToDisplayString() is "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>";
+
+    private static bool HasScalarCancellationTokenArgument(IInvocationOperation invocation, IMethodSymbol method, IParameterSymbol parameter)
+    {
+        if (invocation.TargetMethod.ReducedFrom is not null && parameter.Ordinal == 0)
+        {
+            return invocation.Instance?.Type?.ToDisplayString() == CancellationTokenMetadataName;
+        }
+
+        return invocation.Arguments.Any(argument => argument.Parameter is not null
+            && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter)
+            && IsCancellationToken(argument.Parameter));
+    }
+
+    private static IOperation GetCancellationTokenPayload(IOperation value)
+    {
+        if (value is IInvocationOperation { Arguments.Length: 1 } factory
+            && factory.TargetMethod is { Name: "FromResult", IsStatic: true }
+            && factory.TargetMethod.ContainingType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask")
+        {
+            return factory.Arguments[0].Value;
+        }
+
+        if (value is IObjectCreationOperation { Arguments.Length: 1 } creation
+            && creation.Type is INamedTypeSymbol named
+            && named.OriginalDefinition.ToDisplayString() == "System.Threading.Tasks.ValueTask<TResult>")
+        {
+            return GetCancellationTokenPayload(creation.Arguments[0].Value);
+        }
+
+        return value;
     }
 
     private static List<IParameterSymbol> GetAssignedCancellationTokenParameters(
