@@ -54,9 +54,11 @@ internal sealed class LocalDefinitionTransfer
     }
 
     internal HashSet<TextSpan>? CaptureDelegateInputs(IOperation operation, HashSet<TextSpan> state) =>
+        IsLocalDelegateAddition(operation) ? [with(state)] : null;
+
+    private bool IsLocalDelegateAddition(IOperation operation) =>
         operation is ICompoundAssignmentOperation { Target: ILocalReferenceOperation target } assignment
-        && SymbolEqualityComparer.Default.Equals(target.Local, _local) && IsDelegateAddition(assignment)
-            ? [with(state)] : null;
+        && SymbolEqualityComparer.Default.Equals(target.Local, _local) && IsDelegateAddition(assignment);
 
     internal void InvalidateByReferenceArguments(IOperation operation, HashSet<TextSpan> state)
     {
@@ -84,6 +86,13 @@ internal sealed class LocalDefinitionTransfer
 
         if (WritesThroughAliasOrMember(operation))
         {
+            Invalidate(state);
+            return;
+        }
+
+        if (delegateInputs is null && IsLocalDelegateAddition(operation))
+        {
+            // The post-RHS state cannot reconstruct the delegate's pre-RHS value.
             Invalidate(state);
             return;
         }
@@ -330,7 +339,7 @@ internal sealed class LocalDefinitionTransfer
                     changed |= aliases.Add(alias);
                 }
 
-                if (aliases.Contains(alias))
+                if (local.RefKind != RefKind.None && aliases.Contains(alias))
                 {
                     foreach (var reference in source.DescendantsAndSelf().OfType<ILocalReferenceOperation>())
                     {

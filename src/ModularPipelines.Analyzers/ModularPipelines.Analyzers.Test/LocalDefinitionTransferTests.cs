@@ -173,6 +173,8 @@ public class LocalDefinitionTransferTests
     [DataRow("int value = 1; var holder = new Holder(); ref int alias = ref holder[value];", "alias = 2", "1")]
     [DataRow("Holder value = new Holder(); ref int alias = ref value.Field;", "alias = 2", "new Holder()")]
     [DataRow("int value = 1; int other = 0; ref int alias = ref other;", "alias++", "1")]
+    [DataRow("int value = 1; int other = 0; ref int alias = ref (flag ? ref value : ref other);", "other = 2", "1")]
+    [DataRow("int value = 1; int other = 0; ref int alias = ref (flag ? ref other : ref value); ref int sibling = ref other;", "sibling++", "1")]
     [DataRow("int value = 1; int other = 0;", "other = value", "1")]
     public void Unrelated_And_Reference_Member_Stores_Preserve_Definitions(string declarations, string store, string expected)
     {
@@ -183,6 +185,7 @@ public class LocalDefinitionTransferTests
 
     [TestMethod]
     [DataRow("int value = 1; int other = 0;", "Change(ref other)", "1")]
+    [DataRow("int value = 1; int other = 0; ref int alias = ref (flag ? ref value : ref other);", "Change(ref other)", "1")]
     [DataRow("Holder value = new Holder();", "Change(ref value.Field)", "new Holder()")]
     [DataRow("int value = 1; int[] array = new int[3];", "Change(ref array[value])", "1")]
     [DataRow("int value = 1;", "Read(in value)", "1")]
@@ -349,6 +352,18 @@ public class LocalDefinitionTransferTests
         scenario.Store("value = B");
         scenario.Transfer.ApplyStore(addition, scenario.State, before);
         scenario.AssertValues("A|value = B");
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public void Delegate_Addition_Without_Snapshot_Invalidates(bool initialize)
+    {
+        var scenario = new Scenario("Action value = A; value += B; value = A;", initialize);
+        scenario.Transfer.ApplyStore(scenario.Operation("value += B"), scenario.State);
+        scenario.AssertUnknown();
+        scenario.Store("value = A");
+        scenario.AssertValues("A");
     }
 
     [TestMethod]
