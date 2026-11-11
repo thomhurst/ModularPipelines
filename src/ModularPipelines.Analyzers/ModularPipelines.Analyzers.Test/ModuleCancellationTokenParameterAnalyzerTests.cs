@@ -7,6 +7,78 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Awaitable_Payload_Joins_Require_Original_On_Every_Path(bool replaced)
+    {
+        var replacement = replaced ? "{|#1:Task.FromResult(CancellationToken.None)|}" : "Task.FromResult(cancellationToken)";
+        var statements = "var saved = Task.FromResult(cancellationToken); "
+            + $"if (context != null) saved = {replacement}; "
+            + "cancellationToken = await saved;";
+        var call = replaced ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        var source = Source(statements, call)
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return " + call, "await " + call);
+        await VerifyCS.VerifyAnalyzerAsync(source, replaced
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"),
+                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("FromResult")]
+            : []);
+    }
+
+    [TestMethod]
+    public async Task Direct_Await_Preserves_Token_Payload()
+    {
+        var source = Source("cancellationToken = await Task.FromResult(cancellationToken);", "Task.Delay(1, cancellationToken)")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.Delay", "await Task.Delay");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("Task.FromResult(cancellationToken)")]
+    [DataRow("Task.FromResult(cancellationToken).ConfigureAwait(false)")]
+    [DataRow("ValueTask.FromResult(cancellationToken)")]
+    [DataRow("new ValueTask<CancellationToken>(cancellationToken)")]
+    [DataRow("new ValueTask<CancellationToken>(Task.FromResult(cancellationToken)).ConfigureAwait(false)")]
+    [DataRow("new ValueTask<CancellationToken>(cancellationToken).AsTask()")]
+    public async Task Awaitable_Wrappers_Preserve_Token_Payload(string expression)
+    {
+        var source = Source($"var saved = {expression}; cancellationToken = default; cancellationToken = await saved;", "Task.Delay(1, cancellationToken)")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.Delay", "await Task.Delay");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("Task.FromResult(CancellationToken.None)")]
+    [DataRow("Task.FromResult(CancellationToken.None).ConfigureAwait(false)")]
+    [DataRow("ValueTask.FromResult(CancellationToken.None)")]
+    [DataRow("new ValueTask<CancellationToken>(CancellationToken.None)")]
+    [DataRow("new ValueTask<CancellationToken>(Task.FromResult(CancellationToken.None)).ConfigureAwait(false)")]
+    [DataRow("new ValueTask<CancellationToken>(CancellationToken.None).AsTask()")]
+    public async Task Awaitable_Wrappers_Report_Replaced_Payload(string expression)
+    {
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>
+        {
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"),
+        };
+        if (expression.Contains("FromResult"))
+        {
+            var factory = expression.StartsWith("ValueTask") ? "ValueTask" : "Task";
+            var call = $"{factory}.FromResult(CancellationToken.None)";
+            expression = expression.Replace(call, $"{{|#1:{call}|}}");
+            expected.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("FromResult"));
+        }
+
+        var source = Source($"var saved = {expression}; cancellationToken = await saved;", "{|#0:Task.Delay(1, cancellationToken)|}")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return {|#0:", "await {|#0:");
+        await VerifyCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
     [DataRow("Span")]
     [DataRow("ReadOnlySpan")]
     public async Task Reports_Replacement_Read_From_Nonzero_Slice(string spanType)

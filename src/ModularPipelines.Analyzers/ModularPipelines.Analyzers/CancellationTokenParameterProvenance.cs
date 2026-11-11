@@ -85,13 +85,17 @@ internal static class CancellationTokenParameterProvenance
             || operation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out };
     }
 
-    // Values carry a scalar signal, tuple elements or array allocation identities.
+    // Values carry a scalar signal, token-awaitable payload, tuple elements or array allocation identities.
     // Escaping collections lose their signal; joins retain only guaranteed signals.
-    private sealed class Value(bool safe = false, Value[]? elements = null, HashSet<TextSpan>? arrays = null, bool unknownArray = false, bool sliced = false)
+    private sealed class Value(bool safe = false, Value[]? elements = null, HashSet<TextSpan>? arrays = null, bool unknownArray = false, bool sliced = false, bool awaitedSafe = false)
     {
         public static readonly Value None = new();
 
         public static readonly Value Original = new(safe: true);
+
+        public static readonly Value OriginalAwaitable = new(awaitedSafe: true);
+
+        public bool AwaitedSafe { get; } = awaitedSafe;
 
         public bool Safe { get; } = safe;
 
@@ -140,10 +144,15 @@ internal static class CancellationTokenParameterProvenance
                 return other.Merge(this);
             }
 
-            return Safe && other.Safe ? Original : None;
+            if (Safe && other.Safe)
+            {
+                return Original;
+            }
+
+            return AwaitedSafe && other.AwaitedSafe ? OriginalAwaitable : None;
         }
 
-        public bool SameAs(Value other) => Safe == other.Safe && UnknownArray == other.UnknownArray && Sliced == other.Sliced
+        public bool SameAs(Value other) => Safe == other.Safe && AwaitedSafe == other.AwaitedSafe && UnknownArray == other.UnknownArray && Sliced == other.Sliced
             && ((Elements is null && other.Elements is null)
                 || (Elements is { } left && other.Elements is { } right && left.Length == right.Length
                     && left.Select((element, index) => element.SameAs(right[index])).All(static same => same)))
@@ -331,6 +340,7 @@ internal static class CancellationTokenParameterProvenance
         {
             return operation switch
             {
+                IAwaitOperation awaited => Evaluate(awaited.Operation, state).AwaitedSafe ? Value.Original : Value.None,
                 IArrayCreationOperation array => EvaluateArray(array, state),
                 IObjectCreationOperation creation => EvaluateCreation(creation, state),
                 ICollectionExpressionOperation collection => EvaluateCollection(collection, state),
@@ -354,6 +364,11 @@ internal static class CancellationTokenParameterProvenance
         private Value EvaluateConversion(IConversionOperation conversion, State state)
         {
             var converted = Evaluate(conversion.Operand, state);
+            if (converted.AwaitedSafe && conversion.OperatorMethod is not null)
+            {
+                return Value.None;
+            }
+
             if (converted.Elements is null || conversion.Type is INamedTypeSymbol { IsTupleType: true })
             {
                 return converted;
@@ -366,6 +381,12 @@ internal static class CancellationTokenParameterProvenance
         private Value EvaluateCreation(IObjectCreationOperation creation, State state)
         {
             var arguments = creation.Arguments.Select(argument => (Argument: argument, Value: Evaluate(argument.Value, state))).ToArray();
+            if (IsTokenAwaitable(creation.Type) && creation.Type?.Name == "ValueTask" && creation.Arguments.Length == 1)
+            {
+                var argument = arguments[0].Value;
+                return argument.Safe || argument.AwaitedSafe ? Value.OriginalAwaitable : Value.None;
+            }
+
             if (IsTokenCollection(creation.Type) && creation.Arguments.Length is 1 or 3
                 && creation.Arguments[0].Parameter?.Type is IArrayTypeSymbol)
             {
@@ -485,6 +506,11 @@ internal static class CancellationTokenParameterProvenance
             }
 
             var values = EvaluateInvocationArguments(invocation, state);
+            if (TryEvaluateTokenAwaitable(invocation, values, out var awaitable))
+            {
+                return awaitable;
+            }
+
             if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive
                 && keepAlive.ContainingType.ToDisplayString() == "System.GC")
             {
@@ -510,6 +536,35 @@ internal static class CancellationTokenParameterProvenance
             }
 
             return EvaluateHelperResult(invocation, original, arguments);
+        }
+
+        private static bool IsTokenAwaitable(ITypeSymbol? type) =>
+            type is INamedTypeSymbol { Arity: 1 } named
+            && named.TypeArguments[0].ToDisplayString() == "System.Threading.CancellationToken"
+            && named.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks"
+            && named.Name is "Task" or "ValueTask";
+
+        private static bool TryEvaluateTokenAwaitable(IInvocationOperation invocation, Dictionary<TextSpan, Value> values, out Value result)
+        {
+            var method = invocation.TargetMethod;
+            result = Value.None;
+            if (method is { Name: "FromResult", IsStatic: true, Parameters.Length: 1 }
+                && IsTokenAwaitable(method.ReturnType)
+                && method.ContainingType.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks"
+                && method.ContainingType.Name is "Task" or "ValueTask")
+            {
+                result = Get(values, invocation.Arguments[0].Value.Syntax.Span).Safe ? Value.OriginalAwaitable : Value.None;
+                return true;
+            }
+
+            if (invocation.Instance is { } receiver && IsTokenAwaitable(method.ContainingType)
+                && method.Name is "ConfigureAwait" or "AsTask")
+            {
+                result = Get(values, receiver.Syntax.Span).AwaitedSafe ? Value.OriginalAwaitable : Value.None;
+                return true;
+            }
+
+            return false;
         }
 
         private Dictionary<TextSpan, Value> EvaluateInvocationArguments(IInvocationOperation invocation, State state)
