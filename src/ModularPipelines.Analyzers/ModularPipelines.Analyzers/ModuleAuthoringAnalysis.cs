@@ -5771,11 +5771,17 @@ internal static class ModuleAuthoringAnalysis
             AddContainerReferences(assignment.Target, relevant);
             AddContainerReferences(assignment.Value, relevant);
         }
+        else if (child is IDeconstructionAssignmentOperation deconstruction
+            && (ReferencesContainer(deconstruction.Target, relevant) || ReferencesContainer(deconstruction.Value, relevant)))
+        {
+            AddContainerReferences(deconstruction.Target, relevant);
+            AddContainerReferences(deconstruction.Value, relevant);
+        }
     }
 
     private static void AddContainerReferences(IOperation operation, HashSet<ISymbol> symbols)
     {
-        foreach (var child in operation.DescendantsAndSelf())
+        foreach (var child in GetContainerStorageReferences(operation))
         {
             if (IsCancellationContainer(child.Type) && GetContainerSymbol(child) is { } symbol)
             {
@@ -5785,9 +5791,29 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool ReferencesContainer(IOperation operation, HashSet<ISymbol> symbols) =>
-        operation.DescendantsAndSelf().Any(child =>
+        GetContainerStorageReferences(operation).Any(child =>
             (GetContainerSymbol(child) is { } symbol && symbols.Contains(symbol))
             || (child is IFieldReferenceOperation or IPropertyReferenceOperation && IsCancellationContainer(child.Type)));
+
+    private static IEnumerable<IOperation> GetContainerStorageReferences(IOperation operation) => operation switch
+    {
+        ILocalReferenceOperation or IParameterReferenceOperation or IFieldReferenceOperation or IPropertyReferenceOperation
+            when IsCancellationContainer(operation.Type) => [operation],
+        IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand),
+        IArgumentOperation argument => GetContainerStorageReferences(argument.Value),
+        IConditionalOperation conditional => GetContainerStorageReferences(conditional.WhenTrue)
+            .Concat(conditional.WhenFalse is { } alternative ? GetContainerStorageReferences(alternative) : []),
+        ICoalesceOperation coalesce => GetContainerStorageReferences(coalesce.Value).Concat(GetContainerStorageReferences(coalesce.WhenNull)),
+        ITupleOperation tuple => tuple.Elements.SelectMany(GetContainerStorageReferences),
+        IDeclarationExpressionOperation declaration => GetContainerStorageReferences(declaration.Expression),
+        IDeconstructionAssignmentOperation assignment => GetContainerStorageReferences(assignment.Target).Concat(GetContainerStorageReferences(assignment.Value)),
+        IArrayElementReferenceOperation array => GetContainerStorageReferences(array.ArrayReference),
+        IInvocationOperation invocation => invocation.Arguments.SelectMany(GetContainerStorageReferences)
+            .Concat(invocation.Instance is { } receiver ? GetContainerStorageReferences(receiver) : []),
+        IDynamicMemberReferenceOperation { Instance: { } instance } => GetContainerStorageReferences(instance),
+        IDynamicInvocationOperation or IDynamicObjectCreationOperation => operation.ChildOperations.SelectMany(GetContainerStorageReferences),
+        _ => [],
+    };
 
     private static ISymbol? GetContainerSymbol(IOperation operation) => operation switch
     {
