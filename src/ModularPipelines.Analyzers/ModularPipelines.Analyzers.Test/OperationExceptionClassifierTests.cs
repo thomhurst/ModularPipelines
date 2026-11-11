@@ -615,6 +615,28 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("(V, V)", "==", true)]
+    [DataRow("(V, V)", "!=", true)]
+    [DataRow("((int, V), int)", "==", true)]
+    [DataRow("(V?, int)?", "!=", true)]
+    [DataRow("(dynamic, int)", "==", true)]
+    [DataRow("(int, int)", "==", false)]
+    [DataRow("((int?, decimal), string)", "!=", false)]
+    [DataRow("(System.DayOfWeek, object)?", "==", false)]
+    public void TupleParameterComparisonsInspectHiddenElementOperators(string type, string comparison, bool throws)
+    {
+        var (root, classifier) = Compile($$"""
+            struct V {
+                public static bool operator ==(V x, V y) => throw new System.Exception();
+                public static bool operator !=(V x, V y) => throw new System.Exception();
+            }
+            class C { bool M({{type}} x, {{type}} y) => x {{comparison}} y; }
+            """);
+        var operation = root.DescendantsAndSelf().OfType<ITupleBinaryOperation>().Single();
+        Assert.AreSequenceEqual(throws ? [null] : [], classifier.Classify(operation).ToArray());
+    }
+
+    [TestMethod]
     [DataRow("(V, V)", "(int, int)", "x", true)]
     [DataRow("(V, V)?", "(int, int)?", "x", true)]
     [DataRow("(int, int)?", "(long, long)?", "x", false)]
