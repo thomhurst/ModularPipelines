@@ -25,7 +25,7 @@ internal sealed class LocalDefinitionTransfer
     private readonly IOperation _operationRoot;
     private readonly ILocalSymbol _local;
     private readonly Dictionary<TextSpan, IOperation> _definitions;
-    private readonly HashSet<ILocalSymbol> _aliases;
+    private readonly HashSet<ISymbol> _aliases;
     private readonly bool _hasUnrepresentedBackingStorage;
 
     internal LocalDefinitionTransfer(IOperation operationRoot, ILocalSymbol local)
@@ -341,10 +341,11 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
-    // Bindings are a conservative callable-wide union; only traversed writes invalidate flow.
-    private static HashSet<ILocalSymbol> GetAliases(IOperation root, ILocalSymbol local)
+    // Bindings include local and parameter holders in a conservative callable-wide union;
+    // only traversed writes invalidate flow.
+    private static HashSet<ISymbol> GetAliases(IOperation root, ILocalSymbol local)
     {
-        HashSet<ILocalSymbol> aliases = [with(SymbolEqualityComparer.Default), local];
+        HashSet<ISymbol> aliases = [with(SymbolEqualityComparer.Default), local];
         var sources = root.DescendantsAndSelf().SelectMany(GetAliasSources).ToArray();
         bool changed;
         do
@@ -388,7 +389,7 @@ internal sealed class LocalDefinitionTransfer
         _ => false,
     };
 
-    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
     {
         if (GetDirectAliasSource(operation) is { } direct)
         {
@@ -398,7 +399,7 @@ internal sealed class LocalDefinitionTransfer
         {
             foreach (var receiver in GetRefLikeReceivers(memberBinding.Target))
             {
-                yield return (receiver.Local, memberBinding.Source);
+                yield return (receiver, memberBinding.Source);
             }
         }
         else if (operation is IInvocationOperation or IObjectCreationOperation or IPropertyReferenceOperation)
@@ -415,7 +416,7 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
-    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetLoopAndDeconstructionAliasSources(IOperation operation)
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetLoopAndDeconstructionAliasSources(IOperation operation)
     {
         if (operation is IForEachLoopOperation loop)
         {
@@ -444,7 +445,7 @@ internal sealed class LocalDefinitionTransfer
         _ => null,
     };
 
-    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetDeconstructionAliasSources(
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetDeconstructionAliasSources(
         IOperation target, IOperation value)
     {
         if (target is IDeclarationExpressionOperation declaration)
@@ -474,18 +475,20 @@ internal sealed class LocalDefinitionTransfer
         {
             foreach (var receiver in GetRefLikeReceivers(target))
             {
-                yield return (receiver.Local, value);
+                yield return (receiver, value);
             }
         }
     }
 
-    private static (ILocalSymbol Alias, IOperation Source)? GetDirectAliasSource(IOperation operation) => operation switch
+    private static (ISymbol Alias, IOperation Source)? GetDirectAliasSource(IOperation operation) => operation switch
     {
         IVariableDeclaratorOperation { Initializer: { } initializer } declarator
             when declarator.Symbol.RefKind != RefKind.None || declarator.Symbol.Type.IsRefLikeType =>
             (declarator.Symbol, initializer.Value),
         ISimpleAssignmentOperation { Target: ILocalReferenceOperation reference } assignment
             when assignment.IsRef || reference.Local.Type.IsRefLikeType => (reference.Local, assignment.Value),
+        ISimpleAssignmentOperation { Target: IParameterReferenceOperation reference } assignment
+            when assignment.IsRef || reference.Parameter.Type.IsRefLikeType => (reference.Parameter, assignment.Value),
         IOperation pattern when GetPatternLocal(pattern) is ILocalSymbol { Type.IsRefLikeType: true } patternLocal
             && GetMatchedInput(pattern) is { } input => (patternLocal, input),
         _ => null,
@@ -511,13 +514,13 @@ internal sealed class LocalDefinitionTransfer
         return null;
     }
 
-    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetCallAliasSources(IOperation operation)
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetCallAliasSources(IOperation operation)
     {
         foreach (var source in GetRetentionSources(operation))
         {
             foreach (var receiver in GetRetentionDestinations(operation))
             {
-                yield return (receiver.Local, source);
+                yield return (receiver, source);
             }
         }
     }
@@ -537,7 +540,7 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
-    private static IEnumerable<ILocalReferenceOperation> GetRetentionDestinations(IOperation operation)
+    private static IEnumerable<ISymbol> GetRetentionDestinations(IOperation operation)
     {
         if (GetRetentionReceiver(operation) is { } instance)
         {
@@ -566,13 +569,18 @@ internal sealed class LocalDefinitionTransfer
         _ => null,
     };
 
-    private static IEnumerable<ILocalReferenceOperation> GetRefLikeReceivers(IOperation receiver) =>
-        receiver.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
-            .Where(static reference => reference.Local.Type.IsRefLikeType);
+    private static IEnumerable<ISymbol> GetRefLikeReceivers(IOperation receiver) =>
+        receiver.DescendantsAndSelf().Select(static operation => operation switch
+        {
+            ILocalReferenceOperation { Local.Type.IsRefLikeType: true } reference => (ISymbol) reference.Local,
+            IParameterReferenceOperation { Parameter.Type.IsRefLikeType: true } reference => reference.Parameter,
+            _ => null,
+        }).OfType<ISymbol>();
 
-    private static bool TargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot = null) => target switch
+    private static bool TargetsLocal(IOperation target, ISymbol local, IOperation? operationRoot = null) => target switch
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
+        IParameterReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, local),
         // A returned ref or ref-like value may retain any non-scoped by-reference input. Keep
         // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
         IInvocationOperation call => InvocationRetainsStorage(call, local, operationRoot),
@@ -589,7 +597,7 @@ internal sealed class LocalDefinitionTransfer
         _ => StoragePathTargetsLocal(target, local, operationRoot),
     };
 
-    private static bool StoragePathTargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot) => target switch
+    private static bool StoragePathTargetsLocal(IOperation target, ISymbol local, IOperation? operationRoot) => target switch
     {
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
@@ -605,7 +613,7 @@ internal sealed class LocalDefinitionTransfer
         _ => false,
     };
 
-    private static bool OperatorRetainsStorage(IOperation operation, ILocalSymbol local, IOperation? operationRoot) => operation switch
+    private static bool OperatorRetainsStorage(IOperation operation, ISymbol local, IOperation? operationRoot) => operation switch
     {
         IBinaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } binary =>
             OperatorOperandRetainsStorage(binary.LeftOperand, method.Parameters[0], local, operationRoot)
@@ -621,17 +629,17 @@ internal sealed class LocalDefinitionTransfer
     };
 
     private static bool OperatorOperandRetainsStorage(IOperation operand, IParameterSymbol parameter,
-        ILocalSymbol local, IOperation? operationRoot) =>
+        ISymbol local, IOperation? operationRoot) =>
         parameter.ScopedKind != ScopedKind.ScopedRef
         && (parameter.RefKind != RefKind.None || operand.Type?.IsRefLikeType == true)
         && TargetsLocal(operand, local, operationRoot);
 
-    private static bool CreationRetainsStorage(IObjectCreationOperation creation, ILocalSymbol local, IOperation? operationRoot) =>
+    private static bool CreationRetainsStorage(IObjectCreationOperation creation, ISymbol local, IOperation? operationRoot) =>
         creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot))
         || InitializerRetainsStorage(creation.Initializer, local, operationRoot);
 
     private static bool InitializerRetainsStorage(IObjectOrCollectionInitializerOperation? initializer,
-        ILocalSymbol local, IOperation? operationRoot) =>
+        ISymbol local, IOperation? operationRoot) =>
         initializer is not null
         && initializer.Descendants().Any(operation => operation switch
         {
@@ -643,7 +651,7 @@ internal sealed class LocalDefinitionTransfer
             _ => false,
         });
 
-    private static bool InvocationRetainsStorage(IInvocationOperation call, ILocalSymbol local, IOperation? operationRoot)
+    private static bool InvocationRetainsStorage(IInvocationOperation call, ISymbol local, IOperation? operationRoot)
     {
         if (!call.TargetMethod.ReturnsByRef && !call.TargetMethod.ReturnsByRefReadonly && call.Type?.IsRefLikeType != true)
         {
@@ -654,21 +662,21 @@ internal sealed class LocalDefinitionTransfer
             || call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot));
     }
 
-    private static bool PropertyRetainsStorage(IPropertyReferenceOperation property, ILocalSymbol local, IOperation? operationRoot) =>
+    private static bool PropertyRetainsStorage(IPropertyReferenceOperation property, ISymbol local, IOperation? operationRoot) =>
         (property.Instance is { Type.IsReferenceType: false } receiver && TargetsLocal(receiver, local, operationRoot))
         || ((property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly || property.Type?.IsRefLikeType == true)
             && property.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)));
 
-    private static bool CanRetainStorage(IArgumentOperation argument, ILocalSymbol local, IOperation? operationRoot) =>
+    private static bool CanRetainStorage(IArgumentOperation argument, ISymbol local, IOperation? operationRoot) =>
         argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
         && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)
         && TargetsLocal(argument.Value, local, operationRoot);
 
-    private static bool ConditionalTargetsLocal(IConditionalOperation conditional, ILocalSymbol local, IOperation? operationRoot) =>
+    private static bool ConditionalTargetsLocal(IConditionalOperation conditional, ISymbol local, IOperation? operationRoot) =>
         TargetsLocal(conditional.WhenTrue, local, operationRoot)
         || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local, operationRoot));
 
-    private static bool CaptureTargetsLocal(IOperation target, ILocalSymbol local, IOperation operationRoot) =>
+    private static bool CaptureTargetsLocal(IOperation target, ISymbol local, IOperation operationRoot) =>
         operationRoot.DescendantsAndSelf().Any(candidate =>
             candidate.Syntax.Span == target.Syntax.Span && TargetsLocal(candidate, local));
 }

@@ -1095,6 +1095,21 @@ public class ReachingDefinitionFlowTests
         AssertFlow("var holder = new Reference(); int[] items = new int[1]; int source = 0; ref int alias = ref holder.Field; ref int value = ref ("
             + source + "); value = 1; " + store + "; value = 3; [|Use(value)|];", "", supported: false, additionalSource: MutableTypes);
 
+    [TestMethod]
+    [DataRow("holder = new Retained(ref value); value = 3; holder.Field = 2; [|Use(value)|];", "", false)]
+    [DataRow("holder = new Retained(ref value); var copy = holder; value = 3; copy.Field = 2; [|Use(value)|];", "", false)]
+    [DataRow("holder.Field = ref value; value = 3; holder.Field = 2; [|Use(value)|];", "", false)]
+    [DataRow("holder.Bind(ref value); value = 3; holder.Field = 2; [|Use(value)|];", "", false)]
+    [DataRow("holder = new Retained(ref value); value = 3; try { holder.Mutate(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("holder = new Retained(ref value); value = 3; holder.Field = 2; value = 4; [|Use(value)|];", "4", true)]
+    [DataRow("holder = new Retained(ref value); value = 3; if (false) holder.Field = 2; [|Use(value)|];", "3", true)]
+    [DataRow("holder = new Retained(ref value); value = 3; holder.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; holder = new Retained(ref other); value = 3; holder.Field = 2; [|Use(value)|];", "3", true)]
+    public void Scoped_Parameter_Holders_Retain_Local_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; " + statement,
+            expected, supported: supported, additionalSource: MutableTypes,
+            parameters: ", scoped Retained holder");
+
     private const string MutableTypes = """
         [System.Runtime.CompilerServices.InlineArray(1)]
         struct Buffer { private int _element0; }
@@ -1254,7 +1269,7 @@ public class ReachingDefinitionFlowTests
 
     private static void AssertFlow(string body, string expected, bool incoming = false, bool returns = false,
         bool supported = true, LanguageVersion languageVersion = LanguageVersion.Preview,
-        IEnumerable<MetadataReference>? references = null, string additionalSource = "", string? constraints = null)
+        IEnumerable<MetadataReference>? references = null, string additionalSource = "", string? constraints = null, string parameters = "")
     {
         var source = $$"""
             using System;
@@ -1299,7 +1314,7 @@ public class ReachingDefinitionFlowTests
                 static void Change<T>(ref T item) { }
                 static void Assign<T>(out T item) => item = default;
                 static void ChangeWithArgument<T>(ref T item, int argument) { }
-                static {{(returns ? "string" : "void")}} Run(bool flag, object item)
+                static {{(returns ? "string" : "void")}} Run(bool flag, object item{{parameters}})
                 {
                     {{body}}
                 }
