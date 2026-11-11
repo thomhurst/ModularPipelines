@@ -636,6 +636,11 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     public static IEnumerable<object[]> CollectionCases()
     {
+        yield return ["atomic-element-restores-source", "var token = cancellationToken; try { System.Collections.Generic.List<bool> items = [(token = default) == (token = cancellationToken)]; } catch { }", false];
+        yield return ["branching-atomic-element-restores-source", "var token = cancellationToken; try { System.Collections.Generic.List<bool> items = [context is null ? (token = default) == (token = cancellationToken) : (token = default) == (token = cancellationToken)]; } catch { }", false];
+        yield return ["later-atomic-element-restores-source", "var token = cancellationToken; try { System.Collections.Generic.List<bool> items = [true, (token = default) == (token = cancellationToken)]; } catch { }", false];
+        yield return ["add-before-next-element", "var token = cancellationToken; try { System.Collections.Generic.List<bool> items = [(token = default) == default, (token = cancellationToken) == default]; return null!; } catch { }", true];
+        yield return ["repeated-constructor-boundary", "var token = cancellationToken; for (var j = 0; j < 2; j++) { try { System.Collections.Generic.List<bool> items = [(token = cancellationToken) == default]; } catch { break; } token = default; }", true];
         yield return ["constructor-before-element", "var token = default(CancellationToken); try { ThrowingCollection items = [(token = cancellationToken).CanBeCanceled]; return null!; } catch { }", true];
         yield return ["constructor-before-branching-element", "var token = default(CancellationToken); try { ThrowingCollection items = [context is null ? (token = cancellationToken).CanBeCanceled : (token = cancellationToken).CanBeCanceled]; return null!; } catch { }", true];
         yield return ["constructor-preserves-source", "var token = cancellationToken; try { ThrowingCollection items = [token.CanBeCanceled]; return null!; } catch { }", false];
@@ -659,6 +664,29 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                 System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
             }
             """);
+    }
+
+    public static IEnumerable<object[]> TypedExceptionCases()
+    {
+        yield return ["incompatible-catch", "try { _ = 1 / divisor; } catch (System.FormatException) { token = default; }", false];
+        yield return ["matching-catch", "try { _ = 1 / divisor; } catch (System.DivideByZeroException) { token = default; }", true];
+        yield return ["base-catch", "try { _ = 1 / divisor; } catch (System.ArithmeticException) { token = default; }", true];
+        yield return ["overflow-catch", "try { _ = 1 / divisor; } catch (System.OverflowException) { token = default; }", true];
+        yield return ["first-matching-catch", "try { _ = 1 / divisor; } catch (System.ArithmeticException) { } catch (System.Exception) { token = default; }", false];
+        yield return ["incompatible-filter", "try { _ = 1 / divisor; } catch (System.FormatException) when ((token = default) == default) { }", false];
+        yield return ["matching-filter", "try { _ = 1 / divisor; } catch (System.ArithmeticException) when ((token = default) == default) { }", true];
+        yield return ["rejected-filter", "try { _ = 1 / divisor; } catch (System.ArithmeticException) when (false) { token = default; }", false];
+        yield return ["outer-incompatible-catch", "try { try { _ = 1 / divisor; } catch (System.FormatException) { token = default; } } catch (System.ArithmeticException) { }", false];
+        yield return ["unknown-call", "try { ThrowFilter(); } catch (System.FormatException) { token = default; }", true];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(TypedExceptionCases))]
+    public async Task Selects_Compatible_Exception_Handlers(string name, string body, bool warning)
+    {
+        _ = name;
+        await Verify("var token = cancellationToken; int divisor = context is null ? 0 : 1; " + body
+            + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning);
     }
 
     [TestMethod]

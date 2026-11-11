@@ -168,6 +168,8 @@ internal sealed class CancellationTokenReachingValues
 
         public HashSet<CaptureId> Captures { get; } = [];
 
+        public HashSet<TextSpan> EnteredCollectionElements { get; } = [];
+
         public Dictionary<ISymbol, StorageTargets> Aliases { get; } = [with(SymbolEqualityComparer.Default)];
 
         public Dictionary<CaptureId, StorageTargets> CaptureAliases { get; } = [];
@@ -177,6 +179,7 @@ internal sealed class CancellationTokenReachingValues
             var copy = new State();
             copy.Values.UnionWith(Values);
             copy.Captures.UnionWith(Captures);
+            copy.EnteredCollectionElements.UnionWith(EnteredCollectionElements);
             foreach (var alias in Aliases)
             {
                 copy.Aliases.Add(alias.Key, alias.Value.Clone());
@@ -192,12 +195,13 @@ internal sealed class CancellationTokenReachingValues
 
         public bool Merge(State other)
         {
-            var count = Values.Count + Captures.Count;
+            var count = Values.Count + Captures.Count + EnteredCollectionElements.Count;
             Values.IntersectWith(other.Values);
             Captures.IntersectWith(other.Captures);
+            EnteredCollectionElements.IntersectWith(other.EnteredCollectionElements);
             var aliasesChanged = MergeAliases(Aliases, other.Aliases);
             aliasesChanged |= MergeAliases(CaptureAliases, other.CaptureAliases);
-            return count != Values.Count + Captures.Count || aliasesChanged;
+            return count != Values.Count + Captures.Count + EnteredCollectionElements.Count || aliasesChanged;
         }
 
         private static bool MergeAliases<TKey>(Dictionary<TKey, StorageTargets> aliases, Dictionary<TKey, StorageTargets> other)
@@ -300,7 +304,7 @@ internal sealed class CancellationTokenReachingValues
 
             if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
             {
-                Exceptional(branch.Source, state);
+                Exceptional(branch.Source, state, null);
                 return;
             }
 
@@ -350,7 +354,7 @@ internal sealed class CancellationTokenReachingValues
 
         // Exceptions raised by expressions use the same worklist as ordinary
         // edges. A catch is never entered merely because a return exists.
-        private void DispatchException(BasicBlock block, State state)
+        private void DispatchException(BasicBlock block, State state, string? exceptionType)
         {
             // CLR handler search evaluates filters before the second-pass unwind.
             // Keep pending cleanup separate until a handler has been selected.
@@ -369,7 +373,7 @@ internal sealed class CancellationTokenReachingValues
                 }
                 else if (parent.Kind == ControlFlowRegionKind.TryAndCatch)
                 {
-                    var unhandled = DispatchHandlers(parent, state, finalizers);
+                    var unhandled = DispatchHandlers(parent, state, finalizers, exceptionType);
                     if (unhandled is null)
                     {
                         return;
@@ -384,15 +388,23 @@ internal sealed class CancellationTokenReachingValues
             RunFinalizers(finalizers, state);
         }
 
-        private State? DispatchHandlers(ControlFlowRegion handlers, State state, List<ControlFlowRegion> finalizers)
+        private State? DispatchHandlers(ControlFlowRegion handlers, State state, List<ControlFlowRegion> finalizers, string? exceptionType)
         {
             foreach (var handler in handlers.NestedRegions.Where(static nested => nested.Kind is
                 ControlFlowRegionKind.Catch or ControlFlowRegionKind.FilterAndHandler))
             {
+                var catchType = handler.Kind == ControlFlowRegionKind.Catch
+                    ? handler.ExceptionType
+                    : handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch).ExceptionType;
+                if (exceptionType is not null && !CanCatch(catchType, exceptionType))
+                {
+                    continue;
+                }
+
                 if (handler.Kind == ControlFlowRegionKind.Catch)
                 {
                     EnterHandler(analysis._graph.Blocks[handler.FirstBlockOrdinal], state);
-                    if (IsCatchAll(handler))
+                    if (exceptionType is not null || IsCatchAll(handler))
                     {
                         return null;
                     }
@@ -403,7 +415,7 @@ internal sealed class CancellationTokenReachingValues
                 var filter = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Filter);
                 var rejected = analysis.Run(filter, state.Clone(), analysis._graph.Blocks[filter.FirstBlockOrdinal], EnterHandler);
                 var catchRegion = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch);
-                if (IsCatchAll(catchRegion))
+                if (exceptionType is not null || IsCatchAll(catchRegion))
                 {
                     if (rejected is null)
                     {
@@ -431,6 +443,30 @@ internal sealed class CancellationTokenReachingValues
             }
         }
 
+        private bool CanCatch(ITypeSymbol? catchType, string exceptionType)
+        {
+            if (catchType is null || catchType.SpecialType == SpecialType.System_Object)
+            {
+                return true;
+            }
+
+            var thrown = analysis._model.Compilation.GetTypeByMetadataName(exceptionType);
+            if (thrown is null)
+            {
+                return true;
+            }
+
+            for (var type = thrown; type is not null; type = type.BaseType)
+            {
+                if (SymbolEqualityComparer.Default.Equals(type, catchType))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private bool IsCatchAll(ControlFlowRegion handler)
         {
             return handler.ExceptionType is null
@@ -438,7 +474,7 @@ internal sealed class CancellationTokenReachingValues
                 || SymbolEqualityComparer.Default.Equals(handler.ExceptionType, analysis._model.Compilation.GetTypeByMetadataName("System.Exception"));
         }
 
-        private void Exceptional(BasicBlock block, State state)
+        private void Exceptional(BasicBlock block, State state, string? exceptionType)
         {
             if (region.Kind == ControlFlowRegionKind.Filter)
             {
@@ -447,21 +483,20 @@ internal sealed class CancellationTokenReachingValues
             }
             else
             {
-                DispatchException(block, state);
+                DispatchException(block, state, exceptionType);
             }
         }
     }
 
-    private bool Evaluate(IOperation operation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool Evaluate(IOperation operation, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
-        // Collection constructors, Add calls, and spread iteration can throw before
-        // later elements. Source spans also cover element operations hoisted by the CFG.
+        // Enter each element once, including when the CFG hoists a conditional element.
+        // Constructor/Add/spread boundaries cannot interrupt the element's nested operations.
         foreach (var span in _earlyCollectionCallSpans)
         {
-            if (span.Contains(operation.Syntax.Span))
+            if (span.Contains(operation.Syntax.Span) && state.EnteredCollectionElements.Add(span))
             {
-                exceptional(block, state.Clone());
-                break;
+                exceptional(block, state.Clone(), null);
             }
         }
 
@@ -479,13 +514,18 @@ internal sealed class CancellationTokenReachingValues
             IObjectCreationOperation creation => EvaluateCreation(creation, state, block, exceptional),
             _ => EvaluateOther(operation, state, block, exceptional),
         };
+        if (operation is ICollectionExpressionOperation)
+        {
+            state.EnteredCollectionElements.RemoveWhere(span => operation.Syntax.Span.Contains(span));
+        }
+
         var key = (operation.Syntax.Span, operation.Kind);
         _values[key] = (!_values.TryGetValue(key, out var existing) || existing) && value;
 
         return value;
     }
 
-    private bool EvaluateCapture(IFlowCaptureOperation capture, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateCapture(IFlowCaptureOperation capture, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         var value = Evaluate(capture.Value, state, block, exceptional);
         Set(state.Captures, capture.Id, value);
@@ -493,7 +533,7 @@ internal sealed class CancellationTokenReachingValues
         return value;
     }
 
-    private bool EvaluateAssignment(ISimpleAssignmentOperation assignment, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateAssignment(ISimpleAssignmentOperation assignment, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         EvaluateTarget(assignment.Target, state, block, exceptional);
 
@@ -516,20 +556,20 @@ internal sealed class CancellationTokenReachingValues
         }
         else if (!StoreTarget(assignment.Target, value, state))
         {
-            exceptional(block, state.Clone());
+            exceptional(block, state.Clone(), null);
         }
 
         return value;
     }
 
-    private bool EvaluateDeconstruction(IDeconstructionAssignmentOperation assignment, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateDeconstruction(IDeconstructionAssignmentOperation assignment, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         EvaluateTarget(assignment.Target, state, block, exceptional);
         List<(IOperation Target, bool Value)> stores = [];
         EvaluateDeconstructionValues(assignment.Target, assignment.Value, stores, state, block, exceptional);
-        if (!_exceptions.Classify(assignment).IsEmpty)
+        foreach (var exceptionType in _exceptions.Classify(assignment))
         {
-            exceptional(block, state.Clone());
+            exceptional(block, state.Clone(), exceptionType);
         }
 
         // Evaluate every RHS element before any store, including swaps and nested tuples.
@@ -537,7 +577,7 @@ internal sealed class CancellationTokenReachingValues
         {
             if (!StoreTarget(target, value, state))
             {
-                exceptional(block, state.Clone());
+                exceptional(block, state.Clone(), null);
             }
         }
 
@@ -545,7 +585,7 @@ internal sealed class CancellationTokenReachingValues
     }
 
     private void EvaluateDeconstructionValues(IOperation target, IOperation value, List<(IOperation Target, bool Value)> stores,
-        State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+        State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         if (target is IDeclarationExpressionOperation declaration)
         {
@@ -583,18 +623,18 @@ internal sealed class CancellationTokenReachingValues
     }
 
     private void TransferConversionExceptions(IEnumerable<IConversionOperation> conversions,
-        State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+        State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         foreach (var conversion in conversions)
         {
-            if (!_exceptions.Classify(conversion).IsEmpty)
+            foreach (var exceptionType in _exceptions.Classify(conversion))
             {
-                exceptional(block, state.Clone());
+                exceptional(block, state.Clone(), exceptionType);
             }
         }
     }
 
-    private void EvaluateTarget(IOperation target, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private void EvaluateTarget(IOperation target, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         // Location operands precede the RHS, but dereferencing or invoking a setter
         // happens at the store, after RHS evaluation and preceding tuple stores.
@@ -632,7 +672,7 @@ internal sealed class CancellationTokenReachingValues
                 // A ref-return getter computes the storage location before the RHS.
                 if (property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly)
                 {
-                    exceptional(block, state.Clone());
+                    exceptional(block, state.Clone(), null);
                 }
 
                 break;
@@ -755,18 +795,18 @@ internal sealed class CancellationTokenReachingValues
             || SymbolEqualityComparer.Default.Equals(target, candidate);
     }
 
-    private bool EvaluateConversion(IConversionOperation conversion, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateConversion(IConversionOperation conversion, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         var value = Evaluate(conversion.Operand, state, block, exceptional);
-        if (!_exceptions.Classify(conversion).IsEmpty)
+        foreach (var exceptionType in _exceptions.Classify(conversion))
         {
-            exceptional(block, state.Clone());
+            exceptional(block, state.Clone(), exceptionType);
         }
 
         return value;
     }
 
-    private bool EvaluateProperty(IPropertyReferenceOperation property, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateProperty(IPropertyReferenceOperation property, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         var instanceValue = property.Instance is { } instance && Evaluate(instance, state, block, exceptional);
         foreach (var argument in property.Arguments)
@@ -774,19 +814,19 @@ internal sealed class CancellationTokenReachingValues
             Evaluate(argument.Value, state, block, exceptional);
         }
 
-        exceptional(block, state.Clone());
+        exceptional(block, state.Clone(), null);
         return instanceValue && property.Property.Name == "Token"
             && property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource";
     }
 
-    private bool EvaluateInvocation(IInvocationOperation invocation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateInvocation(IInvocationOperation invocation, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         var receiverValue = invocation.Instance is { } receiver && Evaluate(receiver, state, block, exceptional);
         var arguments = invocation.Arguments.Select(argument => Evaluate(argument.Value, state, block, exceptional)).ToArray();
         InvalidateRefArguments(invocation.Arguments, state);
         if (!IsBuiltInIteration(invocation))
         {
-            exceptional(block, state.Clone());
+            exceptional(block, state.Clone(), null);
         }
 
         return (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
@@ -803,7 +843,7 @@ internal sealed class CancellationTokenReachingValues
         }
     }
 
-    private bool EvaluateCreation(IObjectCreationOperation creation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateCreation(IObjectCreationOperation creation, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         foreach (var argument in creation.Arguments)
         {
@@ -811,7 +851,7 @@ internal sealed class CancellationTokenReachingValues
         }
 
         InvalidateRefArguments(creation.Arguments, state);
-        exceptional(block, state.Clone());
+        exceptional(block, state.Clone(), null);
         if (creation.Initializer is { } initializer)
         {
             Evaluate(initializer, state, block, exceptional);
@@ -820,7 +860,7 @@ internal sealed class CancellationTokenReachingValues
         return false;
     }
 
-    private bool EvaluateOther(IOperation operation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    private bool EvaluateOther(IOperation operation, State state, BasicBlock block, Action<BasicBlock, State, string?> exceptional)
     {
         if (operation is IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation)
         {
@@ -829,9 +869,9 @@ internal sealed class CancellationTokenReachingValues
 
         var children = operation.ChildOperations.Select(child => Evaluate(child, state, block, exceptional)).ToArray();
         InvalidateDynamicRefArguments(operation, state);
-        if (!_exceptions.Classify(operation).IsEmpty)
+        foreach (var exceptionType in _exceptions.Classify(operation))
         {
-            exceptional(block, state.Clone());
+            exceptional(block, state.Clone(), exceptionType);
         }
 
         return operation is IArrayInitializerOperation or IArrayCreationOperation or ICollectionExpressionOperation or ISpreadOperation

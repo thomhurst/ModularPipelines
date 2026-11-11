@@ -66,9 +66,8 @@ internal sealed class OperationExceptionClassifier(
         return result.ToImmutable();
     }
 
-    /// <summary>Source ranges requiring an early unknown-exception edge before each contained
-    /// operation. These survive CFG hoisting of branching element evaluations. Collection builders
-    /// run at collection completion instead; constructor/Add and spread iteration can run earlier.</summary>
+    /// <summary>Element ranges preceded by implicit constructor, Add or spread calls.
+    /// These survive CFG hoisting; callers must dispatch only on entry into each element.</summary>
     internal static ImmutableArray<TextSpan> GetEarlyCollectionCallSpans(IOperation root) =>
         [.. GetCollectionCallSpans(root)];
 
@@ -157,16 +156,15 @@ internal sealed class OperationExceptionClassifier(
     {
         foreach (var collection in root.DescendantsAndSelf().OfType<ICollectionExpressionOperation>())
         {
-            if (collection.ConstructMethod?.MethodKind == MethodKind.Constructor)
+            var hasEarlyCall = collection.ConstructMethod?.MethodKind == MethodKind.Constructor;
+            foreach (var element in collection.Elements)
             {
-                yield return collection.Syntax.Span;
-            }
-            else
-            {
-                foreach (var spread in collection.Elements.OfType<ISpreadOperation>())
+                if (hasEarlyCall)
                 {
-                    yield return TextSpan.FromBounds(spread.Syntax.SpanStart, collection.Syntax.Span.End);
+                    yield return element.Syntax.Span;
                 }
+
+                hasEarlyCall |= element is ISpreadOperation;
             }
         }
     }
