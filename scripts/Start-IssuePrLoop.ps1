@@ -59,8 +59,8 @@
 # actionable the loop waits -IdleSeconds before the next survey, because pending CI and
 # reviews make new work appear later.
 #
-# Run several copies in separate terminals for parallel workers; Redis locks keep
-# them on different items.
+# Run several copies for parallel workers. Every machine must use the same shared
+# Redis endpoint; see scripts/AgentLocks.md. Explicit local mode is single-machine only.
 #
 # Stop:   create the stop file printed at startup (checked between units), or Ctrl+C.
 # Usage:  pwsh scripts/Start-IssuePrLoop.ps1 [-Agent auto|claude|codex] [-IdleSeconds n] [-MaxUnits n]

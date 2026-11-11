@@ -6,7 +6,10 @@
 # Local branches and detached commits survive for later checkout. Dirty or Git-locked
 # worktrees remain on disk with an explicit diagnostic.
 #
-# The lock is a machine-level mutex that AUTO-EXPIRES after TTL (see $lockTtlSeconds,
+# Shared Redis coordinates every worker machine. Configure the same endpoint on all
+# workers; missing configuration fails closed. Explicit local mode is single-machine
+# only. See scripts/AgentLocks.md for deployment, credentials and migration.
+# The lock AUTO-EXPIRES after TTL (see $lockTtlSeconds,
 # 2h). Agents do NOT heartbeat it periodically — they just `release` when done, or let
 # it expire if they die. The cross-process claim that outlives the lock is GitHub's
 # in-progress label / open PR, so a lock expiring under a slow-but-live agent is
@@ -99,6 +102,33 @@ $lockTtlSeconds = 7200 # 2 hours: the dead-man's switch. Longer than nearly ever
 $stateRoot = Join-Path ([System.IO.Path]::GetTempPath()) 'modularpipelines-agent-locks'
 
 function Die([int]$code, [string]$msg) { if ($msg) { [Console]::Error.WriteLine($msg) }; exit $code }
+
+$redisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
+if (-not $redisMode) { $redisMode = 'shared' }
+if ($redisMode -notin 'shared', 'local') { Die 2 'MODULARPIPELINES_AGENT_REDIS_MODE must be shared or local' }
+$redisEndpoint = $null
+if ($redisMode -eq 'shared') {
+    $configuredEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
+    if (-not $configuredEndpoint) {
+        Die 2 'shared Redis requires MODULARPIPELINES_AGENT_REDIS_ENDPOINT; see scripts/AgentLocks.md (local mode is single-machine only)'
+    }
+    if (-not [Uri]::TryCreate($configuredEndpoint, [UriKind]::Absolute, [ref]$redisEndpoint) -or
+        $redisEndpoint.Scheme -notin 'redis', 'rediss' -or -not $redisEndpoint.Host -or
+        $redisEndpoint.UserInfo -or $redisEndpoint.Query -or $redisEndpoint.Fragment -or
+        $redisEndpoint.AbsolutePath -notin '', '/') {
+        Die 2 'Redis endpoint must be redis://host:port or rediss://host:port, without credentials, database, query or fragment'
+    }
+    # Never reuse tokens from another backend (or the legacy local Docker cache).
+    $backend = $redisEndpoint.GetComponents([UriComponents]::SchemeAndServer, [UriFormat]::Unescaped).ToLowerInvariant()
+    $backendHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($backend)))
+    $stateRoot = Join-Path $stateRoot $backendHash
+    if ($env:MODULARPIPELINES_AGENT_REDIS_USERNAME -and -not $env:MODULARPIPELINES_AGENT_REDIS_PASSWORD) {
+        Die 2 'Redis username requires MODULARPIPELINES_AGENT_REDIS_PASSWORD'
+    }
+}
+elseif ($env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT) {
+    Die 2 'local mode cannot also configure a shared Redis endpoint'
+}
 
 function Get-WorktreeLockMarker {
     # `git config --worktree` aliases shared local config until this extension is
@@ -213,8 +243,105 @@ function Ensure-AgentRedis {
     }
 }
 
+function Read-RedisReply([IO.Stream]$Stream) {
+    $prefix = $Stream.ReadByte()
+    if ($prefix -lt 0) { throw 'Redis disconnected' }
+    $line = [IO.MemoryStream]::new()
+    try {
+        while ($true) {
+            $value = $Stream.ReadByte()
+            if ($value -lt 0) { throw 'Redis disconnected' }
+            if ($value -eq 13) {
+                if ($Stream.ReadByte() -ne 10) { throw 'Invalid Redis line ending' }
+                break
+            }
+            if ($line.Length -ge 1048576) { throw 'Redis reply too large' }
+            $line.WriteByte([byte]$value)
+        }
+        $text = [Text.Encoding]::UTF8.GetString($line.ToArray())
+    } finally { $line.Dispose() }
+    switch ([char]$prefix) {
+        '+' { return $text }
+        ':' { return $text }
+        '-' { throw 'Redis rejected command' }
+        '$' {
+            $length = [int]$text
+            if ($length -eq -1) { return '' }
+            if ($length -lt 0 -or $length -gt 1048576) { throw 'Invalid Redis bulk length' }
+            $bytes = [byte[]]::new($length)
+            $offset = 0
+            while ($offset -lt $length) {
+                $read = $Stream.Read($bytes, $offset, $length - $offset)
+                if ($read -eq 0) { throw 'Redis disconnected' }
+                $offset += $read
+            }
+            if ($Stream.ReadByte() -ne 13 -or $Stream.ReadByte() -ne 10) { throw 'Invalid Redis bulk ending' }
+            return [Text.Encoding]::UTF8.GetString($bytes)
+        }
+        '*' {
+            $count = [int]$text
+            if ($count -lt 0 -or $count -gt 10000) { throw 'Invalid Redis array length' }
+            for ($index = 0; $index -lt $count; $index++) { Read-RedisReply $Stream }
+        }
+        default { throw 'Unsupported Redis reply' }
+    }
+}
+
+function Send-RedisCommand([IO.Stream]$Stream, [string[]]$Arguments) {
+    $request = [IO.MemoryStream]::new()
+    try {
+        $header = [Text.Encoding]::UTF8.GetBytes("*$($Arguments.Count)`r`n")
+        $request.Write($header)
+        foreach ($argument in $Arguments) {
+            $bytes = [Text.Encoding]::UTF8.GetBytes($argument)
+            $header = [Text.Encoding]::UTF8.GetBytes("`$$($bytes.Length)`r`n")
+            $request.Write($header)
+            $request.Write($bytes)
+            $request.Write([byte[]]@(13, 10))
+        }
+        $request.Position = 0
+        $request.CopyTo($Stream)
+        $Stream.Flush()
+        Read-RedisReply $Stream
+    } finally { $request.Dispose() }
+}
+
+function Invoke-SharedRedis([string[]]$Arguments) {
+    $client = [Net.Sockets.TcpClient]::new()
+    $stream = $null
+    try {
+        $port = $redisEndpoint.Port
+        if ($port -eq -1) { $port = 6379 }
+        if (-not $client.ConnectAsync($redisEndpoint.DnsSafeHost, $port).Wait(5000)) { throw 'Redis connection timed out' }
+        $stream = $client.GetStream()
+        $stream.ReadTimeout = 5000
+        $stream.WriteTimeout = 5000
+        if ($redisEndpoint.Scheme -eq 'rediss') {
+            $stream = [Net.Security.SslStream]::new($stream, $false)
+            if (-not $stream.AuthenticateAsClientAsync($redisEndpoint.DnsSafeHost).Wait(5000)) { throw 'Redis TLS timed out' }
+        }
+        if ($env:MODULARPIPELINES_AGENT_REDIS_PASSWORD) {
+            $auth = @('AUTH', $env:MODULARPIPELINES_AGENT_REDIS_PASSWORD)
+            if ($env:MODULARPIPELINES_AGENT_REDIS_USERNAME) {
+                $auth = @('AUTH', $env:MODULARPIPELINES_AGENT_REDIS_USERNAME, $env:MODULARPIPELINES_AGENT_REDIS_PASSWORD)
+            }
+            if ((Send-RedisCommand $stream $auth) -cne 'OK') { throw 'Redis authentication failed' }
+        }
+        (Send-RedisCommand $stream $Arguments) -join "`n"
+    }
+    catch {
+        # Neither server error text nor exceptions may expose credentials or tokens.
+        Die 1 'shared Redis command failed; no local fallback (check endpoint, credentials, TLS and connectivity)'
+    }
+    finally {
+        if ($stream) { $stream.Dispose() }
+        $client.Dispose()
+    }
+}
+
 function Redis {
-    $output = & docker exec $redisContainer redis-cli @args
+    if ($redisMode -eq 'shared') { return Invoke-SharedRedis $args }
+    $output = & docker exec $redisContainer redis-cli --raw -e @args
     if ($LASTEXITCODE -ne 0) { Die 1 "redis command failed on $redisContainer" }
     ($output | Out-String).Trim()
 }
@@ -237,7 +364,7 @@ function Read-Token {
     if ($t) { $t.Trim() } else { $null }
 }
 
-if ($Verb -ne 'status') { Ensure-AgentRedis }
+if ($redisMode -eq 'local' -and $Verb -ne 'status') { Ensure-AgentRedis }
 
 switch ($Verb) {
 

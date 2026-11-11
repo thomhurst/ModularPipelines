@@ -2,6 +2,11 @@
 # Regression tests for per-worktree AgentLocks markers.
 
 $ErrorActionPreference = 'Stop'
+# These fixtures exercise only the explicitly single-machine Docker mode.
+$previousRedisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
+$previousRedisEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
+$env:MODULARPIPELINES_AGENT_REDIS_MODE = 'local'
+$env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = ''
 
 $agentLocks = Join-Path $PSScriptRoot 'AgentLocks.ps1'
 $suffix = [Guid]::NewGuid().ToString('N')
@@ -180,4 +185,6 @@ finally {
     }
 
     Remove-Item -LiteralPath $resolvedTestRoot -Recurse -Force -ErrorAction SilentlyContinue
+    $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+    $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
 }

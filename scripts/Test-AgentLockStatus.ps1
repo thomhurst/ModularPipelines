@@ -1,6 +1,11 @@
 #!/usr/bin/env pwsh
 # Exercise the real status verb with a fake Docker command; no shared Redis state is touched.
 $ErrorActionPreference = 'Stop'
+# These fixtures exercise only the explicitly single-machine Docker mode.
+$previousRedisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
+$previousRedisEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
+$env:MODULARPIPELINES_AGENT_REDIS_MODE = 'local'
+$env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = ''
 $agentLocks = Join-Path $PSScriptRoot 'AgentLocks.ps1'
 $fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) "agent-lock-status-$([Guid]::NewGuid().ToString('N'))"
 $runner = Join-Path $fixtureRoot 'runner.ps1'
@@ -63,6 +68,8 @@ finally {
         throw 'Refusing cleanup outside the disposable fixture root.'
     }
     Remove-Item -LiteralPath $resolvedRoot -Recurse -Force -ErrorAction SilentlyContinue
+    $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+    $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
 }
 
 Write-Output 'OK read-only AgentLocks status passed.'

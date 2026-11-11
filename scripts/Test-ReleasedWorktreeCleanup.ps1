@@ -1,6 +1,11 @@
 #!/usr/bin/env pwsh
 # Local regression suite: requires Git, PowerShell 7 and Docker.
 $ErrorActionPreference = 'Stop'
+# These fixtures exercise only the explicitly single-machine Docker mode.
+$previousRedisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
+$previousRedisEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
+$env:MODULARPIPELINES_AGENT_REDIS_MODE = 'local'
+$env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = ''
 $agentLocks = Join-Path $PSScriptRoot 'AgentLocks.ps1'
 $suffix = [Guid]::NewGuid().ToString('N')
 $testRoot = Join-Path ([IO.Path]::GetTempPath()) "released-worktree-tests-$suffix"
@@ -205,5 +210,7 @@ try {
     $temp = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
     if (-not $resolved.StartsWith($temp, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe test cleanup path.' }
     Remove-Item -LiteralPath $resolved -Recurse -Force
+    $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+    $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
 }
 
