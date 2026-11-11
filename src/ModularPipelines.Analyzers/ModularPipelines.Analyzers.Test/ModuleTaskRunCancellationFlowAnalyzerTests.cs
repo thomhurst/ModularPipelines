@@ -1466,6 +1466,43 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("other", "token", false, true)]
+    [DataRow("other", "token", true, false)]
+    [DataRow("token", "other", false, true)]
+    [DataRow("other", "other", false, false)]
+    public async Task Tracks_Implicit_Indexer_Store_Exceptions_After_Value(string initial, string rebound, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                var state = new SetterState();
+                Index index = ^1;
+                try { state[index] = (alias = ref {{rebound}}); }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class SetterState
+            {
+                public int Length => throw new Exception();
+                public CancellationToken this[int index] { set => throw new Exception(); }
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("_ = receiver[index];", false, true)]
     [DataRow("_ = receiver[index];", true, false)]
     [DataRow("int result = choice switch { _ => value };", false, true)]

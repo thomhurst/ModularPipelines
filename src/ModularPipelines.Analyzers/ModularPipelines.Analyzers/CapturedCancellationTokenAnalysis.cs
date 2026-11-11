@@ -570,7 +570,7 @@ internal static class CapturedCancellationTokenAnalysis
             or ISimpleAssignmentOperation
             {
                 Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation
-                or IPropertyReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
+                or IPropertyReferenceOperation or IImplicitIndexerReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
             }
             or IBinaryOperation or IUnaryOperation or ICompoundAssignmentOperation or IIncrementOrDecrementOperation;
 
@@ -800,7 +800,7 @@ internal static class CapturedCancellationTokenAnalysis
     {
         ITupleOperation tuple => tuple.Elements.Any(TargetCanThrow),
         IConversionOperation conversion => TargetCanThrow(conversion.Operand),
-        IPropertyReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation => true,
+        IPropertyReferenceOperation or IImplicitIndexerReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation => true,
         _ => false,
     };
 
