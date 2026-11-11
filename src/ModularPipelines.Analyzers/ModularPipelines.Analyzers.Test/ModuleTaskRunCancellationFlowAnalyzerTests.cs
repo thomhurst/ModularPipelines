@@ -1115,6 +1115,38 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    public async Task Tracks_Generic_Object_Construction_Exceptions(bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync<ThrowingConstructor>(cancellationToken);
+
+            private static Task HelperAsync<T>(CancellationToken token) where T : new()
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { _ = new T(); }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class ThrowingConstructor
+            {
+                public ThrowingConstructor() => throw new InvalidOperationException();
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""
