@@ -531,7 +531,7 @@ internal static class CapturedCancellationTokenAnalysis
                 or IEventAssignmentOperation or IEventReferenceOperation or IFieldReferenceOperation or IMethodReferenceOperation
                 or ITypeParameterObjectCreationOperation
                 or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation }
-                or IBinaryOperation or ICompoundAssignmentOperation))
+                or IBinaryOperation or IUnaryOperation or ICompoundAssignmentOperation))
             {
                 return false;
             }

@@ -1147,6 +1147,35 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Index index = ^offset", false, true)]
+    [DataRow("Index index = ^offset", true, false)]
+    [DataRow("Index index = ^((alias = ref other).CanBeCanceled ? offset : offset)", false, false)]
+    [DataRow("int index = -offset", false, false)]
+    public async Task Tracks_From_End_Index_Construction_Exceptions(string statement, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, -1);
+
+            private static Task HelperAsync(CancellationToken token, int offset)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { {{statement}}; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow(false, true)]
     [DataRow(true, false)]
     public async Task Tracks_Generic_Object_Construction_Exceptions(bool rebindInHandler, bool reports)
