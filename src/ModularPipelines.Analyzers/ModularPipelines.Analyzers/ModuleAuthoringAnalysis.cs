@@ -5546,7 +5546,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
             .Where(assignment => AssignsSymbol(assignment, symbol))
             .Where(IsInReachableBranch)
-            .Where(assignment => !AreInExclusiveBranches(assignment, reference))
+            .Where(assignment => !AreInExclusiveBranches(assignment, reference, symbol))
             .Where(assignment => !ExitsBeforeReference(assignment, reference, symbol))
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .ToArray();
@@ -5694,13 +5694,15 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool AreInExclusiveBranches(
         IOperation assignment,
-        IOperation reference)
+        IOperation reference,
+        ISymbol symbol)
     {
         // Opposite branches can execute on successive iterations of a common
         // loop, so their stores are not exclusive across the loop back-edge.
         for (var ancestor = assignment.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is ILoopOperation && HasAncestor(reference, ancestor))
+            if (ancestor is ILoopOperation loop && HasAncestor(reference, loop)
+                && !ResetsSymbolBeforeBranches(loop, assignment, reference, symbol))
             {
                 return false;
             }
@@ -5726,6 +5728,26 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool ResetsSymbolBeforeBranches(
+        ILoopOperation loop,
+        IOperation assignment,
+        IOperation reference,
+        ISymbol symbol)
+    {
+        // Only stores executed before both arms can kill a value from a previous
+        // iteration. A conditional reset must not hide a real loop-carried store.
+        return loop.Body.DescendantsAndSelf().Any(candidate =>
+            candidate.Syntax.Span.End <= assignment.Syntax.SpanStart
+            && candidate.Syntax.Span.End <= reference.Syntax.SpanStart
+            && IsLinearPredecessor(candidate, assignment)
+            && IsLinearPredecessor(candidate, reference)
+            && !CanExceptionBypassOverwrite(candidate, assignment, symbol)
+            && !CanExceptionBypassOverwrite(candidate, reference, symbol)
+            && ((candidate is ISimpleAssignmentOperation reset && AssignsSymbol(reset, symbol))
+                || (candidate is IVariableDeclaratorOperation { Initializer: not null } declarator
+                    && SymbolEqualityComparer.Default.Equals(declarator.Symbol, symbol))));
     }
 
     private static bool CanTransferBetweenSwitchCases(

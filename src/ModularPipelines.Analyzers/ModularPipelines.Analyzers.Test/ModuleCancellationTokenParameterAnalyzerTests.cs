@@ -73,6 +73,48 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false, false, false)]
+    [DataRow(true, false, false)]
+    [DataRow(true, false, true)]
+    [DataRow(false, true, false)]
+    [DataRow(true, true, false)]
+    [DataRow(true, true, true)]
+    public async Task Recognizes_Token_Reset_Each_Iteration(bool useLocal, bool useSwitch, bool declareInside)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var reset = declareInside ? "var token = saved;" : $"{target} = saved;";
+        var branches = useSwitch
+            ? $"switch (i) {{ case 0: {target} = CancellationToken.None; break; default: await Task.Delay(1, {target}); break; }}"
+            : $"if (i == 0) {{ {target} = CancellationToken.None; }} else {{ await Task.Delay(1, {target}); }}";
+        var source = Source(
+                "var saved = cancellationToken; "
+                + (useLocal && !declareInside ? "var token = saved; " : "")
+                + $"for (var i = 0; i < 2; i++) {{ {reset} {branches} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Loop_Carried_Token_With_Conditional_Reset(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+                "var saved = cancellationToken; "
+                + (useLocal ? "var token = saved; " : "")
+                + $"for (var i = 0; i < 2; i++) {{ if (context != null) {{ {target} = saved; }} if (i == 0) {{ {target} = CancellationToken.None; }} else {{ await {{|#0:Task.Delay(1, {target})|}}; }} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     public async Task Recognizes_Original_Parameter_In_Exclusive_Branch()
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(
