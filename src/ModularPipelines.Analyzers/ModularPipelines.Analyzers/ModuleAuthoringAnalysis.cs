@@ -5656,33 +5656,55 @@ internal static class ModuleAuthoringAnalysis
         IOperation returnValue,
         IParameterSymbol parameter)
     {
-        // Formal parameters are separate symbols, but ref arguments can refer to
-        // one caller slot. A write through either must invalidate the other's reads.
-        var sourceArguments = invocation.Arguments.Where(argument =>
-            argument.Parameter is { RefKind: not RefKind.None } argumentParameter
-            && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameter));
+        if (!invocation.Arguments.Any(argument =>
+                argument.Parameter is { RefKind: not RefKind.None } argumentParameter
+                && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameter)))
+        {
+            return false;
+        }
+
         var reads = GetCancellationParameterReads(returnValue, parameter, [with(SymbolEqualityComparer.Default)])
             .ToArray();
-        return sourceArguments.Any(argument => invocation.Arguments.Any(other =>
-            other.Parameter is { RefKind: RefKind.Ref or RefKind.Out } otherParameter
-            && !SymbolEqualityComparer.Default.Equals(argument.Parameter, otherParameter)
-            && MayShareCancellationStorage(argument.Value, other.Value)
-            && body.DescendantsAndSelf()
-                .OfType<IParameterReferenceOperation>()
-                .Any(write =>
-                    SymbolEqualityComparer.Default.Equals(
-                        write.Parameter, GetTargetParameter(method, otherParameter))
-                    && IsInReachableBranch(write)
-                    && IsPotentialParameterWrite(write)
-                    && (write.Parent is not (ISimpleAssignmentOperation { IsRef: true } or IVariableInitializerOperation)
-                        || HasAliasedStorageMutation(write, write))
-                    && !IsCancellationPreservingStore(write, parameter)
-                    && reads.Any(read => read.Syntax.SpanStart >= write.Syntax.SpanStart
-                        || !IsLinearPredecessor(read, write)))));
+        // Inspect actual mutations, not alias creation. Resolve each reference at
+        // its use so a helper's ref rebinding changes the storage being written.
+        return body.DescendantsAndSelf()
+            .SelectMany(GetCancellationStorageWrites)
+            .Where(IsInReachableBranch)
+            .Where(write => !IsCancellationPreservingStore(write, parameter))
+            .Any(write => reads.Any(read =>
+                (read.Syntax.SpanStart >= write.Syntax.SpanStart || !IsLinearPredecessor(read, write))
+                && MayShareCancellationStorage(write, read, invocation, method)));
+    }
+
+    private static IEnumerable<IOperation> GetCancellationStorageWrites(IOperation operation)
+    {
+        var target = operation switch
+        {
+            ISimpleAssignmentOperation { IsRef: false } assignment => assignment.Target,
+            IDeconstructionAssignmentOperation assignment => assignment.Target,
+            IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
+            _ => null,
+        };
+        return target is not null ? GetCancellationStorageTargets(target) : [];
+    }
+
+    private static IEnumerable<IOperation> GetCancellationStorageTargets(IOperation target)
+    {
+        return target switch
+        {
+            IParameterReferenceOperation or ILocalReferenceOperation => [target],
+            ITupleOperation tuple => tuple.Elements.SelectMany(GetCancellationStorageTargets),
+            IConversionOperation conversion => GetCancellationStorageTargets(conversion.Operand),
+            IParenthesizedOperation parenthesized => GetCancellationStorageTargets(parenthesized.Operand),
+            IConditionalOperation { IsRef: true } conditional =>
+                GetCancellationStorageTargets(conditional.WhenTrue)
+                    .Concat(conditional.WhenFalse is { } whenFalse ? GetCancellationStorageTargets(whenFalse) : []),
+            _ => [],
+        };
     }
 
     private static bool IsCancellationPreservingStore(
-        IParameterReferenceOperation write,
+        IOperation write,
         IParameterSymbol parameter)
     {
         return write.Parent is ISimpleAssignmentOperation { IsRef: false } assignment
@@ -5761,75 +5783,141 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static bool MayShareCancellationStorage(IOperation first, IOperation second)
+    private static bool MayShareCancellationStorage(
+        IOperation first,
+        IOperation second,
+        IInvocationOperation? invocation = null,
+        IMethodSymbol? method = null)
     {
-        var firstStorage = GetCancellationStorage(first, [with(SymbolEqualityComparer.Default)]);
-        var secondStorage = GetCancellationStorage(second, [with(SymbolEqualityComparer.Default)]);
+        var firstStorage = GetCancellationStorage(first, [with(SymbolEqualityComparer.Default)], invocation, method);
+        var secondStorage = GetCancellationStorage(second, [with(SymbolEqualityComparer.Default)], invocation, method);
         return firstStorage is null || secondStorage is null
             || SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
     }
 
     private static ISymbol? GetCancellationStorage(
         IOperation value,
-        HashSet<ILocalSymbol> visitedLocals)
+        HashSet<ISymbol> visitedStorage,
+        IInvocationOperation? invocation = null,
+        IMethodSymbol? method = null)
     {
         switch (value)
         {
             case IConversionOperation conversion:
-                return GetCancellationStorage(conversion.Operand, visitedLocals);
+                return GetCancellationStorage(conversion.Operand, visitedStorage, invocation, method);
             case IParenthesizedOperation parenthesized:
-                return GetCancellationStorage(parenthesized.Operand, visitedLocals);
+                return GetCancellationStorage(parenthesized.Operand, visitedStorage, invocation, method);
             case IParameterReferenceOperation { Parameter.RefKind: RefKind.None } parameter:
                 return parameter.Parameter;
             case ILocalReferenceOperation { Local.RefKind: RefKind.None } local:
                 return local.Local;
-            case ILocalReferenceOperation local:
-                if (!visitedLocals.Add(local.Local))
-                {
-                    return null;
-                }
-
-                // Only ref assignments rebind storage. Assignments through the ref
-                // change its value and must not change the identity of the referent.
-                var rebindings = FindLocalAssignments(
-                        GetRoot(value), value, local.Local, GetEnclosingCallable(value))
-                    .Where(static assignment => assignment.IsRef)
-                    .ToArray();
-
-                // A later rebinding in the same loop may reach this read on the
-                // next iteration, so textual ordering cannot prove distinct storage.
-                if (GetRoot(value).DescendantsAndSelf()
-                    .OfType<ISimpleAssignmentOperation>()
-                    .Any(assignment => assignment.IsRef
-                        && assignment.Syntax.SpanStart > value.Syntax.SpanStart
-                        && assignment.Target is ILocalReferenceOperation target
-                        && SymbolEqualityComparer.Default.Equals(target.Local, local.Local)
-                        && ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(value))
-                        && IsInReachableBranch(assignment)
-                        && SharesContainingLoop(assignment, value)
-                        && !rebindings.Any(reset => IsLinearPredecessor(reset, value)
-                            && ResetsWithinSharedLoop(reset, assignment, value))))
-                {
-                    return null;
-                }
-
-                if (rebindings.FirstOrDefault() is { } rebinding)
-                {
-                    return IsLinearPredecessor(rebinding, value)
-                        ? GetCancellationStorage(rebinding.Value, visitedLocals)
-                        : null;
-                }
-
-                var initializer = FindLocalDeclarator(
-                    GetRoot(value), value, local.Local, GetEnclosingCallable(value))?.Initializer?.Value;
-                return initializer is not null
-                    ? GetCancellationStorage(initializer, visitedLocals)
-                    : null;
-            default:
-                // Ref parameters, conditional refs, heap storage and ref-returning
-                // calls need an alias proof before they can be considered distinct.
-                return null;
         }
+
+        var symbol = GetCancellationStorageSymbol(value);
+        if (symbol is null || !visitedStorage.Add(symbol))
+        {
+            return null;
+        }
+
+        var rebindings = GetRoot(value).DescendantsAndSelf()
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(static assignment => assignment.IsRef)
+            .Where(assignment => SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol))
+            .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(value)))
+            .Where(IsInReachableBranch)
+            .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+            .ToArray();
+        var precedingRebindings = rebindings
+            .Where(assignment => assignment.Syntax.SpanStart < value.Syntax.SpanStart)
+            .ToArray();
+
+        if (HasLoopCarriedCancellationRebinding(rebindings, precedingRebindings, value))
+        {
+            return null;
+        }
+
+        if (precedingRebindings.FirstOrDefault() is { } rebinding)
+        {
+            return IsDefiniteCancellationPredecessor(rebinding, value)
+                ? GetCancellationStorage(rebinding.Value, visitedStorage, invocation, method)
+                : null;
+        }
+
+        return GetInitialCancellationStorage(value, symbol, visitedStorage, invocation, method);
+    }
+
+    private static bool HasLoopCarriedCancellationRebinding(
+        ISimpleAssignmentOperation[] rebindings,
+        ISimpleAssignmentOperation[] precedingRebindings,
+        IOperation value)
+    {
+        // A later rebinding may reach this read on the next loop iteration, unless
+        // an unconditional reset in that loop must run before the read.
+        return rebindings.Any(assignment => assignment.Syntax.SpanStart > value.Syntax.SpanStart
+            && SharesContainingLoop(assignment, value)
+            && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
+                && ResetsWithinSharedLoop(reset, assignment, value)));
+    }
+
+    private static ISymbol? GetInitialCancellationStorage(
+        IOperation value,
+        ISymbol symbol,
+        HashSet<ISymbol> visitedStorage,
+        IInvocationOperation? invocation,
+        IMethodSymbol? method)
+    {
+        if (value is ILocalReferenceOperation localReference)
+        {
+            var initializer = FindLocalDeclarator(
+                GetRoot(value), value, localReference.Local, GetEnclosingCallable(value))?.Initializer?.Value;
+            return initializer is not null
+                ? GetCancellationStorage(initializer, visitedStorage, invocation, method)
+                : null;
+        }
+
+        if (symbol is IParameterSymbol parameterSymbol && invocation is not null && method is not null)
+        {
+            var argument = invocation.Arguments.FirstOrDefault(candidate =>
+                candidate.Parameter is { } argumentParameter
+                && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameterSymbol));
+            return argument is not null
+                ? GetCancellationStorage(argument.Value, [with(SymbolEqualityComparer.Default)])
+                : null;
+        }
+
+        // Caller ref parameters, heap storage and ref-returning calls remain unknown.
+        return null;
+    }
+
+    private static ISymbol? GetCancellationStorageSymbol(IOperation value)
+    {
+        return value switch
+        {
+            ILocalReferenceOperation local => local.Local,
+            IParameterReferenceOperation parameter => parameter.Parameter,
+            _ => null,
+        };
+    }
+
+    private static bool IsDefiniteCancellationPredecessor(IOperation candidate, IOperation read)
+    {
+        if (!IsLinearPredecessor(candidate, read))
+        {
+            return false;
+        }
+
+        // A label between the reset and read can be entered without the reset.
+        return !GetRoot(read).DescendantsAndSelf()
+            .OfType<ILabeledOperation>()
+            .Where(label => label.Syntax.SpanStart > candidate.Syntax.SpanStart
+                && label.Syntax.SpanStart <= read.Syntax.SpanStart)
+            .Any(label => GetRoot(read).DescendantsAndSelf()
+                .OfType<IBranchOperation>()
+                .Any(branch => branch.BranchKind == BranchKind.GoTo
+                    && SymbolEqualityComparer.Default.Equals(branch.Target, label.Label)
+                    && IsInReachableBranch(branch)
+                    && (branch.Syntax.SpanStart < candidate.Syntax.SpanStart
+                        || !IsLinearPredecessor(candidate, branch))));
     }
 
     private static bool ResetsWithinSharedLoop(IOperation reset, IOperation assignment, IOperation read)
