@@ -107,3 +107,39 @@ Excluding IDE0130 from apply mode avoids that unsupported workspace operation
 without disabling its read-only verification. Fix namespace/folder mismatches
 explicitly, checking public API compatibility before changing a namespace.
 Do not use the exclusion to suppress CI findings.
+
+## SA1315 and captured primary-constructor parameters
+
+The SA1315 code fix in StyleCop.Analyzers 1.3.180 can introduce a binding error
+when the inherited method parameter name matches a captured primary-constructor
+parameter. SDK 11.0.100's Roslyn rename API reproduces the failure independently
+of StyleCop ([dotnet/roslyn#86408](https://github.com/dotnet/roslyn/issues/86408)).
+For example, renaming `Log(Func<string> messageFormatter)` to use the inherited
+name `formatter` makes an existing `formatter.GetLogIssueCommand()` reference
+bind to the delegate instead of the captured `IBuildSystemFormatter formatter`,
+causing CS1061. The returned solution has no conflict annotation.
+
+Before applying SA1315, explicitly rename the primary-constructor parameter to
+`buildSystemFormatter` and update its bound references. Review that diff and
+build, then apply the scoped SA1315 fix and build again. The method parameter
+can now become `formatter` without shadowing the capture. Keep SA1315 enabled;
+this rename sequence is a local workaround, not an upstream fix.
+
+The manual diagnostic fixture below builds the original source, calls the
+SDK-hosted Roslyn rename API directly, applies SA1315, confirms CS1061, and
+verifies that the explicit capture rename followed by SA1315 compiles without
+SA1315. A successful fixture run confirms the defect and workaround; it does
+not mean upstream is fixed. It is intentionally not a CI gate: once upstream
+changes, re-evaluate the expected failure.
+
+```powershell
+./scripts/Test-SA1315Rename.ps1
+```
+
+The fixture pins StyleCop 1.3.180 and copies the repository's `global.json`.
+It records the resolved SDK, transformed source, and logs under the shared
+checkout's `ModularPipelines-evidence/issue-7464/` entry. If multiple .NET
+installations are present, use `-DotNetPath` to select the installation containing
+the pinned SDK and set `DOTNET_ROOT` to that installation for the command.
+Treat `Required references did not load` as incomplete reproduction, even if
+formatting exits zero; the fixture rejects that result.
