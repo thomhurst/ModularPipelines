@@ -154,6 +154,38 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
+    public async Task Recognizes_Original_Token_After_Nonthrowing_Return_In_Try(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"try {{ if (context != null) {{ {target} = CancellationToken.None; return; }} System.Console.WriteLine(context); }} catch (Exception) {{ }}",
+            $"Task.Delay(1, {target})")
+            .Replace("protected override Task OnBeforeExecuteAsync", "protected override async Task OnBeforeExecuteAsync")
+            .Replace($"return Task.Delay(1, {target});", $"await Task.Delay(1, {target});");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Replaced_Token_When_Returning_Path_Finally_Can_Throw(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"try {{ if (context != null) {{ try {{ {target} = CancellationToken.None; return; }} finally {{ System.Console.WriteLine(context); }} }} }} catch (Exception) {{ }}",
+            $"{{|#0:Task.Delay(1, {target})|}}")
+            .Replace("protected override Task OnBeforeExecuteAsync", "protected override async Task OnBeforeExecuteAsync")
+            .Replace($"return {{|#0:Task.Delay(1, {target})|}};", $"await {{|#0:Task.Delay(1, {target})|}};");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
     public async Task Recognizes_Repeated_Conditional_Identity_Assignments(bool useLocal)
     {
         var target = useLocal ? "saved" : "cancellationToken";

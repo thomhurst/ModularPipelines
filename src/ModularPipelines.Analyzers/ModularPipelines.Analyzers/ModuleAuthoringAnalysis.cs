@@ -5610,7 +5610,10 @@ internal static class ModuleAuthoringAnalysis
         for (var current = assignment.Parent; current is not null; current = current.Parent)
         {
             if (current is ITryOperation tryOperation
-                && CanReachReferenceThroughException(tryOperation, assignment, reference))
+                && tryOperation.Finally is { } finallyBlock
+                && (HasAncestor(reference, finallyBlock)
+                    || (CanThrowAfterAssignment(finallyBlock, assignment)
+                        && CanExceptionBypassOverwrite(assignment, reference))))
             {
                 return false;
             }
@@ -5628,11 +5631,32 @@ internal static class ModuleAuthoringAnalysis
                 && !current.DescendantsAndSelf().Any(static operation =>
                     operation is IBranchOperation or IThrowOperation))
             {
-                return true;
+                return !CanThrowAfterAssignment(current, assignment)
+                    || !CanExceptionBypassOverwrite(assignment, reference);
             }
         }
 
         return false;
+    }
+
+    private static bool CanThrowAfterAssignment(IOperation operation, IOperation assignment)
+    {
+        if (operation.Syntax.Span.End <= assignment.Syntax.Span.End)
+        {
+            return false;
+        }
+
+        // Only prove simple operations nonthrowing. Unknown operations keep the
+        // exceptional path, including invocations and user-defined operators.
+        return operation switch
+        {
+            IBlockOperation or IExpressionStatementOperation or IReturnOperation
+                or IConditionalOperation or ISimpleAssignmentOperation
+                or ILocalReferenceOperation or IParameterReferenceOperation
+                or ILiteralOperation => operation.ChildOperations.Any(child =>
+                    CanThrowAfterAssignment(child, assignment)),
+            _ => true,
+        };
     }
 
     private static bool AreInExclusiveBranches(
