@@ -383,6 +383,13 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("tokens[(alias = ref other).GetHashCode()] == other", false, false)]
     [DataRow("choice switch { 1 => (alias = ref other).CanBeCanceled }", false, true)]
     [DataRow("choice switch { _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("checked(number += 1) > 0 | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(number /= choice) > 0 | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(number %= choice) > 0 | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(operand += 1) is not null | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("checked(number += 1) > 0 | (alias = ref other).CanBeCanceled", true, false)]
+    [DataRow("(alias = ref other).CanBeCanceled | checked(number += 1) > 0", false, false)]
+    [DataRow("unchecked(number += 1) > 0 | (alias = ref other).CanBeCanceled", false, false)]
     [DataRow("checked(++number) > 0 | (alias = ref other).CanBeCanceled", false, true)]
     [DataRow("(alias = ref other).CanBeCanceled | checked(++number) > 0", false, false)]
     [DataRow("(long)number > 0 | (alias = ref other).CanBeCanceled", false, false)]
@@ -410,6 +417,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 var tokens = Array.Empty<CancellationToken>();
                 var choice = Environment.TickCount;
                 var number = int.MaxValue;
+                var operand = new ThrowingOperand();
                 try { throw new Exception(); }
                 catch (Exception) when ({{filter}}) { }
                 catch (Exception)
@@ -422,6 +430,11 @@ public class ModuleTaskRunCancellationAnalyzerTests
             }
 
             private static bool MayThrow() => throw new Exception();
+
+            private sealed class ThrowingOperand
+            {
+                public static ThrowingOperand operator +(ThrowingOperand left, int right) => throw new Exception();
+            }
 
             private sealed class Thrower
             {

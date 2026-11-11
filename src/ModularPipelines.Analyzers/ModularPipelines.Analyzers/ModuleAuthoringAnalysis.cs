@@ -1006,6 +1006,9 @@ internal static class ModuleAuthoringAnalysis
         or IIncrementOrDecrementOperation { IsChecked: true }
         or IIncrementOrDecrementOperation { OperatorMethod: not null }
         or IInterpolationOperation or IInterpolatedStringOperation
+        or ICompoundAssignmentOperation { OperatorMethod: not null }
+        or ICompoundAssignmentOperation { IsChecked: true }
+        or ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
         or IBinaryOperation { OperatorMethod: not null }
         or IBinaryOperation { IsChecked: true }
         or IBinaryOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
