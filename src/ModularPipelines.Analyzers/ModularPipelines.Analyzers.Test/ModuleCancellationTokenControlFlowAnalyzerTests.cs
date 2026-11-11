@@ -266,6 +266,8 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     public static IEnumerable<object[]> ExceptionCases()
     {
+        yield return ["ref-getter-before-rhs", "var token = default(CancellationToken); try { Slot = (token = cancellationToken); } catch { } await CALL(1, token);", true];
+        yield return ["ref-getter-preserves-input", "var token = cancellationToken; try { Slot = default; } catch { } await CALL(1, token);", false];
         foreach (var expression in new[] { "target.Run()", "target.Value", "target[0]", "(int)target", "target + 1", "-target" })
         {
             yield return ["dynamic-throw-" + expression, $$"""
@@ -465,8 +467,10 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         yield return ["extension-reset", "return token.DropToken();", true];
         yield return ["return-snapshot-before-finally", "try { return token; } finally { token = default; }", false];
         yield return ["heap-ref-write", "var items = new CancellationToken[1]; ref var item = ref items[0]; item = default; return token;", false];
+        yield return ["unrelated-int-array-ref", "var numbers = new int[1]; ref var item = ref numbers[0]; item = 1; return token;", false];
         yield return ["heap-ref-call", "void Reset(ref CancellationToken value) { value = default; } var items = new CancellationToken[1]; ref var item = ref items[0]; Reset(ref item); return token;", false];
         yield return ["field-ref-write", "var box = new TokenBox(); ref var item = ref box.Value; item = default; return token;", false];
+        yield return ["unrelated-int-unknown-ref", "static ref int Identity(ref int value) => ref value; int number = 0; ref var item = ref Identity(ref number); item = 1; return token;", false];
         yield return ["unknown-ref-write", "static ref CancellationToken Identity(ref CancellationToken value) => ref value; ref var item = ref Identity(ref token); item = default; return token;", true];
         yield return ["heap-ref-read", "var items = new CancellationToken[1]; ref var item = ref items[0]; item = token; return item;", true];
         yield return ["mixed-heap-local-ref-write", "var items = new CancellationToken[1]; ref var item = ref (token.CanBeCanceled ? ref token : ref items[0]); item = default; return token;", true];
@@ -624,6 +628,8 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                     token = default;
                     return token;
                 }
+
+                private static ref CancellationToken Slot => throw new System.Exception();
 
                 protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                 {

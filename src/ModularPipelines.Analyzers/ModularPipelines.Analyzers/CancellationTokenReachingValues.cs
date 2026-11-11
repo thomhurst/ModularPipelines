@@ -571,6 +571,12 @@ internal sealed class CancellationTokenReachingValues
                     Evaluate(argument.Value, state, block, exceptional);
                 }
 
+                // A ref-return getter computes the storage location before the RHS.
+                if (property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly)
+                {
+                    exceptional(block, state.Clone());
+                }
+
                 break;
             case IFieldReferenceOperation { Instance: { } fieldReceiver }:
                 Evaluate(fieldReceiver, state, block, exceptional);
@@ -648,8 +654,14 @@ internal sealed class CancellationTokenReachingValues
         var targets = ResolveStorage(target, state);
         if (targets.IsUnknown)
         {
-            // An unknown ref-return may designate any tracked storage.
-            state.Values.Clear();
+            // An unknown ref-return can alias tracked storage of the same type.
+            // Type parameters remain conservative because their substitutions may match.
+            state.Values.RemoveWhere(symbol => target.Type is null || symbol switch
+            {
+                ILocalSymbol local => MayAlias(target.Type, local.Type),
+                IParameterSymbol parameter => MayAlias(target.Type, parameter.Type),
+                _ => true,
+            });
         }
         else if (targets.Symbols.Count == 1 && !targets.HasHeap)
         {
@@ -661,6 +673,12 @@ internal sealed class CancellationTokenReachingValues
         }
 
         return true;
+    }
+
+    private static bool MayAlias(ITypeSymbol target, ITypeSymbol candidate)
+    {
+        return target is ITypeParameterSymbol || candidate is ITypeParameterSymbol
+            || SymbolEqualityComparer.Default.Equals(target, candidate);
     }
 
     private bool EvaluateConversion(IConversionOperation conversion, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
