@@ -1251,8 +1251,8 @@ internal class DistributedModuleExecutor(
             or ModuleStatus.NotStarted
             or ModuleStatus.Running
             or ModuleStatus.Unknown
-            ? null
-            : result.Status;
+                ? null
+                : result.Status;
 
     /// <summary>
     /// Shortens the coordinator's dispatch-to-collection window to the execution time the executing

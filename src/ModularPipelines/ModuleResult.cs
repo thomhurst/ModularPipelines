@@ -670,8 +670,8 @@ internal class ModuleResultReadState
                 // Current names still go through the configured options, so custom enum converters keep round-tripping.
                 Status = reader.TokenType == JsonTokenType.String
                     && RunHistoryModuleStatusJsonConverter.TryGetLegacyStatus(reader.GetString(), out var legacyStatus)
-                    ? legacyStatus
-                    : JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
+                        ? legacyStatus
+                        : JsonSerializer.Deserialize<ModuleStatus>(ref reader, options);
                 break;
             case "Exception":
                 Exception = exceptionConverter.Read(ref reader, typeof(Exception), options);
@@ -1113,8 +1113,8 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         return definition == typeof(IReadOnlyList<>)
                || definition == typeof(IReadOnlyCollection<>)
                || definition == typeof(IEnumerable<>)
-            ? DeclaredValueType
-            : runtimeValueType;
+                   ? DeclaredValueType
+                   : runtimeValueType;
     }
 }
 

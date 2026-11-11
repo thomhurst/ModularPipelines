@@ -133,9 +133,7 @@ public sealed record PipelineOptions
     public IReadOnlyList<string>? RunOnlyCategories
     {
         get => _runOnlyCategories;
-        init => _runOnlyCategories = value is null
-            ? null
-            : Array.AsReadOnly(value.ToArray());
+        init => _runOnlyCategories = value is null ? null : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>
@@ -144,9 +142,7 @@ public sealed record PipelineOptions
     public IReadOnlyList<string>? IgnoreCategories
     {
         get => _ignoreCategories;
-        init => _ignoreCategories = value is null
-            ? null
-            : Array.AsReadOnly(value.ToArray());
+        init => _ignoreCategories = value is null ? null : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>
@@ -157,9 +153,7 @@ public sealed record PipelineOptions
     public IReadOnlyList<string>? RunOnlyTags
     {
         get => _runOnlyTags;
-        init => _runOnlyTags = value is null
-            ? null
-            : Array.AsReadOnly(value.ToArray());
+        init => _runOnlyTags = value is null ? null : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>
@@ -169,9 +163,7 @@ public sealed record PipelineOptions
     public IReadOnlyList<string>? IgnoreTags
     {
         get => _ignoreTags;
-        init => _ignoreTags = value is null
-            ? null
-            : Array.AsReadOnly(value.ToArray());
+        init => _ignoreTags = value is null ? null : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>
@@ -184,9 +176,7 @@ public sealed record PipelineOptions
     public IReadOnlyList<string>? RunOnlyModules
     {
         get => _runOnlyModules;
-        init => _runOnlyModules = value is null
-            ? null
-            : Array.AsReadOnly(value.ToArray());
+        init => _runOnlyModules = value is null ? null : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>
@@ -199,9 +189,7 @@ public sealed record PipelineOptions
     public IReadOnlyList<string>? IgnoreModules
     {
         get => _ignoreModules;
-        init => _ignoreModules = value is null
-            ? null
-            : Array.AsReadOnly(value.ToArray());
+        init => _ignoreModules = value is null ? null : Array.AsReadOnly(value.ToArray());
     }
 
     /// <summary>

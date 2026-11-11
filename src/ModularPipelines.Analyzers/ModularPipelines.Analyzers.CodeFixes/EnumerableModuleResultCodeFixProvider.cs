@@ -289,11 +289,13 @@ public class EnumerableModuleResultCodeFixProvider : CodeFixProvider
 
     private static IMethodSymbol[] GetExecutionOverrides(INamedTypeSymbol containingTypeSymbol)
     {
-        return [.. containingTypeSymbol
+        return [
+            .. containingTypeSymbol
             .GetMembers()
             .OfType<IMethodSymbol>()
             .Where(method => method.OverriddenMethod is not null
-                && method.Name is "Execute" or "ExecuteAsync")];
+                && method.Name is "Execute" or "ExecuteAsync")
+        ];
     }
 
     private static bool HasResultDependentHookOverride(INamedTypeSymbol containingTypeSymbol)

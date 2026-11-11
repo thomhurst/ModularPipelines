@@ -47,7 +47,11 @@ public record HttpResilienceOptions
     /// <exception cref="ArgumentOutOfRangeException">The value is not a supported positive timeout.</exception>
     public TimeSpan? AttemptTimeout
     {
-        get => _attemptTimeout;
+        get
+        {
+            return _attemptTimeout;
+        }
+
         init
         {
             if (value is { } timeout && (timeout <= TimeSpan.Zero || timeout.TotalMilliseconds > uint.MaxValue - 1))

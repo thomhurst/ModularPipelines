@@ -467,11 +467,13 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
             .Select(registeredModule => registeredModule.GetType())
             .Distinct()
             .ToArray();
-        return [.. ModuleDependencyResolver
+        return [
+            .. ModuleDependencyResolver
             .GetAllDependencies(module, availableModuleTypes, _dependencyRegistry, _metadataRegistry)
             .Select(dependency => dependency.DependencyType)
             .Distinct()
-            .OrderBy(dependencyType => ModuleId.FromType(dependencyType).Value, StringComparer.Ordinal)];
+            .OrderBy(dependencyType => ModuleId.FromType(dependencyType).Value, StringComparer.Ordinal)
+        ];
     }
 
     private static async Task AppendDependencyFingerprintsAsync(

@@ -534,9 +534,11 @@ internal class ArtifactLifecycleManager
             Path.GetRelativePath(baseDir, path)
                 .Replace(Path.DirectorySeparatorChar, '/')).HasMatches;
 
-        return [.. ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken, trustedRoot: _workingDirectory, includeFile: Matches)
+        return [
+            .. ArtifactContextImpl.EnumerateDirectoryPaths(baseDir, cancellationToken, trustedRoot: _workingDirectory, includeFile: Matches)
             .Select(entry => entry.Path)
-            .Where(Matches)];
+            .Where(Matches)
+        ];
     }
 
     private string GetArchiveBaseDirectory(string pathPattern)

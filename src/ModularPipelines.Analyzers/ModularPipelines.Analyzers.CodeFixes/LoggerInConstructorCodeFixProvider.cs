@@ -277,8 +277,8 @@ public sealed class LoggerInConstructorCodeFixProvider : CodeFixProvider
         return fieldVariable?.Initializer is null
                && fieldDeclaration is { AttributeLists.Count: 0 }
                && fieldDeclaration.Declaration.Variables.Count == 1
-            ? new LoggerStorage(field, fieldDeclaration, assignmentStatement, assignment)
-            : null;
+                   ? new LoggerStorage(field, fieldDeclaration, assignmentStatement, assignment)
+                   : null;
     }
 
     private static bool IsCurrentInstanceFieldReference(ExpressionSyntax expression)

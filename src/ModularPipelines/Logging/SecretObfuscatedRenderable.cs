@@ -227,25 +227,25 @@ internal sealed class SecretObfuscatedRenderable(
         IRenderable renderable,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => snapshot
-        ? SnapshotRenderable(renderable, secretObfuscator)
-        : new SecretObfuscatedRenderable(
-            renderable,
-            secretObfuscator,
-            sanitizeControlCodes: false);
+            ? SnapshotRenderable(renderable, secretObfuscator)
+            : new SecretObfuscatedRenderable(
+                renderable,
+                secretObfuscator,
+                sanitizeControlCodes: false);
 
     private static string PrepareMarkup(
         string value,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => snapshot
-        ? value
-        : ObfuscatedMarkup.CreateSafeSource(value, secretObfuscator);
+            ? value
+            : ObfuscatedMarkup.CreateSafeSource(value, secretObfuscator);
 
     private static string PreparePlainText(
         string value,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => snapshot
-        ? value
-        : secretObfuscator.Obfuscate(value, null);
+            ? value
+            : secretObfuscator.Obfuscate(value, null);
 
     private static Paragraph PrepareParagraph(
         Paragraph paragraph,
@@ -383,13 +383,13 @@ internal sealed class SecretObfuscatedRenderable(
         ISecretObfuscator secretObfuscator,
         bool snapshot,
         IEnumerable<double> values) => formatter is null
-        ? null
-        : snapshot
-            ? SnapshotValueFormatter(formatter, values)
-            : (value, culture) => PrepareMarkup(
-                formatter(value, culture),
-                secretObfuscator,
-                snapshot: false);
+            ? null
+            : snapshot
+                ? SnapshotValueFormatter(formatter, values)
+                : (value, culture) => PrepareMarkup(
+                    formatter(value, culture),
+                    secretObfuscator,
+                    snapshot: false);
 
     internal static Func<double, CultureInfo, string> SnapshotValueFormatter(
         Func<double, CultureInfo, string> formatter) =>
@@ -602,8 +602,8 @@ internal sealed class SecretObfuscatedRenderable(
             Justification = rule.Justification,
             Style = rule.Style,
             Title = rule.Title is null
-            ? null
-            : PrepareMarkup(rule.Title, secretObfuscator, snapshot),
+                ? null
+                : PrepareMarkup(rule.Title, secretObfuscator, snapshot),
         };
 
     private static IRenderable PrepareTable(
@@ -705,19 +705,19 @@ internal sealed class SecretObfuscatedRenderable(
         TableTitle? title,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => title is null
-        ? null
-        : new TableTitle(
-            PrepareMarkup(title.Text, secretObfuscator, snapshot),
-            title.Style);
+            ? null
+            : new TableTitle(
+                PrepareMarkup(title.Text, secretObfuscator, snapshot),
+                title.Style);
 
     private static PanelHeader? ObfuscateHeader(
         PanelHeader? header,
         ISecretObfuscator secretObfuscator,
         bool snapshot) => header is null
-        ? null
-        : new PanelHeader(
-            PrepareMarkup(header.Text, secretObfuscator, snapshot),
-            header.Justification);
+            ? null
+            : new PanelHeader(
+                PrepareMarkup(header.Text, secretObfuscator, snapshot),
+                header.Justification);
 
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_renderable")]
     private static extern ref readonly IRenderable GetAlignChild(Align align);

@@ -259,8 +259,8 @@ internal class CommandLogger : ICommandLogger, ICommandOutputLogger
             return !isSuccess
                    && options.Verbosity >= CommandLogVerbosity.Normal
                    && options.IncludesStandardError
-                ? " ✗"
-                : string.Empty;
+                       ? " ✗"
+                       : string.Empty;
         }
 
         var status = new StringBuilder()

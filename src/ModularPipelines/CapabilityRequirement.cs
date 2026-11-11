@@ -200,33 +200,33 @@ public sealed class CapabilityRequirement : IEquatable<CapabilityRequirement>
     {
         public static ClauseComparer Instance { get; } = new();
 
-        public int Compare(Capability[]? left, Capability[]? right)
+        public int Compare(Capability[]? x, Capability[]? y)
         {
-            if (ReferenceEquals(left, right))
+            if (ReferenceEquals(x, y))
             {
                 return 0;
             }
 
-            if (left is null || right is null)
+            if (x is null || y is null)
             {
-                return left is null ? -1 : 1;
+                return x is null ? -1 : 1;
             }
 
-            var result = left.Length.CompareTo(right.Length);
-            for (var index = 0; result == 0 && index < left.Length; index++)
+            var result = x.Length.CompareTo(y.Length);
+            for (var index = 0; result == 0 && index < x.Length; index++)
             {
-                result = StringComparer.OrdinalIgnoreCase.Compare(left[index].Name, right[index].Name);
+                result = StringComparer.OrdinalIgnoreCase.Compare(x[index].Name, y[index].Name);
             }
 
             return result;
         }
 
-        public bool Equals(Capability[]? left, Capability[]? right) => Compare(left, right) == 0;
+        public bool Equals(Capability[]? x, Capability[]? y) => Compare(x, y) == 0;
 
-        public int GetHashCode(Capability[] clause)
+        public int GetHashCode(Capability[] obj)
         {
             var hash = default(HashCode);
-            foreach (var capability in clause)
+            foreach (var capability in obj)
             {
                 hash.Add(capability);
             }

@@ -411,9 +411,11 @@ internal sealed class PipelinePlanner(
                     continue;
                 }
 
-                readyModules = [.. unscheduledModules
+                readyModules = [
+                    .. unscheduledModules
                     .OrderByDescending(plannedModule => GetPriority(plannedModule.Module))
-                    .ThenBy(plannedModule => plannedModule.Module.GetType().FullName, StringComparer.Ordinal)];
+                    .ThenBy(plannedModule => plannedModule.Module.GetType().FullName, StringComparer.Ordinal)
+                ];
             }
 
             var queuedAny = false;

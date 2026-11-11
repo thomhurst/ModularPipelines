@@ -295,9 +295,14 @@ internal static class ServiceCollectionExtensions
             assembly,
             out var generatedModuleTypes,
             out var generatedMetadataIsComplete);
-        List<Type> modules = hasGeneratedMetadata && generatedMetadataIsComplete
-            ? [.. generatedModuleTypes]
-            :
+        List<Type> modules;
+        if (hasGeneratedMetadata && generatedMetadataIsComplete)
+        {
+            modules = [.. generatedModuleTypes];
+        }
+        else
+        {
+            modules =
             [
                 .. AssemblyTypeLoader.GetLoadableTypes(assembly)
                     .Where(type => type.IsAssignableTo(typeof(IModule)))
@@ -305,6 +310,7 @@ internal static class ServiceCollectionExtensions
                     .Where(type => !type.IsAbstract)
                     .Where(type => !type.IsGenericTypeDefinition),
             ];
+        }
 
         foreach (var moduleType in modules)
         {

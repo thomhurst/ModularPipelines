@@ -613,12 +613,14 @@ internal sealed class RunReportService(
         HashSet<WorkerId> expectedWorkerIds,
         string? executionIdentifier,
         CancellationToken cancellationToken) =>
-        [.. (await GetMasterCoordinator()
+        [
+            .. (await GetMasterCoordinator()
                 .GetWorkerStatusesAsync(cancellationToken)
                 .WaitAsync(cancellationToken)
                 .ConfigureAwait(false))
             .Where(status => expectedWorkerIds.Contains(status.WorkerId)
-                             && IsCurrentExecution(status.RunId, executionIdentifier))];
+                             && IsCurrentExecution(status.RunId, executionIdentifier))
+        ];
 
     private IDistributedMasterCoordinator GetMasterCoordinator() =>
         masterCoordinator

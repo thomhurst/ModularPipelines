@@ -60,7 +60,7 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             || categoryName.StartsWith($"{prefix}.", StringComparison.Ordinal));
 
     private sealed class BuildSystemLogIssueLogger(
-        IBuildSystemFormatter formatter,
+        IBuildSystemFormatter buildSystemFormatter,
         IBuildSystemCommandWriter commandWriter,
         Lazy<ISecretObfuscator> secretObfuscator,
         ConditionalWeakTable<Exception, object> reportedErrors,
@@ -78,20 +78,20 @@ internal sealed class BuildSystemLogIssueLoggerProvider : ILoggerProvider
             EventId eventId,
             TState state,
             Exception? exception,
-            Func<TState, Exception?, string> messageFormatter)
+            Func<TState, Exception?, string> formatter)
         {
             if (!IsEnabled(logLevel) || ModuleLogEvents.IsBuildIssueSuppressed(eventId))
             {
                 return;
             }
 
-            var message = FormatIssueMessage(logLevel, messageFormatter(state, exception), exception);
+            var message = FormatIssueMessage(logLevel, formatter(state, exception), exception);
             if (message is null)
             {
                 return;
             }
 
-            var command = formatter.GetLogIssueCommand(logLevel, secretObfuscator.Value.Obfuscate(message, null));
+            var command = buildSystemFormatter.GetLogIssueCommand(logLevel, secretObfuscator.Value.Obfuscate(message, null));
             if (command is not null)
             {
                 commandWriter.WriteLine(command);

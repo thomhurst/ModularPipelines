@@ -124,10 +124,12 @@ internal sealed class OutputCoordinator(
             }
 
             // Order by completion time to maintain consistent output ordering
-            toFlush = [.. _deferredOutputs
+            toFlush = [
+                .. _deferredOutputs
                 // Teardown may rediscover a buffer already scheduled at module completion.
                 .DistinctBy(output => output.Buffer, ReferenceEqualityComparer.Instance)
-                .OrderBy(x => x.CompletedAt)];
+                .OrderBy(x => x.CompletedAt)
+            ];
             _deferredOutputs.Clear();
         }
 

@@ -44,7 +44,8 @@ internal static class ModuleDependencyDeclarations
             if (dependency is not null)
             {
                 Add(declarations, dependency, attribute.NamedArguments.Any(argument => argument.Key == "Optional" && argument.Value.Value is true)
-                    ? DependencyDeclarationKind.Optional : DependencyDeclarationKind.Required);
+                    ? DependencyDeclarationKind.Optional
+                    : DependencyDeclarationKind.Required);
             }
         }
     }
@@ -201,7 +202,8 @@ internal static class ModuleDependencyDeclarations
             }
 
             return method.Name == "DependsOnOptional"
-                ? DependencyDeclarationKind.Optional : DependencyDeclarationKind.Required;
+                ? DependencyDeclarationKind.Optional
+                : DependencyDeclarationKind.Required;
         }
 
         private ITypeSymbol SubstituteType(ITypeSymbol type)

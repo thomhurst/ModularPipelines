@@ -1379,10 +1379,12 @@ internal class ModuleRunner : IModuleRunner
         }
 
         executionContext.SkipResult = DependencySkipDecisionFactory.Create(
-            [.. skippedDependencies
+            [
+                .. skippedDependencies
                 .Select(dependency => (
                     ModuleType: dependency.Type,
-                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))]);
+                    SkipDecision: dependency.Result!.SkipDecisionOrDefault))
+            ]);
     }
 
     private async Task<IModuleResult> ExecuteTypedModule(

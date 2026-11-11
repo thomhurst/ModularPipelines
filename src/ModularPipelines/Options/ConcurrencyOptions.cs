@@ -28,7 +28,11 @@ public sealed record ConcurrencyOptions
     /// </example>
     public IReadOnlyDictionary<string, int> Limits
     {
-        get => _limits;
+        get
+        {
+            return _limits;
+        }
+
         init
         {
             ArgumentNullException.ThrowIfNull(value);

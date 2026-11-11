@@ -144,8 +144,8 @@ internal static class BuiltInConditionAttributes
                    typeof(IRunCondition).IsAssignableFrom(type)
                    && !type.IsAbstract
                    && type.GetConstructor(Type.EmptyTypes) is not null)
-            ? typeArguments
-            : [];
+                       ? typeArguments
+                       : [];
     }
 
     /// <summary>

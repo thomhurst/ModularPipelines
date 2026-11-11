@@ -44,9 +44,11 @@ internal static class ModuleDependencySelectors
                 "ModularPipelines.DependsOnAllModulesInheritingFromAttribute",
                 "ModularPipelines.DependsOnAllModulesInheritingFromAttribute`1"))
         {
-            var target = selector.IsGenericType ? selector.TypeArguments[0]
+            var target = selector.IsGenericType
+                ? selector.TypeArguments[0]
                 : attribute.ConstructorArguments.FirstOrDefault().Value as ITypeSymbol;
-            return target is null ? DependencyDeclarationKind.Unknown
+            return target is null
+                ? DependencyDeclarationKind.Unknown
                 : MatchKind(IsAssignableTo(dependency, target, compilation));
         }
 

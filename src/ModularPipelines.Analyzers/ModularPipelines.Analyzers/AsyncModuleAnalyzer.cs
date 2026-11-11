@@ -81,16 +81,19 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return [expression];
         }
 
-        return methodDeclaration.Body is null
-            ? []
-            :
-            [
-                .. methodDeclaration.Body
-                    .DescendantNodes(ShouldDescendInto)
-                    .OfType<ReturnStatementSyntax>()
-                    .Select(static statement => statement.Expression)
-                    .OfType<ExpressionSyntax>(),
-            ];
+        if (methodDeclaration.Body is null)
+        {
+            return [];
+        }
+
+        return
+        [
+            .. methodDeclaration.Body
+                .DescendantNodes(ShouldDescendInto)
+                .OfType<ReturnStatementSyntax>()
+                .Select(static statement => statement.Expression)
+                .OfType<ExpressionSyntax>(),
+        ];
     }
 
     private static bool ShouldDescendInto(SyntaxNode node) =>

@@ -84,7 +84,7 @@ internal partial class EnvironmentVariables : IEnvironmentVariablesContext
             }
 
             // Match Environment.SetEnvironmentVariable's best-effort notification after persisting the change.
-            SendMessageTimeout(new IntPtr(0xffff), 0x001a, UIntPtr.Zero, "Environment", 0, 1000, out _);
+            SendMessageTimeout(new nint(0xffff), 0x001a, nuint.Zero, "Environment", 0, 1000, out _);
         }
     }
 

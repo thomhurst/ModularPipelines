@@ -76,9 +76,11 @@ public sealed class PipelineBuilder
         DependencyInjectionSetup.RegisterDefaultLogging(_loggingServices);
         _defaultLoggingServiceDescriptors = [.. _loggingServices];
         _defaultLoggingProviderDescriptors = [.. _defaultLoggingServiceDescriptors.Where(static descriptor => descriptor.ServiceType == typeof(ILoggerProvider))];
-        _defaultLoggingProviderTypes = [.. _defaultLoggingProviderDescriptors
+        _defaultLoggingProviderTypes = [
+            .. _defaultLoggingProviderDescriptors
             .Select(static descriptor => descriptor.ImplementationType)
-            .OfType<Type>()];
+            .OfType<Type>()
+        ];
         Logging = new PipelineLoggingBuilder(new PipelineLoggingServiceCollection(
             _serviceRegistrationOrder,
             _loggingServices,
@@ -832,15 +834,15 @@ public sealed class PipelineBuilder
     {
         private readonly DeferredBackend<IDistributedArtifactStore> _store = new(factory.CreateAsync);
 
-        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).UploadAsync(d, s, ct).ConfigureAwait(false);
+        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken) => await (await GetAsync(cancellationToken).ConfigureAwait(false)).UploadAsync(descriptor, data, cancellationToken).ConfigureAwait(false);
 
-        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DownloadAsync(r, ct).ConfigureAwait(false);
+        public async Task<Stream> DownloadAsync(ArtifactReference reference, CancellationToken cancellationToken) => await (await GetAsync(cancellationToken).ConfigureAwait(false)).DownloadAsync(reference, cancellationToken).ConfigureAwait(false);
 
-        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId id, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).ListArtifactsAsync(id, ct).ConfigureAwait(false);
+        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(ModuleId moduleId, CancellationToken cancellationToken) => await (await GetAsync(cancellationToken).ConfigureAwait(false)).ListArtifactsAsync(moduleId, cancellationToken).ConfigureAwait(false);
 
-        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct).ConfigureAwait(false)).DeleteAsync(r, ct).ConfigureAwait(false);
+        public async Task DeleteAsync(ArtifactReference reference, CancellationToken cancellationToken) => await (await GetAsync(cancellationToken).ConfigureAwait(false)).DeleteAsync(reference, cancellationToken).ConfigureAwait(false);
 
-        public async ValueTask<object> GetBackendAsync(CancellationToken ct) => await GetAsync(ct).ConfigureAwait(false);
+        public async ValueTask<object> GetBackendAsync(CancellationToken cancellationToken) => await GetAsync(cancellationToken).ConfigureAwait(false);
 
         public void Dispose() => _store.Dispose();
 

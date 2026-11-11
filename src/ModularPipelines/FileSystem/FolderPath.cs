@@ -66,8 +66,8 @@ public class FolderPath : IEquatable<FolderPath>
         Path.TrimEnd(
             System.IO.Path.DirectorySeparatorChar,
             System.IO.Path.AltDirectorySeparatorChar)) is { } parent
-        ? new FolderPath(parent, _provider)
-        : null;
+                ? new FolderPath(parent, _provider)
+                : null;
 
     public string Path => _directoryInfo.FullName;
 

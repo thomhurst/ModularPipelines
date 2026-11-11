@@ -128,10 +128,10 @@ internal sealed class TimeoutHttpContent : HttpContent
     {
         return cancellationToken.CanBeCanceled &&
                cancellationToken != _linkedCancellationTokenSource.Token
-            ? CancellationTokenSource.CreateLinkedTokenSource(
-                cancellationToken,
-                _linkedCancellationTokenSource.Token)
-            : null;
+                   ? CancellationTokenSource.CreateLinkedTokenSource(
+                       cancellationToken,
+                       _linkedCancellationTokenSource.Token)
+                   : null;
     }
 
     private sealed class TimeoutReadStream(
@@ -273,10 +273,10 @@ internal sealed class TimeoutHttpContent : HttpContent
         {
             return cancellationToken.CanBeCanceled &&
                    cancellationToken != timeoutCancellationToken
-                ? CancellationTokenSource.CreateLinkedTokenSource(
-                    cancellationToken,
-                    timeoutCancellationToken)
-                : null;
+                       ? CancellationTokenSource.CreateLinkedTokenSource(
+                           cancellationToken,
+                           timeoutCancellationToken)
+                       : null;
         }
 
         private OperationCanceledException CreateTimeoutException(Exception exception)

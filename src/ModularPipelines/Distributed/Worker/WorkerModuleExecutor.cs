@@ -245,11 +245,13 @@ internal class WorkerModuleExecutor(
             using var resultCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             resultCts.CancelAfter(options.MasterTimeout);
             await DependencyResultApplicator.FetchAndApplyAsync(
-                    [.. executedModules.Select(module => new DependencyResultReference
+                    [
+                        .. executedModules.Select(module => new DependencyResultReference
                     {
                         ModuleId = ModuleId.FromType(module.GetType()),
                         IsAvailable = true,
-                    })],
+                    })
+                    ],
                     new DependencyResultCache(_coordinator, resultCts.Token),
                     moduleLookup,
                     _serializer,
