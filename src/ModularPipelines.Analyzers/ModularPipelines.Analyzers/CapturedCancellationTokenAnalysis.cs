@@ -532,11 +532,7 @@ internal static class CapturedCancellationTokenAnalysis
                 return DeconstructionStorageCanThrow(deconstruction.Target);
             }
 
-            if (operation is not (ICollectionExpressionOperation or ISpreadOperation
-                or IEventAssignmentOperation or IEventReferenceOperation or IFieldReferenceOperation or IMethodReferenceOperation
-                or ITypeParameterObjectCreationOperation or IFunctionPointerInvocationOperation
-                or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation }
-                or IBinaryOperation or IUnaryOperation or ICompoundAssignmentOperation))
+            if (!RequiresExceptionClassification(operation))
             {
                 return false;
             }
@@ -549,6 +545,13 @@ internal static class CapturedCancellationTokenAnalysis
             return !(classified is IFieldReferenceOperation or IEventReferenceOperation && IsDeconstructionTarget(classified))
                 && !_exceptionClassifier.Classify(classified).IsEmpty;
         }
+
+        private static bool RequiresExceptionClassification(IOperation operation) => operation is
+            ICollectionExpressionOperation or ISpreadOperation
+            or IEventAssignmentOperation or IEventReferenceOperation or IFieldReferenceOperation or IMethodReferenceOperation
+            or ITypeParameterObjectCreationOperation or IFunctionPointerInvocationOperation
+            or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation }
+            or IBinaryOperation or IUnaryOperation or ICompoundAssignmentOperation;
 
         private static bool IsDeconstructionTarget(IOperation operation)
         {
@@ -655,13 +658,16 @@ internal static class CapturedCancellationTokenAnalysis
                 return false;
             }
 
-            return sourceTuple.TupleElements.Zip(targetTuple.TupleElements, (from, to) =>
-            {
-                var conversion = _model.Compilation.ClassifyConversion(from.Type, to.Type);
-                return conversion.IsUserDefined || conversion.IsUnboxing
-                    || (conversion.IsReference && !conversion.IsImplicit)
-                    || TupleConversionCanThrow(from.Type, to.Type);
-            }).Any(static result => result);
+            return sourceTuple.TupleElements.Zip(targetTuple.TupleElements, TupleElementConversionCanThrow)
+                .Any(static result => result);
+        }
+
+        private bool TupleElementConversionCanThrow(IFieldSymbol source, IFieldSymbol destination)
+        {
+            var conversion = _model!.Compilation.ClassifyConversion(source.Type, destination.Type);
+            return conversion.IsUserDefined || conversion.IsUnboxing
+                || (conversion.IsReference && !conversion.IsImplicit)
+                || TupleConversionCanThrow(source.Type, destination.Type);
         }
 
         private static ITypeSymbol? UnwrapNullable(ITypeSymbol? type) =>
