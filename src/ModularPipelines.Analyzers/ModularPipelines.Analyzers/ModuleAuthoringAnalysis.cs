@@ -5734,12 +5734,24 @@ internal static class ModuleAuthoringAnalysis
         // its use so a helper's ref rebinding changes the storage being written.
         return body.DescendantsAndSelf()
             .SelectMany(GetCancellationStorageWrites)
-            .Where(write => ReferenceEquals(GetEnclosingCallable(write), GetEnclosingCallable(returnValue)))
+            .Where(write => ReferenceEquals(GetEnclosingCallable(write), GetEnclosingCallable(returnValue))
+                || IsCapturedCancellationStorage(write))
             .Where(IsInReachableBranch)
             .Where(write => !IsCancellationPreservingStore(write, parameter))
-            .Any(write => reads.Any(read =>
-                CanCancellationWriteReachRead(write, read)
-                && MayShareCancellationStorage(write, read, invocation, method)));
+            .Any(write => reads.Any(read => GetCancellationExecutionSites(write, read, [with(SymbolEqualityComparer.Default)])
+                .Any(site => CanCancellationWriteReachRead(site, read)
+                    && MayShareCancellationStorage(write, read, invocation, method)
+                    && !IsCancellationPreservingCallbackCopy(write.Parent!, read, site, []))));
+    }
+
+    private static bool IsCapturedCancellationStorage(IOperation write)
+    {
+        // Ref/out arguments already model a callee's own parameter writes at the call.
+        // Only captured storage can change without an explicit storage argument.
+        var callable = GetCallableSymbol(GetEnclosingCallable(write));
+        var storage = GetCancellationStorage(write, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        return callable is not null && storage is not null
+            && !SymbolEqualityComparer.Default.Equals(storage.ContainingSymbol, callable);
     }
 
     private static bool CanCancellationWriteReachRead(IOperation write, IOperation read)
@@ -6073,8 +6085,14 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static bool HasAliasedStorageMutation(IOperation source, IOperation read)
+    private static bool HasAliasedStorageMutation(
+        IOperation source,
+        IOperation read,
+        HashSet<IOperation>? visitedWrites = null,
+        IOperation? readSite = null)
     {
+        visitedWrites ??= [];
+        var executionRead = readSite ?? read;
         // Reaching values track direct assignments, but references can mutate
         // the same slot between a copy and its use, or after alias creation.
         return GetRoot(read).DescendantsAndSelf()
@@ -6082,10 +6100,120 @@ internal static class ModuleAuthoringAnalysis
             .Where(operation => !HasAncestor(read, operation)
                 && !IsCancellationStorageSelfStore(operation)
                 && MayMutateCancellationStorage(operation, read))
-            .Any(operation => GetCancellationExecutionSites(operation, read, [with(SymbolEqualityComparer.Default)])
+            .Any(operation => GetCancellationExecutionSites(operation, executionRead, [with(SymbolEqualityComparer.Default)])
                 .Any(site => site.Syntax.SpanStart > source.Syntax.SpanStart
-                    && CanCancellationMutationReachLocalRead(source, site, read)
-                    && CanCancellationWriteReachRead(site, read)));
+                    && CanCancellationMutationReachLocalRead(source, site, executionRead)
+                    && CanCancellationWriteReachRead(site, executionRead)
+                    && !IsCancellationPreservingCallbackCopy(operation, source, site, visitedWrites)));
+    }
+
+    private static bool IsCancellationPreservingCallbackCopy(
+        IOperation operation,
+        IOperation source,
+        IOperation site,
+        HashSet<IOperation> visitedWrites)
+    {
+        if (operation is not ISimpleAssignmentOperation { IsRef: false } assignment
+            || ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(site))
+            || !visitedWrites.Add(operation))
+        {
+            return false;
+        }
+
+        try
+        {
+            return HaveSameCancellationSnapshot(
+                assignment.Value, source, site, [with(SymbolEqualityComparer.Default)], visitedWrites);
+        }
+        finally
+        {
+            visitedWrites.Remove(operation);
+        }
+    }
+
+    private static bool HaveSameCancellationSnapshot(
+        IOperation value,
+        IOperation source,
+        IOperation site,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IOperation> visitedWrites)
+    {
+        if (ReferenceEquals(value, source))
+        {
+            return true;
+        }
+
+        return value switch
+        {
+            IConversionOperation conversion =>
+                HaveSameCancellationSnapshot(conversion.Operand, source, site, visitedLocals, visitedWrites),
+            IParenthesizedOperation parenthesized =>
+                HaveSameCancellationSnapshot(parenthesized.Operand, source, site, visitedLocals, visitedWrites),
+            ILocalReferenceOperation local =>
+                visitedLocals.Add(local.Local)
+                && CancellationLocalMatchesSnapshot(local, source, site, visitedLocals, visitedWrites),
+            _ when source is ILocalReferenceOperation or IConversionOperation or IParenthesizedOperation =>
+                HaveSameCancellationSnapshot(source, value, source, visitedLocals, visitedWrites),
+            IParameterReferenceOperation parameter when source is IParameterReferenceOperation origin =>
+                CancellationParameterSnapshotsMatch(parameter, origin, visitedWrites),
+            _ => false,
+        };
+    }
+
+    private static bool CancellationLocalMatchesSnapshot(
+        ILocalReferenceOperation local,
+        IOperation source,
+        IOperation site,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IOperation> visitedWrites)
+    {
+        IOperation referenceSite = local;
+        var values = FindReachingLocalValues(local, local.Local).ToArray();
+        if (values.Length == 0 && !ReferenceEquals(GetEnclosingCallable(local), GetEnclosingCallable(site)))
+        {
+            // Captured locals are read when the callback runs, not where it is declared.
+            referenceSite = site;
+            values = [.. FindReachingLocalValues(site, local.Local)];
+        }
+
+        return values.Length > 0 && values.All(candidate =>
+            !HasAliasedStorageMutation(candidate, local, visitedWrites, referenceSite)
+            && HaveSameCancellationSnapshot(candidate, source, candidate, CloneVisitedLocals(visitedLocals), visitedWrites));
+    }
+
+    private static bool CancellationParameterSnapshotsMatch(
+        IParameterReferenceOperation value,
+        IParameterReferenceOperation source,
+        HashSet<IOperation> visitedWrites)
+    {
+        var valueStorage = GetCancellationStorage(value, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var sourceStorage = GetCancellationStorage(source, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        if (valueStorage is not IParameterSymbol || !SymbolEqualityComparer.Default.Equals(valueStorage, sourceStorage)
+            || !ReferenceEquals(GetEnclosingCallable(value), GetEnclosingCallable(source)))
+        {
+            return false;
+        }
+
+        var earlier = value.Syntax.SpanStart < source.Syntax.SpanStart ? value : source;
+        var later = ReferenceEquals(earlier, value) ? source : value;
+        return !GetRoot(later).DescendantsAndSelf()
+            .SelectMany(GetCancellationStorageWrites)
+            .Where(IsInReachableBranch)
+            .Where(write => !visitedWrites.Contains(write.Parent!) && !IsCancellationStorageSelfStore(write.Parent!))
+            .Where(write => CancellationSnapshotWriteMayAlias(write, later))
+            .SelectMany(write => GetCancellationExecutionSites(write, later, [with(SymbolEqualityComparer.Default)]))
+            .Any(site => site.Syntax.SpanStart > earlier.Syntax.SpanStart
+                && site.Syntax.SpanStart < later.Syntax.SpanStart
+                && CanCancellationWriteReachRead(site, later));
+    }
+
+    private static bool CancellationSnapshotWriteMayAlias(IOperation write, IParameterReferenceOperation read)
+    {
+        // Separate ref parameters can alias at the helper's call site.
+        return MayShareCancellationStorage(write, read, preserveParameters: true)
+            || (read.Parameter.RefKind != RefKind.None
+                && GetCancellationStorage(write, [with(SymbolEqualityComparer.Default)], preserveParameters: true)
+                    is IParameterSymbol { RefKind: not RefKind.None });
     }
 
     private static IEnumerable<IOperation> GetCancellationExecutionSites(

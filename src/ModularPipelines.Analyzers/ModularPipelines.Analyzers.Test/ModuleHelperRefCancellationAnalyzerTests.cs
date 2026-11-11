@@ -7,6 +7,14 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken unrelated = default; static void Clear(ref CancellationToken value) { value = default; } Clear(ref unrelated); return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var intact = first; var local = first; second = ref local; void Refresh() { local = intact; } Refresh(); return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; var saved = local; second = ref local; void Copy() { local = saved; } Copy(); return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; var saved = local; second = ref local; saved = default; void Copy() { local = saved; } Copy(); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; var saved = local; second = ref local; ref CancellationToken alias = ref saved; alias = default; void Copy() { local = saved; } Copy(); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; var saved = local; second = ref local; void Copy() { saved = default; local = saved; } Copy(); return second;", true)]
+    [DataRow("ref token, ref token", "", "var local = first; second = default; var intact = first; first = ref local; void Copy() { local = intact; } Copy(); return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; var saved = local; var copy = saved; second = ref local; System.Action refresh = () => local = copy; refresh(); return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { if (Flag) Clear(); local = default; } Clear(); return second;", true)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } void Unused() { Clear(); } return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } Clear(); return second;", true)]
@@ -197,6 +205,12 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("first = default; second = ref first; return second;", true)]
     [DataRow("second = default; return first;", false)]
     [DataRow("first = default; return first;", true)]
+    [DataRow("second = ref first; void Clear() { first = default; } Clear(); return second;", true)]
+    [DataRow("second = ref first; void Clear() { first = default; } return second;", false)]
+    [DataRow("second = ref first; var saved = first; void Copy() { first = saved; } Copy(); return second;", false)]
+    [DataRow("second = ref first; var saved = first; saved = default; void Copy() { first = saved; } Copy(); return second;", true)]
+    [DataRow("second = ref first; void Clear() { first = default; } var saved = second; Clear(); return saved;", false)]
+    [DataRow("second = ref first; System.Action clear = () => first = default; clear(); return second;", true)]
     public async Task Checks_Helper_Value_Parameter_Storage(string body, bool reports)
     {
         var call = "Task.Delay(1, snapshot)";
