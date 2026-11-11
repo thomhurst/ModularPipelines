@@ -507,6 +507,12 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("state[0]", "token", true, false)]
     [DataRow("state.Value", "other", false, false)]
     [DataRow("state[0]", "other", false, false)]
+    [DataRow("((dynamic)state).Value", "token", false, true)]
+    [DataRow("((dynamic)state)[0]", "token", false, true)]
+    [DataRow("((dynamic)state).Value", "token", true, false)]
+    [DataRow("((dynamic)state)[0]", "token", true, false)]
+    [DataRow("((dynamic)state).Value", "other", false, false)]
+    [DataRow("((dynamic)state)[0]", "other", false, false)]
     public async Task Tracks_Property_Setter_Exceptions_After_Assignment_Value(string target, string rebound, bool rebindInHandler, bool reports)
     {
         var source = ModuleSource($$"""

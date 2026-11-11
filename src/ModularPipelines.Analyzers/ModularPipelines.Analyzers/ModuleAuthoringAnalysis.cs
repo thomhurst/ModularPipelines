@@ -1017,7 +1017,11 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanThrowInCancellationFilter(IOperation operation) => operation is
         IInvocationOperation or IPropertyReferenceOperation
-        or IAssignmentOperation { Target: IPropertyReferenceOperation { Property.SetMethod: not null } }
+        or IAssignmentOperation
+        {
+            Target: IPropertyReferenceOperation { Property.SetMethod: not null }
+            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
+        }
         or IFieldReferenceOperation { Parent: not IPropertySubpatternOperation }
         or IArrayElementReferenceOperation or IArrayCreationOperation
         or IDynamicInvocationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
