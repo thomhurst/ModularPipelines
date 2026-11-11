@@ -15,8 +15,8 @@ namespace ModularPipelines.Analyzers;
 /// Branch selection, state unions and exception routing belong to the caller.
 /// Ref locals with backing storage outside the local-symbol alias closure always query as unknown,
 /// including after whole-local stores. Ordinary reference-valued locals retain precise definitions.
-/// Retained ref escapes and ref-return aliases are not tracked; callers must conservatively handle later writes
-/// through such escaped storage rather than treating call-time invalidation as complete alias analysis.
+/// Ref-return aliases and ref-like holders conservatively join the storage closure, including copies.
+/// Unknown callees invalidate at call time; their bodies are never analyzed.
 /// </remarks>
 internal sealed class LocalDefinitionTransfer
 {
@@ -25,7 +25,7 @@ internal sealed class LocalDefinitionTransfer
     private readonly IOperation _operationRoot;
     private readonly ILocalSymbol _local;
     private readonly Dictionary<TextSpan, IOperation> _definitions;
-    private readonly HashSet<ILocalSymbol> _aliases;
+    private readonly HashSet<ISymbol> _aliases;
     private readonly bool _hasUnrepresentedBackingStorage;
 
     internal LocalDefinitionTransfer(IOperation operationRoot, ILocalSymbol local)
@@ -196,6 +196,17 @@ internal sealed class LocalDefinitionTransfer
         state.Add(UnknownValue);
     }
 
+    // The caller owns call timing; reuse the same storage closure for implicit receivers.
+    internal void InvalidateStorage(IOperation value, HashSet<TextSpan> state)
+    {
+        if (MayReferenceLocal(value))
+        {
+            Invalidate(state);
+        }
+    }
+
+    internal bool ReferencesStorage(IOperation value) => MayReferenceLocal(value);
+
     private bool MayReferenceLocal(IOperation value) =>
         _aliases.Any(alias => TargetsLocal(value, alias, _operationRoot));
 
@@ -330,10 +341,11 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
-    // Bindings are a conservative callable-wide union; only traversed writes invalidate flow.
-    private static HashSet<ILocalSymbol> GetAliases(IOperation root, ILocalSymbol local)
+    // Bindings include local and parameter holders in a conservative callable-wide union;
+    // only traversed writes invalidate flow.
+    private static HashSet<ISymbol> GetAliases(IOperation root, ILocalSymbol local)
     {
-        HashSet<ILocalSymbol> aliases = [with(SymbolEqualityComparer.Default), local];
+        HashSet<ISymbol> aliases = [with(SymbolEqualityComparer.Default), local];
         var sources = root.DescendantsAndSelf().SelectMany(GetAliasSources).ToArray();
         bool changed;
         do
@@ -377,29 +389,226 @@ internal sealed class LocalDefinitionTransfer
         _ => false,
     };
 
-    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
     {
-        if (operation is IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None, Initializer: { } initializer } declarator)
+        if (GetDirectAliasSource(operation) is { } direct)
         {
-            yield return (declarator.Symbol, initializer.Value);
+            yield return direct;
         }
-        else if (operation is ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation reference } assignment)
+        else if (GetMemberAliasSource(operation) is { } memberBinding)
         {
-            yield return (reference.Local, assignment.Value);
+            foreach (var receiver in GetRefLikeReceivers(memberBinding.Target))
+            {
+                yield return (receiver, memberBinding.Source);
+            }
+        }
+        else if (operation is IInvocationOperation or IObjectCreationOperation or IPropertyReferenceOperation)
+        {
+            foreach (var binding in GetCallAliasSources(operation))
+            {
+                yield return binding;
+            }
+        }
+
+        foreach (var binding in GetLoopAndDeconstructionAliasSources(operation))
+        {
+            yield return binding;
         }
     }
 
-    private static bool TargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot = null) => target switch
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetLoopAndDeconstructionAliasSources(IOperation operation)
+    {
+        if (operation is IForEachLoopOperation loop)
+        {
+            // Iteration bindings have no source-tree initializer. Current can retain storage
+            // from the collection through its enumerator, including ref and deconstructed values.
+            foreach (var local in loop.Locals.Where(static local => local.RefKind != RefKind.None || local.Type.IsRefLikeType))
+            {
+                yield return (local, loop.Collection);
+            }
+        }
+        else if (operation is IDeconstructionAssignmentOperation deconstruction)
+        {
+            foreach (var binding in GetDeconstructionAliasSources(deconstruction.Target, deconstruction.Value))
+            {
+                yield return binding;
+            }
+        }
+    }
+
+    private static (IOperation Target, IOperation Source)? GetMemberAliasSource(IOperation operation) => operation switch
+    {
+        ISimpleAssignmentOperation assignment when assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true =>
+            (assignment.Target, assignment.Value),
+        ICompoundAssignmentOperation { Type.IsRefLikeType: true, OperatorMethod: not null } compound =>
+            (compound.Target, compound),
+        _ => null,
+    };
+
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetDeconstructionAliasSources(
+        IOperation target, IOperation value)
+    {
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        while (value is IConversionOperation conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        if (target is ITupleOperation targets)
+        {
+            for (var index = 0; index < targets.Elements.Length; index++)
+            {
+                // Tuple expressions have independent sources. An implicit Deconstruct can copy
+                // receiver storage into any writable ref-like output, including nested outputs.
+                var source = value is ITupleOperation values ? values.Elements[index] : value;
+                foreach (var binding in GetDeconstructionAliasSources(targets.Elements[index], source))
+                {
+                    yield return binding;
+                }
+            }
+        }
+        else
+        {
+            foreach (var receiver in GetRefLikeReceivers(target))
+            {
+                yield return (receiver, value);
+            }
+        }
+    }
+
+    private static (ISymbol Alias, IOperation Source)? GetDirectAliasSource(IOperation operation) => operation switch
+    {
+        IVariableDeclaratorOperation { Initializer: { } initializer } declarator
+            when declarator.Symbol.RefKind != RefKind.None || declarator.Symbol.Type.IsRefLikeType =>
+            (declarator.Symbol, initializer.Value),
+        ISimpleAssignmentOperation { Target: ILocalReferenceOperation reference } assignment
+            when assignment.IsRef || reference.Local.Type.IsRefLikeType => (reference.Local, assignment.Value),
+        ISimpleAssignmentOperation { Target: IParameterReferenceOperation reference } assignment
+            when assignment.IsRef || reference.Parameter.Type.IsRefLikeType => (reference.Parameter, assignment.Value),
+        IOperation pattern when GetPatternLocal(pattern) is ILocalSymbol { Type.IsRefLikeType: true } patternLocal
+            && GetMatchedInput(pattern) is { } input => (patternLocal, input),
+        _ => null,
+    };
+
+    private static IOperation? GetMatchedInput(IOperation pattern)
+    {
+        // Source-tree pattern bindings do not have variable initializers. Keep their copies
+        // connected to the matched storage, including bindings in switch arms and cases.
+        for (var parent = pattern.Parent; parent is not null; parent = parent.Parent)
+        {
+            switch (parent)
+            {
+                case IIsPatternOperation isPattern:
+                    return isPattern.Value;
+                case ISwitchExpressionOperation switchExpression:
+                    return switchExpression.Value;
+                case ISwitchOperation switchStatement:
+                    return switchStatement.Value;
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<(ISymbol Alias, IOperation Source)> GetCallAliasSources(IOperation operation)
+    {
+        foreach (var source in GetRetentionSources(operation))
+        {
+            foreach (var receiver in GetRetentionDestinations(operation))
+            {
+                yield return (receiver, source);
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetRetentionSources(IOperation operation)
+    {
+        if (GetRetentionReceiver(operation) is { Type.IsReferenceType: false } instance)
+        {
+            yield return instance;
+        }
+
+        foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>().Where(static argument =>
+            argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
+            && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)))
+        {
+            yield return argument.Value;
+        }
+    }
+
+    private static IEnumerable<ISymbol> GetRetentionDestinations(IOperation operation)
+    {
+        if (GetRetentionReceiver(operation) is { } instance)
+        {
+            foreach (var receiver in GetRefLikeReceivers(instance))
+            {
+                yield return receiver;
+            }
+        }
+
+        // A callee can establish a retained binding through writable arguments as well as its
+        // receiver. Scoped destinations still permit ref-field writes; scoping limits the source.
+        foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>().Where(static argument =>
+            argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out && argument.Value.Type?.IsRefLikeType == true))
+        {
+            foreach (var receiver in GetRefLikeReceivers(argument.Value))
+            {
+                yield return receiver;
+            }
+        }
+    }
+
+    private static IOperation? GetRetentionReceiver(IOperation operation) => operation switch
+    {
+        IInvocationOperation invocation => invocation.Instance,
+        IPropertyReferenceOperation property => property.Instance,
+        _ => null,
+    };
+
+    private static IEnumerable<ISymbol> GetRefLikeReceivers(IOperation receiver) =>
+        receiver.DescendantsAndSelf().Select(static operation => operation switch
+        {
+            ILocalReferenceOperation { Local.Type.IsRefLikeType: true } reference => (ISymbol) reference.Local,
+            IParameterReferenceOperation { Parameter.Type.IsRefLikeType: true } reference => reference.Parameter,
+            _ => null,
+        }).OfType<ISymbol>();
+
+    private static bool TargetsLocal(IOperation target, ISymbol local, IOperation? operationRoot = null) => target switch
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
+        IParameterReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, local),
+        // A returned ref or ref-like value may retain any non-scoped by-reference input. Keep
+        // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
+        IInvocationOperation call => InvocationRetainsStorage(call, local, operationRoot),
+        IBinaryOperation or ICompoundAssignmentOperation or IUnaryOperation or IIncrementOrDecrementOperation =>
+            OperatorRetainsStorage(target, local, operationRoot),
+        IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
+            CreationRetainsStorage(creation, local, operationRoot),
+        IPropertyReferenceOperation property => PropertyRetainsStorage(property, local, operationRoot),
+        IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
+        IWithOperation { Type.IsRefLikeType: true } withExpression =>
+            TargetsLocal(withExpression.Operand, local, operationRoot)
+            || InitializerRetainsStorage(withExpression.Initializer, local, operationRoot),
+        ISwitchExpressionOperation switchExpression => switchExpression.Arms.Any(arm => TargetsLocal(arm.Value, local, operationRoot)),
+        _ => StoragePathTargetsLocal(target, local, operationRoot),
+    };
+
+    private static bool StoragePathTargetsLocal(IOperation target, ISymbol local, IOperation? operationRoot) => target switch
+    {
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
-        IPropertyReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        // Index/range syntax lowers to an implicit indexer (integer indexer or Slice), not a
+        // property/invocation operation. Its result can retain the value receiver's storage.
+        IImplicitIndexerReferenceOperation { Instance: { Type.IsReferenceType: false } instance } =>
+            TargetsLocal(instance, local, operationRoot),
         IInlineArrayAccessOperation access => TargetsLocal(access.Instance, local, operationRoot),
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
-        IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
         IConversionOperation conversion => TargetsLocal(conversion.Operand, local, operationRoot),
         IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local, operationRoot),
         // Conditional ref expressions can lower to captures anywhere along the storage receiver path.
@@ -408,11 +617,72 @@ internal sealed class LocalDefinitionTransfer
         _ => false,
     };
 
-    private static bool ConditionalTargetsLocal(IConditionalOperation conditional, ILocalSymbol local, IOperation? operationRoot) =>
+    // Instance compound/increment operators return void, so the ref-like result guards below
+    // exclude their shorter parameter lists. Static value-returning operators have explicit operands.
+    private static bool OperatorRetainsStorage(IOperation operation, ISymbol local, IOperation? operationRoot) => operation switch
+    {
+        IBinaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } binary =>
+            OperatorOperandRetainsStorage(binary.LeftOperand, method.Parameters[0], local, operationRoot)
+            || OperatorOperandRetainsStorage(binary.RightOperand, method.Parameters[1], local, operationRoot),
+        ICompoundAssignmentOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } compound =>
+            OperatorOperandRetainsStorage(compound.Target, method.Parameters[0], local, operationRoot)
+            || OperatorOperandRetainsStorage(compound.Value, method.Parameters[1], local, operationRoot),
+        IUnaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } unary =>
+            OperatorOperandRetainsStorage(unary.Operand, method.Parameters[0], local, operationRoot),
+        IIncrementOrDecrementOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } increment =>
+            OperatorOperandRetainsStorage(increment.Target, method.Parameters[0], local, operationRoot),
+        _ => false,
+    };
+
+    private static bool OperatorOperandRetainsStorage(IOperation operand, IParameterSymbol parameter,
+        ISymbol local, IOperation? operationRoot) =>
+        parameter.ScopedKind != ScopedKind.ScopedRef
+        && (parameter.RefKind != RefKind.None || operand.Type?.IsRefLikeType == true)
+        && TargetsLocal(operand, local, operationRoot);
+
+    private static bool CreationRetainsStorage(IObjectCreationOperation creation, ISymbol local, IOperation? operationRoot) =>
+        creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot))
+        || InitializerRetainsStorage(creation.Initializer, local, operationRoot);
+
+    private static bool InitializerRetainsStorage(IObjectOrCollectionInitializerOperation? initializer,
+        ISymbol local, IOperation? operationRoot) =>
+        initializer is not null
+        && initializer.Descendants().Any(operation => operation switch
+        {
+            ISimpleAssignmentOperation assignment =>
+                (assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true)
+                && TargetsLocal(assignment.Value, local, operationRoot),
+            // Collection initializers call Add on an implicit receiver instead of assigning a field.
+            IInvocationOperation call => call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),
+            _ => false,
+        });
+
+    private static bool InvocationRetainsStorage(IInvocationOperation call, ISymbol local, IOperation? operationRoot)
+    {
+        if (!call.TargetMethod.ReturnsByRef && !call.TargetMethod.ReturnsByRefReadonly && call.Type?.IsRefLikeType != true)
+        {
+            return false;
+        }
+
+        return (call.Instance is { Type.IsReferenceType: false } receiver && TargetsLocal(receiver, local, operationRoot))
+            || call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot));
+    }
+
+    private static bool PropertyRetainsStorage(IPropertyReferenceOperation property, ISymbol local, IOperation? operationRoot) =>
+        (property.Instance is { Type.IsReferenceType: false } receiver && TargetsLocal(receiver, local, operationRoot))
+        || ((property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly || property.Type?.IsRefLikeType == true)
+            && property.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)));
+
+    private static bool CanRetainStorage(IArgumentOperation argument, ISymbol local, IOperation? operationRoot) =>
+        argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
+        && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)
+        && TargetsLocal(argument.Value, local, operationRoot);
+
+    private static bool ConditionalTargetsLocal(IConditionalOperation conditional, ISymbol local, IOperation? operationRoot) =>
         TargetsLocal(conditional.WhenTrue, local, operationRoot)
         || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local, operationRoot));
 
-    private static bool CaptureTargetsLocal(IOperation target, ILocalSymbol local, IOperation operationRoot) =>
+    private static bool CaptureTargetsLocal(IOperation target, ISymbol local, IOperation operationRoot) =>
         operationRoot.DescendantsAndSelf().Any(candidate =>
             candidate.Syntax.Span == target.Syntax.Span && TargetsLocal(candidate, local));
 }
