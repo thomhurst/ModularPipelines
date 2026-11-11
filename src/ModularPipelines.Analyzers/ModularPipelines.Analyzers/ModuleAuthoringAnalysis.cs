@@ -5798,9 +5798,7 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is IConditionalOperation { WhenFalse: { } whenFalse } conditional
-                && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
-                    || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue))))
+            if (AreOppositeCancellationConditionalBranches(ancestor, write, read))
             {
                 return !SharesContainingLoop(write, read) && !HasCancellationBackJump(write, read);
             }
@@ -5815,6 +5813,13 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool AreOppositeCancellationConditionalBranches(IOperation ancestor, IOperation write, IOperation read)
+    {
+        return ancestor is IConditionalOperation { WhenFalse: { } whenFalse } conditional
+            && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
+                || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue)));
     }
 
     private static bool CanCancellationJumpBetweenSwitchCases(
@@ -5963,10 +5968,14 @@ internal static class ModuleAuthoringAnalysis
 
     private static IEnumerable<IOperation> GetCancellationStorageWrites(IOperation operation)
     {
+        if (operation is IDeconstructionAssignmentOperation deconstruction)
+        {
+            return GetCancellationTupleMutationTargets(deconstruction.Target, deconstruction.Value);
+        }
+
         var target = operation switch
         {
             ISimpleAssignmentOperation { IsRef: false } assignment => assignment.Target,
-            IDeconstructionAssignmentOperation assignment => assignment.Target,
             IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => argument.Value,
             _ => null,
         };
@@ -6030,18 +6039,25 @@ internal static class ModuleAuthoringAnalysis
         // the same slot between a copy and its use, or after alias creation.
         return GetRoot(read).DescendantsAndSelf().Any(operation =>
             operation.Syntax.SpanStart > source.Syntax.SpanStart
-            && (ReferenceEquals(source, read)
-                || operation.Syntax.SpanStart < read.Syntax.SpanStart
-                || HasCancellationBackJump(operation, read)
-                || (SharesContainingLoop(operation, read)
-                    && !(IsDefiniteCancellationPredecessor(source, read)
-                        && ResetsWithinSharedLoop(source, operation, read))))
+            && CanCancellationMutationReachLocalRead(source, operation, read)
             && IsInReachableBranch(operation)
             && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(read))
             && !HasAncestor(read, operation)
             && CanCancellationWriteReachRead(operation, read)
             && !IsCancellationStorageSelfStore(operation)
             && MayMutateCancellationStorage(operation, read));
+    }
+
+    private static bool CanCancellationMutationReachLocalRead(IOperation source, IOperation operation, IOperation read)
+    {
+        return ReferenceEquals(source, read)
+            || operation.Syntax.SpanStart < read.Syntax.SpanStart
+            || (HasCancellationBackJump(operation, read)
+                && !(IsDefiniteCancellationPredecessor(source, read)
+                    && ResetsAfterCancellationBackJump(source, operation, read)))
+            || (SharesContainingLoop(operation, read)
+                && !(IsDefiniteCancellationPredecessor(source, read)
+                    && ResetsWithinSharedLoop(source, operation, read)));
     }
 
     private static bool MayMutateCancellationStorage(IOperation operation, IOperation read)

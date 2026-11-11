@@ -34,6 +34,14 @@ public class ModuleHelperRefReachabilityAnalyzerTests
     [DataRow("var saved = first; switch (Count) { case 0: second = default; goto case 1; case 1: goto default; default: return first; } return saved;", true)]
     [DataRow("var saved = first; for (var i = 0; i < 2; i++) { switch (i) { case 0: second = default; break; default: return first; } } return saved;", true)]
     [DataRow("var saved = first; switch (Count) { case 0: second = default; goto case 1; case 1: return saved; default: return first; }", false)]
+    [DataRow("var stored = first; ref CancellationToken alias = ref stored; bool done = false; Again: stored = first; second = stored; alias = default; if (!done) { done = true; goto Again; } return first;", false)]
+    [DataRow("var stored = first; ref CancellationToken alias = ref stored; bool done = false; Again: if (!done) stored = first; second = stored; alias = default; if (!done) { done = true; goto Again; } return first;", true)]
+    [DataRow("var stored = first; ref CancellationToken alias = ref stored; bool done = false; stored = first; Again: second = stored; alias = default; if (!done) { done = true; goto Again; } return first;", true)]
+    [DataRow("var stored = first; ref CancellationToken alias = ref stored; bool done = false; Again: stored = first; Copy: second = stored; alias = default; if (!done) { done = true; goto Copy; } return first;", true)]
+    [DataRow("int count = 0; (first, count) = (first, 1); return first;", false)]
+    [DataRow("int count = 0; (first, count) = (default(CancellationToken), 1); return first;", true)]
+    [DataRow("int count = 0; ((first, count), second) = ((first, 1), second); return first;", false)]
+    [DataRow("(first, second) = (second, default(CancellationToken)); return first;", true)]
     public async Task Checks_Helper_Mutation_Reachability(string body, bool reports)
     {
         await new ModuleHelperRefCancellationAnalyzerTests().Checks_Helper_Ref_Argument_Storage(
