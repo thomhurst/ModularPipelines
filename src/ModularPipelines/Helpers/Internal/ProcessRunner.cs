@@ -26,7 +26,7 @@ internal static class ProcessRunner
     /// <param name="standardError">Receives standard error.</param>
     /// <param name="outputEncoding">The encoding used to decode both output streams.</param>
     /// <param name="outputDrainTimeout">The time allowed for output to end after the direct child exits.</param>
-    /// <param name="onStarted">Called once the process has started, before its output is read.</param>
+    /// <param name="onStarted">Called once the process has started, before its output is read. Windows child code remains suspended until this callback returns.</param>
     /// <param name="interruptCancellationToken">
     /// Interrupts the process when canceled: SIGINT on Unix. The caller owns forceful termination.
     /// </param>
@@ -54,6 +54,10 @@ internal static class ProcessRunner
         try
         {
             onStarted(process);
+            if (OperatingSystem.IsWindows() && !process.HasExited)
+            {
+                process.SafeHandle.Resume();
+            }
         }
         catch
         {

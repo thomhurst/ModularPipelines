@@ -1083,7 +1083,9 @@ public class CommandTests : TestBase
     [Test]
     [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
-    public async Task ExecuteCommandLineToolAsync_HostDeath_KillsCommand()
+    [Arguments("pipeline-host")]
+    [Arguments("windows-nested-pipeline-host")]
+    public async Task ExecuteCommandLineToolAsync_HostDeath_KillsCommand(string role)
     {
         if (!OperatingSystem.IsWindows() && !OperatingSystem.IsLinux())
         {
@@ -1091,8 +1093,14 @@ public class CommandTests : TestBase
             return;
         }
 
+        if (!OperatingSystem.IsWindows() && role.StartsWith("windows-", StringComparison.Ordinal))
+        {
+            Skip.Test("Windows nested jobs only");
+            return;
+        }
+
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "pipeline-host", TimeSpan.Zero);
+        fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.Zero);
         var host = await fixture.WaitForProcessAsync("host", TimeSpan.FromSeconds(15));
         var parent = await fixture.WaitForReadyProcessAsync("parent", TimeSpan.FromSeconds(15));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(15));
@@ -1110,7 +1118,9 @@ public class CommandTests : TestBase
     [Test]
     [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
-    public async Task ExecuteCommandLineToolAsync_BackgroundChild_LivesUntilPipelineDisposal()
+    [Arguments("pipeline-background-host")]
+    [Arguments("windows-nested-background-host")]
+    public async Task ExecuteCommandLineToolAsync_BackgroundChild_LivesUntilPipelineDisposal(string role)
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -1119,7 +1129,7 @@ public class CommandTests : TestBase
         }
 
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "pipeline-background-host", TimeSpan.Zero);
+        fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.Zero);
         var host = await fixture.WaitForProcessAsync("host", TimeSpan.FromSeconds(15));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(15));
         await fixture.WaitForReadyAsync("command-completed", TimeSpan.FromSeconds(15));
@@ -1158,7 +1168,9 @@ public class CommandTests : TestBase
     [Test]
     [TUnit.Core.ParallelLimiter<ProcessFixtureParallelLimit>]
     [RequiresTool("dotnet")]
-    public async Task ExecuteCommandLineToolAsync_BackgroundChild_DiesWithHostAfterCommandCompletes()
+    [Arguments("pipeline-background-host")]
+    [Arguments("windows-nested-background-host")]
+    public async Task ExecuteCommandLineToolAsync_BackgroundChild_DiesWithHostAfterCommandCompletes(string role)
     {
         if (!OperatingSystem.IsWindows())
         {
@@ -1167,7 +1179,7 @@ public class CommandTests : TestBase
         }
 
         await using var fixture = new ProcessTreeFixture();
-        fixture.Start(await GetService<ICommandContext>(), "pipeline-background-host", TimeSpan.Zero);
+        fixture.Start(await GetService<ICommandContext>(), role, TimeSpan.Zero);
         var host = await fixture.WaitForProcessAsync("host", TimeSpan.FromSeconds(15));
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(15));
         await fixture.WaitForReadyAsync("command-completed", TimeSpan.FromSeconds(15));
@@ -1283,7 +1295,7 @@ public class CommandTests : TestBase
     {
         await using var fixture = new ProcessTreeFixture();
         fixture.Start(await GetService<ICommandContext>(), "gated-parent", TimeSpan.FromMilliseconds(50));
-        // Start returns after Windows job attachment; isolate cancellation from the startup race (#6302).
+        // Gate descendant creation so this test cancels only after descendant readiness.
         await fixture.TriggerAsync("start-child");
         var child = await fixture.WaitForReadyProcessAsync("child", TimeSpan.FromSeconds(5));
         fixture.Cancel();
