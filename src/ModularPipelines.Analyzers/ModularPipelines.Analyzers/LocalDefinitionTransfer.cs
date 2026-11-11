@@ -196,6 +196,17 @@ internal sealed class LocalDefinitionTransfer
         state.Add(UnknownValue);
     }
 
+    // The engine owns call timing; reuse the same storage closure for implicit receivers.
+    internal void InvalidateStorage(IOperation value, HashSet<TextSpan> state)
+    {
+        if (MayReferenceLocal(value))
+        {
+            Invalidate(state);
+        }
+    }
+
+    internal bool ReferencesStorage(IOperation value) => MayReferenceLocal(value);
+
     private bool MayReferenceLocal(IOperation value) =>
         _aliases.Any(alias => TargetsLocal(value, alias, _operationRoot));
 
