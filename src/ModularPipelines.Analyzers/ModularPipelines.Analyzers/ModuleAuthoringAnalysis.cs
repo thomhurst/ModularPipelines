@@ -5678,13 +5678,6 @@ internal static class ModuleAuthoringAnalysis
         IOperation returnValue,
         IParameterSymbol parameter)
     {
-        if (!invocation.Arguments.Any(argument =>
-                argument.Parameter is { RefKind: not RefKind.None } argumentParameter
-                && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameter)))
-        {
-            return false;
-        }
-
         var reads = GetCancellationParameterReads(returnValue, parameter, [with(SymbolEqualityComparer.Default)])
             .ToArray();
         // Inspect actual mutations, not alias creation. Resolve each reference at
@@ -5702,6 +5695,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool CanCancellationWriteReachRead(IOperation write, IOperation read)
     {
         if (read.Syntax.SpanStart < write.Syntax.SpanStart
+            && !HasCancellationBackJump(write, read)
             && (IsLinearPredecessor(read, write)
                 || (IsReturnedCancellationRead(read) && !SharesContainingLoop(read, write))))
         {
@@ -5710,14 +5704,77 @@ internal static class ModuleAuthoringAnalysis
 
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block)
-                && !block.DescendantsAndSelf().OfType<IThrowOperation>().Any())
+            if (ancestor is IBlockOperation block && !HasAncestor(read, block)
+                && AlwaysExitsBeforeCancellationRead(block, read))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static bool HasCancellationBackJump(IOperation write, IOperation read)
+    {
+        var root = GetRoot(read);
+        var labels = root.DescendantsAndSelf().OfType<ILabeledOperation>()
+            .Where(label => label.Syntax.SpanStart <= read.Syntax.SpanStart)
+            .Select(label => label.Label)
+            .ToArray();
+        return root.DescendantsAndSelf().OfType<IBranchOperation>()
+            .Any(branch => branch.BranchKind == BranchKind.GoTo
+                && branch.Syntax.SpanStart > write.Syntax.SpanStart
+                && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(read))
+                && IsInReachableBranch(branch)
+                && labels.Contains(branch.Target, SymbolEqualityComparer.Default));
+    }
+
+    private static bool AlwaysExitsBeforeCancellationRead(IOperation operation, IOperation read)
+    {
+        return operation switch
+        {
+            IReturnOperation => true,
+            IThrowOperation throwOperation => !CanCancellationThrowReachRead(throwOperation, read),
+            IBlockOperation { Operations.Length: > 0 } block =>
+                AlwaysExitsBeforeCancellationRead(block.Operations[block.Operations.Length - 1], read),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                AlwaysExitsBeforeCancellationRead(conditional.WhenTrue, read)
+                && AlwaysExitsBeforeCancellationRead(whenFalse, read),
+            _ => false,
+        };
+    }
+
+    private static bool CanCancellationThrowReachRead(IThrowOperation throwOperation, IOperation read)
+    {
+        for (var ancestor = throwOperation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is not ITryOperation tryOperation)
+            {
+                continue;
+            }
+
+            if (tryOperation.Finally is { } finallyBlock && HasAncestor(read, finallyBlock))
+            {
+                return true;
+            }
+
+            if (!HasAncestor(throwOperation, tryOperation.Body))
+            {
+                continue;
+            }
+
+            // Exception types and filters may be unknown. Keep a possible catch
+            // path, but a handler that returns cannot reach a later token read.
+            if (tryOperation.Catches.Any(catchClause =>
+                    HasAncestor(read, catchClause.Handler)
+                    || (!HasAncestor(read, tryOperation)
+                        && !AlwaysExitsCallable(catchClause.Handler))))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool IsReturnedCancellationRead(IOperation read)
@@ -5845,11 +5902,24 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var candidate in value.DescendantsAndSelf())
         {
-            if (candidate is IParameterReferenceOperation reference
-                && SymbolEqualityComparer.Default.Equals(
-                    GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true), parameter))
+            if (candidate is IParameterReferenceOperation reference)
             {
-                yield return reference;
+                var storage = GetCancellationStorage(
+                    reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+                if (SymbolEqualityComparer.Default.Equals(storage, parameter))
+                {
+                    yield return reference;
+                }
+                else if (storage is ILocalSymbol local && visitedLocals.Add(local))
+                {
+                    foreach (var localValue in FindReachingLocalValues(reference, local))
+                    {
+                        foreach (var read in GetCancellationParameterReads(localValue, parameter, visitedLocals))
+                        {
+                            yield return read;
+                        }
+                    }
+                }
             }
             else if (candidate is ILocalReferenceOperation local && visitedLocals.Add(local.Local))
             {

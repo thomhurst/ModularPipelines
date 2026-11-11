@@ -62,6 +62,10 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; first = default; return first;", true)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; ref CancellationToken alias = ref local; alias = default; return first;", true)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; first = local; return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "first = default; CancellationToken local = first; second = ref local; return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = default; second = ref local; return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; second = ref local; return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "first = default; CancellationToken local = first; CancellationToken copy = local; second = ref copy; return second;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {
@@ -103,6 +107,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
             await VerifyCS.VerifyAnalyzerAsync(source);
         }
     }
+
     [TestMethod]
     [DataRow("second = ref third; second = default; return first;", false)]
     [DataRow("second = ref third; second = default; var saved = first; return saved;", false)]
@@ -134,6 +139,50 @@ public class ModuleHelperRefCancellationAnalyzerTests
                     var token = cancellationToken;
                     CancellationToken other = default;
                     var snapshot = Forward(ref token, ref token, ref other);
+                    for (var i = 0; i < 2; i++)
+                        await {{(reports ? "{|#0:" + call + "|}" : call)}};
+                    return null!;
+                }
+            }
+            """;
+
+        if (reports)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(source,
+                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                    .WithLocation(0).WithArguments("Delay"));
+        }
+        else
+        {
+            await VerifyCS.VerifyAnalyzerAsync(source);
+        }
+    }
+
+    [TestMethod]
+    [DataRow("second = ref first; second = default; return second;", true)]
+    [DataRow("second = ref first; return second;", false)]
+    [DataRow("second = ref first; var saved = second; second = default; return saved;", false)]
+    [DataRow("first = default; second = ref first; return second;", true)]
+    [DataRow("second = default; return first;", false)]
+    [DataRow("first = default; return first;", true)]
+    public async Task Checks_Helper_Value_Parameter_Storage(string body, bool reports)
+    {
+        var call = "Task.Delay(1, snapshot)";
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+
+            public class BuildModule : Module<List<string>>
+            {
+                private static CancellationToken Forward(CancellationToken first, scoped ref CancellationToken second)
+                {
+                    {{body}}
+                }
+
+                protected override async Task<List<string>> ExecuteAsync(
+                    IModuleContext context, CancellationToken cancellationToken)
+                {
+                    CancellationToken other = default;
+                    var snapshot = Forward(cancellationToken, ref other);
                     for (var i = 0; i < 2; i++)
                         await {{(reports ? "{|#0:" + call + "|}" : call)}};
                     return null!;
