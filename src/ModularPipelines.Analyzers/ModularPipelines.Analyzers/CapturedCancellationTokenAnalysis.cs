@@ -475,6 +475,7 @@ internal static class CapturedCancellationTokenAnalysis
 
             if ((CanThrow(operation) || HiddenOperationCanThrow(operation)
                     || (operation is ICollectionExpressionOperation or ISpreadOperation
+                        or IEventAssignmentOperation or IFieldReferenceOperation
                         && !_exceptionClassifier.Classify(operation).IsEmpty))
                 && (operation.Syntax is not SwitchExpressionSyntax expression
                     || _model?.GetOperation(expression) is not ISwitchExpressionOperation { IsExhaustive: true }))

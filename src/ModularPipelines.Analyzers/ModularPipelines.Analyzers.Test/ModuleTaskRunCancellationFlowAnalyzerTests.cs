@@ -981,6 +981,54 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("publisher.Changed += handler", false, true)]
+    [DataRow("publisher.Changed -= handler", false, true)]
+    [DataRow("publisher.Changed += handler", true, false)]
+    [DataRow("publisher.Changed -= handler", true, false)]
+    [DataRow("_ = Holder.Value", false, true)]
+    [DataRow("_ = Holder.Value", true, false)]
+    [DataRow("_ = Holder.Constant", false, false)]
+    public async Task Tracks_Event_Accessor_And_Static_Field_Exceptions(string statement, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, new Publisher(), () => { });
+
+            private static Task HelperAsync(CancellationToken token, Publisher publisher, Action handler)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { {{statement}}; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class Publisher
+            {
+                public event Action Changed
+                {
+                    add => throw new Exception();
+                    remove => throw new Exception();
+                }
+            }
+
+            private static class Holder
+            {
+                static Holder() => throw new Exception();
+                public static int Value = 1;
+                public const int Constant = 1;
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""
