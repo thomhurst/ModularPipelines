@@ -2938,6 +2938,14 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = default; return alias;")]
+    [DataRow("for (var i = 0; i < 2; i++) { first = second; second = DateTime.UtcNow.Ticks > 0 ? first : third; } return first;")]
+    [DataRow("for (var i = 0; i < 2; i++) { first = second; second = DateTime.UtcNow.Ticks switch { > 0 => first, _ => third }; } return first;")]
+    [DataRow("for (var i = 0; i < 2; i++) { first = second; second = Identity(first); } return first; static CancellationToken Identity(CancellationToken token) => token;")]
+    [DataRow("var snapshot = third; for (var j = 0; j < 2; j++) { first = ref third; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { goto Read; alias = first; } else alias = third; Read: return alias;")]
     [DataRow("ref var alias = ref first; alias = default; return alias;")]
     [DataRow("ref var alias = ref first; alias = default; return first;")]
     [DataRow("first = ref second; second = default; return first;")]
@@ -2966,6 +2974,11 @@ public class ModuleAuthoringAnalyzerTests
 
     [TestMethod]
     [DataRow("first = ref second; var snapshot = third; for (var i = 0; i < 2; i++) { second = third; snapshot = first; second = default; } return snapshot;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = first; } else { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = third; return alias;", "default")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { for (var i = 0; i < 2; i++) { second = third; snapshot = first; second = default; } } return snapshot;", "default")]
+    [DataRow("var snapshot = third; for (var j = 0; j < 2; j++) { for (var i = 0; i < 2; i++) { first = ref third; snapshot = first; first = ref second; } } return snapshot;", "default")]
     [DataRow("first = first; return first;", "default")]
     [DataRow("ref var alias = ref first; alias = alias; return alias;", "default")]
     [DataRow("first = ref second; second = third; return first;", "default")]

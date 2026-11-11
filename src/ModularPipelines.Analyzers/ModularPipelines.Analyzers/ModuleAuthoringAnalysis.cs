@@ -5447,7 +5447,15 @@ internal static class ModuleAuthoringAnalysis
         IOperation value,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods) =>
+        FlowsFromCancellationToken(value, cancellationTokens, visitedLocals, visitedMethods, []);
+
+    private static bool FlowsFromCancellationToken(
+        IOperation value,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return value switch
         {
@@ -5455,90 +5463,105 @@ internal static class ModuleAuthoringAnalysis
                 conversion.Operand,
                 cancellationTokens,
                 visitedLocals,
-                visitedMethods),
+                visitedMethods,
+                visitedWrites),
             IParenthesizedOperation parenthesized => FlowsFromCancellationToken(
                 parenthesized.Operand,
                 cancellationTokens,
                 visitedLocals,
-                visitedMethods),
+                visitedMethods,
+                visitedWrites),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
                 && (FlowsFromCancellationTokenStorage(
                     parameterReference,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods)
+                    visitedMethods,
+                    visitedWrites)
                     || FlowsFromParallelCallbackToken(
                         parameterReference,
                         cancellationTokens,
                         visitedLocals,
-                        visitedMethods)),
+                        visitedMethods,
+                        visitedWrites)),
             ILocalReferenceOperation { Local.RefKind: not RefKind.None } localReference =>
                 FlowsFromCancellationTokenStorage(
                     localReference,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             ILocalReferenceOperation localReference =>
                 FlowsFromCancellationTokenLocal(
                     localReference,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IPropertyReferenceOperation propertyReference =>
                 FlowsFromCancellationTokenProperty(
                     propertyReference,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IInvocationOperation invocation =>
                 FlowsFromCancellationTokenInvocation(
                     invocation,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IArrayCreationOperation { Initializer: { } initializer } =>
                 FlowsFromCancellationToken(
                     initializer,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IArrayInitializerOperation initializer =>
                 initializer.ElementValues.Any(element => FlowsFromCancellationToken(
                     element,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods)),
+                    visitedMethods,
+                    visitedWrites)),
             ICollectionExpressionOperation collection =>
                 collection.Elements.Any(element => FlowsFromCancellationToken(
                     element,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods)),
+                    visitedMethods,
+                    visitedWrites)),
             ISpreadOperation spread =>
                 FlowsFromCancellationToken(
                     spread.Operand,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             IConditionalOperation conditional =>
                 FlowsFromCancellationTokenConditional(
                     conditional,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             ISwitchExpressionOperation switchExpression =>
                 FlowsFromCancellationTokenSwitchExpression(
                     switchExpression,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             ICoalesceOperation coalesce =>
                 FlowsFromCancellationTokenCoalesce(
                     coalesce,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods),
+                    visitedMethods,
+                    visitedWrites),
             _ => false,
         };
     }
@@ -5547,7 +5570,8 @@ internal static class ModuleAuthoringAnalysis
         IOperation reference,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         // Module entry tokens retain their existing identity-based contract. Storage
         // value tracking is needed for ref parameters and aliases in source helpers.
@@ -5557,7 +5581,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return FlowsFromCancellationTokenStorageValue(
-            reference, reference, cancellationTokens, visitedLocals, visitedMethods, []);
+            reference, reference, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
     }
 
     private static bool FlowsFromCancellationTokenStorageValue(
@@ -5582,7 +5606,7 @@ internal static class ModuleAuthoringAnalysis
 
         if (GetCancellationStorageSymbol(value) is null)
         {
-            return FlowsFromCancellationToken(value, cancellationTokens, visitedLocals, visitedMethods);
+            return FlowsFromCancellationToken(value, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
         }
 
         var storages = GetCancellationTokenStorages(value, value, []).ToArray();
@@ -5606,15 +5630,23 @@ internal static class ModuleAuthoringAnalysis
                         GetCancellationStorageSymbol(target), symbol)))
                 .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
                 .ToArray();
-            var definiteWrite = writes.FirstOrDefault(write =>
-                IsDefiniteCancellationStorageBinding(write, read)
-                && GetCancellationTokenStorages(write.Target, write, []).All(target =>
-                    SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol)));
+            // Exhaustive branches can overwrite storage collectively even when
+            // no individual assignment is a linear predecessor of the read.
+            var definiteWrite = GetRoot(read).DescendantsAndSelf()
+                .Where(operation => operation is ISimpleAssignmentOperation or IConditionalOperation)
+                .Where(operation => !HasAncestor(read, operation))
+                .Where(IsInReachableBranch)
+                .Where(operation => CanReachCancellationStorageRead(operation, read))
+                .Where(operation => ReferenceEquals(GetEnclosingCallable(operation), callable))
+                .Where(operation => IsDefiniteCancellationStorageBinding(operation, read))
+                .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol))
+                .OrderByDescending(static operation => operation.Syntax.SpanStart)
+                .FirstOrDefault();
             var reachingWrites = writes.Where(write => definiteWrite is null
                 || (write.Syntax.SpanStart >= definiteWrite.Syntax.SpanStart
                     && write.Syntax.SpanStart < read.Syntax.SpanStart)
                 || (SharesCancellationStorageLoop(write, read)
-                    && !SharesCancellationStorageLoop(definiteWrite, read)));
+                    && !ResetsCancellationStorageBackedges(definiteWrite, write, read)));
             foreach (var write in reachingWrites)
             {
                 if (!visitedWrites.Add(write))
@@ -5702,7 +5734,7 @@ internal static class ModuleAuthoringAnalysis
                 || (binding.Syntax.SpanStart >= definiteBinding.Syntax.SpanStart
                     && binding.Syntax.SpanStart < bindingPoint.Syntax.SpanStart)
                 || (SharesCancellationStorageLoop(binding, bindingPoint)
-                    && !SharesCancellationStorageLoop(definiteBinding, bindingPoint)))
+                    && !ResetsCancellationStorageBackedges(definiteBinding, binding, bindingPoint)))
             .SelectMany(binding => visitedBindings.Contains(binding)
                 ? [binding]
                 : GetCancellationTokenStorages(
@@ -5724,6 +5756,47 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return storages.Append(reference);
+    }
+
+    private static bool DefinitelyWritesCancellationStorage(IOperation operation, ISymbol? symbol)
+    {
+        // Jumps inside a branch can bypass an otherwise unconditional write.
+        if (operation.DescendantsAndSelf().Any(static child => child is IBranchOperation))
+        {
+            return false;
+        }
+
+        return operation switch
+        {
+            ISimpleAssignmentOperation { IsRef: false } assignment =>
+                GetCancellationTokenStorages(assignment.Target, assignment, []).ToArray() is { Length: > 0 } targets
+                && targets.All(target => SymbolEqualityComparer.Default.Equals(
+                    GetCancellationStorageSymbol(target), symbol)),
+            IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol),
+            IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol)),
+            IConditionalOperation conditional when conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition } =>
+                (condition ? conditional.WhenTrue : conditional.WhenFalse) is { } selected
+                && DefinitelyWritesCancellationStorage(selected, symbol),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                DefinitelyWritesCancellationStorage(conditional.WhenTrue, symbol)
+                && DefinitelyWritesCancellationStorage(whenFalse, symbol),
+            _ => false,
+        };
+    }
+
+    private static bool ResetsCancellationStorageBackedges(IOperation reset, IOperation write, IOperation read)
+    {
+        // Every shared loop can carry the write back to the read. A reset in an
+        // outer loop cannot kill writes from a subsequent inner iteration.
+        for (var current = write.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ILoopOperation && HasAncestor(read, current) && !HasAncestor(reset, current))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static bool IsDefiniteCancellationStorageBinding(IOperation binding, IOperation read)
@@ -5794,7 +5867,8 @@ internal static class ModuleAuthoringAnalysis
         IParameterReferenceOperation parameterReference,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (!IsCancellationToken(parameterReference.Parameter)
             || parameterReference.Parameter.ContainingSymbol
@@ -5819,14 +5893,16 @@ internal static class ModuleAuthoringAnalysis
                 argument.Value,
                 cancellationTokens,
                 CloneVisitedLocals(visitedLocals),
-                CloneVisitedMethods(visitedMethods)));
+                CloneVisitedMethods(visitedMethods),
+                visitedWrites));
     }
 
     private static bool FlowsFromCancellationTokenProperty(
         IPropertyReferenceOperation propertyReference,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return IsCancellationTokenSourceToken(propertyReference)
                && propertyReference.Instance is not null
@@ -5834,14 +5910,16 @@ internal static class ModuleAuthoringAnalysis
                    propertyReference.Instance,
                    cancellationTokens,
                    visitedLocals,
-                   visitedMethods);
+                   visitedMethods,
+                   visitedWrites);
     }
 
     private static bool FlowsFromCancellationTokenInvocation(
         IInvocationOperation invocation,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (IsKnownCancellationCarrierFactory(invocation))
         {
@@ -5852,21 +5930,24 @@ internal static class ModuleAuthoringAnalysis
                     argument.Value,
                     cancellationTokens,
                     visitedLocals,
-                    visitedMethods));
+                    visitedMethods,
+                    visitedWrites));
         }
 
         return FlowsFromCancellationTokenSourceHelper(
             invocation,
             cancellationTokens,
             visitedLocals,
-            visitedMethods);
+            visitedMethods,
+            visitedWrites);
     }
 
     private static bool FlowsFromCancellationTokenSourceHelper(
         IInvocationOperation invocation,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         var method = NormalizeMethod(invocation.TargetMethod);
         if (!visitedMethods.Add(method)
@@ -5882,7 +5963,8 @@ internal static class ModuleAuthoringAnalysis
             method,
             cancellationTokens,
             visitedLocals,
-            visitedMethods);
+            visitedMethods,
+            visitedWrites);
         if (flowedParameters.Count == 0)
         {
             return false;
@@ -5905,7 +5987,8 @@ internal static class ModuleAuthoringAnalysis
                            returnValue,
                            flowedParameters,
                            CloneVisitedLocals(visitedLocals),
-                           CloneVisitedMethods(visitedMethods)));
+                           CloneVisitedMethods(visitedMethods),
+                           visitedWrites));
     }
 
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
@@ -5913,7 +5996,8 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol method,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         var flowedParameters = new HashSet<IParameterSymbol>(
             invocation.Arguments
@@ -5924,7 +6008,8 @@ internal static class ModuleAuthoringAnalysis
                     argument.Value,
                     cancellationTokens,
                     CloneVisitedLocals(visitedLocals),
-                    CloneVisitedMethods(visitedMethods)))
+                    CloneVisitedMethods(visitedMethods),
+                    visitedWrites))
                 .Select(argument => GetTargetParameter(method, argument.Parameter))
                 .OfType<IParameterSymbol>(),
             SymbolEqualityComparer.Default);
@@ -5933,7 +6018,8 @@ internal static class ModuleAuthoringAnalysis
                 method,
                 cancellationTokens,
                 visitedLocals,
-                visitedMethods) is { } receiverParameter)
+                visitedMethods,
+                visitedWrites) is { } receiverParameter)
         {
             flowedParameters.Add(receiverParameter);
         }
@@ -5946,7 +6032,8 @@ internal static class ModuleAuthoringAnalysis
         IMethodSymbol method,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (invocation.TargetMethod.ReducedFrom is not null
             && invocation.Instance is { } instance
@@ -5956,7 +6043,8 @@ internal static class ModuleAuthoringAnalysis
                 instance,
                 cancellationTokens,
                 CloneVisitedLocals(visitedLocals),
-                CloneVisitedMethods(visitedMethods)))
+                CloneVisitedMethods(visitedMethods),
+                visitedWrites))
         {
             return receiverParameter;
         }
@@ -5992,7 +6080,8 @@ internal static class ModuleAuthoringAnalysis
         IConditionalOperation conditional,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
         {
@@ -6003,26 +6092,30 @@ internal static class ModuleAuthoringAnalysis
                 selectedBranch,
                 cancellationTokens,
                 visitedLocals,
-                visitedMethods);
+                visitedMethods,
+                visitedWrites);
         }
 
         return BranchFlowsFromCancellationToken(
                    conditional.WhenTrue,
                    cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods))
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites)
                && BranchFlowsFromCancellationToken(
                    conditional.WhenFalse,
                    cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods));
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites);
     }
 
     private static bool BranchFlowsFromCancellationToken(
         IOperation? branch,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return branch is not null
                && (AlwaysThrows(branch)
@@ -6030,14 +6123,16 @@ internal static class ModuleAuthoringAnalysis
                        branch,
                        cancellationTokens,
                        visitedLocals,
-                       visitedMethods));
+                       visitedMethods,
+                       visitedWrites));
     }
 
     private static bool FlowsFromCancellationTokenSwitchExpression(
         ISwitchExpressionOperation switchExpression,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         return switchExpression.Arms.Length > 0
                && switchExpression.Arms
@@ -6048,7 +6143,8 @@ internal static class ModuleAuthoringAnalysis
                         arm.Value,
                         cancellationTokens,
                         CloneVisitedLocals(visitedLocals),
-                        CloneVisitedMethods(visitedMethods)));
+                        CloneVisitedMethods(visitedMethods),
+                        visitedWrites));
     }
 
     private static bool AlwaysThrows(IOperation operation)
@@ -6108,7 +6204,8 @@ internal static class ModuleAuthoringAnalysis
         ICoalesceOperation coalesce,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (coalesce.Value.ConstantValue is { HasValue: true, Value: null })
         {
@@ -6116,7 +6213,8 @@ internal static class ModuleAuthoringAnalysis
                 coalesce.WhenNull,
                 cancellationTokens,
                 visitedLocals,
-                visitedMethods);
+                visitedMethods,
+                visitedWrites);
         }
 
         if (IsStaticallyNonNullCoalesceValue(coalesce.Value))
@@ -6125,19 +6223,22 @@ internal static class ModuleAuthoringAnalysis
                 coalesce.Value,
                 cancellationTokens,
                 visitedLocals,
-                visitedMethods);
+                visitedMethods,
+                visitedWrites);
         }
 
         return FlowsFromCancellationToken(
                    coalesce.Value,
                    cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods))
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites)
                && FlowsFromCancellationToken(
                    coalesce.WhenNull,
                    cancellationTokens,
                    CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods));
+                   CloneVisitedMethods(visitedMethods),
+                   visitedWrites);
     }
 
     private static bool IsStaticallyNonNullCoalesceValue(IOperation value)
@@ -6170,7 +6271,8 @@ internal static class ModuleAuthoringAnalysis
         ILocalReferenceOperation localReference,
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
     {
         if (!visitedLocals.Add(localReference.Local))
         {
@@ -6187,7 +6289,8 @@ internal static class ModuleAuthoringAnalysis
                        localValue,
                        cancellationTokens,
                        CloneVisitedLocals(visitedLocals),
-                       CloneVisitedMethods(visitedMethods)));
+                       CloneVisitedMethods(visitedMethods),
+                       visitedWrites));
     }
 
     private static bool IsCancellationTokenSourceToken(
