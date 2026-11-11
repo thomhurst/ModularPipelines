@@ -15,8 +15,8 @@ namespace ModularPipelines.Analyzers;
 /// Branch selection, state unions and exception routing belong to the caller.
 /// Ref locals with backing storage outside the local-symbol alias closure always query as unknown,
 /// including after whole-local stores. Ordinary reference-valued locals retain precise definitions.
-/// Retained ref escapes and ref-return aliases are not tracked; callers must conservatively handle later writes
-/// through such escaped storage rather than treating call-time invalidation as complete alias analysis.
+/// Ref-return aliases and ref-like holders conservatively join the storage closure, including copies.
+/// Unknown callees invalidate at call time; their bodies are never analyzed.
 /// </remarks>
 internal sealed class LocalDefinitionTransfer
 {
@@ -390,11 +390,15 @@ internal sealed class LocalDefinitionTransfer
 
     private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
     {
-        if (operation is IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None, Initializer: { } initializer } declarator)
+        if (operation is IVariableDeclaratorOperation { Initializer: { } initializer } declarator)
         {
-            yield return (declarator.Symbol, initializer.Value);
+            if (declarator.Symbol.RefKind != RefKind.None || declarator.Symbol.Type.IsRefLikeType)
+            {
+                yield return (declarator.Symbol, initializer.Value);
+            }
         }
-        else if (operation is ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation reference } assignment)
+        else if (operation is ISimpleAssignmentOperation { Target: ILocalReferenceOperation reference } assignment
+            && (assignment.IsRef || reference.Local.Type.IsRefLikeType))
         {
             yield return (reference.Local, assignment.Value);
         }
@@ -403,6 +407,14 @@ internal sealed class LocalDefinitionTransfer
     private static bool TargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot = null) => target switch
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
+        // A returned ref or ref-like value may retain any non-scoped by-reference input. Keep
+        // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
+        IInvocationOperation call when call.TargetMethod.ReturnsByRef || call.TargetMethod.ReturnsByRefReadonly
+            || call.Type?.IsRefLikeType == true =>
+            (call.Instance is { Type.IsRefLikeType: true } receiver && TargetsLocal(receiver, local, operationRoot))
+            || call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),
+        IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
+            creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
@@ -418,6 +430,11 @@ internal sealed class LocalDefinitionTransfer
         IFlowCaptureReferenceOperation when operationRoot is not null => CaptureTargetsLocal(target, local, operationRoot),
         _ => false,
     };
+
+    private static bool CanRetainStorage(IArgumentOperation argument, ILocalSymbol local, IOperation? operationRoot) =>
+        argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
+        && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)
+        && TargetsLocal(argument.Value, local, operationRoot);
 
     private static bool ConditionalTargetsLocal(IConditionalOperation conditional, ILocalSymbol local, IOperation? operationRoot) =>
         TargetsLocal(conditional.WhenTrue, local, operationRoot)

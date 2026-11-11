@@ -674,6 +674,14 @@ public class ReachingDefinitionFlowTests
         AssertFlow("int value = 0; " + statement + " [|Use(value)|];", "", supported: false, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("var holder = new Retained(ref value); value = 3; holder.Field = 2;")]
+    [DataRow("ref int alias = ref Forward(ref value); value = 3; alias = 2;")]
+    [DataRow("var holder = new Retained(ref value); var copy = holder; value = 3; copy.Field = 2;")]
+    [DataRow("scoped Retained holder = default; holder = new Retained(ref value); value = 3; holder.Field = 2;")]
+    public void Escaped_Reference_Writes_Invalidate_A_Later_Whole_Local_Overwrite(string statement) =>
+        AssertFlow("int value = 0; " + statement + " [|Use(value)|];", "", supported: false, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Retained_Ref_Escape_Can_Recover_After_Whole_Local_Overwrite() =>
         AssertFlow("int value = 0; var holder = new Retained(ref value); holder.Field = 2; value = 3; [|Use(value)|];",
             "3", additionalSource: MutableTypes);
