@@ -6125,8 +6125,7 @@ internal static class ModuleAuthoringAnalysis
         IOperation source,
         IOperation site,
         HashSet<IOperation> visitedWrites,
-        IOperation storageRead,
-        bool includeDirectCopies = false)
+        IOperation storageRead)
     {
         // Storage-write scans yield the individual target of a deconstruction.
         while (operation.Parent is ITupleOperation)
@@ -6139,8 +6138,7 @@ internal static class ModuleAuthoringAnalysis
             operation = operation.Parent;
         }
 
-        if ((!includeDirectCopies && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(site)))
-            || !visitedWrites.Add(operation))
+        if (!visitedWrites.Add(operation))
         {
             return false;
         }
@@ -6258,7 +6256,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(write => !visitedWrites.Any(visited => HasAncestor(write, visited)) && !IsCancellationStorageSelfStore(write.Parent!))
             .Where(write => CancellationSnapshotWriteMayAlias(write, later))
             .SelectMany(write => GetCancellationExecutionSites(write, later, [with(SymbolEqualityComparer.Default)])
-                .Where(site => !IsCancellationPreservingSnapshotCopy(write, earlier, site, visitedWrites, later, includeDirectCopies: true)))
+                .Where(site => !IsCancellationPreservingSnapshotCopy(write, earlier, site, visitedWrites, later)))
             .Any(site => CanCancellationWriteChangeSnapshots(site, earlier, later));
     }
 

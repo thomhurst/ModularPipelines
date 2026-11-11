@@ -7,6 +7,11 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; var local = first; first = ref local; first = saved; return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; var local = first; first = ref local; saved = default; first = saved; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; var local = first; first = ref local; first = saved; local = default; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; var local = first; first = ref local; ref CancellationToken alias = ref first; alias = saved; return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; var local = first; first = ref local; int count = 0; (first, count) = (saved, 1); return first;", false)]
     [DataRow("ref other, ref token", "CancellationToken other = default;", "first = ref second; second = ref first; return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "second = ref first; first = ref second; return first;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "first = ref second; second = ref first; return second;", true)]
