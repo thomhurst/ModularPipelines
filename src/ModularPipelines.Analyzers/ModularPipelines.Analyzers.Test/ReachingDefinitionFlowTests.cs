@@ -901,6 +901,19 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("scoped RetainedContainer container = new() { Item = holder }; value = 3; container.Item.Field = 2;", "", false)]
+    [DataRow("scoped RetainedContainer container = new() { Item = holder }; var copy = container; value = 3; copy.Item.Field = 2;", "", false)]
+    [DataRow("scoped RetainedContainer container = new() { Item = holder }; value = 3; try { container.Item.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("scoped RetainedContainer container = new() { Item = holder }; container.Item.Field = 2; value = 3;", "3", true)]
+    [DataRow("scoped RetainedContainer container = new() { Item = holder }; value = 3; if (false) container.Item.Field = 2;", "3", true)]
+    [DataRow("scoped RetainedContainer container = new() { Item = holder }; value = 3; container.Item.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); scoped RetainedContainer container = new() { Item = unrelated }; value = 3; container.Item.Field = 2;", "3", true)]
+    public void Object_Initializers_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);

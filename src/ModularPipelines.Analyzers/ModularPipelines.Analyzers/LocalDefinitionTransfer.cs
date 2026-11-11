@@ -402,11 +402,6 @@ internal sealed class LocalDefinitionTransfer
                 yield return (receiver.Local, memberBinding.Value);
             }
         }
-        else if (GetPatternLocal(operation) is ILocalSymbol { Type.IsRefLikeType: true } patternLocal
-            && GetMatchedInput(operation) is { } input)
-        {
-            yield return (patternLocal, input);
-        }
         else if (operation is IDeconstructionAssignmentOperation deconstruction)
         {
             foreach (var binding in GetDeconstructionAliasSources(deconstruction.Target, deconstruction.Value))
@@ -465,6 +460,8 @@ internal sealed class LocalDefinitionTransfer
             (declarator.Symbol, initializer.Value),
         ISimpleAssignmentOperation { Target: ILocalReferenceOperation reference } assignment
             when assignment.IsRef || reference.Local.Type.IsRefLikeType => (reference.Local, assignment.Value),
+        IOperation pattern when GetPatternLocal(pattern) is ILocalSymbol { Type.IsRefLikeType: true } patternLocal
+            && GetMatchedInput(pattern) is { } input => (patternLocal, input),
         _ => null,
     };
 
@@ -547,7 +544,7 @@ internal sealed class LocalDefinitionTransfer
         // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
         IInvocationOperation call => InvocationRetainsStorage(call, local, operationRoot),
         IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
-            creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),
+            CreationRetainsStorage(creation, local, operationRoot),
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
@@ -563,6 +560,13 @@ internal sealed class LocalDefinitionTransfer
         IFlowCaptureReferenceOperation when operationRoot is not null => CaptureTargetsLocal(target, local, operationRoot),
         _ => false,
     };
+
+    private static bool CreationRetainsStorage(IObjectCreationOperation creation, ILocalSymbol local, IOperation? operationRoot) =>
+        creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot))
+        || (creation.Initializer is { } initializer
+            && initializer.Descendants().OfType<ISimpleAssignmentOperation>().Any(assignment =>
+                (assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true)
+                && TargetsLocal(assignment.Value, local, operationRoot)));
 
     private static bool InvocationRetainsStorage(IInvocationOperation call, ILocalSymbol local, IOperation? operationRoot)
     {
