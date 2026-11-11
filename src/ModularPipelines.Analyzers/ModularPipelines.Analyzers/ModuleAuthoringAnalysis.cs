@@ -1045,10 +1045,16 @@ internal static class ModuleAuthoringAnalysis
         || CanArithmeticThrowInCancellationFilter(operation);
 
     private static bool CanAssignmentThrowInCancellationFilter(IOperation operation) => operation is
-        IAssignmentOperation
+        IAssignmentOperation assignment && CanAssignmentTargetThrowInCancellationFilter(assignment.Target);
+
+    private static bool CanAssignmentTargetThrowInCancellationFilter(IOperation target) => target switch
     {
-        Target: IPropertyReferenceOperation { Property.SetMethod: not null }
-            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation
+        ITupleOperation tuple => tuple.Elements.Any(CanAssignmentTargetThrowInCancellationFilter),
+        IConversionOperation conversion => CanAssignmentTargetThrowInCancellationFilter(conversion.Operand),
+        IParenthesizedOperation parenthesized => CanAssignmentTargetThrowInCancellationFilter(parenthesized.Operand),
+        IPropertyReferenceOperation { Property.SetMethod: not null }
+            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation => true,
+        _ => false,
     };
 
     private static bool CanArithmeticThrowInCancellationFilter(IOperation operation) =>

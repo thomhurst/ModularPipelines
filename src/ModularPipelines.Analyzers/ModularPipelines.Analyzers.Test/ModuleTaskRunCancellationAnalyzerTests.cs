@@ -548,6 +548,60 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("state.Value", "token", false, true, false)]
+    [DataRow("state[0]", "token", false, true, false)]
+    [DataRow("slots[0]", "token", false, true, false)]
+    [DataRow("state.Value", "token", true, false, false)]
+    [DataRow("state[0]", "token", true, false, false)]
+    [DataRow("slots[0]", "token", true, false, false)]
+    [DataRow("state.Value", "other", false, false, false)]
+    [DataRow("state[0]", "other", false, false, false)]
+    [DataRow("slots[0]", "other", false, false, false)]
+    [DataRow("((dynamic)state).Value", "token", false, true, false)]
+    [DataRow("((dynamic)state)[0]", "token", false, true, false)]
+    [DataRow("state.Value", "token", false, true, true)]
+    [DataRow("state.Value", "token", true, false, true)]
+    [DataRow("local", "token", false, false, true)]
+    public async Task Tracks_Deconstruction_Store_Exceptions_After_Assignment_Value(string target, string rebound, bool rebindInHandler, bool reports, bool nested)
+    {
+        var assignment = nested
+            ? $"(({target}, _), _) = (((alias = ref {rebound}), 0), 0)"
+            : $"({target}, _) = ((alias = ref {rebound}), 0)";
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref other;
+                var state = new ThrowingState();
+                object[] slots = new string[1];
+                var local = default(CancellationToken);
+                try { throw new Exception(); }
+                catch (Exception) when (Check({{assignment}}, (alias = ref other))) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static bool Check(object first, CancellationToken second) => false;
+
+            private sealed class ThrowingState
+            {
+                public CancellationToken Value { set => throw new Exception(); }
+                public CancellationToken this[int index] { set => throw new Exception(); }
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("object[] slots = new string[1];", "token", false, true)]
     [DataRow("CancellationToken[] slots = new CancellationToken[0];", "token", false, true)]
     [DataRow("CancellationToken[] slots = null!;", "token", false, true)]
