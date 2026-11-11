@@ -286,7 +286,8 @@ internal sealed class OperationExceptionClassifier(
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
         or ITypeParameterObjectCreationOperation
-        or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation;
+        or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
+        or IWithOperation { CloneMethod: not null };
 
     private static bool IsThrowingPropertyAccess(IOperation operation) => operation switch
     {

@@ -521,6 +521,19 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("record R;", "R", "x with { }", true)]
+    [DataRow("record R { protected R(R original) { throw new System.Exception(); } }", "R", "x with { }", true)]
+    [DataRow("record struct R;", "R", "x with { }", false)]
+    [DataRow("", "object", "new { Value = x } with { }", false)]
+    public void RecordCloneCallsHaveUnknownExceptions(string declaration, string type, string expression, bool throws)
+    {
+        var (root, classifier) = Compile($"{declaration} class C {{ object M({type} x) => {expression}; }}");
+        var operation = root.DescendantsAndSelf().OfType<IWithOperation>().Single();
+        Assert.AreEqual(throws, operation.CloneMethod is not null);
+        Assert.AreSequenceEqual(throws ? [null] : [], [.. classifier.Classify(operation)]);
+    }
+
+    [TestMethod]
     public void MissingSemanticModelConservativelyClassifiesDeconstruction()
     {
         var (root, _) = Compile("class C { void M() { (int a, int b) = (1, 2); } }");
