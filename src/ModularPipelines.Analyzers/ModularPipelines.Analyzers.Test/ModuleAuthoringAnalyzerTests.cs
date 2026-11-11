@@ -2938,6 +2938,10 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ref var alias = ref first; alias = default; return alias;")]
+    [DataRow("ref var alias = ref first; alias = default; return first;")]
+    [DataRow("first = ref second; second = default; return first;")]
+    [DataRow("first = ref third; var snapshot = first; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } return snapshot;")]
     [DataRow("first = ref second; return first;")]
     [DataRow("first = ref second; return (first);")]
     [DataRow("ref var alias = ref second; first = ref alias; return first;")]
@@ -2961,6 +2965,12 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("first = ref second; var snapshot = third; for (var i = 0; i < 2; i++) { second = third; snapshot = first; second = default; } return snapshot;", "default")]
+    [DataRow("first = first; return first;", "default")]
+    [DataRow("ref var alias = ref first; alias = alias; return alias;", "default")]
+    [DataRow("first = ref second; second = third; return first;", "default")]
+    [DataRow("ref var alias = ref second; alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; alias = third; return second;", "default")]
     [DataRow("first = ref second; return first;", "cancellationToken")]
     [DataRow("second = ref first; return second;", "default")]
     [DataRow("var snapshot = first; first = ref second; return snapshot;", "default")]

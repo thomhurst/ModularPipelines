@@ -5549,21 +5549,108 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        var storages = GetCancellationTokenStorages(reference, reference, []).ToArray();
-        return storages.Length > 0 && storages.All(storage => storage switch
+        // Module entry tokens retain their existing identity-based contract. Storage
+        // value tracking is needed for ref parameters and aliases in source helpers.
+        if (reference is IParameterReferenceOperation { Parameter.RefKind: RefKind.None } parameter)
         {
-            IParameterReferenceOperation parameter =>
-                IsStableCapturedCancellationToken(parameter)
-                && cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default),
-            ILocalReferenceOperation local when !visitedLocals.Contains(local.Local) =>
-                FindReachingLocalValues(reference, local.Local).ToArray() is { Length: > 0 } values
-                && values.All(value => FlowsFromCancellationToken(
-                    value,
-                    cancellationTokens,
-                    new HashSet<ILocalSymbol>(visitedLocals, visitedLocals.Comparer) { local.Local },
-                    CloneVisitedMethods(visitedMethods))),
-            _ => false,
-        });
+            return cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default);
+        }
+
+        return FlowsFromCancellationTokenStorageValue(
+            reference, reference, cancellationTokens, visitedLocals, visitedMethods, []);
+    }
+
+    private static bool FlowsFromCancellationTokenStorageValue(
+        IOperation value,
+        IOperation read,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
+        if (value is IConversionOperation conversion)
+        {
+            return FlowsFromCancellationTokenStorageValue(
+                conversion.Operand, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+        }
+
+        if (value is IParenthesizedOperation parenthesized)
+        {
+            return FlowsFromCancellationTokenStorageValue(
+                parenthesized.Operand, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+        }
+
+        if (GetCancellationStorageSymbol(value) is null)
+        {
+            return FlowsFromCancellationToken(value, cancellationTokens, visitedLocals, visitedMethods);
+        }
+
+        var storages = GetCancellationTokenStorages(value, value, []).ToArray();
+        return storages.Length > 0 && storages.All(StorageFlows);
+
+        bool StorageFlows(IOperation storage)
+        {
+            var symbol = GetCancellationStorageSymbol(storage);
+            var callable = GetEnclosingCallable(read);
+            var writes = GetRoot(read).DescendantsAndSelf()
+                .OfType<ISimpleAssignmentOperation>()
+                .Where(static assignment => !assignment.IsRef)
+                .Where(assignment => !HasAncestor(read, assignment))
+                .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
+                .Where(IsInReachableBranch)
+                .Where(assignment => CanReachCancellationStorageRead(assignment, read))
+                .Where(assignment => assignment.Syntax.SpanStart < read.Syntax.SpanStart
+                    || SharesCancellationStorageLoop(assignment, read))
+                .Where(assignment => GetCancellationTokenStorages(assignment.Target, assignment, [])
+                    .Any(target => SymbolEqualityComparer.Default.Equals(
+                        GetCancellationStorageSymbol(target), symbol)))
+                .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+                .ToArray();
+            var definiteWrite = writes.FirstOrDefault(write =>
+                IsDefiniteCancellationStorageBinding(write, read)
+                && GetCancellationTokenStorages(write.Target, write, []).All(target =>
+                    SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol)));
+            var reachingWrites = writes.Where(write => definiteWrite is null
+                || (write.Syntax.SpanStart >= definiteWrite.Syntax.SpanStart
+                    && write.Syntax.SpanStart < read.Syntax.SpanStart)
+                || (SharesCancellationStorageLoop(write, read)
+                    && !SharesCancellationStorageLoop(definiteWrite, read)));
+            foreach (var write in reachingWrites)
+            {
+                if (!visitedWrites.Add(write))
+                {
+                    return false;
+                }
+
+                var flows = FlowsFromCancellationTokenStorageValue(
+                    write.Value, write.Value, cancellationTokens,
+                    CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods), visitedWrites);
+                visitedWrites.Remove(write);
+                if (!flows)
+                {
+                    return false;
+                }
+            }
+
+            if (definiteWrite is not null)
+            {
+                return true;
+            }
+
+            return storage switch
+            {
+                IParameterReferenceOperation parameter =>
+                    IsStableCapturedCancellationToken(parameter)
+                    && cancellationTokens.Contains(parameter.Parameter, SymbolEqualityComparer.Default),
+                ILocalReferenceOperation local when !visitedLocals.Contains(local.Local) =>
+                    FindReachingLocalValues(read, local.Local).ToArray() is { Length: > 0 } values
+                    && values.All(localValue => FlowsFromCancellationTokenStorageValue(
+                        localValue, localValue, cancellationTokens,
+                        new HashSet<ILocalSymbol>(visitedLocals, visitedLocals.Comparer) { local.Local },
+                        CloneVisitedMethods(visitedMethods), visitedWrites)),
+                _ => false,
+            };
+        }
     }
 
     private static IEnumerable<IOperation> GetCancellationTokenStorages(
@@ -5613,7 +5700,9 @@ internal static class ModuleAuthoringAnalysis
         var storages = bindings
             .Where(binding => definiteBinding is null
                 || (binding.Syntax.SpanStart >= definiteBinding.Syntax.SpanStart
-                    && binding.Syntax.SpanStart < bindingPoint.Syntax.SpanStart))
+                    && binding.Syntax.SpanStart < bindingPoint.Syntax.SpanStart)
+                || (SharesCancellationStorageLoop(binding, bindingPoint)
+                    && !SharesCancellationStorageLoop(definiteBinding, bindingPoint)))
             .SelectMany(binding => visitedBindings.Contains(binding)
                 ? [binding]
                 : GetCancellationTokenStorages(
