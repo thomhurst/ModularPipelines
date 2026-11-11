@@ -634,6 +634,33 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         await Verify(body + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning);
     }
 
+    public static IEnumerable<object[]> CollectionCases()
+    {
+        yield return ["constructor-before-element", "var token = default(CancellationToken); try { ThrowingCollection items = [(token = cancellationToken).CanBeCanceled]; return null!; } catch { }", true];
+        yield return ["constructor-before-branching-element", "var token = default(CancellationToken); try { ThrowingCollection items = [context is null ? (token = cancellationToken).CanBeCanceled : (token = cancellationToken).CanBeCanceled]; return null!; } catch { }", true];
+        yield return ["constructor-preserves-source", "var token = cancellationToken; try { ThrowingCollection items = [token.CanBeCanceled]; return null!; } catch { }", false];
+        yield return ["spread-before-later-element", "var sequence = new BoolSequence(); var token = default(CancellationToken); try { bool[] items = [..sequence, (token = cancellationToken).CanBeCanceled]; return null!; } catch { }", true];
+        yield return ["array-element-before-completion", "var token = default(CancellationToken); try { bool[] items = [(token = cancellationToken).CanBeCanceled]; return null!; } catch { }", false];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(CollectionCases))]
+    public async Task Tracks_Collection_Call_Order(string name, string body, bool warning)
+    {
+        _ = name;
+        await Verify(body + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning, """
+            public class ThrowingCollection : System.Collections.Generic.List<bool>
+            {
+                public ThrowingCollection() => throw new System.Exception();
+            }
+            public class BoolSequence : System.Collections.Generic.IEnumerable<bool>
+            {
+                public System.Collections.Generic.IEnumerator<bool> GetEnumerator() => throw new System.Exception();
+                System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+            """);
+    }
+
     [TestMethod]
     [DynamicData(nameof(ExceptionCases))]
     public async Task Tracks_Exception_And_Cleanup_Values(string name, string body, bool warning)

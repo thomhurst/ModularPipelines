@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -18,17 +19,19 @@ internal sealed class CancellationTokenReachingValues
     private readonly ControlFlowGraph _graph;
     private readonly SemanticModel _model;
     private readonly OperationExceptionClassifier _exceptions;
+    private readonly ImmutableArray<TextSpan> _earlyCollectionCallSpans;
     private readonly HashSet<IMethodSymbol> _visitedMethods;
     private readonly HashSet<IParameterSymbol> _visitedSources;
     private readonly Dictionary<(TextSpan Span, OperationKind Kind), bool> _values = [];
 
-    private CancellationTokenReachingValues(ControlFlowGraph graph, SemanticModel model, HashSet<IMethodSymbol> visitedMethods, HashSet<IParameterSymbol> visitedSources)
+    private CancellationTokenReachingValues(IOperation root, ControlFlowGraph graph, SemanticModel model, HashSet<IMethodSymbol> visitedMethods, HashSet<IParameterSymbol> visitedSources)
     {
         _graph = graph;
         _model = model;
         _visitedMethods = visitedMethods;
         _visitedSources = visitedSources;
         _exceptions = new OperationExceptionClassifier(model);
+        _earlyCollectionCallSpans = OperationExceptionClassifier.GetEarlyCollectionCallSpans(root);
     }
 
     public static bool? TryGetValue(IOperation reference, IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods = null, HashSet<IParameterSymbol>? visitedSources = null)
@@ -103,7 +106,7 @@ internal sealed class CancellationTokenReachingValues
             ? [with(SymbolEqualityComparer.Default)]
             : new HashSet<IParameterSymbol>(visitedSources, SymbolEqualityComparer.Default);
         sources.Add(source);
-        var analysis = new CancellationTokenReachingValues(graph, model, visitedMethods, sources);
+        var analysis = new CancellationTokenReachingValues(root, graph, model, visitedMethods, sources);
         var initial = new State();
         initial.Values.Add(source);
         if (source.ContainingSymbol is IMethodSymbol method)
@@ -451,6 +454,17 @@ internal sealed class CancellationTokenReachingValues
 
     private bool Evaluate(IOperation operation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
     {
+        // Collection constructors, Add calls, and spread iteration can throw before
+        // later elements. Source spans also cover element operations hoisted by the CFG.
+        foreach (var span in _earlyCollectionCallSpans)
+        {
+            if (span.Contains(operation.Syntax.Span))
+            {
+                exceptional(block, state.Clone());
+                break;
+            }
+        }
+
         var value = operation switch
         {
             IParameterReferenceOperation parameter => ReadSymbol(parameter.Parameter, state),
