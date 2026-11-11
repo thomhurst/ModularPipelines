@@ -553,15 +553,21 @@ internal static class ModuleAuthoringAnalysis
     {
         var cancellationTokens = GetFlowingCancellationTokens(
             context,
-            executeMethod);
+            executeMethod,
+            context.Operation);
         if (cancellationTokens.IsEmpty)
         {
             return;
         }
 
+        var enclosingCallable = GetEnclosingCallable(context.Operation);
         foreach (var invocation in invocations)
         {
-            if (cancellationTokens.Any(
+            // Returned tasks can lead into a local function with its own token parameters.
+            var invocationTokens = ReferenceEquals(GetEnclosingCallable(invocation), enclosingCallable)
+                ? cancellationTokens
+                : GetFlowingCancellationTokens(context, executeMethod, invocation);
+            if (invocationTokens.Any(
                     cancellationToken =>
                         InvocationUsesCancellation(invocation, cancellationToken))
                 || !InvocationAcceptsCancellationToken(
@@ -792,7 +798,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static ImmutableArray<IParameterSymbol> GetFlowingCancellationTokens(
         OperationAnalysisContext context,
-        IMethodSymbol executeMethod)
+        IMethodSymbol executeMethod,
+        IOperation operation)
     {
         if (executeMethod.Parameters.FirstOrDefault(IsCancellationToken)
             is not { } executeCancellationToken)
@@ -800,9 +807,9 @@ internal static class ModuleAuthoringAnalysis
             return [];
         }
 
-        var containingMethod = GetCallableSymbol(
-                GetEnclosingCallable(context.Operation))
-            ?? GetContainingMemberMethod(context.ContainingSymbol);
+        var containingMethod = GetContainingMemberMethod(
+            GetCallableSymbol(GetEnclosingCallable(operation))
+                ?? context.ContainingSymbol);
         if (containingMethod is null
             || SymbolEqualityComparer.Default.Equals(
                 containingMethod,
@@ -811,12 +818,15 @@ internal static class ModuleAuthoringAnalysis
             return [executeCancellationToken];
         }
 
-        return [executeCancellationToken, .. FindMappedCancellationTokens(
-            executeMethod,
-            containingMethod,
+        return [
             executeCancellationToken,
-            context.Compilation,
-            context.CancellationToken)];
+            .. FindMappedCancellationTokens(
+                executeMethod,
+                containingMethod,
+                executeCancellationToken,
+                context.Compilation,
+                context.CancellationToken),
+        ];
     }
 
     private static IMethodSymbol? GetContainingMemberMethod(ISymbol symbol)
@@ -842,15 +852,10 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         CancellationToken cancellationToken)
     {
-        var analysisType = executeMethod.ContainingType.InheritsFrom(
-            targetMethod.ContainingType)
+        var analysisType = executeMethod.ContainingType.InheritsFrom(targetMethod.ContainingType)
             ? executeMethod.ContainingType
             : targetMethod.ContainingType;
         var memberMethods = GetModuleMemberMethods(analysisType, compilation);
-        if (targetMethod.MethodKind == MethodKind.LocalFunction)
-        {
-            memberMethods = memberMethods.Add(targetMethod);
-        }
 
         var mappedTokenPaths = FindMappedCancellationTokenPaths(
                 executeMethod,
@@ -896,7 +901,20 @@ internal static class ModuleAuthoringAnalysis
             yield break;
         }
 
-        foreach (var invocation in GetReachableInvocations(operation))
+        if (targetMethod.MethodKind == MethodKind.LocalFunction)
+        {
+            memberMethods = [
+                .. memberMethods.AddRange(operation.DescendantsAndSelf()
+                    .OfType<ILocalFunctionOperation>()
+                    .Select(static localFunction => localFunction.Symbol))
+                    .Distinct<IMethodSymbol>(SymbolEqualityComparer.Default),
+            ];
+        }
+
+        foreach (var invocation in GetCancellationMappingInvocations(
+                     operation,
+                     currentMethod,
+                     targetMethod))
         {
             foreach (var (method, tokens) in GetInvocationCancellationTokenMappings(
                          invocation,
@@ -907,7 +925,9 @@ internal static class ModuleAuthoringAnalysis
                         method,
                         targetMethod))
                 {
-                    yield return tokens;
+                    yield return method.MethodKind == MethodKind.LocalFunction
+                        ? sourceTokens.AddRange(tokens)
+                        : tokens;
                     continue;
                 }
 
@@ -919,10 +939,15 @@ internal static class ModuleAuthoringAnalysis
                     continue;
                 }
 
+                // Local functions retain access to tokens captured from their caller.
+                var nextTokens = method.MethodKind == MethodKind.LocalFunction
+                    ? sourceTokens.AddRange(tokens)
+                    : tokens;
+
                 foreach (var mappedTokens in FindMappedCancellationTokenPaths(
                              method,
                              targetMethod,
-                             tokens,
+                             nextTokens,
                              memberMethods,
                              compilation,
                              nextVisitedMethods,
@@ -931,6 +956,25 @@ internal static class ModuleAuthoringAnalysis
                     yield return mappedTokens;
                 }
             }
+        }
+    }
+
+    private static IEnumerable<IInvocationOperation> GetCancellationMappingInvocations(
+        IOperation operation,
+        IMethodSymbol currentMethod,
+        IMethodSymbol targetMethod)
+    {
+        foreach (var invocation in GetReachableInvocations(operation))
+        {
+            // Local functions map their arguments in their own traversal step.
+            if (targetMethod.MethodKind == MethodKind.LocalFunction
+                && GetEnclosingCallable(invocation) is ILocalFunctionOperation localFunction
+                && !SymbolEqualityComparer.Default.Equals(localFunction.Symbol, currentMethod))
+            {
+                continue;
+            }
+
+            yield return invocation;
         }
     }
 
@@ -1867,10 +1911,12 @@ internal static class ModuleAuthoringAnalysis
             return memberValues;
         }
 
-        memberValues = [.. GetInvokedHelperMemberValues(
+        memberValues = [
+            .. GetInvokedHelperMemberValues(
                 memberReference,
                 member,
-                compilation)];
+                compilation),
+        ];
         if (memberValues.Length > 0)
         {
             return memberValues;
@@ -4788,8 +4834,7 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var candidate in GetModuleExecuteMethods(context.Compilation))
         {
-            var analysisType = candidate.ContainingType.InheritsFrom(
-                targetMethod.ContainingType)
+            var analysisType = candidate.ContainingType.InheritsFrom(targetMethod.ContainingType)
                 ? candidate.ContainingType
                 : targetMethod.ContainingType.InheritsFrom(candidate.ContainingType)
                     ? targetMethod.ContainingType
@@ -4841,11 +4886,13 @@ internal static class ModuleAuthoringAnalysis
         return ModuleExecuteMethods.GetValue(
             compilation,
             static currentCompilation => new Lazy<ImmutableArray<IMethodSymbol>>(
-                () => [.. GetNamedTypes(currentCompilation.Assembly.GlobalNamespace)
-                    .SelectMany(type => type.GetMembers(
-                        AnalyzerConstants.MethodNames.ExecuteAsync))
-                    .OfType<IMethodSymbol>()
-                    .Where(method => IsModuleExecuteAsync(method, currentCompilation))])).Value;
+                () => [
+                    .. GetNamedTypes(currentCompilation.Assembly.GlobalNamespace)
+                        .SelectMany(type => type.GetMembers(
+                            AnalyzerConstants.MethodNames.ExecuteAsync))
+                        .OfType<IMethodSymbol>()
+                        .Where(method => IsModuleExecuteAsync(method, currentCompilation)),
+                ])).Value;
     }
 
     private static IEnumerable<INamedTypeSymbol> GetNamedTypes(
@@ -4914,17 +4961,19 @@ internal static class ModuleAuthoringAnalysis
         INamedTypeSymbol analysisType,
         Compilation compilation)
     {
-        return [.. GetModuleTypeHierarchy(analysisType, compilation)
-            .SelectMany(static type => type.GetMembers())
-            .OfType<IMethodSymbol>()
-            .Where(static method =>
-                method.MethodKind is MethodKind.Ordinary
-                    or MethodKind.ExplicitInterfaceImplementation
-                    or MethodKind.PropertyGet
-                    or MethodKind.PropertySet
-                    or MethodKind.EventAdd
-                    or MethodKind.EventRemove
-                && method.DeclaringSyntaxReferences.Length > 0)];
+        return [
+            .. GetModuleTypeHierarchy(analysisType, compilation)
+                .SelectMany(static type => type.GetMembers())
+                .OfType<IMethodSymbol>()
+                .Where(static method =>
+                    method.MethodKind is MethodKind.Ordinary
+                        or MethodKind.ExplicitInterfaceImplementation
+                        or MethodKind.PropertyGet
+                        or MethodKind.PropertySet
+                        or MethodKind.EventAdd
+                        or MethodKind.EventRemove
+                    && method.DeclaringSyntaxReferences.Length > 0),
+        ];
     }
 
     private static IEnumerable<INamedTypeSymbol> GetModuleTypeHierarchy(
@@ -5572,17 +5621,20 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        return invocation.TargetMethod.ReducedFrom is not null
-               && invocation.Instance is { } instance
-               && method.Parameters.FirstOrDefault() is { } receiverParameter
-               && IsCancellationToken(receiverParameter)
-               && FlowsFromCancellationToken(
-                   instance,
-                   cancellationToken,
-                   CloneVisitedLocals(visitedLocals),
-                   CloneVisitedMethods(visitedMethods))
-            ? receiverParameter
-            : null;
+        if (invocation.TargetMethod.ReducedFrom is not null
+            && invocation.Instance is { } instance
+            && method.Parameters.FirstOrDefault() is { } receiverParameter
+            && IsCancellationToken(receiverParameter)
+            && FlowsFromCancellationToken(
+                instance,
+                cancellationToken,
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods)))
+        {
+            return receiverParameter;
+        }
+
+        return null;
     }
 
     private static bool IsKnownCancellationCarrierFactory(
