@@ -8,20 +8,31 @@ function Remove-ReleasedWorktree {
         [Parameter(Mandatory)][string]$LockName
     )
 
+    # Resolve each ancestor as well as the leaf: Resolve-Path and GetFullPath
+    # preserve aliases such as macOS /var, while Git reports physical paths.
+    function Resolve-PhysicalDirectory([string]$Path) {
+        $directory = [IO.DirectoryInfo]::new([IO.Path]::GetFullPath($Path))
+        $linkTarget = if ($directory.Exists) { $directory.ResolveLinkTarget($true) } else { $null }
+        if ($null -ne $linkTarget) { return Resolve-PhysicalDirectory $linkTarget.FullName }
+        if ($null -eq $directory.Parent) { return $directory.FullName }
+        return Join-Path (Resolve-PhysicalDirectory $directory.Parent.FullName) $directory.Name
+    }
+
     if (-not (Test-Path -LiteralPath $Worktree)) { return }
-    $target = (Resolve-Path -LiteralPath $Worktree).Path.TrimEnd('\', '/')
+    $target = Resolve-PhysicalDirectory $Worktree
     $common = git rev-parse --path-format=absolute --git-common-dir 2>$null
     if ($LASTEXITCODE -ne 0) { throw 'Cannot identify the calling repository.' }
+    $common = Resolve-PhysicalDirectory $common
     $targetCommon = git -C $target rev-parse --path-format=absolute --git-common-dir 2>$null
-    if ($LASTEXITCODE -ne 0 -or $targetCommon -ne $common) {
+    if ($LASTEXITCODE -ne 0 -or (Resolve-PhysicalDirectory $targetCommon) -ne $common) {
         throw "Worktree belongs to another repository: $target"
     }
     $top = git -C $target rev-parse --show-toplevel 2>$null
-    if ($LASTEXITCODE -ne 0 -or [IO.Path]::GetFullPath($top) -ne $target) {
+    if ($LASTEXITCODE -ne 0 -or (Resolve-PhysicalDirectory $top) -ne $target) {
         throw "Not a worktree root: $target"
     }
     $gitDirectory = git -C $target rev-parse --absolute-git-dir 2>$null
-    if ($LASTEXITCODE -ne 0 -or $gitDirectory -eq $common -or
+    if ($LASTEXITCODE -ne 0 -or (Resolve-PhysicalDirectory $gitDirectory) -eq $common -or
         (Test-Path -LiteralPath (Join-Path $gitDirectory 'locked'))) {
         Write-Host "Preserving main or Git-locked worktree: $target"
         return
@@ -35,7 +46,7 @@ function Remove-ReleasedWorktree {
     $entries = @(git worktree list --porcelain)
     if ($LASTEXITCODE -ne 0) { throw 'Cannot list registered worktrees.' }
     $paths = @($entries | Where-Object { $_.StartsWith('worktree ') } |
-        ForEach-Object { [IO.Path]::GetFullPath($_.Substring(9)).TrimEnd('\', '/') })
+        ForEach-Object { Resolve-PhysicalDirectory $_.Substring(9) })
     if ($target -notin $paths -or $paths.Count -eq 0) { throw "Unregistered worktree: $target" }
     $repo = $paths[0]
     $relative = [IO.Path]::GetRelativePath($repo, $target)

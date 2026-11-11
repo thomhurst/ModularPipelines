@@ -89,6 +89,10 @@ try {
     Invoke-TestGit -C $repo commit -m fixture
     Push-Location $repo
 
+    # A stale registration must not prevent releasing another valid checkout.
+    $missing = New-Checkout missing
+    Remove-Item -LiteralPath $missing -Recurse -Force
+
     $path = New-Checkout clean
     Set-Content (Join-Path $path 'source.txt') 'unpublished commit'
     Invoke-TestGit -C $path commit -am unpublished
@@ -113,6 +117,44 @@ try {
     Lock release -LockName $key
     Assert (-not (Test-Path $path)) 'Detached checkout survived release.'
     Assert ((& git -C $repo rev-parse "refs/heads/retained-worktrees/$head") -eq $head) 'Detached commit was lost.'
+
+    if (-not $IsWindows) {
+        # A linked ancestor reproduces /var versus /private/var on macOS,
+        # including on systems whose temporary directory has no built-in alias.
+        $alias = Join-Path $testRoot 'alias'
+        New-Item -ItemType SymbolicLink -Path $alias -Target $testRoot | Out-Null
+        try {
+            foreach ($kind in @('alias-clean', 'alias-dirty', 'alias-subdirectory', 'alias-harness')) {
+                $path = if ($kind -eq 'alias-harness') {
+                    $nested = Join-Path $repo '.worktrees/alias-harness'
+                    Invoke-TestGit -C $repo worktree add -b $kind $nested HEAD
+                    $nested
+                } else { New-Checkout $kind }
+                $aliasedPath = Join-Path $alias ([IO.Path]::GetRelativePath($testRoot, $path))
+                if ($kind -eq 'alias-dirty') { Set-Content (Join-Path $path 'source.txt') 'pending change' }
+                if ($kind -eq 'alias-subdirectory') {
+                    $aliasedPath = Join-Path $aliasedPath 'nested'
+                    New-Item -ItemType Directory $aliasedPath | Out-Null
+                }
+                $key = Claim $kind $aliasedPath
+                Lock release -LockName $key
+                $release = $script:lastLockResult
+                if ($kind -eq 'alias-clean') {
+                    Assert (-not (Test-Path $path)) 'Clean aliased checkout survived release.'
+                } else {
+                    Assert (Test-Path $path) "$kind checkout was removed."
+                    $expected = switch ($kind) {
+                        alias-dirty { 'Preserving dirty worktree:' }
+                        alias-subdirectory { 'Not a worktree root:' }
+                        alias-harness { 'Preserving main or harness-managed worktree:' }
+                    }
+                    Assert (($release.StdOut + $release.StdErr).Contains($expected)) "$kind did not reach the expected safety check: $(Format-TestLockResult $release)"
+                }
+                $status = Invoke-TestLock -Arguments @('status', '-LockName', $key)
+                Assert-ReleasedLock -Release $release -Status $status -Name $kind
+            }
+        } finally { Remove-Item -LiteralPath $alias -Force }
+    }
 
     if ($IsWindows) {
         # Git for Windows follows a junction while deleting a worktree and empties its
