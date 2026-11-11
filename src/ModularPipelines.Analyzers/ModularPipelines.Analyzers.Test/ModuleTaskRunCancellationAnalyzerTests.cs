@@ -30,6 +30,17 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("execute")]
     [DataRow("lifecycle")]
     [DataRow("configuration")]
+    public async Task Accepts_Reading_Captured_Token_Into_A_Deconstruction(string root)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource(root,
+            "CancellationToken copy = default; (copy, _) = (cancellationToken, 1); _ = copy.CanBeCanceled;",
+            "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
     public async Task Reports_Captured_Token_Overwritten_In_Enclosing_Callable(string root)
     {
         await VerifyCS.VerifyAnalyzerAsync(ModuleSource(root,

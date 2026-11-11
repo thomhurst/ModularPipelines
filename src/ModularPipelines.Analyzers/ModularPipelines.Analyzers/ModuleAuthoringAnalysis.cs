@@ -620,8 +620,7 @@ internal static class ModuleAuthoringAnalysis
                 || parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
                 || parent is IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None }
                 || parent is ISimpleAssignmentOperation { IsRef: true }
-                || parent is IAddressOfOperation
-                || parent is IDeconstructionAssignmentOperation)
+                || parent is IAddressOfOperation)
             {
                 return true;
             }
