@@ -5449,13 +5449,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        // Helper-return proofs already carry a recursion guard. Keep those proofs
-        // within that analysis instead of re-entering a cached CFG under construction.
-        var isHelperReturn = cancellationToken.ContainingSymbol is IMethodSymbol sourceMethod
-            && visitedMethods.Contains(NormalizeMethod(sourceMethod));
-        if (!isHelperReturn
-            && value is ILocalReferenceOperation or IParameterReferenceOperation
-            && CancellationTokenReachingValues.TryGetValue(value, cancellationToken) is { } reachingValue)
+        if (GetCancellationTokenReachingValue(value, cancellationToken, visitedMethods) is { } reachingValue)
         {
             return reachingValue;
         }
@@ -5539,6 +5533,27 @@ internal static class ModuleAuthoringAnalysis
                     visitedMethods),
             _ => false,
         };
+    }
+
+    private static bool? GetCancellationTokenReachingValue(
+        IOperation value,
+        IParameterSymbol cancellationToken,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (value is not (ILocalReferenceOperation or IParameterReferenceOperation))
+        {
+            return null;
+        }
+
+        // Helper-return proofs already carry a recursion guard. Keep those proofs
+        // within that analysis instead of re-entering a cached CFG under construction.
+        if (cancellationToken.ContainingSymbol is IMethodSymbol sourceMethod
+            && visitedMethods.Contains(NormalizeMethod(sourceMethod)))
+        {
+            return null;
+        }
+
+        return CancellationTokenReachingValues.TryGetValue(value, cancellationToken);
     }
 
     private static bool FlowsFromParallelCallbackToken(
