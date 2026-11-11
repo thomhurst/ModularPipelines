@@ -409,6 +409,11 @@ internal sealed class LocalDefinitionTransfer
                 yield return (receiver.Local, memberBinding.Value);
             }
         }
+        else if (GetPatternLocal(operation) is ILocalSymbol { Type.IsRefLikeType: true } patternLocal
+            && GetMatchedInput(operation) is { } input)
+        {
+            yield return (patternLocal, input);
+        }
         else if (operation is IInvocationOperation or IObjectCreationOperation)
         {
             foreach (var binding in GetCallAliasSources(operation))
@@ -416,6 +421,26 @@ internal sealed class LocalDefinitionTransfer
                 yield return binding;
             }
         }
+    }
+
+    private static IOperation? GetMatchedInput(IOperation pattern)
+    {
+        // Source-tree pattern bindings do not have variable initializers. Keep their copies
+        // connected to the matched storage, including bindings in switch arms and cases.
+        for (var parent = pattern.Parent; parent is not null; parent = parent.Parent)
+        {
+            switch (parent)
+            {
+                case IIsPatternOperation isPattern:
+                    return isPattern.Value;
+                case ISwitchExpressionOperation switchExpression:
+                    return switchExpression.Value;
+                case ISwitchOperation switchStatement:
+                    return switchStatement.Value;
+            }
+        }
+
+        return null;
     }
 
     private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetCallAliasSources(IOperation operation)

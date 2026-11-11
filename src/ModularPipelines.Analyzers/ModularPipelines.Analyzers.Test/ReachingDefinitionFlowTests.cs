@@ -838,6 +838,22 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("if (holder is var copy) { value = 3; copy.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("if (holder is { } copy) { value = 3; copy.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("if (holder is var copy) { var second = copy; value = 3; second.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("switch (holder) { case var copy: value = 3; copy.Field = 2; [|Use(value)|]; break; }", "", false)]
+    [DataRow("_ = holder switch { var copy => PatternCalls.MutatePattern(copy) }; [|Use(value)|];", "", false)]
+    [DataRow("if (holder is var copy) { value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; } }", "", false)]
+    [DataRow("if (holder is var copy) { copy.Field = 2; value = 3; [|Use(value)|]; }", "3", true)]
+    [DataRow("if (holder is var copy) { value = 3; if (false) copy.Field = 2; [|Use(value)|]; }", "3", true)]
+    [DataRow("if (holder is var copy) { value = 3; copy.Field = [|value|]; }", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); if (unrelated is var copy) { value = 3; copy.Field = 2; [|Use(value)|]; }", "3", true)]
+    public void RefLike_Pattern_Bindings_Retain_Input_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; " + statement,
+            expected, supported: supported, additionalSource: MutableTypes
+                + " static class PatternCalls { public static int MutatePattern(Retained copy) { copy.Field = 2; return 0; } }");
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
