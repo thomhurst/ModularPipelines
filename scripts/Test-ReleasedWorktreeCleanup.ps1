@@ -1,6 +1,11 @@
 #!/usr/bin/env pwsh
 # Local regression suite: requires Git, PowerShell 7 and Docker.
 $ErrorActionPreference = 'Stop'
+# These fixtures exercise only the explicitly single-machine Docker mode.
+$previousRedisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
+$previousRedisEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
+$env:MODULARPIPELINES_AGENT_REDIS_MODE = 'local'
+$env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = ''
 $agentLocks = Join-Path $PSScriptRoot 'AgentLocks.ps1'
 $suffix = [Guid]::NewGuid().ToString('N')
 $testRoot = Join-Path ([IO.Path]::GetTempPath()) "released-worktree-tests-$suffix"
@@ -192,18 +197,24 @@ try {
     }
     Write-Host 'OK released worktree cleanup: generated output, unpublished branches, detached commits, re-checkout, busy-directory pending removal, dirty/ignored/locked/main/foreign/harness/reassigned preservation.'
 } finally {
-    if (Test-Path $repo) {
-        Set-Location $repo
-        foreach ($key in $locks.ToArray()) {
-            # Do not let a failed status probe prevent release of a lock we acquired.
-            try { Lock release -LockName $key }
-            catch { Write-Warning "Cleanup release failed for ${key}: $_" }
+    try {
+        if (Test-Path $repo) {
+            Set-Location $repo
+            foreach ($key in $locks.ToArray()) {
+                # Do not let a failed status probe prevent release of a lock we acquired.
+                try { Lock release -LockName $key }
+                catch { Write-Warning "Cleanup release failed for ${key}: $_" }
+            }
         }
+        Pop-Location -ErrorAction SilentlyContinue
+        $resolved = [IO.Path]::GetFullPath($testRoot)
+        $temp = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+        if (-not $resolved.StartsWith($temp, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe test cleanup path.' }
+        Remove-Item -LiteralPath $resolved -Recurse -Force
     }
-    Pop-Location -ErrorAction SilentlyContinue
-    $resolved = [IO.Path]::GetFullPath($testRoot)
-    $temp = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
-    if (-not $resolved.StartsWith($temp, [StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe test cleanup path.' }
-    Remove-Item -LiteralPath $resolved -Recurse -Force
+    finally {
+        $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+        $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
+    }
 }
 

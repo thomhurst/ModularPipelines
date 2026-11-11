@@ -1,6 +1,11 @@
 #!/usr/bin/env pwsh
 # Exercise the real status verb with a fake Docker command; no shared Redis state is touched.
 $ErrorActionPreference = 'Stop'
+# These fixtures exercise only the explicitly single-machine Docker mode.
+$previousRedisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
+$previousRedisEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT
+$env:MODULARPIPELINES_AGENT_REDIS_MODE = 'local'
+$env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = ''
 $agentLocks = Join-Path $PSScriptRoot 'AgentLocks.ps1'
 $fixtureRoot = Join-Path ([IO.Path]::GetTempPath()) "agent-lock-status-$([Guid]::NewGuid().ToString('N'))"
 $runner = Join-Path $fixtureRoot 'runner.ps1'
@@ -56,13 +61,19 @@ exit $LASTEXITCODE
     }
 }
 finally {
-    $resolvedRoot = [IO.Path]::GetFullPath($fixtureRoot)
-    $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd([char[]]@('/', '\')) + [IO.Path]::DirectorySeparatorChar
-    if (-not $resolvedRoot.StartsWith($tempRoot, [StringComparison]::OrdinalIgnoreCase) -or
-        (Split-Path $resolvedRoot -Leaf) -notlike 'agent-lock-status-*') {
-        throw 'Refusing cleanup outside the disposable fixture root.'
+    try {
+        $resolvedRoot = [IO.Path]::GetFullPath($fixtureRoot)
+        $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd([char[]]@('/', '\')) + [IO.Path]::DirectorySeparatorChar
+        if (-not $resolvedRoot.StartsWith($tempRoot, [StringComparison]::OrdinalIgnoreCase) -or
+            (Split-Path $resolvedRoot -Leaf) -notlike 'agent-lock-status-*') {
+            throw 'Refusing cleanup outside the disposable fixture root.'
+        }
+        Remove-Item -LiteralPath $resolvedRoot -Recurse -Force -ErrorAction SilentlyContinue
     }
-    Remove-Item -LiteralPath $resolvedRoot -Recurse -Force -ErrorAction SilentlyContinue
+    finally {
+        $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+        $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
+    }
 }
 
 Write-Output 'OK read-only AgentLocks status passed.'

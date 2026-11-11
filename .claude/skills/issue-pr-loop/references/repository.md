@@ -14,6 +14,8 @@ Read [AGENTS.md](../../../../AGENTS.md) for guarded build/test commands, formatt
 
 Lock owner variable: `MODULARPIPELINES_AGENT_LOCK_OWNER_ID` (read by `scripts/AgentLocks.ps1` after `-OwnerId`, before `CODEX_THREAD_ID`).
 
+Lock deployment: [AgentLocks.md](../../../../scripts/AgentLocks.md). Every worker machine must use the same explicitly configured shared Redis endpoint. Local mode is single-machine only; drain workers before changing backends or upgrading from automatic local locking.
+
 ## Owner-reserved decisions
 
 No issue class is reserved for the owner beyond the `[human]` category in `SKILL.md` § Resolve, do not defer. A breaking change is allowed on a milestone that permits breaking changes.
