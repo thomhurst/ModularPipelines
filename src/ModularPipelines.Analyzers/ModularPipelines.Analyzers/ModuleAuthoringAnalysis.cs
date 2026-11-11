@@ -553,15 +553,21 @@ internal static class ModuleAuthoringAnalysis
     {
         var cancellationTokens = GetFlowingCancellationTokens(
             context,
-            executeMethod);
+            executeMethod,
+            context.Operation);
         if (cancellationTokens.IsEmpty)
         {
             return;
         }
 
+        var enclosingCallable = GetEnclosingCallable(context.Operation);
         foreach (var invocation in invocations)
         {
-            if (cancellationTokens.Any(
+            // Returned tasks can lead into a local function with its own token parameters.
+            var invocationTokens = ReferenceEquals(GetEnclosingCallable(invocation), enclosingCallable)
+                ? cancellationTokens
+                : GetFlowingCancellationTokens(context, executeMethod, invocation);
+            if (invocationTokens.Any(
                     cancellationToken =>
                         InvocationUsesCancellation(invocation, cancellationToken))
                 || !InvocationAcceptsCancellationToken(
@@ -792,7 +798,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static ImmutableArray<IParameterSymbol> GetFlowingCancellationTokens(
         OperationAnalysisContext context,
-        IMethodSymbol executeMethod)
+        IMethodSymbol executeMethod,
+        IOperation operation)
     {
         if (executeMethod.Parameters.FirstOrDefault(IsCancellationToken)
             is not { } executeCancellationToken)
@@ -801,7 +808,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var containingMethod = GetCallableSymbol(
-                GetEnclosingCallable(context.Operation))
+                GetEnclosingCallable(operation))
             ?? GetContainingMemberMethod(context.ContainingSymbol);
         if (containingMethod is null
             || SymbolEqualityComparer.Default.Equals(
