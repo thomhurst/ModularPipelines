@@ -949,6 +949,16 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        if (operation is IObjectCreationOperation creation)
+        {
+            return VisitParameterWriteCreation(creation.Arguments, creation.Initializer, storage, filterExceptions);
+        }
+
+        if (operation is IDynamicObjectCreationOperation dynamicCreation)
+        {
+            return VisitParameterWriteCreation(dynamicCreation.Arguments, dynamicCreation.Initializer, storage, filterExceptions);
+        }
+
         var written = operation switch
         {
             ILoopOperation loop => VisitParameterWriteLoop(loop, storage),
@@ -964,6 +974,22 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return written;
+    }
+
+    private static bool VisitParameterWriteCreation(
+        IEnumerable<IOperation> arguments,
+        IObjectOrCollectionInitializerOperation? initializer,
+        ParameterWriteState storage,
+        ParameterWriteState? filterExceptions)
+    {
+        if (arguments.Any(argument => VisitParameterWrites(argument, storage, filterExceptions)))
+        {
+            return true;
+        }
+
+        // A constructor can throw after its arguments, before any initializer runs.
+        filterExceptions?.UnionWith(storage);
+        return initializer is not null && VisitParameterWrites(initializer, storage, filterExceptions);
     }
 
     private static bool VisitParameterWriteExpression(
@@ -992,8 +1018,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool CanThrowInCancellationFilter(IOperation operation) => operation is
         IInvocationOperation or IPropertyReferenceOperation
         or IFieldReferenceOperation { Parent: not IPropertySubpatternOperation }
-        or IArrayElementReferenceOperation or IObjectCreationOperation or IArrayCreationOperation
-        or IDynamicInvocationOperation or IDynamicObjectCreationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
+        or IArrayElementReferenceOperation or IArrayCreationOperation
+        or IDynamicInvocationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
         or IThrowOperation
         or IRecursivePatternOperation { DeconstructSymbol: not null }
         or IListPatternOperation { InputType: not IArrayTypeSymbol and not { SpecialType: SpecialType.System_String } }
