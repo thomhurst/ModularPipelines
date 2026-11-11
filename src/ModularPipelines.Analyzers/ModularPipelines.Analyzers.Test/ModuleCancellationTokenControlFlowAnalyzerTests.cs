@@ -689,6 +689,28 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning);
     }
 
+    public static IEnumerable<object[]> StoreExceptionCases()
+    {
+        yield return ["struct-field-deconstruction", "var box = default(StoreBox); try { (box.Value, _) = (1, 2); } catch { token = default; }", false];
+        yield return ["struct-field", "var box = default(StoreBox); try { box.Value = 1; } catch { token = default; }", false];
+        yield return ["field-incompatible-catch", "TokenBox box = null!; try { box.Value = default; } catch (System.FormatException) { token = default; }", false];
+        yield return ["field-matching-catch", "TokenBox box = null!; try { box.Value = default; } catch (System.NullReferenceException) { token = default; }", true];
+        yield return ["array-incompatible-catch", "int[] items = null!; try { items[0] = 1; } catch (System.FormatException) { token = default; }", false];
+        yield return ["array-matching-catch", "int[] items = null!; try { items[0] = 1; } catch (System.IndexOutOfRangeException) { token = default; }", true];
+        yield return ["setter-unknown-exception", "StoreBox box = default; try { box.Property = 1; } catch (System.FormatException) { token = default; }", true];
+        yield return ["rhs-before-field-store", "TokenBox box = null!; var token = default(CancellationToken); try { box.Value = token = cancellationToken; } catch { }", false];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(StoreExceptionCases))]
+    public async Task Classifies_Store_Exceptions(string name, string body, bool warning)
+    {
+        _ = name;
+        var prefix = name == "rhs-before-field-store" ? "" : "var token = cancellationToken; ";
+        await Verify(prefix + body + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private struct StoreBox { public int Value; public int Property { set { throw new System.FormatException(); } } }");
+    }
+
     [TestMethod]
     [DynamicData(nameof(ExceptionCases))]
     public async Task Tracks_Exception_And_Cleanup_Values(string name, string body, bool warning)

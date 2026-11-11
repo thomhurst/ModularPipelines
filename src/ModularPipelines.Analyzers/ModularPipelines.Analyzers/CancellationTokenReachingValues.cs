@@ -393,43 +393,19 @@ internal sealed class CancellationTokenReachingValues
             foreach (var handler in handlers.NestedRegions.Where(static nested => nested.Kind is
                 ControlFlowRegionKind.Catch or ControlFlowRegionKind.FilterAndHandler))
             {
-                var catchType = handler.Kind == ControlFlowRegionKind.Catch
-                    ? handler.ExceptionType
-                    : handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch).ExceptionType;
-                if (exceptionType is not null && !CanCatch(catchType, exceptionType))
+                var catchRegion = GetCatchRegion(handler);
+                if (exceptionType is not null && !CanCatch(catchRegion.ExceptionType, exceptionType))
                 {
                     continue;
                 }
 
-                if (handler.Kind == ControlFlowRegionKind.Catch)
+                var unhandled = DispatchMatchingHandler(handler, catchRegion, state, exceptionType, EnterHandler);
+                if (unhandled is null)
                 {
-                    EnterHandler(analysis._graph.Blocks[handler.FirstBlockOrdinal], state);
-                    if (exceptionType is not null || IsCatchAll(handler))
-                    {
-                        return null;
-                    }
-
-                    continue;
+                    return null;
                 }
 
-                var filter = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Filter);
-                var rejected = analysis.Run(filter, state.Clone(), analysis._graph.Blocks[filter.FirstBlockOrdinal], EnterHandler);
-                var catchRegion = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch);
-                if (exceptionType is not null || IsCatchAll(catchRegion))
-                {
-                    if (rejected is null)
-                    {
-                        return null;
-                    }
-
-                    state = rejected;
-                }
-                else if (rejected is not null)
-                {
-                    // The exception type can also skip this filter entirely.
-                    state = state.Clone();
-                    state.Merge(rejected);
-                }
+                state = unhandled;
             }
 
             return state;
@@ -441,6 +417,45 @@ internal sealed class CancellationTokenReachingValues
                     Enqueue(entry, cleaned);
                 }
             }
+        }
+
+        private State? DispatchMatchingHandler(ControlFlowRegion handler, ControlFlowRegion catchRegion, State state,
+            string? exceptionType, Action<BasicBlock, State> enterHandler)
+        {
+            if (handler.Kind == ControlFlowRegionKind.Catch)
+            {
+                enterHandler(analysis._graph.Blocks[handler.FirstBlockOrdinal], state);
+                return exceptionType is not null || IsCatchAll(handler) ? null : state;
+            }
+
+            return DispatchFilter(handler, catchRegion, state, exceptionType, enterHandler);
+        }
+
+        private static ControlFlowRegion GetCatchRegion(ControlFlowRegion handler)
+        {
+            return handler.Kind == ControlFlowRegionKind.Catch
+                ? handler
+                : handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch);
+        }
+
+        private State? DispatchFilter(ControlFlowRegion handler, ControlFlowRegion catchRegion, State state,
+            string? exceptionType, Action<BasicBlock, State> enterHandler)
+        {
+            var filter = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Filter);
+            var rejected = analysis.Run(filter, state.Clone(), analysis._graph.Blocks[filter.FirstBlockOrdinal], enterHandler);
+            if (exceptionType is not null || IsCatchAll(catchRegion))
+            {
+                return rejected;
+            }
+
+            if (rejected is not null)
+            {
+                // The exception type can also skip this filter entirely.
+                state = state.Clone();
+                state.Merge(rejected);
+            }
+
+            return state;
         }
 
         private bool CanCatch(ITypeSymbol? catchType, string exceptionType)
@@ -554,9 +569,16 @@ internal sealed class CancellationTokenReachingValues
             // Field reads remain unproven and subsequent through-ref stores still
             // invalidate compatible tracked storage conservatively.
         }
-        else if (!StoreTarget(assignment.Target, value, state))
+        else
         {
-            exceptional(block, state.Clone(), null);
+            // Provenance tracking and store exceptions are independent: an untracked
+            // struct field can be nonthrowing, while array/field stores have known types.
+            foreach (var exceptionType in _exceptions.Classify(assignment))
+            {
+                exceptional(block, state.Clone(), exceptionType);
+            }
+
+            StoreTarget(assignment.Target, value, state);
         }
 
         return value;
@@ -575,10 +597,12 @@ internal sealed class CancellationTokenReachingValues
         // Evaluate every RHS element before any store, including swaps and nested tuples.
         foreach (var (target, value) in stores)
         {
-            if (!StoreTarget(target, value, state))
+            foreach (var exceptionType in _exceptions.Classify(target, deconstructionStore: true))
             {
-                exceptional(block, state.Clone(), null);
+                exceptional(block, state.Clone(), exceptionType);
             }
+
+            StoreTarget(target, value, state);
         }
 
         return false;
@@ -743,7 +767,7 @@ internal sealed class CancellationTokenReachingValues
         };
     }
 
-    private static bool StoreTarget(IOperation target, bool value, State state)
+    private static void StoreTarget(IOperation target, bool value, State state)
     {
         if (target is IDeclarationExpressionOperation declaration)
         {
@@ -752,17 +776,16 @@ internal sealed class CancellationTokenReachingValues
 
         if (target is IDiscardOperation)
         {
-            return true;
+            return;
         }
 
         var directReference = target is ILocalReferenceOperation or IParameterReferenceOperation or IFlowCaptureReferenceOperation;
         if (!directReference && target is not IFieldReferenceOperation { Field.RefKind: not RefKind.None })
         {
-            return false;
+            return;
         }
 
         StoreResolvedTarget(target, value, state);
-        return directReference;
     }
 
     private static void StoreResolvedTarget(IOperation target, bool value, State state)
