@@ -560,6 +560,9 @@ internal sealed class LocalDefinitionTransfer
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
         IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
+        IWithOperation { Type.IsRefLikeType: true } withExpression =>
+            TargetsLocal(withExpression.Operand, local, operationRoot)
+            || InitializerRetainsStorage(withExpression.Initializer, local, operationRoot),
         ISwitchExpressionOperation switchExpression => switchExpression.Arms.Any(arm => TargetsLocal(arm.Value, local, operationRoot)),
         IConversionOperation conversion => TargetsLocal(conversion.Operand, local, operationRoot),
         IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local, operationRoot),
@@ -577,10 +580,14 @@ internal sealed class LocalDefinitionTransfer
 
     private static bool CreationRetainsStorage(IObjectCreationOperation creation, ILocalSymbol local, IOperation? operationRoot) =>
         creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot))
-        || (creation.Initializer is { } initializer
-            && initializer.Descendants().OfType<ISimpleAssignmentOperation>().Any(assignment =>
-                (assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true)
-                && TargetsLocal(assignment.Value, local, operationRoot)));
+        || InitializerRetainsStorage(creation.Initializer, local, operationRoot);
+
+    private static bool InitializerRetainsStorage(IObjectOrCollectionInitializerOperation? initializer,
+        ILocalSymbol local, IOperation? operationRoot) =>
+        initializer is not null
+        && initializer.Descendants().OfType<ISimpleAssignmentOperation>().Any(assignment =>
+            (assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true)
+            && TargetsLocal(assignment.Value, local, operationRoot));
 
     private static bool InvocationRetainsStorage(IInvocationOperation call, ILocalSymbol local, IOperation? operationRoot)
     {
