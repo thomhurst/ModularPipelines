@@ -211,6 +211,16 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("second = ref first; var saved = first; saved = default; void Copy() { first = saved; } Copy(); return second;", true)]
     [DataRow("second = ref first; void Clear() { first = default; } var saved = second; Clear(); return saved;", false)]
     [DataRow("second = ref first; System.Action clear = () => first = default; clear(); return second;", true)]
+    [DataRow("second = ref first; var saved = first; int count = 0; void Copy() { (first, count) = (saved, 1); } Copy(); return second;", false)]
+    [DataRow("second = ref first; var saved = first; int count = 0; void Copy() { (count, (first, count)) = (1, (saved, 2)); } Copy(); return second;", false)]
+    [DataRow("second = ref first; var saved = first; saved = default; int count = 0; void Copy() { (first, count) = (saved, 1); } Copy(); return second;", true)]
+    [DataRow("var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = default; } return second;", true)]
+    [DataRow("var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); } return second;", false)]
+    [DataRow("var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = default; break; } return second;", false)]
+    [DataRow("second = ref first; var saved = first; int count = 0; void Copy() { (first, count) = (default(CancellationToken), 1); } Copy(); return second;", true)]
+    [DataRow("var local = first; var saved = local; second = ref local; int count = 0; void Copy() { (local, count) = (saved, 1); } Copy(); return second;", false)]
+    [DataRow("var local = first; var saved = local; second = ref local; int count = 0; void Copy() { (local, count) = (default(CancellationToken), 1); } Copy(); return second;", true)]
+    [DataRow("var saved = first; int count = 0; void Copy() { (first, count) = (saved, 1); } Copy(); return first;", false)]
     public async Task Checks_Helper_Value_Parameter_Storage(string body, bool reports)
     {
         var call = "Task.Delay(1, snapshot)";
