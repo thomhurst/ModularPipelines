@@ -852,7 +852,9 @@ internal sealed class CancellationTokenReachingValues
             exceptional(block, state.Clone(), null);
         }
 
-        return (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
+        return (receiverValue && invocation.TargetMethod is
+        { Name: "GetValueOrDefault", Parameters.Length: 0, ContainingType.OriginalDefinition.SpecialType: SpecialType.System_Nullable_T })
+            || (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
                 && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource"
                 && arguments.Any(static argument => argument))
             || ModuleAuthoringAnalysis.FlowsFromCancellationTokenSourceHelper(invocation, _model.Compilation, arguments, receiverValue, _visitedMethods, _visitedSources);

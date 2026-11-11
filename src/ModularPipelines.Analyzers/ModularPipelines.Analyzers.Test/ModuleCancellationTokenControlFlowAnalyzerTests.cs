@@ -703,6 +703,11 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     public static IEnumerable<object[]> RefFieldExceptionCases()
     {
+        foreach (var modifier in new[] { "ref", "out", "in" })
+        {
+            yield return [modifier + "-argument-address", "token = default; try { Consume_" + modifier + "(" + modifier + " box.Value, (token = cancellationToken).CanBeCanceled); } catch { }", false];
+        }
+
         yield return ["null-write", "try { box.Value = 1; } catch { token = default; }", true];
         yield return ["null-write-matching-catch", "try { box.Value = 1; } catch (System.NullReferenceException) { token = default; }", true];
         yield return ["null-write-incompatible-catch", "try { box.Value = 1; } catch (System.FormatException) { token = default; }", false];
@@ -722,7 +727,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         _ = name;
         await Verify("var token = cancellationToken; scoped RefStoreBox box = default; " + body
             + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning,
-            "private ref struct RefStoreBox { public ref int Value; }");
+            "private ref struct RefStoreBox { public ref int Value; } private static void Consume_ref(ref int value, bool restored) { } private static void Consume_out(out int value, bool restored) { value = 0; } private static void Consume_in(in int value, bool restored) { }");
     }
 
     [TestMethod]
@@ -741,6 +746,15 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     {
         _ = name;
         await Verify(body, warning);
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken", false)]
+    [DataRow("default(CancellationToken)", true)]
+    public async Task Tracks_Nullable_Coalescing_Values(string initial, bool warning)
+    {
+        await Verify("CancellationToken? optional = " + initial
+            + "; var token = optional ?? cancellationToken; for (var i = 0; i < 2; i++) await CALL(1, token);", warning);
     }
 
     private static async Task Verify(string body, bool warning, string helpers = "")

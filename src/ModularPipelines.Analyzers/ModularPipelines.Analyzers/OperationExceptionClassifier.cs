@@ -87,7 +87,8 @@ internal sealed class OperationExceptionClassifier(
     {
         if (field is not { Field.RefKind: not RefKind.None }
             || operation is ISimpleAssignmentOperation { IsRef: true }
-            || field.Syntax.Parent is RefExpressionSyntax)
+            || field.Syntax.Parent is RefExpressionSyntax
+            || field.Syntax.Parent is ArgumentSyntax { RefKindKeyword.RawKind: not 0 })
         {
             return false;
         }
