@@ -51,6 +51,7 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var tokens = new[] { cancellationToken }; static void Clear(ref CancellationToken token) => token = CancellationToken.None; Clear(ref tokens[0]); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; (tokens[0], _) = (CancellationToken.None, 1); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens; static void Clear(ref CancellationToken[] values) => values[0] = CancellationToken.None; Clear(ref alias); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var saved = (tokens, 1); tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Item1).Token;")]
     public async Task Reports_Replaced_Parameter(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
