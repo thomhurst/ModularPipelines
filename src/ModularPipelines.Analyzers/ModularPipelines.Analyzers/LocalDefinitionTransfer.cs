@@ -156,7 +156,8 @@ internal sealed class LocalDefinitionTransfer
         for (var index = 0; index < tuple.Elements.Length; index++)
         {
             ApplyTargetStore(tuple.Elements[index], values is not null && index < values.Elements.Length
-                ? values.Elements[index] : null, state);
+                ? values.Elements[index]
+                : null, state);
         }
     }
 
