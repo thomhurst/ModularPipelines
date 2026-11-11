@@ -5642,7 +5642,8 @@ internal static class ModuleAuthoringAnalysis
                 .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol))
                 .OrderByDescending(static operation => operation.Syntax.SpanStart)
                 .FirstOrDefault();
-            var reachingWrites = writes.Where(write => definiteWrite is null
+            var reachingWrites = writes.Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
+                .Where(write => definiteWrite is null
                 || (write.Syntax.SpanStart >= definiteWrite.Syntax.SpanStart
                     && write.Syntax.SpanStart < read.Syntax.SpanStart)
                 || (SharesCancellationStorageLoop(write, read)
@@ -5784,13 +5785,64 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
+    private static bool IsOverwrittenCancellationStorageWrite(
+        IOperation write, IOperation read, ISymbol? symbol)
+    {
+        // A later unconditional overwrite in this branch kills intermediate
+        // values even when the branch as a whole is the definite predecessor.
+        for (var current = write; current.Parent is { } parent; current = parent)
+        {
+            if (parent is not IBlockOperation block)
+            {
+                continue;
+            }
+
+            if (current.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+            {
+                break;
+            }
+
+            foreach (var next in block.Operations.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+            {
+                if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
+                    || next.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+                {
+                    break;
+                }
+
+                if (DefinitelyWritesCancellationStorage(next, symbol))
+                {
+                    return true;
+                }
+            }
+
+            if (HasAncestor(read, block)
+                || block.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanRepeatCancellationStorageLoop(ILoopOperation loop)
+    {
+        var flow = loop.SemanticModel?.AnalyzeControlFlow(loop.Body.Syntax);
+        return flow?.Succeeded != true || flow.EndPointIsReachable
+            || loop.Body.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                branch.BranchKind == BranchKind.GoTo
+                || SymbolEqualityComparer.Default.Equals(branch.Target, loop.ContinueLabel));
+    }
+
     private static bool ResetsCancellationStorageBackedges(IOperation reset, IOperation write, IOperation read)
     {
         // Every shared loop can carry the write back to the read. A reset in an
         // outer loop cannot kill writes from a subsequent inner iteration.
         for (var current = write.Parent; current is not null; current = current.Parent)
         {
-            if (current is ILoopOperation && HasAncestor(read, current) && !HasAncestor(reset, current))
+            if (current is ILoopOperation loop && HasAncestor(read, current)
+                && !HasAncestor(reset, current) && CanRepeatCancellationStorageLoop(loop))
             {
                 return false;
             }
@@ -5847,7 +5899,8 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var current = binding.Parent; current is not null; current = current.Parent)
         {
-            if (current is ILoopOperation && HasAncestor(read, current))
+            if (current is ILoopOperation loop && HasAncestor(read, current)
+                && CanRepeatCancellationStorageLoop(loop))
             {
                 return true;
             }

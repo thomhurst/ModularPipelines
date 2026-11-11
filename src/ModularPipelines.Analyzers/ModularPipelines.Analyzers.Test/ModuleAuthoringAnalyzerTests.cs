@@ -2963,6 +2963,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var snapshot = first; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } return snapshot;")]
     [DataRow("first = ref second; goto Read; first = ref third; Read: return first;")]
     [DataRow("first = ref second; for (var i = 0; i < 2; i++) { goto Read; first = ref third; Read: return first; } return first;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = third; alias = default; } else { alias = third; } return alias;")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; continue; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = third; } else { alias = third; } return alias;")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3000,6 +3003,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var snapshot = first; for (var i = 0; i < 2; i++) { first = ref third; snapshot = first; first = ref second; } return snapshot;", "default")]
     [DataRow("first = ref second; goto Reset; Reset: first = ref third; return first;", "default")]
     [DataRow("static void Unused(ref CancellationToken first, ref CancellationToken second) { first = ref second; } return first;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = third; } else { alias = third; } return alias;", "default")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; break; } } return snapshot;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else { alias = third; } return alias;", "default")]
+    [DataRow("var snapshot = third; for (var j = 0; j < 2; j++) { first = ref third; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; break; } } return snapshot;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);
