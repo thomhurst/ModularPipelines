@@ -548,6 +548,40 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("object[] slots = new string[1];", "token", false, true)]
+    [DataRow("CancellationToken[] slots = new CancellationToken[0];", "token", false, true)]
+    [DataRow("CancellationToken[] slots = null!;", "token", false, true)]
+    [DataRow("object[] slots = new string[1];", "token", true, false)]
+    [DataRow("object[] slots = new string[1];", "other", false, false)]
+    public async Task Tracks_Array_Store_Exceptions_After_Assignment_Value(string declaration, string rebound, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref other;
+                {{declaration}}
+                try { throw new Exception(); }
+                catch (Exception) when (Check(slots[0] = (alias = ref {{rebound}}), (alias = ref other))) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static bool Check(object first, CancellationToken second) => false;
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("dynamic number = new object();", "(number + 1) is not null | (alias = ref other).CanBeCanceled", true)]
     [DataRow("dynamic number = new object();", "(-number) is not null | (alias = ref other).CanBeCanceled", true)]
     [DataRow("dynamic number = new object();", "(++number) is not null | (alias = ref other).CanBeCanceled", true)]

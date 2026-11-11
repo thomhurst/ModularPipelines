@@ -1041,14 +1041,14 @@ internal static class ModuleAuthoringAnalysis
         or IUnaryOperation { OperatorMethod: not null }
         or IUnaryOperation { IsChecked: true }
         or IUnaryOperation { Type.TypeKind: TypeKind.Dynamic }
-        || CanSetterThrowInCancellationFilter(operation)
+        || CanAssignmentThrowInCancellationFilter(operation)
         || CanArithmeticThrowInCancellationFilter(operation);
 
-    private static bool CanSetterThrowInCancellationFilter(IOperation operation) => operation is
+    private static bool CanAssignmentThrowInCancellationFilter(IOperation operation) => operation is
         IAssignmentOperation
     {
         Target: IPropertyReferenceOperation { Property.SetMethod: not null }
-            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
+            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation
     };
 
     private static bool CanArithmeticThrowInCancellationFilter(IOperation operation) =>
