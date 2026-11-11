@@ -85,88 +85,151 @@ internal static class CancellationTokenParameterProvenance
             || operation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out };
     }
 
+    private sealed class Value(bool safe = false, Value[]? elements = null, HashSet<TextSpan>? arrays = null, bool unknownArray = false)
+    {
+        public static readonly Value None = new();
+
+        public static readonly Value Original = new(safe: true);
+
+        public bool Safe { get; } = safe;
+
+        public Value[]? Elements { get; } = elements;
+
+        public HashSet<TextSpan>? Arrays { get; } = arrays;
+
+        public bool UnknownArray { get; } = unknownArray;
+
+        public Value Merge(Value other)
+        {
+            if (Elements is { } left && other.Elements is { } right && left.Length == right.Length)
+            {
+                return new Value(elements: [.. left.Select((element, index) => element.Merge(right[index]))]);
+            }
+
+            if (Elements is { } tuple)
+            {
+                return new Value(elements: [.. tuple.Select(static element => element.Merge(None))]);
+            }
+
+            if (other.Elements is not null)
+            {
+                return other.Merge(this);
+            }
+
+            if (Arrays is { } leftArrays && other.Arrays is { } rightArrays)
+            {
+                return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray);
+            }
+
+            if (Arrays is { } knownArrays)
+            {
+                return new Value(arrays: knownArrays, unknownArray: true);
+            }
+
+            if (other.Arrays is not null)
+            {
+                return other.Merge(this);
+            }
+
+            return Safe && other.Safe ? Original : None;
+        }
+
+        public bool SameAs(Value other) => Safe == other.Safe && UnknownArray == other.UnknownArray
+            && ((Elements is null && other.Elements is null)
+                || (Elements is { } left && other.Elements is { } right && left.Length == right.Length
+                    && left.Select((element, index) => element.SameAs(right[index])).All(static same => same)))
+            && ((Arrays is null && other.Arrays is null)
+                || (Arrays is { } leftArrays && other.Arrays is { } rightArrays && leftArrays.SetEquals(rightArrays)));
+    }
+
     private sealed class State
     {
-        public HashSet<ISymbol> Values { get; } = [with(SymbolEqualityComparer.Default)];
+        public Dictionary<ISymbol, Value> Values { get; } = [with(SymbolEqualityComparer.Default)];
 
-        public HashSet<CaptureId> Captures { get; } = [];
+        public Dictionary<CaptureId, Value> Captures { get; } = [];
 
-        public Dictionary<ISymbol, HashSet<string>> Tuples { get; } = [with(SymbolEqualityComparer.Default)];
+        public Dictionary<TextSpan, Value[]> Arrays { get; } = [];
 
-        public Dictionary<CaptureId, HashSet<string>> TupleCaptures { get; } = [];
+        public HashSet<TextSpan> SafeArrays { get; } = [];
 
-        public Dictionary<object, HashSet<IOperation>> ArrayOrigins { get; } = [];
+        public void SetArraySafety(TextSpan identity, bool safe)
+        {
+            if (safe)
+            {
+                SafeArrays.Add(identity);
+            }
+            else
+            {
+                SafeArrays.Remove(identity);
+            }
+        }
 
         public State Clone()
         {
             var copy = new State();
-            copy.Values.UnionWith(Values);
-            copy.Captures.UnionWith(Captures);
-            foreach (var pair in Tuples)
+            foreach (var entry in Values)
             {
-                copy.Tuples.Add(pair.Key, [.. pair.Value]);
+                copy.Values.Add(entry.Key, entry.Value);
             }
 
-            foreach (var pair in TupleCaptures)
+            foreach (var entry in Captures)
             {
-                copy.TupleCaptures.Add(pair.Key, [.. pair.Value]);
+                copy.Captures.Add(entry.Key, entry.Value);
             }
 
-            foreach (var pair in ArrayOrigins)
+            foreach (var entry in Arrays)
             {
-                copy.ArrayOrigins.Add(pair.Key, [.. pair.Value]);
+                copy.Arrays.Add(entry.Key, (Value[]) entry.Value.Clone());
             }
+
+            copy.SafeArrays.UnionWith(SafeArrays);
 
             return copy;
         }
 
         public bool Merge(State other)
         {
-            var count = Values.Count + Captures.Count;
-            Values.IntersectWith(other.Values);
-            Captures.IntersectWith(other.Captures);
-            var changed = count != Values.Count + Captures.Count;
-            // Array aliases are may-facts: either incoming allocation may be
-            // mutated after a join, whereas token provenance must hold on every path.
-            foreach (var pair in other.ArrayOrigins)
+            var changed = MergeValues(Values, other.Values) | MergeValues(Captures, other.Captures);
+            foreach (var entry in other.Arrays)
             {
-                if (!ArrayOrigins.TryGetValue(pair.Key, out var origins))
+                var span = entry.Key;
+                var elements = entry.Value;
+                if (!Arrays.TryGetValue(span, out var current))
                 {
-                    ArrayOrigins.Add(pair.Key, [.. pair.Value]);
+                    Arrays.Add(span, (Value[]) elements.Clone());
+                    SetArraySafety(span, other.SafeArrays.Contains(span));
                     changed = true;
+                    continue;
                 }
-                else
+
+                var safe = SafeArrays.Contains(span) && other.SafeArrays.Contains(span);
+                changed |= safe != SafeArrays.Contains(span);
+                SetArraySafety(span, safe);
+
+                for (var i = 0; i < current.Length; i++)
                 {
-                    var before = origins.Count;
-                    origins.UnionWith(pair.Value);
-                    changed |= before != origins.Count;
+                    var merged = current[i].Merge(i < elements.Length ? elements[i] : Value.None);
+                    changed |= !merged.SameAs(current[i]);
+                    current[i] = merged;
                 }
             }
 
-            return MergeTuples(Tuples, other.Tuples) | MergeTuples(TupleCaptures, other.TupleCaptures) | changed;
+            return changed;
         }
-    }
 
-    private static bool MergeTuples<T>(Dictionary<T, HashSet<string>> target, Dictionary<T, HashSet<string>> other) where T : notnull
-    {
-        var changed = false;
-        foreach (var key in target.Keys.ToArray())
+        private static bool MergeValues<TKey>(Dictionary<TKey, Value> values, Dictionary<TKey, Value> other)
+            where TKey : notnull
         {
-            var paths = target[key];
-            var count = paths.Count;
-            if (other.TryGetValue(key, out var incoming))
+            var changed = false;
+            foreach (var key in values.Keys.ToArray())
             {
-                paths.IntersectWith(incoming);
-            }
-            else
-            {
-                paths.Clear();
+                var merged = values[key].Merge(other.TryGetValue(key, out var value) ? value : Value.None);
+                changed |= !merged.SameAs(values[key]);
+                values[key] = merged;
             }
 
-            changed |= count != paths.Count;
+            return changed;
         }
-
-        return changed;
     }
 
     private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source, SemanticModel model)
@@ -174,52 +237,12 @@ internal static class CancellationTokenParameterProvenance
         private readonly Dictionary<int, State> _inputs = [];
         private readonly Queue<BasicBlock> _pending = new();
         private readonly Dictionary<TextSpan, bool> _results = [];
-        private static object? ArrayKey(IOperation operation) => operation switch
-        {
-            IConversionOperation conversion => ArrayKey(conversion.Operand),
-            ILocalReferenceOperation local => local.Local,
-            IFlowCaptureReferenceOperation capture => capture.Id,
-            _ => null,
-        };
-
-        private static HashSet<IOperation> ArrayOrigins(IOperation operation, State state)
-        {
-            if (operation is IConversionOperation conversion)
-            {
-                return ArrayOrigins(conversion.Operand, state);
-            }
-
-            if (ArrayKey(operation) is { } key && state.ArrayOrigins.TryGetValue(key, out var origins))
-            {
-                return [.. origins];
-            }
-
-            return operation is IArrayCreationOperation or ICollectionExpressionOperation ? [operation] : [];
-        }
-
-        private static void InvalidateArray(IOperation array, State state)
-        {
-            var origins = ArrayOrigins(array, state);
-            foreach (var pair in state.ArrayOrigins)
-            {
-                if (pair.Value.Overlaps(origins))
-                {
-                    if (pair.Key is ISymbol symbol)
-                    {
-                        state.Values.Remove(symbol);
-                    }
-                    else if (pair.Key is CaptureId capture)
-                    {
-                        state.Captures.Remove(capture);
-                    }
-                }
-            }
-        }
+        private readonly HashSet<TextSpan> _summarizedArrays = [];
 
         public Dictionary<TextSpan, bool> Run()
         {
             var initial = new State();
-            initial.Values.Add(source);
+            initial.Values.Add(source, Value.Original);
             Enqueue(graph.Blocks[0], initial);
             while (_pending.Count > 0)
             {
@@ -274,46 +297,108 @@ internal static class CancellationTokenParameterProvenance
             }
         }
 
-        private bool Evaluate(IOperation operation, State state)
+        private Value Evaluate(IOperation operation, State state)
         {
             switch (operation)
             {
                 case IParameterReferenceOperation parameter:
-                    var value = state.Values.Contains(parameter.Parameter);
+                    var value = Get(state.Values, parameter.Parameter);
+                    var safe = IsSafe(value, state);
                     var span = parameter.Syntax.Span;
-                    _results[span] = value && (!_results.TryGetValue(span, out var previous) || previous);
+                    _results[span] = safe && (!_results.TryGetValue(span, out var previous) || previous);
 
                     return value;
                 case ILocalReferenceOperation local:
-                    return state.Values.Contains(local.Local);
-                case IFieldReferenceOperation field when TupleField(field, out var tupleSymbol, out var tuplePath):
-                    return state.Tuples.TryGetValue(tupleSymbol, out var tupleFacts) && tupleFacts.Contains(tuplePath);
+                    return Get(state.Values, local.Local);
                 case IFlowCaptureReferenceOperation capture:
-                    return state.Captures.Contains(capture.Id);
+                    return Get(state.Captures, capture.Id);
                 case IConversionOperation conversion:
-                    return Evaluate(conversion.Operand, state);
+                    var converted = Evaluate(conversion.Operand, state);
+                    if (converted.Elements is null || conversion.Type is INamedTypeSymbol { IsTupleType: true })
+                    {
+                        return converted;
+                    }
+
+                    InvalidateArrays(converted, state);
+                    return Value.None;
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
-                case IArrayCreationOperation { Initializer: { } initializer }:
-                    return Evaluate(initializer, state);
-                case IArrayInitializerOperation initializer:
-                    return EvaluateAny(initializer.ElementValues, state);
+                case ITupleOperation tuple:
+                    return new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]);
+                case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
+                    return Element(Evaluate(field.Instance!, state), TupleElementIndex(field));
+                case IArrayCreationOperation { Initializer: { } initializer } array:
+                    var arrayElements = initializer.ElementValues.Select(element => Evaluate(element, state)).ToArray();
+                    if (IsTokenCollection(array.Type))
+                    {
+                        return CreateArray(array.Syntax.Span, arrayElements, state);
+                    }
+
+                    foreach (var arrayElement in arrayElements)
+                    {
+                        InvalidateArrays(arrayElement, state);
+                    }
+
+                    return Value.None;
                 case ICollectionExpressionOperation collection:
-                    return EvaluateAny(collection.Elements, state);
-                case ISpreadOperation spread:
-                    return Evaluate(spread.Operand, state);
+                    var elements = new List<Value>();
+                    foreach (var element in collection.Elements)
+                    {
+                        if (element is ISpreadOperation spread)
+                        {
+                            // One fact per source element bounds loops that append a spread.
+                            _summarizedArrays.Add(collection.Syntax.Span);
+                            elements.Add(IsSafe(Evaluate(spread.Operand, state), state) ? Value.Original : Value.None);
+                        }
+                        else
+                        {
+                            elements.Add(Evaluate(element, state));
+                        }
+                    }
+
+                    if (IsTokenCollection(collection.Type))
+                    {
+                        return CreateArray(collection.Syntax.Span, elements, state);
+                    }
+
+                    foreach (var element in elements)
+                    {
+                        InvalidateArrays(element, state);
+                    }
+
+                    return Value.None;
+                case IArrayElementReferenceOperation element:
+                    var arrayValue = Evaluate(element.ArrayReference, state);
+                    foreach (var index in element.Indices)
+                    {
+                        Evaluate(index, state);
+                    }
+
+                    if (element.Indices.Length == 1 && element.Indices[0].ConstantValue is { HasValue: true, Value: int arrayIndex }
+                        && arrayValue.Arrays is { } arrayIdentities && !arrayIdentities.Any(_summarizedArrays.Contains))
+                    {
+                        return ArrayElement(arrayValue, arrayIndex, state);
+                    }
+
+                    return Value.None;
                 default:
                     return EvaluateEffects(operation, state);
             }
         }
 
-        private bool EvaluateInvocation(IInvocationOperation invocation, State state)
+        private Value EvaluateInvocation(IInvocationOperation invocation, State state)
         {
             if (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
                 && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource")
             {
-                return EvaluateAny(invocation.Arguments.Select(static argument => argument.Value), state);
+                var linked = false;
+                foreach (var argument in invocation.Arguments)
+                {
+                    linked |= IsSafe(Evaluate(argument.Value, state), state);
+                }
+
+                return linked ? Value.Original : Value.None;
             }
 
             // CFG operations have no SemanticModel. Recover the source operation
@@ -321,248 +406,242 @@ internal static class CancellationTokenParameterProvenance
             var arguments = new Dictionary<TextSpan, bool>();
             if (invocation.Instance is { } receiver)
             {
-                arguments[receiver.Syntax.Span] = Evaluate(receiver, state);
+                var value = Evaluate(receiver, state);
+                arguments[receiver.Syntax.Span] = IsSafe(value, state);
+                InvalidateArrays(value, state);
             }
 
             foreach (var argument in invocation.Arguments)
             {
-                arguments[argument.Value.Syntax.Span] = Evaluate(argument, state);
+                var value = Evaluate(argument, state);
+                arguments[argument.Value.Syntax.Span] = IsSafe(value, state);
+                InvalidateArrays(value, state);
             }
 
-            return model.GetOperation(invocation.Syntax) is IInvocationOperation original
+            if (model.GetOperation(invocation.Syntax) is IInvocationOperation original
                 && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
-                    original, operation => arguments.TryGetValue(operation.Syntax.Span, out var safe) && safe);
+                    original, operation => arguments.TryGetValue(operation.Syntax.Span, out var safe) && safe))
+            {
+                return Value.Original;
+            }
+
+            return Value.None;
         }
 
-        private bool EvaluateEffects(IOperation operation, State state)
+        private Value EvaluateEffects(IOperation operation, State state)
         {
             switch (operation)
             {
                 case IInvocationOperation invocation:
                     return EvaluateInvocation(invocation, state);
                 case IDeconstructionAssignmentOperation deconstruction:
-                    AssignTuple(deconstruction.Target, deconstruction.Value, state);
-                    return false;
-                case IFlowCaptureOperation capture when capture.Value.Type is INamedTypeSymbol { IsTupleType: true }:
-                    state.TupleCaptures[capture.Id] = TupleFacts(capture.Value, state);
-                    return false;
+                    var tuple = Evaluate(deconstruction.Value, state);
+                    Assign(deconstruction.Target, tuple, state);
+                    return tuple;
                 case IFlowCaptureOperation capture:
-                    Set(state.Captures, capture.Id, Evaluate(capture.Value, state));
-                    if (capture.Value.Type is IArrayTypeSymbol)
-                    {
-                        state.ArrayOrigins[capture.Id] = ArrayOrigins(capture.Value, state);
-                    }
-
-                    return state.Captures.Contains(capture.Id);
-                case ISimpleAssignmentOperation assignment when assignment.Value.Type is INamedTypeSymbol { IsTupleType: true }:
-                    Write(assignment.Target, false, TupleFacts(assignment.Value, state), state);
-                    return false;
+                    var captured = Evaluate(capture.Value, state);
+                    state.Captures[capture.Id] = captured;
+                    return captured;
                 case ISimpleAssignmentOperation assignment:
                     var assigned = Evaluate(assignment.Value, state);
-                    Write(assignment.Target, assigned, null, state);
-                    if (assignment.Target.Type is IArrayTypeSymbol && ArrayKey(assignment.Target) is { } arrayKey)
-                    {
-                        state.ArrayOrigins[arrayKey] = ArrayOrigins(assignment.Value, state);
-                    }
-
+                    Assign(assignment.Target, assigned, state);
                     return assigned;
                 case IArgumentOperation argument when argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out:
-                    Evaluate(argument.Value, state);
-                    if (argument.Parameter.RefKind == RefKind.Ref && argument.Value.Type is IArrayTypeSymbol)
-                    {
-                        InvalidateArray(argument.Value, state);
-                    }
-
-                    Write(argument.Value, false, null, state);
-                    return false;
+                    InvalidateArrays(Evaluate(argument.Value, state), state);
+                    Assign(argument.Value, Value.None, state);
+                    return Value.None;
                 case IArgumentOperation argument:
                     return Evaluate(argument.Value, state);
                 case IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation:
-                    return false;
+                    return Value.None;
                 default:
                     foreach (var child in operation.ChildOperations)
                     {
                         Evaluate(child, state);
                     }
 
-                    return false;
+                    return Value.None;
             }
         }
 
-        private static void Write(IOperation target, bool safe, HashSet<string>? facts, State state)
+        private static Value Get<TKey>(Dictionary<TKey, Value> values, TKey key)
+            where TKey : notnull => values.TryGetValue(key, out var value) ? value : Value.None;
+
+        private static bool IsSafe(Value value, State state) => value.Safe
+            || (!value.UnknownArray && value.Arrays is { Count: > 0 } arrays
+                && arrays.All(state.SafeArrays.Contains));
+
+        private static bool IsTokenCollection(ITypeSymbol? type) => type switch
+        {
+            IArrayTypeSymbol { Rank: 1 } array => array.ElementType.ToDisplayString() == "System.Threading.CancellationToken",
+            INamedTypeSymbol { TypeArguments.Length: 1 } named => named.TypeArguments[0].ToDisplayString() == "System.Threading.CancellationToken"
+                && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>",
+            _ => false,
+        };
+
+        private static Value Element(Value value, int index) => value.Elements is { } elements && index >= 0 && index < elements.Length ? elements[index] : Value.None;
+
+        private static int TupleElementIndex(IFieldReferenceOperation field)
+        {
+            if (field.Instance?.Type is not INamedTypeSymbol { IsTupleType: true } tuple)
+            {
+                return -1;
+            }
+
+            for (var i = 0; i < tuple.TupleElements.Length; i++)
+            {
+                if (SymbolEqualityComparer.Default.Equals(tuple.TupleElements[i], field.Field)
+                    || SymbolEqualityComparer.Default.Equals(tuple.TupleElements[i].CorrespondingTupleField, field.Field.CorrespondingTupleField))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        private static Value CreateArray(TextSpan identity, IEnumerable<Value> elements, State state)
+        {
+            // Allocation sites are finite, even when a loop revisits this operation.
+            var values = elements.ToArray();
+            var safe = values.Any(static value => value.Safe);
+            if (state.Arrays.TryGetValue(identity, out var previous))
+            {
+                // Aliases can still refer to an earlier allocation at this site.
+                safe &= state.SafeArrays.Contains(identity);
+                for (var i = 0; i < values.Length; i++)
+                {
+                    values[i] = values[i].Merge(i < previous.Length ? previous[i] : Value.None);
+                }
+            }
+
+            state.Arrays[identity] = values;
+            state.SetArraySafety(identity, safe);
+            return new Value(arrays: [identity]);
+        }
+
+        private static Value ArrayElement(Value value, int index, State state)
+        {
+            Value? result = null;
+            if (value.UnknownArray || value.Arrays is not { Count: > 0 } arrays)
+            {
+                return Value.None;
+            }
+
+            foreach (var span in arrays)
+            {
+                if (!state.Arrays.TryGetValue(span, out var elements)
+                    || index < 0 || index >= elements.Length)
+                {
+                    return Value.None;
+                }
+
+                result = result is null ? elements[index] : result.Merge(elements[index]);
+            }
+
+            return result ?? Value.None;
+        }
+
+        private static void InvalidateArrays(Value value, State state)
+        {
+            if (value.Arrays is { } arrays)
+            {
+                foreach (var span in arrays)
+                {
+                    if (state.Arrays.TryGetValue(span, out var elements))
+                    {
+                        state.Arrays[span] = [.. elements.Select(static _ => Value.None)];
+                        state.SafeArrays.Remove(span);
+                    }
+                }
+            }
+
+            if (value.Elements is { } tuple)
+            {
+                foreach (var element in tuple)
+                {
+                    InvalidateArrays(element, state);
+                }
+            }
+        }
+
+        private void Assign(IOperation target, Value value, State state)
         {
             switch (target)
             {
                 case IParameterReferenceOperation parameter:
-                    Set(state.Values, parameter.Parameter, safe);
+                    state.Values[parameter.Parameter] = value;
                     break;
                 case ILocalReferenceOperation local:
-                    Set(state.Values, local.Local, safe);
-                    if (facts is not null)
+                    state.Values[local.Local] = value;
+                    break;
+                case IFlowCaptureReferenceOperation capture:
+                    state.Captures[capture.Id] = value;
+                    break;
+                case IConversionOperation conversion:
+                    Assign(conversion.Operand, value, state);
+                    break;
+                case IDeclarationExpressionOperation declaration:
+                    Assign(declaration.Expression, value, state);
+                    break;
+                case ITupleOperation tuple:
+                    // The complete right-hand value was evaluated before any write.
+                    for (var i = 0; i < tuple.Elements.Length; i++)
                     {
-                        state.Tuples[local.Local] = facts;
-                    }
-                    else
-                    {
-                        state.Tuples.Remove(local.Local);
+                        Assign(tuple.Elements[i], Element(value, i), state);
                     }
 
                     break;
-                case IFieldReferenceOperation field when TupleField(field, out var symbol, out var path):
-                    if (!state.Tuples.TryGetValue(symbol, out var paths))
+                case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
+                    var parent = Evaluate(field.Instance!, state);
+                    if (parent.Elements is { } elements)
                     {
-                        state.Tuples[symbol] = paths = [];
-                    }
-
-                    // Replacing a nested field replaces its entire subtree. Read
-                    // the right-hand facts first so self-assignment remains safe.
-                    paths.RemoveWhere(candidate => candidate == path || candidate.StartsWith(path + ".", StringComparison.Ordinal));
-                    if (facts is not null)
-                    {
-                        paths.UnionWith(facts.Select(fact => path + "." + fact));
-                    }
-                    else
-                    {
-                        Set(paths, path, safe);
+                        var updated = (Value[]) elements.Clone();
+                        updated[TupleElementIndex(field)] = value;
+                        Assign(field.Instance!, new Value(elements: updated), state);
                     }
 
                     break;
                 case IArrayElementReferenceOperation element:
-                    InvalidateArray(element.ArrayReference, state);
-                    break;
-            }
-        }
-
-        private bool EvaluateAny(IEnumerable<IOperation> operations, State state)
-        {
-            var result = false;
-            foreach (var operation in operations)
-            {
-                result |= Evaluate(operation, state);
-            }
-
-            return result;
-        }
-
-        private static bool TupleField(IFieldReferenceOperation field, out ISymbol symbol, out string path)
-        {
-            var indices = new List<int>();
-            IOperation? current = field;
-            while (current is IFieldReferenceOperation part && part.Field.ContainingType.IsTupleType)
-            {
-                var fields = part.Field.ContainingType.TupleElements;
-                var index = -1;
-                for (var i = 0; i < fields.Length; i++)
-                {
-                    if (SymbolEqualityComparer.Default.Equals(fields[i], part.Field)
-                        || SymbolEqualityComparer.Default.Equals(fields[i].CorrespondingTupleField, part.Field))
+                    var array = Evaluate(element.ArrayReference, state);
+                    foreach (var index in element.Indices)
                     {
-                        index = i;
+                        Evaluate(index, state);
                     }
-                }
 
-                if (index < 0)
-                {
-                    break;
-                }
-
-                indices.Insert(0, index);
-                current = part.Instance;
-            }
-
-            symbol = (current as ILocalReferenceOperation)?.Local!;
-            path = string.Join(".", indices);
-            return symbol is not null && indices.Count > 0;
-        }
-
-        private HashSet<string> TupleFacts(IOperation operation, State state)
-        {
-            while (operation is IConversionOperation conversion)
-            {
-                operation = conversion.Operand;
-            }
-
-            if (operation is ILocalReferenceOperation local && state.Tuples.TryGetValue(local.Local, out var localFacts))
-            {
-                return [.. localFacts];
-            }
-
-            if (operation is IFlowCaptureReferenceOperation capture && state.TupleCaptures.TryGetValue(capture.Id, out var captureFacts))
-            {
-                return [.. captureFacts];
-            }
-
-            if (operation is IFieldReferenceOperation field && TupleField(field, out var symbol, out var fieldPath)
-                && state.Tuples.TryGetValue(symbol, out var fieldFacts))
-            {
-                return [
-                    .. fieldFacts.Where(path => path.StartsWith(fieldPath + ".", StringComparison.Ordinal))
-                    .Select(path => path.Substring(fieldPath.Length + 1))
-                ];
-            }
-
-            var result = new HashSet<string>();
-            if (operation is ITupleOperation tuple)
-            {
-                for (var i = 0; i < tuple.Elements.Length; i++)
-                {
-                    var element = tuple.Elements[i];
-                    if (element.Type is INamedTypeSymbol { IsTupleType: true })
+                    if (array.Arrays is not { } identities)
                     {
-                        foreach (var path in TupleFacts(element, state))
+                        break;
+                    }
+
+                    if (element.Indices.Length != 1
+                        || element.Indices[0].ConstantValue is not { HasValue: true, Value: int arrayIndex }
+                        || identities.Any(_summarizedArrays.Contains))
+                    {
+                        InvalidateArrays(array, state);
+                        break;
+                    }
+
+                    foreach (var identity in identities)
+                    {
+                        if (state.Arrays.TryGetValue(identity, out var items) && arrayIndex >= 0 && arrayIndex < items.Length)
                         {
-                            result.Add(i + "." + path);
+                            items[arrayIndex] = identities.Count == 1 && !array.UnknownArray ? value : items[arrayIndex].Merge(value);
+                            // A safe write cannot remove an existing signal. Other writes
+                            // require a still-safe element; the summary does not name one.
+                            state.SetArraySafety(identity, items.Any(static item => item.Safe)
+                                || (value.Safe && state.SafeArrays.Contains(identity)));
                         }
                     }
-                    else if (Evaluate(element, state))
-                    {
-                        result.Add(i.ToString());
-                    }
-                }
-            }
-            else
-            {
-                Evaluate(operation, state);
-            }
 
-            return result;
-        }
-
-        private void AssignTuple(IOperation target, IOperation value, State state)
-        {
-            // Capture the entire value before changing any target, including when
-            // the right-hand side is a saved tuple or a conditional flow capture.
-            var facts = TupleFacts(value, state);
-            Assign(target, string.Empty);
-
-            void Assign(IOperation operation, string path)
-            {
-                if (operation is ITupleOperation tuple)
-                {
-                    for (var i = 0; i < tuple.Elements.Length; i++)
-                    {
-                        Assign(tuple.Elements[i], path.Length == 0 ? i.ToString() : path + "." + i);
-                    }
-                }
-                else
-                {
-                    var nested = operation.Type is INamedTypeSymbol { IsTupleType: true }
-                        ? new HashSet<string>(facts.Where(p => p.StartsWith(path + ".", StringComparison.Ordinal)).Select(p => p.Substring(path.Length + 1)))
-                        : null;
-                    Write(operation, facts.Contains(path), nested, state);
-                }
-            }
-        }
-
-        private static void Set<T>(HashSet<T> values, T key, bool present)
-        {
-            if (present)
-            {
-                values.Add(key);
-            }
-            else
-            {
-                values.Remove(key);
+                    break;
+                case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance }:
+                    InvalidateArrays(Evaluate(instance, state), state);
+                    break;
+                default:
+                    // A stored array can be mutated through a field or another escape.
+                    InvalidateArrays(value, state);
+                    break;
             }
         }
     }
