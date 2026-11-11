@@ -5875,18 +5875,26 @@ internal static class ModuleAuthoringAnalysis
                 : null;
         }
 
-        if (symbol is IParameterSymbol parameterSymbol && invocation is not null && method is not null)
+        return GetCancellationArgumentStorage(symbol as IParameterSymbol, invocation, method);
+    }
+
+    private static ISymbol? GetCancellationArgumentStorage(
+        IParameterSymbol? parameter,
+        IInvocationOperation? invocation,
+        IMethodSymbol? method)
+    {
+        // Caller ref parameters, heap storage and ref-returning calls remain unknown.
+        if (parameter is null || invocation is null || method is null)
         {
-            var argument = invocation.Arguments.FirstOrDefault(candidate =>
-                candidate.Parameter is { } argumentParameter
-                && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameterSymbol));
-            return argument is not null
-                ? GetCancellationStorage(argument.Value, [with(SymbolEqualityComparer.Default)])
-                : null;
+            return null;
         }
 
-        // Caller ref parameters, heap storage and ref-returning calls remain unknown.
-        return null;
+        var argument = invocation.Arguments.FirstOrDefault(candidate =>
+            candidate.Parameter is { } argumentParameter
+            && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameter));
+        return argument is not null
+            ? GetCancellationStorage(argument.Value, [with(SymbolEqualityComparer.Default)])
+            : null;
     }
 
     private static ISymbol? GetCancellationStorageSymbol(IOperation value)
