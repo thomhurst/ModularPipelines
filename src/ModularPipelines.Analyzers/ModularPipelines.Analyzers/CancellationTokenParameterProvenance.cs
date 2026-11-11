@@ -93,11 +93,11 @@ internal static class CancellationTokenParameterProvenance
 
         public static readonly Value Original = new(safe: true);
 
-        public static readonly Value OriginalAwaitable = new(awaitedSafe: true);
-
-        public bool AwaitedSafe { get; } = awaitedSafe;
+        public static readonly Value AwaitableOriginal = new(awaitedSafe: true);
 
         public bool Safe { get; } = safe;
+
+        public bool AwaitedSafe { get; } = awaitedSafe;
 
         public Value[]? Elements { get; } = elements;
 
@@ -149,7 +149,7 @@ internal static class CancellationTokenParameterProvenance
                 return Original;
             }
 
-            return AwaitedSafe && other.AwaitedSafe ? OriginalAwaitable : None;
+            return AwaitedSafe && other.AwaitedSafe ? AwaitableOriginal : None;
         }
 
         public bool SameAs(Value other) => Safe == other.Safe && AwaitedSafe == other.AwaitedSafe && UnknownArray == other.UnknownArray && Sliced == other.Sliced
@@ -328,6 +328,7 @@ internal static class CancellationTokenParameterProvenance
                 ILocalReferenceOperation local => Get(state.Values, local.Local),
                 IFlowCaptureReferenceOperation capture => Get(state.Captures, capture.Id),
                 IConversionOperation conversion => EvaluateConversion(conversion, state),
+                IAwaitOperation awaited => EvaluateAwait(awaited, state),
                 IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource" => Evaluate(instance, state),
                 ITupleOperation tuple => new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]),
@@ -340,7 +341,6 @@ internal static class CancellationTokenParameterProvenance
         {
             return operation switch
             {
-                IAwaitOperation awaited => Evaluate(awaited.Operation, state).AwaitedSafe ? Value.Original : Value.None,
                 IArrayCreationOperation array => EvaluateArray(array, state),
                 IObjectCreationOperation creation => EvaluateCreation(creation, state),
                 ICollectionExpressionOperation collection => EvaluateCollection(collection, state),
@@ -381,10 +381,9 @@ internal static class CancellationTokenParameterProvenance
         private Value EvaluateCreation(IObjectCreationOperation creation, State state)
         {
             var arguments = creation.Arguments.Select(argument => (Argument: argument, Value: Evaluate(argument.Value, state))).ToArray();
-            if (IsTokenAwaitable(creation.Type) && creation.Type?.Name == "ValueTask" && creation.Arguments.Length == 1)
+            if (TryGetAwaitableCreation(creation, arguments, out var awaitable))
             {
-                var argument = arguments[0].Value;
-                return argument.Safe || argument.AwaitedSafe ? Value.OriginalAwaitable : Value.None;
+                return awaitable;
             }
 
             if (IsTokenCollection(creation.Type) && creation.Arguments.Length is 1 or 3
@@ -411,6 +410,26 @@ internal static class CancellationTokenParameterProvenance
             }
 
             return Value.None;
+        }
+
+        private Value EvaluateAwait(IAwaitOperation awaited, State state)
+        {
+            var value = Evaluate(awaited.Operation, state);
+            return IsTokenAwaitable(awaited.Operation.Type) && value.AwaitedSafe ? Value.Original : Value.None;
+        }
+
+        private static bool TryGetAwaitableCreation(
+            IObjectCreationOperation creation, IReadOnlyList<(IArgumentOperation Argument, Value Value)> arguments, out Value result)
+        {
+            result = Value.None;
+            if (!IsTokenAwaitable(creation.Type) || creation.Constructor?.ContainingType.Name != "ValueTask" || arguments.Count != 1)
+            {
+                return false;
+            }
+
+            var value = arguments[0].Value;
+            result = value.Safe || value.AwaitedSafe ? Value.AwaitableOriginal : Value.None;
+            return true;
         }
 
         private Value EvaluateArray(IArrayCreationOperation array, State state)
@@ -506,7 +525,7 @@ internal static class CancellationTokenParameterProvenance
             }
 
             var values = EvaluateInvocationArguments(invocation, state);
-            if (TryEvaluateTokenAwaitable(invocation, values, out var awaitable))
+            if (TryGetAwaitableResult(invocation, values, out var awaitable))
             {
                 return awaitable;
             }
@@ -521,6 +540,7 @@ internal static class CancellationTokenParameterProvenance
             // so the existing helper analysis can inspect its declaration.
             var original = model.GetOperation(invocation.Syntax) as IInvocationOperation;
             if (original is not null
+                && !invocation.TargetMethod.IsAsync
                 && ModuleAuthoringAnalysis.GetIdentityHelperArgument(original) is { } returnedArgument)
             {
                 return EvaluateIdentityResult(invocation, Get(values, returnedArgument.Syntax.Span), state);
@@ -538,29 +558,25 @@ internal static class CancellationTokenParameterProvenance
             return EvaluateHelperResult(invocation, original, arguments);
         }
 
-        private static bool IsTokenAwaitable(ITypeSymbol? type) =>
-            type is INamedTypeSymbol { Arity: 1 } named
-            && named.TypeArguments[0].ToDisplayString() == "System.Threading.CancellationToken"
-            && named.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks"
-            && named.Name is "Task" or "ValueTask";
-
-        private static bool TryEvaluateTokenAwaitable(IInvocationOperation invocation, Dictionary<TextSpan, Value> values, out Value result)
+        private static bool TryGetAwaitableResult(IInvocationOperation invocation, Dictionary<TextSpan, Value> values, out Value result)
         {
-            var method = invocation.TargetMethod;
             result = Value.None;
-            if (method is { Name: "FromResult", IsStatic: true, Parameters.Length: 1 }
-                && IsTokenAwaitable(method.ReturnType)
-                && method.ContainingType.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks"
-                && method.ContainingType.Name is "Task" or "ValueTask")
+            if (!IsTokenAwaitable(invocation.Type))
             {
-                result = Get(values, invocation.Arguments[0].Value.Syntax.Span).Safe ? Value.OriginalAwaitable : Value.None;
+                return false;
+            }
+
+            var method = invocation.TargetMethod;
+            if (method is { Name: "FromResult", IsStatic: true } && invocation.Arguments.Length == 1
+                && method.ContainingType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask")
+            {
+                result = Get(values, invocation.Arguments[0].Value.Syntax.Span).Safe ? Value.AwaitableOriginal : Value.None;
                 return true;
             }
 
-            if (invocation.Instance is { } receiver && IsTokenAwaitable(method.ContainingType)
-                && method.Name is "ConfigureAwait" or "AsTask")
+            if (method.Name is "ConfigureAwait" or "AsTask" && invocation.Instance is { } receiver && IsTokenAwaitable(method.ContainingType))
             {
-                result = Get(values, receiver.Syntax.Span).AwaitedSafe ? Value.OriginalAwaitable : Value.None;
+                result = Get(values, receiver.Syntax.Span);
                 return true;
             }
 
@@ -604,12 +620,13 @@ internal static class CancellationTokenParameterProvenance
         {
             // A collection result cannot use a scalar snapshot: later writes must
             // affect its allocation. Unknown collection helpers remain escapes.
-            if (invocation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource"
+            var awaitable = invocation.TargetMethod.IsAsync && IsTokenAwaitable(invocation.Type);
+            if ((awaitable || invocation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource")
                 && original is not null
                 && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
                     original, operation => arguments.TryGetValue(operation.Syntax.Span, out var safe) && safe))
             {
-                return Value.Original;
+                return awaitable ? Value.AwaitableOriginal : Value.Original;
             }
 
             return Value.None;
@@ -705,6 +722,13 @@ internal static class CancellationTokenParameterProvenance
                 && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>",
             _ => false,
         };
+
+        // Only scalar token payloads are tracked. Object/nested awaitable wrappers
+        // cannot grow recursive value facts when a loop repeatedly wraps its input.
+        private static bool IsTokenAwaitable(ITypeSymbol? type) => type is INamedTypeSymbol { TypeArguments.Length: 1 } named
+            && named.TypeArguments[0].ToDisplayString() == "System.Threading.CancellationToken"
+            && named.OriginalDefinition.ToDisplayString() is "System.Threading.Tasks.Task<TResult>" or "System.Threading.Tasks.ValueTask<TResult>"
+                or "System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult>" or "System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable<TResult>";
 
         private static Value Element(Value value, int index) => value.Elements is { } elements && index >= 0 && index < elements.Length ? elements[index] : Value.None;
 

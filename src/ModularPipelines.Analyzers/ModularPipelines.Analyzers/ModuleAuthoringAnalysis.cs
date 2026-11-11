@@ -5689,6 +5689,16 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
+        if (method.IsAsync)
+        {
+            // Local-function parameter analysis retains a captured-value fallback.
+            // Do not use that fallback to prove a written async return payload.
+            parameters.RemoveAll(parameter => operation.DescendantsAndSelf()
+                .OfType<IParameterReferenceOperation>()
+                .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
+                    && IsPotentialParameterWrite(reference)));
+        }
+
         var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
             .Where(returned => (GetEnclosingCallable(returned) is null
                 || ReferenceEquals(GetEnclosingCallable(returned), operation)) && IsInReachableBranch(returned))
@@ -6785,6 +6795,13 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         INamedTypeSymbol within)
     {
+        // These generic parameters carry the result, not a cancellation signal.
+        if (method is { Name: "FromResult", IsStatic: true, Arity: 1, Parameters.Length: 1 }
+            && method.ContainingType.ToDisplayString() is "System.Threading.Tasks.Task" or "System.Threading.Tasks.ValueTask")
+        {
+            return false;
+        }
+
         if (method.Parameters.Any(IsCancellationToken))
         {
             return true;

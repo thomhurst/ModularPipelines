@@ -7,31 +7,59 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Task", "{ await Task.Yield(); return token; }", false)]
+    [DataRow("ValueTask", "{ await Task.Yield(); return token; }", false)]
+    [DataRow("Task", "=> token;", false)]
+    [DataRow("ValueTask", "=> token;", false)]
+    [DataRow("Task", "{ await Task.Yield(); return token; }", true)]
+    [DataRow("ValueTask", "{ await Task.Yield(); return token; }", true)]
+    public async Task Async_Source_Helpers_Preserve_Original_Payload(string taskType, string body, bool configured)
+    {
+        var expression = configured ? "PreserveAsync(cancellationToken).ConfigureAwait(false)" : "PreserveAsync(cancellationToken)";
+        var statements = $"static async {taskType}<CancellationToken> PreserveAsync(CancellationToken token) {body} "
+            + $"var saved = {expression}; cancellationToken = default; cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [Timeout(30000, CooperativeCancellation = true)]
+    [DataRow("Task", "await Task.Yield(); return CancellationToken.None;")]
+    [DataRow("ValueTask", "await Task.Yield(); return CancellationToken.None;")]
+    [DataRow("Task", "await Task.Yield(); token = default; return token;")]
+    [DataRow("ValueTask", "await Task.Yield(); token = default; return token;")]
+    [DataRow("Task", "await Task.Yield(); if (DateTime.Now.Ticks > 0) return token; return CancellationToken.None;")]
+    [DataRow("ValueTask", "await Task.Yield(); if (DateTime.Now.Ticks > 0) return token; return CancellationToken.None;")]
+    [DataRow("Task", "await Task.Yield(); return await ReplaceAsync(token);")]
+    [DataRow("ValueTask", "await Task.Yield(); return await ReplaceAsync(token);")]
+    public async Task Async_Source_Helpers_Report_Replaced_Or_Unproven_Payload(string taskType, string body)
+    {
+        var statements = $"static async {taskType}<CancellationToken> ReplaceAsync(CancellationToken token) {{ {body} }} "
+            + "cancellationToken = await ReplaceAsync(cancellationToken);";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task Awaitable_Payload_Joins_Require_Original_On_Every_Path(bool replaced)
     {
-        var replacement = replaced ? "{|#1:Task.FromResult(CancellationToken.None)|}" : "Task.FromResult(cancellationToken)";
+        var replacement = replaced ? "Task.FromResult(CancellationToken.None)" : "Task.FromResult(cancellationToken)";
         var statements = "var saved = Task.FromResult(cancellationToken); "
             + $"if (context != null) saved = {replacement}; "
             + "cancellationToken = await saved;";
         var call = replaced ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
-        var source = Source(statements, call)
-            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
-            .Replace("return " + call, "await " + call);
-        await VerifyCS.VerifyAnalyzerAsync(source, replaced
-            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"),
-                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("FromResult")]
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, call), replaced
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
             : []);
     }
 
     [TestMethod]
     public async Task Direct_Await_Preserves_Token_Payload()
     {
-        var source = Source("cancellationToken = await Task.FromResult(cancellationToken);", "Task.Delay(1, cancellationToken)")
-            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
-            .Replace("return Task.Delay", "await Task.Delay");
-        await VerifyCS.VerifyAnalyzerAsync(source);
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(
+            "cancellationToken = await Task.FromResult(cancellationToken);", "Task.Delay(1, cancellationToken)"));
     }
 
     [TestMethod]
@@ -43,10 +71,8 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("new ValueTask<CancellationToken>(cancellationToken).AsTask()")]
     public async Task Awaitable_Wrappers_Preserve_Token_Payload(string expression)
     {
-        var source = Source($"var saved = {expression}; cancellationToken = default; cancellationToken = await saved;", "Task.Delay(1, cancellationToken)")
-            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
-            .Replace("return Task.Delay", "await Task.Delay");
-        await VerifyCS.VerifyAnalyzerAsync(source);
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(
+            $"var saved = {expression}; cancellationToken = default; cancellationToken = await saved;", "Task.Delay(1, cancellationToken)"));
     }
 
     [TestMethod]
@@ -58,24 +84,70 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("new ValueTask<CancellationToken>(CancellationToken.None).AsTask()")]
     public async Task Awaitable_Wrappers_Report_Replaced_Payload(string expression)
     {
-        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>
-        {
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(
+            $"var saved = {expression}; cancellationToken = await saved;", "{|#0:Task.Delay(1, cancellationToken)|}"),
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(0).WithArguments("Delay"),
-        };
-        if (expression.Contains("FromResult"))
-        {
-            var factory = expression.StartsWith("ValueTask") ? "ValueTask" : "Task";
-            var call = $"{factory}.FromResult(CancellationToken.None)";
-            expression = expression.Replace(call, $"{{|#1:{call}|}}");
-            expected.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(1).WithArguments("FromResult"));
-        }
+                .WithLocation(0).WithArguments("Delay"));
+    }
 
-        var source = Source($"var saved = {expression}; cancellationToken = await saved;", "{|#0:Task.Delay(1, cancellationToken)|}")
-            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
-            .Replace("return {|#0:", "await {|#0:");
-        await VerifyCS.VerifyAnalyzerAsync(source, [.. expected]);
+    [TestMethod]
+    [DataRow("cancellationToken = await Task.FromResult(cancellationToken);")]
+    [DataRow("cancellationToken = await Task.FromResult(cancellationToken).ConfigureAwait(false);")]
+    [DataRow("cancellationToken = await ValueTask.FromResult(cancellationToken);")]
+    [DataRow("cancellationToken = await ValueTask.FromResult(cancellationToken).ConfigureAwait(false);")]
+    [DataRow("cancellationToken = await new ValueTask<CancellationToken>(cancellationToken);")]
+    [DataRow("cancellationToken = await new ValueTask<CancellationToken>(Task.FromResult(cancellationToken));")]
+    [DataRow("cancellationToken = await new ValueTask<CancellationToken>(cancellationToken).ConfigureAwait(false);")]
+    [DataRow("var saved = Task.FromResult(cancellationToken); cancellationToken = CancellationToken.None; cancellationToken = await saved;")]
+    [DataRow("var saved = ValueTask.FromResult(cancellationToken); cancellationToken = CancellationToken.None; cancellationToken = await saved;")]
+    [DataRow("var saved = context != null ? Task.FromResult(cancellationToken) : Task.FromResult(cancellationToken); cancellationToken = await saved;")]
+    [DataRow("static bool Reset(out CancellationToken token) { token = default; return false; } var saved = Task.FromResult(cancellationToken); cancellationToken = await saved.ConfigureAwait(Reset(out cancellationToken));")]
+    public async Task Awaitable_Wrappers_Preserve_Original_Parameter(string statements)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = await Task.FromResult(CancellationToken.None);")]
+    [DataRow("cancellationToken = await ValueTask.FromResult(CancellationToken.None);")]
+    [DataRow("cancellationToken = await new ValueTask<CancellationToken>(CancellationToken.None);")]
+    [DataRow("cancellationToken = await new ValueTask<CancellationToken>(Task.FromResult(CancellationToken.None));")]
+    [DataRow("var saved = context != null ? Task.FromResult(cancellationToken) : Task.FromResult(CancellationToken.None); cancellationToken = await saved;")]
+    [DataRow("static Task<CancellationToken> ReplaceAsync(CancellationToken token) => Task.FromResult(CancellationToken.None); cancellationToken = await ReplaceAsync(cancellationToken);")]
+    [DataRow("cancellationToken = await default(ValueTask<CancellationToken>);")]
+    public async Task Reports_Replacement_Through_Awaitable_Wrappers(string statements)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = await (ReplacingAwaitable)Task.FromResult(cancellationToken);")]
+    [DataRow("cancellationToken = await (Task<CancellationToken>)(ReplacingAwaitable)Task.FromResult(cancellationToken);")]
+    public async Task Reports_Replacement_Through_Custom_Awaitable_Conversions(string statements)
+    {
+        var source = AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}") + """
+
+            public class ReplacingAwaitable
+            {
+                public static implicit operator ReplacingAwaitable(Task<CancellationToken> value) => new();
+                public static implicit operator Task<CancellationToken>(ReplacingAwaitable value) => Task.FromResult(CancellationToken.None);
+                public System.Runtime.CompilerServices.TaskAwaiter<CancellationToken> GetAwaiter() => Task.FromResult(CancellationToken.None).GetAwaiter();
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [Timeout(30000, CooperativeCancellation = true)]
+    public async Task Awaitable_Boxing_Has_Bounded_Cost()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            "cancellationToken = cancellationToken; object saved = cancellationToken; while (DateTime.Now.Ticks < 0) saved = Task.FromResult(saved);",
+            "Task.Delay(1, cancellationToken)"));
     }
 
     [TestMethod]
@@ -304,6 +376,10 @@ public class ModuleCancellationTokenParameterAnalyzerTests
             .Replace("return Task.Delay", "await Task.Delay");
         await VerifyCS.VerifyAnalyzerAsync(source);
     }
+
+    private static string AsyncSource(string statements, string call) => Source(statements, call)
+        .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+        .Replace("return " + call, "await " + call);
 
     private static string Source(string statements, string call) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
