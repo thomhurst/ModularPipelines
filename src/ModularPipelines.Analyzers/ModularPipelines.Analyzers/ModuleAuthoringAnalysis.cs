@@ -6194,16 +6194,35 @@ internal static class ModuleAuthoringAnalysis
         ISymbol local,
         IEnumerable<ISimpleAssignmentOperation> assignments)
     {
-        // Every path to this join assigns the symbol again. Exiting paths cannot
-        // contribute a value; references in the remaining assignments are still traced.
+        // A join kills loop-carried values only when its assignments are independent
+        // of loop-mutated state. An earlier self-copy cannot trace a later overwrite.
+        var hasIndependentJoin = JoinResetsLoopCarriedValue(branchingOperation, operation, local);
         var branchValues = GetReachingLocalAssignments(branchingOperation, local)
-            .Where(assignment => !IsInTerminatingBranch(assignment, operation, local, hasAssigningJoin: true))
+            .Where(assignment => !IsInTerminatingBranch(assignment, operation, local, hasAssigningJoin: hasIndependentJoin))
             .Select(static assignment => assignment.Value);
         var subsequentValues = assignments
             .Where(candidate => candidate.Syntax.SpanStart > branchingOperation.Syntax.Span.End)
             .Where(IsInReachableBranch)
             .Select(static assignment => assignment.Value);
         return subsequentValues.Concat(branchValues);
+    }
+
+    private static bool JoinResetsLoopCarriedValue(
+        IOperation branchingOperation,
+        IOperation operation,
+        ISymbol local)
+    {
+        for (var ancestor = branchingOperation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation loop
+                && HasAncestor(operation, loop)
+                && !IsIterationIndependentReset(branchingOperation, loop, local))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static IOperation? FindLatestDefinitelyAssigningBranch(

@@ -3290,6 +3290,47 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("token", "token")]
+    [DataRow("cancellationToken", "cancellationToken")]
+    [DataRow("token", "context is not null ? token : cancellationToken")]
+    public async Task Reports_Loop_Carried_Token_Through_Earlier_Branch_Join(string target, string value)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                for (var i = 0; i < 2; i++)
+                {
+                    while (true)
+                    {
+                        if (i != 0)
+                        {
+                            {{target}} = {{value}};
+                        }
+                        else
+                        {
+                            {{target}} = CancellationToken.None;
+                            break;
+                        }
+
+                        await {|#0:Task.Delay(1, {{target}})|};
+                        break;
+                    }
+                }
+
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Reports_Overwritten_Token_In_Directly_Returned_Task()
     {
         var source = ModuleSource("""
