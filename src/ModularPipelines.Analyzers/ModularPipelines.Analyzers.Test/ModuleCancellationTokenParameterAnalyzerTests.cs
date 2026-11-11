@@ -7,6 +7,8 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; var span = new Span<CancellationToken>(tokens); ref CancellationToken first = ref span[0]; first = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(span).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; ref CancellationToken first = ref tokens[0]; first = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("cancellationToken = CancellationToken.None;")]
     [DataRow("cancellationToken = new CancellationToken();")]
     [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; if (context != null) { cancellationToken = saved; }")]
@@ -148,6 +150,9 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(new ReadOnlySpan<CancellationToken>(tokens)).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
     [DataRow("var tokens = new CancellationToken[1]; var alias = new Span<CancellationToken>(tokens); alias[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; _ = new Tuple<CancellationToken[], CancellationToken>(tokens, cancellationToken = tokens[0]);")]
+    [DataRow("var tokens = new[] { cancellationToken }; var slice = new Span<CancellationToken>(tokens, 0, 1); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var slice = new ReadOnlySpan<CancellationToken>(tokens, 0, 1); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; var alias = new ReadOnlySpan<CancellationToken>(tokens); cancellationToken = alias[0];")]
     public async Task Recognizes_Original_Parameter_Value(string statements)
     {

@@ -87,7 +87,7 @@ internal static class CancellationTokenParameterProvenance
 
     // Values carry a scalar signal, tuple elements or array allocation identities.
     // Escaping collections lose their signal; joins retain only guaranteed signals.
-    private sealed class Value(bool safe = false, Value[]? elements = null, HashSet<TextSpan>? arrays = null, bool unknownArray = false)
+    private sealed class Value(bool safe = false, Value[]? elements = null, HashSet<TextSpan>? arrays = null, bool unknownArray = false, bool sliced = false)
     {
         public static readonly Value None = new();
 
@@ -100,6 +100,8 @@ internal static class CancellationTokenParameterProvenance
         public HashSet<TextSpan>? Arrays { get; } = arrays;
 
         public bool UnknownArray { get; } = unknownArray;
+
+        public bool Sliced { get; } = sliced;
 
         public Value Merge(Value other)
         {
@@ -125,12 +127,12 @@ internal static class CancellationTokenParameterProvenance
         {
             if (Arrays is { } leftArrays && other.Arrays is { } rightArrays)
             {
-                return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray);
+                return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray, sliced: Sliced || other.Sliced);
             }
 
             if (Arrays is { } knownArrays)
             {
-                return new Value(arrays: knownArrays, unknownArray: true);
+                return new Value(arrays: knownArrays, unknownArray: true, sliced: Sliced);
             }
 
             if (other.Arrays is not null)
@@ -141,7 +143,7 @@ internal static class CancellationTokenParameterProvenance
             return Safe && other.Safe ? Original : None;
         }
 
-        public bool SameAs(Value other) => Safe == other.Safe && UnknownArray == other.UnknownArray
+        public bool SameAs(Value other) => Safe == other.Safe && UnknownArray == other.UnknownArray && Sliced == other.Sliced
             && ((Elements is null && other.Elements is null)
                 || (Elements is { } left && other.Elements is { } right && left.Length == right.Length
                     && left.Select((element, index) => element.SameAs(right[index])).All(static same => same)))
@@ -355,16 +357,23 @@ internal static class CancellationTokenParameterProvenance
 
         private Value EvaluateCreation(IObjectCreationOperation creation, State state)
         {
-            if (creation.Arguments.Length == 1 && IsTokenCollection(creation.Type)
+            var arguments = creation.Arguments.Select(argument => (Argument: argument, Value: Evaluate(argument.Value, state))).ToArray();
+            if (IsTokenCollection(creation.Type) && creation.Arguments.Length is 1 or 3
                 && creation.Arguments[0].Parameter?.Type is IArrayTypeSymbol)
             {
-                return Evaluate(creation.Arguments[0].Value, state);
+                // Slice construction does not mutate the backing array. Its offsets
+                // are not tracked, so only full-array views share element facts.
+                return arguments.Length == 1 ? arguments[0].Value : new Value(arrays: arguments[0].Value.Arrays, unknownArray: true, sliced: true);
             }
 
-            // Unsupported constructors can retain or modify collection arguments.
-            foreach (var argument in creation.Arguments)
+            // Constructors cannot mutate arguments until all values are evaluated.
+            foreach (var (argument, value) in arguments)
             {
-                InvalidateArrays(Evaluate(argument, state), state);
+                InvalidateArrays(value, state);
+                if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
+                {
+                    Assign(argument.Value, Value.None, state);
+                }
             }
 
             if (creation.Initializer is { } initializer)
@@ -566,6 +575,11 @@ internal static class CancellationTokenParameterProvenance
                     return captured;
                 case ISimpleAssignmentOperation assignment:
                     var assigned = Evaluate(assignment.Value, state);
+                    if (assignment.IsRef)
+                    {
+                        InvalidateReferenceTarget(assignment.Value, state);
+                    }
+
                     Assign(assignment.Target, assigned, state);
                     return assigned;
                 case IArgumentOperation argument when argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out:
@@ -583,6 +597,22 @@ internal static class CancellationTokenParameterProvenance
                     }
 
                     return Value.None;
+            }
+        }
+
+        private void InvalidateReferenceTarget(IOperation target, State state)
+        {
+            // A writable reference can outlive this operation and mutate storage
+            // through a local alias that scalar provenance does not track.
+            switch (target)
+            {
+                case IArrayElementReferenceOperation element:
+                    InvalidateArrays(Evaluate(element.ArrayReference, state), state);
+                    break;
+                case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver }
+                    when IsTokenCollection(receiver.Type):
+                    InvalidateArrays(Evaluate(receiver, state), state);
+                    break;
             }
         }
 
@@ -704,7 +734,7 @@ internal static class CancellationTokenParameterProvenance
                 return;
             }
 
-            if (indices.Count != 1
+            if (array.Sliced || indices.Count != 1
                 || indices[0].ConstantValue is not { HasValue: true, Value: int arrayIndex }
                 || identities.Any(_summarizedArrays.Contains))
             {
