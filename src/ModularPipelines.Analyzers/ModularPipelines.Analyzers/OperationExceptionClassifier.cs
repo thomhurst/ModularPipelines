@@ -191,8 +191,7 @@ internal sealed class OperationExceptionClassifier(
             // The non-null branch conversion is metadata, not an operation child.
             ICoalesceOperation coalesce => coalesce.ValueConversion.IsUserDefined,
             // Tuple comparisons hide their element operators from the operation children.
-            ITupleBinaryOperation comparison => CanTupleComparisonThrow(comparison.LeftOperand.Type)
-                || CanTupleComparisonThrow(comparison.RightOperand.Type),
+            ITupleBinaryOperation comparison => CanTupleComparisonThrow(comparison),
             IConversionOperation conversion => CanConversionThrow(conversion),
             _ => false,
         };
@@ -360,9 +359,13 @@ internal sealed class OperationExceptionClassifier(
         && CanTupleElementsThrow(source, target,
             (semanticModel ?? conversion.SemanticModel)?.Compilation as CSharpCompilation);
 
-    private static bool CanTupleComparisonThrow(ITypeSymbol? type) =>
+    private static bool CanTupleComparisonThrow(ITupleBinaryOperation comparison) =>
+        CanTupleElementComparisonThrow(comparison.LeftOperand.Type)
+        || CanTupleElementComparisonThrow(comparison.RightOperand.Type);
+
+    private static bool CanTupleElementComparisonThrow(ITypeSymbol? type) =>
         GetTupleType(type) is { } tuple
-            ? tuple.TupleElements.Any(static element => CanTupleComparisonThrow(element.Type))
+            ? tuple.TupleElements.Any(static element => CanTupleElementComparisonThrow(element.Type))
             // Only known built-in types exclude user-defined operators and conversions.
             : type?.TypeKind == TypeKind.Dynamic || GetArithmeticOperandType(type) is null or SpecialType.None;
 
