@@ -1247,6 +1247,60 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("action()", false, true)]
+    [DataRow("action()", true, false)]
+    [DataRow("withArgument((alias = ref other))", false, false)]
+    public async Task Tracks_Function_Pointer_Invocation_Exceptions(string invocation, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                unsafe
+                {
+                    delegate* managed<void> action = &Throw;
+                    delegate* managed<CancellationToken, void> withArgument = &ThrowWithArgument;
+                    var other = default(CancellationToken);
+                    ref var alias = ref token;
+                    try { {{invocation}}; }
+                    catch
+                    {
+                        {{(rebindInHandler ? "alias = ref other;" : "")}}
+                        alias = default;
+                    }
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static void Throw() => throw new InvalidOperationException();
+            private static void ThrowWithArgument(CancellationToken value) => throw new InvalidOperationException();
+            """);
+
+        var test = new VerifyCS.Test
+        {
+            TestCode = source,
+            ReferenceAssemblies = Net.Net110,
+            TestState =
+            {
+                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
+            },
+        };
+        test.SolutionTransforms.Add((solution, projectId) =>
+            solution.WithProjectCompilationOptions(projectId,
+                ((Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions) solution.GetProject(projectId)!.CompilationOptions!).WithAllowUnsafe(true)));
+        if (reports)
+        {
+            test.ExpectedDiagnostics.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await test.RunAsync(CancellationToken.None);
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""

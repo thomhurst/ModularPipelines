@@ -534,7 +534,7 @@ internal static class CapturedCancellationTokenAnalysis
 
             if (operation is not (ICollectionExpressionOperation or ISpreadOperation
                 or IEventAssignmentOperation or IEventReferenceOperation or IFieldReferenceOperation or IMethodReferenceOperation
-                or ITypeParameterObjectCreationOperation
+                or ITypeParameterObjectCreationOperation or IFunctionPointerInvocationOperation
                 or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation }
                 or IBinaryOperation or IUnaryOperation or ICompoundAssignmentOperation))
             {
