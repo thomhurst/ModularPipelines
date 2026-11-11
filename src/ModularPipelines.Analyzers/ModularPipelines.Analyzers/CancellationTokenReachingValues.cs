@@ -437,6 +437,7 @@ internal sealed class CancellationTokenReachingValues
             IConversionOperation conversion => EvaluateConversion(conversion, state, block, exceptional),
             IPropertyReferenceOperation property => EvaluateProperty(property, state, block, exceptional),
             IInvocationOperation invocation => EvaluateInvocation(invocation, state, block, exceptional),
+            IObjectCreationOperation creation => EvaluateCreation(creation, state, block, exceptional),
             _ => EvaluateOther(operation, state, block, exceptional),
         };
         var key = (operation.Syntax.Span, operation.Kind);
@@ -578,6 +579,9 @@ internal sealed class CancellationTokenReachingValues
                 }
 
                 break;
+            case IInvocationOperation invocation:
+                Evaluate(invocation, state, block, exceptional);
+                break;
             case IFieldReferenceOperation { Instance: { } fieldReceiver }:
                 Evaluate(fieldReceiver, state, block, exceptional);
                 break;
@@ -646,7 +650,8 @@ internal sealed class CancellationTokenReachingValues
             return true;
         }
 
-        if (target is not (ILocalReferenceOperation or IParameterReferenceOperation or IFlowCaptureReferenceOperation))
+        var directReference = target is ILocalReferenceOperation or IParameterReferenceOperation or IFlowCaptureReferenceOperation;
+        if (!directReference && target is not IFieldReferenceOperation { Field.RefKind: not RefKind.None })
         {
             return false;
         }
@@ -672,7 +677,7 @@ internal sealed class CancellationTokenReachingValues
             state.Values.ExceptWith(targets.Symbols);
         }
 
-        return true;
+        return directReference;
     }
 
     private static bool MayAlias(ITypeSymbol target, ITypeSymbol candidate)
@@ -709,7 +714,7 @@ internal sealed class CancellationTokenReachingValues
     {
         var receiverValue = invocation.Instance is { } receiver && Evaluate(receiver, state, block, exceptional);
         var arguments = invocation.Arguments.Select(argument => Evaluate(argument.Value, state, block, exceptional)).ToArray();
-        InvalidateRefArguments(invocation, state);
+        InvalidateRefArguments(invocation.Arguments, state);
         if (!IsBuiltInIteration(invocation))
         {
             exceptional(block, state.Clone());
@@ -721,12 +726,29 @@ internal sealed class CancellationTokenReachingValues
             || ModuleAuthoringAnalysis.FlowsFromCancellationTokenSourceHelper(invocation, _model.Compilation, arguments, receiverValue, _visitedMethods, _visitedSources);
     }
 
-    private static void InvalidateRefArguments(IInvocationOperation invocation, State state)
+    private static void InvalidateRefArguments(IEnumerable<IArgumentOperation> arguments, State state)
     {
-        foreach (var argument in invocation.Arguments.Where(static argument => argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out))
+        foreach (var argument in arguments.Where(static argument => argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out))
         {
             InvalidateArgument(argument.Value, state);
         }
+    }
+
+    private bool EvaluateCreation(IObjectCreationOperation creation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    {
+        foreach (var argument in creation.Arguments)
+        {
+            Evaluate(argument.Value, state, block, exceptional);
+        }
+
+        InvalidateRefArguments(creation.Arguments, state);
+        exceptional(block, state.Clone());
+        if (creation.Initializer is { } initializer)
+        {
+            Evaluate(initializer, state, block, exceptional);
+        }
+
+        return false;
     }
 
     private bool EvaluateOther(IOperation operation, State state, BasicBlock block, Action<BasicBlock, State> exceptional)

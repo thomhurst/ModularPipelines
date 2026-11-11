@@ -268,6 +268,8 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     {
         yield return ["ref-getter-before-rhs", "var token = default(CancellationToken); try { Slot = (token = cancellationToken); } catch { } await CALL(1, token);", true];
         yield return ["ref-getter-preserves-input", "var token = cancellationToken; try { Slot = default; } catch { } await CALL(1, token);", false];
+        yield return ["ref-method-before-rhs", "var token = default(CancellationToken); try { ThrowSlot() = (token = cancellationToken).GetHashCode(); } catch { } await CALL(1, token);", true];
+        yield return ["ref-method-before-tuple-rhs", "var token = default(CancellationToken); try { (ThrowSlot(), _) = ((token = cancellationToken).GetHashCode(), 0); } catch { } await CALL(1, token);", true];
         foreach (var expression in new[] { "target.Run()", "target.Value", "target[0]", "(int)target", "target + 1", "-target" })
         {
             yield return ["dynamic-throw-" + expression, $$"""
@@ -512,6 +514,11 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         yield return ["out-argument", "void Reset(out CancellationToken value) { value = default; } var token = cancellationToken; { ref CancellationToken alias = ref token; Reset(out alias); }", true];
         yield return ["deconstruct-ref-target", "var token = cancellationToken; { ref CancellationToken alias = ref token; (alias, _) = (default(CancellationToken), 0); }", true];
         yield return ["ref-conditional-write", "var token = cancellationToken; var other = cancellationToken; { ref CancellationToken alias = ref (context is null ? ref token : ref other); alias = default; }", true];
+        yield return ["constructor-ref-write", "var token = cancellationToken; _ = new TokenResetter(ref token);", true];
+        yield return ["constructor-out-write", "var token = cancellationToken; _ = new TokenResetter(out token, false);", true];
+        yield return ["constructor-throw-retains-write", "var token = cancellationToken; try { _ = new TokenResetter(out token, true); } catch { }", true];
+        yield return ["constructor-initializer-restores", "var token = cancellationToken; _ = new TokenResetter(ref token) { Marker = (token = cancellationToken).CanBeCanceled };", false];
+        yield return ["direct-ref-field-invalidates-local", "var token = cancellationToken; { var holder = new TokenRefHolder(ref token); holder.Token = default; }", true];
         yield return ["deconstruct-unboxing-throw", "var token = cancellationToken; object boxed = context; try { CancellationToken ignored; int number; (ignored, number) = ((CancellationToken, int))boxed; } catch { token = default; }", true];
         yield return ["deconstruct-tuple-conversion-throw", "var token = cancellationToken; try { CancellationToken ignored; int number; decimal amount = decimal.MaxValue; (ignored, number) = ((CancellationToken, int))(cancellationToken, amount); } catch { token = default; }", true];
         yield return ["deconstruct-rhs-before-null-store", "var token = default(CancellationToken); CancellationToken[] items = null!; try { (items[0], _) = ((token = cancellationToken), 0); } catch { }", false];
@@ -547,6 +554,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             public class BuildModule : Module<List<string>>
             {
                 {{helpers}}
+                private static ref int ThrowSlot() => throw new System.Exception();
                 private static CancellationToken SelectToken(CancellationToken first, CancellationToken second, bool chooseFirst) => chooseFirst ? first : second;
                 private static CancellationToken Pass(CancellationToken token) => token;
                 private static CancellationToken Pick(CancellationToken ignored, CancellationToken token) => token;
@@ -654,6 +662,21 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             {
                 public void Dispose() => throw new System.Exception();
                 public System.Threading.Tasks.ValueTask DisposeAsync() => throw new System.Exception();
+            }
+            public ref struct TokenRefHolder
+            {
+                public ref CancellationToken Token;
+                public TokenRefHolder(ref CancellationToken token) { Token = ref token; }
+            }
+            public class TokenResetter
+            {
+                public bool Marker { get; set; }
+                public TokenResetter(ref CancellationToken token) { token = default; }
+                public TokenResetter(out CancellationToken token, bool fail)
+                {
+                    token = default;
+                    if (fail) throw new System.Exception();
+                }
             }
             public class Sequence : System.Collections.Generic.IEnumerable<int>, System.Collections.Generic.IAsyncEnumerable<int>
             {
