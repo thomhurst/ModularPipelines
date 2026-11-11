@@ -394,19 +394,11 @@ internal sealed class LocalDefinitionTransfer
         {
             yield return direct;
         }
-        else if (operation is ISimpleAssignmentOperation memberBinding
-            && (memberBinding.IsRef || memberBinding.Value.Type?.IsRefLikeType == true))
+        else if (GetMemberAliasSource(operation) is { } memberBinding)
         {
             foreach (var receiver in GetRefLikeReceivers(memberBinding.Target))
             {
-                yield return (receiver.Local, memberBinding.Value);
-            }
-        }
-        else if (operation is ICompoundAssignmentOperation { Type.IsRefLikeType: true, OperatorMethod: not null } compound)
-        {
-            foreach (var receiver in GetRefLikeReceivers(compound.Target))
-            {
-                yield return (receiver.Local, compound);
+                yield return (receiver.Local, memberBinding.Source);
             }
         }
         else if (operation is IDeconstructionAssignmentOperation deconstruction)
@@ -416,7 +408,7 @@ internal sealed class LocalDefinitionTransfer
                 yield return binding;
             }
         }
-        else if (operation is IInvocationOperation or IObjectCreationOperation)
+        else if (operation is IInvocationOperation or IObjectCreationOperation or IPropertyReferenceOperation)
         {
             foreach (var binding in GetCallAliasSources(operation))
             {
@@ -424,6 +416,15 @@ internal sealed class LocalDefinitionTransfer
             }
         }
     }
+
+    private static (IOperation Target, IOperation Source)? GetMemberAliasSource(IOperation operation) => operation switch
+    {
+        ISimpleAssignmentOperation assignment when assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true =>
+            (assignment.Target, assignment.Value),
+        ICompoundAssignmentOperation { Type.IsRefLikeType: true, OperatorMethod: not null } compound =>
+            (compound.Target, compound),
+        _ => null,
+    };
 
     private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetDeconstructionAliasSources(
         IOperation target, IOperation value)
@@ -505,7 +506,7 @@ internal sealed class LocalDefinitionTransfer
 
     private static IEnumerable<IOperation> GetRetentionSources(IOperation operation)
     {
-        if (operation is IInvocationOperation { Instance: { Type.IsReferenceType: false } instance })
+        if (GetRetentionReceiver(operation) is { Type.IsReferenceType: false } instance)
         {
             yield return instance;
         }
@@ -520,7 +521,7 @@ internal sealed class LocalDefinitionTransfer
 
     private static IEnumerable<ILocalReferenceOperation> GetRetentionDestinations(IOperation operation)
     {
-        if (operation is IInvocationOperation { Instance: { } instance })
+        if (GetRetentionReceiver(operation) is { } instance)
         {
             foreach (var receiver in GetRefLikeReceivers(instance))
             {
@@ -540,6 +541,13 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
+    private static IOperation? GetRetentionReceiver(IOperation operation) => operation switch
+    {
+        IInvocationOperation invocation => invocation.Instance,
+        IPropertyReferenceOperation property => property.Instance,
+        _ => null,
+    };
+
     private static IEnumerable<ILocalReferenceOperation> GetRefLikeReceivers(IOperation receiver) =>
         receiver.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
             .Where(static reference => reference.Local.Type.IsRefLikeType);
@@ -554,18 +562,23 @@ internal sealed class LocalDefinitionTransfer
             OperatorRetainsStorage(target, local, operationRoot),
         IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
             CreationRetainsStorage(creation, local, operationRoot),
-        // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
-        IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
-        IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IPropertyReferenceOperation property => PropertyRetainsStorage(property, local, operationRoot),
-        IInlineArrayAccessOperation access => TargetsLocal(access.Instance, local, operationRoot),
-        IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
-        ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
         IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
         IWithOperation { Type.IsRefLikeType: true } withExpression =>
             TargetsLocal(withExpression.Operand, local, operationRoot)
             || InitializerRetainsStorage(withExpression.Initializer, local, operationRoot),
         ISwitchExpressionOperation switchExpression => switchExpression.Arms.Any(arm => TargetsLocal(arm.Value, local, operationRoot)),
+        _ => StoragePathTargetsLocal(target, local, operationRoot),
+    };
+
+    private static bool StoragePathTargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot) => target switch
+    {
+        // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
+        IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        IInlineArrayAccessOperation access => TargetsLocal(access.Instance, local, operationRoot),
+        IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
+        ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
         IConversionOperation conversion => TargetsLocal(conversion.Operand, local, operationRoot),
         IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local, operationRoot),
         // Conditional ref expressions can lower to captures anywhere along the storage receiver path.

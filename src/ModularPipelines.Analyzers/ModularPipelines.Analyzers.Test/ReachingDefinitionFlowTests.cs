@@ -972,6 +972,20 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("_ = container[holder]; value = 3; container.Item.Field = 2;", "", false)]
+    [DataRow("_ = container[holder]; var copy = container; value = 3; copy.Item.Field = 2;", "", false)]
+    [DataRow("container[holder] = 0; value = 3; container.Item.Field = 2;", "", false)]
+    [DataRow("try { _ = container[holder, true]; } catch { value = 3; container.Item.Field = 2; [|Use(value)|]; }", "", false)]
+    [DataRow("_ = container[holder]; container.Item.Field = 2; value = 3;", "3", true)]
+    [DataRow("_ = container[holder]; value = 3; if (false) container.Item.Field = 2;", "3", true)]
+    [DataRow("value = 3; _ = container[holder, [|value|] == 0];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); _ = container[unrelated]; value = 3; container.Item.Field = 2;", "3", true)]
+    public void Indexer_Receivers_Retain_Argument_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); scoped RetainedContainer container = default; " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -1120,7 +1134,16 @@ public class ReachingDefinitionFlowTests
             public ReadonlyRetained(ref int field) { Field = ref field; }
             public void Mutate() { Field = 2; throw new Exception(); }
         }
-        ref struct RetainedContainer { public Retained Item; }
+        ref struct RetainedContainer
+        {
+            public Retained Item;
+            [System.Runtime.CompilerServices.IndexerName("RetainedAt")]
+            public int this[Retained item, bool fail = false]
+            {
+                get { Item = item; if (fail) throw new Exception(); return 0; }
+                set { Item = item; }
+            }
+        }
         ref struct Retained
         {
             public ref int Field;
