@@ -1011,11 +1011,14 @@ internal static class ModuleAuthoringAnalysis
         or IBinaryOperation { OperatorMethod: not null }
         or IUnaryOperation { OperatorMethod: not null }
         or IUnaryOperation { IsChecked: true }
-        || (operation is ICompoundAssignmentOperation { IsChecked: true }
+        || CanArithmeticThrowInCancellationFilter(operation);
+
+    private static bool CanArithmeticThrowInCancellationFilter(IOperation operation) =>
+        operation is ICompoundAssignmentOperation { IsChecked: true }
             or ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
             or IBinaryOperation { IsChecked: true }
             or IBinaryOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
-            && !IsBuiltInFloatingPoint(operation.Type));
+            && !IsBuiltInFloatingPoint(operation.Type);
 
     private static bool IsBuiltInFloatingPoint(ITypeSymbol? type)
     {
