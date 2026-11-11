@@ -528,17 +528,17 @@ internal static class CapturedCancellationTokenAnalysis
         private bool ClassifiedOperationCanThrow(IOperation operation)
         {
             if (operation is not (ICollectionExpressionOperation or ISpreadOperation
-                or IEventAssignmentOperation or IFieldReferenceOperation or IMethodReferenceOperation
+                or IEventAssignmentOperation or IEventReferenceOperation or IFieldReferenceOperation or IMethodReferenceOperation
                 or ITypeParameterObjectCreationOperation
-                or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IFlowCaptureReferenceOperation }
+                or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation }
                 or IBinaryOperation or ICompoundAssignmentOperation))
             {
                 return false;
             }
 
             // CFG hoists store targets before branching values. Source parents retain
-            // the distinction between a field read and a store after value evaluation.
-            var classified = operation is IFieldReferenceOperation or ISimpleAssignmentOperation
+            // the distinction between a field/event read and a store after value evaluation.
+            var classified = operation is IFieldReferenceOperation or IEventReferenceOperation or ISimpleAssignmentOperation
                 ? _model?.GetOperation(operation.Syntax) ?? operation
                 : operation;
             return !_exceptionClassifier.Classify(classified).IsEmpty;

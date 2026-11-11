@@ -981,6 +981,38 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = receiver.Ready", false, true)]
+    [DataRow("_ = receiver.Ready", true, false)]
+    [DataRow("receiver.Ready = null", false, true)]
+    [DataRow("receiver.Ready = null", true, false)]
+    [DataRow("receiver.Ready = (alias = ref other).CanBeCanceled ? null : null", false, false)]
+    public async Task Tracks_Field_Like_Event_Exceptions(string statement, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            public event Action? Ready;
+
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, null!);
+
+            private static Task HelperAsync(CancellationToken token, DummyModule receiver)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { {{statement}}; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("publisher.Changed += handler", false, true)]
     [DataRow("publisher.Changed -= handler", false, true)]
     [DataRow("publisher.Changed += handler", true, false)]
