@@ -3615,6 +3615,64 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("cancellationToken", "for (var i = 0; i < 2; i++)", "")]
+    [DataRow("token", "for (var i = 0; i < 2; i++)", "")]
+    [DataRow("cancellationToken", "while (context is not null)", "")]
+    [DataRow("token", "do", "while (context is not null);")]
+    public async Task Accepts_Token_Reset_On_Loop_Back_Edge(string target, string loop, string suffix)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                var token = cancellationToken;
+                {{loop}}
+                {
+                    if (context is null) {{target}} = CancellationToken.None;
+                    else await Task.Delay(1, {{target}});
+                    {{target}} = original;
+                }
+                {{suffix}}
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("if (context is null) continue;", "original")]
+    [DataRow("", "CancellationToken.None")]
+    [DataRow("", "cancellationToken")]
+    [DataRow("", "original; if (context is null) cancellationToken = CancellationToken.None")]
+    public async Task Reports_Token_When_Back_Edge_Does_Not_Restore_Original(string bypass, string reset)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                for (var i = 0; i < 2; i++)
+                {
+                    if (i == 0) cancellationToken = CancellationToken.None;
+                    else await {|#0:Task.Delay(1, cancellationToken)|};
+                    {{bypass}}
+                    cancellationToken = {{reset}};
+                }
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     [DataRow("token")]
     [DataRow("cancellationToken")]
     public async Task Accepts_Many_Conditional_Token_Copies(string variable)
@@ -3668,6 +3726,7 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { switch (context) { case null: cancellationToken = CancellationToken.None; return null!; default: break; } } catch { } await Task.Delay(1, cancellationToken);")]
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; return null!; } } catch { return null!; } await Task.Delay(1, cancellationToken);")]
     [DataRow("try { if (context is null) throw new System.InvalidOperationException(); } catch (System.InvalidOperationException) { cancellationToken = CancellationToken.None; throw; } catch { } await Task.Delay(1, cancellationToken);")]
+    [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; var unused = 0; return null!; } } catch { } await Task.Delay(1, cancellationToken);")]
     public async Task Accepts_Token_When_Overwrite_Cannot_Reach_Use(string body)
     {
         var source = ModuleSource($$"""
@@ -3703,6 +3762,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; _ = context!.ToString(); return null!; } } catch { } await {|#0:Task.Delay(1, cancellationToken)|};")]
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); } } catch { await {|#0:Task.Delay(1, cancellationToken)|}; throw; }")]
     [DataRow("try { try { if (context is null) { cancellationToken = CancellationToken.None; return null!; } } finally { if (context is null) throw new System.InvalidOperationException(); } } catch { } await {|#0:Task.Delay(1, cancellationToken)|};")]
+    [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; var unused = context!.ToString(); return null!; } } catch { } await {|#0:Task.Delay(1, cancellationToken)|};")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; cancellationToken = CancellationToken.None, i++) { if (i == 0) cancellationToken = CancellationToken.None; else await {|#0:Task.Delay(1, cancellationToken)|}; cancellationToken = original; }")]
     public async Task Reports_Token_When_Overwrite_Can_Still_Reach_Use(string body)
     {
         var source = ModuleSource($$"""

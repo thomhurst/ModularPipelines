@@ -6237,6 +6237,35 @@ internal static class ModuleAuthoringAnalysis
         ISymbol local,
         out bool includesInitialValue)
     {
+        var values = FindForwardReachingAssignedValues(operation, local, out includesInitialValue);
+        return values.Concat(GetBackEdgeResetValues(operation, local));
+    }
+
+    private static IEnumerable<IOperation> GetBackEdgeResetValues(IOperation operation, ISymbol local)
+    {
+        for (var ancestor = operation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                yield break;
+            }
+
+            if (ancestor is ILoopOperation loop
+                && FindBackEdgeReset(loop, operation, local) is { } reset)
+            {
+                foreach (var assignment in GetReachingLocalAssignments(reset, local))
+                {
+                    yield return assignment.Value;
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> FindForwardReachingAssignedValues(
+        IOperation operation,
+        ISymbol local,
+        out bool includesInitialValue)
+    {
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
         var assignments = FindLocalAssignments(root, operation, local, callable);
@@ -6636,13 +6665,40 @@ internal static class ModuleAuthoringAnalysis
             if (ancestor is ILoopOperation loop
                 && !ReferenceEquals(loop, exitedRegion)
                 && HasAncestor(operation, loop)
-                && !IsResetBeforeBranch(loop, branch, operation, local))
+                && !IsResetBeforeBranch(loop, branch, operation, local)
+                && FindBackEdgeReset(loop, operation, local) is null)
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static IOperation? FindBackEdgeReset(ILoopOperation loop, IOperation operation, ISymbol local)
+    {
+        // A direct body reset runs before re-entry unless a jump can bypass it.
+        // Keep jumps conservative, including nested-loop jumps and goto targets.
+        if (loop.Body is not IBlockOperation body
+            || loop.Descendants().OfType<IBranchOperation>()
+                .Any(static branch => branch.BranchKind is BranchKind.Continue or BranchKind.GoTo))
+        {
+            return null;
+        }
+
+        var reset = body.Operations.LastOrDefault(candidate =>
+            candidate.Syntax.SpanStart > operation.Syntax.Span.End
+            && IsIterationIndependentReset(candidate, loop, local));
+        if (reset is null
+            || loop.Descendants().OfType<ISimpleAssignmentOperation>()
+                .Any(assignment => AssignsLocal(assignment, local)
+                    && (assignment.Syntax.SpanStart >= reset.Syntax.Span.End
+                        || !HasAncestor(assignment, body))))
+        {
+            return null;
+        }
+
+        return reset;
     }
 
     private static bool IsResetBeforeBranch(
@@ -6912,7 +6968,9 @@ internal static class ModuleAuthoringAnalysis
                 or IReturnOperation or ILiteralOperation or ILocalReferenceOperation
                 or IParameterReferenceOperation or IConditionalOperation
                 or IIsPatternOperation or IConstantPatternOperation
-                or INegatedPatternOperation => false,
+                or INegatedPatternOperation or IVariableDeclarationGroupOperation
+                or IVariableDeclarationOperation or IVariableDeclaratorOperation
+                or IVariableInitializerOperation => false,
             ISimpleAssignmentOperation { Target: ILocalReferenceOperation or IParameterReferenceOperation } => false,
             IConversionOperation conversion when conversion.Conversion.IsIdentity
                 || (conversion.Conversion.IsReference && conversion.IsImplicit) => false,
