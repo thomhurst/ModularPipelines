@@ -59,6 +59,7 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens.PassArray(); alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; static object PassObject(object value) => value; var alias = (CancellationToken[])PassObject(tokens); alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; static CancellationToken[] Clear(CancellationToken[] value) { value[0] = CancellationToken.None; return value; } var alias = Clear(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; static object Box((CancellationToken[], int) pair) => pair; var saved = Box((tokens, 1)); ((ValueTuple<CancellationToken[], int>)saved).Item1[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     public async Task Reports_Replaced_Parameter(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
@@ -90,6 +91,7 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("cancellationToken = Pass(cancellationToken);")]
     [DataRow("cancellationToken = cancellationToken.PassToken();")]
     [DataRow("var saved = (cancellationToken, 1); (cancellationToken, _) = saved;")]
+    [DataRow("static (CancellationToken, int) PassPair((CancellationToken, int) pair) => pair; var saved = PassPair((cancellationToken, 1)); (cancellationToken, _) = saved;")]
     [DataRow("var saved = (cancellationToken, 1); var copy = saved; (cancellationToken, _) = copy;")]
     [DataRow("var saved = ((cancellationToken, 1), 2); ((cancellationToken, _), _) = saved;")]
     [DataRow("var saved = (1, cancellationToken); (_, cancellationToken) = saved;")]
@@ -143,6 +145,19 @@ public class ModuleCancellationTokenParameterAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source,
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
                 .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [Timeout(30000, CooperativeCancellation = true)]
+    [DataRow("static object Box((object, int) pair) => pair;", "Box((saved, 1))")]
+    [DataRow("static object Box((object, int) pair) { return pair; }", "Box((saved, 1))")]
+    [DataRow("static object Box((object, int) pair) => (object)pair;", "Box((saved, 1))")]
+    [DataRow("static (object, int) PassPair((object, int) pair) => pair;", "PassPair((saved, 1))")]
+    public async Task Tuple_Helper_Boxing_Has_Bounded_Cost(string helper, string expression)
+    {
+        var statements = $"{helper} cancellationToken = cancellationToken; object saved = cancellationToken; "
+            + $"while (DateTime.Now.Ticks < 0) saved = {expression};";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
     }
 
     [TestMethod]

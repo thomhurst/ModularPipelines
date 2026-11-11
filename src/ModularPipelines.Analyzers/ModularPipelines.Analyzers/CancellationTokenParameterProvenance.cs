@@ -440,7 +440,16 @@ internal static class CancellationTokenParameterProvenance
             if (original is not null
                 && ModuleAuthoringAnalysis.GetIdentityHelperArgument(original) is { } returnedArgument)
             {
-                return Get(values, returnedArgument.Syntax.Span);
+                var returned = Get(values, returnedArgument.Syntax.Span);
+                // Match direct boxing: retaining tuple structure behind an object
+                // result lets a loop grow nested element facts without a bound.
+                if (returned.Elements is not null && invocation.Type is not INamedTypeSymbol { IsTupleType: true })
+                {
+                    InvalidateArrays(returned, state);
+                    return Value.None;
+                }
+
+                return returned;
             }
 
             foreach (var value in values.Values)
