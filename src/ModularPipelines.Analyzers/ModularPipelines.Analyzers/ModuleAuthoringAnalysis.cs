@@ -5668,21 +5668,7 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var flowedParameters = new HashSet<IParameterSymbol>(
-            invocation.Arguments
-                .Where((argument, index) => argumentValues[index]
-                    && argument.Parameter is not null
-                    && IsCancellationToken(argument.Parameter))
-                .Select(argument => GetTargetParameter(method, argument.Parameter))
-                .OfType<IParameterSymbol>(),
-            SymbolEqualityComparer.Default);
-        if (receiverValue
-            && invocation.TargetMethod.ReducedFrom is not null
-            && method.Parameters.FirstOrDefault() is { } receiverParameter
-            && IsCancellationToken(receiverParameter))
-        {
-            flowedParameters.Add(receiverParameter);
-        }
+        var flowedParameters = GetSourceHelperParameters(invocation, method, argumentValues, receiverValue);
 
         visitedMethods = CloneVisitedMethods(visitedMethods);
         if (!visitedMethods.Add(method))
@@ -5701,6 +5687,28 @@ internal static class ModuleAuthoringAnalysis
                 [with(SymbolEqualityComparer.Default)],
                 visitedMethods,
                 visitedSources);
+    }
+
+    private static HashSet<IParameterSymbol> GetSourceHelperParameters(
+        IInvocationOperation invocation, IMethodSymbol method, bool[] argumentValues, bool receiverValue)
+    {
+        var flowedParameters = new HashSet<IParameterSymbol>(
+            invocation.Arguments
+                .Where((argument, index) => argumentValues[index]
+                    && argument.Parameter is not null
+                    && IsCancellationToken(argument.Parameter))
+                .Select(argument => GetTargetParameter(method, argument.Parameter))
+                .OfType<IParameterSymbol>(),
+            SymbolEqualityComparer.Default);
+        if (receiverValue
+            && invocation.TargetMethod.ReducedFrom is not null
+            && method.Parameters.FirstOrDefault() is { } receiverParameter
+            && IsCancellationToken(receiverParameter))
+        {
+            flowedParameters.Add(receiverParameter);
+        }
+
+        return flowedParameters;
     }
 
     private static bool HelperReturnsFlowedCancellationToken(

@@ -41,13 +41,7 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
-        // Helper proofs depend on their call-chain recursion guard and must not share
-        // the context-free cache or re-enter a Lazy analysis under construction.
-        var analysis = visitedMethods is { Count: > 0 }
-            ? Create(root, model, source, visitedMethods, visitedSources)
-            : Analyses.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
-                .GetOrAdd(source, _ => new Lazy<CancellationTokenReachingValues?>(() => Create(
-                    root, model, source, [with(SymbolEqualityComparer.Default)]))).Value;
+        var analysis = GetAnalysis(root, model, source, visitedMethods, visitedSources);
         if (analysis is null)
         {
             return null;
@@ -56,6 +50,18 @@ internal sealed class CancellationTokenReachingValues
         // No evaluated read means this reference is unreachable, including a
         // return whose cleanup and handlers all exit the callable.
         return !analysis._values.TryGetValue((reference.Syntax.Span, reference.Kind), out var value) || value;
+    }
+
+    private static CancellationTokenReachingValues? GetAnalysis(IOperation root, SemanticModel model,
+        IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods, HashSet<IParameterSymbol>? visitedSources)
+    {
+        // Helper proofs depend on their call-chain recursion guard and must not share
+        // the context-free cache or re-enter a Lazy analysis under construction.
+        return visitedMethods is { Count: > 0 }
+            ? Create(root, model, source, visitedMethods, visitedSources)
+            : Analyses.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
+                .GetOrAdd(source, _ => new Lazy<CancellationTokenReachingValues?>(() => Create(
+                    root, model, source, [with(SymbolEqualityComparer.Default)]))).Value;
     }
 
     private static IOperation? GetAnalysisRoot(IOperation reference)
@@ -553,18 +559,24 @@ internal sealed class CancellationTokenReachingValues
                 EvaluateDeconstructionValues(targets.Elements[index], values.Elements[index], stores, state, block, exceptional);
             }
 
-            foreach (var conversion in conversions)
-            {
-                if (!_exceptions.Classify(conversion).IsEmpty)
-                {
-                    exceptional(block, state.Clone());
-                }
-            }
+            TransferConversionExceptions(conversions, state, block, exceptional);
         }
         else
         {
             Evaluate(originalValue, state, block, exceptional);
             AddUnknownStores(target, stores);
+        }
+    }
+
+    private void TransferConversionExceptions(IEnumerable<IConversionOperation> conversions,
+        State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    {
+        foreach (var conversion in conversions)
+        {
+            if (!_exceptions.Classify(conversion).IsEmpty)
+            {
+                exceptional(block, state.Clone());
+            }
         }
     }
 
@@ -695,6 +707,12 @@ internal sealed class CancellationTokenReachingValues
             return false;
         }
 
+        StoreResolvedTarget(target, value, state);
+        return directReference;
+    }
+
+    private static void StoreResolvedTarget(IOperation target, bool value, State state)
+    {
         var targets = ResolveStorage(target, state);
         if (targets.IsUnknown)
         {
@@ -715,8 +733,6 @@ internal sealed class CancellationTokenReachingValues
         {
             state.Values.ExceptWith(targets.Symbols);
         }
-
-        return directReference;
     }
 
     private static bool MayAlias(ITypeSymbol target, ITypeSymbol candidate)
