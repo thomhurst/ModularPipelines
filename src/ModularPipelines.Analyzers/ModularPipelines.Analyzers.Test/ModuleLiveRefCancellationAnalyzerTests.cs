@@ -137,4 +137,5 @@ public class ModuleLiveRefCancellationAnalyzerTests
         {
             await VerifyCS.VerifyAnalyzerAsync(source);
         }
-    }}
+    }
+}
