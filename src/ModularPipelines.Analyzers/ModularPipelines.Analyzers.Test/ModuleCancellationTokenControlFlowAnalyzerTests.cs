@@ -266,6 +266,77 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     public static IEnumerable<object[]> ExceptionCases()
     {
+        yield return ["filter-before-finalizer-discards", """
+            var token = cancellationToken;
+            try { try { throw new System.Exception(); } finally { token = default; } }
+            catch (System.Exception) when ((token = cancellationToken).CanBeCanceled) { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["filter-before-finalizer-restores", """
+            var token = default(CancellationToken);
+            try { try { throw new System.Exception(); } finally { token = cancellationToken; } }
+            catch (System.Exception) when ((token = default).CanBeCanceled) { }
+            catch { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, false];
+        yield return ["rejected-filter-before-finalizer", """
+            var token = cancellationToken;
+            try { try { throw new System.Exception(); } finally { token = default; } }
+            catch (System.Exception) when ((token = cancellationToken) is var ignored && false) { return null!; }
+            catch { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["throwing-filter-before-finalizer", """
+            var token = cancellationToken;
+            try { try { throw new System.Exception(); } finally { token = default; } }
+            catch (System.Exception) when ((token = cancellationToken) is var ignored && ThrowFilter()) { return null!; }
+            catch { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["nested-finalizers-after-filter", """
+            var token = cancellationToken;
+            try
+            {
+                try { try { throw new System.Exception(); } finally { token = cancellationToken; } }
+                finally { token = default; }
+            }
+            catch (System.Exception) when ((token = cancellationToken).CanBeCanceled) { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["outer-filter-after-rejected-inner-filter-before-cleanup", """
+            var token = cancellationToken;
+            try
+            {
+                try
+                {
+                    try { throw new System.Exception(); } finally { token = default; }
+                }
+                catch (System.Exception) when ((token = cancellationToken) is var ignored && false) { return null!; }
+            }
+            catch (System.Exception) when (token.CanBeCanceled) { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["throwing-finalizer-replaces-selected-handler", """
+            var token = cancellationToken;
+            try
+            {
+                try { throw new System.Exception(); }
+                finally { token = default; throw new System.InvalidOperationException(); }
+            }
+            catch (System.InvalidOperationException) { }
+            catch (System.Exception) when ((token = cancellationToken).CanBeCanceled) { return null!; }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["rethrow-filter-before-finalizer", """
+            var token = cancellationToken;
+            try
+            {
+                try { try { throw new System.Exception(); } catch { throw; } }
+                finally { token = default; }
+            }
+            catch (System.Exception) when ((token = cancellationToken).CanBeCanceled) { }
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
         yield return ["ref-getter-before-rhs", "var token = default(CancellationToken); try { Slot = (token = cancellationToken); } catch { } await CALL(1, token);", true];
         yield return ["ref-getter-preserves-input", "var token = cancellationToken; try { Slot = default; } catch { } await CALL(1, token);", false];
         yield return ["ref-method-before-rhs", "var token = default(CancellationToken); try { ThrowSlot() = (token = cancellationToken).GetHashCode(); } catch { } await CALL(1, token);", true];
@@ -518,6 +589,9 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         yield return ["constructor-out-write", "var token = cancellationToken; _ = new TokenResetter(out token, false);", true];
         yield return ["constructor-throw-retains-write", "var token = cancellationToken; try { _ = new TokenResetter(out token, true); } catch { }", true];
         yield return ["constructor-initializer-restores", "var token = cancellationToken; _ = new TokenResetter(ref token) { Marker = (token = cancellationToken).CanBeCanceled };", false];
+        yield return ["ref-field-rebinding-preserves-local", "var token = cancellationToken; { scoped TokenRefHolder holder = default; holder.Token = ref token; }", false];
+        yield return ["ref-field-rebinding-preserves-parameter", "{ scoped TokenRefHolder holder = default; holder.Token = ref cancellationToken; } var token = cancellationToken;", false];
+        yield return ["ref-field-rebound-write-invalidates-local", "var token = cancellationToken; { scoped TokenRefHolder holder = default; holder.Token = ref token; holder.Token = default; }", true];
         yield return ["direct-ref-field-invalidates-local", "var token = cancellationToken; { var holder = new TokenRefHolder(ref token); holder.Token = default; }", true];
         yield return ["deconstruct-unboxing-throw", "var token = cancellationToken; object boxed = context; try { CancellationToken ignored; int number; (ignored, number) = ((CancellationToken, int))boxed; } catch { token = default; }", true];
         yield return ["deconstruct-tuple-conversion-throw", "var token = cancellationToken; try { CancellationToken ignored; int number; decimal amount = decimal.MaxValue; (ignored, number) = ((CancellationToken, int))(cancellationToken, amount); } catch { token = default; }", true];

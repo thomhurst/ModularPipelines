@@ -281,7 +281,13 @@ internal sealed class CancellationTokenReachingValues
                 return;
             }
 
-            var next = RunFinalizers(branch, state);
+            if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
+            {
+                Exceptional(branch.Source, state);
+                return;
+            }
+
+            var next = RunFinalizers(branch.FinallyRegions, state);
             if (next is null)
             {
                 return;
@@ -295,16 +301,12 @@ internal sealed class CancellationTokenReachingValues
             {
                 Enqueue(destination, next);
             }
-            else if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
-            {
-                Exceptional(branch.Source, next);
-            }
         }
 
-        private State? RunFinalizers(ControlFlowBranch branch, State state)
+        private State? RunFinalizers(IEnumerable<ControlFlowRegion> finalizers, State state)
         {
             var next = state.Clone();
-            foreach (var finalizer in branch.FinallyRegions)
+            foreach (var finalizer in finalizers)
             {
                 next = analysis.Run(finalizer, next, analysis._graph.Blocks[finalizer.FirstBlockOrdinal], Enqueue);
                 if (next is null)
@@ -333,6 +335,9 @@ internal sealed class CancellationTokenReachingValues
         // edges. A catch is never entered merely because a return exists.
         private void DispatchException(BasicBlock block, State state)
         {
+            // CLR handler search evaluates filters before the second-pass unwind.
+            // Keep pending cleanup separate until a handler has been selected.
+            List<ControlFlowRegion> finalizers = [];
             for (var current = block.EnclosingRegion; current.EnclosingRegion is { } parent; current = parent)
             {
                 if (current.Kind != ControlFlowRegionKind.Try)
@@ -343,17 +348,11 @@ internal sealed class CancellationTokenReachingValues
                 if (parent.Kind == ControlFlowRegionKind.TryAndFinally)
                 {
                     var finalizer = parent.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Finally);
-                    var cleaned = analysis.Run(finalizer, state.Clone(), analysis._graph.Blocks[finalizer.FirstBlockOrdinal], Enqueue);
-                    if (cleaned is null)
-                    {
-                        return;
-                    }
-
-                    state = cleaned;
+                    finalizers.Add(finalizer);
                 }
                 else if (parent.Kind == ControlFlowRegionKind.TryAndCatch)
                 {
-                    var unhandled = DispatchHandlers(parent, state);
+                    var unhandled = DispatchHandlers(parent, state, finalizers);
                     if (unhandled is null)
                     {
                         return;
@@ -362,16 +361,20 @@ internal sealed class CancellationTokenReachingValues
                     state = unhandled;
                 }
             }
+
+            // Unhandled exceptions still execute cleanup, which may itself throw
+            // into an enclosing handler and contains reads that must be recorded.
+            RunFinalizers(finalizers, state);
         }
 
-        private State? DispatchHandlers(ControlFlowRegion handlers, State state)
+        private State? DispatchHandlers(ControlFlowRegion handlers, State state, List<ControlFlowRegion> finalizers)
         {
             foreach (var handler in handlers.NestedRegions.Where(static nested => nested.Kind is
                 ControlFlowRegionKind.Catch or ControlFlowRegionKind.FilterAndHandler))
             {
                 if (handler.Kind == ControlFlowRegionKind.Catch)
                 {
-                    Enqueue(analysis._graph.Blocks[handler.FirstBlockOrdinal], state);
+                    EnterHandler(analysis._graph.Blocks[handler.FirstBlockOrdinal], state);
                     if (IsCatchAll(handler))
                     {
                         return null;
@@ -381,7 +384,7 @@ internal sealed class CancellationTokenReachingValues
                 }
 
                 var filter = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Filter);
-                var rejected = analysis.Run(filter, state.Clone(), analysis._graph.Blocks[filter.FirstBlockOrdinal], Enqueue);
+                var rejected = analysis.Run(filter, state.Clone(), analysis._graph.Blocks[filter.FirstBlockOrdinal], EnterHandler);
                 var catchRegion = handler.NestedRegions.First(static nested => nested.Kind == ControlFlowRegionKind.Catch);
                 if (IsCatchAll(catchRegion))
                 {
@@ -401,6 +404,14 @@ internal sealed class CancellationTokenReachingValues
             }
 
             return state;
+
+            void EnterHandler(BasicBlock entry, State filtered)
+            {
+                if (RunFinalizers(finalizers, filtered) is { } cleaned)
+                {
+                    Enqueue(entry, cleaned);
+                }
+            }
         }
 
         private bool IsCatchAll(ControlFlowRegion handler)
@@ -459,9 +470,16 @@ internal sealed class CancellationTokenReachingValues
         EvaluateTarget(assignment.Target, state, block, exceptional);
 
         var value = Evaluate(assignment.Value, state, block, exceptional);
-        if (assignment is { IsRef: true, Target: ILocalReferenceOperation alias })
+        if (assignment.IsRef)
         {
-            state.Aliases[alias.Local] = ResolveStorage(assignment.Value, state);
+            if (assignment.Target is ILocalReferenceOperation alias)
+            {
+                state.Aliases[alias.Local] = ResolveStorage(assignment.Value, state);
+            }
+
+            // A ref-field rebind changes the field's location, not its referent.
+            // Field reads remain unproven and subsequent through-ref stores still
+            // invalidate compatible tracked storage conservatively.
         }
         else if (!StoreTarget(assignment.Target, value, state))
         {
