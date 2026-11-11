@@ -6527,12 +6527,14 @@ internal static class ModuleAuthoringAnalysis
     {
         // Only the last definite reset can kill the value from the previous iteration.
         // Later conditional assignments must also be independent of loop-mutated state.
+        // Identity copies preserve an earlier reset, but cannot establish one themselves.
         var reset = loop.Descendants()
             .Where(candidate => candidate.Syntax.Span.End <= branch.Syntax.SpanStart)
             .Where(candidate => IsLinearPredecessor(candidate, branch))
             .Where(candidate => DefinitelyAssignsLocal(candidate, local)
                 || (candidate is IVariableDeclaratorOperation { Initializer: not null } declarator
                     && SymbolEqualityComparer.Default.Equals(declarator.Symbol, local)))
+            .Where(candidate => !GetReachingLocalAssignments(candidate, local).Any(IsSelfCopy))
             .OrderByDescending(static candidate => candidate.Syntax.Span.End)
             .FirstOrDefault();
 
@@ -6543,7 +6545,18 @@ internal static class ModuleAuthoringAnalysis
                 .Where(assignment => assignment.Syntax.SpanStart >= reset.Syntax.Span.End
                     && assignment.Syntax.Span.End <= branch.Syntax.SpanStart
                     && AssignsLocal(assignment, local))
-                .All(assignment => IsIterationIndependentValue(assignment.Value, loop));
+                .All(assignment => IsSelfCopy(assignment)
+                    || IsIterationIndependentValue(assignment.Value, loop));
+    }
+
+    private static bool IsSelfCopy(ISimpleAssignmentOperation assignment)
+    {
+        return assignment.Value switch
+        {
+            ILocalReferenceOperation local => AssignsLocal(assignment, local.Local),
+            IParameterReferenceOperation parameter => AssignsLocal(assignment, parameter.Parameter),
+            _ => false,
+        };
     }
 
     private static bool IsIterationIndependentReset(
@@ -6587,10 +6600,45 @@ internal static class ModuleAuthoringAnalysis
              ancestor = ancestor.Parent)
         {
             if (ancestor is IBlockOperation
-                && AlwaysExitsCallable(ancestor)
+                && AlwaysExitsBeforeUse(ancestor, operation)
                 && !ExitCanReachHandler(ancestor, operation))
             {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool AlwaysExitsBeforeUse(IOperation branch, IOperation operation)
+    {
+        return branch switch
+        {
+            IReturnOperation or IThrowOperation => true,
+            IBranchOperation { BranchKind: BranchKind.Break } exit =>
+                BreakExitsContainingRegion(exit, operation),
+            IBlockOperation { Operations.Length: > 0 } block =>
+                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                AlwaysExitsBeforeUse(conditional.WhenTrue, operation)
+                && AlwaysExitsBeforeUse(whenFalse, operation),
+            _ => false,
+        };
+    }
+
+    private static bool BreakExitsContainingRegion(IBranchOperation exit, IOperation operation)
+    {
+        for (var ancestor = exit.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            var exitLabel = ancestor switch
+            {
+                ILoopOperation loop => loop.ExitLabel,
+                ISwitchOperation switchOperation => switchOperation.ExitLabel,
+                _ => null,
+            };
+            if (SymbolEqualityComparer.Default.Equals(exit.Target, exitLabel))
+            {
+                return HasAncestor(operation, ancestor);
             }
         }
 
