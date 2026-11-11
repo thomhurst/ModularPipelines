@@ -116,6 +116,11 @@ internal static class CancellationTokenParameterProvenance
                 return other.Merge(this);
             }
 
+            return MergeScalarOrArray(other);
+        }
+
+        private Value MergeScalarOrArray(Value other)
+        {
             if (Arrays is { } leftArrays && other.Arrays is { } rightArrays)
             {
                 return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray);
@@ -303,99 +308,124 @@ internal static class CancellationTokenParameterProvenance
 
         private Value Evaluate(IOperation operation, State state)
         {
-            switch (operation)
+            return operation switch
             {
-                case IParameterReferenceOperation parameter:
-                    var value = Get(state.Values, parameter.Parameter);
-                    var safe = IsSafe(value, state);
-                    var span = parameter.Syntax.Span;
-                    _results[span] = safe && (!_results.TryGetValue(span, out var previous) || previous);
+                IParameterReferenceOperation parameter => EvaluateParameter(parameter, state),
+                ILocalReferenceOperation local => Get(state.Values, local.Local),
+                IFlowCaptureReferenceOperation capture => Get(state.Captures, capture.Id),
+                IConversionOperation conversion => EvaluateConversion(conversion, state),
+                IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
+                                    when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource" => Evaluate(instance, state),
+                ITupleOperation tuple => new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]),
+                IFieldReferenceOperation field when TupleElementIndex(field) >= 0 => Element(Evaluate(field.Instance!, state), TupleElementIndex(field)),
+                IArrayCreationOperation array => EvaluateArray(array, state),
+                ICollectionExpressionOperation collection => EvaluateCollection(collection, state),
+                IArrayElementReferenceOperation element => EvaluateArrayElement(element, state),
+                _ => EvaluateEffects(operation, state),
+            };
+        }
 
-                    return value;
-                case ILocalReferenceOperation local:
-                    return Get(state.Values, local.Local);
-                case IFlowCaptureReferenceOperation capture:
-                    return Get(state.Captures, capture.Id);
-                case IConversionOperation conversion:
-                    var converted = Evaluate(conversion.Operand, state);
-                    if (converted.Elements is null || conversion.Type is INamedTypeSymbol { IsTupleType: true })
-                    {
-                        return converted;
-                    }
+        private Value EvaluateParameter(IParameterReferenceOperation parameter, State state)
+        {
+            var value = Get(state.Values, parameter.Parameter);
+            var safe = IsSafe(value, state);
+            var span = parameter.Syntax.Span;
+            _results[span] = safe && (!_results.TryGetValue(span, out var previous) || previous);
 
-                    InvalidateArrays(converted, state);
-                    return Value.None;
-                case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
-                    when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
-                    return Evaluate(instance, state);
-                case ITupleOperation tuple:
-                    return new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]);
-                case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
-                    return Element(Evaluate(field.Instance!, state), TupleElementIndex(field));
-                case IArrayCreationOperation array:
-                    foreach (var dimension in array.DimensionSizes)
-                    {
-                        Evaluate(dimension, state);
-                    }
+            return value;
+        }
 
-                    var arrayElements = array.Initializer is { } initializer
-                        ? initializer.ElementValues.Select(element => Evaluate(element, state)).ToArray()
-                        : [];
-                    if (IsTokenCollection(array.Type))
-                    {
-                        return CreateArray(array.Syntax.Span, arrayElements, state);
-                    }
-
-                    foreach (var arrayElement in arrayElements)
-                    {
-                        InvalidateArrays(arrayElement, state);
-                    }
-
-                    return Value.None;
-                case ICollectionExpressionOperation collection:
-                    var elements = new List<Value>();
-                    foreach (var element in collection.Elements)
-                    {
-                        if (element is ISpreadOperation spread)
-                        {
-                            // One fact per source element bounds loops that append a spread.
-                            _summarizedArrays.Add(collection.Syntax.Span);
-                            elements.Add(IsSafe(Evaluate(spread.Operand, state), state) ? Value.Original : Value.None);
-                        }
-                        else
-                        {
-                            elements.Add(Evaluate(element, state));
-                        }
-                    }
-
-                    if (IsTokenCollection(collection.Type))
-                    {
-                        return CreateArray(collection.Syntax.Span, elements, state);
-                    }
-
-                    foreach (var element in elements)
-                    {
-                        InvalidateArrays(element, state);
-                    }
-
-                    return Value.None;
-                case IArrayElementReferenceOperation element:
-                    var arrayValue = Evaluate(element.ArrayReference, state);
-                    foreach (var index in element.Indices)
-                    {
-                        Evaluate(index, state);
-                    }
-
-                    if (element.Indices.Length == 1 && element.Indices[0].ConstantValue is { HasValue: true, Value: int arrayIndex }
-                        && arrayValue.Arrays is { } arrayIdentities && !arrayIdentities.Any(_summarizedArrays.Contains))
-                    {
-                        return ArrayElement(arrayValue, arrayIndex, state);
-                    }
-
-                    return Value.None;
-                default:
-                    return EvaluateEffects(operation, state);
+        private Value EvaluateConversion(IConversionOperation conversion, State state)
+        {
+            var converted = Evaluate(conversion.Operand, state);
+            if (converted.Elements is null || conversion.Type is INamedTypeSymbol { IsTupleType: true })
+            {
+                return converted;
             }
+
+            InvalidateArrays(converted, state);
+            return Value.None;
+        }
+
+        private Value EvaluateArray(IArrayCreationOperation array, State state)
+        {
+            foreach (var dimension in array.DimensionSizes)
+            {
+                Evaluate(dimension, state);
+            }
+
+            var arrayElements = array.Initializer is { } initializer
+                ? initializer.ElementValues.Select(element => Evaluate(element, state)).ToArray()
+                : [];
+            if (IsTokenCollection(array.Type))
+            {
+                return CreateArray(array.Syntax.Span, arrayElements, state);
+            }
+
+            foreach (var arrayElement in arrayElements)
+            {
+                InvalidateArrays(arrayElement, state);
+            }
+
+            return Value.None;
+        }
+
+        private Value EvaluateCollection(ICollectionExpressionOperation collection, State state)
+        {
+            var elements = new List<Value>();
+            foreach (var element in collection.Elements)
+            {
+                if (element is ISpreadOperation spread)
+                {
+                    // One fact per source element bounds loops that append a spread.
+                    _summarizedArrays.Add(collection.Syntax.Span);
+                    elements.Add(IsSafe(Evaluate(spread.Operand, state), state) ? Value.Original : Value.None);
+                }
+                else
+                {
+                    elements.Add(Evaluate(element, state));
+                }
+            }
+
+            if (IsTokenCollection(collection.Type))
+            {
+                return CreateArray(collection.Syntax.Span, elements, state);
+            }
+
+            foreach (var element in elements)
+            {
+                InvalidateArrays(element, state);
+            }
+
+            return Value.None;
+        }
+
+        private Value EvaluateArrayElement(IArrayElementReferenceOperation element, State state)
+        {
+            var arrayValue = Evaluate(element.ArrayReference, state);
+            foreach (var index in element.Indices)
+            {
+                Evaluate(index, state);
+            }
+
+            if (element.Indices.Length == 1 && element.Indices[0].ConstantValue is { HasValue: true, Value: int arrayIndex }
+                && arrayValue.Arrays is { } arrayIdentities && !arrayIdentities.Any(_summarizedArrays.Contains))
+            {
+                return ArrayElement(arrayValue, arrayIndex, state);
+            }
+
+            return Value.None;
+        }
+
+        private Value EvaluateLinkedSource(IInvocationOperation invocation, State state)
+        {
+            var linked = false;
+            foreach (var argument in invocation.Arguments)
+            {
+                linked |= IsSafe(Evaluate(argument.Value, state), state);
+            }
+
+            return linked ? Value.Original : Value.None;
         }
 
         private Value EvaluateInvocation(IInvocationOperation invocation, State state)
@@ -403,13 +433,7 @@ internal static class CancellationTokenParameterProvenance
             if (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
                 && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource")
             {
-                var linked = false;
-                foreach (var argument in invocation.Arguments)
-                {
-                    linked |= IsSafe(Evaluate(argument.Value, state), state);
-                }
-
-                return linked ? Value.Original : Value.None;
+                return EvaluateLinkedSource(invocation, state);
             }
 
             // CFG operations have no SemanticModel. Recover the source operation
@@ -440,16 +464,7 @@ internal static class CancellationTokenParameterProvenance
             if (original is not null
                 && ModuleAuthoringAnalysis.GetIdentityHelperArgument(original) is { } returnedArgument)
             {
-                var returned = Get(values, returnedArgument.Syntax.Span);
-                // Match direct boxing: retaining tuple structure behind an object
-                // result lets a loop grow nested element facts without a bound.
-                if (returned.Elements is not null && invocation.Type is not INamedTypeSymbol { IsTupleType: true })
-                {
-                    InvalidateArrays(returned, state);
-                    return Value.None;
-                }
-
-                return returned;
+                return EvaluateIdentityResult(invocation, Get(values, returnedArgument.Syntax.Span), state);
             }
 
             foreach (var value in values.Values)
@@ -457,6 +472,12 @@ internal static class CancellationTokenParameterProvenance
                 InvalidateArrays(value, state);
             }
 
+            return EvaluateHelperResult(invocation, original, arguments);
+        }
+
+        private static Value EvaluateHelperResult(
+            IInvocationOperation invocation, IInvocationOperation? original, Dictionary<TextSpan, bool> arguments)
+        {
             // A collection result cannot use a scalar snapshot: later writes must
             // affect its allocation. Unknown collection helpers remain escapes.
             if (invocation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource"
@@ -468,6 +489,19 @@ internal static class CancellationTokenParameterProvenance
             }
 
             return Value.None;
+        }
+
+        private static Value EvaluateIdentityResult(IInvocationOperation invocation, Value returned, State state)
+        {
+            // Match direct boxing: retaining tuple structure behind an object
+            // result lets a loop grow nested element facts without a bound.
+            if (returned.Elements is not null && invocation.Type is not INamedTypeSymbol { IsTupleType: true })
+            {
+                InvalidateArrays(returned, state);
+                return Value.None;
+            }
+
+            return returned;
         }
 
         private Value EvaluateEffects(IOperation operation, State state)
@@ -608,6 +642,46 @@ internal static class CancellationTokenParameterProvenance
             }
         }
 
+        private void AssignArrayElement(IArrayElementReferenceOperation element, Value value, State state)
+        {
+            var array = Evaluate(element.ArrayReference, state);
+            foreach (var index in element.Indices)
+            {
+                Evaluate(index, state);
+            }
+
+            if (array.Arrays is not { } identities)
+            {
+                return;
+            }
+
+            if (element.Indices.Length != 1
+                || element.Indices[0].ConstantValue is not { HasValue: true, Value: int arrayIndex }
+                || identities.Any(_summarizedArrays.Contains))
+            {
+                InvalidateArrays(array, state);
+                return;
+            }
+
+            foreach (var identity in identities)
+            {
+                if (state.Arrays.TryGetValue(identity, out var items) && arrayIndex >= 0)
+                {
+                    UpdateArrayElement(array, identities.Count, identity, items, arrayIndex, value, state);
+                }
+            }
+        }
+
+        private static void UpdateArrayElement(
+            Value array, int aliasCount, TextSpan identity, Dictionary<int, Value> items, int arrayIndex, Value value, State state)
+        {
+            items[arrayIndex] = aliasCount == 1 && !array.UnknownArray ? value : State.GetElement(items, arrayIndex).Merge(value);
+            // A safe write cannot remove an existing signal. Other writes
+            // require a still-safe element; the summary does not name one.
+            state.SetArraySafety(identity, items.Values.Any(static item => item.Safe)
+                || (value.Safe && state.SafeArrays.Contains(identity)));
+        }
+
         private void Assign(IOperation target, Value value, State state)
         {
             switch (target)
@@ -646,37 +720,7 @@ internal static class CancellationTokenParameterProvenance
 
                     break;
                 case IArrayElementReferenceOperation element:
-                    var array = Evaluate(element.ArrayReference, state);
-                    foreach (var index in element.Indices)
-                    {
-                        Evaluate(index, state);
-                    }
-
-                    if (array.Arrays is not { } identities)
-                    {
-                        break;
-                    }
-
-                    if (element.Indices.Length != 1
-                        || element.Indices[0].ConstantValue is not { HasValue: true, Value: int arrayIndex }
-                        || identities.Any(_summarizedArrays.Contains))
-                    {
-                        InvalidateArrays(array, state);
-                        break;
-                    }
-
-                    foreach (var identity in identities)
-                    {
-                        if (state.Arrays.TryGetValue(identity, out var items) && arrayIndex >= 0)
-                        {
-                            items[arrayIndex] = identities.Count == 1 && !array.UnknownArray ? value : State.GetElement(items, arrayIndex).Merge(value);
-                            // A safe write cannot remove an existing signal. Other writes
-                            // require a still-safe element; the summary does not name one.
-                            state.SetArraySafety(identity, items.Values.Any(static item => item.Safe)
-                                || (value.Safe && state.SafeArrays.Contains(identity)));
-                        }
-                    }
-
+                    AssignArrayElement(element, value, state);
                     break;
                 case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance }:
                     InvalidateArrays(Evaluate(instance, state), state);

@@ -5615,6 +5615,24 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
+        var parameter = GetIdentityReturnParameter(operation);
+        if (parameter is null)
+        {
+            return null;
+        }
+
+        if (invocation.TargetMethod.ReducedFrom is not null
+            && SymbolEqualityComparer.Default.Equals(method.Parameters[0], parameter.Parameter))
+        {
+            return invocation.Instance;
+        }
+
+        return invocation.Arguments.FirstOrDefault(argument => argument.Parameter is not null
+            && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter.Parameter))?.Value;
+    }
+
+    private static IParameterReferenceOperation? GetIdentityReturnParameter(IOperation operation)
+    {
         if (operation is ILocalFunctionOperation { Body: { } body })
         {
             operation = body;
@@ -5637,19 +5655,7 @@ internal static class ModuleAuthoringAnalysis
             returned = conversion.Operand;
         }
 
-        if (returned is not IParameterReferenceOperation parameter)
-        {
-            return null;
-        }
-
-        if (invocation.TargetMethod.ReducedFrom is not null
-            && SymbolEqualityComparer.Default.Equals(method.Parameters[0], parameter.Parameter))
-        {
-            return invocation.Instance;
-        }
-
-        return invocation.Arguments.FirstOrDefault(argument => argument.Parameter is not null
-            && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter.Parameter))?.Value;
+        return returned as IParameterReferenceOperation;
     }
 
     internal static bool FlowsFromAssignedCancellationTokenHelper(
