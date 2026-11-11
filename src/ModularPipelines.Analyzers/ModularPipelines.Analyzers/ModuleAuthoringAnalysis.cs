@@ -5741,7 +5741,7 @@ internal static class ModuleAuthoringAnalysis
             .Any(write => reads.Any(read => GetCancellationExecutionSites(write, read, [with(SymbolEqualityComparer.Default)])
                 .Any(site => CanCancellationWriteReachRead(site, read)
                     && MayShareCancellationStorage(write, read, invocation, method)
-                    && !IsCancellationPreservingCallbackCopy(write, read, site, [], write))));
+                    && !IsCancellationPreservingSnapshotCopy(write, read, site, [], write))));
     }
 
     private static bool IsCapturedCancellationStorage(IOperation write)
@@ -6117,15 +6117,16 @@ internal static class ModuleAuthoringAnalysis
                 .Any(site => site.Syntax.SpanStart > source.Syntax.SpanStart
                     && CanCancellationMutationReachLocalRead(source, site, executionRead)
                     && CanCancellationWriteReachRead(site, executionRead)
-                    && !IsCancellationPreservingCallbackCopy(operation, source, site, visitedWrites, read)));
+                    && !IsCancellationPreservingSnapshotCopy(operation, source, site, visitedWrites, read)));
     }
 
-    private static bool IsCancellationPreservingCallbackCopy(
+    private static bool IsCancellationPreservingSnapshotCopy(
         IOperation operation,
         IOperation source,
         IOperation site,
         HashSet<IOperation> visitedWrites,
-        IOperation storageRead)
+        IOperation storageRead,
+        bool includeDirectCopies = false)
     {
         // Storage-write scans yield the individual target of a deconstruction.
         while (operation.Parent is ITupleOperation)
@@ -6138,7 +6139,7 @@ internal static class ModuleAuthoringAnalysis
             operation = operation.Parent;
         }
 
-        if (ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(site))
+        if ((!includeDirectCopies && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(site)))
             || !visitedWrites.Add(operation))
         {
             return false;
@@ -6255,38 +6256,21 @@ internal static class ModuleAuthoringAnalysis
             .SelectMany(GetCancellationStorageWrites)
             .Where(IsInReachableBranch)
             .Where(write => !visitedWrites.Any(visited => HasAncestor(write, visited)) && !IsCancellationStorageSelfStore(write.Parent!))
-            .Where(write => CancellationSnapshotWriteMayAlias(write, later)
-                && !CancellationStorePreservesSnapshot(write, earlier, visitedWrites))
-            .SelectMany(write => GetCancellationExecutionSites(write, later, [with(SymbolEqualityComparer.Default)]))
-            .Any(site => site.Syntax.SpanStart > earlier.Syntax.SpanStart
-                && ((site.Syntax.SpanStart < later.Syntax.SpanStart
-                        && CanCancellationWriteReachRead(site, later))
-                    || CanCarryCancellationWriteAcrossLoop(site, later)
-                    || HasCancellationBackJump(site, later)
-                    || (CanCancellationWriteReachRead(site, earlier)
-                        && (CanCarryCancellationWriteAcrossLoop(site, earlier) || HasCancellationBackJump(site, earlier)))));
+            .Where(write => CancellationSnapshotWriteMayAlias(write, later))
+            .SelectMany(write => GetCancellationExecutionSites(write, later, [with(SymbolEqualityComparer.Default)])
+                .Where(site => !IsCancellationPreservingSnapshotCopy(write, earlier, site, visitedWrites, later, includeDirectCopies: true)))
+            .Any(site => CanCancellationWriteChangeSnapshots(site, earlier, later));
     }
 
-    private static bool CancellationStorePreservesSnapshot(
-        IOperation write,
-        IOperation snapshot,
-        HashSet<IOperation> visitedWrites)
+    private static bool CanCancellationWriteChangeSnapshots(IOperation site, IOperation earlier, IOperation later)
     {
-        if (write.Parent is not ISimpleAssignmentOperation { IsRef: false } assignment
-            || !ReferenceEquals(assignment.Target, write) || !visitedWrites.Add(assignment))
-        {
-            return false;
-        }
-
-        try
-        {
-            return HaveSameCancellationSnapshot(
-                assignment.Value, snapshot, write, [with(SymbolEqualityComparer.Default)], visitedWrites);
-        }
-        finally
-        {
-            visitedWrites.Remove(assignment);
-        }
+        return site.Syntax.SpanStart > earlier.Syntax.SpanStart
+            && ((site.Syntax.SpanStart < later.Syntax.SpanStart
+                    && CanCancellationWriteReachRead(site, later))
+                || CanCarryCancellationWriteAcrossLoop(site, later)
+                || HasCancellationBackJump(site, later)
+                || (CanCancellationWriteReachRead(site, earlier)
+                    && (CanCarryCancellationWriteAcrossLoop(site, earlier) || HasCancellationBackJump(site, earlier))));
     }
 
     private static bool CancellationSnapshotWriteMayAlias(IOperation write, IParameterReferenceOperation read)

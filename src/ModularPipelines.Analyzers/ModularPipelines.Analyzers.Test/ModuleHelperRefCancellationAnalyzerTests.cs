@@ -228,6 +228,11 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("var local = first; var saved = local; second = ref local; int count = 0; void Copy() { (local, count) = (saved, 1); } Copy(); return second;", false)]
     [DataRow("var local = first; var saved = local; second = ref local; int count = 0; void Copy() { (local, count) = (default(CancellationToken), 1); } Copy(); return second;", true)]
     [DataRow("var saved = first; int count = 0; void Copy() { (first, count) = (saved, 1); } Copy(); return first;", false)]
+    [DataRow("var saved = first; saved = default; var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = saved; } return second;", true)]
+    [DataRow("var saved = first; ref CancellationToken alias = ref saved; alias = default; var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = saved; } return second;", true)]
+    [DataRow("var saved = first; var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); void Restore() { first = saved; } Restore(); } return second;", false)]
+    [DataRow("var saved = first; var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = saved; saved = default; } return second;", true)]
+    [DataRow("var saved = first; var local = first; second = ref local; int count = 0; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); (first, count) = (saved, 1); } return second;", false)]
     public async Task Checks_Helper_Value_Parameter_Storage(string body, bool reports)
     {
         var call = "Task.Delay(1, snapshot)";
