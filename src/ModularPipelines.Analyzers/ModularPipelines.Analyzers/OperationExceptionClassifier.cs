@@ -24,7 +24,7 @@ internal sealed class OperationExceptionClassifier(
         IOperation? storedValue = null)
     {
         var arithmetic = GetArithmeticExceptions(operation);
-        if (GetReceiverExceptionName(operation) is { } receiver)
+        if (GetReceiverExceptionName(operation, deconstructionStore) is { } receiver)
         {
             return [receiver];
         }
@@ -71,7 +71,7 @@ internal sealed class OperationExceptionClassifier(
     internal static ImmutableArray<TextSpan> GetEarlyCollectionCallSpans(IOperation root) =>
         [.. GetCollectionCallSpans(root)];
 
-    private string? GetReceiverExceptionName(IOperation operation)
+    private string? GetReceiverExceptionName(IOperation operation, bool deconstructionStore)
     {
         var field = GetFieldAccess(operation);
         var eventAccess = GetEventAccess(operation);
@@ -80,7 +80,30 @@ internal sealed class OperationExceptionClassifier(
             return "System.TypeInitializationException";
         }
 
-        return (field is not null && HasNullableReceiver(field.Instance)) || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance)) || IsThrowingMethodReference(operation) ? "System.NullReferenceException" : null;
+        return DereferencesRefField(operation, field, deconstructionStore) || (field is not null && HasNullableReceiver(field.Instance)) || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance)) || IsThrowingMethodReference(operation) ? "System.NullReferenceException" : null;
+    }
+
+    private static bool DereferencesRefField(IOperation operation, IFieldReferenceOperation? field, bool deconstructionStore)
+    {
+        if (field is not { Field.RefKind: not RefKind.None }
+            || operation is ISimpleAssignmentOperation { IsRef: true }
+            || field.Syntax.Parent is RefExpressionSyntax)
+        {
+            return false;
+        }
+
+        // CFG captures of assignment locations precede the RHS and do not read the referent.
+        // Deconstruction completion explicitly classifies the target after all RHS values.
+        var target = field.Syntax;
+        while (target.Parent is ArgumentSyntax { Parent: TupleExpressionSyntax tuple })
+        {
+            target = tuple;
+        }
+
+        return deconstructionStore || operation is ISimpleAssignmentOperation
+            || target.Parent is not AssignmentExpressionSyntax assignment
+            || !assignment.IsKind(SyntaxKind.SimpleAssignmentExpression)
+            || !ReferenceEquals(assignment.Left, target);
     }
 
     private static bool IsSimpleAssignmentTarget(IOperation operation) =>

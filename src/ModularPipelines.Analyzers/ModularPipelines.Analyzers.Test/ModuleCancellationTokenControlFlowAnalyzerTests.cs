@@ -701,6 +701,30 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         yield return ["rhs-before-field-store", "TokenBox box = null!; var token = default(CancellationToken); try { box.Value = token = cancellationToken; } catch { }", false];
     }
 
+    public static IEnumerable<object[]> RefFieldExceptionCases()
+    {
+        yield return ["null-write", "try { box.Value = 1; } catch { token = default; }", true];
+        yield return ["null-write-matching-catch", "try { box.Value = 1; } catch (System.NullReferenceException) { token = default; }", true];
+        yield return ["null-write-incompatible-catch", "try { box.Value = 1; } catch (System.FormatException) { token = default; }", false];
+        yield return ["null-deconstruction", "try { (box.Value, _) = (1, 2); } catch { token = default; }", true];
+        yield return ["null-compound-write", "try { box.Value += 1; } catch { token = default; }", true];
+        yield return ["null-read", "try { _ = box.Value; } catch { token = default; }", true];
+        yield return ["copy-null-reference", "try { ref int alias = ref box.Value; } catch { token = default; }", false];
+        yield return ["rebind", "int value = 0; try { box.Value = ref value; } catch { token = default; }", false];
+        yield return ["rhs-before-deconstruction", "token = default; try { (box.Value, _) = ((token = cancellationToken).CanBeCanceled ? 1 : 0, 0); } catch { }", false];
+        yield return ["rhs-before-write", "token = default; try { box.Value = (token = cancellationToken).CanBeCanceled ? 1 : 0; } catch { }", false];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(RefFieldExceptionCases))]
+    public async Task Classifies_Ref_Field_Exceptions(string name, string body, bool warning)
+    {
+        _ = name;
+        await Verify("var token = cancellationToken; scoped RefStoreBox box = default; " + body
+            + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private ref struct RefStoreBox { public ref int Value; }");
+    }
+
     [TestMethod]
     [DynamicData(nameof(StoreExceptionCases))]
     public async Task Classifies_Store_Exceptions(string name, string body, bool warning)
