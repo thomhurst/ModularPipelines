@@ -3488,6 +3488,12 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { cancellationToken = original; while (true) { if (i == 0) { cancellationToken = CancellationToken.None; break; } await Task.Delay(1, cancellationToken); break; } }")]
     [DataRow("for (var i = 0; i < 2; i++) { while (true) { var token = cancellationToken; if (i == 0) { token = CancellationToken.None; break; } await Task.Delay(1, token); break; } }")]
     [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { while (true) { cancellationToken = original; if (i == 0) { cancellationToken = CancellationToken.None; break; } await Task.Delay(1, cancellationToken); break; } }")]
+    [DataRow("switch (context) { case null: cancellationToken = CancellationToken.None; return null!; default: break; } await Task.Delay(1, cancellationToken);")]
+    [DataRow("switch (context) { case null: cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); default: break; } await Task.Delay(1, cancellationToken);")]
+    [DataRow("switch (context) { case null: cancellationToken = CancellationToken.None; if (context is null) return null!; else throw new System.InvalidOperationException(); default: break; } await Task.Delay(1, cancellationToken);")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { cancellationToken = original; switch (i) { case 0: cancellationToken = CancellationToken.None; continue; default: break; } await Task.Delay(1, cancellationToken); }")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { cancellationToken = original; if (context is not null) { cancellationToken = CancellationToken.None; break; } } else { cancellationToken = original; } await Task.Delay(1, cancellationToken); break; } }")]
+    [DataRow("var token = cancellationToken; for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { token = cancellationToken; if (context is not null) { token = CancellationToken.None; break; } } else { token = cancellationToken; } await Task.Delay(1, token); break; } }")]
     public async Task Accepts_Token_When_Overwrite_Cannot_Reach_Use(string body)
     {
         var source = ModuleSource($$"""
@@ -3516,6 +3522,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("while (context is not null) { switch (context) { case null: cancellationToken = CancellationToken.None; break; } await {|#0:Task.Delay(1, cancellationToken)|}; }")]
     [DataRow("while (context is not null) { while (context is null) { cancellationToken = CancellationToken.None; break; } await {|#0:Task.Delay(1, cancellationToken)|}; }")]
     [DataRow("while (context is not null) { try { cancellationToken = CancellationToken.None; break; } finally { await {|#0:Task.Delay(1, cancellationToken)|}; } }")]
+    [DataRow("try { switch (context) { case null: cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); default: break; } } catch (System.InvalidOperationException) { } await {|#0:Task.Delay(1, cancellationToken)|};")]
+    [DataRow("try { switch (context) { case null: cancellationToken = CancellationToken.None; return null!; default: break; } } finally { await {|#0:Task.Delay(1, cancellationToken)|}; }")]
+    [DataRow("for (var i = 0; i < 2; i++) { switch (i) { case 0: cancellationToken = CancellationToken.None; continue; default: break; } await {|#0:Task.Delay(1, cancellationToken)|}; }")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { cancellationToken = original; if (context is not null) { cancellationToken = CancellationToken.None; break; } } else { cancellationToken = cancellationToken; } await {|#0:Task.Delay(1, cancellationToken)|}; break; } }")]
     public async Task Reports_Token_When_Overwrite_Can_Still_Reach_Use(string body)
     {
         var source = ModuleSource($$"""

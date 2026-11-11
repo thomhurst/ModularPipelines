@@ -6194,8 +6194,10 @@ internal static class ModuleAuthoringAnalysis
         ISymbol local,
         IEnumerable<ISimpleAssignmentOperation> assignments)
     {
+        // Every path to this join assigns the symbol again. Exiting paths cannot
+        // contribute a value; references in the remaining assignments are still traced.
         var branchValues = GetReachingLocalAssignments(branchingOperation, local)
-            .Where(assignment => !IsInTerminatingBranch(assignment, operation, local))
+            .Where(assignment => !IsInTerminatingBranch(assignment, operation, local, hasAssigningJoin: true))
             .Select(static assignment => assignment.Value);
         var subsequentValues = assignments
             .Where(candidate => candidate.Syntax.SpanStart > branchingOperation.Syntax.Span.End)
@@ -6597,14 +6599,18 @@ internal static class ModuleAuthoringAnalysis
                 && referencedSymbols.Contains(declarator.Symbol, SymbolEqualityComparer.Default)));
     }
 
-    private static bool IsInTerminatingBranch(IOperation candidate, IOperation operation, ISymbol local)
+    private static bool IsInTerminatingBranch(
+        IOperation candidate,
+        IOperation operation,
+        ISymbol local,
+        bool hasAssigningJoin = false)
     {
         for (var ancestor = candidate.Parent;
              ancestor is not null && !HasAncestor(operation, ancestor);
              ancestor = ancestor.Parent)
         {
-            if (ancestor is IBlockOperation
-                && AlwaysExitsBeforeUse(ancestor, operation, ancestor, local)
+            if (ancestor is IBlockOperation or ISwitchCaseOperation
+                && AlwaysExitsBeforeUse(ancestor, operation, ancestor, local, hasAssigningJoin)
                 && !ExitCanReachHandler(ancestor, operation))
             {
                 return true;
@@ -6618,18 +6624,21 @@ internal static class ModuleAuthoringAnalysis
         IOperation branch,
         IOperation operation,
         IOperation terminatingBranch,
-        ISymbol local)
+        ISymbol local,
+        bool hasAssigningJoin)
     {
         return branch switch
         {
             IReturnOperation or IThrowOperation => true,
             IBranchOperation { BranchKind: BranchKind.Break or BranchKind.Continue } exit =>
-                BranchExitsContainingRegion(exit, operation, terminatingBranch, local),
+                BranchExitsContainingRegion(exit, operation, terminatingBranch, local, hasAssigningJoin),
             IBlockOperation { Operations.Length: > 0 } block =>
-                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation, terminatingBranch, local),
+                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation, terminatingBranch, local, hasAssigningJoin),
+            ISwitchCaseOperation { Body.Length: > 0 } switchCase =>
+                AlwaysExitsBeforeUse(switchCase.Body[switchCase.Body.Length - 1], operation, terminatingBranch, local, hasAssigningJoin),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
-                AlwaysExitsBeforeUse(conditional.WhenTrue, operation, terminatingBranch, local)
-                && AlwaysExitsBeforeUse(whenFalse, operation, terminatingBranch, local),
+                AlwaysExitsBeforeUse(conditional.WhenTrue, operation, terminatingBranch, local, hasAssigningJoin)
+                && AlwaysExitsBeforeUse(whenFalse, operation, terminatingBranch, local, hasAssigningJoin),
             _ => false,
         };
     }
@@ -6638,7 +6647,8 @@ internal static class ModuleAuthoringAnalysis
         IBranchOperation exit,
         IOperation operation,
         IOperation terminatingBranch,
-        ISymbol local)
+        ISymbol local,
+        bool hasAssigningJoin)
     {
         for (var ancestor = exit.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
@@ -6655,8 +6665,9 @@ internal static class ModuleAuthoringAnalysis
                 // Breaks may carry values through outer loops; continues also re-enter
                 // their target loop. Only resets on the path to the use kill that carry.
                 return HasAncestor(operation, ancestor)
-                    && !CanCarryValueAcrossLoop(terminatingBranch, operation, local,
-                        exit.BranchKind == BranchKind.Break ? ancestor : null);
+                    && (hasAssigningJoin
+                        || !CanCarryValueAcrossLoop(terminatingBranch, operation, local,
+                            exit.BranchKind == BranchKind.Break ? ancestor : null));
             }
         }
 
