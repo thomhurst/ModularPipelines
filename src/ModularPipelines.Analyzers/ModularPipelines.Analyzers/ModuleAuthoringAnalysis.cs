@@ -5830,23 +5830,29 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool AreExclusiveCancellationBranches(IOperation write, IOperation read)
     {
+        if (CanCarryCancellationWriteAcrossLoop(write, read) || HasCancellationBackJump(write, read))
+        {
+            return false;
+        }
+
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (AreOppositeCancellationConditionalBranches(ancestor, write, read))
+            if (AreOppositeCancellationConditionalBranches(ancestor, write, read)
+                || AreExclusiveCancellationSwitchCases(ancestor, read))
             {
-                return !CanCarryCancellationWriteAcrossLoop(write, read) && !HasCancellationBackJump(write, read);
-            }
-
-            if (ancestor is ISwitchCaseOperation writeCase && writeCase.Parent is ISwitchOperation switchOperation
-                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } readCase
-                && !ReferenceEquals(writeCase, readCase))
-            {
-                return !CanCarryCancellationWriteAcrossLoop(write, read) && !HasCancellationBackJump(write, read)
-                    && !CanCancellationJumpBetweenSwitchCases(writeCase, readCase, switchOperation);
+                return true;
             }
         }
 
         return false;
+    }
+
+    private static bool AreExclusiveCancellationSwitchCases(IOperation ancestor, IOperation read)
+    {
+        return ancestor is ISwitchCaseOperation writeCase && writeCase.Parent is ISwitchOperation switchOperation
+            && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } readCase
+            && !ReferenceEquals(writeCase, readCase)
+            && !CanCancellationJumpBetweenSwitchCases(writeCase, readCase, switchOperation);
     }
 
     private static bool AreOppositeCancellationConditionalBranches(IOperation ancestor, IOperation write, IOperation read)
