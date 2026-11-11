@@ -816,7 +816,9 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsPotentialParameterWrite(IParameterReferenceOperation reference)
     {
         IOperation target = reference;
-        while (target.Parent is IConversionOperation or IParenthesizedOperation or ITupleOperation)
+        while (target.Parent is IConversionOperation or IParenthesizedOperation or ITupleOperation
+            || (target.Parent is IConditionalOperation { IsRef: true } conditional
+                && (ReferenceEquals(conditional.WhenTrue, target) || ReferenceEquals(conditional.WhenFalse, target))))
         {
             target = target.Parent;
         }

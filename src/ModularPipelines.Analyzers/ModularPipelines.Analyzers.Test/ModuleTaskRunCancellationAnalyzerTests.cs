@@ -18,6 +18,9 @@ public class ModuleTaskRunCancellationAnalyzerTests
             "Replace(ref cancellationToken);",
             "Replace(out cancellationToken);",
             "ref CancellationToken alias = ref cancellationToken; alias = CancellationToken.None;",
+            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref cancellationToken : ref other); alias = CancellationToken.None;",
+            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref cancellationToken); alias = CancellationToken.None;",
+            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref cancellationToken : ref other)); alias = CancellationToken.None;",
             "(cancellationToken, _) = (CancellationToken.None, 1);",
         ];
         foreach (var mutation in mutations)
@@ -61,6 +64,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
         string[] mutations =
         [
             "tasks[cancellationToken] = Task.CompletedTask;",
+            "ref CancellationToken alias = ref (cancellationToken.CanBeCanceled ? ref tokens[0] : ref tokens[1]); alias = CancellationToken.None;",
             "(tasks[cancellationToken], _) = (Task.CompletedTask, 1);",
             "Replace(ref tokens[cancellationToken.GetHashCode()]);",
             "Replace(out tokens[cancellationToken.GetHashCode()]);",
@@ -87,6 +91,9 @@ public class ModuleTaskRunCancellationAnalyzerTests
             "Replace(ref callbackToken);",
             "Replace(out callbackToken);",
             "ref CancellationToken alias = ref callbackToken; alias = CancellationToken.None;",
+            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref callbackToken : ref other); alias = CancellationToken.None;",
+            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref callbackToken); alias = CancellationToken.None;",
+            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref callbackToken : ref other)); alias = CancellationToken.None;",
             "(callbackToken, _) = (CancellationToken.None, 1);",
         ];
         foreach (var mutation in mutations)
