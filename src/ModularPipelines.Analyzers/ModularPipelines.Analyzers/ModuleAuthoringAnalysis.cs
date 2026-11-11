@@ -5570,13 +5570,16 @@ internal static class ModuleAuthoringAnalysis
     private static bool CanReachHandlerBeforeOverwrite(IOperation overwrite, IOperation reference)
     {
         // An exception can leave a try body before its later store executes.
-        // Neither catch nor finally references can rely on that store killing earlier values.
+        // Handler references and paths continuing after a catch can observe earlier values.
         for (var current = overwrite.Parent; current is not null; current = current.Parent)
         {
             if (current is ITryOperation tryOperation
                 && HasAncestor(overwrite, tryOperation.Body)
                 && ((tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
-                    || tryOperation.Catches.Any(catchClause => HasAncestor(reference, catchClause))))
+                    || tryOperation.Catches.Any(catchClause => HasAncestor(reference, catchClause))
+                    || (tryOperation.Syntax.Span.End <= reference.Syntax.SpanStart
+                        && tryOperation.Catches.Any(static catchClause =>
+                            !AlwaysExitsCallable(catchClause.Handler)))))
             {
                 return true;
             }
