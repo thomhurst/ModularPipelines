@@ -5801,53 +5801,56 @@ internal static class ModuleAuthoringAnalysis
         IOperation value,
         ILoopOperation loop,
         ISymbol symbol,
-        Dictionary<ILocalReferenceOperation, bool> localProofs)
+        Dictionary<IOperation, bool> referenceProofs)
     {
         return value.DescendantsAndSelf().All(operation => operation switch
         {
-            IParameterReferenceOperation parameter => !SymbolEqualityComparer.Default.Equals(parameter.Parameter, symbol),
+            IParameterReferenceOperation parameter => !SymbolEqualityComparer.Default.Equals(parameter.Parameter, symbol)
+                && IsIndependentLoopReference(parameter, parameter.Parameter, loop, symbol, referenceProofs),
             ILocalReferenceOperation local => !SymbolEqualityComparer.Default.Equals(local.Local, symbol)
-                && IsIndependentLoopLocal(local, loop, symbol, localProofs),
+                && IsIndependentLoopReference(local, local.Local, loop, symbol, referenceProofs),
             _ => true,
         });
     }
 
-    private static bool IsIndependentLoopLocal(
-        ILocalReferenceOperation reference,
+    private static bool IsIndependentLoopReference(
+        IOperation reference,
+        ISymbol dependency,
         ILoopOperation loop,
         ISymbol symbol,
-        Dictionary<ILocalReferenceOperation, bool> localProofs)
+        Dictionary<IOperation, bool> referenceProofs)
     {
-        if (localProofs.TryGetValue(reference, out var independent))
+        if (referenceProofs.TryGetValue(reference, out var independent))
         {
             return independent;
         }
 
         // A cycle cannot prove independence. Reuse completed proofs so repeated
         // copies do not expand the same initializer tree exponentially.
-        localProofs.Add(reference, false);
-        var value = FindReachingLocalValue(reference, reference.Local);
-        if (value is null)
+        referenceProofs.Add(reference, false);
+        var value = FindReachingSymbolValue(reference, dependency, out var isAmbiguous);
+        if (isAmbiguous || (value is null && dependency is not IParameterSymbol))
         {
             return false;
         }
 
-        // A snapshot outside the loop is stable only when the loop never
-        // writes it. An in-loop copy needs an independent reaching value.
-        if (!HasAncestor(value, loop.Body))
+        // A snapshot outside the loop, including an unassigned parameter, is
+        // stable only when the loop never writes it. In-loop copies need an
+        // independent reaching value.
+        if (value is null || !HasAncestor(value, loop.Body))
         {
             independent = !loop.Body.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
-                .Any(assignment => AssignsSymbol(assignment, reference.Local));
+                .Any(assignment => AssignsSymbol(assignment, dependency));
         }
         else
         {
             var store = value.Parent ?? value;
             independent = !CanJumpPastReset(loop, store, reference)
-                && !CanExceptionBypassOverwrite(store, reference, reference.Local)
-                && IsIndependentOfLoopCarriedSymbol(value, loop, symbol, localProofs);
+                && !CanExceptionBypassOverwrite(store, reference, dependency)
+                && IsIndependentOfLoopCarriedSymbol(value, loop, symbol, referenceProofs);
         }
 
-        localProofs[reference] = independent;
+        referenceProofs[reference] = independent;
         return independent;
     }
 
@@ -6650,7 +6653,7 @@ internal static class ModuleAuthoringAnalysis
     {
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
-        var assignments = reachingAssignments ?? FindLocalAssignments(root, operation, local, callable);
+        var assignments = reachingAssignments ?? FindSymbolAssignments(root, operation, local, callable);
         var linearAssignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
@@ -6943,10 +6946,18 @@ internal static class ModuleAuthoringAnalysis
         ILocalSymbol local,
         out bool isAmbiguous)
     {
+        return FindReachingSymbolValue(operation, local, out isAmbiguous);
+    }
+
+    private static IOperation? FindReachingSymbolValue(
+        IOperation operation,
+        ISymbol symbol,
+        out bool isAmbiguous)
+    {
         isAmbiguous = false;
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
-        var assignments = FindLocalAssignments(root, operation, local, callable);
+        var assignments = FindSymbolAssignments(root, operation, symbol, callable);
         var assignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
         if (assignments.Any(candidate =>
@@ -6963,7 +6974,9 @@ internal static class ModuleAuthoringAnalysis
             return assignment.Value;
         }
 
-        var declarator = FindLocalDeclarator(root, operation, local, callable);
+        var declarator = symbol is ILocalSymbol local
+            ? FindLocalDeclarator(root, operation, local, callable)
+            : null;
         if (declarator is null)
         {
             return null;
@@ -6978,19 +6991,18 @@ internal static class ModuleAuthoringAnalysis
         return declarator.Initializer?.Value;
     }
 
-    private static ISimpleAssignmentOperation[] FindLocalAssignments(
+    private static ISimpleAssignmentOperation[] FindSymbolAssignments(
         IOperation root,
         IOperation operation,
-        ILocalSymbol local,
+        ISymbol symbol,
         IOperation? callable)
     {
         return
         [
             .. root.DescendantsAndSelf()
             .OfType<ISimpleAssignmentOperation>()
-            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
-            .Where(candidate => candidate.Target is ILocalReferenceOperation localReference
-                && SymbolEqualityComparer.Default.Equals(localReference.Local, local))
+            .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
+            .Where(candidate => AssignsSymbol(candidate, symbol))
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart),
         ];

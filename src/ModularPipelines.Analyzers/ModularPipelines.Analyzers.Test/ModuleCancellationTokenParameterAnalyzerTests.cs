@@ -139,6 +139,41 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("token = cancellationToken;", "token = CancellationToken.None; cancellationToken = token;")]
+    [DataRow("cancellationToken = token; token = cancellationToken;", "token = CancellationToken.None;")]
+    [DataRow("var copy = cancellationToken; token = copy;", "token = CancellationToken.None; cancellationToken = token;")]
+    [DataRow("if (i == 0) cancellationToken = original; token = cancellationToken;", "token = CancellationToken.None; cancellationToken = token;")]
+    public async Task Reports_Loop_Carried_Token_Through_Parameter_Reset(string reset, string replacement)
+    {
+        var source = Source(
+                "var original = cancellationToken; var token = original; "
+                + $"for (var i = 0; i < 2; i++) {{ {reset} if (i == 0) {{ {replacement} }} else {{ await {{|#0:Task.Delay(1, token)|}}; }} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = original; token = cancellationToken;")]
+    [DataRow("cancellationToken = token; cancellationToken = original; token = cancellationToken;")]
+    [DataRow("cancellationToken = original; var copy = cancellationToken; token = copy;")]
+    [DataRow("cancellationToken = original; cancellationToken = cancellationToken; token = cancellationToken;")]
+    [DataRow("cancellationToken = original; var copy = cancellationToken; copy = copy; token = copy;")]
+    public async Task Recognizes_Independent_Reset_Through_Refreshed_Parameter(string reset)
+    {
+        var source = Source(
+                "var original = cancellationToken; var token = original; "
+                + $"for (var i = 0; i < 2; i++) {{ {reset} if (i == 0) {{ token = CancellationToken.None; cancellationToken = token; }} else {{ await Task.Delay(1, token); }} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     [DataRow(false, "var copy = saved; {target} = copy;")]
     [DataRow(true, "var copy = saved; {target} = copy;")]
     [DataRow(false, "var copy = {target}; copy = saved; {target} = copy;")]
