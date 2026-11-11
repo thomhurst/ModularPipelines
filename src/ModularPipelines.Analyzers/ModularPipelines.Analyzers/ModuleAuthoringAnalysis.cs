@@ -5537,7 +5537,9 @@ internal static class ModuleAuthoringAnalysis
         var storage = GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
         if (storage is IParameterSymbol parameter)
         {
-            return SymbolEqualityComparer.Default.Equals(parameter, cancellationToken);
+            return SymbolEqualityComparer.Default.Equals(parameter, cancellationToken)
+                && (reference is not ILocalReferenceOperation
+                    || !HasLiveCancellationStorageMutation(reference, parameter));
         }
 
         if (storage is not ILocalSymbol local || !visitedLocals.Add(local))
@@ -5550,6 +5552,23 @@ internal static class ModuleAuthoringAnalysis
             !HasAliasedStorageMutation(value, reference)
             && FlowsFromCancellationToken(
                 value, cancellationToken, CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods)));
+    }
+
+    private static bool HasLiveCancellationStorageMutation(IOperation read, IParameterSymbol parameter)
+    {
+        var callable = GetEnclosingCallable(read);
+        var isCapture = GetCallableSymbol(callable) is { } symbol
+            && !SymbolEqualityComparer.Default.Equals(symbol, parameter.ContainingSymbol);
+        // Captures can be changed by the enclosing callable or another callback.
+        // For ordinary live reads, only writes on a path to this use matter.
+        return GetRoot(read).DescendantsAndSelf()
+            .SelectMany(GetCancellationStorageWrites)
+            .Where(IsInReachableBranch)
+            .Where(write => isCapture || ReferenceEquals(GetEnclosingCallable(write), callable))
+            .Where(write => !HasAncestor(read, write.Parent!))
+            .Where(write => !IsCancellationPreservingStore(write, parameter))
+            .Any(write => (isCapture || CanCancellationWriteReachRead(write, read))
+                && MayShareCancellationStorage(write, read, preserveParameters: true));
     }
 
     private static bool FlowsFromParallelCallbackToken(
@@ -5700,7 +5719,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (read.Syntax.SpanStart < write.Syntax.SpanStart
-            && !SharesContainingLoop(read, write)
+            && !CanCarryCancellationWriteAcrossLoop(write, read)
             && !HasCancellationBackJump(write, read)
             && (IsLinearPredecessor(read, write)
                 || IsReturnedCancellationRead(read)))
@@ -5718,6 +5737,30 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return true;
+    }
+
+    private static bool CanCarryCancellationWriteAcrossLoop(IOperation write, IOperation read)
+    {
+        for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            // A return after the write prevents the next iteration even when
+            // the earlier snapshot is inside the same block.
+            if (ancestor is IBlockOperation block && AlwaysExitsBeforeCancellationRead(block, read)
+                && !block.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                    branch.Syntax.SpanStart > write.Syntax.SpanStart
+                    && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(write))
+                    && IsInReachableBranch(branch)))
+            {
+                return false;
+            }
+
+            if (ancestor is ILoopOperation && HasAncestor(read, ancestor))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool AreExclusiveCancellationBranches(IOperation write, IOperation read)
