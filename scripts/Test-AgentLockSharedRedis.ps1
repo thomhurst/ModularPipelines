@@ -11,7 +11,7 @@ $password = $redisPassword
 $endpoint = ''
 
 function Invoke-Worker([string]$Worker, [string[]]$Arguments, [string]$EndpointOverride = $endpoint,
-    [string]$Mode = 'shared', [string]$Username = '') {
+    [string]$Mode = 'shared', [string]$Username = '', [string]$WorkerPassword = $password) {
     $cache = Join-Path $fixtureRoot $Worker
     New-Item -ItemType Directory -Force $cache | Out-Null
     $runner = Join-Path $fixtureRoot 'worker.ps1'
@@ -38,7 +38,7 @@ exit $LASTEXITCODE
     $start.RedirectStandardError = $true
     $start.Environment['MODULARPIPELINES_AGENT_REDIS_MODE'] = $Mode
     $start.Environment['MODULARPIPELINES_AGENT_REDIS_ENDPOINT'] = $EndpointOverride
-    $start.Environment['MODULARPIPELINES_AGENT_REDIS_PASSWORD'] = $password
+    $start.Environment['MODULARPIPELINES_AGENT_REDIS_PASSWORD'] = $WorkerPassword
     $start.Environment['MODULARPIPELINES_AGENT_REDIS_USERNAME'] = $Username
     foreach ($name in 'TEMP', 'TMP', 'TMPDIR') { $start.Environment[$name] = $cache }
     # Workers deliberately share an identity but not a filesystem or token cache.
@@ -82,9 +82,11 @@ try {
         Start-Sleep -Milliseconds 100
     }
     if ($ready -ne 'PONG') { throw 'Disposable Redis did not become ready.' }
-    & docker exec -e "REDISCLI_AUTH=$password" $container redis-cli ACL SETUSER fixture-worker on ">$password" '~*' '+@all' | Out-Null
+    $aclPassword = [Guid]::NewGuid().ToString('N')
+    & docker exec -e "REDISCLI_AUTH=$password" $container redis-cli ACL SETUSER fixture-worker on ">$aclPassword" '~*' '+@all' | Out-Null
     if ($LASTEXITCODE) { throw 'Could not configure fixture ACL user.' }
-    Assert-Result (Invoke-Worker a @('ping') -Username fixture-worker) 0 '' 'Redis ACL authentication'
+    Assert-Result (Invoke-Worker a @('ping') -Username fixture-worker -WorkerPassword $aclPassword) 0 '' 'Redis ACL authentication'
+    Assert-Result (Invoke-Worker a @('ping') -WorkerPassword $aclPassword) 1 '' 'ACL password without username rejected'
     $tlsFailure = Invoke-Worker a @('ping') ($endpoint -replace '^redis:', 'rediss:')
     if ($tlsFailure.ExitCode -ne 1 -or $tlsFailure.Output) { throw 'TLS failure did not fail closed.' }
 

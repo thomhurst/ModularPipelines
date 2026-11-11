@@ -224,23 +224,27 @@ try {
     Write-Host 'OK AgentLocks token ownership tests passed.'
 }
 finally {
-    if (-not $completed -and (Test-Path -LiteralPath $repo)) {
-        Invoke-AgentLocks $repo @('release', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerB | Out-Null
-        Invoke-AgentLocks $repo @('release', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA | Out-Null
-        Invoke-AgentLocks $repo @('release', '-LockName', $issueLock) -CodexThreadId $issueOwner | Out-Null
-        Invoke-AgentLocks $repo @('release', '-LockName', $prWorktreeLock, '-OwnerId', $parameterOwner) | Out-Null
-        Invoke-AgentLocks $repo @('release', '-LockName', $crossVersionLock) -EnvironmentOwnerId $crossVersionOwner | Out-Null
+    try {
+        if (-not $completed -and (Test-Path -LiteralPath $repo)) {
+            Invoke-AgentLocks $repo @('release', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerB | Out-Null
+            Invoke-AgentLocks $repo @('release', '-LockName', $ownershipLock) -EnvironmentOwnerId $ownerA | Out-Null
+            Invoke-AgentLocks $repo @('release', '-LockName', $issueLock) -CodexThreadId $issueOwner | Out-Null
+            Invoke-AgentLocks $repo @('release', '-LockName', $prWorktreeLock, '-OwnerId', $parameterOwner) | Out-Null
+            Invoke-AgentLocks $repo @('release', '-LockName', $crossVersionLock) -EnvironmentOwnerId $crossVersionOwner | Out-Null
+        }
+
+        Remove-TestLocks $allLocks
+
+        $tempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
+        $resolvedTestRoot = [System.IO.Path]::GetFullPath($testRoot)
+        if (-not $resolvedTestRoot.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "Refusing to remove test directory outside temp: $resolvedTestRoot"
+        }
+
+        Remove-Item -LiteralPath $resolvedTestRoot -Recurse -Force -ErrorAction SilentlyContinue
     }
-
-    Remove-TestLocks $allLocks
-
-    $tempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
-    $resolvedTestRoot = [System.IO.Path]::GetFullPath($testRoot)
-    if (-not $resolvedTestRoot.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-        throw "Refusing to remove test directory outside temp: $resolvedTestRoot"
+    finally {
+        $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+        $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
     }
-
-    Remove-Item -LiteralPath $resolvedTestRoot -Recurse -Force -ErrorAction SilentlyContinue
-    $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
-    $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
 }

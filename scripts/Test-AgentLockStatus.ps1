@@ -61,15 +61,19 @@ exit $LASTEXITCODE
     }
 }
 finally {
-    $resolvedRoot = [IO.Path]::GetFullPath($fixtureRoot)
-    $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd([char[]]@('/', '\')) + [IO.Path]::DirectorySeparatorChar
-    if (-not $resolvedRoot.StartsWith($tempRoot, [StringComparison]::OrdinalIgnoreCase) -or
-        (Split-Path $resolvedRoot -Leaf) -notlike 'agent-lock-status-*') {
-        throw 'Refusing cleanup outside the disposable fixture root.'
+    try {
+        $resolvedRoot = [IO.Path]::GetFullPath($fixtureRoot)
+        $tempRoot = [IO.Path]::GetFullPath([IO.Path]::GetTempPath()).TrimEnd([char[]]@('/', '\')) + [IO.Path]::DirectorySeparatorChar
+        if (-not $resolvedRoot.StartsWith($tempRoot, [StringComparison]::OrdinalIgnoreCase) -or
+            (Split-Path $resolvedRoot -Leaf) -notlike 'agent-lock-status-*') {
+            throw 'Refusing cleanup outside the disposable fixture root.'
+        }
+        Remove-Item -LiteralPath $resolvedRoot -Recurse -Force -ErrorAction SilentlyContinue
     }
-    Remove-Item -LiteralPath $resolvedRoot -Recurse -Force -ErrorAction SilentlyContinue
-    $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
-    $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
+    finally {
+        $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+        $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
+    }
 }
 
 Write-Output 'OK read-only AgentLocks status passed.'

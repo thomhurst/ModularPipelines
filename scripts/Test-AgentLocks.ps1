@@ -169,22 +169,26 @@ try {
     Write-Host 'OK AgentLocks worktree marker tests passed.'
 }
 finally {
-    if (Test-Path -LiteralPath $repo) {
-        foreach ($lockName in $allLocks) {
-            $status = Invoke-AgentLocks $repo @('status', '-LockName', $lockName)
-            if ($status.ExitCode -eq 0 -and $status.Output -eq 'HELD-BY-ME') {
-                Invoke-AgentLocks $repo @('release', '-LockName', $lockName) | Out-Null
+    try {
+        if (Test-Path -LiteralPath $repo) {
+            foreach ($lockName in $allLocks) {
+                $status = Invoke-AgentLocks $repo @('status', '-LockName', $lockName)
+                if ($status.ExitCode -eq 0 -and $status.Output -eq 'HELD-BY-ME') {
+                    Invoke-AgentLocks $repo @('release', '-LockName', $lockName) | Out-Null
+                }
             }
         }
-    }
 
-    $tempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
-    $resolvedTestRoot = [System.IO.Path]::GetFullPath($testRoot)
-    if (-not $resolvedTestRoot.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-        throw "Refusing to remove test directory outside temp: $resolvedTestRoot"
-    }
+        $tempRoot = [System.IO.Path]::GetFullPath([System.IO.Path]::GetTempPath())
+        $resolvedTestRoot = [System.IO.Path]::GetFullPath($testRoot)
+        if (-not $resolvedTestRoot.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "Refusing to remove test directory outside temp: $resolvedTestRoot"
+        }
 
-    Remove-Item -LiteralPath $resolvedTestRoot -Recurse -Force -ErrorAction SilentlyContinue
-    $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
-    $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
+        Remove-Item -LiteralPath $resolvedTestRoot -Recurse -Force -ErrorAction SilentlyContinue
+    }
+    finally {
+        $env:MODULARPIPELINES_AGENT_REDIS_MODE = $previousRedisMode
+        $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT = $previousRedisEndpoint
+    }
 }
