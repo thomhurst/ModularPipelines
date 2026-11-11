@@ -101,6 +101,7 @@ internal static class CapturedCancellationTokenAnalysis
         internal ControlFlowRegion? Handlers { get; set; }
         internal int HandlerIndex { get; set; }
         internal Continuation? Next { get; set; }
+        internal Continuation? Unwind { get; set; }
     }
 
     private sealed class WriteAnalysis(ControlFlowGraph graph, IParameterSymbol parameter)
@@ -108,8 +109,8 @@ internal static class CapturedCancellationTokenAnalysis
         private readonly Queue<(int Block, Continuation? Resume)> _pending = new();
         private readonly Dictionary<(int Block, Continuation? Resume), Storage> _inputs = [];
         private readonly Dictionary<(ControlFlowBranch Branch, Continuation? Resume), Continuation?> _branches = [];
-        private readonly Dictionary<(ControlFlowRegion Region, int Index, ITypeSymbol? Type, Continuation? Ambient), Continuation> _handlers = [];
-        private readonly Dictionary<(ControlFlowRegion Region, ITypeSymbol? Type, Continuation? Ambient), Continuation> _exceptions = [];
+        private readonly Dictionary<(ControlFlowRegion Region, int Index, ITypeSymbol? Type, Continuation? Ambient, Continuation? Unwind), Continuation> _handlers = [];
+        private readonly Dictionary<(ControlFlowRegion Region, ITypeSymbol? Type, Continuation? Ambient, Continuation? Unwind), Continuation> _exceptions = [];
         private BasicBlock _block = graph.Blocks[0];
         private bool _written;
         private Continuation? _resume;
@@ -180,7 +181,8 @@ internal static class CapturedCancellationTokenAnalysis
                 if (_block.BranchValue?.Syntax is not SwitchExpressionSyntax expression
                     || _model?.GetOperation(expression) is not ISwitchExpressionOperation { IsExhaustive: true })
                 {
-                    SearchException(_block.EnclosingRegion, storage, _block.BranchValue?.Type, _resume);
+                    // A throw expression may hold any runtime subtype of its static type.
+                    SearchException(_block.EnclosingRegion, storage, null, _resume);
                 }
                 return;
             }
@@ -204,6 +206,11 @@ internal static class CapturedCancellationTokenAnalysis
                 continuation = branch.Destination is { } destination
                     ? new Continuation { Block = destination.Ordinal, Next = acceptedFilter ? resume?.Next : resume }
                     : null;
+                if (acceptedFilter)
+                {
+                    continuation = ApplyUnwind(resume?.Unwind, continuation);
+                }
+
                 foreach (var cleanup in branch.FinallyRegions.Reverse())
                 {
                     continuation = new Continuation { Block = cleanup.FirstBlockOrdinal, Next = continuation };
@@ -228,15 +235,15 @@ internal static class CapturedCancellationTokenAnalysis
             }
             else if (continuation.Handlers is { } handlers)
             {
-                DispatchHandler(handlers, continuation.HandlerIndex, storage, continuation.ExceptionType, continuation.Next);
+                DispatchHandler(handlers, continuation.HandlerIndex, storage, continuation.ExceptionType, continuation.Next, continuation.Unwind);
             }
             else if (continuation.Search is { } search)
             {
-                SearchException(search, storage, continuation.ExceptionType, continuation.Next);
+                SearchException(search, storage, continuation.ExceptionType, continuation.Next, continuation.Unwind);
             }
         }
 
-        private void SearchException(ControlFlowRegion? region, Storage storage, ITypeSymbol? type, Continuation? ambient)
+        private void SearchException(ControlFlowRegion? region, Storage storage, ITypeSymbol? type, Continuation? ambient, Continuation? unwind = null)
         {
             for (; region is not null; region = region.EnclosingRegion)
             {
@@ -245,7 +252,7 @@ internal static class CapturedCancellationTokenAnalysis
                     && filtered.EnclosingRegion is { } handlers)
                 {
                     // A filter exception behaves like false, retaining side effects.
-                    DispatchHandler(handlers, handlers.NestedRegions.IndexOf(filtered) + 1, storage, null, ambient?.Next);
+                    DispatchHandler(handlers, handlers.NestedRegions.IndexOf(filtered) + 1, storage, null, ambient?.Next, ambient?.Unwind);
                     return;
                 }
 
@@ -256,26 +263,28 @@ internal static class CapturedCancellationTokenAnalysis
 
                 if (enclosing.Kind == ControlFlowRegionKind.TryAndCatch)
                 {
-                    DispatchHandler(enclosing, 1, storage, type, ambient);
+                    DispatchHandler(enclosing, 1, storage, type, ambient, unwind);
                     return;
                 }
 
                 if (enclosing.Kind == ControlFlowRegionKind.TryAndFinally)
                 {
-                    var cleanup = enclosing.NestedRegions[1];
-                    if (!_exceptions.TryGetValue((enclosing, type, ambient), out var continuation))
+                    // Exception filters run during the search pass, before stack unwinding.
+                    // Retain cleanups until a handler is selected, including filter side effects.
+                    if (!_exceptions.TryGetValue((enclosing, type, ambient, unwind), out var continuation))
                     {
-                        continuation = new Continuation { Search = enclosing.EnclosingRegion, ExceptionType = type, Next = ambient };
-                        _exceptions.Add((enclosing, type, ambient), continuation);
+                        continuation = new Continuation { Block = enclosing.NestedRegions[1].FirstBlockOrdinal, Next = unwind };
+                        _exceptions.Add((enclosing, type, ambient, unwind), continuation);
                     }
 
-                    Enqueue(cleanup.FirstBlockOrdinal, continuation, storage);
-                    return;
+                    unwind = continuation;
                 }
             }
+
+            Resume(ApplyUnwind(unwind, null), storage);
         }
 
-        private void DispatchHandler(ControlFlowRegion handlers, int index, Storage storage, ITypeSymbol? type, Continuation? ambient)
+        private void DispatchHandler(ControlFlowRegion handlers, int index, Storage storage, ITypeSymbol? type, Continuation? ambient, Continuation? unwind = null)
         {
             for (; index < handlers.NestedRegions.Length; index++)
             {
@@ -296,17 +305,17 @@ internal static class CapturedCancellationTokenAnalysis
                 }
                 if (handler.Kind == ControlFlowRegionKind.FilterAndHandler)
                 {
-                    if (!_handlers.TryGetValue((handlers, index, type, handlerResume), out var fallback))
+                    if (!_handlers.TryGetValue((handlers, index, type, handlerResume, unwind), out var fallback))
                     {
-                        fallback = new Continuation { Handlers = handlers, HandlerIndex = index + 1, ExceptionType = type, Next = handlerResume };
-                        _handlers.Add((handlers, index, type, handlerResume), fallback);
+                        fallback = new Continuation { Handlers = handlers, HandlerIndex = index + 1, ExceptionType = type, Next = handlerResume, Unwind = unwind };
+                        _handlers.Add((handlers, index, type, handlerResume, unwind), fallback);
                     }
 
                     Enqueue(handler.FirstBlockOrdinal, fallback, storage);
                 }
                 else
                 {
-                    Enqueue(handler.FirstBlockOrdinal, handlerResume, storage);
+                    Resume(ApplyUnwind(unwind, GetContinuation(handler.FirstBlockOrdinal, handlerResume)), storage);
                 }
 
                 if (type is not null || catchesAll)
@@ -315,7 +324,31 @@ internal static class CapturedCancellationTokenAnalysis
                 }
             }
 
-            SearchException(handlers.EnclosingRegion, storage, type, ambient);
+            SearchException(handlers.EnclosingRegion, storage, type, ambient, unwind);
+        }
+
+        private readonly Dictionary<(int Block, Continuation? Next), Continuation> _continuations = [];
+
+        private Continuation GetContinuation(int block, Continuation? next)
+        {
+            if (!_continuations.TryGetValue((block, next), out var continuation))
+            {
+                continuation = new Continuation { Block = block, Next = next };
+                _continuations.Add((block, next), continuation);
+            }
+
+            return continuation;
+        }
+
+        private Continuation? ApplyUnwind(Continuation? unwind, Continuation? destination)
+        {
+            // Search encounters the inner finally first, so the accumulated list is reversed.
+            for (var current = unwind; current is not null; current = current.Next)
+            {
+                destination = GetContinuation(current.Block, destination);
+            }
+
+            return destination;
         }
 
         private static bool DerivesFrom(ITypeSymbol type, ITypeSymbol? expected)
@@ -469,6 +502,8 @@ internal static class CapturedCancellationTokenAnalysis
 
         private bool TupleOperatorCanThrow(ITypeSymbol? left, ITypeSymbol? right, ITupleBinaryOperation operation)
         {
+            left = UnwrapNullable(left);
+            right = UnwrapNullable(right);
             if (left is INamedTypeSymbol { IsTupleType: true } leftTuple
                 && right is INamedTypeSymbol { IsTupleType: true } rightTuple)
             {
@@ -499,6 +534,8 @@ internal static class CapturedCancellationTokenAnalysis
 
         private bool TupleConversionCanThrow(ITypeSymbol? source, ITypeSymbol? destination)
         {
+            source = UnwrapNullable(source);
+            destination = UnwrapNullable(destination);
             if (source is not INamedTypeSymbol { IsTupleType: true } sourceTuple
                 || destination is not INamedTypeSymbol { IsTupleType: true } targetTuple || _model is null)
             {
@@ -513,6 +550,11 @@ internal static class CapturedCancellationTokenAnalysis
                     || TupleConversionCanThrow(from.Type, to.Type);
             }).Any(static result => result);
         }
+
+        private static ITypeSymbol? UnwrapNullable(ITypeSymbol? type) =>
+            type is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable
+                ? nullable.TypeArguments[0]
+                : type;
 
         private static bool DeconstructionCanThrow(DeconstructionInfo info) =>
             info.Method is not null || info.Conversion is { IsUserDefined: true }
@@ -551,7 +593,7 @@ internal static class CapturedCancellationTokenAnalysis
     }
 
     private static bool CanThrow(IOperation operation) => operation is
-        IInvocationOperation or IObjectCreationOperation or IArrayCreationOperation
+        IAwaitOperation or IInvocationOperation or IObjectCreationOperation or IArrayCreationOperation
         or IPropertyReferenceOperation or IArrayElementReferenceOperation
         or IFieldReferenceOperation { Instance.Type.IsReferenceType: true, Parent: not IPropertySubpatternOperation }
         or IDynamicInvocationOperation or IDynamicObjectCreationOperation

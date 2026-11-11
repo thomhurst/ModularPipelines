@@ -652,7 +652,10 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("int", "left != right", false, false)]
     [DataRow("string?", "left == right", false, false)]
     [DataRow("decimal", "left == right", false, false)]
-    public async Task Tracks_Tuple_Equality_Exceptions(string elementType, string comparison, bool rebindInHandler, bool reports)
+    [DataRow("ThrowingEquality", "left == right", false, true, "?")]
+    [DataRow("ThrowingEquality", "left != right", true, false, "?")]
+    [DataRow("int", "left == right", false, false, "?")]
+    public async Task Tracks_Tuple_Equality_Exceptions(string elementType, string comparison, bool rebindInHandler, bool reports, string nullable = "")
     {
         var source = ModuleSource($$"""
             protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
@@ -662,7 +665,7 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
             {
                 var other = default(CancellationToken);
                 ref var alias = ref token;
-                ({{elementType}}, int) left = default, right = default;
+                ({{elementType}}, int){{nullable}} left = default, right = default;
                 try { throw new Exception(); }
                 catch (Exception) when (({{comparison}}) | (alias = ref other).CanBeCanceled) { }
                 catch (Exception)
@@ -833,7 +836,10 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("object", "string", true, false)]
     [DataRow("object", "int", true, false)]
     [DataRow("int", "long", false, false)]
-    public async Task Tracks_Hidden_Tuple_Element_Conversions(string sourceType, string targetType, bool rebindInHandler, bool reports)
+    [DataRow("ThrowingInt", "int", false, true, "?")]
+    [DataRow("ThrowingInt", "int", true, false, "?")]
+    [DataRow("int", "long", false, false, "?")]
+    public async Task Tracks_Hidden_Tuple_Element_Conversions(string sourceType, string targetType, bool rebindInHandler, bool reports, string nullable = "")
     {
         var source = ModuleSource($$"""
             protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
@@ -843,9 +849,9 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
             {
                 var other = default(CancellationToken);
                 ref var alias = ref token;
-                ({{sourceType}}, int) pair = default;
+                ({{sourceType}}, int){{nullable}} pair = default;
                 try { throw new Exception(); }
-                catch (Exception) when (((({{targetType}}, int))pair).Item2 > 0 | (alias = ref other).CanBeCanceled) { }
+                catch (Exception) when (((({{targetType}}, int){{nullable}})pair){{(nullable.Length == 0 ? ".Item2 > 0" : " is not null")}} | (alias = ref other).CanBeCanceled) { }
                 catch (Exception)
                 {
                     {{(rebindInHandler ? "alias = ref other;" : "")}}
@@ -859,6 +865,56 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
             {
                 public static explicit operator int(ThrowingInt value) => throw new Exception();
             }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("await pending;", true)]
+    [DataRow("throw error;", true)]
+    [DataRow("await pending;", false)]
+    [DataRow("throw error;", false)]
+    public async Task Tracks_Await_And_Base_Typed_Throw_Exceptions(string statement, bool writes)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, Task.CompletedTask, new InvalidOperationException());
+
+            private static async Task HelperAsync(CancellationToken token, Task pending, Exception error)
+            {
+                try { {{statement}} }
+                catch (InvalidOperationException) { {{(writes ? "token = default;" : "")}} }
+                catch (Exception) { }
+                await Task.Run(async () => await {{(writes ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !writes, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("token", "!(alias = default).CanBeCanceled", "", true)]
+    [DataRow("other", "!(alias = default).CanBeCanceled", "", false)]
+    [DataRow("token", "false", "alias = default;", false)]
+    [DataRow("token", "true", "alias = default;", false)]
+    public async Task Searches_Filters_Before_Unwinding_Finally(string initial, string filter, string handler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => HelperAsync(cancellationToken);
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                try
+                {
+                    try { Read(); }
+                    finally { alias = ref other; }
+                }
+                catch (Exception) when ({{filter}}) { {{handler}} }
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            private static void Read() { }
             """);
 
         await VerifyCallAsync(source, !reports, "Delay");
