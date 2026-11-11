@@ -3002,6 +3002,12 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; i++, MayThrow(), alias = third) { alias = default; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
     [DataRow("ref var alias = ref first; try { try { alias = default; } finally { MayThrow(); alias = third; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
     [DataRow("ref var alias = ref first; try { try { throw new Exception(); } catch { alias = default; } finally { MayThrow(); alias = third; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; if (DateTime.UtcNow.Ticks > 0) continue; break; } } return snapshot;")]
+    [DataRow("first = ref second; var snapshot = third; for (var j = 0; j < 2; j++) { second = third; for (var i = 0; i < 2; i++) { snapshot = first; second = default; if (DateTime.UtcNow.Ticks > 0) break; } } return snapshot;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { var snapshot = alias; alias = first; return snapshot; } else { alias = third; return alias; }")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { goto Read; alias = first; Read: ; } else alias = third; return alias;")]
+    [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = first; else throw new Exception(); } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = ref first; else throw new Exception(); } catch (Exception) {} return alias;")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3077,6 +3083,15 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; i++, alias = third, MayThrow()) { alias = default; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
     [DataRow("ref var alias = ref first; var error = new Exception(); try { alias = default; if (false) throw error; alias = third; } catch (Exception) {} return alias;", "default")]
     [DataRow("ref var alias = ref first; var error = new Exception(); try { alias = default; if (true) {} else throw error; alias = third; } catch (Exception) {} return alias;", "default")]
+    [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { alias = default; if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = third; return alias;", "default")]
+    [DataRow("second = third; for (var i = 0; i < 2; i++) { first = third; second = DateTime.UtcNow.Ticks > 0 ? first : third; } return second;", "default")]
+    [DataRow("second = third; for (var i = 0; i < 2; i++) { first = third; second = DateTime.UtcNow.Ticks switch { > 0 => first, _ => third }; } return second;", "default")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) second = first; else second = third; return second;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { if (DateTime.UtcNow.Ticks > 1) alias = first; else alias = third; } else alias = first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else throw new Exception(); return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else throw new Exception(); return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) throw new Exception(); else alias = first; return alias;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);

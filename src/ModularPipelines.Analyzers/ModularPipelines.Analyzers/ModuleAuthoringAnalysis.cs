@@ -5886,9 +5886,15 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return conditional.WhenFalse is { } whenFalse
-            && DefinitelyWritesCancellationStorage(conditional.WhenTrue, symbol, isRef, read)
-            && DefinitelyWritesCancellationStorage(whenFalse, symbol, isRef, read);
+            && DefinitelyWritesCancellationStorageOrExits(conditional.WhenTrue, symbol, isRef, read)
+            && DefinitelyWritesCancellationStorageOrExits(whenFalse, symbol, isRef, read);
     }
+
+    private static bool DefinitelyWritesCancellationStorageOrExits(
+        IOperation operation, ISymbol? symbol, bool isRef, IOperation? read) =>
+        DefinitelyWritesCancellationStorage(operation, symbol, isRef, read)
+        || (AlwaysExitsCallable(operation)
+            && !CanReachReadThroughCaughtCancellationStorageThrow(operation, read ?? GetRoot(operation)));
 
     private static bool DefinitelyWritesCancellationStorageTry(
         ITryOperation attempt, ISymbol? symbol, bool isRef, IOperation? read)
@@ -5896,9 +5902,7 @@ internal static class ModuleAuthoringAnalysis
         return (attempt.Finally is { } finallyBlock
                 && DefinitelyWritesCancellationStorage(finallyBlock, symbol, isRef, read))
             || (DefinitelyWritesCancellationStorage(attempt.Body, symbol, isRef, read)
-                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef, read)
-                    || (AlwaysExitsCallable(handler.Handler)
-                        && !CanReachReadThroughCaughtCancellationStorageThrow(handler.Handler, read ?? GetRoot(handler)))));
+                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorageOrExits(handler.Handler, symbol, isRef, read)));
     }
 
     private static bool IsOverwrittenCancellationStorageWrite(
@@ -5915,16 +5919,8 @@ internal static class ModuleAuthoringAnalysis
         // values even when the branch as a whole is the definite predecessor.
         for (var current = write; current.Parent is { } parent; current = parent)
         {
-            if (parent is ITryOperation enclosingTry && !ReferenceEquals(current, enclosingTry.Finally)
-                && FinallyOverwritesCancellationStorage(enclosingTry, read, symbol, isRef))
-            {
-                return true;
-            }
-
-            if (parent is ITryOperation { Catches.Length: > 0 } attempt
-                && ReferenceEquals(current, attempt.Body) && !HasAncestor(read, attempt.Body)
-                && AlwaysExitsCallable(attempt.Body)
-                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef)))
+            if (parent is ITryOperation attempt
+                && CancellationStorageTryOverwrites(attempt, current, read, symbol, isRef))
             {
                 return true;
             }
@@ -5945,24 +5941,43 @@ internal static class ModuleAuthoringAnalysis
                 break;
             }
 
-            foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+            if (CancellationStorageFollowingSequenceOverwrites(sequence, current, read, symbol, isRef))
             {
-                if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
-                    || next.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
-                {
-                    break;
-                }
-
-                if (DefinitelyWritesCancellationStorage(next, symbol, isRef))
-                {
-                    return true;
-                }
+                return true;
             }
 
             if (HasAncestor(read, parent)
                 || parent.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
             {
                 break;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CancellationStorageTryOverwrites(
+        ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool isRef) =>
+        (!ReferenceEquals(current, attempt.Finally)
+            && FinallyOverwritesCancellationStorage(attempt, read, symbol, isRef))
+        || (attempt.Catches.Length > 0 && ReferenceEquals(current, attempt.Body)
+            && !HasAncestor(read, attempt.Body) && AlwaysExitsCallable(attempt.Body)
+            && attempt.Catches.All(handler => DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef)));
+
+    private static bool CancellationStorageFollowingSequenceOverwrites(
+        IEnumerable<IOperation> sequence, IOperation current, IOperation read, ISymbol? symbol, bool isRef)
+    {
+        foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+        {
+            if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
+                || next.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+            {
+                break;
+            }
+
+            if (DefinitelyWritesCancellationStorage(next, symbol, isRef))
+            {
+                return true;
             }
         }
 
