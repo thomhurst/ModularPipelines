@@ -564,6 +564,33 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             """);
     }
 
+    public static IEnumerable<object[]> RefParameterCases()
+    {
+        yield return ["conditional-rebind-to-default", "if (first.CanBeCanceled) first = ref second; return first;", true];
+        yield return ["conditional-rebind-preserves-source", "ref var saved = ref first; if (first.CanBeCanceled) first = ref saved; return first;", false];
+        yield return ["rebind-to-default", "first = ref second; return first;", true];
+        yield return ["rebind-to-source", "second = ref first; return second;", false];
+        yield return ["rebind-retains-snapshot", "var saved = first; first = ref second; return saved;", false];
+        yield return ["rebound-source-reset", "second = ref first; first = default; return second;", true];
+        yield return ["rebound-default-restored", "var saved = first; first = ref second; second = saved; return first;", false];
+        yield return ["old-alias-keeps-original-storage", "ref var saved = ref first; first = ref second; return saved;", false];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(RefParameterCases))]
+    public async Task Tracks_Ref_Parameter_Rebindings(string name, string body, bool warning)
+    {
+        _ = name;
+        await Verify("""
+            var source = cancellationToken;
+            var other = default(CancellationToken);
+            var token = Rebind(ref source, ref other);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, warning, $$"""
+            private static CancellationToken Rebind(ref CancellationToken first, ref CancellationToken second) { {{body}} }
+            """);
+    }
+
     public static IEnumerable<object[]> StoreCases()
     {
         yield return ["deconstruct-local", "var token = cancellationToken; (token, _) = (CancellationToken.None, 0);", true];

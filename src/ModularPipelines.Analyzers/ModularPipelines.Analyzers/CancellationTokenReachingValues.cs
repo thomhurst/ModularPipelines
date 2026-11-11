@@ -100,6 +100,14 @@ internal sealed class CancellationTokenReachingValues
         var analysis = new CancellationTokenReachingValues(graph, model, visitedMethods, sources);
         var initial = new State();
         initial.Values.Add(source);
+        if (source.ContainingSymbol is IMethodSymbol method)
+        {
+            foreach (var parameter in method.Parameters.Where(static parameter => parameter.RefKind != RefKind.None))
+            {
+                initial.Aliases[parameter] = new StorageTargets { Symbols = { parameter } };
+            }
+        }
+
         analysis.Run(graph.Root, initial, graph.Blocks[0]);
         return analysis;
     }
@@ -151,7 +159,7 @@ internal sealed class CancellationTokenReachingValues
 
         public HashSet<CaptureId> Captures { get; } = [];
 
-        public Dictionary<ILocalSymbol, StorageTargets> Aliases { get; } = [with(SymbolEqualityComparer.Default)];
+        public Dictionary<ISymbol, StorageTargets> Aliases { get; } = [with(SymbolEqualityComparer.Default)];
 
         public Dictionary<CaptureId, StorageTargets> CaptureAliases { get; } = [];
 
@@ -439,7 +447,7 @@ internal sealed class CancellationTokenReachingValues
     {
         var value = operation switch
         {
-            IParameterReferenceOperation parameter => state.Values.Contains(parameter.Parameter),
+            IParameterReferenceOperation parameter => ReadSymbol(parameter.Parameter, state),
             ILocalReferenceOperation local => ReadLocal(local.Local, state),
             IFlowCaptureReferenceOperation capture => state.Captures.Contains(capture.Id),
             IFlowCaptureOperation capture => EvaluateCapture(capture, state, block, exceptional),
@@ -476,7 +484,12 @@ internal sealed class CancellationTokenReachingValues
             {
                 state.Aliases[alias.Local] = ResolveStorage(assignment.Value, state);
             }
+            else if (assignment.Target is IParameterReferenceOperation parameter)
+            {
+                state.Aliases[parameter.Parameter] = ResolveStorage(assignment.Value, state);
+            }
 
+            // Ref locals and parameters retain their new backing storage.
             // A ref-field rebind changes the field's location, not its referent.
             // Field reads remain unproven and subsequent through-ref stores still
             // invalidate compatible tracked storage conservatively.
@@ -637,7 +650,14 @@ internal sealed class CancellationTokenReachingValues
     {
         return local.RefKind == RefKind.None
             ? state.Values.Contains(local)
-            : state.Aliases.TryGetValue(local, out var targets) && !targets.IsUnknown && !targets.HasHeap && targets.Symbols.All(state.Values.Contains);
+            : ReadSymbol(local, state);
+    }
+
+    private static bool ReadSymbol(ISymbol symbol, State state)
+    {
+        return state.Aliases.TryGetValue(symbol, out var targets)
+            ? !targets.IsUnknown && !targets.HasHeap && targets.Symbols.All(state.Values.Contains)
+            : state.Values.Contains(symbol);
     }
 
     private static StorageTargets ResolveStorage(IOperation reference, State state)
@@ -646,6 +666,7 @@ internal sealed class CancellationTokenReachingValues
         {
             ILocalReferenceOperation { Local.RefKind: RefKind.None } local => new StorageTargets { Symbols = { local.Local } },
             ILocalReferenceOperation local when state.Aliases.TryGetValue(local.Local, out var targets) => targets.Clone(),
+            IParameterReferenceOperation parameter when state.Aliases.TryGetValue(parameter.Parameter, out var targets) => targets.Clone(),
             IParameterReferenceOperation parameter => new StorageTargets { Symbols = { parameter.Parameter } },
             IFlowCaptureReferenceOperation capture when state.CaptureAliases.TryGetValue(capture.Id, out var targets) => targets.Clone(),
             IConversionOperation conversion => ResolveStorage(conversion.Operand, state),
