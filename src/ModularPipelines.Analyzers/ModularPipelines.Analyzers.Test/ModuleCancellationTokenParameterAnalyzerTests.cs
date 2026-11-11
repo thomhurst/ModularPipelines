@@ -24,9 +24,32 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var saved = cancellationToken; cancellationToken = saved;")]
     [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; cancellationToken = saved;")]
     [DataRow("if (false) cancellationToken = CancellationToken.None;")]
+    [DataRow("var saved = cancellationToken; if (context != null) { cancellationToken = CancellationToken.None; cancellationToken = saved; }")]
+    [DataRow("var saved = cancellationToken; cancellationToken = saved; saved = cancellationToken; cancellationToken = saved;")]
+    [DataRow("var saved = cancellationToken; if (context != null) { saved = CancellationToken.None; saved = cancellationToken; } cancellationToken = saved;")]
+    [DataRow("var saved = CancellationToken.None; if (context != null) { saved = cancellationToken; } else { saved = cancellationToken; } cancellationToken = saved;")]
     public async Task Recognizes_Original_Parameter_Value(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    public async Task Recognizes_Original_Parameter_In_Exclusive_Branch()
+    {
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            "if (context != null) { cancellationToken = CancellationToken.None; } else { return Task.Delay(1, cancellationToken); }",
+            "Task.CompletedTask"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recognizes_Repeated_Conditional_Identity_Assignments(bool useLocal)
+    {
+        var target = useLocal ? "saved" : "cancellationToken";
+        var statements = (useLocal ? "var saved = cancellationToken; " : "")
+            + string.Join(" ", Enumerable.Repeat($"if (context != null) {target} = {target};", 32));
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, $"Task.Delay(1, {target})"));
     }
 
     [TestMethod]
