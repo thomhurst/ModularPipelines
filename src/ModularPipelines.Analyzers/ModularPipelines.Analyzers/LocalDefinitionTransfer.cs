@@ -361,8 +361,9 @@ internal sealed class LocalDefinitionTransfer
     private static bool TargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot = null) => target switch
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
-        IFieldReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local, operationRoot),
-        IPropertyReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local, operationRoot),
+        // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
+        IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        IPropertyReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
         IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),

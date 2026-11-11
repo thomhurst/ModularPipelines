@@ -12,6 +12,30 @@ namespace ModularPipelines.Analyzers.Test;
 public class LocalDefinitionTransferTests
 {
     [TestMethod]
+    [DataRow("IMutable, new()", "value.Property = 1", true)]
+    [DataRow("IMutable, new()", "value.Property++", true)]
+    [DataRow("IMutable, new()", "value[0] = 1", true)]
+    [DataRow("struct, IMutable", "value.Property = 1", true)]
+    [DataRow("class, IMutable, new()", "value.Property = 1", false)]
+    [DataRow("MutableBase, new()", "value.Property = 1", false)]
+    public void Generic_Member_Stores_Invalidate_Only_Potential_Value_Types(string constraints, string store, bool invalidates)
+    {
+        var scenario = new Scenario("T value = new T();" + store + ";value = new T();", constraints: constraints);
+        scenario.AssertValues("new T()");
+        scenario.Store(store);
+        if (invalidates)
+        {
+            scenario.AssertUnknown();
+            scenario.Store("value = new T()");
+            scenario.AssertValues("new T()");
+        }
+        else
+        {
+            scenario.AssertValues("new T()");
+        }
+    }
+
+    [TestMethod]
     [DataRow("(int X, int Y) value = (0, 0);", "value.X = 1")]
     [DataRow("Mutable value = new Mutable();", "value.Field = 1")]
     [DataRow("Mutable value = new Mutable();", "value.Property = 1")]
@@ -405,10 +429,19 @@ public class LocalDefinitionTransferTests
         private static readonly MetadataReference[] References = [.. ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
             .Split(Path.PathSeparator).Select(static path => MetadataReference.CreateFromFile(path))];
 
-        internal Scenario(string body, bool initialize = true)
+        internal Scenario(string body, bool initialize = true, string? constraints = null)
         {
             var source = """
                 using System;
+                interface IMutable
+                {
+                    int Property { get; set; }
+                    int this[int index] { get; set; }
+                }
+                class MutableBase
+                {
+                    public int Property { get; set; }
+                }
                 class Holder
                 {
                     public int Field;
@@ -446,6 +479,10 @@ public class LocalDefinitionTransferTests
                     static void Run(bool flag, object item)
                     {
                 """ + body + "}}";
+            if (constraints is not null)
+            {
+                source = source.Replace("Run(bool flag, object item)", "Run<T>(bool flag, object item) where T : " + constraints);
+            }
             var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.Preview));
             var compilation = CSharpCompilation.Create("TransferTest", [tree], References,
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
