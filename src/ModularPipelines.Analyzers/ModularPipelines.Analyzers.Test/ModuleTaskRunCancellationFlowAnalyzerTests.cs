@@ -904,6 +904,39 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("decimal", "int", false, true)]
+    [DataRow("decimal", "int", true, false)]
+    [DataRow("double", "decimal", false, true)]
+    [DataRow("float", "decimal", false, true)]
+    [DataRow("decimal?", "int?", false, true)]
+    [DataRow("decimal", "double", false, false)]
+    [DataRow("int", "decimal", false, false)]
+    [DataRow("long", "int", false, false)]
+    public async Task Tracks_Unchecked_Scalar_Numeric_Conversion_Exceptions(string sourceType, string targetType, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, default);
+
+            private static Task HelperAsync(CancellationToken token, {{sourceType}} value)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { _ = unchecked(({{targetType}})value); }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("await pending;", true)]
     [DataRow("throw error;", true)]
     [DataRow("await pending;", false)]

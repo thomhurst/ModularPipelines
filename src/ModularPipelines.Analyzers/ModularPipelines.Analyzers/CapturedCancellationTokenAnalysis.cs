@@ -594,7 +594,8 @@ internal static class CapturedCancellationTokenAnalysis
         private bool ClassifyHiddenOperation(IOperation operation) => operation switch
         {
             ITupleBinaryOperation tuple => TupleOperatorCanThrow(tuple.LeftOperand.Type, tuple.RightOperand.Type, tuple),
-            IConversionOperation conversion => TupleConversionCanThrow(conversion.Operand.Type, conversion.Type,
+            IConversionOperation conversion => OperationExceptionClassifier.CanNumericConversionOverflow(conversion.Operand.Type, conversion.Type)
+                || TupleConversionCanThrow(conversion.Operand.Type, conversion.Type,
                 _exceptionClassifier.IsInCheckedContext(conversion)),
             IDeconstructionAssignmentOperation { Syntax: AssignmentExpressionSyntax assignment } =>
                 DeconstructionCanThrow(_model!.GetDeconstructionInfo(assignment)),
