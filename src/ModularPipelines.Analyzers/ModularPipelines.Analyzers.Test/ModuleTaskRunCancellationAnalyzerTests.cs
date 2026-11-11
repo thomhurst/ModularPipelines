@@ -501,6 +501,47 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("state.Value", "token", false, true)]
+    [DataRow("state[0]", "token", false, true)]
+    [DataRow("state.Value", "token", true, false)]
+    [DataRow("state[0]", "token", true, false)]
+    [DataRow("state.Value", "other", false, false)]
+    [DataRow("state[0]", "other", false, false)]
+    public async Task Tracks_Property_Setter_Exceptions_After_Assignment_Value(string target, string rebound, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref other;
+                var state = new ThrowingState();
+                try { throw new Exception(); }
+                catch (Exception) when (Check({{target}} = (alias = ref {{rebound}}), (alias = ref other))) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static bool Check(CancellationToken first, CancellationToken second) => false;
+
+            private sealed class ThrowingState
+            {
+                public CancellationToken Value { set => throw new Exception(); }
+                public CancellationToken this[int index] { set => throw new Exception(); }
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("dynamic number = new object();", "(number + 1) is not null | (alias = ref other).CanBeCanceled", true)]
     [DataRow("dynamic number = new object();", "(-number) is not null | (alias = ref other).CanBeCanceled", true)]
     [DataRow("dynamic number = new object();", "(++number) is not null | (alias = ref other).CanBeCanceled", true)]
