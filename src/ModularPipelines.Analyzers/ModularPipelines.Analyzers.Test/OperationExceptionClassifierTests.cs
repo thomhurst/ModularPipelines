@@ -759,9 +759,9 @@ public class OperationExceptionClassifierTests
         var (root, classifier) = Compile($"class C {{ object M(int[] a, System.Range range, int index) => a[{index}]; }}");
         var array = root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>().Single();
         string?[] expected = isSlice ? [null] : ["System.NullReferenceException", "System.IndexOutOfRangeException"];
-        Assert.AreSequenceEqual(expected, classifier.Classify(array).ToArray());
-        Assert.AreSequenceEqual(classifier.Classify(array).ToArray(),
-            new OperationExceptionClassifier(isKnownNonNull: _ => true, hasExactArrayType: _ => true).Classify(array).ToArray());
+        Assert.AreSequenceEqual(expected, [.. classifier.Classify(array)]);
+        Assert.AreSequenceEqual([.. classifier.Classify(array)],
+            [.. new OperationExceptionClassifier(isKnownNonNull: _ => true, hasExactArrayType: _ => true).Classify(array)]);
     }
 
     private static (IOperation Root, OperationExceptionClassifier Classifier) Compile(string source,
