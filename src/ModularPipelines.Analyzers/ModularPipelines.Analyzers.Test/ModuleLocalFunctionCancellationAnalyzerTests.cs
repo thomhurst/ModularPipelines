@@ -25,6 +25,25 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Recognizes_Token_Forwarded_Through_Returned_Local_Functions(string root)
+    {
+        var source = ModuleSource(root, """
+            private static Task HelperAsync(CancellationToken token)
+            {
+                return Outer(token);
+
+                Task Outer(CancellationToken outerToken) => Inner(outerToken);
+                Task Inner(CancellationToken innerToken) => Task.Run(() => { }, innerToken);
+            }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     [DataRow("execute", "CancellationToken.None")]
     [DataRow("execute", "unrelatedToken")]
     [DataRow("lifecycle", "CancellationToken.None")]
@@ -76,6 +95,40 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source,
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
                 .WithLocation(0).WithArguments("RunAsync"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("Run"));
+    }
+
+    [TestMethod]
+    [DataRow("execute", "CancellationToken.None")]
+    [DataRow("execute", "unrelatedToken")]
+    [DataRow("lifecycle", "CancellationToken.None")]
+    [DataRow("lifecycle", "unrelatedToken")]
+    [DataRow("configuration", "CancellationToken.None")]
+    [DataRow("configuration", "unrelatedToken")]
+    public async Task Reports_Unrelated_Token_Between_Local_Functions(string root, string argument)
+    {
+        var source = ModuleSource(root, $$"""
+            private static Task HelperAsync(CancellationToken token)
+            {
+                return Outer(token);
+
+                async Task Outer(CancellationToken outerToken)
+                {
+                    var unrelatedToken = new CancellationToken();
+                    await {|#0:Inner({{argument}})|};
+                }
+
+                async Task Inner(CancellationToken innerToken)
+                {
+                    await {|#1:Task.Run(() => { }, innerToken)|};
+                }
+            }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Inner"),
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
                 .WithLocation(1).WithArguments("Run"));
     }

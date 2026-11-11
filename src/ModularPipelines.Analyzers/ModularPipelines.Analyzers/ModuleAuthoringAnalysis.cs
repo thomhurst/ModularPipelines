@@ -854,9 +854,13 @@ internal static class ModuleAuthoringAnalysis
             ? executeMethod.ContainingType
             : targetMethod.ContainingType;
         var memberMethods = GetModuleMemberMethods(analysisType, compilation);
-        if (targetMethod.MethodKind == MethodKind.LocalFunction)
+        if (targetMethod.MethodKind == MethodKind.LocalFunction
+            && GetMethodOperation(targetMethod, compilation, cancellationToken) is { } targetOperation)
         {
-            memberMethods = memberMethods.Add(targetMethod);
+            memberMethods = memberMethods.AddRange(GetRoot(targetOperation)
+                .DescendantsAndSelf()
+                .OfType<ILocalFunctionOperation>()
+                .Select(static localFunction => localFunction.Symbol));
         }
 
         var mappedTokenPaths = FindMappedCancellationTokenPaths(
@@ -905,6 +909,14 @@ internal static class ModuleAuthoringAnalysis
 
         foreach (var invocation in GetReachableInvocations(operation))
         {
+            // Local functions map their arguments in their own traversal step.
+            if (targetMethod.MethodKind == MethodKind.LocalFunction
+                && GetEnclosingCallable(invocation) is ILocalFunctionOperation localFunction
+                && !SymbolEqualityComparer.Default.Equals(localFunction.Symbol, currentMethod))
+            {
+                continue;
+            }
+
             foreach (var (method, tokens) in GetInvocationCancellationTokenMappings(
                          invocation,
                          memberMethods,
