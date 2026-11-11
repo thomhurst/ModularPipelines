@@ -191,6 +191,8 @@ internal static class CancellationTokenParameterProvenance
 
         public Dictionary<CaptureId, HashSet<StorageReference>> CaptureTargets { get; } = [];
 
+        public Dictionary<ISymbol, HashSet<StorageReference>> ReferenceTargets { get; } = [with(SymbolEqualityComparer.Default)];
+
         // Only syntax-named indices need facts, even for very large allocations.
         public Dictionary<TextSpan, Dictionary<int, Value>> Arrays { get; } = [];
 
@@ -293,12 +295,17 @@ internal static class CancellationTokenParameterProvenance
                 copy.CaptureTargets.Add(entry.Key, [.. entry.Value]);
             }
 
+            foreach (var entry in ReferenceTargets)
+            {
+                copy.ReferenceTargets.Add(entry.Key, [.. entry.Value]);
+            }
+
             return copy;
         }
 
         public bool Merge(State other)
         {
-            var changed = MergeCaptureTargets(other) | MergeEscapedFields(other);
+            var changed = MergeCaptureTargets(other) | MergeReferenceTargets(other) | MergeEscapedFields(other);
             var escapedCount = EscapedSymbols.Count + EscapedCaptures.Count;
             EscapedSymbols.UnionWith(other.EscapedSymbols);
             EscapedCaptures.UnionWith(other.EscapedCaptures);
@@ -342,6 +349,24 @@ internal static class CancellationTokenParameterProvenance
                 {
                     targets = [];
                     CaptureTargets.Add(entry.Key, targets);
+                }
+
+                var count = targets.Count;
+                targets.UnionWith(entry.Value);
+                changed |= targets.Count != count;
+            }
+
+            return changed;
+        }
+
+        private bool MergeReferenceTargets(State other)
+        {
+            var changed = false;
+            foreach (var entry in other.ReferenceTargets)
+            {
+                if (!ReferenceTargets.TryGetValue(entry.Key, out var targets))
+                {
+                    ReferenceTargets.Add(entry.Key, targets = []);
                 }
 
                 var count = targets.Count;
@@ -549,7 +574,7 @@ internal static class CancellationTokenParameterProvenance
                 InvalidateArrays(value, state);
                 if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
                 {
-                    if (IsTokenAwaitable(argument.Value.Type))
+                    if (creation.Type?.IsRefLikeType == true)
                     {
                         InvalidateReferencedStorage(argument.Value, state);
                     }
@@ -762,7 +787,8 @@ internal static class CancellationTokenParameterProvenance
             foreach (var (target, value) in references)
             {
                 InvalidateArrays(value, state);
-                if (IsTokenAwaitable(target.Type))
+                if (invocation.TargetMethod.ReturnsByRef || invocation.TargetMethod.ReturnsByRefReadonly
+                    || invocation.Type?.IsRefLikeType == true)
                 {
                     InvalidateReferencedStorage(target, state);
                 }
@@ -821,7 +847,9 @@ internal static class CancellationTokenParameterProvenance
                     return EvaluateAssignment(assignment, state);
                 case IArgumentOperation argument when argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out:
                     InvalidateArrays(Evaluate(argument.Value, state), state);
-                    if (IsTokenAwaitable(argument.Value.Type))
+                    if (argument.Parent is IInvocationOperation referenceCall
+                        && (referenceCall.TargetMethod.ReturnsByRef || referenceCall.TargetMethod.ReturnsByRefReadonly
+                            || referenceCall.Type?.IsRefLikeType == true))
                     {
                         InvalidateReferencedStorage(argument.Value, state);
                     }
@@ -847,7 +875,16 @@ internal static class CancellationTokenParameterProvenance
             if (assignment.IsRef)
             {
                 // Even a readonly alias can observe later writes to its source.
-                InvalidateReferencedStorage(assignment.Target, state);
+                if (assignment.Target is ILocalReferenceOperation referenceLocal)
+                {
+                    state.ReferenceTargets[referenceLocal.Local] = [.. ReferencedStorage(assignment.Value, state)];
+                    state.Escape(referenceLocal.Local);
+                }
+                else
+                {
+                    InvalidateReferencedStorage(assignment.Target, state);
+                }
+
                 if (assignment.Target is not ILocalReferenceOperation local || local.Local.RefKind == RefKind.Ref)
                 {
                     InvalidateReferenceTarget(assignment.Value, state);
@@ -905,6 +942,7 @@ internal static class CancellationTokenParameterProvenance
 
         private static IEnumerable<StorageReference> ReferencedStorage(IOperation target, State state) => target switch
         {
+            ILocalReferenceOperation local when state.ReferenceTargets.TryGetValue(local.Local, out var targets) => targets,
             ILocalReferenceOperation local => [new StorageReference(local.Local, string.Empty)],
             IParameterReferenceOperation parameter => [new StorageReference(parameter.Parameter, string.Empty)],
             IFlowCaptureReferenceOperation capture when state.CaptureTargets.TryGetValue(capture.Id, out var targets) => targets,
@@ -917,7 +955,8 @@ internal static class CancellationTokenParameterProvenance
 
         private static void InvalidateUnknownReferenceArrays(IOperation receiver, State state)
         {
-            var escaped = ReferencedStorage(receiver, state).Any(state.IsEscaped);
+            var escaped = ReferencedStorage(receiver, state).Any(state.IsEscaped)
+                || (receiver is ILocalReferenceOperation local && state.EscapedSymbols.Contains(local.Local));
             if (!escaped && receiver is IFlowCaptureReferenceOperation capture)
             {
                 escaped = state.EscapedCaptures.Contains(capture.Id);
@@ -928,14 +967,39 @@ internal static class CancellationTokenParameterProvenance
                 return;
             }
 
-            // An escaped reference lost its allocation identity. A write through
-            // it can affect any tracked backing storage, but a readonly bind cannot.
+            // Ref aliases retain storage targets even when their value proof is lost.
+            // Read the current target value, since its array may have been replaced.
+            var references = ReferencedStorage(receiver, state).ToArray();
+            var possible = references.Select(reference => GetStorageValue(reference, state)).ToArray();
+            if (possible.Length > 0 && !references.Any(state.IsEscaped)
+                && possible.All(static value => value.Arrays is not null))
+            {
+                foreach (var value in possible)
+                {
+                    InvalidateArrays(value, state);
+                }
+
+                return;
+            }
+
+            // An unknown target can still affect any tracked backing storage.
             foreach (var identity in state.Arrays.Keys.ToArray())
             {
                 state.Arrays[identity] = [];
             }
 
             state.SafeArrays.Clear();
+        }
+
+        private static Value GetStorageValue(StorageReference reference, State state)
+        {
+            var value = Get(state.Values, reference.Symbol);
+            foreach (var index in reference.Path.Split(['/'], StringSplitOptions.RemoveEmptyEntries))
+            {
+                value = Element(value, int.Parse(index, System.Globalization.CultureInfo.InvariantCulture));
+            }
+
+            return value;
         }
 
         private static Value GetSymbolValue(ISymbol symbol, State state)

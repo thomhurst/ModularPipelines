@@ -5688,33 +5688,50 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
-        if (method.IsAsync || IsCancellationTokenAwaitable(invocation.Type))
-        {
-            // Awaitable payload proof is scalar-only. Collection contents and aliases
-            // are not tracked across source-helper boundaries.
-            if (operation.DescendantsAndSelf().Any(static child => child.Type is IArrayTypeSymbol
-                || (child.Type is INamedTypeSymbol named && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>")))
-            {
-                return false;
-            }
-
-            // Local-function parameter analysis retains a captured-value fallback.
-            // Do not use that fallback to prove a written awaitable return payload.
-            parameters.RemoveAll(parameter => !HasScalarCancellationTokenArgument(invocation, method, parameter) || operation.DescendantsAndSelf()
-                .OfType<IParameterReferenceOperation>()
-                .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
-                    && IsPotentialParameterWrite(reference)));
-        }
-
         var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
             .Where(returned => (GetEnclosingCallable(returned) is null
                 || ReferenceEquals(GetEnclosingCallable(returned), operation)) && IsInReachableBranch(returned))
             .Select(static returned => returned.ReturnedValue).OfType<IOperation>().ToArray();
+        // Reachable-value expansion strips conversions. Reject user-defined
+        // operators before expansion because they may replace a payload.
+        if (returns.Any(static value => value.DescendantsAndSelf().OfType<IConversionOperation>()
+            .Any(static conversion => conversion.OperatorMethod is not null)))
+        {
+            return false;
+        }
+
+        var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
+        if ((method.IsAsync || IsCancellationTokenAwaitable(invocation.Type))
+            && !ConstrainScalarPayloadParameters(invocation, method, operation, returns, parameters))
+        {
+            return false;
+        }
+
         return parameters.Count > 0 && returns.Length > 0
             && returns.SelectMany(GetReachableValueLeaves).Where(static value => !AlwaysThrows(value))
                 .All(value => parameters.Any(parameter => FlowsFromCancellationToken(
                     method.IsAsync ? value : GetCancellationTokenPayload(value), parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default), method])));
+    }
+
+    private static bool ConstrainScalarPayloadParameters(
+        IInvocationOperation invocation, IMethodSymbol method, IOperation operation, IOperation[] returns, List<IParameterSymbol> parameters)
+    {
+        // Unchanged direct scalar returns cannot depend on unrelated collections.
+        // Other collection-dependent helper payloads still require effect tracking.
+        if (!returns.SelectMany(GetReachableValueLeaves).All(static value => value is IParameterReferenceOperation)
+            && operation.DescendantsAndSelf().Any(static child => child.Type is IArrayTypeSymbol
+                || (child.Type is INamedTypeSymbol named && named.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>")))
+        {
+            return false;
+        }
+
+        // Local-function analysis has a captured-value fallback. Do not use that
+        // fallback to prove a written awaitable return payload.
+        parameters.RemoveAll(parameter => !HasScalarCancellationTokenArgument(invocation, method, parameter) || operation.DescendantsAndSelf()
+            .OfType<IParameterReferenceOperation>()
+            .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
+                && IsPotentialParameterWrite(reference)));
+        return true;
     }
 
     private static bool IsCancellationTokenAwaitable(ITypeSymbol? type) => type is INamedTypeSymbol { TypeArguments.Length: 1 } named

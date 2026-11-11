@@ -7,6 +7,56 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref (context != null ? ref first : ref second)", "", "first", true)]
+    [DataRow("ref (context != null ? ref first : ref second)", "", "untouched", false)]
+    [DataRow("ref first", "alias = ref second;", "first", false)]
+    public async Task Array_Reference_Targets_Follow_Conditional_Bindings_And_Reassignment(string binding, string rebind, string source, bool warns)
+    {
+        var statements = "CancellationToken[] first = new[] { cancellationToken }; CancellationToken[] second = new[] { cancellationToken }; CancellationToken[] untouched = new[] { cancellationToken }; "
+            + $"ref readonly CancellationToken[] alias = {binding}; {rebind} alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({source}).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)"), warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Unrelated_Collections_Do_Not_Disprove_Unchanged_Helper_Returns(string taskType)
+    {
+        var helper = $"static async {taskType}<CancellationToken> Preserve(CancellationToken token) {{ await Task.Yield(); var unused = new CancellationToken[1]; return token; }} ";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + "cancellationToken = await Preserve(cancellationToken);", "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", "out")]
+    [DataRow("ValueTask", "out")]
+    [DataRow("Task", "ref")]
+    [DataRow("ValueTask", "ref")]
+    public async Task Completed_Reference_Calls_Allow_Payload_Restoration(string taskType, string reference)
+    {
+        var statements = $"static void Clear({reference} {taskType}<CancellationToken> value) => value = {taskType}.FromResult(CancellationToken.None); "
+            + $"var saved = {taskType}.FromResult(cancellationToken); Clear({reference} saved); saved = {taskType}.FromResult(cancellationToken); cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Readonly_Reference_Array_Writes_Track_Current_Target_Storage(bool retargetStorage, bool affected)
+    {
+        var statements = "CancellationToken[] tokens = new[] { cancellationToken }; CancellationToken[] other = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref other; "
+            + (retargetStorage ? "other = tokens; " : "") + "alias[0] = default; "
+            + $"cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({(affected ? "other" : "tokens")}).Token;";
+        var warns = affected || retargetStorage;
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, warns ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)"), warns
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
     [DataRow("new ValueTask<CancellationToken>(token)")]
     [DataRow("new ValueTask<CancellationToken>(Task.FromResult(token))")]
     public async Task Non_Async_ValueTask_Constructors_Preserve_Helper_Payloads(string result)
@@ -372,6 +422,8 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow("cancellationToken = await (ReplacingAwaitable)Task.FromResult(cancellationToken);")]
     [DataRow("cancellationToken = await (Task<CancellationToken>)(ReplacingAwaitable)Task.FromResult(cancellationToken);")]
+    [DataRow("static Task<CancellationToken> Replace(CancellationToken token) => (Task<CancellationToken>)(ReplacingAwaitable)Task.FromResult(token); cancellationToken = await Replace(cancellationToken);")]
+    [DataRow("static ValueTask<CancellationToken> Replace(CancellationToken token) => new ValueTask<CancellationToken>((Task<CancellationToken>)(ReplacingAwaitable)Task.FromResult(token)); cancellationToken = await Replace(cancellationToken);")]
     public async Task Reports_Replacement_Through_Custom_Awaitable_Conversions(string statements)
     {
         var source = AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}") + """
