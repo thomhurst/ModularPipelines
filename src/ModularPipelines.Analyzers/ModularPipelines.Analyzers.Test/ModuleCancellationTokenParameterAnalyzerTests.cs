@@ -64,6 +64,13 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("(CancellationToken Token, int Count) saved = default; if (context != null) saved.Token = cancellationToken; cancellationToken = saved.Token;")]
     [DataRow("(CancellationToken Token, int Count) saved = default; saved.Token = cancellationToken; saved = default; cancellationToken = saved.Token;")]
     [DataRow("(CancellationToken[] Tokens, int Count) saved = default; saved.Tokens = new[] { cancellationToken }; saved.Tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; static CancellationToken Link(ref CancellationToken token, CancellationToken[] values) { token = default; return CancellationTokenSource.CreateLinkedTokenSource(values).Token; } cancellationToken = Link(ref tokens[0], tokens);")]
+    [DataRow("var tokens = new[] { cancellationToken }; static CancellationToken Link(out CancellationToken token, CancellationToken[] values) { token = default; return CancellationTokenSource.CreateLinkedTokenSource(values).Token; } cancellationToken = Link(out tokens[0], tokens);")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens); alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new ReadOnlySpan<CancellationToken>(tokens); tokens[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; static CancellationToken Clear(ref CancellationToken token) { token = default; return default; } static CancellationToken Link(CancellationToken[] values, CancellationToken ignored) => CancellationTokenSource.CreateLinkedTokenSource(values).Token; cancellationToken = Link(tokens, Clear(ref tokens[0]));")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens); static void Clear(ref CancellationToken token) => token = default; Clear(ref alias[0]); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens, 0, 1); alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     public async Task Reports_Replaced_Parameter(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
@@ -138,6 +145,10 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("static CancellationToken Reset(ref CancellationToken token, CancellationToken saved) { token = default; return saved; } cancellationToken = Reset(ref cancellationToken, cancellationToken);")]
     [DataRow("static CancellationToken Reset(out CancellationToken token, CancellationToken saved) { token = default; return saved; } cancellationToken = Reset(out cancellationToken, cancellationToken);")]
     [DataRow("static CancellationToken Reset(ref CancellationToken token, CancellationToken saved) { token = default; return saved; } var saved = (cancellationToken, 1); cancellationToken = Reset(ref saved.Item1, saved.Item1);")]
+    [DataRow("var tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(new ReadOnlySpan<CancellationToken>(tokens)).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new Span<CancellationToken>(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("var tokens = new CancellationToken[1]; var alias = new Span<CancellationToken>(tokens); alias[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = new ReadOnlySpan<CancellationToken>(tokens); cancellationToken = alias[0];")]
     public async Task Recognizes_Original_Parameter_Value(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));

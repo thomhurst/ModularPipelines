@@ -322,8 +322,11 @@ internal static class CancellationTokenParameterProvenance
                 ITupleOperation tuple => new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]),
                 IFieldReferenceOperation field when TupleElementIndex(field) >= 0 => Element(Evaluate(field.Instance!, state), TupleElementIndex(field)),
                 IArrayCreationOperation array => EvaluateArray(array, state),
+                IObjectCreationOperation creation => EvaluateCreation(creation, state),
                 ICollectionExpressionOperation collection => EvaluateCollection(collection, state),
                 IArrayElementReferenceOperation element => EvaluateArrayElement(element, state),
+                IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver } indexer
+                    when IsTokenCollection(receiver.Type) => EvaluateCollectionElement(receiver, [.. indexer.Arguments.Select(argument => argument.Value)], state),
                 _ => EvaluateEffects(operation, state),
             };
         }
@@ -347,6 +350,28 @@ internal static class CancellationTokenParameterProvenance
             }
 
             InvalidateArrays(converted, state);
+            return Value.None;
+        }
+
+        private Value EvaluateCreation(IObjectCreationOperation creation, State state)
+        {
+            if (creation.Arguments.Length == 1 && IsTokenCollection(creation.Type)
+                && creation.Arguments[0].Parameter?.Type is IArrayTypeSymbol)
+            {
+                return Evaluate(creation.Arguments[0].Value, state);
+            }
+
+            // Unsupported constructors can retain or modify collection arguments.
+            foreach (var argument in creation.Arguments)
+            {
+                InvalidateArrays(Evaluate(argument, state), state);
+            }
+
+            if (creation.Initializer is { } initializer)
+            {
+                Evaluate(initializer, state);
+            }
+
             return Value.None;
         }
 
@@ -404,14 +429,17 @@ internal static class CancellationTokenParameterProvenance
         }
 
         private Value EvaluateArrayElement(IArrayElementReferenceOperation element, State state)
+            => EvaluateCollectionElement(element.ArrayReference, element.Indices, state);
+
+        private Value EvaluateCollectionElement(IOperation receiver, IReadOnlyList<IOperation> indices, State state)
         {
-            var arrayValue = Evaluate(element.ArrayReference, state);
-            foreach (var index in element.Indices)
+            var arrayValue = Evaluate(receiver, state);
+            foreach (var index in indices)
             {
                 Evaluate(index, state);
             }
 
-            if (element.Indices.Length == 1 && element.Indices[0].ConstantValue is { HasValue: true, Value: int arrayIndex }
+            if (indices.Count == 1 && indices[0].ConstantValue is { HasValue: true, Value: int arrayIndex }
                 && arrayValue.Arrays is { } arrayIdentities && !arrayIdentities.Any(_summarizedArrays.Contains))
             {
                 return ArrayElement(arrayValue, arrayIndex, state);
@@ -441,13 +469,11 @@ internal static class CancellationTokenParameterProvenance
 
             // CFG operations have no SemanticModel. Recover the source operation
             // so the existing helper analysis can inspect its declaration.
-            var arguments = new Dictionary<TextSpan, bool>();
             var values = new Dictionary<TextSpan, Value>();
             var references = new List<(IOperation Target, Value Value)>();
             if (invocation.Instance is { } receiver)
             {
                 var value = Evaluate(receiver, state);
-                arguments[receiver.Syntax.Span] = IsSafe(value, state);
                 values[receiver.Syntax.Span] = value;
             }
 
@@ -460,7 +486,6 @@ internal static class CancellationTokenParameterProvenance
                     value = Value.None;
                 }
 
-                arguments[argument.Value.Syntax.Span] = IsSafe(value, state);
                 values[argument.Value.Syntax.Span] = value;
             }
 
@@ -483,6 +508,10 @@ internal static class CancellationTokenParameterProvenance
             {
                 return EvaluateIdentityResult(invocation, Get(values, returnedArgument.Syntax.Span), state);
             }
+
+            // Scalars are copied at argument evaluation, but collections still alias
+            // their storage after later arguments or ref/out writes mutate it.
+            var arguments = values.ToDictionary(pair => pair.Key, pair => IsSafe(pair.Value, state));
 
             foreach (var value in values.Values)
             {
@@ -660,9 +689,12 @@ internal static class CancellationTokenParameterProvenance
         }
 
         private void AssignArrayElement(IArrayElementReferenceOperation element, Value value, State state)
+            => AssignCollectionElement(element.ArrayReference, element.Indices, value, state);
+
+        private void AssignCollectionElement(IOperation receiver, IReadOnlyList<IOperation> indices, Value value, State state)
         {
-            var array = Evaluate(element.ArrayReference, state);
-            foreach (var index in element.Indices)
+            var array = Evaluate(receiver, state);
+            foreach (var index in indices)
             {
                 Evaluate(index, state);
             }
@@ -672,8 +704,8 @@ internal static class CancellationTokenParameterProvenance
                 return;
             }
 
-            if (element.Indices.Length != 1
-                || element.Indices[0].ConstantValue is not { HasValue: true, Value: int arrayIndex }
+            if (indices.Count != 1
+                || indices[0].ConstantValue is not { HasValue: true, Value: int arrayIndex }
                 || identities.Any(_summarizedArrays.Contains))
             {
                 InvalidateArrays(array, state);
@@ -703,6 +735,10 @@ internal static class CancellationTokenParameterProvenance
         {
             switch (target)
             {
+                case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver } indexer
+                    when IsTokenCollection(receiver.Type):
+                    AssignCollectionElement(receiver, [.. indexer.Arguments.Select(argument => argument.Value)], value, state);
+                    break;
                 case IParameterReferenceOperation parameter:
                     state.Values[parameter.Parameter] = value;
                     break;
