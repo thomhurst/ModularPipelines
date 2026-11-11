@@ -11,7 +11,7 @@ $password = $redisPassword
 $endpoint = ''
 
 function Invoke-Worker([string]$Worker, [string[]]$Arguments, [string]$EndpointOverride = $endpoint,
-    [string]$Mode = 'shared', [string]$Username = '', [securestring]$WorkerPassword = (ConvertTo-SecureString $password -AsPlainText -Force)) {
+    [string]$Mode = 'shared', [string]$Username = '', [securestring]$WorkerPassword = ([System.Net.NetworkCredential]::new('', $password).SecurePassword)) {
     $cache = Join-Path $fixtureRoot $Worker
     New-Item -ItemType Directory -Force $cache | Out-Null
     $runner = Join-Path $fixtureRoot 'worker.ps1'
@@ -85,8 +85,8 @@ try {
     $aclPassword = [Guid]::NewGuid().ToString('N')
     & docker exec -e "REDISCLI_AUTH=$password" $container redis-cli ACL SETUSER fixture-worker on ">$aclPassword" '~*' '+@all' | Out-Null
     if ($LASTEXITCODE) { throw 'Could not configure fixture ACL user.' }
-    Assert-Result (Invoke-Worker a @('ping') -Username fixture-worker -WorkerPassword (ConvertTo-SecureString $aclPassword -AsPlainText -Force)) 0 '' 'Redis ACL authentication'
-    Assert-Result (Invoke-Worker a @('ping') -WorkerPassword (ConvertTo-SecureString $aclPassword -AsPlainText -Force)) 1 '' 'ACL password without username rejected'
+    Assert-Result (Invoke-Worker a @('ping') -Username fixture-worker -WorkerPassword ([System.Net.NetworkCredential]::new('', $aclPassword).SecurePassword)) 0 '' 'Redis ACL authentication'
+    Assert-Result (Invoke-Worker a @('ping') -WorkerPassword ([System.Net.NetworkCredential]::new('', $aclPassword).SecurePassword)) 1 '' 'ACL password without username rejected'
     $tlsFailure = Invoke-Worker a @('ping') ($endpoint -replace '^redis:', 'rediss:')
     if ($tlsFailure.ExitCode -ne 1 -or $tlsFailure.Output) { throw 'TLS failure did not fail closed.' }
 
