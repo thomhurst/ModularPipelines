@@ -12,6 +12,60 @@ namespace ModularPipelines.Analyzers.Test;
 public class LocalDefinitionTransferTests
 {
     [TestMethod]
+    public void Inline_Array_Element_Ref_Local_Tracks_Backing_Storage()
+    {
+        var scenario = new Scenario("Buffer buffer = default; ref int value = ref buffer[0];"
+            + "value = 1; buffer[0] = 2; value = 3;");
+        scenario.Store("value = 1");
+        scenario.AssertValues("1");
+        scenario.Store("buffer[0] = 2");
+        scenario.AssertUnknown();
+        scenario.Store("value = 3");
+        scenario.AssertValues("3");
+    }
+
+    [TestMethod]
+    [DataRow("value[0] = 1")]
+    [DataRow("value[0]++")]
+    [DataRow("value[0] += 1")]
+    [DataRow("alias = 1")]
+    [DataRow("bufferAlias[0] = 1")]
+    [DataRow("(flag ? ref value : ref other)[0] = 1")]
+    public void Inline_Array_Stores_Invalidate_Receiver_And_Recover(string store)
+    {
+        var scenario = new Scenario("Buffer value = default; Buffer other = default;"
+            + "ref int alias = ref value[0]; ref Buffer bufferAlias = ref value;"
+            + store + ";value = new Buffer();");
+        scenario.AssertValues("default");
+        scenario.Store(store);
+        scenario.AssertUnknown();
+        scenario.Store("value = new Buffer()");
+        scenario.AssertValues("new Buffer()");
+    }
+
+    [TestMethod]
+    [DataRow("Change(ref value[0])")]
+    [DataRow("Assign(out value[0])")]
+    [DataRow("Change(ref alias)")]
+    public void Inline_Array_Ref_Out_Arguments_Invalidate_Receiver(string call)
+    {
+        var scenario = new Scenario("Buffer value = default; ref int alias = ref value[0];" + call + ";");
+        scenario.Transfer.InvalidateByReferenceArguments(scenario.Operation(call), scenario.State);
+        scenario.AssertUnknown();
+    }
+
+    [TestMethod]
+    [DataRow("int value = 0; Buffer buffer = default;", "buffer[value] = 1", "0")]
+    [DataRow("int value = 0; Buffer buffer = default; ref int alias = ref buffer[value];", "alias = 1", "0")]
+    [DataRow("Buffer value = default; Buffer other = default;", "other[0] = 1", "default")]
+    public void Inline_Array_Indices_And_Unrelated_Storage_Preserve_Definitions(string declarations, string store, string expected)
+    {
+        var scenario = new Scenario(declarations + store + ";");
+        scenario.Store(store);
+        scenario.AssertValues(expected);
+    }
+
+    [TestMethod]
     [DataRow("value.Field = ref other", true)]
     [DataRow("alias.Field = ref other", true)]
     [DataRow("unrelated.Field = ref other", false)]
@@ -518,6 +572,11 @@ public class LocalDefinitionTransferTests
         {
             var source = """
                 using System;
+                [System.Runtime.CompilerServices.InlineArray(1)]
+                struct Buffer
+                {
+                    private int _element0;
+                }
                 interface IMutable
                 {
                     event Action Changed;

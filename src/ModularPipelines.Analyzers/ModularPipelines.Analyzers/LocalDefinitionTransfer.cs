@@ -368,6 +368,7 @@ internal sealed class LocalDefinitionTransfer
     private static bool HasRepresentableBackingStorage(IOperation source) => source switch
     {
         ILocalReferenceOperation => true,
+        IInlineArrayAccessOperation access => HasRepresentableBackingStorage(access.Instance),
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => HasRepresentableBackingStorage(instance),
         IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
             HasRepresentableBackingStorage(conditional.WhenTrue) && HasRepresentableBackingStorage(whenFalse),
@@ -395,6 +396,7 @@ internal sealed class LocalDefinitionTransfer
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IPropertyReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        IInlineArrayAccessOperation access => TargetsLocal(access.Instance, local, operationRoot),
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
         IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
