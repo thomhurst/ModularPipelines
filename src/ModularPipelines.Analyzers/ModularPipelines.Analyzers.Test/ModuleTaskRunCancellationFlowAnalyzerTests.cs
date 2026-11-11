@@ -988,6 +988,16 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("_ = Holder.Value", false, true)]
     [DataRow("_ = Holder.Value", true, false)]
     [DataRow("_ = Holder.Constant", false, false)]
+    [DataRow("Publisher.StaticChanged += handler", false, true)]
+    [DataRow("Publisher.StaticChanged -= handler", false, true)]
+    [DataRow("Publisher.StaticChanged += handler", true, false)]
+    [DataRow("Publisher.StaticChanged -= handler", true, false)]
+    [DataRow("Holder.Value = 1", false, true)]
+    [DataRow("Holder.Value |= 1", false, true)]
+    [DataRow("Holder.Value = 1", true, false)]
+    [DataRow("Holder.Value |= 1", true, false)]
+    [DataRow("Holder.Value = (alias = ref other).CanBeCanceled ? 1 : 2", false, false)]
+    [DataRow("Holder.Value |= (alias = ref other).CanBeCanceled ? 1 : 2", false, true)]
     public async Task Tracks_Event_Accessor_And_Static_Field_Exceptions(string statement, bool rebindInHandler, bool reports)
     {
         var source = ModuleSource($$"""
@@ -1015,6 +1025,12 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
                     add => throw new Exception();
                     remove => throw new Exception();
                 }
+
+                public static event Action StaticChanged
+                {
+                    add => throw new Exception();
+                    remove => throw new Exception();
+                }
             }
 
             private static class Holder
@@ -1022,6 +1038,42 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
                 static Holder() => throw new Exception();
                 public static int Value = 1;
                 public const int Constant = 1;
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("_ = \"prefix\" + value", false, true)]
+    [DataRow("text += value", false, true)]
+    [DataRow("_ = \"prefix\" + value", true, false)]
+    [DataRow("text += value", true, false)]
+    [DataRow("_ = text + \"suffix\"", false, false)]
+    [DataRow("text += \"suffix\"", false, false)]
+    public async Task Tracks_Implicit_String_Concatenation_Exceptions(string statement, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, new ThrowingValue(), "prefix");
+
+            private static Task HelperAsync(CancellationToken token, object value, string text)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { {{statement}}; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class ThrowingValue
+            {
+                public override string ToString() => throw new Exception();
             }
             """);
 

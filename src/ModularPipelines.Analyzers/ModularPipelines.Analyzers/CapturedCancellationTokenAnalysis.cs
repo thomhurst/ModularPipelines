@@ -473,10 +473,7 @@ internal static class CapturedCancellationTokenAnalysis
                 _written |= ReferencesStorage(operation, storage);
             }
 
-            if ((CanThrow(operation) || HiddenOperationCanThrow(operation)
-                    || (operation is ICollectionExpressionOperation or ISpreadOperation
-                        or IEventAssignmentOperation or IFieldReferenceOperation
-                        && !_exceptionClassifier.Classify(operation).IsEmpty))
+            if ((CanThrow(operation) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
                 && (operation.Syntax is not SwitchExpressionSyntax expression
                     || _model?.GetOperation(expression) is not ISwitchExpressionOperation { IsExhaustive: true }))
             {
@@ -491,6 +488,24 @@ internal static class CapturedCancellationTokenAnalysis
         };
 
         private readonly Dictionary<IOperation, bool> _hiddenThrows = [];
+
+        private bool ClassifiedOperationCanThrow(IOperation operation)
+        {
+            if (operation is not (ICollectionExpressionOperation or ISpreadOperation
+                or IEventAssignmentOperation or IFieldReferenceOperation
+                or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IFlowCaptureReferenceOperation }
+                or IBinaryOperation or ICompoundAssignmentOperation))
+            {
+                return false;
+            }
+
+            // CFG hoists store targets before branching values. Source parents retain
+            // the distinction between a field read and a store after value evaluation.
+            var classified = operation is IFieldReferenceOperation or ISimpleAssignmentOperation
+                ? _model?.GetOperation(operation.Syntax) ?? operation
+                : operation;
+            return !_exceptionClassifier.Classify(classified).IsEmpty;
+        }
 
         private bool HiddenOperationCanThrow(IOperation operation)
         {
@@ -613,7 +628,6 @@ internal static class CapturedCancellationTokenAnalysis
     private static bool CanThrow(IOperation operation) => operation is
         IAwaitOperation or IInvocationOperation or IObjectCreationOperation or IArrayCreationOperation
         or IPropertyReferenceOperation or IArrayElementReferenceOperation
-        or IFieldReferenceOperation { Instance.Type.IsReferenceType: true, Parent: not IPropertySubpatternOperation }
         or IDynamicInvocationOperation or IDynamicObjectCreationOperation
         or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
         or IConversionOperation { OperatorMethod: not null }
