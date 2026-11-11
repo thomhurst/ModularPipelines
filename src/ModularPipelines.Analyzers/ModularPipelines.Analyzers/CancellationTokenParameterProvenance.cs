@@ -85,6 +85,8 @@ internal static class CancellationTokenParameterProvenance
             || operation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out };
     }
 
+    // Values carry a scalar signal, tuple elements or array allocation identities.
+    // Escaping collections lose their signal; joins retain only guaranteed signals.
     private sealed class Value(bool safe = false, Value[]? elements = null, HashSet<TextSpan>? arrays = null, bool unknownArray = false)
     {
         public static readonly Value None = new();
@@ -196,6 +198,7 @@ internal static class CancellationTokenParameterProvenance
         public bool Merge(State other)
         {
             var changed = MergeValues(Values, other.Values) | MergeValues(Captures, other.Captures);
+            // An allocation absent from one path has no aliases on that path.
             foreach (var entry in other.Arrays)
             {
                 var span = entry.Key;
@@ -440,6 +443,7 @@ internal static class CancellationTokenParameterProvenance
             // so the existing helper analysis can inspect its declaration.
             var arguments = new Dictionary<TextSpan, bool>();
             var values = new Dictionary<TextSpan, Value>();
+            var references = new List<(IOperation Target, Value Value)>();
             if (invocation.Instance is { } receiver)
             {
                 var value = Evaluate(receiver, state);
@@ -449,9 +453,22 @@ internal static class CancellationTokenParameterProvenance
 
             foreach (var argument in invocation.Arguments)
             {
-                var value = Evaluate(argument, state);
+                var value = Evaluate(argument.Value, state);
+                if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
+                {
+                    references.Add((argument.Value, value));
+                    value = Value.None;
+                }
+
                 arguments[argument.Value.Syntax.Span] = IsSafe(value, state);
                 values[argument.Value.Syntax.Span] = value;
+            }
+
+            // A call cannot write ref/out targets until every argument is evaluated.
+            foreach (var (target, value) in references)
+            {
+                InvalidateArrays(value, state);
+                Assign(target, Value.None, state);
             }
 
             if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive

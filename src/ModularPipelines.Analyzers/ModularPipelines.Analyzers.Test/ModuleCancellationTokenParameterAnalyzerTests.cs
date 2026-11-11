@@ -135,6 +135,9 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("(CancellationToken First, CancellationToken Second) saved = default; saved.First = cancellationToken; saved.Second = CancellationToken.None; cancellationToken = saved.First;")]
     [DataRow("(CancellationToken Token, int Count) saved = default; if (context != null) saved.Token = cancellationToken; else saved.Token = cancellationToken; cancellationToken = saved.Token;")]
     [DataRow("(CancellationToken[] Tokens, int Count) saved = default; saved.Tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Tokens).Token;")]
+    [DataRow("static CancellationToken Reset(ref CancellationToken token, CancellationToken saved) { token = default; return saved; } cancellationToken = Reset(ref cancellationToken, cancellationToken);")]
+    [DataRow("static CancellationToken Reset(out CancellationToken token, CancellationToken saved) { token = default; return saved; } cancellationToken = Reset(out cancellationToken, cancellationToken);")]
+    [DataRow("static CancellationToken Reset(ref CancellationToken token, CancellationToken saved) { token = default; return saved; } var saved = (cancellationToken, 1); cancellationToken = Reset(ref saved.Item1, saved.Item1);")]
     public async Task Recognizes_Original_Parameter_Value(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
