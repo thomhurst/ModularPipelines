@@ -74,11 +74,7 @@ internal sealed class OperationExceptionClassifier(
             return "System.TypeInitializationException";
         }
 
-        return (field is not null && HasNullableReceiver(field.Instance))
-            || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance))
-            || IsThrowingMethodReference(operation)
-            ? "System.NullReferenceException"
-            : null;
+        return (field is not null && HasNullableReceiver(field.Instance)) || (eventAccess is not null && HasNullableReceiver(eventAccess.Instance)) || IsThrowingMethodReference(operation) ? "System.NullReferenceException" : null;
     }
 
     private static bool IsSimpleAssignmentTarget(IOperation operation) =>
@@ -96,8 +92,7 @@ internal sealed class OperationExceptionClassifier(
     private bool CanArrayAccessMismatch(IOperation operation, IArrayElementReferenceOperation array,
         bool deconstructionStore, IOperation? storedValue) =>
         array.Type is not { IsValueType: true } and not INamedTypeSymbol { IsSealed: true }
-        && (deconstructionStore ? storedValue is not { ConstantValue: { HasValue: true, Value: null } }
-            : IsWritableArrayAccess(operation))
+        && (deconstructionStore ? storedValue is not { ConstantValue: { HasValue: true, Value: null } } : IsWritableArrayAccess(operation))
         && hasExactArrayType?.Invoke(array.ArrayReference) != true;
 
     private bool IsWritableArrayAccess(IOperation operation) => GetRefConditionalContext(operation) switch
@@ -108,7 +103,8 @@ internal sealed class OperationExceptionClassifier(
         IOperation
         {
             Parent: IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } }
-        } => true,
+        }
+        => true,
         // Taking a writable ref return checks covariance even before a value is stored.
         // ReturnsByRef excludes ref readonly returns, whose element reference cannot be written.
         IOperation { Parent: IReturnOperation } when operation is IArrayElementReferenceOperation or IConditionalOperation =>
@@ -130,11 +126,13 @@ internal sealed class OperationExceptionClassifier(
                     or IParameterReferenceOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
                     or IFieldReferenceOperation { Field.RefKind: RefKind.Ref }
             }
-        } => true,
+        }
+        => true,
         IOperation
         {
             Parent: IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
-        } => true,
+        }
+        => true,
         _ => false,
     };
 
@@ -533,8 +531,7 @@ internal sealed class OperationExceptionClassifier(
             operandType = nullable.TypeArguments[0];
         }
 
-        return operandType is INamedTypeSymbol { EnumUnderlyingType: { } underlyingType }
-            ? underlyingType.SpecialType : operandType?.SpecialType;
+        return operandType is INamedTypeSymbol { EnumUnderlyingType: { } underlyingType } ? underlyingType.SpecialType : operandType?.SpecialType;
     }
 
     [Flags]
