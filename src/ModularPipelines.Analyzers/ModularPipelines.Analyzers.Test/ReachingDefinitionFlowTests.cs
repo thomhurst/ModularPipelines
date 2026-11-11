@@ -928,6 +928,22 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("var copy = holder - 0; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("var copy = 0 - holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("var copy = ++holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("var copy = holder++; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("var copy = -holder; var second = copy; value = 3; second.Field = 2;", "", false)]
+    [DataRow("scoped Retained copy = default; copy = holder - 0; value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("var copy = holder - 0; copy.Field = 2; value = 3;", "3", true)]
+    [DataRow("var copy = -holder; value = 3; if (false) copy.Field = 2;", "3", true)]
+    [DataRow("var copy = holder - 0; value = 3; copy.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); var copy = -unrelated; value = 3; copy.Field = 2;", "3", true)]
+    public void Operator_Results_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -1090,6 +1106,10 @@ public class ReachingDefinitionFlowTests
             public readonly void MutateAfterArgument(int argument) { Field = 2; }
             public readonly void MutateAndThrow() { Field = 2; throw new Exception(); }
             public readonly int Property { get { Field = 2; return 0; } }
+            public static Retained operator ++(Retained holder) => holder;
+            public static Retained operator -(Retained holder, int unused) => holder;
+            public static Retained operator -(int unused, Retained holder) => holder;
+            public static Retained operator -(Retained holder) => holder;
             public static int operator +(Retained holder, int value) { holder.Field = value; return value; }
         }
         """;

@@ -543,6 +543,13 @@ internal sealed class LocalDefinitionTransfer
         // A returned ref or ref-like value may retain any non-scoped by-reference input. Keep
         // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
         IInvocationOperation call => InvocationRetainsStorage(call, local, operationRoot),
+        IBinaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } binary =>
+            OperatorOperandRetainsStorage(binary.LeftOperand, method.Parameters[0], local, operationRoot)
+            || OperatorOperandRetainsStorage(binary.RightOperand, method.Parameters[1], local, operationRoot),
+        IUnaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } unary =>
+            OperatorOperandRetainsStorage(unary.Operand, method.Parameters[0], local, operationRoot),
+        IIncrementOrDecrementOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } increment =>
+            OperatorOperandRetainsStorage(increment.Target, method.Parameters[0], local, operationRoot),
         IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
             CreationRetainsStorage(creation, local, operationRoot),
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
@@ -561,6 +568,12 @@ internal sealed class LocalDefinitionTransfer
         IFlowCaptureReferenceOperation when operationRoot is not null => CaptureTargetsLocal(target, local, operationRoot),
         _ => false,
     };
+
+    private static bool OperatorOperandRetainsStorage(IOperation operand, IParameterSymbol parameter,
+        ILocalSymbol local, IOperation? operationRoot) =>
+        parameter.ScopedKind != ScopedKind.ScopedRef
+        && (parameter.RefKind != RefKind.None || operand.Type?.IsRefLikeType == true)
+        && TargetsLocal(operand, local, operationRoot);
 
     private static bool CreationRetainsStorage(IObjectCreationOperation creation, ILocalSymbol local, IOperation? operationRoot) =>
         creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot))
