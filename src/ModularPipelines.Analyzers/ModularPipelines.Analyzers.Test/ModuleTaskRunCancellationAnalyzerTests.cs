@@ -26,9 +26,19 @@ public class ModuleTaskRunCancellationAnalyzerTests
         ];
         foreach (var mutation in mutations)
         {
-            await VerifyCS.VerifyAnalyzerAsync(
-                Source(root, mutation, "{|#0:Task.Delay(1, cancellationToken)|}"),
-                MissingToken());
+            var source = Source(root, mutation, "{|#0:Task.Delay(1, cancellationToken)|}");
+            if (mutation == "cancellationToken = CancellationToken.None;")
+            {
+                source = source.Replace("await Task.Run(", "await {|#1:Task.Run(")
+                    .Replace("}, cancellationToken);", "}, cancellationToken)|};");
+                await VerifyCS.VerifyAnalyzerAsync(source, MissingToken(),
+                    VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                        .WithLocation(1).WithArguments("Run"));
+            }
+            else
+            {
+                await VerifyCS.VerifyAnalyzerAsync(source, MissingToken());
+            }
         }
     }
 

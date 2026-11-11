@@ -2639,7 +2639,7 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { try { throw new Exception(); } finally { if (context != null) a = GetTask(); } } catch (Exception) when (a.IsCompleted) { _ = {|#0:a.Result|}; }")]
     [DataRow("await ((Task)a.WaitAsync(TimeSpan.Zero, cancellationToken)).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
     [DataRow("var waiting = a; await ((Task)(waiting = a.WaitAsync(cancellationToken))).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = waiting.Result; _ = {|#0:a.Result|};")]
-    [DataRow("a = new TaskCompletionSource<int>().Task; cancellationToken = new CancellationToken(true); await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
+    [DataRow("a = new TaskCompletionSource<int>().Task; cancellationToken = new CancellationToken(true); await {|#1:((Task)a).WaitAsync(cancellationToken)|}.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
     [DataRow("await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing | ConfigureAwaitOptions.ForceYielding); _ = {|#0:a.Result|};")]
     [DataRow("var options = ConfigureAwaitOptions.SuppressThrowing; await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(options); _ = {|#0:a.Result|};")]
     [DataRow("async Task Read(Task<int> task, ConfigureAwaitOptions options) { await ((Task)task).WaitAsync(cancellationToken).ConfigureAwait(options); _ = {|#0:task.Result|}; } await Read(a, ConfigureAwaitOptions.SuppressThrowing);")]
@@ -2703,7 +2703,11 @@ public class ModuleAuthoringAnalyzerTests
         var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
             .WithLocation(0)
             .WithArguments("Result");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+        Microsoft.CodeAnalysis.Testing.DiagnosticResult[] diagnostics = statements.Contains("{|#1:", StringComparison.Ordinal)
+            ? [expected, VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("WaitAsync")]
+            : [expected];
+        await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), diagnostics);
     }
 
     [TestMethod]

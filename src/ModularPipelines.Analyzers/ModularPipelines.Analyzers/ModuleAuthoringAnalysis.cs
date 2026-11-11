@@ -5430,9 +5430,11 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
-                && (SymbolEqualityComparer.Default.Equals(
-                    parameterReference.Parameter,
-                    cancellationToken)
+                && (FlowsFromCancellationTokenParameter(
+                    parameterReference,
+                    cancellationToken,
+                    visitedLocals,
+                    visitedMethods)
                     || FlowsFromParallelCallbackToken(
                         parameterReference,
                         cancellationToken,
@@ -5500,6 +5502,41 @@ internal static class ModuleAuthoringAnalysis
                     visitedMethods),
             _ => false,
         };
+    }
+
+    private static bool FlowsFromCancellationTokenParameter(
+        IParameterReferenceOperation reference,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (!SymbolEqualityComparer.Default.Equals(reference.Parameter, cancellationToken))
+        {
+            return false;
+        }
+
+        // Evaluate stores at the reference, including references in saved-copy initializers.
+        // The current assignment has not stored its value while its RHS is evaluated.
+        var callable = GetEnclosingCallable(reference);
+        var assignments = GetRoot(reference).DescendantsAndSelf()
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(assignment => assignment.Syntax.Span.End <= reference.Syntax.SpanStart)
+            .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
+            .Where(assignment => assignment.Target is IParameterReferenceOperation target
+                && SymbolEqualityComparer.Default.Equals(target.Parameter, reference.Parameter))
+            .Where(IsInReachableBranch)
+            .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+            .ToArray();
+        var latestStore = assignments.FirstOrDefault(assignment =>
+            IsLinearPredecessor(assignment, reference));
+        return assignments
+            .Where(assignment => latestStore is null
+                || assignment.Syntax.SpanStart >= latestStore.Syntax.SpanStart)
+            .All(assignment => FlowsFromCancellationToken(
+                assignment.Value,
+                cancellationToken,
+                CloneVisitedLocals(visitedLocals),
+                CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool FlowsFromParallelCallbackToken(
