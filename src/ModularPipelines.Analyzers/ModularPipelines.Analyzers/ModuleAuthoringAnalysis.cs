@@ -1005,12 +1005,16 @@ internal static class ModuleAuthoringAnalysis
         or IConversionOperation { Operand.Type.OriginalDefinition.SpecialType: SpecialType.System_Nullable_T, Type.OriginalDefinition.SpecialType: not SpecialType.System_Nullable_T }
         or IIncrementOrDecrementOperation { IsChecked: true }
         or IIncrementOrDecrementOperation { OperatorMethod: not null }
+        or IIncrementOrDecrementOperation { Type.TypeKind: TypeKind.Dynamic }
         or IInterpolationOperation or IInterpolatedStringOperation
         or ICompoundAssignmentOperation { OperatorMethod: not null }
         or ICompoundAssignmentOperation { Target.Type.TypeKind: TypeKind.Dynamic }
+        or ICompoundAssignmentOperation { Value.Type.TypeKind: TypeKind.Dynamic }
         or IBinaryOperation { OperatorMethod: not null }
+        or IBinaryOperation { Type.TypeKind: TypeKind.Dynamic }
         or IUnaryOperation { OperatorMethod: not null }
         or IUnaryOperation { IsChecked: true }
+        or IUnaryOperation { Type.TypeKind: TypeKind.Dynamic }
         || CanArithmeticThrowInCancellationFilter(operation);
 
     private static bool CanArithmeticThrowInCancellationFilter(IOperation operation) =>

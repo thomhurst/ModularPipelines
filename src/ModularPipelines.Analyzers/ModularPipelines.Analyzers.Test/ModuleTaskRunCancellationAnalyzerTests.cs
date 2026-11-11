@@ -462,6 +462,36 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("dynamic number = new object();", "(number + 1) is not null | (alias = ref other).CanBeCanceled", true)]
+    [DataRow("dynamic number = new object();", "(-number) is not null | (alias = ref other).CanBeCanceled", true)]
+    [DataRow("dynamic number = new object();", "(++number) is not null | (alias = ref other).CanBeCanceled", true)]
+    [DataRow("dynamic number = new object();", "(alias = ref other).CanBeCanceled | (number + 1) is not null", false)]
+    [DataRow("dynamic number = new object();", "(alias = ref other).CanBeCanceled | (-number) is not null", false)]
+    [DataRow("dynamic number = new object();", "(alias = ref other).CanBeCanceled | (++number) is not null", false)]
+    [DataRow("int number = 1; dynamic increment = new object();", "(number += increment) > 0 | (alias = ref other).CanBeCanceled", true)]
+    public async Task Tracks_Dynamic_Arithmetic_Exception_Filter_Bindings(string declaration, string filter, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                {{declaration}}
+                try { throw new Exception(); }
+                catch (Exception) when ({{filter}}) { }
+                catch (Exception) { alias = default; }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("state switch { { Value: true } => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
     [DataRow("state switch { (true, _) => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
     [DataRow("state switch { [true] => (alias = ref other).CanBeCanceled, _ => (alias = ref other).CanBeCanceled }", false, true)]
