@@ -383,6 +383,16 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("tokens[(alias = ref other).GetHashCode()] == other", false, false)]
     [DataRow("choice switch { 1 => (alias = ref other).CanBeCanceled }", false, true)]
     [DataRow("choice switch { _ => (alias = ref other).CanBeCanceled }", false, false)]
+    [DataRow("(dynamicNumber += 1) is not null | (alias = ref other).CanBeCanceled", false, true)]
+    [DataRow("(dynamicNumber += 1) is not null | (alias = ref other).CanBeCanceled", true, false)]
+    [DataRow("(alias = ref other).CanBeCanceled | (dynamicNumber += 1) is not null", false, false)]
+    [DataRow("(floating /= 2d) > 0 | (alias = ref other).CanBeCanceled", false, false)]
+    [DataRow("(floating %= 2d) > 0 | (alias = ref other).CanBeCanceled", false, false)]
+    [DataRow("(floating / 2d) > 0 | (alias = ref other).CanBeCanceled", false, false)]
+    [DataRow("(floating % 2d) > 0 | (alias = ref other).CanBeCanceled", false, false)]
+    [DataRow("(single /= 2f) > 0 | (alias = ref other).CanBeCanceled", false, false)]
+    [DataRow("(nullableFloating %= 2d) > 0 | (alias = ref other).CanBeCanceled", false, false)]
+    [DataRow("checked(floating += 2d) > 0 | (alias = ref other).CanBeCanceled", false, false)]
     [DataRow("checked(number += 1) > 0 | (alias = ref other).CanBeCanceled", false, true)]
     [DataRow("(number /= choice) > 0 | (alias = ref other).CanBeCanceled", false, true)]
     [DataRow("(number %= choice) > 0 | (alias = ref other).CanBeCanceled", false, true)]
@@ -417,6 +427,10 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 var tokens = Array.Empty<CancellationToken>();
                 var choice = Environment.TickCount;
                 var number = int.MaxValue;
+                dynamic dynamicNumber = new object();
+                double floating = 1;
+                float single = 1;
+                double? nullableFloating = 1;
                 var operand = new ThrowingOperand();
                 try { throw new Exception(); }
                 catch (Exception) when ({{filter}}) { }

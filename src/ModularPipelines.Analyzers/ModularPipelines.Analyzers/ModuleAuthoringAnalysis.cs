@@ -1007,13 +1007,25 @@ internal static class ModuleAuthoringAnalysis
         or IIncrementOrDecrementOperation { OperatorMethod: not null }
         or IInterpolationOperation or IInterpolatedStringOperation
         or ICompoundAssignmentOperation { OperatorMethod: not null }
-        or ICompoundAssignmentOperation { IsChecked: true }
-        or ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
+        or ICompoundAssignmentOperation { Target.Type.TypeKind: TypeKind.Dynamic }
         or IBinaryOperation { OperatorMethod: not null }
-        or IBinaryOperation { IsChecked: true }
-        or IBinaryOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
         or IUnaryOperation { OperatorMethod: not null }
-        or IUnaryOperation { IsChecked: true };
+        or IUnaryOperation { IsChecked: true }
+        || (operation is ICompoundAssignmentOperation { IsChecked: true }
+            or ICompoundAssignmentOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
+            or IBinaryOperation { IsChecked: true }
+            or IBinaryOperation { OperatorKind: BinaryOperatorKind.Divide or BinaryOperatorKind.Remainder }
+            && !IsBuiltInFloatingPoint(operation.Type));
+
+    private static bool IsBuiltInFloatingPoint(ITypeSymbol? type)
+    {
+        if (type is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable)
+        {
+            type = nullable.TypeArguments[0];
+        }
+
+        return type?.SpecialType is SpecialType.System_Single or SpecialType.System_Double;
+    }
 
     private static bool VisitParameterWriteConditional(
         IConditionalOperation conditional,
