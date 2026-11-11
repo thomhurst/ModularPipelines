@@ -3643,6 +3643,63 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("cancellationToken", "for (var i = 0; i < 2; i++)", "", "cancellationToken = original;")]
+    [DataRow("token", "for (var i = 0; i < 2; i++)", "", "token = original;")]
+    [DataRow("cancellationToken", "while (context is not null)", "", "cancellationToken = original;")]
+    [DataRow("token", "do", "while (context is not null);", "token = original;")]
+    [DataRow("cancellationToken", "for (var i = 0; i < 2; i++)", "", "if (context is null) cancellationToken = original; else cancellationToken = original;")]
+    public async Task Accepts_Loop_Head_Reset_That_Kills_Back_Edge_Value(string target, string loop, string suffix, string reset)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                var token = cancellationToken;
+                {{loop}}
+                {
+                    {{reset}}
+                    await Task.Delay(1, {{target}});
+                    {{target}} = CancellationToken.None;
+                }
+                {{suffix}}
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("if (context is not null) cancellationToken = original;")]
+    [DataRow("cancellationToken = cancellationToken;")]
+    [DataRow("cancellationToken = CancellationToken.None;")]
+    public async Task Reports_Loop_Tail_Overwrite_Without_Independent_Head_Restoration(string reset)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                for (var i = 0; i < 2; i++)
+                {
+                    {{reset}}
+                    await {|#0:Task.Delay(1, cancellationToken)|};
+                    cancellationToken = CancellationToken.None;
+                }
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     [DataRow("if (context is null) continue;", "original")]
     [DataRow("", "CancellationToken.None")]
     [DataRow("", "cancellationToken")]

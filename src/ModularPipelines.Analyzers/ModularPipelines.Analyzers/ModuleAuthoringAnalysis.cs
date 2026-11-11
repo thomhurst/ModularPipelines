@@ -6250,7 +6250,9 @@ internal static class ModuleAuthoringAnalysis
                 yield break;
             }
 
+            // A definite independent reset before the use kills this loop's back-edge value.
             if (ancestor is ILoopOperation loop
+                && !IsResetBeforeBranch(loop, operation, operation, local)
                 && FindBackEdgeReset(loop, operation, local) is { } reset)
             {
                 foreach (var assignment in GetReachingLocalAssignments(reset, local))
