@@ -569,7 +569,8 @@ internal static class ModuleAuthoringAnalysis
                 : GetFlowingCancellationTokens(context, executeMethod, invocation);
             if (invocationTokens.Any(
                     cancellationToken =>
-                        InvocationUsesCancellation(invocation, cancellationToken))
+                        InvocationUsesCancellation(invocation, cancellationToken)
+                        && IsStableCapturedCancellationToken(context, invocation, cancellationToken))
                 || !InvocationAcceptsCancellationToken(
                     invocation.TargetMethod,
                     context.Compilation,
@@ -794,6 +795,47 @@ internal static class ModuleAuthoringAnalysis
                 callableOperation,
                 pending);
         }
+    }
+
+    private static bool IsStableCapturedCancellationToken(
+        OperationAnalysisContext context,
+        IInvocationOperation invocation,
+        IParameterSymbol parameter)
+    {
+        var callable = GetCallableSymbol(GetEnclosingCallable(invocation))
+            ?? context.ContainingSymbol as IMethodSymbol;
+        if (SymbolEqualityComparer.Default.Equals(callable, parameter.ContainingSymbol)
+            || parameter.ContainingSymbol is not IMethodSymbol declaringMethod
+            || GetMethodOperation(declaringMethod, context.Compilation, context.CancellationToken)
+                is not { } body)
+        {
+            return true;
+        }
+
+        // This deliberately includes unreachable and nested writes. Precise lifetime
+        // and alias analysis can relax the guard without accepting mutable captures.
+        foreach (var reference in body.DescendantsAndSelf().OfType<IParameterReferenceOperation>())
+        {
+            if (!SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter))
+            {
+                continue;
+            }
+
+            if (reference.Syntax.AncestorsAndSelf().Any(syntax =>
+                    syntax is RefExpressionSyntax
+                    || syntax is ArgumentSyntax { RefKindKeyword.ValueText: "ref" or "out" }
+                    || (syntax is AssignmentExpressionSyntax assignment
+                        && assignment.Left.Span.Contains(reference.Syntax.Span)))
+                || reference.Parent is IArgumentOperation
+                {
+                    Parameter.RefKind: RefKind.Ref or RefKind.Out,
+                })
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static ImmutableArray<IParameterSymbol> GetFlowingCancellationTokens(
