@@ -435,12 +435,15 @@ internal static class CapturedCancellationTokenAnalysis
                 _written |= ReferencesStorage(operation, storage);
             }
 
-            if (((CanThrow(operation) && !IsDeferredArrayStore(operation)) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
-                && !IsExhaustiveSwitchFailure(operation))
+            if (RequiresExceptionSearch(operation))
             {
                 SearchException(_block.EnclosingRegion, storage, null, _resume);
             }
         }
+
+        private bool RequiresExceptionSearch(IOperation operation) =>
+            ((CanThrow(operation) && !IsDeferredArrayStore(operation)) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
+            && !IsExhaustiveSwitchFailure(operation);
 
         private bool IsDeferredArrayStore(IOperation operation)
         {
