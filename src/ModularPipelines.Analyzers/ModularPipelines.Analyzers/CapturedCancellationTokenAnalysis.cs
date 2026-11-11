@@ -665,7 +665,7 @@ internal static class CapturedCancellationTokenAnalysis
         private bool TupleElementConversionCanThrow(IFieldSymbol source, IFieldSymbol destination)
         {
             var conversion = _model!.Compilation.ClassifyConversion(source.Type, destination.Type);
-            return conversion.IsUserDefined || conversion.IsUnboxing
+            return conversion.IsDynamic || conversion.IsUserDefined || conversion.IsUnboxing
                 || (conversion.IsReference && !conversion.IsImplicit)
                 || TupleConversionCanThrow(source.Type, destination.Type);
         }

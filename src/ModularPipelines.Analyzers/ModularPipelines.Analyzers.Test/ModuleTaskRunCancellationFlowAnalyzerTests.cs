@@ -844,6 +844,10 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("int?", "long?", false, false)]
     [DataRow("int?", "int?", false, false)]
     [DataRow("long", "int", false, false)]
+    [DataRow("dynamic", "int", false, true)]
+    [DataRow("dynamic", "int", true, false)]
+    [DataRow("dynamic", "object", false, false)]
+    [DataRow("dynamic", "dynamic", false, false)]
     [DataRow("(int?, int)", "(int, int)", false, true)]
     [DataRow("(int?, int)", "(int, int)", true, false)]
     public async Task Tracks_Hidden_Tuple_Element_Conversions(string sourceType, string targetType, bool rebindInHandler, bool reports, string nullable = "")
