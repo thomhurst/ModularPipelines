@@ -1017,11 +1017,6 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanThrowInCancellationFilter(IOperation operation) => operation is
         IInvocationOperation or IPropertyReferenceOperation
-        or IAssignmentOperation
-        {
-            Target: IPropertyReferenceOperation { Property.SetMethod: not null }
-            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
-        }
         or IFieldReferenceOperation { Parent: not IPropertySubpatternOperation }
         or IArrayElementReferenceOperation or IArrayCreationOperation
         or IDynamicInvocationOperation or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
@@ -1046,7 +1041,15 @@ internal static class ModuleAuthoringAnalysis
         or IUnaryOperation { OperatorMethod: not null }
         or IUnaryOperation { IsChecked: true }
         or IUnaryOperation { Type.TypeKind: TypeKind.Dynamic }
+        || CanSetterThrowInCancellationFilter(operation)
         || CanArithmeticThrowInCancellationFilter(operation);
+
+    private static bool CanSetterThrowInCancellationFilter(IOperation operation) => operation is
+        IAssignmentOperation
+    {
+        Target: IPropertyReferenceOperation { Property.SetMethod: not null }
+            or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
+    };
 
     private static bool CanArithmeticThrowInCancellationFilter(IOperation operation) =>
         operation is ICompoundAssignmentOperation { IsChecked: true }
