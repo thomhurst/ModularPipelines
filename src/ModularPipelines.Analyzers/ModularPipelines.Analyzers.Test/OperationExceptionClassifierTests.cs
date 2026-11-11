@@ -334,6 +334,22 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("ref object", "=> ref a[0];", true)]
+    [DataRow("ref object", "{ return ref a[0]; }", true)]
+    [DataRow("ref readonly object", "=> ref a[0];", false)]
+    [DataRow("ref readonly object", "{ return ref a[0]; }", false)]
+    [DataRow("object", "=> a[0];", false)]
+    public void ArrayRefReturnsRequireWritableAccess(string returnType, string body, bool mismatch)
+    {
+        var (root, classifier) = Compile($"class C {{ {returnType} M(object[] a) {body} }}");
+        var array = root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>().Single();
+        Assert.AreEqual(mismatch, classifier.Classify(array).Contains("System.ArrayTypeMismatchException"));
+        Assert.AreEqual(mismatch, new OperationExceptionClassifier().Classify(array).Contains("System.ArrayTypeMismatchException"));
+        Assert.DoesNotContain("System.ArrayTypeMismatchException",
+            new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+    }
+
+    [TestMethod]
     public void RefGetterRunsAtTargetEvaluation()
     {
         var (root, classifier) = Compile("class C { int storage; ref int P => ref storage; void M() { P = 1; } }");

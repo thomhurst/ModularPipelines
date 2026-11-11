@@ -99,13 +99,18 @@ internal sealed class OperationExceptionClassifier(
             : IsWritableArrayAccess(operation))
         && hasExactArrayType?.Invoke(array.ArrayReference) != true;
 
-    private static bool IsWritableArrayAccess(IOperation operation) => operation switch
+    private bool IsWritableArrayAccess(IOperation operation) => operation switch
     {
         // Source operations retain ref-local initializers; the CFG lowers these to ref assignments.
         IArrayElementReferenceOperation
         {
             Parent: IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } }
         } => true,
+        // Taking a writable ref return checks covariance even before a value is stored.
+        // ReturnsByRef excludes ref readonly returns, whose element reference cannot be written.
+        IArrayElementReferenceOperation { Parent: IReturnOperation } =>
+            (semanticModel ?? operation.SemanticModel)?.GetEnclosingSymbol(operation.Syntax.SpanStart)
+                is IMethodSymbol { ReturnsByRef: true },
         ICompoundAssignmentOperation { Target: IArrayElementReferenceOperation } => true,
         IAssignmentOperation assignment =>
             !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
