@@ -807,9 +807,9 @@ internal static class ModuleAuthoringAnalysis
             return [];
         }
 
-        var containingMethod = GetCallableSymbol(
-                GetEnclosingCallable(operation))
-            ?? GetContainingMemberMethod(context.ContainingSymbol);
+        var containingMethod = GetContainingMemberMethod(
+            GetCallableSymbol(GetEnclosingCallable(operation))
+                ?? context.ContainingSymbol);
         if (containingMethod is null
             || SymbolEqualityComparer.Default.Equals(
                 containingMethod,
@@ -926,7 +926,9 @@ internal static class ModuleAuthoringAnalysis
                         method,
                         targetMethod))
                 {
-                    yield return tokens;
+                    yield return method.MethodKind == MethodKind.LocalFunction
+                        ? sourceTokens.AddRange(tokens)
+                        : tokens;
                     continue;
                 }
 
