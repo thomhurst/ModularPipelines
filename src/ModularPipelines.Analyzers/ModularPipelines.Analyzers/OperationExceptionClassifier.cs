@@ -288,7 +288,9 @@ internal sealed class OperationExceptionClassifier(
         IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
         or ITypeParameterObjectCreationOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
-        or IWithOperation { CloneMethod: not null };
+        or IWithOperation { CloneMethod: not null }
+        // Length and indexer/Slice calls are implicit, with no callable operation children.
+        or IImplicitIndexerReferenceOperation;
 
     private static bool IsThrowingPropertyAccess(IOperation operation) => operation switch
     {
@@ -296,6 +298,10 @@ internal sealed class OperationExceptionClassifier(
         IAssignmentOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
         IIncrementOrDecrementOperation { Target: IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation } => true,
         IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation => !IsSimpleAssignmentTarget(operation),
+        IAssignmentOperation { Target: IImplicitIndexerReferenceOperation { IndexerSymbol: IPropertySymbol property } } =>
+            !property.ReturnsByRef && !property.ReturnsByRefReadonly,
+        IIncrementOrDecrementOperation { Target: IImplicitIndexerReferenceOperation { IndexerSymbol: IPropertySymbol property } } =>
+            !property.ReturnsByRef && !property.ReturnsByRefReadonly,
         IAssignmentOperation { Target: IPropertyReferenceOperation property } =>
             !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
         IIncrementOrDecrementOperation { Target: IPropertyReferenceOperation property } =>

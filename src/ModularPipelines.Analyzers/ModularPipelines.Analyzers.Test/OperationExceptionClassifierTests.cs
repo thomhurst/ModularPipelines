@@ -555,6 +555,32 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("int M(C x, System.Index i) => x[i];")]
+    [DataRow("C M(C x, System.Range r) => x[r];")]
+    public void ImplicitIndexerCallsHaveUnknownExceptions(string method)
+    {
+        var (root, classifier) = Compile($"class C {{ public int Length => throw new System.Exception(); public int this[int i] => throw new System.Exception(); public C Slice(int start, int length) => throw new System.Exception(); {method} }}");
+        var access = root.DescendantsAndSelf().OfType<IImplicitIndexerReferenceOperation>().Single();
+        Assert.AreSequenceEqual([null], classifier.Classify(access).ToArray());
+    }
+
+    [TestMethod]
+    [DataRow("x[i] = 1;", false)]
+    [DataRow("x[i] += 1;", false)]
+    [DataRow("x[i]++;", false)]
+    [DataRow("x[i] = 1;", true)]
+    public void ImplicitIndexerSeparatesLengthAndSetterCalls(string statement, bool returnsByRef)
+    {
+        var indexer = returnsByRef ? "public ref int this[int i] => throw new System.Exception();"
+            : "public int this[int i] { get => throw new System.Exception(); set => throw new System.Exception(); }";
+        var (root, classifier) = Compile($"class C {{ public int Length => throw new System.Exception(); {indexer} void M(C x, System.Index i) {{ {statement} }} }}");
+        var access = root.DescendantsAndSelf().OfType<IImplicitIndexerReferenceOperation>().Single();
+        Assert.AreSequenceEqual([null], classifier.Classify(access).ToArray());
+        var store = root.DescendantsAndSelf().Single(operation => operation is IAssignmentOperation or IIncrementOrDecrementOperation);
+        Assert.AreSequenceEqual(returnsByRef ? [] : [null], classifier.Classify(store).ToArray());
+    }
+
+    [TestMethod]
     public void MissingSemanticModelConservativelyClassifiesDeconstruction()
     {
         var (root, _) = Compile("class C { void M() { (int a, int b) = (1, 2); } }");
