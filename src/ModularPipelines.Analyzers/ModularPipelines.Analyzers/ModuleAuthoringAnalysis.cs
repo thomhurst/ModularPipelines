@@ -5666,10 +5666,27 @@ internal static class ModuleAuthoringAnalysis
         // Using declarations dispose at the end of their block, not at their
         // declaration span. Only handlers outside that scope can catch disposal.
         var hasDisposal = operation is IUsingOperation
+            || HasForeachDisposal(operation)
             || (operation is IBlockOperation block && block.Operations
                 .OfType<IUsingDeclarationOperation>()
                 .Any(declaration => declaration.Syntax.Span.End <= assignment.Syntax.SpanStart));
         return hasDisposal && CanExceptionBypassOverwrite(operation, reference, symbol);
+    }
+
+    private static bool HasForeachDisposal(IOperation operation)
+    {
+        if (operation is not IForEachLoopOperation
+            { Syntax: CommonForEachStatementSyntax syntax, SemanticModel: { } model })
+        {
+            return false;
+        }
+
+        // The operation can convert an array to IEnumerable, although foreach
+        // lowers arrays and strings without disposing an enumerator.
+        var collectionType = model.GetTypeInfo(syntax.Expression).Type;
+        return collectionType is not IArrayTypeSymbol
+            && collectionType?.SpecialType != SpecialType.System_String
+            && Microsoft.CodeAnalysis.CSharp.CSharpExtensions.GetForEachStatementInfo(model, syntax).DisposeMethod is not null;
     }
 
     private static bool CanThrowAfterAssignment(IOperation operation, IOperation assignment)
@@ -5828,30 +5845,44 @@ internal static class ModuleAuthoringAnalysis
         // A cycle cannot prove independence. Reuse completed proofs so repeated
         // copies do not expand the same initializer tree exponentially.
         referenceProofs.Add(reference, false);
+        independent = IsStableLoopSnapshot(reference, dependency, loop)
+            || HasIndependentReachingLoopValue(reference, dependency, loop, symbol, referenceProofs);
+        referenceProofs[reference] = independent;
+        return independent;
+    }
+
+    private static bool IsStableLoopSnapshot(IOperation reference, ISymbol dependency, ILoopOperation loop)
+    {
+        // Conditional stores before the loop do not make a snapshot loop-carried.
+        // Its actual token provenance is checked separately by the flow analysis.
+        var declaredOutside = dependency is IParameterSymbol
+            || (dependency is ILocalSymbol local
+                && FindLocalDeclarator(GetRoot(reference), reference, local, GetEnclosingCallable(reference)) is { } declarator
+                && !HasAncestor(declarator, loop.Body));
+        return declaredOutside && !HasLoopStore(loop, dependency);
+    }
+
+    private static bool HasLoopStore(ILoopOperation loop, ISymbol symbol) =>
+        loop.Body.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+            .Any(assignment => AssignsSymbol(assignment, symbol));
+
+    private static bool HasIndependentReachingLoopValue(
+        IOperation reference,
+        ISymbol dependency,
+        ILoopOperation loop,
+        ISymbol symbol,
+        Dictionary<IOperation, bool> referenceProofs)
+    {
         var value = FindReachingSymbolValue(reference, dependency, out var isAmbiguous);
-        if (isAmbiguous || (value is null && dependency is not IParameterSymbol))
+        if (isAmbiguous || value is null || !HasAncestor(value, loop.Body))
         {
             return false;
         }
 
-        // A snapshot outside the loop, including an unassigned parameter, is
-        // stable only when the loop never writes it. In-loop copies need an
-        // independent reaching value.
-        if (value is null || !HasAncestor(value, loop.Body))
-        {
-            independent = !loop.Body.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
-                .Any(assignment => AssignsSymbol(assignment, dependency));
-        }
-        else
-        {
-            var store = value.Parent ?? value;
-            independent = !CanJumpPastReset(loop, store, reference)
-                && !CanExceptionBypassOverwrite(store, reference, dependency)
-                && IsIndependentOfLoopCarriedSymbol(value, loop, symbol, referenceProofs);
-        }
-
-        referenceProofs[reference] = independent;
-        return independent;
+        var store = value.Parent ?? value;
+        return !CanJumpPastReset(loop, store, reference)
+            && !CanExceptionBypassOverwrite(store, reference, dependency)
+            && IsIndependentOfLoopCarriedSymbol(value, loop, symbol, referenceProofs);
     }
 
     private static bool CanJumpPastReset(ILoopOperation loop, IOperation reset, IOperation reference)

@@ -174,6 +174,61 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("if (context != null) cancellationToken = original;")]
+    [DataRow("if (context != null) cancellationToken = original; else cancellationToken = original;")]
+    public async Task Recognizes_Stable_Parameter_With_Conditional_Stores_Before_Loop(string stores)
+    {
+        var source = Source(
+                "var original = cancellationToken; var token = original; " + stores
+                + " for (var i = 0; i < 2; i++) { token = cancellationToken; if (i == 0) token = CancellationToken.None; else await Task.Delay(1, token); }",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    [DataRow(false, "return;")]
+    [DataRow(true, "return;")]
+    [DataRow(false, "{target} = saved;")]
+    [DataRow(true, "{target} = saved;")]
+    public async Task Reports_Replaced_Token_When_Foreach_Disposal_Throws(bool useLocal, string handler = "")
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = DisposalSource(useLocal,
+            "foreach (var item in new ThrowingEnumerable()) { {target} = CancellationToken.None; return; }",
+            handler, handler.Length == 0 ? $"{{|#0:Task.Delay(1, {target})|}}" : $"Task.Delay(1, {target})") + """
+
+            public sealed class ThrowingEnumerable
+            {
+                public Enumerator GetEnumerator() => new Enumerator();
+                public sealed class Enumerator : IDisposable
+                {
+                    public int Current => 0;
+                    public bool MoveNext() => true;
+                    public void Dispose() => throw new InvalidOperationException();
+                }
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source, handler.Length == 0
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("new[] { 1 }")]
+    [DataRow("\"items\"")]
+    public async Task Recognizes_Original_Token_When_Foreach_Has_No_Disposal(string items)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(DisposalSource(true,
+            $"foreach (var item in {items}) {{ {{target}} = CancellationToken.None; return; }}",
+            "", "Task.Delay(1, token)"));
+    }
+
+    [TestMethod]
     [DataRow(false, "var copy = saved; {target} = copy;")]
     [DataRow(true, "var copy = saved; {target} = copy;")]
     [DataRow(false, "var copy = {target}; copy = saved; {target} = copy;")]
