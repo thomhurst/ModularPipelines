@@ -146,17 +146,24 @@ internal static class DirectCommandLineAction
 
     private static IOperation? GetStatement(IOperation operation)
     {
-        while (operation.Parent is not null && operation.Parent is not IBlockOperation)
+        while (true)
         {
             // Never cross a callable or control-flow boundary to manufacture a straight-line proof.
-            if (operation is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            if (operation is IAnonymousFunctionOperation or ILocalFunctionOperation
+                or IConditionalOperation or ILoopOperation or ISwitchOperation
+                or ISwitchExpressionOperation or IConditionalAccessOperation
+                or ICoalesceOperation
+                or IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr })
             {
                 return null;
             }
 
+            if (operation.Parent is null or IBlockOperation)
+            {
+                return operation;
+            }
+
             operation = operation.Parent;
         }
-
-        return operation;
     }
 }

@@ -56,6 +56,15 @@ public class DirectCommandLineRegistrationTests
     }
 
     [TestMethod]
+    [DataRow("if (args.Length > 0) return command.Parse(args).Invoke(); return 0;")]
+    [DataRow("while (args.Length > 0) return command.Parse(args).Invoke(); return 0;")]
+    [DataRow("return args.Length > 0 ? command.Parse(args).Invoke() : 0;")]
+    public async Task Keeps_Diagnostic_For_Conditional_Invocation(string invocation)
+    {
+        await VerifyAsync("command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); " + invocation, false);
+    }
+
+    [TestMethod]
     public async Task Keeps_Diagnostic_For_Unreachable_Setter()
     {
         await VerifyAsync("if (false) command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); return command.Parse(args).Invoke();", false);
