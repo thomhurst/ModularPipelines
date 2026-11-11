@@ -207,18 +207,19 @@ internal sealed class ReachingDefinitionFlow(
                 (property.Instance, property.Property.GetMethod),
             _ => ((IOperation?) null, (IMethodSymbol?) null),
         };
-        // Definite reference receivers mutate the object, not the local holding it. Readonly
-        // methods/structs cannot mutate storage; conversions operate on a temporary copy.
-        if (receiver is { Type.IsReferenceType: false } && method is { IsReadOnly: false }
-            && receiver.Type is not INamedTypeSymbol { IsReadOnly: true }
-            && receiver is not IConversionOperation)
+        // Ref-like copies and readonly members can still mutate storage through retained refs.
+        // Ordinary readonly value receivers and converted temporaries cannot mutate their source.
+        if ((receiver is { Type.IsRefLikeType: true } && method is not null)
+            || (receiver is { Type.IsReferenceType: false } && method is { IsReadOnly: false }
+                && receiver.Type is not INamedTypeSymbol { IsReadOnly: true }
+                && receiver is not IConversionOperation))
         {
             transfer.InvalidateStorage(receiver, state);
         }
     }
 
     private static bool CanDeconstructionMutateReceiver(DeconstructionInfo info) =>
-        info.Method is { IsReadOnly: false }
+        info.Method is { IsReadOnly: false } or { ContainingType.IsRefLikeType: true }
         || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(CanDeconstructionMutateReceiver));
 
     private void VisitDeconstructionTarget(IOperation target, HashSet<TextSpan> state, BasicBlock block,
