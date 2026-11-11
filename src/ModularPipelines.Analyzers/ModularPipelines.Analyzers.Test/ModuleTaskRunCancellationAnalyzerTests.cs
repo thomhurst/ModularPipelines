@@ -217,6 +217,31 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("reset.Reset(ref token);", false)]
+    [DataRow("reset.Reset(out token);", false)]
+    [DataRow("ref var alias = ref token; reset.Reset(ref alias);", false)]
+    [DataRow("ref var alias = ref token; reset.Reset(out alias);", false)]
+    [DataRow("reset.Read(token);", true)]
+    [DataRow("var other = default(CancellationToken); reset.Reset(ref other);", true)]
+    [DataRow("var other = default(CancellationToken); ref var alias = ref token; alias = ref other; reset.Reset(ref alias);", true)]
+    public async Task Tracks_Dynamic_Argument_Writes_To_Captured_Helper_Token(string statement, bool flows)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                dynamic reset = new object();
+                {{statement}}
+                return Task.Run(async () => await {{(flows ? "Task.Delay(1, token)" : "{|#0:Task.Delay(1, token)|}")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, flows, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("Read(in token);")]
     [DataRow("if (false) { token = default; }")]
     [DataRow("void ResetLocal() { token = default; }")]
