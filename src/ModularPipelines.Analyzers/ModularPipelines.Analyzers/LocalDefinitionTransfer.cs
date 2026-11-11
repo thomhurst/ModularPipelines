@@ -13,6 +13,8 @@ namespace ModularPipelines.Analyzers;
 /// Snapshot delegate inputs before evaluating the RHS. Apply deconstruction targets separately when intervening
 /// setters or exceptions need observation. Invalidate member stores before a setter can mutate and throw.
 /// Branch selection, state unions and exception routing belong to the caller.
+/// Ref locals with backing storage outside the local-symbol alias closure always query as unknown,
+/// including after whole-local stores. Ordinary reference-valued locals retain precise definitions.
 /// Retained ref escapes and ref-return aliases are not tracked; callers must conservatively handle later writes
 /// through such escaped storage rather than treating call-time invalidation as complete alias analysis.
 /// </remarks>
@@ -24,6 +26,7 @@ internal sealed class LocalDefinitionTransfer
     private readonly ILocalSymbol _local;
     private readonly Dictionary<TextSpan, IOperation> _definitions;
     private readonly HashSet<ILocalSymbol> _aliases;
+    private readonly bool _hasUnrepresentedBackingStorage;
 
     internal LocalDefinitionTransfer(IOperation operationRoot, ILocalSymbol local)
     {
@@ -33,6 +36,9 @@ internal sealed class LocalDefinitionTransfer
             .OfType<IOperation>().GroupBy(static value => value.Syntax.Span)
             .ToDictionary(static group => group.Key, static group => group.First());
         _aliases = GetAliases(operationRoot, local);
+        _hasUnrepresentedBackingStorage = local.RefKind != RefKind.None
+            && operationRoot.DescendantsAndSelf().SelectMany(GetAliasSources)
+                .Any(binding => _aliases.Contains(binding.Alias) && !HasRepresentableBackingStorage(binding.Source));
     }
 
     // States are caller-owned. Clone before following a branch; UnionWith joins reaching paths.
@@ -43,7 +49,7 @@ internal sealed class LocalDefinitionTransfer
     {
         values = [];
         inheritsIncomingValue = false;
-        if (state.Contains(UnknownValue))
+        if (_hasUnrepresentedBackingStorage || state.Contains(UnknownValue))
         {
             return false;
         }
@@ -356,6 +362,19 @@ internal sealed class LocalDefinitionTransfer
 
         return aliases;
     }
+
+    // Ref locals may alias heap storage that the local-symbol closure cannot represent. Keep those
+    // queries unknown even after direct stores: later writes through another heap alias can change them.
+    private static bool HasRepresentableBackingStorage(IOperation source) => source switch
+    {
+        ILocalReferenceOperation => true,
+        IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => HasRepresentableBackingStorage(instance),
+        IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+            HasRepresentableBackingStorage(conditional.WhenTrue) && HasRepresentableBackingStorage(whenFalse),
+        IConversionOperation conversion => HasRepresentableBackingStorage(conversion.Operand),
+        IParenthesizedOperation parenthesized => HasRepresentableBackingStorage(parenthesized.Operand),
+        _ => false,
+    };
 
     private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
     {

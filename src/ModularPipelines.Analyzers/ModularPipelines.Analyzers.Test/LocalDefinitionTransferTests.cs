@@ -12,6 +12,24 @@ namespace ModularPipelines.Analyzers.Test;
 public class LocalDefinitionTransferTests
 {
     [TestMethod]
+    [DataRow("holder.Field", "holder.Field = 2")]
+    [DataRow("holder.Nested.Field", "holder.Nested.Field = 2")]
+    [DataRow("items[0]", "items[0] = 2")]
+    [DataRow("flag ? ref source : ref holder.Field", "holder.Field = 2")]
+    [DataRow("alias", "holder.Field = 2")]
+    public void Ref_Locals_With_Unrepresented_Backing_Storage_Remain_Unknown(string source, string store)
+    {
+        var scenario = new Scenario("var holder = new Holder(); int[] items = new int[1]; int source = 0;"
+            + "ref int alias = ref holder.Field; ref int value = ref (" + source + "); value = 1;"
+            + store + "; value = 3;");
+        scenario.Store("value = 1");
+        scenario.Store(store);
+        scenario.AssertUnknown();
+        scenario.Store("value = 3");
+        scenario.AssertUnknown();
+    }
+
+    [TestMethod]
     [DataRow("Mutable value = new Mutable();", "value.Changed += A", true)]
     [DataRow("Mutable value = new Mutable();", "value.Changed -= A", true)]
     [DataRow("Mutable value = new Mutable(); ref Mutable alias = ref value;", "alias.Changed += A", true)]
