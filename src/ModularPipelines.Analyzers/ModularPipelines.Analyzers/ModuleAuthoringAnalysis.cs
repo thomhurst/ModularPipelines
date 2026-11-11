@@ -5741,13 +5741,57 @@ internal static class ModuleAuthoringAnalysis
         return loop.Body.DescendantsAndSelf().Any(candidate =>
             candidate.Syntax.Span.End <= assignment.Syntax.SpanStart
             && candidate.Syntax.Span.End <= reference.Syntax.SpanStart
+            && !loop.Body.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Any(branch => branch.BranchKind == BranchKind.GoTo
+                    && loop.Body.DescendantsAndSelf().OfType<ILabeledOperation>()
+                        .Any(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                            && label.Syntax.SpanStart >= candidate.Syntax.Span.End))
             && IsLinearPredecessor(candidate, assignment)
             && IsLinearPredecessor(candidate, reference)
             && !CanExceptionBypassOverwrite(candidate, assignment, symbol)
             && !CanExceptionBypassOverwrite(candidate, reference, symbol)
-            && ((candidate is ISimpleAssignmentOperation reset && AssignsSymbol(reset, symbol))
+            && ((candidate is ISimpleAssignmentOperation reset && AssignsSymbol(reset, symbol)
+                    && IsIndependentOfLoopStores(reset.Value, loop))
                 || (candidate is IVariableDeclaratorOperation { Initializer: not null } declarator
-                    && SymbolEqualityComparer.Default.Equals(declarator.Symbol, symbol))));
+                    && SymbolEqualityComparer.Default.Equals(declarator.Symbol, symbol)
+                    && IsIndependentOfLoopStores(declarator.Initializer.Value, loop))));
+    }
+
+    private static bool IsIndependentOfLoopStores(IOperation value, ILoopOperation loop)
+    {
+        // A copy of a loop-carried value is not a reset. Follow local
+        // initializers as well, so an intermediate copy cannot hide it.
+        foreach (var reference in value.DescendantsAndSelf())
+        {
+            ISymbol? dependency = reference switch
+            {
+                ILocalReferenceOperation local => local.Local,
+                IParameterReferenceOperation parameter => parameter.Parameter,
+                _ => null,
+            };
+            if (dependency is null)
+            {
+                continue;
+            }
+
+            if (loop.Body.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+                .Any(store => AssignsSymbol(store, dependency)))
+            {
+                return false;
+            }
+
+            var initializer = loop.Body.DescendantsAndSelf().OfType<IVariableDeclaratorOperation>()
+                .FirstOrDefault(declaration => SymbolEqualityComparer.Default.Equals(declaration.Symbol, dependency))
+                ?.Initializer;
+            if (initializer is not null
+                && (initializer.Syntax.Span.End > value.Syntax.SpanStart
+                    || !IsIndependentOfLoopStores(initializer.Value, loop)))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static bool CanTransferBetweenSwitchCases(
