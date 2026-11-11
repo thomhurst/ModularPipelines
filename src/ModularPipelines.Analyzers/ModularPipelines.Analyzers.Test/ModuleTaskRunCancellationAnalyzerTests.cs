@@ -18,6 +18,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
             "Replace(ref cancellationToken);",
             "Replace(out cancellationToken);",
             "ref CancellationToken alias = ref cancellationToken; alias = CancellationToken.None;",
+            "CancellationToken other = default; ref CancellationToken alias = ref other; alias = ref cancellationToken; alias = CancellationToken.None;",
             "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref cancellationToken : ref other); alias = CancellationToken.None;",
             "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref cancellationToken); alias = CancellationToken.None;",
             "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref cancellationToken : ref other)); alias = CancellationToken.None;",
@@ -91,6 +92,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
             "Replace(ref callbackToken);",
             "Replace(out callbackToken);",
             "ref CancellationToken alias = ref callbackToken; alias = CancellationToken.None;",
+            "CancellationToken other = default; ref CancellationToken alias = ref other; alias = ref callbackToken; alias = CancellationToken.None;",
             "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref callbackToken : ref other); alias = CancellationToken.None;",
             "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref callbackToken); alias = CancellationToken.None;",
             "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref callbackToken : ref other)); alias = CancellationToken.None;",
@@ -112,6 +114,29 @@ public class ModuleTaskRunCancellationAnalyzerTests
     {
         await VerifyCS.VerifyAnalyzerAsync(
             Source(root, "", "Task.Delay(1, callbackToken)", parallelCallback: true));
+    }
+
+    [TestMethod]
+    [DataRow("execute", false)]
+    [DataRow("lifecycle", false)]
+    [DataRow("configuration", false)]
+    [DataRow("execute", true)]
+    [DataRow("lifecycle", true)]
+    [DataRow("configuration", true)]
+    public async Task Accepts_Readonly_Ref_Alias_Of_Captured_Token(string root, bool parallelCallback)
+    {
+        var token = parallelCallback ? "callbackToken" : "cancellationToken";
+        string[] aliases =
+        [
+            $"ref readonly CancellationToken alias = ref {token};",
+            $"CancellationToken other = default; ref readonly CancellationToken alias = ref other; alias = ref {token};",
+            $"bool flag = true; CancellationToken other = default; ref readonly CancellationToken alias = ref (flag ? ref {token} : ref other);",
+        ];
+        foreach (var alias in aliases)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(
+                Source(root, alias, $"Task.Delay(1, {token})", parallelCallback));
+        }
     }
 
     private static Microsoft.CodeAnalysis.Testing.DiagnosticResult MissingToken() =>
