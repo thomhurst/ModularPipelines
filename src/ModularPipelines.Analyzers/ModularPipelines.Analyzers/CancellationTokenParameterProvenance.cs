@@ -82,7 +82,11 @@ internal static class CancellationTokenParameterProvenance
         }
 
         return (operation.Parent is IAssignmentOperation assignment && assignment.Target == operation)
-            || operation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out };
+            || operation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+            || (operation.Parent is ISimpleAssignmentOperation { IsRef: true } referenceAssignment
+                && referenceAssignment.Value == operation
+                && referenceAssignment.Target is ILocalReferenceOperation { Local.RefKind: RefKind.Ref })
+            || operation.Parent is IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } };
     }
 
     // Values carry a scalar signal, token-awaitable payload, tuple elements or array allocation identities.
@@ -164,6 +168,9 @@ internal static class CancellationTokenParameterProvenance
     {
         public Dictionary<ISymbol, Value> Values { get; } = [with(SymbolEqualityComparer.Default)];
 
+        // Writable references can mutate their targets after later direct writes.
+        public HashSet<ISymbol> EscapedSymbols { get; } = [with(SymbolEqualityComparer.Default)];
+
         public Dictionary<CaptureId, Value> Captures { get; } = [];
 
         // Only syntax-named indices need facts, even for very large allocations.
@@ -202,6 +209,7 @@ internal static class CancellationTokenParameterProvenance
             }
 
             copy.SafeArrays.UnionWith(SafeArrays);
+            copy.EscapedSymbols.UnionWith(EscapedSymbols);
 
             return copy;
         }
@@ -209,6 +217,9 @@ internal static class CancellationTokenParameterProvenance
         public bool Merge(State other)
         {
             var changed = MergeValues(Values, other.Values) | MergeValues(Captures, other.Captures);
+            var escapedCount = EscapedSymbols.Count;
+            EscapedSymbols.UnionWith(other.EscapedSymbols);
+            changed |= escapedCount != EscapedSymbols.Count;
             // An allocation absent from one path has no aliases on that path.
             foreach (var entry in other.Arrays)
             {
@@ -325,7 +336,7 @@ internal static class CancellationTokenParameterProvenance
             return operation switch
             {
                 IParameterReferenceOperation parameter => EvaluateParameter(parameter, state),
-                ILocalReferenceOperation local => Get(state.Values, local.Local),
+                ILocalReferenceOperation local => state.EscapedSymbols.Contains(local.Local) ? Value.None : Get(state.Values, local.Local),
                 IFlowCaptureReferenceOperation capture => Get(state.Captures, capture.Id),
                 IConversionOperation conversion => EvaluateConversion(conversion, state),
                 IAwaitOperation awaited => EvaluateAwait(awaited, state),
@@ -353,7 +364,7 @@ internal static class CancellationTokenParameterProvenance
 
         private Value EvaluateParameter(IParameterReferenceOperation parameter, State state)
         {
-            var value = Get(state.Values, parameter.Parameter);
+            var value = state.EscapedSymbols.Contains(parameter.Parameter) ? Value.None : Get(state.Values, parameter.Parameter);
             var safe = IsSafe(value, state);
             var span = parameter.Syntax.Span;
             _results[span] = safe && (!_results.TryGetValue(span, out var previous) || previous);
@@ -688,6 +699,12 @@ internal static class CancellationTokenParameterProvenance
                 InvalidateReferenceTarget(assignment.Value, state);
             }
 
+            // A reference local is an alias, not a snapshot, even when readonly.
+            if (assignment.IsRef && assignment.Target is ILocalReferenceOperation reference)
+            {
+                state.EscapedSymbols.Add(reference.Local);
+            }
+
             Assign(assignment.Target, assigned, state);
             return assigned;
         }
@@ -698,6 +715,17 @@ internal static class CancellationTokenParameterProvenance
             // through a local alias that scalar provenance does not track.
             switch (target)
             {
+                case ILocalReferenceOperation local:
+                    InvalidateArrays(Evaluate(local, state), state);
+                    state.EscapedSymbols.Add(local.Local);
+                    break;
+                case IParameterReferenceOperation parameter:
+                    InvalidateArrays(Evaluate(parameter, state), state);
+                    state.EscapedSymbols.Add(parameter.Parameter);
+                    break;
+                case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
+                    InvalidateReferenceTarget(field.Instance!, state);
+                    break;
                 case IArrayElementReferenceOperation element:
                     InvalidateArrays(Evaluate(element.ArrayReference, state), state);
                     break;
