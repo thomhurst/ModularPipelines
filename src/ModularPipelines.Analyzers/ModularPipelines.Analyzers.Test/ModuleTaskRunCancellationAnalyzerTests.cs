@@ -52,17 +52,83 @@ public class ModuleTaskRunCancellationAnalyzerTests
         }
     }
 
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Accepts_Captured_Token_Read_In_Mutation_Target(string root)
+    {
+        string[] mutations =
+        [
+            "tasks[cancellationToken] = Task.CompletedTask;",
+            "(tasks[cancellationToken], _) = (Task.CompletedTask, 1);",
+            "Replace(ref tokens[cancellationToken.GetHashCode()]);",
+            "Replace(out tokens[cancellationToken.GetHashCode()]);",
+            "ref CancellationToken alias = ref tokens[cancellationToken.GetHashCode()]; alias = CancellationToken.None;",
+        ];
+        foreach (var mutation in mutations)
+        {
+            var setup = "var tasks = new System.Collections.Generic.Dictionary<CancellationToken, Task>(); "
+                + "var tokens = new CancellationToken[1]; "
+                + mutation;
+            await VerifyCS.VerifyAnalyzerAsync(Source(root, setup, "Task.Delay(1, cancellationToken)"));
+        }
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Reports_Modified_Captured_Parallel_Callback_Token(string root)
+    {
+        string[] mutations =
+        [
+            "callbackToken = CancellationToken.None;",
+            "Replace(ref callbackToken);",
+            "Replace(out callbackToken);",
+            "ref CancellationToken alias = ref callbackToken; alias = CancellationToken.None;",
+            "(callbackToken, _) = (CancellationToken.None, 1);",
+        ];
+        foreach (var mutation in mutations)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(
+                Source(root, mutation, "{|#0:Task.Delay(1, callbackToken)|}", parallelCallback: true),
+                MissingToken());
+        }
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Accepts_Immutable_Captured_Parallel_Callback_Token(string root)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(
+            Source(root, "", "Task.Delay(1, callbackToken)", parallelCallback: true));
+    }
+
     private static Microsoft.CodeAnalysis.Testing.DiagnosticResult MissingToken() =>
         VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
             .WithLocation(0)
             .WithArguments("Delay");
 
-    private static string Source(string root, string mutation, string call)
+    private static string Source(string root, string mutation, string call, bool parallelCallback = false)
     {
         var body = $$"""
             {{mutation}}
             await Task.Run(async () => await {{call}}, cancellationToken);
             """;
+        if (parallelCallback)
+        {
+            body = $$"""
+                await Parallel.ForEachAsync(new[] { 1 }, cancellationToken, async (_, callbackToken) =>
+                {
+                    {{mutation}}
+                    await Task.Run(async () => await {{call}}, callbackToken);
+                });
+                """;
+        }
+
         var entry = root switch
         {
             "execute" => $$"""

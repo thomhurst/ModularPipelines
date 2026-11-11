@@ -569,8 +569,7 @@ internal static class ModuleAuthoringAnalysis
                 : GetFlowingCancellationTokens(context, executeMethod, invocation);
             if (invocationTokens.Any(
                     cancellationToken =>
-                        InvocationUsesCancellation(invocation, cancellationToken)
-                        && IsStableCapturedCancellationToken(context, invocation, cancellationToken))
+                        InvocationUsesCancellation(invocation, cancellationToken))
                 || !InvocationAcceptsCancellationToken(
                     invocation.TargetMethod,
                     context.Compilation,
@@ -797,45 +796,39 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static bool IsStableCapturedCancellationToken(
-        OperationAnalysisContext context,
-        IInvocationOperation invocation,
-        IParameterSymbol parameter)
+    private static bool IsStableCapturedCancellationToken(IParameterReferenceOperation reference)
     {
-        var callable = GetCallableSymbol(GetEnclosingCallable(invocation))
-            ?? context.ContainingSymbol as IMethodSymbol;
-        if (SymbolEqualityComparer.Default.Equals(callable, parameter.ContainingSymbol)
-            || parameter.ContainingSymbol is not IMethodSymbol declaringMethod
-            || GetMethodOperation(declaringMethod, context.Compilation, context.CancellationToken)
-                is not { } body)
+        var callable = GetCallableSymbol(GetEnclosingCallable(reference));
+        if (callable is null
+            || SymbolEqualityComparer.Default.Equals(callable, reference.Parameter.ContainingSymbol))
         {
             return true;
         }
 
         // This deliberately includes unreachable and nested writes. Precise lifetime
         // and alias analysis can relax the guard without accepting mutable captures.
-        foreach (var reference in body.DescendantsAndSelf().OfType<IParameterReferenceOperation>())
-        {
-            if (!SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter))
-            {
-                continue;
-            }
+        return !GetRoot(reference).DescendantsAndSelf()
+            .OfType<IParameterReferenceOperation>()
+            .Where(candidate => SymbolEqualityComparer.Default.Equals(candidate.Parameter, reference.Parameter))
+            .Any(IsPotentialParameterWrite);
+    }
 
-            if (reference.Syntax.AncestorsAndSelf().Any(syntax =>
-                    syntax is RefExpressionSyntax
-                    || syntax is ArgumentSyntax { RefKindKeyword.ValueText: "ref" or "out" }
-                    || (syntax is AssignmentExpressionSyntax assignment
-                        && assignment.Left.Span.Contains(reference.Syntax.Span)))
-                || reference.Parent is IArgumentOperation
-                {
-                    Parameter.RefKind: RefKind.Ref or RefKind.Out,
-                })
-            {
-                return false;
-            }
+    private static bool IsPotentialParameterWrite(IParameterReferenceOperation reference)
+    {
+        IOperation target = reference;
+        while (target.Parent is IConversionOperation or IParenthesizedOperation or ITupleOperation)
+        {
+            target = target.Parent;
         }
 
-        return true;
+        return target.Parent switch
+        {
+            IAssignmentOperation assignment when ReferenceEquals(assignment.Target, target) => true,
+            ISimpleAssignmentOperation { IsRef: true } assignment when ReferenceEquals(assignment.Value, target) => true,
+            IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } => true,
+            IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None } } => true,
+            _ => false,
+        };
     }
 
     private static ImmutableArray<IParameterSymbol> GetFlowingCancellationTokens(
@@ -5433,14 +5426,15 @@ internal static class ModuleAuthoringAnalysis
                 visitedLocals,
                 visitedMethods),
             IParameterReferenceOperation parameterReference =>
-                SymbolEqualityComparer.Default.Equals(
+                IsStableCapturedCancellationToken(parameterReference)
+                && (SymbolEqualityComparer.Default.Equals(
                     parameterReference.Parameter,
                     cancellationToken)
-                || FlowsFromParallelCallbackToken(
-                    parameterReference,
-                    cancellationToken,
-                    visitedLocals,
-                    visitedMethods),
+                    || FlowsFromParallelCallbackToken(
+                        parameterReference,
+                        cancellationToken,
+                        visitedLocals,
+                        visitedMethods)),
             ILocalReferenceOperation localReference =>
                 FlowsFromCancellationTokenLocal(
                     localReference,
