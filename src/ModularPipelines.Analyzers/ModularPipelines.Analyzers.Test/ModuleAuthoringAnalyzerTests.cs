@@ -3405,6 +3405,9 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("for (var i = 0; i < 2; i++) { switch (i) { case 0: { cancellationToken = CancellationToken.None; break; } default: await {|#0:Task.Delay(1, cancellationToken)|}; break; } }")]
     [DataRow("for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { cancellationToken = CancellationToken.None; break; } await {|#0:Task.Delay(1, cancellationToken)|}; break; } }")]
     [DataRow("var token = cancellationToken; for (var i = 0; i < 2; i++) { switch (i) { case 0: { token = CancellationToken.None; break; } default: await {|#0:Task.Delay(1, token)|}; break; } }")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { cancellationToken = original; if (context is not null) { cancellationToken = CancellationToken.None; break; } } await {|#0:Task.Delay(1, cancellationToken)|}; break; } }")]
+    [DataRow("var token = cancellationToken; var original = token; for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { token = original; if (context is not null) { token = CancellationToken.None; break; } } await {|#0:Task.Delay(1, token)|}; break; } }")]
+    [DataRow("for (var i = 0; i < 2; i++) { if (i == 0) { cancellationToken = CancellationToken.None; continue; } await {|#0:Task.Delay(1, cancellationToken)|}; }")]
     public async Task Reports_Loop_Carried_CancellationToken_Overwrite(string body)
     {
         var source = ModuleSource($$"""
@@ -3421,6 +3424,26 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Delay");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { cancellationToken = original; if (i == 0) { cancellationToken = CancellationToken.None; continue; } await Task.Delay(1, cancellationToken); }")]
+    [DataRow("for (var i = 0; i < 2; i++) { var token = cancellationToken; if (i == 0) { token = CancellationToken.None; continue; } await Task.Delay(1, token); }")]
+    [DataRow("var original = cancellationToken; var i = 0; while (i++ < 2) { cancellationToken = original; if (i == 1) { cancellationToken = CancellationToken.None; continue; } await Task.Delay(1, cancellationToken); }")]
+    [DataRow("var original = cancellationToken; var i = 0; do { cancellationToken = original; if (i++ == 0) { cancellationToken = CancellationToken.None; continue; } await Task.Delay(1, cancellationToken); } while (i < 2);")]
+    public async Task Accepts_Token_Reset_Before_Continue_Path(string body)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{body}}
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]

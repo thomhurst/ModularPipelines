@@ -6513,7 +6513,7 @@ internal static class ModuleAuthoringAnalysis
             if (ancestor is ILoopOperation loop
                 && !ReferenceEquals(loop, exitedRegion)
                 && HasAncestor(operation, loop)
-                && !IsResetBeforeBranch(loop, branch, local))
+                && !IsResetBeforeBranch(loop, branch, operation, local))
             {
                 return true;
             }
@@ -6525,6 +6525,7 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsResetBeforeBranch(
         ILoopOperation loop,
         IOperation branch,
+        IOperation operation,
         ISymbol local)
     {
         // Only the last definite reset can kill the value from the previous iteration.
@@ -6532,7 +6533,8 @@ internal static class ModuleAuthoringAnalysis
         // Identity copies preserve an earlier reset, but cannot establish one themselves.
         var reset = loop.Descendants()
             .Where(candidate => candidate.Syntax.Span.End <= branch.Syntax.SpanStart)
-            .Where(candidate => IsLinearPredecessor(candidate, branch))
+            .Where(candidate => IsLinearPredecessor(candidate, branch)
+                && IsLinearPredecessor(candidate, operation))
             .Where(candidate => DefinitelyAssignsLocal(candidate, local)
                 || (candidate is IVariableDeclaratorOperation { Initializer: not null } declarator
                     && SymbolEqualityComparer.Default.Equals(declarator.Symbol, local)))
@@ -6621,8 +6623,8 @@ internal static class ModuleAuthoringAnalysis
         return branch switch
         {
             IReturnOperation or IThrowOperation => true,
-            IBranchOperation { BranchKind: BranchKind.Break } exit =>
-                BreakExitsContainingRegion(exit, operation, terminatingBranch, local),
+            IBranchOperation { BranchKind: BranchKind.Break or BranchKind.Continue } exit =>
+                BranchExitsContainingRegion(exit, operation, terminatingBranch, local),
             IBlockOperation { Operations.Length: > 0 } block =>
                 AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation, terminatingBranch, local),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
@@ -6632,7 +6634,7 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static bool BreakExitsContainingRegion(
+    private static bool BranchExitsContainingRegion(
         IBranchOperation exit,
         IOperation operation,
         IOperation terminatingBranch,
@@ -6642,16 +6644,19 @@ internal static class ModuleAuthoringAnalysis
         {
             var exitLabel = ancestor switch
             {
-                ILoopOperation loop => loop.ExitLabel,
+                ILoopOperation loop => exit.BranchKind == BranchKind.Continue
+                    ? loop.ContinueLabel
+                    : loop.ExitLabel,
                 ISwitchOperation switchOperation => switchOperation.ExitLabel,
                 _ => null,
             };
             if (SymbolEqualityComparer.Default.Equals(exit.Target, exitLabel))
             {
-                // Breaking this region does not kill values carried by an outer loop.
-                // Resets before the terminating branch can still prevent that carry.
+                // Breaks may carry values through outer loops; continues also re-enter
+                // their target loop. Only resets on the path to the use kill that carry.
                 return HasAncestor(operation, ancestor)
-                    && !CanCarryValueAcrossLoop(terminatingBranch, operation, local, ancestor);
+                    && !CanCarryValueAcrossLoop(terminatingBranch, operation, local,
+                        exit.BranchKind == BranchKind.Break ? ancestor : null);
             }
         }
 
