@@ -5674,7 +5674,8 @@ internal static class ModuleAuthoringAnalysis
                         write.Parameter, GetTargetParameter(method, otherParameter))
                     && IsInReachableBranch(write)
                     && IsPotentialParameterWrite(write)
-                    && write.Parent is not ISimpleAssignmentOperation { IsRef: true }
+                    && (write.Parent is not (ISimpleAssignmentOperation { IsRef: true } or IVariableInitializerOperation)
+                        || HasAliasedStorageMutation(write, write))
                     && !IsCancellationPreservingStore(write, parameter)
                     && reads.Any(read => read.Syntax.SpanStart >= write.Syntax.SpanStart
                         || !IsLinearPredecessor(read, write)))));
@@ -5708,10 +5709,31 @@ internal static class ModuleAuthoringAnalysis
             case ILocalReferenceOperation local when visitedLocals.Add(local.Local):
                 var values = FindReachingLocalValues(local, local.Local).ToArray();
                 return values.Length > 0 && values.All(candidate =>
-                    IsCancellationPreservingValue(candidate, parameter, CloneVisitedLocals(visitedLocals)));
+                    !HasAliasedStorageMutation(candidate, local)
+                    && IsCancellationPreservingValue(candidate, parameter, CloneVisitedLocals(visitedLocals)));
             default:
                 return false;
         }
+    }
+
+    private static bool HasAliasedStorageMutation(IOperation source, IOperation read)
+    {
+        // Reaching values track direct assignments, but references can mutate
+        // the same slot between a copy and its use, or after alias creation.
+        return GetRoot(read).DescendantsAndSelf().Any(operation =>
+            operation.Syntax.SpanStart > source.Syntax.SpanStart
+            && (ReferenceEquals(source, read)
+                || operation.Syntax.SpanStart < read.Syntax.SpanStart
+                || SharesContainingLoop(operation, read))
+            && IsInReachableBranch(operation)
+            && operation switch
+            {
+                ISimpleAssignmentOperation { IsRef: false, Target: ILocalReferenceOperation { Local.RefKind: not RefKind.None } target }
+                    => MayShareCancellationStorage(target, read),
+                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument
+                    => MayShareCancellationStorage(argument.Value, read),
+                _ => false,
+            });
     }
 
     private static IEnumerable<IParameterReferenceOperation> GetCancellationParameterReads(
@@ -5767,6 +5789,13 @@ internal static class ModuleAuthoringAnalysis
                     return null;
                 }
 
+                // Only ref assignments rebind storage. Assignments through the ref
+                // change its value and must not change the identity of the referent.
+                var rebindings = FindLocalAssignments(
+                        GetRoot(value), value, local.Local, GetEnclosingCallable(value))
+                    .Where(static assignment => assignment.IsRef)
+                    .ToArray();
+
                 // A later rebinding in the same loop may reach this read on the
                 // next iteration, so textual ordering cannot prove distinct storage.
                 if (GetRoot(value).DescendantsAndSelf()
@@ -5777,17 +5806,13 @@ internal static class ModuleAuthoringAnalysis
                         && SymbolEqualityComparer.Default.Equals(target.Local, local.Local)
                         && ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(value))
                         && IsInReachableBranch(assignment)
-                        && SharesContainingLoop(assignment, value)))
+                        && SharesContainingLoop(assignment, value)
+                        && !rebindings.Any(reset => IsLinearPredecessor(reset, value)
+                            && ResetsWithinSharedLoop(reset, assignment, value))))
                 {
                     return null;
                 }
 
-                // Only ref assignments rebind storage. Assignments through the ref
-                // change its value and must not change the identity of the referent.
-                var rebindings = FindLocalAssignments(
-                        GetRoot(value), value, local.Local, GetEnclosingCallable(value))
-                    .Where(static assignment => assignment.IsRef)
-                    .ToArray();
                 if (rebindings.FirstOrDefault() is { } rebinding)
                 {
                     return IsLinearPredecessor(rebinding, value)
@@ -5805,6 +5830,19 @@ internal static class ModuleAuthoringAnalysis
                 // calls need an alias proof before they can be considered distinct.
                 return null;
         }
+    }
+
+    private static bool ResetsWithinSharedLoop(IOperation reset, IOperation assignment, IOperation read)
+    {
+        for (var ancestor = assignment.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation && HasAncestor(read, ancestor))
+            {
+                return HasAncestor(reset, ancestor);
+            }
+        }
+
+        return false;
     }
 
     private static bool SharesContainingLoop(IOperation first, IOperation second)

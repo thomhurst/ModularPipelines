@@ -29,6 +29,12 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "var saved = first; second = default; second = saved; return first;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; var copy = saved; second = copy; return first;", false)]
     [DataRow("ref token, ref token", "", "second = Forward(ref first, ref second); return first;", true)]
+    [DataRow("ref token, ref token", "", "ref CancellationToken alias = ref second; return first;", false)]
+    [DataRow("ref token, ref token", "", "var stored = first; ref CancellationToken alias = ref stored; alias = default; second = stored; return first;", true)]
+    [DataRow("ref token, ref token", "", "var stored = first; ref CancellationToken alias = ref stored; second = stored; return first;", false)]
+    [DataRow("ref token, ref token", "", "var stored = first; ref CancellationToken alias = ref stored; alias = default; stored = first; second = stored; return first;", false)]
+    [DataRow("ref token, ref token", "", "ref CancellationToken alias = ref second; alias = default; return first;", true)]
+    [DataRow("ref token, ref token", "", "ref CancellationToken alias = ref first; alias = ref second; alias = default; return first;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {
@@ -68,10 +74,12 @@ public class ModuleHelperRefCancellationAnalyzerTests
         }
     }
     [TestMethod]
-    [DataRow("for (var i = 0; i < 2; i++)", true)]
-    [DataRow("while (context != null)", true)]
-    [DataRow("if (context != null)", false)]
-    public async Task Checks_Ref_Rebinding_After_Helper_Call(string control, bool reports)
+    [DataRow("for (var i = 0; i < 2; i++)", true, "")]
+    [DataRow("for (var i = 0; i < 2; i++)", false, "alias = ref other;")]
+    [DataRow("while (context != null)", false, "alias = ref other;")]
+    [DataRow("while (context != null)", true, "")]
+    [DataRow("if (context != null)", false, "")]
+    public async Task Checks_Ref_Rebinding_After_Helper_Call(string control, bool reports, string reset)
     {
         var call = "Task.Delay(1, snapshot)";
         var source = $$"""
@@ -94,6 +102,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
                     var snapshot = token;
                     {{control}}
                     {
+                        {{reset}}
                         snapshot = Forward(ref token, ref alias);
                         alias = ref token;
                     }
