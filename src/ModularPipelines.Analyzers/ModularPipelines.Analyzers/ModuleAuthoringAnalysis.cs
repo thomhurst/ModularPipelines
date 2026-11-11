@@ -5552,9 +5552,13 @@ internal static class ModuleAuthoringAnalysis
             .ToArray();
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
             GetRoot(reference), reference, symbol, callable);
+        var branchAssignments = branchingOperation is not null
+            ? GetReachingSymbolAssignments(branchingOperation, symbol).ToArray()
+            : [];
         return [
-            .. assignments.Where(assignment =>
-                assignment.Syntax.SpanStart >= (branchingOperation?.Syntax.SpanStart ?? int.MinValue))
+            .. assignments.Where(assignment => branchingOperation is null
+                || assignment.Syntax.SpanStart > branchingOperation.Syntax.Span.End
+                || branchAssignments.Contains(assignment))
             .Where(assignment => !assignments.Any(later =>
                 later.Syntax.SpanStart >= assignment.Syntax.Span.End
                 && (IsLinearPredecessor(later, assignment)
@@ -5564,11 +5568,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)
     {
-        // A return still executes enclosing finally blocks before leaving the callable.
+        // Returns still execute finally blocks, and implicit exceptions can reach catch handlers.
         for (var current = assignment.Parent; current is not null; current = current.Parent)
         {
-            if (current is ITryOperation { Finally: { } finallyBlock }
-                && HasAncestor(reference, finallyBlock))
+            if (current is ITryOperation tryOperation
+                && ((tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
+                    || (HasAncestor(assignment, tryOperation.Body)
+                        && tryOperation.Catches.Any(catchClause => HasAncestor(reference, catchClause)))))
             {
                 return false;
             }
@@ -6418,7 +6424,7 @@ internal static class ModuleAuthoringAnalysis
         if (branchingOperation is not null
             && branchingOperation.Syntax.SpanStart == lowerBound)
         {
-            var branchValues = GetReachingLocalAssignments(
+            var branchValues = GetReachingSymbolAssignments(
                     branchingOperation,
                     local)
                 .Select(static assignment => assignment.Value);
@@ -6466,9 +6472,9 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static IEnumerable<ISimpleAssignmentOperation>
-        GetReachingLocalAssignments(
+        GetReachingSymbolAssignments(
             IOperation operation,
-            ILocalSymbol local)
+            ISymbol symbol)
     {
         if (!IsInReachableBranch(operation))
         {
@@ -6478,61 +6484,61 @@ internal static class ModuleAuthoringAnalysis
         return operation switch
         {
             ISimpleAssignmentOperation assignment
-                when AssignsSymbol(assignment, local) =>
+                when AssignsSymbol(assignment, symbol) =>
                 [assignment],
             IConditionalOperation conditional =>
-                GetReachingLocalAssignments(conditional.WhenTrue, local)
+                GetReachingSymbolAssignments(conditional.WhenTrue, symbol)
                     .Concat(conditional.WhenFalse is { } whenFalse
-                        ? GetReachingLocalAssignments(whenFalse, local)
+                        ? GetReachingSymbolAssignments(whenFalse, symbol)
                         : []),
             ISwitchOperation switchOperation =>
                 switchOperation.Cases.SelectMany(@case =>
-                    GetReachingSequenceAssignments(@case.Body, local)),
+                    GetReachingSequenceAssignments(@case.Body, symbol)),
             IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
-                GetReachingLocalAssignments(whileLoop.Body, local),
+                GetReachingSymbolAssignments(whileLoop.Body, symbol),
             ITryOperation tryOperation =>
-                GetReachingLocalAssignments(tryOperation, local),
+                GetReachingSymbolAssignments(tryOperation, symbol),
             IBlockOperation block =>
-                GetReachingSequenceAssignments(block.Operations, local),
+                GetReachingSequenceAssignments(block.Operations, symbol),
             IExpressionStatementOperation expressionStatement =>
-                GetReachingLocalAssignments(
+                GetReachingSymbolAssignments(
                     expressionStatement.Operation,
-                    local),
+                    symbol),
             _ => [],
         };
     }
 
     private static IEnumerable<ISimpleAssignmentOperation>
-        GetReachingLocalAssignments(
+        GetReachingSymbolAssignments(
             ITryOperation tryOperation,
-            ILocalSymbol local)
+            ISymbol symbol)
     {
         if (tryOperation.Finally is { } finallyBlock
-            && DefinitelyAssignsSymbol(finallyBlock, local))
+            && DefinitelyAssignsSymbol(finallyBlock, symbol))
         {
-            return GetReachingLocalAssignments(finallyBlock, local);
+            return GetReachingSymbolAssignments(finallyBlock, symbol);
         }
 
         var tryAndCatchAssignments =
-            GetReachingLocalAssignments(tryOperation.Body, local)
+            GetReachingSymbolAssignments(tryOperation.Body, symbol)
                 .Concat(tryOperation.Catches.SelectMany(catchClause =>
-                    GetReachingLocalAssignments(catchClause.Handler, local)));
+                    GetReachingSymbolAssignments(catchClause.Handler, symbol)));
         return tryOperation.Finally is { } partialFinally
             ? tryAndCatchAssignments.Concat(
-                GetReachingLocalAssignments(partialFinally, local))
+                GetReachingSymbolAssignments(partialFinally, symbol))
             : tryAndCatchAssignments;
     }
 
     private static List<ISimpleAssignmentOperation>
         GetReachingSequenceAssignments(
             IEnumerable<IOperation> operations,
-            ILocalSymbol local)
+            ISymbol symbol)
     {
         var assignments = new List<ISimpleAssignmentOperation>();
         foreach (var operation in operations.Reverse())
         {
-            assignments.AddRange(GetReachingLocalAssignments(operation, local));
-            if (DefinitelyAssignsSymbol(operation, local))
+            assignments.AddRange(GetReachingSymbolAssignments(operation, symbol));
+            if (DefinitelyAssignsSymbol(operation, symbol))
             {
                 break;
             }

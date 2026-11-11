@@ -232,6 +232,49 @@ public class ModuleCancellationTokenParameterAnalyzerTests
             $"Task.Delay(1, {target})"));
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recognizes_Original_Token_After_Finally_Restoration(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}"
+            + $"try {{ {target} = CancellationToken.None; }} finally {{ {target} = saved; }}",
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Replaced_Token_After_Partial_Finally_Restoration(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}"
+            + $"try {{ {target} = CancellationToken.None; }} finally {{ if (context != null) {target} = saved; }}",
+            $"{{|#0:Task.Delay(1, {target})|}}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Replaced_Token_In_Catch_After_Implicit_Exception(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+                (useLocal ? "var token = cancellationToken; " : "")
+                + $"try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); return; }} catch (Exception) {{ await {{|#0:Task.Delay(1, {target})|}}; }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "return;");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
     private static string Source(string statements, string call) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
         public class BuildModule : Module<List<string>>
