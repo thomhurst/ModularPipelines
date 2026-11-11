@@ -130,6 +130,30 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
+    public async Task Recognizes_Original_Token_After_Nested_Switch_Transfer(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}{target} = CancellationToken.None; "
+            + $"switch (context) {{ case null: {target} = saved; break; default: switch (DateTime.Now.Second) {{ case 0: goto default; default: break; }} {target} = saved; break; }}",
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recognizes_Original_Token_After_Returning_Branch(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"if (context != null) {{ {target} = CancellationToken.None; return Task.CompletedTask; }}",
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
     public async Task Recognizes_Repeated_Conditional_Identity_Assignments(bool useLocal)
     {
         var target = useLocal ? "saved" : "cancellationToken";

@@ -5547,6 +5547,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => AssignsSymbol(assignment, symbol))
             .Where(IsInReachableBranch)
             .Where(assignment => !AreInExclusiveBranches(assignment, reference))
+            .Where(assignment => !ExitsBeforeReference(assignment, reference))
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .ToArray();
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
@@ -5559,6 +5560,27 @@ internal static class ModuleAuthoringAnalysis
                 && (IsLinearPredecessor(later, assignment)
                     || IsLinearPredecessor(later, reference))))
         ];
+    }
+
+    private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)
+    {
+        for (var current = assignment.Parent; current is not null; current = current.Parent)
+        {
+            if (HasAncestor(reference, current))
+            {
+                return false;
+            }
+
+            if (current.Syntax.Span.End <= reference.Syntax.SpanStart
+                && AlwaysExitsCallable(current)
+                && !current.DescendantsAndSelf().Any(static operation =>
+                    operation is IBranchOperation or IThrowOperation))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool AreInExclusiveBranches(
@@ -6631,8 +6653,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanExitSwitch(IOperation operation, ILabelSymbol exitLabel)
     {
+        var internalLabels = operation.DescendantsAndSelf()
+            .OfType<ILabeledOperation>().Select(static labeled => labeled.Label)
+            .Concat(operation.DescendantsAndSelf().OfType<ISwitchCaseOperation>()
+                .SelectMany(static @case => @case.Clauses.Select(static clause => clause.Label)))
+            .ToImmutableHashSet(SymbolEqualityComparer.Default);
         return operation.DescendantsAndSelf().OfType<IBranchOperation>()
-            .Any(branch => branch.BranchKind == BranchKind.GoTo
+            .Any(branch => (branch.BranchKind == BranchKind.GoTo && !internalLabels.Contains(branch.Target))
                 || SymbolEqualityComparer.Default.Equals(branch.Target, exitLabel));
     }
 
