@@ -311,6 +311,20 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Replaced_Token_After_Returning_Try_And_Completing_Catch(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"var saved = cancellationToken; try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); {target} = saved; return Task.CompletedTask; }} catch (Exception) {{ }}",
+            $"{{|#0:Task.Delay(1, {target})|}}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     [DataRow(false, "return Task.CompletedTask;")]
     [DataRow(true, "return Task.CompletedTask;")]
     [DataRow(false, "throw;")]
@@ -325,6 +339,48 @@ public class ModuleCancellationTokenParameterAnalyzerTests
             + $"var saved = cancellationToken; try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); {target} = saved; }} catch (Exception) {{ {handler.Replace("{target}", target)} }}",
             $"Task.Delay(1, {target})");
         await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false, "{target} = saved;")]
+    [DataRow(true, "{target} = saved;")]
+    [DataRow(false, "finally { {target} = saved; }")]
+    [DataRow(true, "finally { {target} = saved; }")]
+    public async Task Recognizes_Original_Token_Restored_After_Completing_Catch(bool useLocal, string restoration)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"var saved = cancellationToken; try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); {target} = saved; }} catch (Exception) {{ }} {restoration.Replace("{target}", target)}",
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recognizes_Original_Token_After_False_Catch_Filter(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"var saved = cancellationToken; try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); {target} = saved; }} catch (Exception) when (false) {{ }}",
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "true")]
+    [DataRow(true, "true")]
+    [DataRow(false, "context != null")]
+    [DataRow(true, "context != null")]
+    public async Task Reports_Replaced_Token_After_Matching_Catch_Filter(bool useLocal, string filter)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"var saved = cancellationToken; try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); {target} = saved; }} catch (Exception) when ({filter}) {{ }}",
+            $"{{|#0:Task.Delay(1, {target})|}}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
     }
 
     private static string Source(string statements, string call) => $$"""

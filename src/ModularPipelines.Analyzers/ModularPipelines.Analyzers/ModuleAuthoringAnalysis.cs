@@ -5561,25 +5561,21 @@ internal static class ModuleAuthoringAnalysis
                 || branchAssignments.Contains(assignment))
             .Where(assignment => !assignments.Any(later =>
                 later.Syntax.SpanStart >= assignment.Syntax.Span.End
-                && !CanReachHandlerBeforeOverwrite(later, reference)
+                && !CanExceptionBypassOverwrite(later, reference)
                 && (IsLinearPredecessor(later, assignment)
                     || IsLinearPredecessor(later, reference))))
         ];
     }
 
-    private static bool CanReachHandlerBeforeOverwrite(IOperation overwrite, IOperation reference)
+    private static bool CanExceptionBypassOverwrite(IOperation overwrite, IOperation reference)
     {
         // An exception can leave a try body before its later store executes.
-        // Handler references and paths continuing after a catch can observe earlier values.
+        // The handler can use the earlier value or carry it to a following reference.
         for (var current = overwrite.Parent; current is not null; current = current.Parent)
         {
             if (current is ITryOperation tryOperation
                 && HasAncestor(overwrite, tryOperation.Body)
-                && ((tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
-                    || tryOperation.Catches.Any(catchClause => HasAncestor(reference, catchClause))
-                    || (tryOperation.Syntax.Span.End <= reference.Syntax.SpanStart
-                        && tryOperation.Catches.Any(static catchClause =>
-                            !AlwaysExitsCallable(catchClause.Handler)))))
+                && CanReachReferenceThroughException(tryOperation, overwrite, reference))
             {
                 return true;
             }
@@ -5588,15 +5584,33 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
+    private static bool CanReachReferenceThroughException(
+        ITryOperation tryOperation,
+        IOperation operation,
+        IOperation reference)
+    {
+        return (tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
+            || (HasAncestor(operation, tryOperation.Body)
+                && CanReachReferenceThroughCatch(tryOperation, reference));
+    }
+
+    private static bool CanReachReferenceThroughCatch(ITryOperation tryOperation, IOperation reference)
+    {
+        return tryOperation.Catches
+            .Where(static catchClause =>
+                catchClause.Filter?.ConstantValue is not { HasValue: true, Value: false })
+            .Any(catchClause => HasAncestor(reference, catchClause)
+                || (tryOperation.Syntax.Span.End <= reference.Syntax.SpanStart
+                    && !AlwaysExitsCallable(catchClause.Handler)));
+    }
+
     private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)
     {
         // Returns still execute finally blocks, and implicit exceptions can reach catch handlers.
         for (var current = assignment.Parent; current is not null; current = current.Parent)
         {
             if (current is ITryOperation tryOperation
-                && ((tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
-                    || (HasAncestor(assignment, tryOperation.Body)
-                        && tryOperation.Catches.Any(catchClause => HasAncestor(reference, catchClause)))))
+                && CanReachReferenceThroughException(tryOperation, assignment, reference))
             {
                 return false;
             }
