@@ -23,6 +23,21 @@ public class DirectCommandLineRegistrationTests
     }
 
     [TestMethod]
+    [DataRow("Func<int, int> identity = x => x;")]
+    [DataRow("int Identity(int x) => x;")]
+    public async Task Recognizes_Action_With_Nested_Parameters(string callback)
+    {
+        await VerifyAsync("command.SetAction(_ => { " + callback
+            + " Pipeline.CreateBuilder().AddModulesFromAssembly(typeof(Program).Assembly); }); return command.Parse(args).Invoke();", true);
+    }
+
+    [TestMethod]
+    public async Task Keeps_Diagnostic_For_Captured_Outer_Parameter()
+    {
+        await VerifyAsync("command.SetAction(_ => { Func<string[]> read = () => args; Pipeline.CreateBuilder().AddModulesFromAssembly(typeof(Program).Assembly); }); return command.Parse(args).Invoke();", false);
+    }
+
+    [TestMethod]
     [DataRow("")]
     [DataRow("command.Parse(args);")]
     [DataRow("if (args.Length > 0) { command.SetAction(_ => {}); } return command.Parse(args).Invoke();")]

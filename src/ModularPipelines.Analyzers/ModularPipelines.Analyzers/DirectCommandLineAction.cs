@@ -96,7 +96,9 @@ internal static class DirectCommandLineAction
             ILocalReferenceOperation local => !local.Local.DeclaringSyntaxReferences.All(
                 syntax => action.Syntax.Span.Contains(syntax.Span)),
             IParameterReferenceOperation parameter => !SymbolEqualityComparer.Default.Equals(
-                parameter.Parameter.ContainingSymbol, action.Symbol),
+                parameter.Parameter.ContainingSymbol, action.Symbol)
+                && !parameter.Parameter.DeclaringSyntaxReferences.Any(
+                    syntax => action.Syntax.Span.Contains(syntax.Span)),
             _ => false,
         });
         return captures ? null : action.Symbol;
