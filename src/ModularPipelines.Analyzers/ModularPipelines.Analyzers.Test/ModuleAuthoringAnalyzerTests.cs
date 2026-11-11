@@ -3293,6 +3293,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("token", "token")]
     [DataRow("cancellationToken", "cancellationToken")]
     [DataRow("token", "context is not null ? token : cancellationToken")]
+    [DataRow("token", "copy")]
+    [DataRow("cancellationToken", "copy")]
     public async Task Reports_Loop_Carried_Token_Through_Earlier_Branch_Join(string target, string value)
     {
         var source = ModuleSource($$"""
@@ -3305,6 +3307,7 @@ public class ModuleAuthoringAnalyzerTests
                 {
                     while (true)
                     {
+                        var copy = {{target}};
                         if (i != 0)
                         {
                             {{target}} = {{value}};
@@ -3328,6 +3331,130 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Delay");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("token")]
+    [DataRow("cancellationToken")]
+    public async Task Does_Not_Report_Independent_Reset_After_Self_Dependent_Exit(string target)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                var token = CancellationToken.None;
+                for (var i = 0; i < 2; i++)
+                {
+                    if (i == 0)
+                    {
+                        {{target}} = context is null ? {{target}} : original;
+                        continue;
+                    }
+                    else
+                    {
+                        {{target}} = original;
+                    }
+
+                    await Task.Delay(1, {{target}});
+                }
+
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("token", "original")]
+    [DataRow("cancellationToken", "original")]
+    [DataRow("token", "copy")]
+    [DataRow("cancellationToken", "copy")]
+    public async Task Does_Not_Report_Independent_Reset_Through_Fresh_Loop_Alias(string target, string value)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                var token = cancellationToken;
+                for (var i = 0; i < 2; i++)
+                {
+                    while (true)
+                    {
+                        var copy = original;
+                        var alias = {{value}};
+                        if (i == 0)
+                        {
+                            {{target}} = alias;
+                            if (context is not null)
+                            {
+                                {{target}} = CancellationToken.None;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            {{target}} = alias;
+                        }
+
+                        await Task.Delay(1, {{target}});
+                        break;
+                    }
+                }
+
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [Timeout(30_000)]
+    public async Task Does_Not_Report_Independent_Reset_Through_Shared_Alias_Graph()
+    {
+        var aliases = string.Join("\n", Enumerable.Range(1, 40).Select(index =>
+            $"var copy{index} = context is null ? copy{index - 1} : copy{index - 1};"));
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var original = cancellationToken;
+                for (var i = 0; i < 2; i++)
+                {
+                    while (true)
+                    {
+                        var copy0 = original;
+                        {{aliases}}
+                        if (i == 0)
+                        {
+                            cancellationToken = copy40;
+                            if (context is not null)
+                            {
+                                cancellationToken = CancellationToken.None;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            cancellationToken = copy40;
+                        }
+
+                        await Task.Delay(1, cancellationToken);
+                        break;
+                    }
+                }
+
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
