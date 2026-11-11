@@ -6801,11 +6801,7 @@ internal static class ModuleAuthoringAnalysis
             if (ancestor is ITryOperation tryOperation)
             {
                 // A catch handles only exceptions from its try body, never sibling catches.
-                if (mayThrow && HasAncestor(branch, tryOperation.Body)
-                    && tryOperation.Catches.Any(catchClause =>
-                        HasAncestor(operation, catchClause)
-                        || catchClause.Filter is not null
-                        || !AlwaysExitsMethod(catchClause.Handler)))
+                if (mayThrow && CatchCanContinueToUse(tryOperation, branch, operation))
                 {
                     return true;
                 }
@@ -6823,10 +6819,7 @@ internal static class ModuleAuthoringAnalysis
             }
 
             // Disposal runs when an exit leaves a using statement or declaration scope.
-            if (ancestor is IUsingOperation
-                || (ancestor is IBlockOperation block
-                    && block.Operations.OfType<IUsingDeclarationOperation>()
-                        .Any(declaration => declaration.Syntax.SpanStart < branch.Syntax.SpanStart)))
+            if (ExitRunsDisposal(ancestor, branch))
             {
                 mayThrow = true;
             }
@@ -6838,6 +6831,23 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool CatchCanContinueToUse(ITryOperation tryOperation, IOperation branch, IOperation operation)
+    {
+        return HasAncestor(branch, tryOperation.Body)
+            && tryOperation.Catches.Any(catchClause =>
+                HasAncestor(operation, catchClause)
+                || catchClause.Filter is not null
+                || !AlwaysExitsMethod(catchClause.Handler));
+    }
+
+    private static bool ExitRunsDisposal(IOperation ancestor, IOperation branch)
+    {
+        return ancestor is IUsingOperation
+            || (ancestor is IBlockOperation block
+                && block.Operations.OfType<IUsingDeclarationOperation>()
+                    .Any(declaration => declaration.Syntax.SpanStart < branch.Syntax.SpanStart));
     }
 
     private static bool AlwaysExitsMethod(IOperation operation)
