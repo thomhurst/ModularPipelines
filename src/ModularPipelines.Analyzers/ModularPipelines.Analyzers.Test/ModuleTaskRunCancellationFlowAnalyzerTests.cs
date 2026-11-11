@@ -1013,6 +1013,40 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("(receiver.Ready, _) = (MakeHandler((alias = ref other)), 0)", false)]
+    [DataRow("((receiver.Ready, _), _) = ((MakeHandler((alias = ref other)), 0), 0)", false)]
+    [DataRow("(receiver.Ready, _) = (MakeHandler(token), 0)", true)]
+    [DataRow("(receiver.Ready, _) = (MakeHandler(token), (alias = ref other).CanBeCanceled ? 0 : 1)", true)]
+    [DataRow("(receiver.Ready, _) = ((Action?)null, 0)", true)]
+    [DataRow("(receiver.Ready, _) = ((alias = ref other).CanBeCanceled ? null : (Action?)null, 0)", false)]
+    [DataRow("(receiver.Ready, _) = (token.CanBeCanceled ? null : (Action?)null, 0)", true)]
+    [DataRow("(Ready, _) = ((Action?)null, 0)", false)]
+    public async Task Tracks_Deconstruction_Event_Store_After_Value(string statement, bool reports)
+    {
+        var source = ModuleSource($$"""
+            public event Action? Ready;
+
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                DummyModule receiver = null!;
+                ref var alias = ref token;
+                try { {{statement}}; }
+                catch { alias = default; }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static Action MakeHandler(CancellationToken token) => () => { };
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("publisher.Changed += handler", false, true)]
     [DataRow("publisher.Changed -= handler", false, true)]
     [DataRow("publisher.Changed += handler", true, false)]
