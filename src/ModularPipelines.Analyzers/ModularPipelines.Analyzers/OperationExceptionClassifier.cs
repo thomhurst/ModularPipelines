@@ -342,7 +342,8 @@ internal sealed class OperationExceptionClassifier(
         && HasNullableReceiver(method.Instance);
 
     private bool HasNullableReceiver(IOperation? receiver) =>
-        receiver is { Type.IsReferenceType: true } and not IInstanceReferenceOperation
+        receiver is { Type: { IsReferenceType: true } or ITypeParameterSymbol { IsValueType: false } }
+            and not IInstanceReferenceOperation
         && isKnownNonNull?.Invoke(receiver) != true;
 
     private bool CanConversionThrow(IConversionOperation conversion) =>

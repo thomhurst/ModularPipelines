@@ -730,6 +730,24 @@ public class OperationExceptionClassifierTests
         Assert.IsTrue(classifier.Classify(methods[2]).IsEmpty);
     }
 
+    [TestMethod]
+    [DataRow("System.IDisposable", true)]
+    [DataRow("class, System.IDisposable", true)]
+    [DataRow("notnull, System.IDisposable", true)]
+    [DataRow("struct, System.IDisposable", false)]
+    [DataRow("unmanaged, System.IDisposable", false)]
+    public void GenericMethodReferencePreservesNullableReceiver(string constraint, bool canBeNull)
+    {
+        var (root, classifier) = Compile($$"""
+            class C {
+                static System.Action M<T>(T x) where T : {{constraint}} => x.Dispose;
+            }
+            """);
+        var method = root.DescendantsAndSelf().OfType<IMethodReferenceOperation>().Single();
+        Assert.AreSequenceEqual(canBeNull ? NullReceiverExceptions : [], classifier.Classify(method).ToArray());
+        Assert.IsTrue(new OperationExceptionClassifier(isKnownNonNull: _ => true).Classify(method).IsEmpty);
+    }
+
     private static (IOperation Root, OperationExceptionClassifier Classifier) Compile(string source,
         LanguageVersion version = LanguageVersion.Preview, ImmutableArray<MetadataReference> references = default,
         bool checkOverflow = false, bool allowUnsafe = false)
