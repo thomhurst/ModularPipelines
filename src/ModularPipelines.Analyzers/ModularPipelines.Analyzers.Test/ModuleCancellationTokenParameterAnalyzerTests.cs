@@ -9,6 +9,8 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow("cancellationToken = CancellationToken.None;")]
     [DataRow("cancellationToken = new CancellationToken();")]
+    [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; if (context != null) { cancellationToken = saved; }")]
+    [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; if (context != null) { cancellationToken = saved; } else { cancellationToken = CancellationToken.None; }")]
     [DataRow("if (DateTime.Now.Ticks > 0) cancellationToken = CancellationToken.None;")]
     [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; saved = cancellationToken; cancellationToken = saved;")]
     public async Task Reports_Replaced_Parameter(string statements)
@@ -21,6 +23,8 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow("")]
     [DataRow("cancellationToken = cancellationToken;")]
+    [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; if (context != null) { cancellationToken = saved; } else { cancellationToken = saved; }")]
+    [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; if (context != null) { if (DateTime.Now.Ticks > 0) { cancellationToken = saved; } else { cancellationToken = saved; } } else { cancellationToken = saved; }")]
     [DataRow("var saved = cancellationToken; cancellationToken = saved;")]
     [DataRow("var saved = cancellationToken; cancellationToken = CancellationToken.None; cancellationToken = saved;")]
     [DataRow("if (false) cancellationToken = CancellationToken.None;")]
@@ -31,6 +35,19 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     public async Task Recognizes_Original_Parameter_Value(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    public async Task Reports_Replaced_Parameter_Before_Branch_Restoration()
+    {
+        var source = Source(
+                "var saved = cancellationToken; cancellationToken = CancellationToken.None; if (context != null) { await {|#0:Task.Delay(1, cancellationToken)|}; cancellationToken = saved; } else { cancellationToken = saved; }",
+                "Task.Delay(1, cancellationToken)")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.Delay(1, cancellationToken);", "await Task.Delay(1, cancellationToken);");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
     }
 
     [TestMethod]

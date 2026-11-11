@@ -5544,20 +5544,17 @@ internal static class ModuleAuthoringAnalysis
             .OfType<ISimpleAssignmentOperation>()
             .Where(assignment => assignment.Syntax.Span.End <= reference.Syntax.SpanStart)
             .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
-            .Where(assignment => assignment.Target switch
-            {
-                IParameterReferenceOperation parameter =>
-                    SymbolEqualityComparer.Default.Equals(parameter.Parameter, symbol),
-                ILocalReferenceOperation local =>
-                    SymbolEqualityComparer.Default.Equals(local.Local, symbol),
-                _ => false,
-            })
+            .Where(assignment => AssignsSymbol(assignment, symbol))
             .Where(IsInReachableBranch)
             .Where(assignment => !AreInExclusiveConditionalBranches(assignment, reference))
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .ToArray();
+        var branchingOperation = FindLatestDefinitelyAssigningBranch(
+            GetRoot(reference), reference, symbol, callable);
         return [
-            .. assignments.Where(assignment => !assignments.Any(later =>
+            .. assignments.Where(assignment =>
+                assignment.Syntax.SpanStart >= (branchingOperation?.Syntax.SpanStart ?? int.MinValue))
+            .Where(assignment => !assignments.Any(later =>
                 later.Syntax.SpanStart >= assignment.Syntax.Span.End
                 && (IsLinearPredecessor(later, assignment)
                     || IsLinearPredecessor(later, reference))))
@@ -6370,7 +6367,7 @@ internal static class ModuleAuthoringAnalysis
     private static IOperation? FindLatestDefinitelyAssigningBranch(
         IOperation root,
         IOperation operation,
-        ILocalSymbol local,
+        ISymbol symbol,
         IOperation? callable)
     {
         return root.DescendantsAndSelf()
@@ -6379,10 +6376,10 @@ internal static class ModuleAuthoringAnalysis
                     or ISwitchOperation
                     or IWhileLoopOperation { ConditionIsTop: false }
                     or ITryOperation)
-            .Where(candidate => candidate.Syntax.SpanStart < operation.Syntax.SpanStart)
+            .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .Where(candidate => IsLinearPredecessor(candidate, operation))
-            .Where(candidate => DefinitelyAssignsLocal(candidate, local))
+            .Where(candidate => DefinitelyAssignsSymbol(candidate, symbol))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart)
             .FirstOrDefault();
     }
@@ -6400,7 +6397,7 @@ internal static class ModuleAuthoringAnalysis
         return operation switch
         {
             ISimpleAssignmentOperation assignment
-                when AssignsLocal(assignment, local) =>
+                when AssignsSymbol(assignment, local) =>
                 [assignment],
             IConditionalOperation conditional =>
                 GetReachingLocalAssignments(conditional.WhenTrue, local)
@@ -6430,7 +6427,7 @@ internal static class ModuleAuthoringAnalysis
             ILocalSymbol local)
     {
         if (tryOperation.Finally is { } finallyBlock
-            && DefinitelyAssignsLocal(finallyBlock, local))
+            && DefinitelyAssignsSymbol(finallyBlock, local))
         {
             return GetReachingLocalAssignments(finallyBlock, local);
         }
@@ -6454,7 +6451,7 @@ internal static class ModuleAuthoringAnalysis
         foreach (var operation in operations.Reverse())
         {
             assignments.AddRange(GetReachingLocalAssignments(operation, local));
-            if (DefinitelyAssignsLocal(operation, local))
+            if (DefinitelyAssignsSymbol(operation, local))
             {
                 break;
             }
@@ -6463,20 +6460,26 @@ internal static class ModuleAuthoringAnalysis
         return assignments;
     }
 
-    private static bool AssignsLocal(
+    private static bool AssignsSymbol(
         ISimpleAssignmentOperation assignment,
-        ILocalSymbol local)
+        ISymbol symbol)
     {
-        return assignment.Target is ILocalReferenceOperation localReference
-               && SymbolEqualityComparer.Default.Equals(localReference.Local, local);
+        return assignment.Target switch
+        {
+            ILocalReferenceOperation localReference =>
+                SymbolEqualityComparer.Default.Equals(localReference.Local, symbol),
+            IParameterReferenceOperation parameterReference =>
+                SymbolEqualityComparer.Default.Equals(parameterReference.Parameter, symbol),
+            _ => false,
+        };
     }
 
-    private static bool DefinitelyAssignsLocal(
+    private static bool DefinitelyAssignsSymbol(
         IOperation operation,
-        ILocalSymbol local)
+        ISymbol symbol)
     {
         if (operation is ISimpleAssignmentOperation assignment
-            && AssignsLocal(assignment, local))
+            && AssignsSymbol(assignment, symbol))
         {
             return true;
         }
@@ -6484,57 +6487,57 @@ internal static class ModuleAuthoringAnalysis
         if (operation is IConditionalOperation conditional)
         {
             return conditional.WhenFalse is not null
-                   && DefinitelyAssignsLocal(conditional.WhenTrue, local)
-                   && DefinitelyAssignsLocal(conditional.WhenFalse, local);
+                   && DefinitelyAssignsSymbol(conditional.WhenTrue, symbol)
+                   && DefinitelyAssignsSymbol(conditional.WhenFalse, symbol);
         }
 
         return operation switch
         {
             IBlockOperation block => block.Operations.Any(candidate =>
-                DefinitelyAssignsLocal(candidate, local)),
+                DefinitelyAssignsSymbol(candidate, symbol)),
             ISwitchOperation switchOperation =>
-                DefinitelyAssignsLocalInSwitch(switchOperation, local),
+                DefinitelyAssignsSymbolInSwitch(switchOperation, symbol),
             IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
-                DefinitelyAssignsLocalInDoLoop(whileLoop, local),
+                DefinitelyAssignsSymbolInDoLoop(whileLoop, symbol),
             ITryOperation tryOperation =>
-                DefinitelyAssignsLocalInTry(tryOperation, local),
+                DefinitelyAssignsSymbolInTry(tryOperation, symbol),
             IExpressionStatementOperation expressionStatement =>
-                DefinitelyAssignsLocal(expressionStatement.Operation, local),
+                DefinitelyAssignsSymbol(expressionStatement.Operation, symbol),
             _ => false,
         };
     }
 
-    private static bool DefinitelyAssignsLocalInTry(
+    private static bool DefinitelyAssignsSymbolInTry(
         ITryOperation tryOperation,
-        ILocalSymbol local)
+        ISymbol symbol)
     {
         if (tryOperation.Finally is { } finallyBlock
-            && DefinitelyAssignsLocal(finallyBlock, local))
+            && DefinitelyAssignsSymbol(finallyBlock, symbol))
         {
             return true;
         }
 
-        return DefinitelyAssignsLocal(tryOperation.Body, local)
+        return DefinitelyAssignsSymbol(tryOperation.Body, symbol)
                && tryOperation.Catches.All(catchClause =>
-                   DefinitelyAssignsLocal(catchClause.Handler, local)
+                   DefinitelyAssignsSymbol(catchClause.Handler, symbol)
                    || AlwaysExitsCallable(catchClause.Handler));
     }
 
-    private static bool DefinitelyAssignsLocalInDoLoop(
+    private static bool DefinitelyAssignsSymbolInDoLoop(
         IWhileLoopOperation whileLoop,
-        ILocalSymbol local)
+        ISymbol symbol)
     {
         var dataFlow = whileLoop.Body.SemanticModel?.AnalyzeDataFlow(
             whileLoop.Body.Syntax);
         return dataFlow?.Succeeded == true
                && dataFlow.AlwaysAssigned.Contains(
-                   local,
+                   symbol,
                    SymbolEqualityComparer.Default);
     }
 
-    private static bool DefinitelyAssignsLocalInSwitch(
+    private static bool DefinitelyAssignsSymbolInSwitch(
         ISwitchOperation switchOperation,
-        ILocalSymbol local)
+        ISymbol symbol)
     {
         return switchOperation.Cases.Any(@case =>
                    @case.Clauses.Any(static clause =>
@@ -6542,7 +6545,7 @@ internal static class ModuleAuthoringAnalysis
                && switchOperation.Cases.All(@case =>
                    SwitchCaseCannotReachFollowingOperation(@case)
                    || @case.Body.Any(candidate =>
-                       DefinitelyAssignsLocal(candidate, local)));
+                       DefinitelyAssignsSymbol(candidate, symbol)));
     }
 
     private static bool SwitchCaseCannotReachFollowingOperation(
