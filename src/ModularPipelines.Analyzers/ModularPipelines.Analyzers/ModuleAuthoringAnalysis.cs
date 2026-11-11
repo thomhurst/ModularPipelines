@@ -6500,7 +6500,8 @@ internal static class ModuleAuthoringAnalysis
     private static bool CanCarryValueAcrossLoop(
         IOperation branch,
         IOperation operation,
-        ISymbol local)
+        ISymbol local,
+        IOperation? exitedRegion = null)
     {
         for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
@@ -6510,6 +6511,7 @@ internal static class ModuleAuthoringAnalysis
             }
 
             if (ancestor is ILoopOperation loop
+                && !ReferenceEquals(loop, exitedRegion)
                 && HasAncestor(operation, loop)
                 && !IsResetBeforeBranch(loop, branch, local))
             {
@@ -6600,7 +6602,7 @@ internal static class ModuleAuthoringAnalysis
              ancestor = ancestor.Parent)
         {
             if (ancestor is IBlockOperation
-                && AlwaysExitsBeforeUse(ancestor, operation, local)
+                && AlwaysExitsBeforeUse(ancestor, operation, ancestor, local)
                 && !ExitCanReachHandler(ancestor, operation))
             {
                 return true;
@@ -6610,23 +6612,31 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool AlwaysExitsBeforeUse(IOperation branch, IOperation operation, ISymbol local)
+    private static bool AlwaysExitsBeforeUse(
+        IOperation branch,
+        IOperation operation,
+        IOperation terminatingBranch,
+        ISymbol local)
     {
         return branch switch
         {
             IReturnOperation or IThrowOperation => true,
             IBranchOperation { BranchKind: BranchKind.Break } exit =>
-                BreakExitsContainingRegion(exit, operation, local),
+                BreakExitsContainingRegion(exit, operation, terminatingBranch, local),
             IBlockOperation { Operations.Length: > 0 } block =>
-                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation, local),
+                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation, terminatingBranch, local),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
-                AlwaysExitsBeforeUse(conditional.WhenTrue, operation, local)
-                && AlwaysExitsBeforeUse(whenFalse, operation, local),
+                AlwaysExitsBeforeUse(conditional.WhenTrue, operation, terminatingBranch, local)
+                && AlwaysExitsBeforeUse(whenFalse, operation, terminatingBranch, local),
             _ => false,
         };
     }
 
-    private static bool BreakExitsContainingRegion(IBranchOperation exit, IOperation operation, ISymbol local)
+    private static bool BreakExitsContainingRegion(
+        IBranchOperation exit,
+        IOperation operation,
+        IOperation terminatingBranch,
+        ISymbol local)
     {
         for (var ancestor = exit.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
@@ -6638,9 +6648,10 @@ internal static class ModuleAuthoringAnalysis
             };
             if (SymbolEqualityComparer.Default.Equals(exit.Target, exitLabel))
             {
-                // An outer loop can re-enter this region with the overwritten value.
+                // Breaking this region does not kill values carried by an outer loop.
+                // Resets before the terminating branch can still prevent that carry.
                 return HasAncestor(operation, ancestor)
-                    && !CanCarryValueAcrossLoop(ancestor, operation, local);
+                    && !CanCarryValueAcrossLoop(terminatingBranch, operation, local, ancestor);
             }
         }
 
