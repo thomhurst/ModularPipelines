@@ -339,17 +339,55 @@ internal sealed class CancellationTokenReachingValues
             return next;
         }
 
-        private static bool IsBranchTaken(ControlFlowBranch branch)
+        private bool IsBranchTaken(ControlFlowBranch branch)
         {
-            // Roslyn retains an unreachable successor for constant conditions.
-            if (branch.Source.BranchValue?.ConstantValue is not { HasValue: true, Value: bool value }
-                || branch.Source.ConditionKind == ControlFlowConditionKind.None)
+            if (branch.Source.ConditionKind == ControlFlowConditionKind.None)
+            {
+                return true;
+            }
+
+            bool value;
+            if (branch.Source.BranchValue?.ConstantValue is { HasValue: true, Value: bool constant })
+            {
+                value = constant;
+            }
+            else if (branch.Source.BranchValue is IIsNullOperation nullTest
+                && IsKnownNonNull(nullTest.Operand, []))
+            {
+                value = false;
+            }
+            else
             {
                 return true;
             }
 
             var conditionalTaken = branch.Source.ConditionKind == ControlFlowConditionKind.WhenTrue ? value : !value;
             return branch.IsConditionalSuccessor == conditionalTaken;
+        }
+
+        private bool IsKnownNonNull(IOperation operation, HashSet<CaptureId> visited)
+        {
+            if (operation.Type is { IsValueType: true } type
+                && type.OriginalDefinition.SpecialType != SpecialType.System_Nullable_T)
+            {
+                return true;
+            }
+
+            if (operation is IConversionOperation { OperatorMethod: null, IsTryCast: false } conversion)
+            {
+                return IsKnownNonNull(conversion.Operand, visited);
+            }
+
+            if (operation is not IFlowCaptureReferenceOperation capture || !visited.Add(capture.Id))
+            {
+                return false;
+            }
+
+            var definitions = analysis._graph.Blocks.SelectMany(static block => block.Operations)
+                .SelectMany(static operation => operation.DescendantsAndSelf())
+                .OfType<IFlowCaptureOperation>().Where(definition => definition.Id.Equals(capture.Id)).ToArray();
+            return definitions.Length > 0 && definitions.All(definition =>
+                IsKnownNonNull(definition.Value, [.. visited]));
         }
 
         // Exceptions raised by expressions use the same worklist as ordinary

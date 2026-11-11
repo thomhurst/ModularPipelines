@@ -758,6 +758,15 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("(CancellationToken?)cancellationToken", false)]
+    [DataRow("(CancellationToken?)default(CancellationToken)", true)]
+    [DataRow("(CancellationToken?)null", true)]
+    public async Task Tracks_Statically_NonNull_Nullable_Coalescing(string expression, bool warning)
+    {
+        await Verify("var token = " + expression + " ?? CancellationToken.None; for (var i = 0; i < 2; i++) await CALL(1, token);", warning);
+    }
+
+    [TestMethod]
     [DataRow("new[] { value }", false)]
     [DataRow("[value]", false)]
     [DataRow("new[] { default(CancellationToken) }", true)]
@@ -796,11 +805,17 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     [DataRow("System.Array alias = value; System.Array.Clear(alias);", true)]
     [DataRow("object alias = value; ClearObject(alias);", true)]
     [DataRow("var first = value[0];", false)]
+    [DataRow("var scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("var scratch = new CancellationToken[1]; System.Array.Clear(scratch);", false)]
+    [DataRow("var scratch = new CancellationToken[1]; scratch = value; scratch[0] = default;", true)]
+    [DataRow("var scratch = new CancellationToken[1]; var alias = scratch; alias[0] = default;", false)]
+    [DataRow("Observe(value.Length);", false)]
+    [DataRow("Observe(value[0].GetHashCode());", false)]
     [DataRow("", false)]
     public async Task Rejects_Mutated_Token_Array_Helper_Inputs(string mutation, bool warning)
     {
         await Verify("var tokens = PassArray(new[] { cancellationToken }); using var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); var token = linked.Token; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
-            "private static CancellationToken[] PassArray(CancellationToken[] value) { " + mutation + " return value; } private static void ClearObject(object value) => System.Array.Clear((CancellationToken[])value);");
+            "private static CancellationToken[] PassArray(CancellationToken[] value) { " + mutation + " return value; } private static void ClearObject(object value) => System.Array.Clear((CancellationToken[])value); private static void Observe(int value) { }");
     }
 
     [TestMethod]

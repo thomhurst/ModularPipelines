@@ -5702,15 +5702,99 @@ internal static class ModuleAuthoringAnalysis
     private static bool HasContainerElementMutation(
         IOperation operation, ITypeSymbol? returnType, HashSet<IParameterSymbol> flowedParameters)
     {
-        // Container facts describe the presence of a source token, not individual
-        // heap elements. Writes and writable ref escapes can invalidate that fact
-        // through aliases, so reject such container-forwarding proofs conservatively.
-        return (IsCancellationContainer(returnType)
-                || flowedParameters.Any(static parameter => IsCancellationContainer(parameter.Type)))
-            && operation.DescendantsAndSelf().Any(static child =>
-                ExposesCancellationContainer(child)
-                || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)));
+        if (!IsCancellationContainer(returnType)
+            && !flowedParameters.Any(static parameter => IsCancellationContainer(parameter.Type)))
+        {
+            return false;
+        }
+
+        var relevant = GetForwardedContainerSymbols(operation, flowedParameters);
+        return operation.DescendantsAndSelf().Any(child =>
+            (ExposesCancellationContainer(child)
+                || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
+            && ReferencesContainer(child, relevant));
     }
+
+    private static HashSet<ISymbol> GetForwardedContainerSymbols(
+        IOperation operation, HashSet<IParameterSymbol> flowedParameters)
+    {
+        var relevant = new HashSet<ISymbol>(flowedParameters.Where(static parameter => IsCancellationContainer(parameter.Type)), SymbolEqualityComparer.Default);
+        var children = operation.DescendantsAndSelf().ToArray();
+        // Caller-owned containers can alias even when only one has proven provenance.
+        foreach (var parameter in children.OfType<IParameterReferenceOperation>())
+        {
+            if (IsCancellationContainer(parameter.Type))
+            {
+                relevant.Add(parameter.Parameter);
+            }
+        }
+
+        foreach (var returned in children.OfType<IReturnOperation>())
+        {
+            if (returned.ReturnedValue is { } value && IsCancellationContainer(value.Type))
+            {
+                AddContainerReferences(value, relevant);
+            }
+        }
+
+        // Follow possible aliases in either direction. Fresh unrelated containers
+        // remain independent; scalar reads such as Length do not create aliases.
+        bool changed;
+        do
+        {
+            var count = relevant.Count;
+            foreach (var child in children)
+            {
+                AddContainerAliases(child, relevant);
+            }
+
+            changed = relevant.Count != count;
+        }
+        while (changed);
+
+        return relevant;
+    }
+
+    private static void AddContainerAliases(IOperation child, HashSet<ISymbol> relevant)
+    {
+        if (child is IVariableDeclaratorOperation { Initializer.Value: { } initializer } declaration
+            && IsCancellationContainer(initializer.Type)
+            && (relevant.Contains(declaration.Symbol) || ReferencesContainer(initializer, relevant)))
+        {
+            relevant.Add(declaration.Symbol);
+            AddContainerReferences(initializer, relevant);
+        }
+        else if (child is ISimpleAssignmentOperation assignment
+            && IsCancellationContainer(assignment.Value.Type)
+            && (ReferencesContainer(assignment.Target, relevant) || ReferencesContainer(assignment.Value, relevant)))
+        {
+            AddContainerReferences(assignment.Target, relevant);
+            AddContainerReferences(assignment.Value, relevant);
+        }
+    }
+
+    private static void AddContainerReferences(IOperation operation, HashSet<ISymbol> symbols)
+    {
+        foreach (var child in operation.DescendantsAndSelf())
+        {
+            if (IsCancellationContainer(child.Type) && GetContainerSymbol(child) is { } symbol)
+            {
+                symbols.Add(symbol);
+            }
+        }
+    }
+
+    private static bool ReferencesContainer(IOperation operation, HashSet<ISymbol> symbols) =>
+        operation.DescendantsAndSelf().Any(child =>
+            (GetContainerSymbol(child) is { } symbol && symbols.Contains(symbol))
+            || (child is IFieldReferenceOperation or IPropertyReferenceOperation && IsCancellationContainer(child.Type)));
+
+    private static ISymbol? GetContainerSymbol(IOperation operation) => operation switch
+    {
+        ILocalReferenceOperation local => local.Local,
+        IParameterReferenceOperation parameter => parameter.Parameter,
+        _ => null,
+    };
 
     private static bool IsCancellationContainerElement(IOperation operation)
     {
@@ -5727,7 +5811,7 @@ internal static class ModuleAuthoringAnalysis
         return operation switch
         {
             IArgumentOperation argument => !(argument.Parent is IInvocationOperation invocation && IsKnownCancellationCarrierFactory(invocation))
-                && argument.Value.DescendantsAndSelf().Any(static value => IsCancellationContainer(value.Type)),
+                && IsCancellationContainer(argument.Value.Type),
             IInvocationOperation invocation => IsCancellationContainer(invocation.Instance?.Type),
             IConversionOperation conversion => IsCancellationContainer(conversion.Operand.Type) && !IsCancellationContainer(conversion.Type),
             IDynamicInvocationOperation or IDynamicObjectCreationOperation => true,
