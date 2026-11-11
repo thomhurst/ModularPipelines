@@ -70,16 +70,17 @@ internal static class ModuleAuthoringAnalysis
         context.RegisterCompilationStartAction(StartAsyncVoidAnalysis);
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
         context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
-        context.RegisterCompilationStartAction(compilationContext =>
+        context.RegisterOperationBlockStartAction(blockContext =>
         {
-            // Independent await/return traversals can reach the same invocation.
-            // Keep reporting state per analyzer run, including concurrent callbacks.
+            // Analyze the whole block so findings reached through a returned local
+            // function remain local semantic diagnostics in Roslyn. Independent
+            // await/return traversals share reporting state for this block.
             var reportedInvocations = new ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte>();
-            compilationContext.RegisterOperationAction(
+            blockContext.RegisterOperationAction(
                 operationContext => AnalyzeAwait(operationContext, reportedInvocations), OperationKind.Await);
-            compilationContext.RegisterOperationAction(
+            blockContext.RegisterOperationAction(
                 operationContext => AnalyzeForEachLoop(operationContext, reportedInvocations), OperationKind.Loop);
-            compilationContext.RegisterOperationAction(
+            blockContext.RegisterOperationAction(
                 operationContext => AnalyzeReturn(operationContext, reportedInvocations), OperationKind.Return);
         });
     }
