@@ -482,6 +482,28 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Task.FromResult(cancellationToken)")]
+    [DataRow("ValueTask.FromResult(cancellationToken)")]
+    [DataRow("new ValueTask<CancellationToken>(cancellationToken)")]
+    public async Task Completed_Result_Preserves_Original_Parameter(string expression)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(
+            $"var saved = {expression}; await saved; cancellationToken = default; cancellationToken = saved.Result;", "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task.FromResult(CancellationToken.None)")]
+    [DataRow("ValueTask.FromResult(CancellationToken.None)")]
+    [DataRow("new ValueTask<CancellationToken>(CancellationToken.None)")]
+    public async Task Completed_Result_Reports_Replaced_Parameter(string expression)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(
+            $"var saved = {expression}; await saved; cancellationToken = saved.Result;", "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     [DataRow("cancellationToken = await Task.FromResult(cancellationToken);")]
     [DataRow("cancellationToken = await Task.FromResult(cancellationToken).ConfigureAwait(false);")]
     [DataRow("cancellationToken = await ValueTask.FromResult(cancellationToken);")]

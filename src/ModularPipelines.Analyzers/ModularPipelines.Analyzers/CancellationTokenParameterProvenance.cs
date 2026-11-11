@@ -503,6 +503,8 @@ internal static class CancellationTokenParameterProvenance
                 IFlowCaptureReferenceOperation capture => Get(state.Captures, capture.Id),
                 IConversionOperation conversion => EvaluateConversion(conversion, state),
                 IAwaitOperation awaited => EvaluateAwait(awaited, state),
+                IPropertyReferenceOperation { Property.Name: "Result", Instance: { } receiver } property
+                    when IsTokenAwaitable(property.Property.ContainingType) => Evaluate(receiver, state).AwaitedSafe ? Value.Original : Value.None,
                 IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource" => Evaluate(instance, state),
                 ITupleOperation tuple => new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]),
