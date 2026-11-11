@@ -189,7 +189,8 @@ internal sealed class OperationExceptionClassifier(
                 || semanticModel is not { } model
                 || CanDeconstructionThrow(model.GetDeconstructionInfo(syntax)),
             // The non-null branch conversion is metadata, not an operation child.
-            ICoalesceOperation coalesce => coalesce.ValueConversion.IsUserDefined,
+            ICoalesceOperation coalesce => coalesce.ValueConversion.IsUserDefined
+                || CanTupleConversionThrow(coalesce.Value.Type, coalesce.Type, coalesce),
             // Tuple comparisons hide their element operators from the operation children.
             ITupleBinaryOperation comparison => CanTupleComparisonThrow(comparison),
             IConversionOperation conversion => CanConversionThrow(conversion),
@@ -354,10 +355,13 @@ internal sealed class OperationExceptionClassifier(
 
     // Tuple-valued operands hide their element conversions from the operation children.
     private bool CanTupleConversionThrow(IConversionOperation conversion) =>
-        GetTupleType(conversion.Operand.Type) is { } source
-        && GetTupleType(conversion.Type) is { } target
+        CanTupleConversionThrow(conversion.Operand.Type, conversion.Type, conversion);
+
+    private bool CanTupleConversionThrow(ITypeSymbol? sourceType, ITypeSymbol? targetType, IOperation operation) =>
+        GetTupleType(sourceType) is { } source
+        && GetTupleType(targetType) is { } target
         && CanTupleElementsThrow(source, target,
-            (semanticModel ?? conversion.SemanticModel)?.Compilation as CSharpCompilation);
+            (semanticModel ?? operation.SemanticModel)?.Compilation as CSharpCompilation);
 
     private static bool CanTupleComparisonThrow(ITupleBinaryOperation comparison) =>
         CanTupleElementComparisonThrow(comparison.LeftOperand.Type)

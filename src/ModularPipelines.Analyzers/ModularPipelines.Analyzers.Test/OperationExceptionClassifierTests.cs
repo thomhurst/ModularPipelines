@@ -19,6 +19,10 @@ public class OperationExceptionClassifierTests
     [DataRow("struct V { public static implicit operator int(V value) => throw new System.Exception(); }", "V?", "int", "0", true)]
     [DataRow("", "int?", "long", "0L", false)]
     [DataRow("", "string", "object", "new object()", false)]
+    [DataRow("struct V { public static implicit operator int(V value) => throw new System.Exception(); }", "(V, V)?", "(int, int)", "(0, 0)", true)]
+    [DataRow("struct V { public static implicit operator int(V value) => throw new System.Exception(); }", "((V, V), V)?", "((int, int), int)", "((0, 0), 0)", true)]
+    [DataRow("", "(int, int)?", "(long, long)", "(0L, 0L)", false)]
+    [DataRow("", "(int, int)?", "(int, int)", "(0, 0)", false)]
     public void CoalesceInspectsHiddenValueConversion(string declaration, string from, string to, string fallback, bool throws)
     {
         var (root, classifier) = Compile($"{declaration} class C {{ {to} M({from} x) => x ?? {fallback}; }}");
