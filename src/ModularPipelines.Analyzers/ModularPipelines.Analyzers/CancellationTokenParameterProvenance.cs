@@ -637,12 +637,12 @@ internal static class CancellationTokenParameterProvenance
                     break;
                 case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
                     var parent = Evaluate(field.Instance!, state);
-                    if (parent.Elements is { } elements)
-                    {
-                        var updated = (Value[]) elements.Clone();
-                        updated[TupleElementIndex(field)] = value;
-                        Assign(field.Instance!, new Value(elements: updated), state);
-                    }
+                    // Default tuple values have no element facts until a field is written.
+                    var updated = parent.Elements is { } elements
+                        ? (Value[]) elements.Clone()
+                        : [.. Enumerable.Repeat(Value.None, ((INamedTypeSymbol) field.Instance!.Type!).TupleElements.Length)];
+                    updated[TupleElementIndex(field)] = value;
+                    Assign(field.Instance!, new Value(elements: updated), state);
 
                     break;
                 case IArrayElementReferenceOperation element:

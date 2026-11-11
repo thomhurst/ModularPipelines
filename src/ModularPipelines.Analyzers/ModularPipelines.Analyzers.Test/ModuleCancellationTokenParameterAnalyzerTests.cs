@@ -60,6 +60,10 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var tokens = new[] { cancellationToken }; static object PassObject(object value) => value; var alias = (CancellationToken[])PassObject(tokens); alias[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; static CancellationToken[] Clear(CancellationToken[] value) { value[0] = CancellationToken.None; return value; } var alias = Clear(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; static object Box((CancellationToken[], int) pair) => pair; var saved = Box((tokens, 1)); ((ValueTuple<CancellationToken[], int>)saved).Item1[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
+    [DataRow("(CancellationToken First, CancellationToken Second) saved = default; saved.First = cancellationToken; cancellationToken = saved.Second;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; if (context != null) saved.Token = cancellationToken; cancellationToken = saved.Token;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; saved.Token = cancellationToken; saved = default; cancellationToken = saved.Token;")]
+    [DataRow("(CancellationToken[] Tokens, int Count) saved = default; saved.Tokens = new[] { cancellationToken }; saved.Tokens[0] = CancellationToken.None; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Tokens).Token;")]
     public async Task Reports_Replaced_Parameter(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
@@ -125,6 +129,12 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow("var tokens = new CancellationToken[1]; static CancellationToken[] PassArray(CancellationToken[] value) { return value; } var alias = PassArray(tokens); alias[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; var alias = tokens.PassArray(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; static object PassObject(object value) => value; var alias = (CancellationToken[])PassObject(tokens); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; saved.Token = cancellationToken; cancellationToken = saved.Token;")]
+    [DataRow("((CancellationToken Token, int Count) Pair, int Count) saved = default; saved.Pair.Token = cancellationToken; cancellationToken = saved.Pair.Token;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; (saved.Token, _) = (cancellationToken, 1); (cancellationToken, _) = saved;")]
+    [DataRow("(CancellationToken First, CancellationToken Second) saved = default; saved.First = cancellationToken; saved.Second = CancellationToken.None; cancellationToken = saved.First;")]
+    [DataRow("(CancellationToken Token, int Count) saved = default; if (context != null) saved.Token = cancellationToken; else saved.Token = cancellationToken; cancellationToken = saved.Token;")]
+    [DataRow("(CancellationToken[] Tokens, int Count) saved = default; saved.Tokens = new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(saved.Tokens).Token;")]
     public async Task Recognizes_Original_Parameter_Value(string statements)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
