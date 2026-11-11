@@ -189,8 +189,7 @@ internal sealed class OperationExceptionClassifier(
                 || semanticModel is not { } model
                 || CanDeconstructionThrow(model.GetDeconstructionInfo(syntax)),
             // The non-null branch conversion is metadata, not an operation child.
-            ICoalesceOperation coalesce => coalesce.ValueConversion.IsUserDefined
-                || CanTupleConversionThrow(coalesce.Value.Type, coalesce.Type, coalesce),
+            ICoalesceOperation coalesce => CanCoalesceConversionThrow(coalesce),
             // Tuple comparisons hide their element operators from the operation children.
             ITupleBinaryOperation comparison => CanTupleComparisonThrow(comparison),
             IConversionOperation conversion => CanConversionThrow(conversion),
@@ -352,6 +351,10 @@ internal sealed class OperationExceptionClassifier(
             && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
                 || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric
                     && !IsNullableTargetConversion(conversion) && !IsSafeEnumerationConversion(conversion))));
+
+    private bool CanCoalesceConversionThrow(ICoalesceOperation coalesce) =>
+        coalesce.ValueConversion.IsUserDefined
+        || CanTupleConversionThrow(coalesce.Value.Type, coalesce.Type, coalesce);
 
     // Tuple-valued operands hide their element conversions from the operation children.
     private bool CanTupleConversionThrow(IConversionOperation conversion) =>
