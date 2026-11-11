@@ -839,9 +839,17 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("ThrowingInt", "int", false, true, "?")]
     [DataRow("ThrowingInt", "int", true, false, "?")]
     [DataRow("int", "long", false, false, "?")]
+    [DataRow("int?", "int", false, true)]
+    [DataRow("int?", "int", true, false)]
+    [DataRow("int?", "long?", false, false)]
+    [DataRow("int?", "int?", false, false)]
+    [DataRow("long", "int", false, false)]
+    [DataRow("(int?, int)", "(int, int)", false, true)]
+    [DataRow("(int?, int)", "(int, int)", true, false)]
     public async Task Tracks_Hidden_Tuple_Element_Conversions(string sourceType, string targetType, bool rebindInHandler, bool reports, string nullable = "")
     {
         var source = ModuleSource($$"""
+            #pragma warning disable CS8619 // These cases intentionally unwrap nullable tuple elements.
             protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
                 HelperAsync(cancellationToken);
 

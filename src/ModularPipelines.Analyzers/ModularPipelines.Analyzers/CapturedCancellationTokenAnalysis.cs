@@ -641,6 +641,12 @@ internal static class CapturedCancellationTokenAnalysis
 
         private bool TupleConversionCanThrow(ITypeSymbol? source, ITypeSymbol? destination)
         {
+            if (source is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T }
+                && destination is { IsValueType: true, OriginalDefinition.SpecialType: not SpecialType.System_Nullable_T })
+            {
+                return true;
+            }
+
             source = UnwrapNullable(source);
             destination = UnwrapNullable(destination);
             if (source is not INamedTypeSymbol { IsTupleType: true } sourceTuple
