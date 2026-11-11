@@ -88,6 +88,7 @@ internal sealed class OperationExceptionClassifier(
     {
         // A store checks the array after evaluating its assigned value.
         IAssignmentOperation { Target: IArrayElementReferenceOperation array } => array,
+        IIncrementOrDecrementOperation { Target: IArrayElementReferenceOperation array } => array,
         IArrayElementReferenceOperation array when !IsSimpleAssignmentTarget(array) => array,
         _ => null,
     };
@@ -99,32 +100,43 @@ internal sealed class OperationExceptionClassifier(
             : IsWritableArrayAccess(operation))
         && hasExactArrayType?.Invoke(array.ArrayReference) != true;
 
-    private bool IsWritableArrayAccess(IOperation operation) => operation switch
+    private bool IsWritableArrayAccess(IOperation operation) => GetRefConditionalContext(operation) switch
     {
         // Source operations retain ref-local initializers; the CFG lowers these to ref assignments.
-        IArrayElementReferenceOperation
+        IOperation
         {
             Parent: IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } }
         } => true,
         // Taking a writable ref return checks covariance even before a value is stored.
         // ReturnsByRef excludes ref readonly returns, whose element reference cannot be written.
-        IArrayElementReferenceOperation { Parent: IReturnOperation } =>
+        IOperation { Parent: IReturnOperation } =>
             (semanticModel ?? operation.SemanticModel)?.GetEnclosingSymbol(operation.Syntax.SpanStart)
                 is IMethodSymbol { ReturnsByRef: true },
         ICompoundAssignmentOperation { Target: IArrayElementReferenceOperation } => true,
+        IIncrementOrDecrementOperation { Target: IArrayElementReferenceOperation } => true,
         IAssignmentOperation assignment =>
             !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
-        IArrayElementReferenceOperation
+        IOperation
         {
             Parent: ISimpleAssignmentOperation
             { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
         } => true,
-        IArrayElementReferenceOperation
+        IOperation
         {
             Parent: IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
         } => true,
         _ => false,
     };
+
+    private static IOperation GetRefConditionalContext(IOperation operation)
+    {
+        while (operation.Parent is IConditionalOperation { IsRef: true } conditional)
+        {
+            operation = conditional;
+        }
+
+        return operation;
+    }
 
     private static IEnumerable<TextSpan> GetCollectionCallSpans(IOperation root)
     {
@@ -325,6 +337,12 @@ internal sealed class OperationExceptionClassifier(
     {
         foreach (var syntax in operation.Syntax.Ancestors())
         {
+            // Overflow context does not cross function-body boundaries.
+            if (syntax is AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax or MemberDeclarationSyntax)
+            {
+                break;
+            }
+
             if (syntax is CheckedExpressionSyntax expression)
             {
                 return expression.Keyword.IsKind(SyntaxKind.CheckedKeyword);

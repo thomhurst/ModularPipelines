@@ -323,6 +323,8 @@ public class OperationExceptionClassifierTests
     [DataRow("a[0] = value;", true)]
     [DataRow("Change(ref a[0]);", true)]
     [DataRow("ref object alias = ref a[0];", true)]
+    [DataRow("ref object alias = ref (a.Length > 0 ? ref a[0] : ref a[1]);", true)]
+    [DataRow("ref readonly object alias = ref (a.Length > 0 ? ref a[0] : ref a[1]);", false)]
     [DataRow("var item = a[0];", false)]
     public void ArrayMismatchRequiresWritableAccess(string statement, bool mismatch)
     {
@@ -347,6 +349,58 @@ public class OperationExceptionClassifierTests
         Assert.AreEqual(mismatch, new OperationExceptionClassifier().Classify(array).Contains("System.ArrayTypeMismatchException"));
         Assert.DoesNotContain("System.ArrayTypeMismatchException",
             new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+    }
+
+    [TestMethod]
+    [DataRow("ref", true)]
+    [DataRow("ref readonly", false)]
+    public void RefConditionalArrayReturnsPreserveWritableContext(string modifier, bool mismatch)
+    {
+        var (root, classifier) = Compile($$"""
+            class C {
+                {{modifier}} object M(bool flag, object[] a, object[] b)
+                    => ref (flag ? ref a[0] : ref b[0]);
+            }
+            """);
+        foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
+        {
+            Assert.AreEqual(mismatch, classifier.Classify(array).Contains("System.ArrayTypeMismatchException"));
+            Assert.DoesNotContain("System.ArrayTypeMismatchException",
+                new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+        }
+    }
+
+    [TestMethod]
+    [DataRow("a[0] += value;")]
+    [DataRow("a[0]++;")]
+    public void OverloadedArrayStoresPreserveMismatchAndOperatorExceptions(string statement)
+    {
+        var (root, classifier) = Compile($$"""
+            class V {
+                public static V operator +(V left, V right) => left;
+                public static V operator ++(V value) => value;
+            }
+            class C { void M(V[] a, V value) { {{statement}} } }
+            """);
+        var store = root.DescendantsAndSelf().Single(operation => operation is
+            ICompoundAssignmentOperation or IIncrementOrDecrementOperation);
+        Assert.Contains("System.ArrayTypeMismatchException", classifier.Classify(store));
+        Assert.Contains((string?) null, classifier.Classify(store));
+    }
+
+    [TestMethod]
+    [DataRow("return (int)x;", true, true)]
+    [DataRow("checked { return (int)x; }", false, true)]
+    [DataRow("unchecked { return (int)x; }", true, false)]
+    [DataRow("checked { return unchecked((int)x); }", false, false)]
+    [DataRow("checked { System.Func<E, int> convert = value => (int)value; return convert(x); }", false, false)]
+    [DataRow("checked { int Convert(E value) => (int)value; return Convert(x); }", false, false)]
+    public void EnumConversionsUseCompilationAndLocalOverflowContext(string body, bool checkOverflow, bool throws)
+    {
+        var (root, classifier) = Compile($"enum E : long {{ A }} class C {{ int M(E x) {{ {body} }} }}",
+            checkOverflow: checkOverflow);
+        var conversion = root.DescendantsAndSelf().OfType<IConversionOperation>().Single();
+        Assert.AreEqual(throws, !classifier.Classify(conversion).IsEmpty);
     }
 
     [TestMethod]
@@ -439,13 +493,14 @@ public class OperationExceptionClassifierTests
     }
 
     private static (IOperation Root, OperationExceptionClassifier Classifier) Compile(string source,
-        LanguageVersion version = LanguageVersion.Preview, ImmutableArray<MetadataReference> references = default)
+        LanguageVersion version = LanguageVersion.Preview, ImmutableArray<MetadataReference> references = default,
+        bool checkOverflow = false)
     {
         var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(version));
         var paths = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);
         var compilation = CSharpCompilation.Create("ClassifierTests", [tree],
             references.IsDefault ? paths.Select(path => MetadataReference.CreateFromFile(path)) : references,
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, checkOverflow: checkOverflow));
         var errors = compilation.GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
         Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(e => e.ToString())));
         var model = compilation.GetSemanticModel(tree);
