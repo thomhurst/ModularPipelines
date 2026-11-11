@@ -6032,6 +6032,7 @@ internal static class ModuleAuthoringAnalysis
             operation.Syntax.SpanStart > source.Syntax.SpanStart
             && (ReferenceEquals(source, read)
                 || operation.Syntax.SpanStart < read.Syntax.SpanStart
+                || HasCancellationBackJump(operation, read)
                 || (SharesContainingLoop(operation, read)
                     && !(IsDefiniteCancellationPredecessor(source, read)
                         && ResetsWithinSharedLoop(source, operation, read))))
@@ -6040,19 +6041,46 @@ internal static class ModuleAuthoringAnalysis
             && !HasAncestor(read, operation)
             && CanCancellationWriteReachRead(operation, read)
             && !IsCancellationStorageSelfStore(operation)
-            && operation switch
-            {
-                ISimpleAssignmentOperation { IsRef: false, Target: ILocalReferenceOperation { Local.RefKind: not RefKind.None } target }
-                    => MayShareCancellationStorage(target, read, preserveParameters: true),
-                ISimpleAssignmentOperation { IsRef: false, Target: IParameterReferenceOperation { Parameter.RefKind: not RefKind.None } target }
-                    => MayShareCancellationStorage(target, read, preserveParameters: true),
-                IDeconstructionAssignmentOperation assignment
-                    => GetCancellationStorageTargets(assignment.Target)
-                        .Any(target => MayShareCancellationStorage(target, read, preserveParameters: true)),
-                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument
-                    => MayShareCancellationStorage(argument.Value, read, preserveParameters: true),
-                _ => false,
-            });
+            && MayMutateCancellationStorage(operation, read));
+    }
+
+    private static bool MayMutateCancellationStorage(IOperation operation, IOperation read)
+    {
+        return operation switch
+        {
+            ISimpleAssignmentOperation { IsRef: false, Target: ILocalReferenceOperation { Local.RefKind: not RefKind.None } target }
+                => MayShareCancellationStorage(target, read, preserveParameters: true),
+            ISimpleAssignmentOperation { IsRef: false, Target: IParameterReferenceOperation { Parameter.RefKind: not RefKind.None } target }
+                => MayShareCancellationStorage(target, read, preserveParameters: true),
+            IDeconstructionAssignmentOperation assignment
+                => GetCancellationTupleMutationTargets(assignment.Target, assignment.Value)
+                    .Any(target => MayShareCancellationStorage(target, read, preserveParameters: true)),
+            IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument
+                => MayShareCancellationStorage(argument.Value, read, preserveParameters: true),
+            _ => false,
+        };
+    }
+
+    private static IEnumerable<IOperation> GetCancellationTupleMutationTargets(IOperation target, IOperation value)
+    {
+        if (value is IConversionOperation conversion)
+        {
+            return GetCancellationTupleMutationTargets(target, conversion.Operand);
+        }
+
+        if (value is IParenthesizedOperation parenthesized)
+        {
+            return GetCancellationTupleMutationTargets(target, parenthesized.Operand);
+        }
+
+        if (target is ITupleOperation targets && value is ITupleOperation values
+            && targets.Elements.Length == values.Elements.Length)
+        {
+            return targets.Elements.SelectMany((element, index) =>
+                GetCancellationTupleMutationTargets(element, values.Elements[index]));
+        }
+
+        return IsCancellationStorageSelfStore(target, value) ? [] : GetCancellationStorageTargets(target);
     }
 
     private static bool IsCancellationStorageSelfStore(IOperation operation)
@@ -6062,8 +6090,13 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var target = GetCancellationStorage(assignment.Target, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
-        var value = GetCancellationStorage(assignment.Value, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        return IsCancellationStorageSelfStore(assignment.Target, assignment.Value);
+    }
+
+    private static bool IsCancellationStorageSelfStore(IOperation targetOperation, IOperation valueOperation)
+    {
+        var target = GetCancellationStorage(targetOperation, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var value = GetCancellationStorage(valueOperation, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
         return target is not null && SymbolEqualityComparer.Default.Equals(target, value);
     }
 
@@ -6194,7 +6227,8 @@ internal static class ModuleAuthoringAnalysis
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .ToArray();
         var precedingRebindings = rebindings
-            .Where(assignment => assignment.Syntax.SpanStart < value.Syntax.SpanStart)
+            .Where(assignment => assignment.Syntax.SpanStart < value.Syntax.SpanStart
+                && CanCancellationWriteReachRead(assignment, value))
             .ToArray();
 
         if (HasCarriedCancellationRebinding(rebindings, precedingRebindings, value))
