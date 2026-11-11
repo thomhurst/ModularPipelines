@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
 using ModularPipelines.Analyzers.Extensions;
 
 namespace ModularPipelines.Analyzers;
@@ -69,9 +70,18 @@ internal static class ModuleAuthoringAnalysis
         context.RegisterCompilationStartAction(StartAsyncVoidAnalysis);
         context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Invocation);
         context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
-        context.RegisterOperationAction(AnalyzeAwait, OperationKind.Await);
-        context.RegisterOperationAction(AnalyzeForEachLoop, OperationKind.Loop);
-        context.RegisterOperationAction(AnalyzeReturn, OperationKind.Return);
+        context.RegisterCompilationStartAction(compilationContext =>
+        {
+            // Independent await/return traversals can reach the same invocation.
+            // Keep reporting state per analyzer run, including concurrent callbacks.
+            var reportedInvocations = new ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte>();
+            compilationContext.RegisterOperationAction(
+                operationContext => AnalyzeAwait(operationContext, reportedInvocations), OperationKind.Await);
+            compilationContext.RegisterOperationAction(
+                operationContext => AnalyzeForEachLoop(operationContext, reportedInvocations), OperationKind.Loop);
+            compilationContext.RegisterOperationAction(
+                operationContext => AnalyzeReturn(operationContext, reportedInvocations), OperationKind.Return);
+        });
     }
 
     public static void InitializeDuplicateDependencyAnalysis(AnalysisContext context)
@@ -497,7 +507,9 @@ internal static class ModuleAuthoringAnalysis
                == "System.Threading.Tasks.ValueTask<TResult>";
     }
 
-    private static void AnalyzeAwait(OperationAnalysisContext context)
+    private static void AnalyzeAwait(
+        OperationAnalysisContext context,
+        ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte> reportedInvocations)
     {
         if (GetCancellationExecutionMethod(context) is not { } executionMethod
             || !IsInReachableBranch(context.Operation)
@@ -509,10 +521,13 @@ internal static class ModuleAuthoringAnalysis
         AnalyzeCancellationInvocations(
             context,
             executionMethod,
-            GetAwaitedInvocations(awaitOperation.Operation));
+            GetAwaitedInvocations(awaitOperation.Operation),
+            reportedInvocations);
     }
 
-    private static void AnalyzeForEachLoop(OperationAnalysisContext context)
+    private static void AnalyzeForEachLoop(
+        OperationAnalysisContext context,
+        ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte> reportedInvocations)
     {
         if (GetCancellationExecutionMethod(context) is not { } executionMethod
             || !IsInReachableBranch(context.Operation)
@@ -524,10 +539,13 @@ internal static class ModuleAuthoringAnalysis
         AnalyzeCancellationInvocations(
             context,
             executionMethod,
-            GetAwaitedInvocations(loop.Collection));
+            GetAwaitedInvocations(loop.Collection),
+            reportedInvocations);
     }
 
-    private static void AnalyzeReturn(OperationAnalysisContext context)
+    private static void AnalyzeReturn(
+        OperationAnalysisContext context,
+        ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte> reportedInvocations)
     {
         if (context.ContainingSymbol is not IMethodSymbol method
             || !IsInReachableBranch(context.Operation)
@@ -543,13 +561,15 @@ internal static class ModuleAuthoringAnalysis
         AnalyzeCancellationInvocations(
             context,
             executionMethod,
-            GetAwaitedInvocations(returnedValue));
+            GetAwaitedInvocations(returnedValue),
+            reportedInvocations);
     }
 
     private static void AnalyzeCancellationInvocations(
         OperationAnalysisContext context,
         IMethodSymbol executeMethod,
-        IEnumerable<IInvocationOperation> invocations)
+        IEnumerable<IInvocationOperation> invocations,
+        ConcurrentDictionary<(SyntaxTree Tree, TextSpan Span), byte> reportedInvocations)
     {
         var cancellationTokens = GetFlowingCancellationTokens(
             context,
@@ -574,6 +594,13 @@ internal static class ModuleAuthoringAnalysis
                     invocation.TargetMethod,
                     context.Compilation,
                     executeMethod.ContainingType))
+            {
+                continue;
+            }
+
+            // Only record an invocation after establishing that it is a finding;
+            // a traversal with a valid token must not suppress a later warning.
+            if (!reportedInvocations.TryAdd((invocation.Syntax.SyntaxTree, invocation.Syntax.Span), 0))
             {
                 continue;
             }

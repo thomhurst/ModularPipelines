@@ -23,10 +23,7 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
             }
             """);
 
-        // The enclosing return and lambda return both report this call; see #7418.
         await VerifyCS.VerifyAnalyzerAsync(source,
-            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(0).WithArguments("Delay"),
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
                 .WithLocation(0).WithArguments("Delay"));
     }
@@ -212,6 +209,34 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
 
         Assert.AreNotEqual(original, source);
         await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("execute", false)]
+    [DataRow("lifecycle", false)]
+    [DataRow("configuration", false)]
+    [DataRow("execute", true)]
+    [DataRow("lifecycle", true)]
+    [DataRow("configuration", true)]
+    public async Task Reports_Once_Per_Returned_Local_Function_Invocation(string root, bool chained)
+    {
+        var source = ModuleSource(root, $$"""
+            private static Task HelperAsync(CancellationToken token)
+            {
+                return {{(chained ? "ForwardAsync(token)" : "RunAsync(token)")}};
+                {{(chained ? "Task ForwardAsync(CancellationToken token) => RunAsync(token);" : "")}}
+                Task RunAsync(CancellationToken localToken) => Task.WhenAll(
+                    {|#0:Task.Run(() => { }, CancellationToken.None)|},
+                    {|#1:Task.Delay(1, CancellationToken.None)|},
+                    Task.Delay(1, localToken));
+            }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Run"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("Delay"));
     }
 
     private static string ModuleSource(string root, string helper)
