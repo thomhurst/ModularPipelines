@@ -766,6 +766,7 @@ internal static class CapturedCancellationTokenAnalysis
         or IUnaryOperation { IsChecked: true }
         or IUnaryOperation { Type.TypeKind: TypeKind.Dynamic }
         or IIsPatternOperation { Pattern: IRecursivePatternOperation { DeconstructSymbol: not null } }
+        || (operation is IConversionOperation conversion && conversion.GetConversion().IsUnboxing)
         || (operation is IAssignmentOperation assignment && TargetCanThrow(assignment.Target))
         || ArithmeticCanThrow(operation);
 
