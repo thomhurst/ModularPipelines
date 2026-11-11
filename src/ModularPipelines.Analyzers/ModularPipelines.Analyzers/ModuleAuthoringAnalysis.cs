@@ -5606,17 +5606,9 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)
     {
-        // Returns still execute finally blocks, and implicit exceptions can reach catch handlers.
-        for (var current = assignment.Parent; current is not null; current = current.Parent)
+        if (HasReachingReturnCleanup(assignment, reference))
         {
-            if (current is ITryOperation tryOperation
-                && tryOperation.Finally is { } finallyBlock
-                && (HasAncestor(reference, finallyBlock)
-                    || (CanThrowAfterAssignment(finallyBlock, assignment)
-                        && CanExceptionBypassOverwrite(assignment, reference))))
-            {
-                return false;
-            }
+            return false;
         }
 
         for (var current = assignment.Parent; current is not null; current = current.Parent)
@@ -5633,6 +5625,37 @@ internal static class ModuleAuthoringAnalysis
             {
                 return !CanThrowAfterAssignment(current, assignment)
                     || !CanExceptionBypassOverwrite(assignment, reference);
+            }
+        }
+
+        return false;
+    }
+
+    private static bool HasReachingReturnCleanup(IOperation assignment, IOperation reference)
+    {
+        // Returning executes explicit finally blocks and implicit disposal before
+        // leaving the callable. Either can throw into a completing catch.
+        for (var current = assignment.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ITryOperation { Finally: { } finallyBlock }
+                && (HasAncestor(reference, finallyBlock)
+                    || (CanThrowAfterAssignment(finallyBlock, assignment)
+                        && CanExceptionBypassOverwrite(finallyBlock, reference))))
+            {
+                return true;
+            }
+
+            if (current is IUsingOperation && CanExceptionBypassOverwrite(current, reference))
+            {
+                return true;
+            }
+
+            if (current is IBlockOperation block
+                && block.Operations.OfType<IUsingDeclarationOperation>().Any(declaration =>
+                    declaration.Syntax.SpanStart <= assignment.Syntax.SpanStart
+                    && CanExceptionBypassOverwrite(declaration, reference)))
+            {
+                return true;
             }
         }
 

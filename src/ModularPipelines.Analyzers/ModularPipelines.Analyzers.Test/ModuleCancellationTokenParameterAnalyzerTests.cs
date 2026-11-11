@@ -184,6 +184,46 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false, "using (var resource = new System.IO.MemoryStream()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(true, "using (var resource = new System.IO.MemoryStream()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(false, "await using (var resource = new System.IO.MemoryStream()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(true, "await using (var resource = new System.IO.MemoryStream()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(false, "using var resource = new System.IO.MemoryStream(); {target} = CancellationToken.None; return;")]
+    [DataRow(true, "using var resource = new System.IO.MemoryStream(); {target} = CancellationToken.None; return;")]
+    [DataRow(false, "await using var resource = new System.IO.MemoryStream(); {target} = CancellationToken.None; return;")]
+    [DataRow(true, "await using var resource = new System.IO.MemoryStream(); {target} = CancellationToken.None; return;")]
+    public async Task Reports_Replaced_Token_When_Returning_Path_Disposal_Can_Throw(bool useLocal, string statements)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"try {{ {statements.Replace("{target}", target)} }} catch (Exception) {{ }}",
+            $"{{|#0:Task.Delay(1, {target})|}}")
+            .Replace("protected override Task OnBeforeExecuteAsync", "protected override async Task OnBeforeExecuteAsync")
+            .Replace($"return {{|#0:Task.Delay(1, {target})|}};", $"await {{|#0:Task.Delay(1, {target})|}};");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "catch (Exception) when (false) { }")]
+    [DataRow(true, "catch (Exception) when (false) { }")]
+    [DataRow(false, "catch (Exception) { return; }")]
+    [DataRow(true, "catch (Exception) { return; }")]
+    public async Task Recognizes_Original_Token_When_Disposal_Cannot_Reach_Call(bool useLocal, string handler)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+            (useLocal ? "var token = cancellationToken; " : "")
+            + $"try {{ if (context != null) {{ using var resource = new System.IO.MemoryStream(); {target} = CancellationToken.None; return; }} }} {handler}",
+            $"Task.Delay(1, {target})")
+            .Replace("protected override Task OnBeforeExecuteAsync", "protected override async Task OnBeforeExecuteAsync")
+            .Replace($"return Task.Delay(1, {target});", $"await Task.Delay(1, {target});");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task Recognizes_Repeated_Conditional_Identity_Assignments(bool useLocal)
