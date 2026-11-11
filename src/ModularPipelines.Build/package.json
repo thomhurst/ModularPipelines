@@ -9,7 +9,7 @@
     "remark-preset-lint-recommended": "^7.0.1"
   },
   "overrides": {
-    "minimatch": "^11.0.7",
+    "minimatch": "^11.0.8",
     "glob": "^14.0.4"
   }
 }
