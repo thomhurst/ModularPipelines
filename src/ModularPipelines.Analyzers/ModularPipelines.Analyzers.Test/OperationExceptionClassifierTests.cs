@@ -577,6 +577,36 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("(V, V)", "(int, int)", "x", true)]
+    [DataRow("(V, V)?", "(int, int)?", "x", true)]
+    [DataRow("(int, int)?", "(long, long)?", "x", false)]
+    [DataRow("((V, V), int)", "((int, int), long)", "x", true)]
+    [DataRow("(int, int)", "(long, long)", "x", false)]
+    [DataRow("(int, int)", "(int, int)", "x", false)]
+    [DataRow("(decimal, int)", "(int, long)", "((int, long))x", true)]
+    public void TupleParameterConversionsInspectElementConversions(string from, string to, string expression, bool throws)
+    {
+        var (root, classifier) = Compile($"class V {{ public static implicit operator int(V value) => throw new System.Exception(); }} class C {{ {to} M({from} x) => {expression}; }}");
+        var result = root.DescendantsAndSelf().SelectMany(operation => classifier.Classify(operation));
+        Assert.AreEqual(throws, result.Any());
+    }
+
+    [TestMethod]
+    [DataRow("object M(object[] a, object value) => a[0] = value;", true)]
+    [DataRow("object M(object[] a, object value) { return a[0] = value; }", true)]
+    [DataRow("System.Func<object, object> M(object[] a) => value => a[0] = value;", true)]
+    [DataRow("object M(object[] a) => a[0] = null;", false)]
+    [DataRow("V M(V[] a, V value) => a[0] += value;", true)]
+    [DataRow("V M(V[] a) => a[0]++;", true)]
+    public void ReturnedArrayStoresPreserveCovarianceChecks(string method, bool mismatch)
+    {
+        var (root, classifier) = Compile($"class V {{ public static V operator +(V x, V y) => x; public static V operator ++(V x) => x; }} class C {{ {method} }}");
+        var store = root.DescendantsAndSelf().Single(operation => operation is IAssignmentOperation or IIncrementOrDecrementOperation);
+        Assert.AreEqual(mismatch, classifier.Classify(store).Contains("System.ArrayTypeMismatchException"));
+        Assert.DoesNotContain("System.ArrayTypeMismatchException", new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(store));
+    }
+
+    [TestMethod]
     public void ImplicitDeconstructElementConversionIsNotAnOperationChild()
     {
         var (root, classifier) = Compile("""

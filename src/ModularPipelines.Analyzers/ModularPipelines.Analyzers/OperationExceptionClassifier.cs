@@ -111,7 +111,7 @@ internal sealed class OperationExceptionClassifier(
         } => true,
         // Taking a writable ref return checks covariance even before a value is stored.
         // ReturnsByRef excludes ref readonly returns, whose element reference cannot be written.
-        IOperation { Parent: IReturnOperation } =>
+        IOperation { Parent: IReturnOperation } when operation is IArrayElementReferenceOperation or IConditionalOperation =>
             (semanticModel ?? operation.SemanticModel)?.GetEnclosingSymbol(operation.Syntax.SpanStart)
                 is IMethodSymbol { ReturnsByRef: true },
         ICompoundAssignmentOperation { Target: IArrayElementReferenceOperation } => true,
@@ -333,10 +333,61 @@ internal sealed class OperationExceptionClassifier(
 
     private bool CanConversionThrow(IConversionOperation conversion) =>
         conversion.IsChecked || conversion.Conversion.IsUserDefined || CanNumericConversionOverflow(conversion)
+        || CanTupleConversionThrow(conversion)
         || (!conversion.IsTryCast && !conversion.Conversion.IsIdentity
             && (conversion.Operand.Type?.TypeKind == TypeKind.Dynamic
                 || (!conversion.Conversion.IsImplicit && !conversion.Conversion.IsNumeric
                     && !IsNullableTargetConversion(conversion) && !IsSafeEnumerationConversion(conversion))));
+
+    // Tuple-valued operands hide their element conversions from the operation children.
+    private bool CanTupleConversionThrow(IConversionOperation conversion) =>
+        GetTupleType(conversion.Operand.Type) is { } source
+        && GetTupleType(conversion.Type) is { } target
+        && CanTupleElementsThrow(source, target,
+            (semanticModel ?? conversion.SemanticModel)?.Compilation as CSharpCompilation);
+
+    private static INamedTypeSymbol? GetTupleType(ITypeSymbol? type) => type switch
+    {
+        INamedTypeSymbol { IsTupleType: true } tuple => tuple,
+        INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable
+            => nullable.TypeArguments[0] is INamedTypeSymbol { IsTupleType: true } tuple ? tuple : null,
+        _ => null,
+    };
+
+    private static bool CanTupleElementsThrow(INamedTypeSymbol source, INamedTypeSymbol target,
+        CSharpCompilation? compilation)
+    {
+        for (var index = 0; index < source.TupleElements.Length; index++)
+        {
+            var from = source.TupleElements[index].Type;
+            var to = target.TupleElements[index].Type;
+            if (SymbolEqualityComparer.Default.Equals(from, to))
+            {
+                continue;
+            }
+
+            if (GetTupleType(from) is { } nestedSource
+                && GetTupleType(to) is { } nestedTarget)
+            {
+                if (CanTupleElementsThrow(nestedSource, nestedTarget, compilation))
+                {
+                    return true;
+                }
+
+                continue;
+            }
+
+            // Built-in implicit conversions preserve values; user code and explicit conversions
+            // can throw (including decimal narrowing, unboxing and nullable unwrapping).
+            if (from.TypeKind == TypeKind.Dynamic || compilation is null
+                || compilation.ClassifyConversion(from, to) is not { IsImplicit: true, IsUserDefined: false })
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private bool IsSafeEnumerationConversion(IConversionOperation conversion) =>
         conversion.GetConversion().IsEnumeration
