@@ -266,10 +266,11 @@ internal sealed class Command(
     {
         var toolOptions = invocation.ToolOptions ?? received.ToolOptions;
         ValidateTimeouts(invocation.ExecutionOptions);
-        var workingDirectory = string.Equals(
+        var usesReceivedWorkingDirectory = string.Equals(
             invocation.WorkingDirectory,
             received.WorkingDirectory,
-            StringComparison.Ordinal)
+            StringComparison.Ordinal);
+        var workingDirectory = usesReceivedWorkingDirectory
             ? invocation.ExecutionOptions.WorkingDirectory
             : invocation.WorkingDirectory;
         var executionOptions = invocation.ExecutionOptions with
@@ -552,8 +553,9 @@ internal sealed class Command(
         {
             cancellationToken.ThrowIfCancellationRequested();
             var prepared = Resolve(invocation);
-            var publicInvocation = ReferenceEquals(invocation, _publicInvocation)
-                                   && _publicSecretVersion == owner._secretProvider.Version
+            var canReusePublicInvocation = ReferenceEquals(invocation, _publicInvocation)
+                                          && _publicSecretVersion == owner._secretProvider.Version;
+            var publicInvocation = canReusePublicInvocation
                 ? invocation
                 : Publish(prepared);
 
