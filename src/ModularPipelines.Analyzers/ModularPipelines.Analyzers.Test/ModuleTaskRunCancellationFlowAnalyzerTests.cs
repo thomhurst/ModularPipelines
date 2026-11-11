@@ -1081,6 +1081,40 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Action action = receiver.Work", false, true)]
+    [DataRow("Action action = receiver.Work", true, false)]
+    [DataRow("Action action = Receiver.StaticWork", false, false)]
+    public async Task Tracks_Method_Group_Creation_Exceptions(string statement, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, null!);
+
+            private static Task HelperAsync(CancellationToken token, Receiver receiver)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { {{statement}}; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class Receiver
+            {
+                public void Work() { }
+                public static void StaticWork() { }
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""

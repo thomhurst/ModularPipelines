@@ -492,7 +492,7 @@ internal static class CapturedCancellationTokenAnalysis
         private bool ClassifiedOperationCanThrow(IOperation operation)
         {
             if (operation is not (ICollectionExpressionOperation or ISpreadOperation
-                or IEventAssignmentOperation or IFieldReferenceOperation
+                or IEventAssignmentOperation or IFieldReferenceOperation or IMethodReferenceOperation
                 or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IFlowCaptureReferenceOperation }
                 or IBinaryOperation or ICompoundAssignmentOperation))
             {
