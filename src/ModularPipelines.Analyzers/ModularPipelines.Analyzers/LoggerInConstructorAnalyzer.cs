@@ -22,14 +22,16 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
     /// <summary>
     /// Logging types from Microsoft.Extensions.Logging that should not be injected directly.
     /// </summary>
-    private static readonly ImmutableArray<string> LoggingTypeMetadataNames = ImmutableArray.Create(
+    private static readonly ImmutableArray<string> LoggingTypeMetadataNames =
+    [
         "Microsoft.Extensions.Logging.ILogger`1",
         "Microsoft.Extensions.Logging.ILogger",
         "Microsoft.Extensions.Logging.ILoggerProvider",
-        "Microsoft.Extensions.Logging.ILoggerFactory");
+        "Microsoft.Extensions.Logging.ILoggerFactory",
+    ];
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)

@@ -21,7 +21,7 @@ public class AwaitThisAnalyzer : DiagnosticAnalyzer
         nameof(Resources.AwaitThisAnalyzerDescription));
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)

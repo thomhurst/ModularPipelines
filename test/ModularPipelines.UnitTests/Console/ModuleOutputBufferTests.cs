@@ -21,6 +21,30 @@ namespace ModularPipelines.UnitTests.Console;
 public class ModuleOutputBufferTests
 {
     [Test]
+    [Arguments(0, 0)]
+    [Arguments(80, 0)]
+    [Arguments(0, 24)]
+    public async Task DirectConsole_UsesFallbackForUnknownTerminalDimensions(int width, int height)
+    {
+        using var profileWriter = new StringWriter();
+        var output = new Mock<IAnsiConsoleOutput>();
+        output.SetupGet(x => x.Writer).Returns(profileWriter);
+        output.SetupGet(x => x.IsTerminal).Returns(true);
+        output.SetupGet(x => x.Width).Returns(width);
+        output.SetupGet(x => x.Height).Returns(height);
+        var configuredConsole = AnsiConsole.Create(new AnsiConsoleSettings { Out = output.Object });
+        using var outputWriter = new StringWriter();
+        var buffer = new ModuleOutputBuffer(
+            typeof(ModuleOutputBufferTests),
+            renderableConsole: configuredConsole);
+
+        var directConsole = buffer.GetDirectConsole(outputWriter);
+
+        await Assert.That(directConsole.Profile.Width).IsEqualTo(width > 0 ? width : 80);
+        await Assert.That(directConsole.Profile.Height).IsEqualTo(height > 0 ? height : 24);
+    }
+
+    [Test]
     public async Task DirectConsole_UsesConfiguredRenderableDimensions()
     {
         using var profileWriter = new StringWriter();

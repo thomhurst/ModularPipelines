@@ -136,7 +136,7 @@ internal class MetricsCollector : IMetricsCollector
                     unknownCount++;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(data.Status), data.Status, "Unsupported module status");
+                    throw new ArgumentOutOfRangeException(nameof(moduleData), data.Status, "Unsupported module status");
             }
         }
 
@@ -203,7 +203,7 @@ internal class MetricsCollector : IMetricsCollector
                 QueuedTime = data.QueuedTime,
                 StartTime = data.StartTime,
                 EndTime = data.EndTime,
-                DependencyWaitTime = CalculateDependencyWaitTime(data),
+                DependencyWaitTime = CalculateDependencyWaitTime(),
                 QueueWaitTime = CalculateQueueWaitTime(data),
                 ExecutionDuration = CalculateExecutionDuration(data),
                 WasSkipped = data.WasSkipped,
@@ -259,7 +259,7 @@ internal class MetricsCollector : IMetricsCollector
         return (peak, busyTicks > 0 ? weightedTicks / busyTicks : 1.0);
     }
 
-    private static TimeSpan? CalculateDependencyWaitTime(ModuleMetricsData data)
+    private static TimeSpan? CalculateDependencyWaitTime()
     {
         // Time from pipeline start to when module became ready
         // This is tracked externally; ReadyTime captures when dependencies were satisfied

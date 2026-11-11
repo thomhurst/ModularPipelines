@@ -424,7 +424,7 @@ internal sealed class SecretObfuscatedRenderable(
 
     private sealed class ValueFormatterSnapshot(int occurrenceCount)
     {
-        private readonly List<string> _values = new(occurrenceCount);
+        private readonly List<string> _values = [with(occurrenceCount)];
         private int _nextIndex;
 
         public string GetNext(Func<string> format)
@@ -507,9 +507,10 @@ internal sealed class SecretObfuscatedRenderable(
 
         foreach (var row in grid.Rows)
         {
-            preparedGrid.AddRow(row.Select(
+            preparedGrid.AddRow([
+                .. row.Select(
                     cell => PrepareChild(cell, secretObfuscator, snapshot))
-                .ToArray());
+            ]);
         }
 
         return preparedGrid;
@@ -929,7 +930,7 @@ internal sealed class SecretObfuscatedRenderable(
 
     private sealed class DeferredSegmentSnapshotRenderable(IRenderable inner) : IRenderable
     {
-        private readonly object _snapshotLock = new();
+        private readonly Lock _snapshotLock = new();
         private RawSnapshot? _snapshot;
 
         public Measurement Measure(RenderOptions options, int maxWidth)
@@ -953,7 +954,7 @@ internal sealed class SecretObfuscatedRenderable(
 
                 _snapshot = new RawSnapshot(
                     inner.Measure(options, maxWidth),
-                    inner.Render(options, maxWidth).ToArray());
+                    [.. inner.Render(options, maxWidth)]);
                 return _snapshot;
             }
         }
@@ -978,7 +979,7 @@ internal sealed class SecretObfuscatedRenderable(
 
     private sealed class AutoSizedTable(Table table, int minimumWidth) : IRenderable
     {
-        private readonly object _renderLock = new();
+        private readonly Lock _renderLock = new();
 
         public Measurement Measure(RenderOptions options, int maxWidth)
         {
@@ -994,7 +995,7 @@ internal sealed class SecretObfuscatedRenderable(
             lock (_renderLock)
             {
                 SetWidth(options, maxWidth);
-                return ((IRenderable) table).Render(options, maxWidth).ToArray();
+                return [.. ((IRenderable) table).Render(options, maxWidth)];
             }
         }
 

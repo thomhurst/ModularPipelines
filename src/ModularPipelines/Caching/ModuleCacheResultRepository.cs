@@ -38,7 +38,7 @@ internal sealed class ModuleCacheResultRepository : IModuleCacheResultRepository
     private readonly ModuleLookup _moduleLookup;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IModuleMetadataRegistry _metadataRegistry;
-    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _serializationOptions = new();
+    private readonly ConditionalWeakTable<Type, JsonSerializerOptions> _serializationOptions = [];
     private readonly ConcurrentDictionary<IModule, ComputedFingerprint> _fingerprints =
         new(ReferenceEqualityComparer.Instance);
 

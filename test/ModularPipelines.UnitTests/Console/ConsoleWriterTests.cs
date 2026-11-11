@@ -896,6 +896,9 @@ public class ConsoleWriterTests
     [Test]
     public async Task Write_PreparesLayoutChildrenBeforeSizingRegions()
     {
+        using var output = new StringWriter();
+        var console = CreateConsole(output);
+        console.Profile.Height = 24;
         var layout = new Layout("root")
             .SplitColumns(
                 new Layout("left", new Text("tiny")).Size(10),
@@ -905,7 +908,7 @@ public class ConsoleWriterTests
             CreateSecretObfuscator("tiny"));
 
         var lines = Segment.SplitLines(renderable.Render(
-                RenderOptions.Create(AnsiConsole.Console),
+                RenderOptions.Create(console),
                 20))
             .Select(static line => string.Concat(line.Select(segment => segment.Text)))
             .ToArray();
@@ -922,6 +925,9 @@ public class ConsoleWriterTests
     [Test]
     public async Task Write_PreservesEmptyLayoutRegions()
     {
+        using var output = new StringWriter();
+        var console = CreateConsole(output);
+        console.Profile.Height = 24;
         var layout = new Layout("root")
             .SplitColumns(
                 new Layout("left", new Text("tiny")).Size(10),
@@ -931,7 +937,7 @@ public class ConsoleWriterTests
             CreateSecretObfuscator(["tiny", "secret"], maskValue: null));
 
         var lines = Segment.SplitLines(renderable.Render(
-                RenderOptions.Create(AnsiConsole.Console),
+                RenderOptions.Create(console),
                 20))
             .Select(static line => string.Concat(line.Select(segment => segment.Text)))
             .ToArray();

@@ -20,7 +20,7 @@ public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
         nameof(Resources.IEnumerableModuleResultAnalyzerDescription));
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)

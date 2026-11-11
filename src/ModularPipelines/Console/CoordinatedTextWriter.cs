@@ -33,27 +33,39 @@ namespace ModularPipelines.Console;
 /// the secret-emission guard and output lock. Locks must not be acquired in reverse order.
 /// </para>
 /// </remarks>
+/// <param name="coordinator">The console coordinator.</param>
+/// <param name="realConsole">The real console to write to when not buffering.</param>
+/// <param name="shouldBuffer">Function that returns whether output should be buffered.</param>
+/// <param name="secretObfuscator">Obfuscator for secrets in output.</param>
+/// <param name="secretProvider">Provider for registered secret patterns.</param>
+/// <param name="isError">Whether this writer represents standard error.</param>
 [ExcludeFromCodeCoverage]
-internal class CoordinatedTextWriter : TextWriter
+internal class CoordinatedTextWriter(
+    IConsoleCoordinator coordinator,
+    TextWriter realConsole,
+    Func<bool> shouldBuffer,
+    ISecretObfuscator secretObfuscator,
+    ISecretProvider secretProvider,
+    bool isError = false) : TextWriter
 {
-    private static readonly ConditionalWeakTable<TextWriter, CoordinatedTextWriter> SynchronizedWriters = new();
+    private static readonly ConditionalWeakTable<TextWriter, CoordinatedTextWriter> SynchronizedWriters = [];
     private static readonly AsyncLocal<ActiveOutputWriter?> ActiveOutputWriterScope = new();
     private static readonly AsyncLocal<bool> DirectWriteScope = new();
 
-    private readonly IConsoleCoordinator _coordinator;
-    private readonly TextWriter _realConsole;
-    private readonly Func<bool> _shouldBuffer;
-    private readonly ISecretObfuscator _secretObfuscator;
-    private readonly ISecretProvider _secretProvider;
-    private readonly bool _isError;
+    private readonly IConsoleCoordinator _coordinator = coordinator;
+    private readonly TextWriter _realConsole = UnwrapSynchronizedWriter(realConsole);
+    private readonly Func<bool> _shouldBuffer = shouldBuffer;
+    private readonly ISecretObfuscator _secretObfuscator = secretObfuscator;
+    private readonly ISecretProvider _secretProvider = secretProvider;
+    private readonly bool _isError = isError;
     private readonly Dictionary<LineBufferKey, LineBufferState> _lineBuffers = [];
     private readonly ConditionalWeakTable<object, Dictionary<LineBufferKey, LineBufferState>>
         _scopedLineBuffers = [];
     private readonly HashSet<LineBufferState> _pendingScopedLineBuffers = [];
-    private readonly object _lineBufferLock = new();
-    private readonly object _customObfuscatorLock = new();
-    private readonly object _deferredOutputLock = new();
-    private readonly object _secretPatternsLock = new();
+    private readonly Lock _lineBufferLock = new();
+    private readonly Lock _customObfuscatorLock = new();
+    private readonly Lock _deferredOutputLock = new();
+    private readonly Lock _secretPatternsLock = new();
     private readonly AsyncLocal<CustomObfuscationScope?> _customObfuscationScope = new();
     private readonly Queue<DeferredInputWrite> _deferredInputWrites = [];
     private readonly Queue<DeferredOutputWrite> _deferredOutputWrites = [];
@@ -63,32 +75,6 @@ internal class CoordinatedTextWriter : TextWriter
     private bool _isDeferredInputDrainActive;
     private SecretPatterns _secretPatterns = new([], null);
     private long _secretPatternsVersion = long.MinValue;
-
-    /// <summary>
-    /// Initialises a new instance of the <see cref="CoordinatedTextWriter"/> class.
-    /// Initializes a new coordinated text writer.
-    /// </summary>
-    /// <param name="coordinator">The console coordinator.</param>
-    /// <param name="realConsole">The real console to write to when not buffering.</param>
-    /// <param name="shouldBuffer">Function that returns whether output should be buffered.</param>
-    /// <param name="secretObfuscator">Obfuscator for secrets in output.</param>
-    /// <param name="secretProvider">Provider for registered secret patterns.</param>
-    /// <param name="isError">Whether this writer represents standard error.</param>
-    public CoordinatedTextWriter(
-        IConsoleCoordinator coordinator,
-        TextWriter realConsole,
-        Func<bool> shouldBuffer,
-        ISecretObfuscator secretObfuscator,
-        ISecretProvider secretProvider,
-        bool isError = false)
-    {
-        _coordinator = coordinator;
-        _realConsole = UnwrapSynchronizedWriter(realConsole);
-        _shouldBuffer = shouldBuffer;
-        _secretObfuscator = secretObfuscator;
-        _secretProvider = secretProvider;
-        _isError = isError;
-    }
 
     /// <inheritdoc />
     public override Encoding Encoding => _realConsole.Encoding;
@@ -159,7 +145,7 @@ internal class CoordinatedTextWriter : TextWriter
     /// <inheritdoc />
     public override void Write(char value)
     {
-        if (TryDeferInputWrite(stackalloc char[] { value }, appendNewLine: false))
+        if (TryDeferInputWrite([value], appendNewLine: false))
         {
             return;
         }
@@ -168,7 +154,7 @@ internal class CoordinatedTextWriter : TextWriter
         {
             WriteSynchronized(
                 GetLineBufferState(),
-                stackalloc char[] { value },
+                [value],
                 appendNewLine: false);
         }
         finally
@@ -716,9 +702,9 @@ internal class CoordinatedTextWriter : TextWriter
         return false;
     }
 
-    private int GetPotentialPatternPrefixLength(StringBuilder input, IReadOnlyList<string> patterns)
+    private int GetPotentialPatternPrefixLength(StringBuilder input, string[] patterns)
     {
-        if (input.Length == 0 || patterns.Count == 0)
+        if (input.Length == 0 || patterns.Length == 0)
         {
             return 0;
         }
@@ -1003,7 +989,7 @@ internal class CoordinatedTextWriter : TextWriter
                     return;
                 }
 
-                pending = _deferredOutputWrites.ToArray();
+                pending = [.. _deferredOutputWrites];
                 _deferredOutputWrites.Clear();
             }
 
@@ -1410,9 +1396,10 @@ internal class CoordinatedTextWriter : TextWriter
     {
         lock (_lineBufferLock)
         {
-            return _lineBuffers.Values
-                .Concat(_pendingScopedLineBuffers)
-                .ToArray();
+            return [
+                .. _lineBuffers.Values,
+                .. _pendingScopedLineBuffers
+            ];
         }
     }
 

@@ -28,7 +28,7 @@ public sealed class CliPropertyAttributeAnalyzer : DiagnosticAnalyzer
         NegatedFlagTypeDiagnosticId, "NegatedFlagInvalidTypeTitle", "NegatedFlagInvalidTypeMessageFormat", "NegatedFlagInvalidTypeDescription");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create(InvalidFlagTypeRule, BooleanOptionRule, MultipleAttributesRule, NegatedFlagTypeRule);
+        [InvalidFlagTypeRule, BooleanOptionRule, MultipleAttributesRule, NegatedFlagTypeRule];
 
     public override void Initialize(AnalysisContext context)
     {

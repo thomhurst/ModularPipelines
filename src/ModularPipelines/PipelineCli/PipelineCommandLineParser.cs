@@ -49,8 +49,8 @@ internal static class PipelineCommandLineParser
         RerunFailedOption,
     ];
 
-    private static readonly IReadOnlyDictionary<string, PipelineCommand> CommandOptions =
-        new Dictionary<string, PipelineCommand>(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, PipelineCommand> CommandOptions =
+        new(StringComparer.OrdinalIgnoreCase)
         {
             [HelpOption] = PipelineCommand.Help,
             [ShortHelpOption] = PipelineCommand.Help,
@@ -323,7 +323,7 @@ internal static class PipelineCommandLineParser
         List<string> destination)
     {
         var argument = arguments[index];
-        string? value = null;
+        string value;
         if (argument.Equals(option, StringComparison.OrdinalIgnoreCase))
         {
             if (++index >= arguments.Count || arguments[index].StartsWith("--", StringComparison.Ordinal))
@@ -400,7 +400,7 @@ internal static class PipelineCommandLineParser
     }
 
     private static IReadOnlyList<string> Distinct(IEnumerable<string> values) =>
-        values.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        [.. values.Distinct(StringComparer.OrdinalIgnoreCase)];
 
     private static void ThrowForLikelyPipelineOptionTypo(string argument)
     {
