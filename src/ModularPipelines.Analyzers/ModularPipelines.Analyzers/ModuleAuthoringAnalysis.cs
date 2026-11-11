@@ -5561,9 +5561,28 @@ internal static class ModuleAuthoringAnalysis
                 || branchAssignments.Contains(assignment))
             .Where(assignment => !assignments.Any(later =>
                 later.Syntax.SpanStart >= assignment.Syntax.Span.End
+                && !CanReachHandlerBeforeOverwrite(later, reference)
                 && (IsLinearPredecessor(later, assignment)
                     || IsLinearPredecessor(later, reference))))
         ];
+    }
+
+    private static bool CanReachHandlerBeforeOverwrite(IOperation overwrite, IOperation reference)
+    {
+        // An exception can leave a try body before its later store executes.
+        // Neither catch nor finally references can rely on that store killing earlier values.
+        for (var current = overwrite.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ITryOperation tryOperation
+                && HasAncestor(overwrite, tryOperation.Body)
+                && ((tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
+                    || tryOperation.Catches.Any(catchClause => HasAncestor(reference, catchClause))))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)

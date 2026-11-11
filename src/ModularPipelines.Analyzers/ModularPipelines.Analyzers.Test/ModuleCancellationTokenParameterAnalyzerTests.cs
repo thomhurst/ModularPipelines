@@ -275,6 +275,26 @@ public class ModuleCancellationTokenParameterAnalyzerTests
                 .WithLocation(0).WithArguments("Delay"));
     }
 
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Reports_Replaced_Token_When_Exception_Skips_Restoration(bool useLocal, bool useFinally)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var handler = useFinally ? "finally" : "catch (Exception)";
+        var source = Source(
+                (useLocal ? "var token = cancellationToken; " : "")
+                + $"var saved = cancellationToken; try {{ {target} = CancellationToken.None; System.Console.WriteLine(context); {target} = saved; }} {handler} {{ await {{|#0:Task.Delay(1, {target})|}}; }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "return;");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
     private static string Source(string statements, string call) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
         public class BuildModule : Module<List<string>>
