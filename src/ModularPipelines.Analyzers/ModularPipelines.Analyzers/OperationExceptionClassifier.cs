@@ -102,6 +102,8 @@ internal sealed class OperationExceptionClassifier(
 
     private bool IsWritableArrayAccess(IOperation operation) => GetRefConditionalContext(operation) switch
     {
+        IConditionalOperation { IsRef: true, Parent: IIncrementOrDecrementOperation increment } conditional
+            when ReferenceEquals(conditional, increment.Target) => true,
         // Source operations retain ref-local initializers; the CFG lowers these to ref assignments.
         IOperation
         {
@@ -122,7 +124,11 @@ internal sealed class OperationExceptionClassifier(
         IOperation
         {
             Parent: ISimpleAssignmentOperation
-            { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
+            {
+                IsRef: true,
+                Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref }
+                    or IParameterReferenceOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+            }
         } => true,
         IOperation
         {

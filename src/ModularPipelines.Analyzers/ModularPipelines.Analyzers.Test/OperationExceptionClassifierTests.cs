@@ -74,6 +74,27 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("decimal", "int", "+=", false, "System.OverflowException")]
+    [DataRow("decimal?", "int?", "+=", false, "System.OverflowException")]
+    [DataRow("decimal", "int", "%=", false, "System.DivideByZeroException")]
+    [DataRow("byte", "byte", "+=", false, "")]
+    [DataRow("byte", "byte", "+=", true, "System.OverflowException")]
+    [DataRow("sbyte", "sbyte", "/=", false, "System.DivideByZeroException")]
+    [DataRow("sbyte", "sbyte", "/=", true, "System.DivideByZeroException,System.OverflowException")]
+    [DataRow("int", "int", "/=", false, "System.DivideByZeroException,System.OverflowException")]
+    [DataRow("double", "int", "/=", false, "")]
+    [DataRow("float", "float", "*=", true, "")]
+    public void ValidCompoundNumericPromotionsPreserveExceptions(string targetType, string valueType,
+        string operatorToken, bool checkOverflow, string expected)
+    {
+        var (root, classifier) = Compile(
+            $"class C {{ void M(ref {targetType} x, {valueType} y) {{ x {operatorToken} y; }} }}",
+            checkOverflow: checkOverflow);
+        var assignment = root.DescendantsAndSelf().OfType<ICompoundAssignmentOperation>().Single();
+        Assert.AreEqual(expected, string.Join(",", classifier.Classify(assignment).Select(name => name ?? "?")));
+    }
+
+    [TestMethod]
     [DataRow("string", LanguageVersion.CSharp10, false, true, false)]
     [DataRow("object", LanguageVersion.CSharp10, false, true, false)]
     [DataRow("System.IComparable", LanguageVersion.CSharp10, false, true, false)]
@@ -374,6 +395,68 @@ public class OperationExceptionClassifierTests
             class C {
                 {{modifier}} object M(bool flag, object[] a, object[] b)
                     => ref (flag ? ref a[0] : ref b[0]);
+            }
+            """);
+        foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
+        {
+            Assert.AreEqual(mismatch, classifier.Classify(array).Contains("System.ArrayTypeMismatchException"));
+            Assert.DoesNotContain("System.ArrayTypeMismatchException",
+                new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+        }
+    }
+
+    [TestMethod]
+    [DataRow("??= value")]
+    [DataRow("+= (dynamic)value")]
+    public void RefConditionalArrayAssignmentTargetsRequireWritableReferences(string store)
+    {
+        var (root, classifier) = Compile($$"""
+            class C {
+                void M(bool flag, object[] a, object[] b, object value) {
+                    (flag ? ref a[0] : ref b[0]) {{store}};
+                }
+            }
+            """);
+        foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
+        {
+            Assert.Contains("System.ArrayTypeMismatchException", classifier.Classify(array));
+            Assert.DoesNotContain("System.ArrayTypeMismatchException",
+                new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+        }
+    }
+
+    [TestMethod]
+    [DataRow("++")]
+    [DataRow("--")]
+    public void RefConditionalArrayIncrementTargetsRequireWritableReferences(string operatorToken)
+    {
+        var (root, classifier) = Compile($$"""
+            class V {
+                public static V operator ++(V value) => value;
+                public static V operator --(V value) => value;
+            }
+            class C { void M(bool flag, V[] a, V[] b) { (flag ? ref a[0] : ref b[0]){{operatorToken}}; } }
+            """);
+        foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
+        {
+            Assert.Contains("System.ArrayTypeMismatchException", classifier.Classify(array));
+        }
+    }
+
+    [TestMethod]
+    [DataRow("ref", "a[0]", true)]
+    [DataRow("ref", "flag ? ref a[0] : ref a[1]", true)]
+    [DataRow("out", "a[0]", true)]
+    [DataRow("in", "a[0]", false)]
+    [DataRow("ref readonly", "a[0]", false)]
+    public void RefParameterReassignmentPreservesWritableContext(string modifier, string value, bool mismatch)
+    {
+        var (root, classifier) = Compile($$"""
+            class C {
+                void M({{modifier}} object alias, bool flag, object[] a) {
+                    {{(modifier == "out" ? "alias = null;" : "")}}
+                    alias = ref ({{value}});
+                }
             }
             """);
         foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
