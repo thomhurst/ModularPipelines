@@ -5760,13 +5760,13 @@ internal static class ModuleAuthoringAnalysis
         // individual assignment is a linear predecessor of the read.
         return GetRoot(read).DescendantsAndSelf()
             .Where(operation => operation is ISimpleAssignmentOperation or IConditionalOperation or ISwitchOperation
-                or IWhileLoopOperation { ConditionIsTop: false })
+                or IWhileLoopOperation { ConditionIsTop: false } or ITryOperation)
             .Where(operation => !HasAncestor(read, operation))
             .Where(IsInReachableBranch)
             .Where(operation => CanReachCancellationStorageRead(operation, read))
             .Where(operation => ReferenceEquals(GetEnclosingCallable(operation), callable))
             .Where(operation => IsDefiniteCancellationStorageBinding(operation, read))
-            .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol, isRef))
+            .Where(operation => DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
             .OrderByDescending(static operation => operation.Syntax.SpanStart)
             .FirstOrDefault();
     }
@@ -5788,11 +5788,11 @@ internal static class ModuleAuthoringAnalysis
             SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(target), symbol));
     }
 
-    private static bool DefinitelyWritesCancellationStorage(IOperation operation, ISymbol? symbol, bool isRef = false)
+    private static bool DefinitelyWritesCancellationStorage(IOperation operation, ISymbol? symbol, bool isRef = false, IOperation? read = null)
     {
         if (operation is ISwitchOperation switchOperation)
         {
-            return DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef);
+            return DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read);
         }
 
         // Jumps inside a branch can bypass an otherwise unconditional write.
@@ -5805,31 +5805,34 @@ internal static class ModuleAuthoringAnalysis
         {
             ISimpleAssignmentOperation assignment => assignment.IsRef == isRef
                 && CancellationStorageAssignmentTargets(assignment, symbol, isRef),
-            IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol, isRef),
-            IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol, isRef)),
-            IConditionalOperation conditional => DefinitelyWritesCancellationStorageBranches(conditional, symbol, isRef),
-            IWhileLoopOperation { ConditionIsTop: false } loop => DefinitelyWritesCancellationStorage(loop.Body, symbol, isRef),
+            IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol, isRef, read),
+            IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol, isRef, read)),
+            IConditionalOperation conditional => DefinitelyWritesCancellationStorageBranches(conditional, symbol, isRef, read),
+            IWhileLoopOperation { ConditionIsTop: false } loop => DefinitelyWritesCancellationStorage(loop.Body, symbol, isRef, read),
+            ITryOperation attempt => DefinitelyWritesCancellationStorageTry(attempt, symbol, isRef, read),
             _ => false,
         };
     }
 
     private static bool DefinitelyWritesCancellationStorageSwitch(
-        ISwitchOperation operation, ISymbol? symbol, bool isRef)
+        ISwitchOperation operation, ISymbol? symbol, bool isRef, IOperation? read)
     {
         // A switch break is harmless after a write; goto can bypass that write.
         return operation.Cases.Any(@case => @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation))
             && !operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
                 branch.BranchKind != BranchKind.Break
                 || !SymbolEqualityComparer.Default.Equals(branch.Target, operation.ExitLabel))
-            && operation.Cases.All(@case => CancellationStorageSequenceDefinitelyWrites(@case.Body, symbol, isRef));
+            && operation.Cases.All(@case => CancellationStorageSequenceDefinitelyWrites(@case.Body, symbol, isRef, read)
+                || (SwitchCaseCannotReachFollowingOperation(@case)
+                    && !CanReachReadThroughCaughtCancellationStorageThrow(@case, read ?? GetRoot(@case))));
     }
 
     private static bool CancellationStorageSequenceDefinitelyWrites(
-        IEnumerable<IOperation> operations, ISymbol? symbol, bool isRef)
+        IEnumerable<IOperation> operations, ISymbol? symbol, bool isRef, IOperation? read)
     {
         foreach (var operation in operations)
         {
-            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef))
+            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
             {
                 return true;
             }
@@ -5844,17 +5847,28 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool DefinitelyWritesCancellationStorageBranches(
-        IConditionalOperation conditional, ISymbol? symbol, bool isRef)
+        IConditionalOperation conditional, ISymbol? symbol, bool isRef, IOperation? read)
     {
         if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
         {
             return (condition ? conditional.WhenTrue : conditional.WhenFalse) is { } selected
-                && DefinitelyWritesCancellationStorage(selected, symbol, isRef);
+                && DefinitelyWritesCancellationStorage(selected, symbol, isRef, read);
         }
 
         return conditional.WhenFalse is { } whenFalse
-            && DefinitelyWritesCancellationStorage(conditional.WhenTrue, symbol, isRef)
-            && DefinitelyWritesCancellationStorage(whenFalse, symbol, isRef);
+            && DefinitelyWritesCancellationStorage(conditional.WhenTrue, symbol, isRef, read)
+            && DefinitelyWritesCancellationStorage(whenFalse, symbol, isRef, read);
+    }
+
+    private static bool DefinitelyWritesCancellationStorageTry(
+        ITryOperation attempt, ISymbol? symbol, bool isRef, IOperation? read)
+    {
+        return (attempt.Finally is { } finallyBlock
+                && DefinitelyWritesCancellationStorage(finallyBlock, symbol, isRef, read))
+            || (DefinitelyWritesCancellationStorage(attempt.Body, symbol, isRef, read)
+                && attempt.Catches.All(handler => DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef, read)
+                    || (AlwaysExitsCallable(handler.Handler)
+                        && !CanReachReadThroughCaughtCancellationStorageThrow(handler.Handler, read ?? GetRoot(handler)))));
     }
 
     private static bool IsOverwrittenCancellationStorageWrite(
@@ -5943,9 +5957,15 @@ internal static class ModuleAuthoringAnalysis
         var classifier = new OperationExceptionClassifier(write.SemanticModel);
         for (var current = write; current.Parent is { } parent; current = parent)
         {
-            if (parent is IBlockOperation block)
+            var sequence = parent switch
             {
-                foreach (var next in block.Operations.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+                IBlockOperation block => block.Operations,
+                ISwitchCaseOperation @case => @case.Body,
+                _ => default,
+            };
+            if (!sequence.IsDefault)
+            {
+                foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
                 {
                     if (CancellationStorageOperationCanThrowBeforeOverwrite(next, symbol, isRef, classifier, out var overwritten))
                     {
@@ -5959,6 +5979,15 @@ internal static class ModuleAuthoringAnalysis
                 }
             }
 
+            // Leaving a loop body evaluates its condition and iteration steps
+            // before a later statement can overwrite the storage.
+            if (parent is ILoopOperation loop && ReferenceEquals(current, loop.Body)
+                && CanRepeatCancellationStorageLoop(loop)
+                && CancellationStorageLoopExitCanThrow(loop, classifier))
+            {
+                return true;
+            }
+
             if (ReferenceEquals(parent, body))
             {
                 break;
@@ -5966,6 +5995,21 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool CancellationStorageLoopExitCanThrow(
+        ILoopOperation loop, OperationExceptionClassifier classifier)
+    {
+        var operations = loop switch
+        {
+            IWhileLoopOperation { Condition: { } condition } => (IEnumerable<IOperation>) [condition],
+            IForLoopOperation forLoop => forLoop.Condition is { } condition
+                ? forLoop.AtLoopBottom.Concat([condition])
+                : forLoop.AtLoopBottom,
+            _ => [],
+        };
+        return operations.SelectMany(static operation => operation.DescendantsAndSelf())
+            .Any(operation => operation is IThrowOperation || !classifier.Classify(operation).IsEmpty);
     }
 
     private static bool CancellationStorageOperationCanThrowBeforeOverwrite(
@@ -5985,7 +6029,7 @@ internal static class ModuleAuthoringAnalysis
         overwritten = DefinitelyWritesCancellationStorage(operation, symbol, isRef);
         return operation.DescendantsAndSelf().Any(child =>
             ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(operation))
-            && !classifier.Classify(child).IsEmpty);
+            && (child is IThrowOperation || !classifier.Classify(child).IsEmpty));
     }
 
     private static bool CancellationStorageSequenceCanThrowBeforeOverwrite(
@@ -6032,6 +6076,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanRepeatCancellationStorageLoop(ILoopOperation loop)
     {
+        if ((loop is IWhileLoopOperation { Condition.ConstantValue: { HasValue: true, Value: bool condition } } whileLoop
+                && condition == whileLoop.ConditionIsUntil)
+            || loop is IForLoopOperation { Condition.ConstantValue: { HasValue: true, Value: false } })
+        {
+            return false;
+        }
+
         var flow = loop.SemanticModel?.AnalyzeControlFlow(loop.Body.Syntax);
         return flow?.Succeeded != true || flow.EndPointIsReachable
             || loop.Body.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
