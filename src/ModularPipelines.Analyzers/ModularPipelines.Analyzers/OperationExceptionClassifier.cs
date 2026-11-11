@@ -434,7 +434,7 @@ internal sealed class OperationExceptionClassifier(
         && !IsInCheckedContext(conversion);
 
     // Roslyn does not set IConversionOperation.IsChecked for every enumeration conversion.
-    private bool IsInCheckedContext(IOperation operation)
+    internal bool IsInCheckedContext(IOperation operation)
     {
         foreach (var syntax in operation.Syntax.Ancestors())
         {

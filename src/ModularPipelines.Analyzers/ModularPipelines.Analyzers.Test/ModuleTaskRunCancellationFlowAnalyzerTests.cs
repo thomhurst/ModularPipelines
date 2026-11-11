@@ -858,8 +858,21 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("dynamic", "dynamic", false, false)]
     [DataRow("(int?, int)", "(int, int)", false, true)]
     [DataRow("(int?, int)", "(int, int)", true, false)]
-    public async Task Tracks_Hidden_Tuple_Element_Conversions(string sourceType, string targetType, bool rebindInHandler, bool reports, string nullable = "")
+    [DataRow("long", "int", false, true, "", true)]
+    [DataRow("long", "int", true, false, "", true)]
+    [DataRow("int", "long", false, false, "", true)]
+    [DataRow("long?", "int?", false, true, "", true)]
+    [DataRow("long?", "int?", true, false, "", true)]
+    [DataRow("byte", "char", false, false, "", true)]
+    [DataRow("ushort", "char", false, false, "", true)]
+    public async Task Tracks_Hidden_Tuple_Element_Conversions(string sourceType, string targetType, bool rebindInHandler, bool reports, string nullable = "", bool checkedConversion = false)
     {
+        var conversion = $"(({targetType}, int){nullable})pair";
+        if (checkedConversion)
+        {
+            conversion = $"checked({conversion})";
+        }
+
         var source = ModuleSource($$"""
             #pragma warning disable CS8619 // These cases intentionally unwrap nullable tuple elements.
             protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
@@ -871,7 +884,7 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
                 ref var alias = ref token;
                 ({{sourceType}}, int){{nullable}} pair = default;
                 try { throw new Exception(); }
-                catch (Exception) when (((({{targetType}}, int){{nullable}})pair){{(nullable.Length == 0 ? ".Item2 > 0" : " is not null")}} | (alias = ref other).CanBeCanceled) { }
+                catch (Exception) when (({{conversion}}){{(nullable.Length == 0 ? ".Item2 > 0" : " is not null")}} | (alias = ref other).CanBeCanceled) { }
                 catch (Exception)
                 {
                     {{(rebindInHandler ? "alias = ref other;" : "")}}

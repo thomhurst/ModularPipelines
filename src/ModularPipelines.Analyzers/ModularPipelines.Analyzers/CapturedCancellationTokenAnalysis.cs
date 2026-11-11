@@ -594,7 +594,8 @@ internal static class CapturedCancellationTokenAnalysis
         private bool ClassifyHiddenOperation(IOperation operation) => operation switch
         {
             ITupleBinaryOperation tuple => TupleOperatorCanThrow(tuple.LeftOperand.Type, tuple.RightOperand.Type, tuple),
-            IConversionOperation conversion => TupleConversionCanThrow(conversion.Operand.Type, conversion.Type),
+            IConversionOperation conversion => TupleConversionCanThrow(conversion.Operand.Type, conversion.Type,
+                _exceptionClassifier.IsInCheckedContext(conversion)),
             IDeconstructionAssignmentOperation { Syntax: AssignmentExpressionSyntax assignment } =>
                 DeconstructionCanThrow(_model!.GetDeconstructionInfo(assignment)),
             IIsPatternOperation pattern => pattern.Pattern.DescendantsAndSelf().Any(PatternCanThrow),
@@ -642,7 +643,7 @@ internal static class CapturedCancellationTokenAnalysis
                 && symbol.ContainingType.SpecialType is not (SpecialType.System_String or SpecialType.System_Decimal);
         }
 
-        private bool TupleConversionCanThrow(ITypeSymbol? source, ITypeSymbol? destination)
+        private bool TupleConversionCanThrow(ITypeSymbol? source, ITypeSymbol? destination, bool checkedContext)
         {
             if (source is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T }
                 && destination is { IsValueType: true, OriginalDefinition.SpecialType: not SpecialType.System_Nullable_T })
@@ -658,17 +659,45 @@ internal static class CapturedCancellationTokenAnalysis
                 return false;
             }
 
-            return sourceTuple.TupleElements.Zip(targetTuple.TupleElements, TupleElementConversionCanThrow)
+            return sourceTuple.TupleElements.Zip(targetTuple.TupleElements,
+                    (from, to) => TupleElementConversionCanThrow(from, to, checkedContext))
                 .Any(static result => result);
         }
 
-        private bool TupleElementConversionCanThrow(IFieldSymbol source, IFieldSymbol destination)
+        private bool TupleElementConversionCanThrow(IFieldSymbol source, IFieldSymbol destination, bool checkedContext)
         {
             var conversion = _model!.Compilation.ClassifyConversion(source.Type, destination.Type);
             return conversion.IsDynamic || conversion.IsUserDefined || conversion.IsUnboxing
-                || OperationExceptionClassifier.CanNumericConversionOverflow(source.Type, destination.Type)
                 || (conversion.IsReference && !conversion.IsImplicit)
-                || TupleConversionCanThrow(source.Type, destination.Type);
+                || OperationExceptionClassifier.CanNumericConversionOverflow(source.Type, destination.Type)
+                || CheckedTupleElementConversionCanThrow(source.Type, destination.Type, checkedContext)
+                || TupleConversionCanThrow(source.Type, destination.Type, checkedContext);
+        }
+
+        private bool CheckedTupleElementConversionCanThrow(ITypeSymbol source, ITypeSymbol destination, bool checkedContext)
+        {
+            if (!checkedContext)
+            {
+                return false;
+            }
+
+            source = UnwrapNullable(source)!;
+            destination = UnwrapNullable(destination)!;
+            if (source is INamedTypeSymbol { EnumUnderlyingType: { } sourceUnderlying })
+            {
+                source = sourceUnderlying;
+            }
+
+            if (destination is INamedTypeSymbol { EnumUnderlyingType: { } targetUnderlying })
+            {
+                destination = targetUnderlying;
+            }
+
+            var conversion = _model!.Compilation.ClassifyConversion(source, destination);
+            return conversion.IsNumeric && !conversion.IsImplicit
+                && destination.SpecialType is not (SpecialType.System_Single or SpecialType.System_Double)
+                && !(destination.SpecialType == SpecialType.System_Char
+                    && source.SpecialType is SpecialType.System_Byte or SpecialType.System_UInt16);
         }
 
         private static ITypeSymbol? UnwrapNullable(ITypeSymbol? type) =>
