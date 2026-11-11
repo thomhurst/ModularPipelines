@@ -455,6 +455,87 @@ public class ModuleCancellationTokenParameterAnalyzerTests
                 .WithLocation(0).WithArguments("Delay"));
     }
 
+    [TestMethod]
+    [DataRow(false, "using (new ThrowingResource()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(true, "using (new ThrowingResource()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(false, "await using (new ThrowingResource()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(true, "await using (new ThrowingResource()) { {target} = CancellationToken.None; return; }")]
+    [DataRow(false, "using var resource = new ThrowingResource(); if (context != null) { {target} = CancellationToken.None; return; }")]
+    [DataRow(true, "using var resource = new ThrowingResource(); if (context != null) { {target} = CancellationToken.None; return; }")]
+    [DataRow(false, "await using var resource = new ThrowingResource(); if (context != null) { {target} = CancellationToken.None; return; }")]
+    [DataRow(true, "await using var resource = new ThrowingResource(); if (context != null) { {target} = CancellationToken.None; return; }")]
+    public async Task Reports_Replaced_Token_When_Throwing_Disposal_Exits_Nested_Return(bool useLocal, string statements)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(DisposalSource(useLocal, statements, "", $"{{|#0:Task.Delay(1, {target})|}}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "using", "return;")]
+    [DataRow(true, "using", "return;")]
+    [DataRow(false, "await using", "return;")]
+    [DataRow(true, "await using", "return;")]
+    [DataRow(false, "using", "{target} = saved;")]
+    [DataRow(true, "using", "{target} = saved;")]
+    [DataRow(false, "await using", "{target} = saved;")]
+    [DataRow(true, "await using", "{target} = saved;")]
+    public async Task Recognizes_Original_Token_After_Disposal_With_Exiting_Or_Restoring_Catch(
+        bool useLocal, string usingKeyword, string handler)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(DisposalSource(
+            useLocal,
+            $"{usingKeyword} (new ThrowingResource()) {{ {{target}} = CancellationToken.None; return; }}",
+            handler,
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "using")]
+    [DataRow(true, "using")]
+    [DataRow(false, "await using")]
+    [DataRow(true, "await using")]
+    public async Task Recognizes_Original_Token_Before_Enclosing_Disposal(bool useLocal, string usingKeyword)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(DisposalSource(
+            useLocal,
+            "if (context != null) { {target} = CancellationToken.None; return; }",
+            "",
+            $"Task.Delay(1, {target})",
+            usingKeyword));
+    }
+
+    private static string DisposalSource(
+        bool useLocal, string statements, string handler, string call, string enclosingUsing = "")
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        return $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                {{TestSourceConstants.SimpleAsyncExecuteBody}}
+                protected override async Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+                {
+                    {{(useLocal ? "var token = cancellationToken;" : "")}}
+                    var saved = cancellationToken;
+                    {{(enclosingUsing.Length == 0 ? "" : $"{enclosingUsing} (new ThrowingResource()) {{")}}
+                    try { {{statements.Replace("{target}", target)}} }
+                    catch (Exception) { {{handler.Replace("{target}", target)}} }
+                    await {{call}};
+                    {{(enclosingUsing.Length == 0 ? "" : "}")}}
+                }
+            }
+            public sealed class ThrowingResource : IDisposable, IAsyncDisposable
+            {
+                public void Dispose() => throw new InvalidOperationException();
+                public ValueTask DisposeAsync() => throw new InvalidOperationException();
+            }
+            """;
+    }
+
     private static string Source(string statements, string call) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
         public class BuildModule : Module<List<string>>

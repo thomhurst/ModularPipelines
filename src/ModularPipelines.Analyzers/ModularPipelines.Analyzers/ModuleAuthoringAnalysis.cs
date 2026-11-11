@@ -5547,7 +5547,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => AssignsSymbol(assignment, symbol))
             .Where(IsInReachableBranch)
             .Where(assignment => !AreInExclusiveBranches(assignment, reference))
-            .Where(assignment => !ExitsBeforeReference(assignment, reference))
+            .Where(assignment => !ExitsBeforeReference(assignment, reference, symbol))
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .ToArray();
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
@@ -5567,7 +5567,8 @@ internal static class ModuleAuthoringAnalysis
         ];
     }
 
-    private static bool CanExceptionBypassOverwrite(IOperation overwrite, IOperation reference)
+    private static bool CanExceptionBypassOverwrite(
+        IOperation overwrite, IOperation reference, ISymbol? overwrittenSymbol = null)
     {
         // An exception can leave a try body before its later store executes.
         // The handler can use the earlier value or carry it to a following reference.
@@ -5575,7 +5576,7 @@ internal static class ModuleAuthoringAnalysis
         {
             if (current is ITryOperation tryOperation
                 && HasAncestor(overwrite, tryOperation.Body)
-                && CanReachReferenceThroughException(tryOperation, overwrite, reference))
+                && CanReachReferenceThroughException(tryOperation, overwrite, reference, overwrittenSymbol))
             {
                 return true;
             }
@@ -5587,26 +5588,32 @@ internal static class ModuleAuthoringAnalysis
     private static bool CanReachReferenceThroughException(
         ITryOperation tryOperation,
         IOperation operation,
-        IOperation reference)
+        IOperation reference,
+        ISymbol? overwrittenSymbol)
     {
         return (tryOperation.Finally is { } finallyBlock && HasAncestor(reference, finallyBlock))
             || (HasAncestor(operation, tryOperation.Body)
-                && CanReachReferenceThroughCatch(tryOperation, reference));
+                && CanReachReferenceThroughCatch(tryOperation, reference, overwrittenSymbol));
     }
 
-    private static bool CanReachReferenceThroughCatch(ITryOperation tryOperation, IOperation reference)
+    private static bool CanReachReferenceThroughCatch(
+        ITryOperation tryOperation, IOperation reference, ISymbol? overwrittenSymbol)
     {
         return tryOperation.Catches
             .Where(static catchClause =>
                 catchClause.Filter?.ConstantValue is not { HasValue: true, Value: false })
             .Any(catchClause => HasAncestor(reference, catchClause)
                 || (tryOperation.Syntax.Span.End <= reference.Syntax.SpanStart
-                    && !AlwaysExitsCallable(catchClause.Handler)));
+                    && !AlwaysExitsCallable(catchClause.Handler)
+                    && (overwrittenSymbol is null
+                        || catchClause.Handler.SemanticModel?.AnalyzeDataFlow(catchClause.Handler.Syntax)
+                            is not { Succeeded: true } dataFlow
+                        || !dataFlow.AlwaysAssigned.Contains(overwrittenSymbol, SymbolEqualityComparer.Default))));
     }
 
-    private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)
+    private static bool ExitsBeforeReference(IOperation assignment, IOperation reference, ISymbol symbol)
     {
-        if (HasReachingReturnCleanup(assignment, reference))
+        if (HasReachingReturnCleanup(assignment, reference, symbol))
         {
             return false;
         }
@@ -5631,35 +5638,38 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool HasReachingReturnCleanup(IOperation assignment, IOperation reference)
+    private static bool HasReachingReturnCleanup(IOperation assignment, IOperation reference, ISymbol symbol)
     {
         // Returning executes explicit finally blocks and implicit disposal before
         // leaving the callable. Either can throw into a completing catch.
         for (var current = assignment.Parent; current is not null; current = current.Parent)
         {
-            if (current is ITryOperation { Finally: { } finallyBlock }
-                && (HasAncestor(reference, finallyBlock)
-                    || (CanThrowAfterAssignment(finallyBlock, assignment)
-                        && CanExceptionBypassOverwrite(finallyBlock, reference))))
-            {
-                return true;
-            }
-
-            if (current is IUsingOperation && CanExceptionBypassOverwrite(current, reference))
-            {
-                return true;
-            }
-
-            if (current is IBlockOperation block
-                && block.Operations.OfType<IUsingDeclarationOperation>().Any(declaration =>
-                    declaration.Syntax.SpanStart <= assignment.Syntax.SpanStart
-                    && CanExceptionBypassOverwrite(declaration, reference)))
+            if (CanReachReferenceThroughCleanup(current, assignment, reference, symbol))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool CanReachReferenceThroughCleanup(
+        IOperation operation, IOperation assignment, IOperation reference, ISymbol symbol)
+    {
+        if (operation is ITryOperation { Finally: { } finallyBlock })
+        {
+            return HasAncestor(reference, finallyBlock)
+                || (CanThrowAfterAssignment(finallyBlock, assignment)
+                    && CanExceptionBypassOverwrite(operation, reference, symbol));
+        }
+
+        // Using declarations dispose at the end of their block, not at their
+        // declaration span. Only handlers outside that scope can catch disposal.
+        var hasDisposal = operation is IUsingOperation
+            || (operation is IBlockOperation block && block.Operations
+                .OfType<IUsingDeclarationOperation>()
+                .Any(declaration => declaration.Syntax.Span.End <= assignment.Syntax.SpanStart));
+        return hasDisposal && CanExceptionBypassOverwrite(operation, reference, symbol);
     }
 
     private static bool CanThrowAfterAssignment(IOperation operation, IOperation assignment)
