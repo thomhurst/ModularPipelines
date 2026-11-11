@@ -5534,7 +5534,7 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        var storage = GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var storage = GetCancellationStorage(reference, [], preserveParameters: true);
         if (storage is IParameterSymbol parameter)
         {
             return SymbolEqualityComparer.Default.Equals(parameter, cancellationToken)
@@ -5581,7 +5581,7 @@ internal static class ModuleAuthoringAnalysis
             .OfType<ISimpleAssignmentOperation>()
             .Where(restore => IsDefiniteCancellationRestoreBetween(restore, write, read))
             .Any(restore => SymbolEqualityComparer.Default.Equals(
-                    GetCancellationStorage(restore.Target, [with(SymbolEqualityComparer.Default)], preserveParameters: true),
+                    GetCancellationStorage(restore.Target, [], preserveParameters: true),
                     parameter)
                 && IsCancellationPreservingStore(restore.Target, parameter)
                 && GetCancellationParameterReads(restore.Value, parameter, [with(SymbolEqualityComparer.Default)])
@@ -5749,7 +5749,7 @@ internal static class ModuleAuthoringAnalysis
         // Ref/out arguments already model a callee's own parameter writes at the call.
         // Only captured storage can change without an explicit storage argument.
         var callable = GetCallableSymbol(GetEnclosingCallable(write));
-        var storage = GetCancellationStorage(write, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var storage = GetCancellationStorage(write, [], preserveParameters: true);
         return callable is not null && storage is not null
             && !SymbolEqualityComparer.Default.Equals(storage.ContainingSymbol, callable);
     }
@@ -6087,7 +6087,7 @@ internal static class ModuleAuthoringAnalysis
                 return IsCancellationPreservingValue(parenthesized.Operand, parameter, visitedLocals);
             case IParameterReferenceOperation reference:
                 return SymbolEqualityComparer.Default.Equals(
-                    GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true), parameter);
+                    GetCancellationStorage(reference, [], preserveParameters: true), parameter);
             case ILocalReferenceOperation local when visitedLocals.Add(local.Local):
                 var values = FindReachingLocalValues(local, local.Local).ToArray();
                 return values.Length > 0 && values.All(candidate =>
@@ -6240,8 +6240,8 @@ internal static class ModuleAuthoringAnalysis
         IParameterReferenceOperation source,
         HashSet<IOperation> visitedWrites)
     {
-        var valueStorage = GetCancellationStorage(value, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
-        var sourceStorage = GetCancellationStorage(source, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var valueStorage = GetCancellationStorage(value, [], preserveParameters: true);
+        var sourceStorage = GetCancellationStorage(source, [], preserveParameters: true);
         if (valueStorage is not IParameterSymbol || !SymbolEqualityComparer.Default.Equals(valueStorage, sourceStorage)
             || !ReferenceEquals(GetEnclosingCallable(value), GetEnclosingCallable(source)))
         {
@@ -6294,7 +6294,7 @@ internal static class ModuleAuthoringAnalysis
         // Separate ref parameters can alias at the helper's call site.
         return MayShareCancellationStorage(write, read, preserveParameters: true)
             || (read.Parameter.RefKind != RefKind.None
-                && GetCancellationStorage(write, [with(SymbolEqualityComparer.Default)], preserveParameters: true)
+                && GetCancellationStorage(write, [], preserveParameters: true)
                     is IParameterSymbol { RefKind: not RefKind.None });
     }
 
@@ -6391,8 +6391,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsCancellationStorageSelfStore(IOperation targetOperation, IOperation valueOperation)
     {
-        var target = GetCancellationStorage(targetOperation, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
-        var value = GetCancellationStorage(valueOperation, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var target = GetCancellationStorage(targetOperation, [], preserveParameters: true);
+        var value = GetCancellationStorage(valueOperation, [], preserveParameters: true);
         return target is not null && SymbolEqualityComparer.Default.Equals(target, value);
     }
 
@@ -6406,7 +6406,7 @@ internal static class ModuleAuthoringAnalysis
             if (candidate is IParameterReferenceOperation reference)
             {
                 var storage = GetCancellationStorage(
-                    reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+                    reference, [], preserveParameters: true);
                 if (SymbolEqualityComparer.Default.Equals(storage, parameter))
                 {
                     yield return reference;
@@ -6425,7 +6425,7 @@ internal static class ModuleAuthoringAnalysis
                 {
                     // Ref aliases read live storage here; value locals below retain
                     // the read that created their snapshot.
-                    var storage = GetCancellationStorage(local, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+                    var storage = GetCancellationStorage(local, [], preserveParameters: true);
                     if (SymbolEqualityComparer.Default.Equals(storage, parameter))
                     {
                         yield return local;
@@ -6483,15 +6483,15 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var firstStorage = GetCancellationStorage(first, [with(SymbolEqualityComparer.Default)], invocation, method, preserveParameters);
-        var secondStorage = GetCancellationStorage(second, [with(SymbolEqualityComparer.Default)], invocation, method, preserveParameters);
+        var firstStorage = GetCancellationStorage(first, [], invocation, method, preserveParameters);
+        var secondStorage = GetCancellationStorage(second, [], invocation, method, preserveParameters);
         return firstStorage is null || secondStorage is null
             || SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
     }
 
     private static ISymbol? GetCancellationStorage(
         IOperation value,
-        HashSet<ISymbol> visitedStorage,
+        HashSet<(SyntaxTree Tree, int Position)> visitedStorage,
         IInvocationOperation? invocation = null,
         IMethodSymbol? method = null,
         bool preserveParameters = false)
@@ -6509,7 +6509,9 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var symbol = GetCancellationStorageSymbol(value);
-        if (symbol is null || !visitedStorage.Add(symbol))
+        // Rebinding resolves each reference at its own position, so revisiting a
+        // symbol at an earlier binding site is not a storage cycle.
+        if (symbol is null || !visitedStorage.Add((value.Syntax.SyntaxTree, value.Syntax.SpanStart)))
         {
             return null;
         }
@@ -6576,7 +6578,7 @@ internal static class ModuleAuthoringAnalysis
     private static ISymbol? GetInitialCancellationStorage(
         IOperation value,
         ISymbol symbol,
-        HashSet<ISymbol> visitedStorage,
+        HashSet<(SyntaxTree Tree, int Position)> visitedStorage,
         IInvocationOperation? invocation,
         IMethodSymbol? method,
         bool preserveParameters)
@@ -6608,7 +6610,7 @@ internal static class ModuleAuthoringAnalysis
             candidate.Parameter is { } argumentParameter
             && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argumentParameter), parameter));
         return argument is not null
-            ? GetCancellationStorage(argument.Value, [with(SymbolEqualityComparer.Default)])
+            ? GetCancellationStorage(argument.Value, [])
             : null;
     }
 
