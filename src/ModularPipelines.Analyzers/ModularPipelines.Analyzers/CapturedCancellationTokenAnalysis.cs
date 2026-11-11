@@ -173,17 +173,14 @@ internal static class CapturedCancellationTokenAnalysis
                 return;
             }
 
-            if (ConstantCondition(_block.BranchValue) is bool condition
-                && _block.ConditionKind != ControlFlowConditionKind.None
-                && branch.IsConditionalSuccessor != (condition == (_block.ConditionKind == ControlFlowConditionKind.WhenTrue)))
+            if (!IsFeasibleBranch(branch))
             {
                 return;
             }
 
             if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
             {
-                if (_block.BranchValue?.Syntax is not SwitchExpressionSyntax expression
-                    || _model?.GetOperation(expression) is not ISwitchExpressionOperation { IsExhaustive: true })
+                if (!IsExhaustiveSwitch(_block.BranchValue))
                 {
                     // A throw expression may hold any runtime subtype of its static type.
                     SearchException(_block.EnclosingRegion, storage, null, _resume);
@@ -204,26 +201,37 @@ internal static class CapturedCancellationTokenAnalysis
 
             if (!_branches.TryGetValue((branch, resume), out var continuation))
             {
-                // A filter's accepted edge enters the handler with ordinary flow.
-                var acceptedFilter = FindRegion(_block.EnclosingRegion, ControlFlowRegionKind.Filter) is { } filter
-                    && branch.Destination is { } target && target.Ordinal > filter.LastBlockOrdinal;
-                continuation = branch.Destination is { } destination
-                    ? new Continuation { Block = destination.Ordinal, Next = acceptedFilter ? resume?.Next : resume }
-                    : null;
-                if (acceptedFilter)
-                {
-                    continuation = ApplyUnwind(resume?.Unwind, continuation);
-                }
-
-                foreach (var cleanup in branch.FinallyRegions.Reverse())
-                {
-                    continuation = new Continuation { Block = cleanup.FirstBlockOrdinal, Next = continuation };
-                }
-
+                continuation = CreateBranchContinuation(branch, resume);
                 _branches.Add((branch, resume), continuation);
             }
 
             Resume(continuation, storage);
+        }
+
+        private bool IsFeasibleBranch(ControlFlowBranch branch) =>
+            ConstantCondition(_block.BranchValue) is not bool condition
+            || _block.ConditionKind == ControlFlowConditionKind.None
+            || branch.IsConditionalSuccessor == (condition == (_block.ConditionKind == ControlFlowConditionKind.WhenTrue));
+
+        private Continuation? CreateBranchContinuation(ControlFlowBranch branch, Continuation? resume)
+        {
+            // A filter's accepted edge enters the handler with ordinary flow.
+            var acceptedFilter = FindRegion(_block.EnclosingRegion, ControlFlowRegionKind.Filter) is { } filter
+                && branch.Destination is { } target && target.Ordinal > filter.LastBlockOrdinal;
+            var continuation = branch.Destination is { } destination
+                ? new Continuation { Block = destination.Ordinal, Next = acceptedFilter ? resume?.Next : resume }
+                : null;
+            if (acceptedFilter)
+            {
+                continuation = ApplyUnwind(resume?.Unwind, continuation);
+            }
+
+            foreach (var cleanup in branch.FinallyRegions.Reverse())
+            {
+                continuation = new Continuation { Block = cleanup.FirstBlockOrdinal, Next = continuation };
+            }
+
+            return continuation;
         }
 
         private void Resume(Continuation? continuation, Storage storage)
@@ -294,33 +302,13 @@ internal static class CapturedCancellationTokenAnalysis
             {
                 var handler = handlers.NestedRegions[index];
                 var caughtType = handler.ExceptionType;
-                var catchesAll = caughtType is null || caughtType.SpecialType == SpecialType.System_Object
-                    || SymbolEqualityComparer.Default.Equals(caughtType, _exceptionType);
+                var catchesAll = CatchesAll(caughtType);
                 if (type is not null && !catchesAll && !DerivesFrom(type, caughtType))
                 {
                     continue;
                 }
 
-                var cleanup = FindRegion(handler, ControlFlowRegionKind.Finally);
-                Continuation? handlerResume = null;
-                if (cleanup is not null && _block.Ordinal >= cleanup.FirstBlockOrdinal && _block.Ordinal <= cleanup.LastBlockOrdinal)
-                {
-                    handlerResume = ambient;
-                }
-                if (handler.Kind == ControlFlowRegionKind.FilterAndHandler)
-                {
-                    if (!_handlers.TryGetValue((handlers, index, type, handlerResume, unwind), out var fallback))
-                    {
-                        fallback = new Continuation { Handlers = handlers, HandlerIndex = index + 1, ExceptionType = type, Next = handlerResume, Unwind = unwind };
-                        _handlers.Add((handlers, index, type, handlerResume, unwind), fallback);
-                    }
-
-                    Enqueue(handler.FirstBlockOrdinal, fallback, storage);
-                }
-                else
-                {
-                    Resume(ApplyUnwind(unwind, GetContinuation(handler.FirstBlockOrdinal, handlerResume)), storage);
-                }
+                EnterHandler(handlers, index, storage, type, ambient, unwind);
 
                 if (type is not null || catchesAll)
                 {
@@ -329,6 +317,32 @@ internal static class CapturedCancellationTokenAnalysis
             }
 
             SearchException(handlers.EnclosingRegion, storage, type, ambient, unwind);
+        }
+
+        private void EnterHandler(ControlFlowRegion handlers, int index, Storage storage, ITypeSymbol? type, Continuation? ambient, Continuation? unwind)
+        {
+            var handler = handlers.NestedRegions[index];
+            var cleanup = FindRegion(handler, ControlFlowRegionKind.Finally);
+            Continuation? handlerResume = null;
+            if (cleanup is not null && _block.Ordinal >= cleanup.FirstBlockOrdinal && _block.Ordinal <= cleanup.LastBlockOrdinal)
+            {
+                handlerResume = ambient;
+            }
+
+            if (handler.Kind == ControlFlowRegionKind.FilterAndHandler)
+            {
+                if (!_handlers.TryGetValue((handlers, index, type, handlerResume, unwind), out var fallback))
+                {
+                    fallback = new Continuation { Handlers = handlers, HandlerIndex = index + 1, ExceptionType = type, Next = handlerResume, Unwind = unwind };
+                    _handlers.Add((handlers, index, type, handlerResume, unwind), fallback);
+                }
+
+                Enqueue(handler.FirstBlockOrdinal, fallback, storage);
+            }
+            else
+            {
+                Resume(ApplyUnwind(unwind, GetContinuation(handler.FirstBlockOrdinal, handlerResume)), storage);
+            }
         }
 
         private readonly Dictionary<(int Block, Continuation? Next), Continuation> _continuations = [];
@@ -402,16 +416,7 @@ internal static class CapturedCancellationTokenAnalysis
                 return;
             }
 
-            // Constructors, Add and spread iteration may throw before later elements
-            // rebind aliases. Source spans also cover elements hoisted into CFG blocks.
-            foreach (var span in _earlyCollectionCalls)
-            {
-                if (span.Contains(operation.Syntax.Span))
-                {
-                    SearchException(_block.EnclosingRegion, storage, null, _resume);
-                    break;
-                }
-            }
+            VisitEarlyCollectionCalls(operation, storage);
 
             if (operation is IInvocationOperation invocation)
             {
@@ -422,6 +427,37 @@ internal static class CapturedCancellationTokenAnalysis
                 ReferencedCallables.Add(reference.Method.OriginalDefinition);
             }
 
+            VisitStorageEffects(operation, storage);
+
+            if (operation.Syntax.Parent is ArgumentSyntax argumentSyntax
+                && argumentSyntax.RefKindKeyword.Kind() is SyntaxKind.RefKeyword or SyntaxKind.OutKeyword)
+            {
+                _written |= ReferencesStorage(operation, storage);
+            }
+
+            if ((CanThrow(operation) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
+                && !IsExhaustiveSwitch(operation))
+            {
+                SearchException(_block.EnclosingRegion, storage, null, _resume);
+            }
+        }
+
+        private void VisitEarlyCollectionCalls(IOperation operation, Storage storage)
+        {
+            // Constructors, Add and spread iteration may throw before later elements
+            // rebind aliases. Source spans also cover elements hoisted into CFG blocks.
+            foreach (var span in _earlyCollectionCalls)
+            {
+                if (span.Contains(operation.Syntax.Span))
+                {
+                    SearchException(_block.EnclosingRegion, storage, null, _resume);
+                    break;
+                }
+            }
+        }
+
+        private void VisitStorageEffects(IOperation operation, Storage storage)
+        {
             if (operation is ISimpleAssignmentOperation assignment)
             {
                 Visit(assignment.Target, storage);
@@ -450,36 +486,36 @@ internal static class CapturedCancellationTokenAnalysis
                     Visit(child, storage);
                 }
 
-                switch (operation)
-                {
-                    case IFlowCaptureOperation capture:
-                        SetAlias(storage.Captures, capture.Id, ReferencesStorage(capture.Value, storage));
-                        break;
-                    case IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument:
-                        _written |= ReferencesStorage(argument.Value, storage);
-                        break;
-                    case ICompoundAssignmentOperation compound:
-                        _written |= ReferencesStorage(compound.Target, storage);
-                        break;
-                    case IIncrementOrDecrementOperation increment:
-                        _written |= ReferencesStorage(increment.Target, storage);
-                        break;
-                }
-            }
-
-            if (operation.Syntax.Parent is ArgumentSyntax argumentSyntax
-                && argumentSyntax.RefKindKeyword.Kind() is SyntaxKind.RefKeyword or SyntaxKind.OutKeyword)
-            {
-                _written |= ReferencesStorage(operation, storage);
-            }
-
-            if ((CanThrow(operation) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
-                && (operation.Syntax is not SwitchExpressionSyntax expression
-                    || _model?.GetOperation(expression) is not ISwitchExpressionOperation { IsExhaustive: true }))
-            {
-                SearchException(_block.EnclosingRegion, storage, null, _resume);
+                RecordStorageWrite(operation, storage);
             }
         }
+
+        private void RecordStorageWrite(IOperation operation, Storage storage)
+        {
+            switch (operation)
+            {
+                case IFlowCaptureOperation capture:
+                    SetAlias(storage.Captures, capture.Id, ReferencesStorage(capture.Value, storage));
+                    break;
+                case IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument:
+                    _written |= ReferencesStorage(argument.Value, storage);
+                    break;
+                case ICompoundAssignmentOperation compound:
+                    _written |= ReferencesStorage(compound.Target, storage);
+                    break;
+                case IIncrementOrDecrementOperation increment:
+                    _written |= ReferencesStorage(increment.Target, storage);
+                    break;
+            }
+        }
+
+        private bool IsExhaustiveSwitch(IOperation? operation) =>
+            operation?.Syntax is SwitchExpressionSyntax expression
+            && _model?.GetOperation(expression) is ISwitchExpressionOperation { IsExhaustive: true };
+
+        private bool CatchesAll(ITypeSymbol? caughtType) => caughtType is null
+            || caughtType.SpecialType == SpecialType.System_Object
+            || SymbolEqualityComparer.Default.Equals(caughtType, _exceptionType);
 
         private ILocalSymbol? GetLocal(IOperation target) => target switch
         {
@@ -517,22 +553,26 @@ internal static class CapturedCancellationTokenAnalysis
 
             if (!_hiddenThrows.TryGetValue(operation, out var result))
             {
-                result = operation switch
-                {
-                    ITupleBinaryOperation tuple => TupleOperatorCanThrow(tuple.LeftOperand.Type, tuple.RightOperand.Type, tuple),
-                    IConversionOperation conversion => TupleConversionCanThrow(conversion.Operand.Type, conversion.Type),
-                    IDeconstructionAssignmentOperation { Syntax: AssignmentExpressionSyntax assignment } =>
-                        DeconstructionCanThrow(_model.GetDeconstructionInfo(assignment)),
-                    IIsPatternOperation pattern => pattern.Pattern.DescendantsAndSelf().Any(candidate => candidate is
-                        IRecursivePatternOperation { DeconstructSymbol: not null }
-                        or IListPatternOperation { InputType: not IArrayTypeSymbol and not { SpecialType: SpecialType.System_String } }),
-                    _ => false,
-                };
+                result = ClassifyHiddenOperation(operation);
                 _hiddenThrows.Add(operation, result);
             }
 
             return result;
         }
+
+        private bool ClassifyHiddenOperation(IOperation operation) => operation switch
+        {
+            ITupleBinaryOperation tuple => TupleOperatorCanThrow(tuple.LeftOperand.Type, tuple.RightOperand.Type, tuple),
+            IConversionOperation conversion => TupleConversionCanThrow(conversion.Operand.Type, conversion.Type),
+            IDeconstructionAssignmentOperation { Syntax: AssignmentExpressionSyntax assignment } =>
+                DeconstructionCanThrow(_model!.GetDeconstructionInfo(assignment)),
+            IIsPatternOperation pattern => pattern.Pattern.DescendantsAndSelf().Any(PatternCanThrow),
+            _ => false,
+        };
+
+        private static bool PatternCanThrow(IOperation operation) => operation is
+            IRecursivePatternOperation { DeconstructSymbol: not null }
+            or IListPatternOperation { InputType: not IArrayTypeSymbol and not { SpecialType: SpecialType.System_String } };
 
         private bool TupleOperatorCanThrow(ITypeSymbol? left, ITypeSymbol? right, ITupleBinaryOperation operation)
         {
@@ -555,13 +595,18 @@ internal static class CapturedCancellationTokenAnalysis
                 return true;
             }
 
+            return SelectedTupleOperatorCanThrow(left, right, operation);
+        }
+
+        private bool SelectedTupleOperatorCanThrow(ITypeSymbol left, ITypeSymbol right, ITupleBinaryOperation operation)
+        {
             // Bind precisely the element operator selected for these operand types.
             // Declared, inapplicable equality overloads do not make reference equality throw.
             var expression = SyntaxFactory.BinaryExpression(
                 operation.OperatorKind == BinaryOperatorKind.Equals ? SyntaxKind.EqualsExpression : SyntaxKind.NotEqualsExpression,
                 SyntaxFactory.DefaultExpression(SyntaxFactory.ParseTypeName(left.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))),
                 SyntaxFactory.DefaultExpression(SyntaxFactory.ParseTypeName(right.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat))));
-            var symbol = _model.GetSpeculativeSymbolInfo(operation.Syntax.SpanStart, expression, SpeculativeBindingOption.BindAsExpression).Symbol as IMethodSymbol;
+            var symbol = _model!.GetSpeculativeSymbolInfo(operation.Syntax.SpanStart, expression, SpeculativeBindingOption.BindAsExpression).Symbol as IMethodSymbol;
             return symbol?.MethodKind == MethodKind.UserDefinedOperator
                 && symbol.ContainingType.SpecialType is not (SpecialType.System_String or SpecialType.System_Decimal);
         }
