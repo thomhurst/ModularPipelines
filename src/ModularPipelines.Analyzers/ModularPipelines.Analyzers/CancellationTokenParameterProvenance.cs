@@ -323,6 +323,14 @@ internal static class CancellationTokenParameterProvenance
                                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource" => Evaluate(instance, state),
                 ITupleOperation tuple => new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]),
                 IFieldReferenceOperation field when TupleElementIndex(field) >= 0 => Element(Evaluate(field.Instance!, state), TupleElementIndex(field)),
+                _ => EvaluateCollectionOrEffects(operation, state),
+            };
+        }
+
+        private Value EvaluateCollectionOrEffects(IOperation operation, State state)
+        {
+            return operation switch
+            {
                 IArrayCreationOperation array => EvaluateArray(array, state),
                 IObjectCreationOperation creation => EvaluateCreation(creation, state),
                 ICollectionExpressionOperation collection => EvaluateCollection(collection, state),
@@ -574,15 +582,7 @@ internal static class CancellationTokenParameterProvenance
                     state.Captures[capture.Id] = captured;
                     return captured;
                 case ISimpleAssignmentOperation assignment:
-                    var assigned = Evaluate(assignment.Value, state);
-                    if (assignment.IsRef
-                        && (assignment.Target is not ILocalReferenceOperation local || local.Local.RefKind == RefKind.Ref))
-                    {
-                        InvalidateReferenceTarget(assignment.Value, state);
-                    }
-
-                    Assign(assignment.Target, assigned, state);
-                    return assigned;
+                    return EvaluateAssignment(assignment, state);
                 case IArgumentOperation argument when argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out:
                     InvalidateArrays(Evaluate(argument.Value, state), state);
                     Assign(argument.Value, Value.None, state);
@@ -599,6 +599,19 @@ internal static class CancellationTokenParameterProvenance
 
                     return Value.None;
             }
+        }
+
+        private Value EvaluateAssignment(ISimpleAssignmentOperation assignment, State state)
+        {
+            var assigned = Evaluate(assignment.Value, state);
+            if (assignment.IsRef
+                && (assignment.Target is not ILocalReferenceOperation local || local.Local.RefKind == RefKind.Ref))
+            {
+                InvalidateReferenceTarget(assignment.Value, state);
+            }
+
+            Assign(assignment.Target, assigned, state);
+            return assigned;
         }
 
         private void InvalidateReferenceTarget(IOperation target, State state)
