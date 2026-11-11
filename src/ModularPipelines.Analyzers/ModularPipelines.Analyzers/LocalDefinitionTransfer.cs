@@ -407,11 +407,53 @@ internal sealed class LocalDefinitionTransfer
         {
             yield return (patternLocal, input);
         }
+        else if (operation is IDeconstructionAssignmentOperation deconstruction)
+        {
+            foreach (var binding in GetDeconstructionAliasSources(deconstruction.Target, deconstruction.Value))
+            {
+                yield return binding;
+            }
+        }
         else if (operation is IInvocationOperation or IObjectCreationOperation)
         {
             foreach (var binding in GetCallAliasSources(operation))
             {
                 yield return binding;
+            }
+        }
+    }
+
+    private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetDeconstructionAliasSources(
+        IOperation target, IOperation value)
+    {
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        while (value is IConversionOperation conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        if (target is ITupleOperation targets)
+        {
+            for (var index = 0; index < targets.Elements.Length; index++)
+            {
+                // Tuple expressions have independent sources. An implicit Deconstruct can copy
+                // receiver storage into any writable ref-like output, including nested outputs.
+                var source = value is ITupleOperation values ? values.Elements[index] : value;
+                foreach (var binding in GetDeconstructionAliasSources(targets.Elements[index], source))
+                {
+                    yield return binding;
+                }
+            }
+        }
+        else
+        {
+            foreach (var receiver in GetRefLikeReceivers(target))
+            {
+                yield return (receiver.Local, value);
             }
         }
     }

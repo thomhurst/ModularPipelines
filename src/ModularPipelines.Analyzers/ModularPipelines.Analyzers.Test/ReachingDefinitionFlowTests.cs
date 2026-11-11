@@ -867,6 +867,22 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("(copy, _) = holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("(copy, _) = holder; var second = copy; value = 3; second.Field = 2;", "", false)]
+    [DataRow("(copy, _) = holder; value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("(copy, _) = holder; copy.Field = 2; value = 3;", "3", true)]
+    [DataRow("(copy, _) = holder; value = 3; if (false) copy.Field = 2;", "3", true)]
+    [DataRow("(copy, _) = holder; value = 3; copy.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); (copy, _) = unrelated; value = 3; copy.Field = 2;", "3", true)]
+    public void Deconstruction_Outputs_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); scoped Retained copy = default; " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes.Replace(
+                "public readonly void Deconstruct(out int first, out int second)",
+                "public readonly void Deconstruct(out Retained copy, out int ignored) { copy = this; ignored = 0; } public readonly void DeconstructUnused(out int first, out int second)",
+                StringComparison.Ordinal));
+
+    [TestMethod]
     public void Value_Receiver_Storage_Can_Be_Retained_By_Output() =>
         AssertFlow("Inner value = new Inner(); scoped Retained copy = default; value.Copy(out copy); value = new Inner(); copy.Field = 2; [|Use(value)|];",
             "", supported: false, additionalSource: MutableTypes);
