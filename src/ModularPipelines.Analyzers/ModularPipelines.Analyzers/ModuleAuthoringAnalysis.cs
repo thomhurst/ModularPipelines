@@ -6700,6 +6700,15 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
+        // A tail value contributes to an earlier use only if execution can re-enter
+        // this loop. Nested switch breaks and conditional exits can still fall through.
+        if (body.Operations.Any(candidate => candidate.Syntax.SpanStart >= reset.Syntax.Span.End
+            && AlwaysExitsBeforeUse(candidate, operation, candidate, local, hasAssigningJoin: true)
+            && !ExitCanReachHandler(candidate, operation)))
+        {
+            return null;
+        }
+
         return reset;
     }
 

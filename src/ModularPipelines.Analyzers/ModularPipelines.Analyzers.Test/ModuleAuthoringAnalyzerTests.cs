@@ -3672,6 +3672,61 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("cancellationToken", "while (context is not null)", "", "break;")]
+    [DataRow("token", "for (var i = 0; i < 2; i++)", "", "break;")]
+    [DataRow("cancellationToken", "do", "while (context is not null);", "return null!;")]
+    [DataRow("token", "while (context is not null)", "", "if (context is null) break; else return null!;")]
+    public async Task Accepts_Loop_Tail_Overwrite_That_Cannot_Reach_Back_Edge(
+        string target, string loop, string suffix, string exit)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                {{loop}}
+                {
+                    await Task.Delay(1, {{target}});
+                    {{target}} = CancellationToken.None;
+                    {{exit}}
+                }
+                {{suffix}}
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("if (context is null) break;")]
+    [DataRow("switch (context) { case null: break; default: break; }")]
+    [DataRow("try { throw new System.Exception(); } catch { }")]
+    public async Task Reports_Loop_Tail_Overwrite_When_Back_Edge_Remains_Reachable(string exit)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                while (context is not null)
+                {
+                    await {|#0:Task.Delay(1, cancellationToken)|};
+                    cancellationToken = CancellationToken.None;
+                    {{exit}}
+                }
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     [DataRow("if (context is not null) cancellationToken = original;")]
     [DataRow("cancellationToken = cancellationToken;")]
     [DataRow("cancellationToken = CancellationToken.None;")]
