@@ -195,7 +195,7 @@ foreach ($requiredText in @(
              'os: [ubuntu-latest]',
              'runs-on: ${{ matrix.os }}',
              'needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests, distributed-template, go-validation, docs-deploy]',
-             "if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)",
+             "if: always() && (github.event_name != 'workflow_dispatch' || !inputs.windows-parent-exit-probe) && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)",
              '-RunFullPipeline ''${{ needs.fast-fail.outputs.run_full_pipeline }}''',
              '-Distributed ''${{ needs.fast-fail.outputs.distributed }}''',
              '-WorkerPipelineResult ''${{ needs.pipeline-workers.result }}''',
@@ -218,8 +218,8 @@ foreach ($requiredText in @(
     }
 }
 
-# Drafts are reviewed before CI: every job depends on fast-fail, so gating it skips the
-# workflow before any build runner starts, and readiness starts the run.
+# Drafts are reviewed before CI: normal jobs depend on fast-fail, while the
+# standalone probe explicitly requires a manual dispatch. Neither runs on drafts.
 $pullRequestTrigger = [regex]::Match($workflow, '(?ms)^  pull_request:.*?(?=^  [a-z_]+:)').Value
 if (-not $pullRequestTrigger.Contains(
         'types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]',
@@ -230,7 +230,7 @@ $fastFailJob = [regex]::Match(
     $workflow,
     '(?ms)^  fast-fail:.*?(?=^  [a-z0-9-]+:)').Value
 if (-not $fastFailJob.Contains(
-        "if: github.event_name != 'pull_request' || github.event.pull_request.draft == false",
+        "if: (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (github.event_name != 'workflow_dispatch' || !inputs.windows-parent-exit-probe)",
         [StringComparison]::Ordinal)) {
     throw 'Fast fail must skip draft pull requests before allocating a runner.'
 }
@@ -238,6 +238,13 @@ $jobsSection = $workflow.Substring([regex]::Match($workflow, '(?m)^jobs:').Index
 foreach ($job in [regex]::Matches($jobsSection, '(?ms)^  ([a-z0-9-]+):\r?\n(.*?)(?=^  [a-z0-9-]+:|\z)')) {
     $name = $job.Groups[1].Value
     if ($name -eq 'fast-fail') { continue }
+    if ($name -eq 'windows-parent-exit-probe') {
+        if (-not $job.Groups[2].Value.Contains(
+            "if: github.event_name == 'workflow_dispatch' && inputs.windows-parent-exit-probe", [StringComparison]::Ordinal)) {
+            throw 'The standalone Windows probe must run only on an explicit manual dispatch.'
+        }
+        continue
+    }
     if ($job.Groups[2].Value -notmatch '(?m)^    needs: \[?[^\]\r\n]*\b(fast-fail|required-pipeline)\b') {
         throw "Job '$name' must depend on fast-fail (directly or through required-pipeline) so drafts skip it."
     }

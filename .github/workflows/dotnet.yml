@@ -11,6 +11,10 @@ on:
     types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
   workflow_dispatch:
     inputs:
+      windows-parent-exit-probe:
+        description: Run only the isolated Windows .NET 11 GA nested-job reproducer?
+        type: boolean
+        default: false
       publish-packages:
         description: Publish packages?
         type: boolean
@@ -40,10 +44,40 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  windows-parent-exit-probe:
+    if: github.event_name == 'workflow_dispatch' && inputs.windows-parent-exit-probe
+    runs-on: windows-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: '11.0.100'
+      - name: Probe nested jobs and abrupt parent death
+        shell: pwsh
+        run: |
+          $output = Join-Path (Split-Path $env:GITHUB_WORKSPACE -Parent) 'ModularPipelines-evidence/issue-6302'
+          "PARENT_EXIT_OUTPUT=$output" >> $env:GITHUB_ENV
+          & scripts/Invoke-WindowsParentExitProbe.ps1 -OutputDirectory $output
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        if: always()
+        with:
+          name: windows-parent-exit-probe
+          path: |
+            ${{ env.PARENT_EXIT_OUTPUT }}/*.log
+            ${{ env.PARENT_EXIT_OUTPUT }}/report.json
+          if-no-files-found: warn
+          retention-days: 30
+
   fast-fail:
     name: Fast fail
-    # Skip drafts before renting a runner. Every other job depends on this one.
-    if: github.event_name != 'pull_request' || github.event.pull_request.draft == false
+    # Skip drafts and probe-only dispatches before renting a build runner.
+    # Ordinary jobs depend on this gate; the manual-only probe has its own condition.
+    if: (github.event_name != 'pull_request' || github.event.pull_request.draft == false) && (github.event_name != 'workflow_dispatch' || !inputs.windows-parent-exit-probe)
     runs-on: ubuntu-latest
     timeout-minutes: 25
     outputs:
@@ -1144,7 +1178,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     needs: [fast-fail, pipeline, pipeline-workers, cross-platform-build, generated-integration, changed-integration, artifact-storage, analyzers, trim-aot, cmd-tests, distributed-template, go-validation, docs-deploy]
-    if: always() && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
+    if: always() && (github.event_name != 'workflow_dispatch' || !inputs.windows-parent-exit-probe) && (github.event_name != 'pull_request' || github.event.pull_request.draft == false)
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     permissions:
