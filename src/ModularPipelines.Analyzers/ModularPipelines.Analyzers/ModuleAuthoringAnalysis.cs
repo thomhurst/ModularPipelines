@@ -5568,7 +5568,37 @@ internal static class ModuleAuthoringAnalysis
             .Where(write => !HasAncestor(read, write.Parent!))
             .Where(write => !IsCancellationPreservingStore(write, parameter))
             .Any(write => (isCapture || CanCancellationWriteReachRead(write, read))
-                && MayShareCancellationStorage(write, read, preserveParameters: true));
+                && MayShareCancellationStorage(write, read, preserveParameters: true)
+                && !HasDefiniteCancellationRestore(write, read, parameter));
+    }
+
+    private static bool HasDefiniteCancellationRestore(
+        IOperation write,
+        IOperation read,
+        IParameterSymbol parameter)
+    {
+        return GetRoot(read).DescendantsAndSelf()
+            .OfType<ISimpleAssignmentOperation>()
+            .Where(restore => IsDefiniteCancellationRestoreBetween(restore, write, read))
+            .Any(restore => SymbolEqualityComparer.Default.Equals(
+                    GetCancellationStorage(restore.Target, [with(SymbolEqualityComparer.Default)], preserveParameters: true),
+                    parameter)
+                && IsCancellationPreservingStore(restore.Target, parameter)
+                && GetCancellationParameterReads(restore.Value, parameter, [with(SymbolEqualityComparer.Default)])
+                    .All(source => !CanCancellationWriteReachRead(write, source)));
+    }
+
+    private static bool IsDefiniteCancellationRestoreBetween(
+        ISimpleAssignmentOperation restore,
+        IOperation write,
+        IOperation read)
+    {
+        return !restore.IsRef
+            && restore.Syntax.SpanStart > write.Syntax.SpanStart
+            && restore.Syntax.SpanStart < read.Syntax.SpanStart
+            && ReferenceEquals(GetEnclosingCallable(restore), GetEnclosingCallable(read))
+            && IsDefiniteCancellationPredecessor(restore, read)
+            && IsInReachableBranch(restore);
     }
 
     private static bool FlowsFromParallelCallbackToken(
@@ -5797,7 +5827,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return operation switch
         {
-            IReturnOperation => true,
+            IReturnOperation returnOperation => !CanCancellationReturnReachFinally(returnOperation, read),
             IThrowOperation throwOperation => !CanCancellationThrowReachRead(throwOperation, read),
             IBlockOperation { Operations.Length: > 0 } block =>
                 AlwaysExitsBeforeCancellationRead(block.Operations[block.Operations.Length - 1], read),
@@ -5806,6 +5836,25 @@ internal static class ModuleAuthoringAnalysis
                 && AlwaysExitsBeforeCancellationRead(whenFalse, read),
             _ => false,
         };
+    }
+
+    private static bool CanCancellationReturnReachFinally(IReturnOperation returnOperation, IOperation read)
+    {
+        for (var ancestor = returnOperation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ITryOperation { Finally: { } finallyBlock }
+                && !HasAncestor(returnOperation, finallyBlock) && HasAncestor(read, finallyBlock))
+            {
+                return true;
+            }
+
+            if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                break;
+            }
+        }
+
+        return false;
     }
 
     private static bool CanCancellationThrowReachRead(IThrowOperation throwOperation, IOperation read)
