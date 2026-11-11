@@ -914,6 +914,20 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("var copy = flag switch { true => holder, _ => holder }; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("scoped Retained copy = default; copy = flag switch { true => holder, _ => default }; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("var copy = flag switch { true => default, _ => holder }; var second = copy; value = 3; second.Field = 2;", "", false)]
+    [DataRow("var copy = flag switch { true => holder, _ => holder }; value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("var copy = flag switch { true => holder, _ => holder }; copy.Field = 2; value = 3;", "3", true)]
+    [DataRow("var copy = flag switch { true => holder, _ => holder }; value = 3; if (false) copy.Field = 2;", "3", true)]
+    [DataRow("var copy = flag switch { true => holder, _ => holder }; value = 3; copy.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); var copy = flag switch { true => unrelated, _ => unrelated }; value = 3; copy.Field = 2;", "3", true)]
+    public void Switch_Expression_Results_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);

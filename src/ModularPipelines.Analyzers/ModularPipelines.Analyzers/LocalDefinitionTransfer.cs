@@ -553,6 +553,7 @@ internal sealed class LocalDefinitionTransfer
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
         IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
+        ISwitchExpressionOperation switchExpression => switchExpression.Arms.Any(arm => TargetsLocal(arm.Value, local, operationRoot)),
         IConversionOperation conversion => TargetsLocal(conversion.Operand, local, operationRoot),
         IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local, operationRoot),
         // Conditional ref expressions can lower to captures anywhere along the storage receiver path.
