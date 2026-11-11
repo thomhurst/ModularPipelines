@@ -5449,6 +5449,12 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (value is ILocalReferenceOperation or IParameterReferenceOperation
+            && CancellationTokenReachingValues.TryGetValue(value, cancellationToken) is { } reachingValue)
+        {
+            return reachingValue;
+        }
+
         return value switch
         {
             IConversionOperation conversion => FlowsFromCancellationToken(
