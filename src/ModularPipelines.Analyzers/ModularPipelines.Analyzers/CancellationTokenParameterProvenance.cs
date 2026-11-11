@@ -95,6 +95,8 @@ internal static class CancellationTokenParameterProvenance
 
         public Dictionary<CaptureId, HashSet<string>> TupleCaptures { get; } = [];
 
+        public Dictionary<object, HashSet<IOperation>> ArrayOrigins { get; } = [];
+
         public State Clone()
         {
             var copy = new State();
@@ -110,6 +112,11 @@ internal static class CancellationTokenParameterProvenance
                 copy.TupleCaptures.Add(pair.Key, [.. pair.Value]);
             }
 
+            foreach (var pair in ArrayOrigins)
+            {
+                copy.ArrayOrigins.Add(pair.Key, [.. pair.Value]);
+            }
+
             return copy;
         }
 
@@ -119,6 +126,23 @@ internal static class CancellationTokenParameterProvenance
             Values.IntersectWith(other.Values);
             Captures.IntersectWith(other.Captures);
             var changed = count != Values.Count + Captures.Count;
+            // Array aliases are may-facts: either incoming allocation may be
+            // mutated after a join, whereas token provenance must hold on every path.
+            foreach (var pair in other.ArrayOrigins)
+            {
+                if (!ArrayOrigins.TryGetValue(pair.Key, out var origins))
+                {
+                    ArrayOrigins.Add(pair.Key, [.. pair.Value]);
+                    changed = true;
+                }
+                else
+                {
+                    var before = origins.Count;
+                    origins.UnionWith(pair.Value);
+                    changed |= before != origins.Count;
+                }
+            }
+
             return MergeTuples(Tuples, other.Tuples) | MergeTuples(TupleCaptures, other.TupleCaptures) | changed;
         }
     }
@@ -150,73 +174,45 @@ internal static class CancellationTokenParameterProvenance
         private readonly Dictionary<int, State> _inputs = [];
         private readonly Queue<BasicBlock> _pending = new();
         private readonly Dictionary<TextSpan, bool> _results = [];
-        private readonly HashSet<object> _mutableArrays = FindMutableArrays(graph);
-
-        // Array values are references: a write through any alias invalidates that
-        // allocation's contents. Exclude the connected alias group throughout the
-        // method rather than retaining a stale initializer fact after a write.
-        private static HashSet<object> FindMutableArrays(ControlFlowGraph graph)
+        private static object? ArrayKey(IOperation operation) => operation switch
         {
-            var operations = graph.Blocks.SelectMany(static block => block.Operations)
-                .SelectMany(static operation => operation.DescendantsAndSelf()).ToArray();
-            var mutable = new HashSet<object>();
-            var aliases = new List<(object Left, object Right)>();
-            foreach (var operation in operations)
-            {
-                if (operation is IArrayElementReferenceOperation element && IsWritten(element)
-                    && ArrayKey(element.ArrayReference) is { } array)
-                {
-                    mutable.Add(array);
-                }
+            IConversionOperation conversion => ArrayKey(conversion.Operand),
+            ILocalReferenceOperation local => local.Local,
+            IFlowCaptureReferenceOperation capture => capture.Id,
+            _ => null,
+        };
 
-                if (operation is ISimpleAssignmentOperation assignment)
-                {
-                    if (assignment.Target.Type is IArrayTypeSymbol
-                        && ArrayKey(assignment.Target) is { } left && ArrayKey(assignment.Value) is { } right)
-                    {
-                        aliases.Add((left, right));
-                    }
-                }
-                else if (operation is IFlowCaptureOperation capture && capture.Value.Type is IArrayTypeSymbol
-                    && ArrayKey(capture.Value) is { } captured)
-                {
-                    aliases.Add((capture.Id, captured));
-                }
+        private static HashSet<IOperation> ArrayOrigins(IOperation operation, State state)
+        {
+            if (operation is IConversionOperation conversion)
+            {
+                return ArrayOrigins(conversion.Operand, state);
             }
 
-            bool changed;
-            do
+            if (ArrayKey(operation) is { } key && state.ArrayOrigins.TryGetValue(key, out var origins))
             {
-                changed = false;
-                foreach (var (left, right) in aliases)
-                {
-                    if (mutable.Contains(left))
-                    {
-                        changed |= mutable.Add(right);
-                    }
-
-                    if (mutable.Contains(right))
-                    {
-                        changed |= mutable.Add(left);
-                    }
-                }
+                return [.. origins];
             }
-            while (changed);
-            return mutable;
 
-            static object? ArrayKey(IOperation operation)
+            return operation is IArrayCreationOperation or ICollectionExpressionOperation ? [operation] : [];
+        }
+
+        private static void InvalidateArray(IOperation array, State state)
+        {
+            var origins = ArrayOrigins(array, state);
+            foreach (var pair in state.ArrayOrigins)
             {
-                while (operation is IConversionOperation conversion)
+                if (pair.Value.Overlaps(origins))
                 {
-                    operation = conversion.Operand;
+                    if (pair.Key is ISymbol symbol)
+                    {
+                        state.Values.Remove(symbol);
+                    }
+                    else if (pair.Key is CaptureId capture)
+                    {
+                        state.Captures.Remove(capture);
+                    }
                 }
-
-                return operation switch
-                {
-                    ILocalReferenceOperation local => local.Local,
-                    IFlowCaptureReferenceOperation capture => capture.Id,
-                    _ => null,
-                };
             }
         }
 
@@ -289,11 +285,11 @@ internal static class CancellationTokenParameterProvenance
 
                     return value;
                 case ILocalReferenceOperation local:
-                    return !_mutableArrays.Contains(local.Local) && state.Values.Contains(local.Local);
+                    return state.Values.Contains(local.Local);
                 case IFieldReferenceOperation field when TupleField(field, out var tupleSymbol, out var tuplePath):
                     return state.Tuples.TryGetValue(tupleSymbol, out var tupleFacts) && tupleFacts.Contains(tuplePath);
                 case IFlowCaptureReferenceOperation capture:
-                    return !_mutableArrays.Contains(capture.Id) && state.Captures.Contains(capture.Id);
+                    return state.Captures.Contains(capture.Id);
                 case IConversionOperation conversion:
                     return Evaluate(conversion.Operand, state);
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
@@ -352,47 +348,32 @@ internal static class CancellationTokenParameterProvenance
                     return false;
                 case IFlowCaptureOperation capture:
                     Set(state.Captures, capture.Id, Evaluate(capture.Value, state));
-                    return !_mutableArrays.Contains(capture.Id) && state.Captures.Contains(capture.Id);
-                case ISimpleAssignmentOperation assignment when assignment.Value.Type is INamedTypeSymbol { IsTupleType: true }:
-                    var facts = TupleFacts(assignment.Value, state);
-                    if (assignment.Target is ILocalReferenceOperation tupleLocal)
+                    if (capture.Value.Type is IArrayTypeSymbol)
                     {
-                        state.Tuples[tupleLocal.Local] = facts;
+                        state.ArrayOrigins[capture.Id] = ArrayOrigins(capture.Value, state);
                     }
 
+                    return state.Captures.Contains(capture.Id);
+                case ISimpleAssignmentOperation assignment when assignment.Value.Type is INamedTypeSymbol { IsTupleType: true }:
+                    Write(assignment.Target, false, TupleFacts(assignment.Value, state), state);
                     return false;
                 case ISimpleAssignmentOperation assignment:
                     var assigned = Evaluate(assignment.Value, state);
-                    switch (assignment.Target)
+                    Write(assignment.Target, assigned, null, state);
+                    if (assignment.Target.Type is IArrayTypeSymbol && ArrayKey(assignment.Target) is { } arrayKey)
                     {
-                        case IParameterReferenceOperation parameter:
-                            Set(state.Values, parameter.Parameter, assigned);
-                            break;
-                        case ILocalReferenceOperation local:
-                            Set(state.Values, local.Local, assigned);
-                            break;
-                        case IFieldReferenceOperation field when TupleField(field, out var tupleSymbol, out var tuplePath):
-                            if (state.Tuples.TryGetValue(tupleSymbol, out var tupleFacts))
-                            {
-                                Set(tupleFacts, tuplePath, assigned);
-                            }
-
-                            break;
+                        state.ArrayOrigins[arrayKey] = ArrayOrigins(assignment.Value, state);
                     }
 
                     return assigned;
                 case IArgumentOperation argument when argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out:
                     Evaluate(argument.Value, state);
-                    if (argument.Value is IParameterReferenceOperation parameterArgument)
+                    if (argument.Parameter.RefKind == RefKind.Ref && argument.Value.Type is IArrayTypeSymbol)
                     {
-                        state.Values.Remove(parameterArgument.Parameter);
-                    }
-                    else if (argument.Value is ILocalReferenceOperation localArgument)
-                    {
-                        state.Values.Remove(localArgument.Local);
-                        state.Tuples.Remove(localArgument.Local);
+                        InvalidateArray(argument.Value, state);
                     }
 
+                    Write(argument.Value, false, null, state);
                     return false;
                 case IArgumentOperation argument:
                     return Evaluate(argument.Value, state);
@@ -405,6 +386,50 @@ internal static class CancellationTokenParameterProvenance
                     }
 
                     return false;
+            }
+        }
+
+        private static void Write(IOperation target, bool safe, HashSet<string>? facts, State state)
+        {
+            switch (target)
+            {
+                case IParameterReferenceOperation parameter:
+                    Set(state.Values, parameter.Parameter, safe);
+                    break;
+                case ILocalReferenceOperation local:
+                    Set(state.Values, local.Local, safe);
+                    if (facts is not null)
+                    {
+                        state.Tuples[local.Local] = facts;
+                    }
+                    else
+                    {
+                        state.Tuples.Remove(local.Local);
+                    }
+
+                    break;
+                case IFieldReferenceOperation field when TupleField(field, out var symbol, out var path):
+                    if (!state.Tuples.TryGetValue(symbol, out var paths))
+                    {
+                        state.Tuples[symbol] = paths = [];
+                    }
+
+                    // Replacing a nested field replaces its entire subtree. Read
+                    // the right-hand facts first so self-assignment remains safe.
+                    paths.RemoveWhere(candidate => candidate == path || candidate.StartsWith(path + ".", StringComparison.Ordinal));
+                    if (facts is not null)
+                    {
+                        paths.UnionWith(facts.Select(fact => path + "." + fact));
+                    }
+                    else
+                    {
+                        Set(paths, path, safe);
+                    }
+
+                    break;
+                case IArrayElementReferenceOperation element:
+                    InvalidateArray(element.ArrayReference, state);
+                    break;
             }
         }
 
@@ -467,6 +492,15 @@ internal static class CancellationTokenParameterProvenance
                 return [.. captureFacts];
             }
 
+            if (operation is IFieldReferenceOperation field && TupleField(field, out var symbol, out var fieldPath)
+                && state.Tuples.TryGetValue(symbol, out var fieldFacts))
+            {
+                return [
+                    .. fieldFacts.Where(path => path.StartsWith(fieldPath + ".", StringComparison.Ordinal))
+                    .Select(path => path.Substring(fieldPath.Length + 1))
+                ];
+            }
+
             var result = new HashSet<string>();
             if (operation is ITupleOperation tuple)
             {
@@ -503,29 +537,19 @@ internal static class CancellationTokenParameterProvenance
 
             void Assign(IOperation operation, string path)
             {
-                switch (operation)
+                if (operation is ITupleOperation tuple)
                 {
-                    case IParameterReferenceOperation parameter:
-                        Set(state.Values, parameter.Parameter, facts.Contains(path));
-                        break;
-                    case ILocalReferenceOperation local:
-                        if (local.Type is INamedTypeSymbol { IsTupleType: true })
-                        {
-                            state.Tuples[local.Local] = [.. facts.Where(p => p.StartsWith(path + ".", StringComparison.Ordinal)).Select(p => p.Substring(path.Length + 1))];
-                        }
-                        else
-                        {
-                            Set(state.Values, local.Local, facts.Contains(path));
-                        }
-
-                        break;
-                    case ITupleOperation tuple:
-                        for (var i = 0; i < tuple.Elements.Length; i++)
-                        {
-                            Assign(tuple.Elements[i], path.Length == 0 ? i.ToString() : path + "." + i);
-                        }
-
-                        break;
+                    for (var i = 0; i < tuple.Elements.Length; i++)
+                    {
+                        Assign(tuple.Elements[i], path.Length == 0 ? i.ToString() : path + "." + i);
+                    }
+                }
+                else
+                {
+                    var nested = operation.Type is INamedTypeSymbol { IsTupleType: true }
+                        ? new HashSet<string>(facts.Where(p => p.StartsWith(path + ".", StringComparison.Ordinal)).Select(p => p.Substring(path.Length + 1)))
+                        : null;
+                    Write(operation, facts.Contains(path), nested, state);
                 }
             }
         }
