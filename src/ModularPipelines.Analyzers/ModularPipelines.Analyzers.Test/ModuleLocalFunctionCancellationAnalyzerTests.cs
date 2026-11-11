@@ -1,4 +1,9 @@
+using System.Collections.Immutable;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ModularPipelines.Interfaces;
 using VerifyCS = ModularPipelines.Analyzers.Test.Verifiers.CSharpAnalyzerVerifier<ModularPipelines.Analyzers.ModuleAsyncSafetyAnalyzer>;
 
 namespace ModularPipelines.Analyzers.Test;
@@ -23,10 +28,7 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
             }
             """);
 
-        // The enclosing return and lambda return both report this call; see #7418.
         await VerifyCS.VerifyAnalyzerAsync(source,
-            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(0).WithArguments("Delay"),
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
                 .WithLocation(0).WithArguments("Delay"));
     }
@@ -212,6 +214,77 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
 
         Assert.AreNotEqual(original, source);
         await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("execute", false)]
+    [DataRow("lifecycle", false)]
+    [DataRow("configuration", false)]
+    [DataRow("execute", true)]
+    [DataRow("lifecycle", true)]
+    [DataRow("configuration", true)]
+    public async Task Reports_Once_Per_Returned_Local_Function_Invocation(string root, bool chained)
+    {
+        var source = ModuleSource(root, $$"""
+            private static Task HelperAsync(CancellationToken token)
+            {
+                return {{(chained ? "ForwardAsync(token)" : "RunAsync(token)")}};
+                {{(chained ? "Task ForwardAsync(CancellationToken token) => RunAsync(token);" : "")}}
+                Task RunAsync(CancellationToken localToken) => Task.WhenAll(
+                    {|#0:Task.Run(() => { }, CancellationToken.None)|},
+                    {|#1:Task.Delay(1, CancellationToken.None)|},
+                    Task.Delay(1, localToken));
+            }
+            """);
+
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Run"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("execute", false)]
+    [DataRow("lifecycle", false)]
+    [DataRow("configuration", false)]
+    [DataRow("execute", true)]
+    [DataRow("lifecycle", true)]
+    [DataRow("configuration", true)]
+    public async Task Preserves_Local_Semantic_Diagnostics(string root, bool chained)
+    {
+        var source = ModuleSource(root, $$"""
+            private static Task HelperAsync(CancellationToken token)
+            {
+                return {{(chained ? "ForwardAsync(token)" : "RunAsync(token)")}};
+                {{(chained ? "Task ForwardAsync(CancellationToken token) => RunAsync(token);" : "")}}
+                Task RunAsync(CancellationToken localToken) => Task.WhenAll(
+                    Task.Run(() => { }, CancellationToken.None),
+                    Task.Delay(1, CancellationToken.None),
+                    Task.Delay(1, localToken));
+            }
+            """);
+        var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.Preview));
+        var referencePaths = ((string?) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") ?? string.Empty)
+            .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries)
+            .Append(typeof(IModuleContext).Assembly.Location)
+            .Distinct(StringComparer.OrdinalIgnoreCase);
+        var compilation = CSharpCompilation.Create(
+            "LocalSemanticDiagnostics", [tree],
+            referencePaths.Select(path => MetadataReference.CreateFromFile(path)),
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+        var errors = compilation.GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+        Assert.AreEqual(0, errors.Length, string.Join(Environment.NewLine, errors.Select(d => d.ToString())));
+
+        var analysis = compilation.WithAnalyzers(
+            ImmutableArray.Create<DiagnosticAnalyzer>(new ModuleAsyncSafetyAnalyzer()));
+        var diagnostics = await analysis.GetAnalyzerSemanticDiagnosticsAsync(
+            compilation.GetSemanticModel(tree), null, CancellationToken.None);
+        var warnings = diagnostics.Where(d => d.Id == ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).ToArray();
+        Assert.AreEqual(2, warnings.Length, string.Join(Environment.NewLine, diagnostics.Select(d => d.ToString())));
+        CollectionAssert.AreEquivalent(
+            new[] { "Task.Run(() => { }, CancellationToken.None)", "Task.Delay(1, CancellationToken.None)" },
+            warnings.Select(d => source.Substring(d.Location.SourceSpan.Start, d.Location.SourceSpan.Length)).ToArray());
     }
 
     private static string ModuleSource(string root, string helper)
