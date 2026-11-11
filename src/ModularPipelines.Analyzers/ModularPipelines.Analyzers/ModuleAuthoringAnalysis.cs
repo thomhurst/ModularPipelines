@@ -625,7 +625,11 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            // Only these wrappers preserve the referenced storage. A member access,
+            // index or invocation reads the token without exposing the parameter itself.
+            if (parent is not (IConversionOperation or IParenthesizedOperation
+                or ITupleOperation or IVariableInitializerOperation
+                or IConditionalOperation { IsRef: true }))
             {
                 break;
             }

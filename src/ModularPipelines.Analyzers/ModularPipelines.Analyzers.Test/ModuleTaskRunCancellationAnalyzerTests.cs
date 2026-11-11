@@ -38,6 +38,30 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("var values = new int[1]; values[cancellationToken.GetHashCode() & 0] = 1;")]
+    [DataRow("var values = new int[1]; (values[cancellationToken.GetHashCode() & 0], _) = (1, 2);")]
+    [DataRow("var values = new CancellationToken[1]; Reset(ref values[cancellationToken.GetHashCode() & 0]);")]
+    [DataRow("var seen = new System.Collections.Generic.Dictionary<CancellationToken, bool>(); seen[cancellationToken] = true;")]
+    public async Task Accepts_Reading_Captured_Token_In_Assignment_Or_Ref_Index(string statement)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource("execute", statement,
+            "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Reports_Captured_Token_Written_After_Callback_Completes(string root)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(ModuleSource(root, "",
+            "{|#0:Task.Delay(1, cancellationToken)|}",
+            afterCallback: "cancellationToken = CancellationToken.None;"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     [DataRow("execute")]
     [DataRow("lifecycle")]
     [DataRow("configuration")]
@@ -59,7 +83,9 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("configuration", "Reset(ref cancellationToken);")]
     [DataRow("execute", "ResetOut(out cancellationToken);")]
     [DataRow("execute", "(cancellationToken, _) = (CancellationToken.None, 1);")]
+    [DataRow("execute", "((_, cancellationToken), _) = ((1, CancellationToken.None), 2);")]
     [DataRow("execute", "ResetAlias();")]
+    [DataRow("execute", "ResetConditionalAlias();")]
     public async Task Reports_Potentially_Overwritten_Captured_Token(string root, string mutation)
     {
         await VerifyCS.VerifyAnalyzerAsync(
@@ -79,7 +105,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 .WithLocation(0).WithArguments("Delay"));
     }
 
-    private static string ModuleSource(string root, string mutation, string call, bool mutationInCallback = true)
+    private static string ModuleSource(string root, string mutation, string call, bool mutationInCallback = true, string afterCallback = "")
     {
         var body = $$"""
             {
@@ -89,8 +115,10 @@ public class ModuleTaskRunCancellationAnalyzerTests
                     {{(mutationInCallback ? mutation : "")}}
                     await {{call}};
                 }, cancellationToken);
+                {{afterCallback}}
                 {{(root == "configuration" ? "return false;" : "")}}
                 {{(mutation == "ResetAlias();" ? "void ResetAlias() { ref var alias = ref cancellationToken; alias = CancellationToken.None; }" : "")}}
+                {{(mutation == "ResetConditionalAlias();" ? "void ResetConditionalAlias() { CancellationToken other = default; ref var alias = ref (cancellationToken.CanBeCanceled ? ref cancellationToken : ref other); alias = CancellationToken.None; }" : "")}}
             }
             """;
         var entry = root switch
