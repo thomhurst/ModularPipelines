@@ -6525,10 +6525,25 @@ internal static class ModuleAuthoringAnalysis
         IOperation branch,
         ISymbol local)
     {
-        return loop.Descendants()
+        // Only the last definite reset can kill the value from the previous iteration.
+        // Later conditional assignments must also be independent of loop-mutated state.
+        var reset = loop.Descendants()
             .Where(candidate => candidate.Syntax.Span.End <= branch.Syntax.SpanStart)
             .Where(candidate => IsLinearPredecessor(candidate, branch))
-            .Any(candidate => IsIterationIndependentReset(candidate, loop, local));
+            .Where(candidate => DefinitelyAssignsLocal(candidate, local)
+                || (candidate is IVariableDeclaratorOperation { Initializer: not null } declarator
+                    && SymbolEqualityComparer.Default.Equals(declarator.Symbol, local)))
+            .OrderByDescending(static candidate => candidate.Syntax.Span.End)
+            .FirstOrDefault();
+
+        return reset is not null
+            && IsIterationIndependentReset(reset, loop, local)
+            && loop.Descendants()
+                .OfType<ISimpleAssignmentOperation>()
+                .Where(assignment => assignment.Syntax.SpanStart >= reset.Syntax.Span.End
+                    && assignment.Syntax.Span.End <= branch.Syntax.SpanStart
+                    && AssignsLocal(assignment, local))
+                .All(assignment => IsIterationIndependentValue(assignment.Value, loop));
     }
 
     private static bool IsIterationIndependentReset(
