@@ -636,6 +636,96 @@ public class ModuleTaskRunCancellationAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ThrowingEquality", "left == right", false, true)]
+    [DataRow("ThrowingEquality", "left != right", false, true)]
+    [DataRow("ThrowingEquality?", "left == right", false, true)]
+    [DataRow("(ThrowingEquality, int)", "left == right", false, true)]
+    [DataRow("ThrowingEquality", "left == right", true, false)]
+    [DataRow("int", "left == right", false, false)]
+    [DataRow("int", "left != right", false, false)]
+    [DataRow("string?", "left == right", false, false)]
+    [DataRow("decimal", "left == right", false, false)]
+    public async Task Tracks_Tuple_Equality_Exceptions(string elementType, string comparison, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                ({{elementType}}, int) left = default, right = default;
+                try { throw new Exception(); }
+                catch (Exception) when (({{comparison}}) | (alias = ref other).CanBeCanceled) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private struct ThrowingEquality
+            {
+                public static bool operator ==(ThrowingEquality left, ThrowingEquality right) => throw new Exception();
+                public static bool operator !=(ThrowingEquality left, ThrowingEquality right) => throw new Exception();
+                public override bool Equals(object? obj) => false;
+                public override int GetHashCode() => 0;
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("pair", "token", false, true)]
+    [DataRow("(new ThrowingInt(), 2)", "token", false, true)]
+    [DataRow("(new ThrowingInt(), 2)", "token", true, false)]
+    [DataRow("pair", "token", true, false)]
+    [DataRow("pair", "other", false, false)]
+    [DataRow("(1, 2)", "token", false, false)]
+    public async Task Tracks_Deconstruction_Method_Exceptions(string value, string initialAlias, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initialAlias}};
+                var pair = new ThrowingPair();
+                int x, y;
+                try { throw new Exception(); }
+                catch (Exception) when (Check((x, y) = {{value}}, (alias = ref other))) { }
+                catch (Exception)
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private static bool Check((int, int) first, CancellationToken second) => false;
+
+            private struct ThrowingInt
+            {
+                public static implicit operator int(ThrowingInt value) => throw new Exception();
+            }
+
+            private sealed class ThrowingPair
+            {
+                public void Deconstruct(out int x, out int y) => throw new Exception();
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("dynamic number = new object();", "(number + 1) is not null | (alias = ref other).CanBeCanceled", true)]
     [DataRow("dynamic number = new object();", "(-number) is not null | (alias = ref other).CanBeCanceled", true)]
     [DataRow("dynamic number = new object();", "(++number) is not null | (alias = ref other).CanBeCanceled", true)]

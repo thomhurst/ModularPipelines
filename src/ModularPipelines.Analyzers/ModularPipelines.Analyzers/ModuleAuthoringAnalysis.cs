@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
@@ -1041,11 +1042,24 @@ internal static class ModuleAuthoringAnalysis
         or IUnaryOperation { OperatorMethod: not null }
         or IUnaryOperation { IsChecked: true }
         or IUnaryOperation { Type.TypeKind: TypeKind.Dynamic }
+        || CanTupleComparisonThrowInCancellationFilter(operation)
         || CanAssignmentThrowInCancellationFilter(operation)
         || CanArithmeticThrowInCancellationFilter(operation);
 
-    private static bool CanAssignmentThrowInCancellationFilter(IOperation operation) => operation is
-        IAssignmentOperation assignment && CanAssignmentTargetThrowInCancellationFilter(assignment.Target);
+    private static bool CanAssignmentThrowInCancellationFilter(IOperation operation) =>
+        operation is IAssignmentOperation assignment
+        && (CanAssignmentTargetThrowInCancellationFilter(assignment.Target)
+            || CanDeconstructionThrowInCancellationFilter(assignment));
+
+    private static bool CanDeconstructionThrowInCancellationFilter(IAssignmentOperation assignment) =>
+        assignment is IDeconstructionAssignmentOperation
+        && assignment.Syntax is AssignmentExpressionSyntax syntax
+        && assignment.SemanticModel is { } model
+        && CanDeconstructionThrow(model.GetDeconstructionInfo(syntax));
+
+    private static bool CanDeconstructionThrow(DeconstructionInfo info) =>
+        info.Method is not null || info.Conversion is { IsUserDefined: true }
+        || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(CanDeconstructionThrow));
 
     private static bool CanAssignmentTargetThrowInCancellationFilter(IOperation target) => target switch
     {
@@ -1056,6 +1070,49 @@ internal static class ModuleAuthoringAnalysis
             or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation => true,
         _ => false,
     };
+
+    private static bool CanTupleComparisonThrowInCancellationFilter(IOperation operation) =>
+        operation is ITupleBinaryOperation tupleBinary
+        && (CanTupleEqualityThrow(tupleBinary.LeftOperand.Type) || CanTupleEqualityThrow(tupleBinary.RightOperand.Type));
+
+    private static bool CanTupleEqualityThrow(ITypeSymbol? type)
+    {
+        // Tuple comparisons hide their element operators instead of exposing IBinaryOperation children.
+        if (type is IDynamicTypeSymbol)
+        {
+            return true;
+        }
+
+        if (type is not INamedTypeSymbol named)
+        {
+            return false;
+        }
+
+        if (named.IsTupleType)
+        {
+            return named.TupleElements.Any(element => CanTupleEqualityThrow(element.Type));
+        }
+
+        if (named.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T)
+        {
+            return CanTupleEqualityThrow(named.TypeArguments[0]);
+        }
+
+        if (named.SpecialType != SpecialType.None)
+        {
+            return false;
+        }
+
+        for (var current = named; current is not null; current = current.BaseType)
+        {
+            if (current.GetMembers("op_Equality").Length != 0 || current.GetMembers("op_Inequality").Length != 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     private static bool CanArithmeticThrowInCancellationFilter(IOperation operation) =>
         operation is ICompoundAssignmentOperation { IsChecked: true }
