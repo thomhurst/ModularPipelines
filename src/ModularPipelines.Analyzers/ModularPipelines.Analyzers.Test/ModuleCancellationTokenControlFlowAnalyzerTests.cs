@@ -185,6 +185,14 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                 """, true];
         }
 
+        yield return ["helper-selects-flowing-inputs", """
+            var token = SelectToken(cancellationToken, cancellationToken, context is null);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, false];
+        yield return ["helper-selects-unrelated-input", """
+            var token = SelectToken(cancellationToken, default, context is null);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
         yield return ["helper-discards-parameter", """
             var token = Drop(cancellationToken);
             for (var i = 0; i < 2; i++) await CALL(1, token);
@@ -481,6 +489,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         yield return ["deconstruct-swap", "var token = cancellationToken; var other = default(CancellationToken); (token, other) = (other, token);", true];
         yield return ["deconstruct-nested", "var token = cancellationToken; ((token, _), _) = ((default(CancellationToken), 0), 0);", true];
         yield return ["deconstruct-opaque", "(CancellationToken, int) Pair() => (default, 0); var token = cancellationToken; (token, _) = Pair();", true];
+        yield return ["ref-binding-without-write", "var token = cancellationToken; var saved = cancellationToken; { ref CancellationToken alias = ref token; saved = alias; } token = saved;", false];
         yield return ["ref-local-write", "var token = cancellationToken; { ref CancellationToken alias = ref token; alias = default; }", true];
         yield return ["ref-parameter-write", "{ ref CancellationToken alias = ref cancellationToken; alias = default; } var token = cancellationToken;", true];
         yield return ["ref-chain-write", "var token = cancellationToken; { ref CancellationToken alias = ref token; ref CancellationToken second = ref alias; second = default; }", true];
@@ -527,6 +536,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             public class BuildModule : Module<List<string>>
             {
                 {{helpers}}
+                private static CancellationToken SelectToken(CancellationToken first, CancellationToken second, bool chooseFirst) => chooseFirst ? first : second;
                 private static CancellationToken Pass(CancellationToken token) => token;
                 private static CancellationToken Pick(CancellationToken ignored, CancellationToken token) => token;
                 private static bool ThrowFilter() => throw new System.Exception();
