@@ -921,6 +921,66 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ThrowingCollection", "[1]", false, true)]
+    [DataRow("AddingCollection", "[1]", false, true)]
+    [DataRow("BuiltCollection", "[1]", false, true)]
+    [DataRow("int[]", "[.. values]", false, true)]
+    [DataRow("ThrowingCollection", "[1]", true, false)]
+    [DataRow("AddingCollection", "[1]", true, false)]
+    [DataRow("BuiltCollection", "[1]", true, false)]
+    [DataRow("int[]", "[.. values]", true, false)]
+    [DataRow("int[]", "[1]", false, false)]
+    [DataRow("ThrowingCollection", "[(alias = ref other).CanBeCanceled ? 1 : 2]", false, true)]
+    [DataRow("BuiltCollection", "[(alias = ref other).CanBeCanceled ? 1 : 2]", false, false)]
+    [DataRow("int[]", "[.. values, (alias = ref other).CanBeCanceled ? 1 : 2]", false, true)]
+    [DataRow("int[]", "[(alias = ref other).CanBeCanceled ? 1 : 2, .. values]", false, false)]
+    public async Task Tracks_Implicit_Collection_Exceptions(string collectionType, string expression, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, Array.Empty<int>());
+
+            private static Task HelperAsync(CancellationToken token, System.Collections.Generic.IEnumerable<int> values)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { {{collectionType}} collection = {{expression}}; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class ThrowingCollection : System.Collections.Generic.List<int>
+            {
+                public ThrowingCollection() => throw new Exception();
+            }
+
+            private sealed class AddingCollection : System.Collections.Generic.List<int>
+            {
+                public new void Add(int value) => throw new Exception();
+            }
+
+            [System.Runtime.CompilerServices.CollectionBuilder(typeof(CollectionFactory), nameof(CollectionFactory.Create))]
+            private sealed class BuiltCollection : System.Collections.Generic.IEnumerable<int>
+            {
+                public System.Collections.Generic.IEnumerator<int> GetEnumerator() => throw new Exception();
+                System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+
+            private static class CollectionFactory
+            {
+                public static BuiltCollection Create(ReadOnlySpan<int> values) => throw new Exception();
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""

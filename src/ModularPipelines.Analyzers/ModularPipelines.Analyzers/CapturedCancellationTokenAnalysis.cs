@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
 
 namespace ModularPipelines.Analyzers;
 
@@ -116,6 +117,9 @@ internal static class CapturedCancellationTokenAnalysis
         private Continuation? _resume;
         private readonly SemanticModel? _model = graph.OriginalOperation.SemanticModel;
         private readonly INamedTypeSymbol? _exceptionType = graph.OriginalOperation.SemanticModel?.Compilation.GetTypeByMetadataName("System.Exception");
+        private readonly OperationExceptionClassifier _exceptionClassifier = new(graph.OriginalOperation.SemanticModel);
+        private readonly ImmutableArray<TextSpan> _earlyCollectionCalls =
+            OperationExceptionClassifier.GetEarlyCollectionCallSpans(graph.OriginalOperation);
 
         internal HashSet<IMethodSymbol> ReferencedCallables { get; } = [with(SymbolEqualityComparer.Default)];
         internal HashSet<IFlowAnonymousFunctionOperation> AnonymousFunctions { get; } = [];
@@ -398,6 +402,17 @@ internal static class CapturedCancellationTokenAnalysis
                 return;
             }
 
+            // Constructors, Add and spread iteration may throw before later elements
+            // rebind aliases. Source spans also cover elements hoisted into CFG blocks.
+            foreach (var span in _earlyCollectionCalls)
+            {
+                if (span.Contains(operation.Syntax.Span))
+                {
+                    SearchException(_block.EnclosingRegion, storage, null, _resume);
+                    break;
+                }
+            }
+
             if (operation is IInvocationOperation invocation)
             {
                 ReferencedCallables.Add(invocation.TargetMethod.OriginalDefinition);
@@ -458,7 +473,9 @@ internal static class CapturedCancellationTokenAnalysis
                 _written |= ReferencesStorage(operation, storage);
             }
 
-            if ((CanThrow(operation) || HiddenOperationCanThrow(operation))
+            if ((CanThrow(operation) || HiddenOperationCanThrow(operation)
+                    || (operation is ICollectionExpressionOperation or ISpreadOperation
+                        && !_exceptionClassifier.Classify(operation).IsEmpty))
                 && (operation.Syntax is not SwitchExpressionSyntax expression
                     || _model?.GetOperation(expression) is not ISwitchExpressionOperation { IsExhaustive: true }))
             {
