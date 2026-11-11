@@ -767,6 +767,20 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("new RetainedBinder(ref holder, ref value); value = 3; holder.Field = 2;", "", false)]
+    [DataRow("new RetainedBinder(ref holder, ref value); var copy = holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("new RetainedOutBinder(out holder, ref value); value = 3; holder.Mutate();", "", false)]
+    [DataRow("new RetainedBinder(ref holder, ref value); value = 3; try { holder.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("new RetainedBinder(ref holder, ref value); holder.Field = 2; value = 3;", "3", true)]
+    [DataRow("int other = 0; new RetainedBinder(ref holder, ref other); value = 3; holder.Field = 2;", "3", true)]
+    [DataRow("new RetainedBinder(ref holder, ref value); value = 3; if (false) holder.Field = 2;", "3", true)]
+    [DataRow("new RetainedBinder(ref holder, ref value); value = 3; holder.Field = [|value|];", "3", true)]
+    public void Constructor_Arguments_Retain_Storage_Bindings(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; scoped Retained holder = default; " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Retained_Ref_Write_Invalidates_Before_Exceptional_Completion() =>
         AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; try { holder.MutateAndThrow(); } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -909,6 +923,14 @@ public class ReachingDefinitionFlowTests
             public static void MutateScoped(scoped Retained holder) { holder.Field = 2; }
             public static void MutateAfterArgument(Retained holder, int argument) { holder.Field = 2; }
             public static int ReadInt(int item) => item;
+        }
+        class RetainedBinder
+        {
+            public RetainedBinder(ref Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { holder.Field = ref field; }
+        }
+        class RetainedOutBinder
+        {
+            public RetainedOutBinder(out Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { holder = new Retained(ref field); }
         }
         class RetainedConsumer { public RetainedConsumer(Retained holder) { holder.Field = 2; throw new Exception(); } }
         class RetainedSink

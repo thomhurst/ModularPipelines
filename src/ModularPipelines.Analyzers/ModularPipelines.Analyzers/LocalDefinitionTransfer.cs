@@ -409,13 +409,16 @@ internal sealed class LocalDefinitionTransfer
                 yield return (receiver.Local, memberBinding.Value);
             }
         }
-        else if (operation is IInvocationOperation invocation)
+        else if (operation is IInvocationOperation or IObjectCreationOperation)
         {
-            foreach (var argument in invocation.Arguments.Where(static argument =>
+            var arguments = operation is IInvocationOperation invocation
+                ? invocation.Arguments
+                : ((IObjectCreationOperation) operation).Arguments;
+            foreach (var argument in arguments.Where(static argument =>
                 argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
                 && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)))
             {
-                foreach (var receiver in GetRetentionDestinations(invocation))
+                foreach (var receiver in GetRetentionDestinations(operation, arguments))
                 {
                     yield return (receiver.Local, argument.Value);
                 }
@@ -423,9 +426,9 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
-    private static IEnumerable<ILocalReferenceOperation> GetRetentionDestinations(IInvocationOperation invocation)
+    private static IEnumerable<ILocalReferenceOperation> GetRetentionDestinations(IOperation operation, IEnumerable<IArgumentOperation> arguments)
     {
-        if (invocation.Instance is { } instance)
+        if (operation is IInvocationOperation { Instance: { } instance })
         {
             foreach (var receiver in GetRefLikeReceivers(instance))
             {
@@ -435,7 +438,7 @@ internal sealed class LocalDefinitionTransfer
 
         // A callee can establish a retained binding through writable arguments as well as its
         // receiver. Scoped destinations still permit ref-field writes; scoping limits the source.
-        foreach (var argument in invocation.Arguments.Where(static argument =>
+        foreach (var argument in arguments.Where(static argument =>
             argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out && argument.Value.Type?.IsRefLikeType == true))
         {
             foreach (var receiver in GetRefLikeReceivers(argument.Value))
