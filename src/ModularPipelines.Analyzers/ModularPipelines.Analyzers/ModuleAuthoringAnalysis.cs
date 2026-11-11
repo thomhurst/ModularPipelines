@@ -5759,7 +5759,8 @@ internal static class ModuleAuthoringAnalysis
         // Exhaustive branches can replace storage collectively even when no
         // individual assignment is a linear predecessor of the read.
         return GetRoot(read).DescendantsAndSelf()
-            .Where(operation => operation is ISimpleAssignmentOperation or IConditionalOperation or ISwitchOperation)
+            .Where(operation => operation is ISimpleAssignmentOperation or IConditionalOperation or ISwitchOperation
+                or IWhileLoopOperation { ConditionIsTop: false })
             .Where(operation => !HasAncestor(read, operation))
             .Where(IsInReachableBranch)
             .Where(operation => CanReachCancellationStorageRead(operation, read))
@@ -5807,6 +5808,7 @@ internal static class ModuleAuthoringAnalysis
             IExpressionStatementOperation expression => DefinitelyWritesCancellationStorage(expression.Operation, symbol, isRef),
             IBlockOperation block => block.Operations.Any(child => DefinitelyWritesCancellationStorage(child, symbol, isRef)),
             IConditionalOperation conditional => DefinitelyWritesCancellationStorageBranches(conditional, symbol, isRef),
+            IWhileLoopOperation { ConditionIsTop: false } loop => DefinitelyWritesCancellationStorage(loop.Body, symbol, isRef),
             _ => false,
         };
     }
@@ -5877,7 +5879,13 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            if (parent is not IBlockOperation block)
+            var sequence = parent switch
+            {
+                IBlockOperation block => block.Operations,
+                ISwitchCaseOperation @case => @case.Body,
+                _ => default,
+            };
+            if (sequence.IsDefault)
             {
                 continue;
             }
@@ -5887,7 +5895,7 @@ internal static class ModuleAuthoringAnalysis
                 break;
             }
 
-            foreach (var next in block.Operations.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+            foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
             {
                 if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
                     || next.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
@@ -5901,8 +5909,8 @@ internal static class ModuleAuthoringAnalysis
                 }
             }
 
-            if (HasAncestor(read, block)
-                || block.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
+            if (HasAncestor(read, parent)
+                || parent.DescendantsAndSelf().Any(static child => child is IBranchOperation or IReturnOperation))
             {
                 break;
             }
