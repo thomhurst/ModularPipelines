@@ -3414,7 +3414,6 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    [Timeout(30_000)]
     public async Task Does_Not_Report_Independent_Reset_Through_Shared_Alias_Graph()
     {
         var aliases = string.Join("\n", Enumerable.Range(1, 40).Select(index =>
@@ -3454,7 +3453,8 @@ public class ModuleAuthoringAnalyzerTests
             }
             """);
 
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source)
+            .WaitAsync(TimeSpan.FromSeconds(30), TestContext.CancellationToken);
     }
 
     [TestMethod]
@@ -3667,6 +3667,7 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); } } catch { throw; } await Task.Delay(1, cancellationToken);")]
     [DataRow("try { switch (context) { case null: cancellationToken = CancellationToken.None; return null!; default: break; } } catch { } await Task.Delay(1, cancellationToken);")]
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; return null!; } } catch { return null!; } await Task.Delay(1, cancellationToken);")]
+    [DataRow("try { if (context is null) throw new System.InvalidOperationException(); } catch (System.InvalidOperationException) { cancellationToken = CancellationToken.None; throw; } catch { } await Task.Delay(1, cancellationToken);")]
     public async Task Accepts_Token_When_Overwrite_Cannot_Reach_Use(string body)
     {
         var source = ModuleSource($$"""
@@ -3701,6 +3702,7 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { while (true) { if (i == 0) { cancellationToken = original; if (context is not null) { cancellationToken = CancellationToken.None; break; } } else { cancellationToken = cancellationToken; } await {|#0:Task.Delay(1, cancellationToken)|}; break; } }")]
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; _ = context!.ToString(); return null!; } } catch { } await {|#0:Task.Delay(1, cancellationToken)|};")]
     [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); } } catch { await {|#0:Task.Delay(1, cancellationToken)|}; throw; }")]
+    [DataRow("try { try { if (context is null) { cancellationToken = CancellationToken.None; return null!; } } finally { if (context is null) throw new System.InvalidOperationException(); } } catch { } await {|#0:Task.Delay(1, cancellationToken)|};")]
     public async Task Reports_Token_When_Overwrite_Can_Still_Reach_Use(string body)
     {
         var source = ModuleSource($$"""
@@ -3710,6 +3712,38 @@ public class ModuleAuthoringAnalyzerTests
             {
                 {{body}}
                 return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("using (var cleanup = new ThrowingDisposable()) { if (context is null) { cancellationToken = CancellationToken.None; return null!; } }")]
+    [DataRow("using var cleanup = new ThrowingDisposable(); if (context is null) { cancellationToken = CancellationToken.None; return null!; }")]
+    public async Task Reports_Overwrite_When_Return_Disposal_Reaches_Catch(string body)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                try
+                {
+                    {{body}}
+                }
+                catch { }
+
+                await {|#0:Task.Delay(1, cancellationToken)|};
+                return null!;
+            }
+
+            private sealed class ThrowingDisposable : System.IDisposable
+            {
+                public void Dispose() => throw new System.InvalidOperationException();
             }
             """);
 

@@ -5625,7 +5625,18 @@ internal static class ModuleAuthoringAnalysis
         IParameterSymbol cancellationToken,
         CancellationTokenFlowContext context)
     {
-        return invocation.TargetMethod.ReducedFrom is not null && invocation.Instance is { } instance && method.Parameters.FirstOrDefault() is { } receiverParameter && IsCancellationToken(receiverParameter) && FlowsFromCancellationToken(instance, cancellationToken, context) ? receiverParameter : null;
+        if (invocation.TargetMethod.ReducedFrom is null || invocation.Instance is not { } instance)
+        {
+            return null;
+        }
+
+        if (method.Parameters.FirstOrDefault() is not { } receiverParameter
+            || !IsCancellationToken(receiverParameter))
+        {
+            return null;
+        }
+
+        return FlowsFromCancellationToken(instance, cancellationToken, context) ? receiverParameter : null;
     }
 
     private static bool IsKnownCancellationCarrierFactory(
@@ -6784,19 +6795,40 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ExitCanReachHandler(IOperation branch, IOperation operation)
     {
+        var mayThrow = BranchMayThrow(branch);
         for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is ITryOperation tryOperation
-                && ((BranchMayThrow(branch)
-                        && tryOperation.Catches.Any(catchClause =>
-                            HasAncestor(operation, catchClause)
-                            || catchClause.Filter is not null
-                            || !AlwaysExitsMethod(catchClause.Handler)))
-                    || (tryOperation.Finally is { } finallyBlock
-                    && HasAncestor(operation, finallyBlock))))
+            if (ancestor is ITryOperation tryOperation)
             {
-                // A throw may be caught, and finally executes even after return.
-                return true;
+                // A catch handles only exceptions from its try body, never sibling catches.
+                if (mayThrow && HasAncestor(branch, tryOperation.Body)
+                    && tryOperation.Catches.Any(catchClause =>
+                        HasAncestor(operation, catchClause)
+                        || catchClause.Filter is not null
+                        || !AlwaysExitsMethod(catchClause.Handler)))
+                {
+                    return true;
+                }
+
+                if (tryOperation.Finally is { } finallyBlock)
+                {
+                    if (HasAncestor(operation, finallyBlock))
+                    {
+                        return true;
+                    }
+
+                    // Finally can replace a return with an exception caught by an outer try.
+                    mayThrow |= BranchMayThrow(finallyBlock);
+                }
+            }
+
+            // Disposal runs when an exit leaves a using statement or declaration scope.
+            if (ancestor is IUsingOperation
+                || (ancestor is IBlockOperation block
+                    && block.Operations.OfType<IUsingDeclarationOperation>()
+                        .Any(declaration => declaration.Syntax.SpanStart < branch.Syntax.SpanStart)))
+            {
+                mayThrow = true;
             }
 
             if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
