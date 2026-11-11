@@ -5669,11 +5669,30 @@ internal static class ModuleAuthoringAnalysis
         // its use so a helper's ref rebinding changes the storage being written.
         return body.DescendantsAndSelf()
             .SelectMany(GetCancellationStorageWrites)
+            .Where(write => ReferenceEquals(GetEnclosingCallable(write), GetEnclosingCallable(returnValue)))
             .Where(IsInReachableBranch)
             .Where(write => !IsCancellationPreservingStore(write, parameter))
             .Any(write => reads.Any(read =>
-                (read.Syntax.SpanStart >= write.Syntax.SpanStart || !IsLinearPredecessor(read, write))
+                CanCancellationWriteReachRead(write, read)
                 && MayShareCancellationStorage(write, read, invocation, method)));
+    }
+
+    private static bool CanCancellationWriteReachRead(IOperation write, IOperation read)
+    {
+        if (read.Syntax.SpanStart < write.Syntax.SpanStart && IsLinearPredecessor(read, write))
+        {
+            return false;
+        }
+
+        for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static IEnumerable<IOperation> GetCancellationStorageWrites(IOperation operation)
@@ -5789,6 +5808,13 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation? invocation = null,
         IMethodSymbol? method = null)
     {
+        // Safe C# cannot alias token storage with a reference to another type.
+        if (first.Type?.ToDisplayString() != CancellationTokenMetadataName
+            || second.Type?.ToDisplayString() != CancellationTokenMetadataName)
+        {
+            return false;
+        }
+
         var firstStorage = GetCancellationStorage(first, [with(SymbolEqualityComparer.Default)], invocation, method);
         var secondStorage = GetCancellationStorage(second, [with(SymbolEqualityComparer.Default)], invocation, method);
         return firstStorage is null || secondStorage is null

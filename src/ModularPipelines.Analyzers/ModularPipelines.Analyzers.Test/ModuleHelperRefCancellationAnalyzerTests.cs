@@ -39,6 +39,13 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "ref CancellationToken alias = ref second; alias = default; var saved = first; return saved;", true)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "second = ref first; second = default; return first;", true)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "second = ref first; return first;", false)]
+    [DataRow("ref token, ref token", "", "static void Clear(ref CancellationToken x) { x = default; } return first;", false)]
+    [DataRow("ref token, ref token", "", "static void Clear(ref CancellationToken x) { x = default; } Clear(ref second); return first;", true)]
+    [DataRow("ref token, ref token", "", "int count = 0; ref int alias = ref count; alias = 0; return first;", false)]
+    [DataRow("ref token, ref token", "", "ref int count = ref Count; count = 0; return first;", false)]
+    [DataRow("ref token, ref token", "", "if (Flag) { var saved = first; second = default; return saved; } return first;", false)]
+    [DataRow("ref token, ref token", "", "if (Flag) { second = default; return first; } return first;", true)]
+    [DataRow("ref token, ref token", "", "if (Flag) { second = default; } return first;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {
@@ -48,6 +55,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
+                private static int Count;
+                private static bool Flag;
+
                 private static CancellationToken Forward(ref CancellationToken first, ref CancellationToken second)
                 {
                     {{body}}
@@ -144,6 +154,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
+                private static int Count;
+                private static bool Flag;
+
                 private static CancellationToken Forward(ref CancellationToken first, ref CancellationToken second)
                 {
                     second = default;
