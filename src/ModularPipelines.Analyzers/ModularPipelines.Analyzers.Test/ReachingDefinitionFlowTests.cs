@@ -824,6 +824,20 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("ref int alias = ref sink[holder]; value = 3; alias = 2;", "", false)]
+    [DataRow("var copy = sink[holder, 0]; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("var copy = sink[holder, 0]; var second = copy; value = 3; second.Field = 2;", "", false)]
+    [DataRow("var copy = sink[holder, 0]; value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("ref int alias = ref sink[holder]; value = 3; alias = 2; value = 4;", "4", true)]
+    [DataRow("ref int alias = ref sink[holder]; value = 3; if (false) alias = 2;", "3", true)]
+    [DataRow("ref int alias = ref sink[holder]; value = 3; alias = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); ref int alias = ref sink[unrelated]; value = 3; alias = 2;", "3", true)]
+    public void Indexer_Returns_Retain_Argument_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); var sink = new ReturningSink(); " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -958,6 +972,11 @@ public class ReachingDefinitionFlowTests
                 get { holder.Field = 2; return 0; }
                 set { holder.Field = value; throw new Exception(); }
             }
+        }
+        class ReturningSink
+        {
+            public ref int this[Retained holder] => ref holder.Field;
+            public Retained this[Retained holder, int index] => holder;
         }
         readonly ref struct ReadonlyRetained
         {

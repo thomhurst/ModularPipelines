@@ -468,7 +468,7 @@ internal sealed class LocalDefinitionTransfer
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
         IFieldReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
         IEventReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
-        IPropertyReferenceOperation { Instance: { Type.IsReferenceType: false } instance } => TargetsLocal(instance, local, operationRoot),
+        IPropertyReferenceOperation property => PropertyRetainsStorage(property, local, operationRoot),
         IInlineArrayAccessOperation access => TargetsLocal(access.Instance, local, operationRoot),
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
@@ -491,6 +491,11 @@ internal sealed class LocalDefinitionTransfer
         return (call.Instance is { Type.IsReferenceType: false } receiver && TargetsLocal(receiver, local, operationRoot))
             || call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot));
     }
+
+    private static bool PropertyRetainsStorage(IPropertyReferenceOperation property, ILocalSymbol local, IOperation? operationRoot) =>
+        (property.Instance is { Type.IsReferenceType: false } receiver && TargetsLocal(receiver, local, operationRoot))
+        || ((property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly || property.Type?.IsRefLikeType == true)
+            && property.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)));
 
     private static bool CanRetainStorage(IArgumentOperation argument, ILocalSymbol local, IOperation? operationRoot) =>
         argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
