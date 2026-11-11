@@ -9,24 +9,24 @@ function Remove-ReleasedWorktree {
     )
 
     if (-not (Test-Path -LiteralPath $Worktree)) { return }
-    $target = (Resolve-Path -LiteralPath $Worktree).Path.TrimEnd('\', '/')
+    . (Join-Path $PSScriptRoot 'WorktreeCleanup.ps1')
+    $target = Resolve-WorktreeDirectoryPath -Path (Resolve-Path -LiteralPath $Worktree).ProviderPath
     $common = git rev-parse --path-format=absolute --git-common-dir 2>$null
     if ($LASTEXITCODE -ne 0) { throw 'Cannot identify the calling repository.' }
     $targetCommon = git -C $target rev-parse --path-format=absolute --git-common-dir 2>$null
-    if ($LASTEXITCODE -ne 0 -or $targetCommon -ne $common) {
+    if ($LASTEXITCODE -ne 0 -or -not (Test-SameNativePath -Left $targetCommon -Right $common -ResolveLinks)) {
         throw "Worktree belongs to another repository: $target"
     }
     $top = git -C $target rev-parse --show-toplevel 2>$null
-    if ($LASTEXITCODE -ne 0 -or [IO.Path]::GetFullPath($top) -ne $target) {
+    if ($LASTEXITCODE -ne 0 -or -not (Test-SameNativePath -Left $top -Right $target -ResolveLinks)) {
         throw "Not a worktree root: $target"
     }
     $gitDirectory = git -C $target rev-parse --absolute-git-dir 2>$null
-    if ($LASTEXITCODE -ne 0 -or $gitDirectory -eq $common -or
+    if ($LASTEXITCODE -ne 0 -or (Test-SameNativePath -Left $gitDirectory -Right $common -ResolveLinks) -or
         (Test-Path -LiteralPath (Join-Path $gitDirectory 'locked'))) {
         Write-Host "Preserving main or Git-locked worktree: $target"
         return
     }
-    . (Join-Path $PSScriptRoot 'WorktreeCleanup.ps1')
     $marker = git -C $target config --worktree --get agent.lockName 2>$null
     if ($LASTEXITCODE -ne 0 -or $marker -cne $LockName -or -not (Test-WorktreeLockMarkerOwner -Worktree $target)) {
         Write-Host "Preserving worktree without a matching lock marker: $target"
@@ -35,8 +35,14 @@ function Remove-ReleasedWorktree {
     $entries = @(git worktree list --porcelain)
     if ($LASTEXITCODE -ne 0) { throw 'Cannot list registered worktrees.' }
     $paths = @($entries | Where-Object { $_.StartsWith('worktree ') } |
-        ForEach-Object { [IO.Path]::GetFullPath($_.Substring(9)).TrimEnd('\', '/') })
-    if ($target -notin $paths -or $paths.Count -eq 0) { throw "Unregistered worktree: $target" }
+        ForEach-Object {
+            $path = $_.Substring(9)
+            if (Test-Path -LiteralPath $path -PathType Container) { Resolve-WorktreeDirectoryPath -Path $path }
+            else { [IO.Path]::GetFullPath($path).TrimEnd('\', '/') }
+        })
+    if ($paths.Count -eq 0 -or -not ($paths | Where-Object { Test-SameNativePath -Left $_ -Right $target })) {
+        throw "Unregistered worktree: $target"
+    }
     $repo = $paths[0]
     $relative = [IO.Path]::GetRelativePath($repo, $target)
     if ($relative -eq '.' -or (-not [IO.Path]::IsPathRooted($relative) -and

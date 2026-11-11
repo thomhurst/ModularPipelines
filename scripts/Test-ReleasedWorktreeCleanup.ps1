@@ -1,6 +1,8 @@
 #!/usr/bin/env pwsh
 # Local regression suite: requires Git, PowerShell 7 and Docker.
 $ErrorActionPreference = 'Stop'
+& pwsh -NoProfile -File (Join-Path $PSScriptRoot 'Test-ReleasedWorktreePaths.ps1')
+if ($LASTEXITCODE -ne 0) { throw 'Released-worktree path regression tests failed.' }
 # These fixtures exercise only the explicitly single-machine Docker mode.
 $previousRedisMode = $env:MODULARPIPELINES_AGENT_REDIS_MODE
 $previousRedisEndpoint = $env:MODULARPIPELINES_AGENT_REDIS_ENDPOINT

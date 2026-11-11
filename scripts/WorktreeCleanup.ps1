@@ -122,13 +122,36 @@ function Test-IsLinkedWorktree {
     return $firstLine -match '^gitdir:\s*\S+'
 }
 
+function Resolve-WorktreeDirectoryPath {
+    param([Parameter(Mandatory)][string]$Path)
+
+    $directory = [IO.DirectoryInfo]::new([IO.Path]::GetFullPath($Path))
+    if (-not $directory.Exists) { throw "Directory does not exist: $Path" }
+    if ($null -eq $directory.Parent) { return $directory.FullName }
+
+    # Resolve ancestors first: ResolveLinkTarget alone only handles a leaf link,
+    # while macOS temporary paths commonly contain the /var -> /private/var alias.
+    $parent = Resolve-WorktreeDirectoryPath -Path $directory.Parent.FullName
+    $directory = [IO.DirectoryInfo]::new((Join-Path $parent $directory.Name))
+    $linkTarget = $directory.ResolveLinkTarget($true)
+    if ($null -ne $linkTarget) {
+        return Resolve-WorktreeDirectoryPath -Path $linkTarget.FullName
+    }
+    return $directory.FullName
+}
+
 function Test-SameNativePath {
     param(
         [Parameter(Mandatory)][string]$Left,
-        [Parameter(Mandatory)][string]$Right
+        [Parameter(Mandatory)][string]$Right,
+        [switch]$ResolveLinks
     )
 
     try {
+        if ($ResolveLinks) {
+            $Left = Resolve-WorktreeDirectoryPath -Path $Left
+            $Right = Resolve-WorktreeDirectoryPath -Path $Right
+        }
         $leftPath = [IO.Path]::GetFullPath($Left).TrimEnd([char[]]@('/', '\'))
         $rightPath = [IO.Path]::GetFullPath($Right).TrimEnd([char[]]@('/', '\'))
         $comparison = if ($IsWindows) { [StringComparison]::OrdinalIgnoreCase } else { [StringComparison]::Ordinal }
@@ -149,7 +172,7 @@ function Test-WorktreeLockMarkerOwner {
     if ([string]::IsNullOrWhiteSpace($owner)) { return $false }
     $top = git -C $Worktree rev-parse --show-toplevel 2>$null
     if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($top)) { throw "Cannot resolve worktree root: $Worktree" }
-    return Test-SameNativePath -Left $owner.Trim() -Right $top
+    return Test-SameNativePath -Left $owner.Trim() -Right $top -ResolveLinks
 }
 
 function Get-PrNumberFromWorktreePath {
