@@ -805,33 +805,7 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
-        // This deliberately includes unreachable and nested writes. Precise lifetime
-        // and alias analysis can relax the guard without accepting mutable captures.
-        return !GetRoot(reference).DescendantsAndSelf()
-            .OfType<IParameterReferenceOperation>()
-            .Where(candidate => SymbolEqualityComparer.Default.Equals(candidate.Parameter, reference.Parameter))
-            .Any(IsPotentialParameterWrite);
-    }
-
-    private static bool IsPotentialParameterWrite(IParameterReferenceOperation reference)
-    {
-        IOperation target = reference;
-        while (target.Parent is IConversionOperation or IParenthesizedOperation or ITupleOperation
-            || (target.Parent is IConditionalOperation { IsRef: true } conditional
-                && (ReferenceEquals(conditional.WhenTrue, target) || ReferenceEquals(conditional.WhenFalse, target))))
-        {
-            target = target.Parent;
-        }
-
-        return target.Parent switch
-        {
-            IAssignmentOperation assignment when ReferenceEquals(assignment.Target, target) => true,
-            ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } } assignment
-                when ReferenceEquals(assignment.Value, target) => true,
-            IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } => true,
-            IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } } => true,
-            _ => false,
-        };
+        return CapturedCancellationTokenAnalysis.IsStable(GetRoot(reference), reference.Parameter);
     }
 
     private static ImmutableArray<IParameterSymbol> GetFlowingCancellationTokens(
