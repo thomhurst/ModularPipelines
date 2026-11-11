@@ -19,23 +19,24 @@ internal sealed class CancellationTokenReachingValues
     private readonly SemanticModel _model;
     private readonly OperationExceptionClassifier _exceptions;
     private readonly HashSet<IMethodSymbol> _visitedMethods;
-    private readonly IParameterSymbol _source;
+    private readonly HashSet<IParameterSymbol> _visitedSources;
     private readonly Dictionary<(TextSpan Span, OperationKind Kind), bool> _values = [];
 
-    private CancellationTokenReachingValues(ControlFlowGraph graph, SemanticModel model, HashSet<IMethodSymbol> visitedMethods, IParameterSymbol source)
+    private CancellationTokenReachingValues(ControlFlowGraph graph, SemanticModel model, HashSet<IMethodSymbol> visitedMethods, HashSet<IParameterSymbol> visitedSources)
     {
         _graph = graph;
         _model = model;
         _visitedMethods = visitedMethods;
-        _source = source;
+        _visitedSources = visitedSources;
         _exceptions = new OperationExceptionClassifier(model);
     }
 
-    public static bool? TryGetValue(IOperation reference, IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods = null)
+    public static bool? TryGetValue(IOperation reference, IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods = null, HashSet<IParameterSymbol>? visitedSources = null)
     {
         var root = GetAnalysisRoot(reference);
         if (root?.SemanticModel is not { } model
-            || !root.DescendantsAndSelf().Any(static operation => operation is ILoopOperation or ITryOperation))
+            || (visitedMethods is not { Count: > 0 }
+                && !root.DescendantsAndSelf().Any(static operation => operation is ILoopOperation or ITryOperation)))
         {
             return null;
         }
@@ -43,7 +44,7 @@ internal sealed class CancellationTokenReachingValues
         // Helper proofs depend on their call-chain recursion guard and must not share
         // the context-free cache or re-enter a Lazy analysis under construction.
         var analysis = visitedMethods is { Count: > 0 }
-            ? Create(root, model, source, visitedMethods)
+            ? Create(root, model, source, visitedMethods, visitedSources)
             : Analyses.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
                 .GetOrAdd(source, _ => new Lazy<CancellationTokenReachingValues?>(() => Create(
                     root, model, source, [with(SymbolEqualityComparer.Default)]))).Value;
@@ -74,7 +75,7 @@ internal sealed class CancellationTokenReachingValues
         return root;
     }
 
-    private static CancellationTokenReachingValues? Create(IOperation root, SemanticModel model, IParameterSymbol source, HashSet<IMethodSymbol> visitedMethods)
+    private static CancellationTokenReachingValues? Create(IOperation root, SemanticModel model, IParameterSymbol source, HashSet<IMethodSymbol> visitedMethods, HashSet<IParameterSymbol>? visitedSources = null)
     {
         ControlFlowGraph? graph;
         try
@@ -92,7 +93,11 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
-        var analysis = new CancellationTokenReachingValues(graph, model, visitedMethods, source);
+        var sources = visitedSources is null
+            ? [with(SymbolEqualityComparer.Default)]
+            : new HashSet<IParameterSymbol>(visitedSources, SymbolEqualityComparer.Default);
+        sources.Add(source);
+        var analysis = new CancellationTokenReachingValues(graph, model, visitedMethods, sources);
         var initial = new State();
         initial.Values.Add(source);
         analysis.Run(graph.Root, initial, graph.Blocks[0]);
@@ -107,11 +112,25 @@ internal sealed class CancellationTokenReachingValues
 
         public HashSet<CaptureId> Captures { get; } = [];
 
+        public Dictionary<ILocalSymbol, HashSet<ISymbol>> Aliases { get; } = [with(SymbolEqualityComparer.Default)];
+
+        public Dictionary<CaptureId, HashSet<ISymbol>> CaptureAliases { get; } = [];
+
         public State Clone()
         {
             var copy = new State();
             copy.Values.UnionWith(Values);
             copy.Captures.UnionWith(Captures);
+            foreach (var alias in Aliases)
+            {
+                copy.Aliases.Add(alias.Key, new(alias.Value, SymbolEqualityComparer.Default));
+            }
+
+            foreach (var alias in CaptureAliases)
+            {
+                copy.CaptureAliases.Add(alias.Key, new(alias.Value, SymbolEqualityComparer.Default));
+            }
+
             return copy;
         }
 
@@ -120,7 +139,37 @@ internal sealed class CancellationTokenReachingValues
             var count = Values.Count + Captures.Count;
             Values.IntersectWith(other.Values);
             Captures.IntersectWith(other.Captures);
-            return count != Values.Count + Captures.Count;
+            var aliasesChanged = MergeAliases(Aliases, other.Aliases);
+            aliasesChanged |= MergeAliases(CaptureAliases, other.CaptureAliases);
+            return count != Values.Count + Captures.Count || aliasesChanged;
+        }
+
+        private static bool MergeAliases<TKey>(Dictionary<TKey, HashSet<ISymbol>> aliases, Dictionary<TKey, HashSet<ISymbol>> other)
+            where TKey : notnull
+        {
+            var changed = false;
+            foreach (var key in aliases.Keys.Concat(other.Keys).Distinct(aliases.Comparer).ToArray())
+            {
+                if (!aliases.TryGetValue(key, out var targets))
+                {
+                    // An absent binding on one path makes the location unknown.
+                    aliases.Add(key, [with(SymbolEqualityComparer.Default)]);
+                    changed = true;
+                }
+                else if (!other.TryGetValue(key, out var incoming) || incoming.Count == 0)
+                {
+                    changed |= targets.Count > 0;
+                    targets.Clear();
+                }
+                else if (targets.Count > 0)
+                {
+                    var count = targets.Count;
+                    targets.UnionWith(incoming);
+                    changed |= count != targets.Count;
+                }
+            }
+
+            return changed;
         }
     }
 
@@ -348,20 +397,18 @@ internal sealed class CancellationTokenReachingValues
         var value = operation switch
         {
             IParameterReferenceOperation parameter => state.Values.Contains(parameter.Parameter),
-            ILocalReferenceOperation local => state.Values.Contains(local.Local),
+            ILocalReferenceOperation local => ReadLocal(local.Local, state),
             IFlowCaptureReferenceOperation capture => state.Captures.Contains(capture.Id),
             IFlowCaptureOperation capture => EvaluateCapture(capture, state, block, exceptional),
             ISimpleAssignmentOperation assignment => EvaluateAssignment(assignment, state, block, exceptional),
+            IDeconstructionAssignmentOperation deconstruction => EvaluateDeconstruction(deconstruction, state, block, exceptional),
             IConversionOperation conversion => EvaluateConversion(conversion, state, block, exceptional),
             IPropertyReferenceOperation property => EvaluateProperty(property, state, block, exceptional),
             IInvocationOperation invocation => EvaluateInvocation(invocation, state, block, exceptional),
             _ => EvaluateOther(operation, state, block, exceptional),
         };
-        if (operation is ILocalReferenceOperation or IParameterReferenceOperation)
-        {
-            var key = (operation.Syntax.Span, operation.Kind);
-            _values[key] = (!_values.TryGetValue(key, out var existing) || existing) && value;
-        }
+        var key = (operation.Syntax.Span, operation.Kind);
+        _values[key] = (!_values.TryGetValue(key, out var existing) || existing) && value;
 
         return value;
     }
@@ -370,33 +417,216 @@ internal sealed class CancellationTokenReachingValues
     {
         var value = Evaluate(capture.Value, state, block, exceptional);
         Set(state.Captures, capture.Id, value);
+        state.CaptureAliases[capture.Id] = ResolveStorage(capture.Value, state);
         return value;
     }
 
     private bool EvaluateAssignment(ISimpleAssignmentOperation assignment, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
     {
-        if (assignment.Target is not (ILocalReferenceOperation or IParameterReferenceOperation or IDiscardOperation))
-        {
-            Evaluate(assignment.Target, state, block, exceptional);
-        }
+        EvaluateTarget(assignment.Target, state, block, exceptional);
 
         var value = Evaluate(assignment.Value, state, block, exceptional);
-        switch (assignment.Target)
+        if (assignment is { IsRef: true, Target: ILocalReferenceOperation alias })
         {
-            case ILocalReferenceOperation local:
-                Set(state.Values, local.Local, value);
-                break;
-            case IParameterReferenceOperation parameter:
-                Set(state.Values, parameter.Parameter, value);
-                break;
-            case IDiscardOperation:
-                break;
-            default:
-                exceptional(block, state.Clone());
-                break;
+            state.Aliases[alias.Local] = ResolveStorage(assignment.Value, state);
+        }
+        else if (!StoreTarget(assignment.Target, value, state))
+        {
+            exceptional(block, state.Clone());
         }
 
         return value;
+    }
+
+    private bool EvaluateDeconstruction(IDeconstructionAssignmentOperation assignment, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    {
+        EvaluateTarget(assignment.Target, state, block, exceptional);
+        List<(IOperation Target, bool Value)> stores = [];
+        EvaluateDeconstructionValues(assignment.Target, assignment.Value, stores, state, block, exceptional);
+        if (!_exceptions.Classify(assignment).IsEmpty)
+        {
+            exceptional(block, state.Clone());
+        }
+
+        // Evaluate every RHS element before any store, including swaps and nested tuples.
+        foreach (var (target, value) in stores)
+        {
+            if (!StoreTarget(target, value, state))
+            {
+                exceptional(block, state.Clone());
+            }
+        }
+
+        return false;
+    }
+
+    private void EvaluateDeconstructionValues(IOperation target, IOperation value, List<(IOperation Target, bool Value)> stores,
+        State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    {
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        if (target is not ITupleOperation targets)
+        {
+            stores.Add((target, Evaluate(value, state, block, exceptional)));
+            return;
+        }
+
+        var originalValue = value;
+        List<IConversionOperation> conversions = [];
+        while (value is IConversionOperation { OperatorMethod: null } conversion)
+        {
+            conversions.Add(conversion);
+            value = conversion.Operand;
+        }
+
+        if (value is ITupleOperation values && values.Elements.Length == targets.Elements.Length)
+        {
+            for (var index = 0; index < targets.Elements.Length; index++)
+            {
+                EvaluateDeconstructionValues(targets.Elements[index], values.Elements[index], stores, state, block, exceptional);
+            }
+
+            foreach (var conversion in conversions)
+            {
+                if (!_exceptions.Classify(conversion).IsEmpty)
+                {
+                    exceptional(block, state.Clone());
+                }
+            }
+        }
+        else
+        {
+            Evaluate(originalValue, state, block, exceptional);
+            AddUnknownStores(target, stores);
+        }
+    }
+
+    private void EvaluateTarget(IOperation target, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
+    {
+        // Location operands precede the RHS, but dereferencing or invoking a setter
+        // happens at the store, after RHS evaluation and preceding tuple stores.
+        switch (target)
+        {
+            case IDeclarationExpressionOperation declaration:
+                EvaluateTarget(declaration.Expression, state, block, exceptional);
+                break;
+            case ITupleOperation tuple:
+                foreach (var element in tuple.Elements)
+                {
+                    EvaluateTarget(element, state, block, exceptional);
+                }
+
+                break;
+            case IArrayElementReferenceOperation array:
+                Evaluate(array.ArrayReference, state, block, exceptional);
+                foreach (var index in array.Indices)
+                {
+                    Evaluate(index, state, block, exceptional);
+                }
+
+                break;
+            case IPropertyReferenceOperation property:
+                if (property.Instance is { } receiver)
+                {
+                    Evaluate(receiver, state, block, exceptional);
+                }
+
+                foreach (var argument in property.Arguments)
+                {
+                    Evaluate(argument.Value, state, block, exceptional);
+                }
+
+                break;
+            case IFieldReferenceOperation { Instance: { } fieldReceiver }:
+                Evaluate(fieldReceiver, state, block, exceptional);
+                break;
+            default:
+                foreach (var child in target.ChildOperations)
+                {
+                    Evaluate(child, state, block, exceptional);
+                }
+
+                break;
+        }
+    }
+
+    private static void AddUnknownStores(IOperation target, List<(IOperation Target, bool Value)> stores)
+    {
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        if (target is ITupleOperation tuple)
+        {
+            foreach (var element in tuple.Elements)
+            {
+                AddUnknownStores(element, stores);
+            }
+        }
+        else
+        {
+            stores.Add((target, false));
+        }
+    }
+
+    private static bool ReadLocal(ILocalSymbol local, State state)
+    {
+        return local.RefKind == RefKind.None
+            ? state.Values.Contains(local)
+            : state.Aliases.TryGetValue(local, out var targets) && targets.Count > 0 && targets.All(state.Values.Contains);
+    }
+
+    private static HashSet<ISymbol> ResolveStorage(IOperation reference, State state)
+    {
+        return reference switch
+        {
+            ILocalReferenceOperation { Local.RefKind: RefKind.None } local => [with(SymbolEqualityComparer.Default), local.Local],
+            ILocalReferenceOperation local when state.Aliases.TryGetValue(local.Local, out var targets) => new(targets, SymbolEqualityComparer.Default),
+            IParameterReferenceOperation parameter => [with(SymbolEqualityComparer.Default), parameter.Parameter],
+            IFlowCaptureReferenceOperation capture when state.CaptureAliases.TryGetValue(capture.Id, out var targets) => new(targets, SymbolEqualityComparer.Default),
+            IConversionOperation conversion => ResolveStorage(conversion.Operand, state),
+            IParenthesizedOperation parenthesized => ResolveStorage(parenthesized.Operand, state),
+            _ => [with(SymbolEqualityComparer.Default)],
+        };
+    }
+
+    private static bool StoreTarget(IOperation target, bool value, State state)
+    {
+        if (target is IDeclarationExpressionOperation declaration)
+        {
+            target = declaration.Expression;
+        }
+
+        if (target is IDiscardOperation)
+        {
+            return true;
+        }
+
+        if (target is not (ILocalReferenceOperation or IParameterReferenceOperation or IFlowCaptureReferenceOperation))
+        {
+            return false;
+        }
+
+        var targets = ResolveStorage(target, state);
+        if (targets.Count == 0)
+        {
+            // A ref-return or heap alias may designate any tracked storage.
+            state.Values.Clear();
+        }
+        else if (targets.Count == 1)
+        {
+            Set(state.Values, targets.Single(), value);
+        }
+        else if (!value)
+        {
+            state.Values.ExceptWith(targets);
+        }
+
+        return true;
     }
 
     private bool EvaluateConversion(IConversionOperation conversion, State state, BasicBlock block, Action<BasicBlock, State> exceptional)
@@ -436,19 +666,7 @@ internal sealed class CancellationTokenReachingValues
         return (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
                 && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource"
                 && arguments.Any(static argument => argument))
-            || IsSourcePreservingRecursion(invocation, arguments)
-            || ModuleAuthoringAnalysis.FlowsFromCancellationTokenSourceHelper(invocation, _model.Compilation, arguments, receiverValue, _visitedMethods);
-    }
-
-    private bool IsSourcePreservingRecursion(IInvocationOperation invocation, bool[] arguments)
-    {
-        // Prove direct recursion by induction: the enclosing helper's returns are
-        // still checked, and the recursive edge must retain the same input slot.
-        // Accepting any flowing argument here would wrongly accept swapped inputs.
-        return SymbolEqualityComparer.Default.Equals(invocation.Type, _source.Type)
-            && SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.OriginalDefinition, _source.ContainingSymbol)
-            && invocation.Arguments.Where((argument, index) => arguments[index]
-                && SymbolEqualityComparer.Default.Equals(argument.Parameter, _source)).Any();
+            || ModuleAuthoringAnalysis.FlowsFromCancellationTokenSourceHelper(invocation, _model.Compilation, arguments, receiverValue, _visitedMethods, _visitedSources);
     }
 
     private static void InvalidateRefArguments(IInvocationOperation invocation, State state)
@@ -502,15 +720,7 @@ internal sealed class CancellationTokenReachingValues
 
     private static void InvalidateArgument(IOperation argument, State state)
     {
-        switch (argument)
-        {
-            case ILocalReferenceOperation local:
-                state.Values.Remove(local.Local);
-                break;
-            case IParameterReferenceOperation parameter:
-                state.Values.Remove(parameter.Parameter);
-                break;
-        }
+        StoreTarget(argument, false, state);
     }
 
     private bool IsBuiltInIteration(IInvocationOperation invocation)

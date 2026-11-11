@@ -206,6 +206,21 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             for (var i = 0; i < 2; i++) await CALL(1, token);
             """, true];
 
+        foreach (var call in new[] { "CycleA(cancellationToken, default, 2)", "CycleExpressionA(cancellationToken, 2)" })
+        {
+            yield return ["helper-cycle-" + call, $$"""
+                var token = {{call}};
+                for (var i = 0; i < 2; i++) await CALL(1, token);
+                """, false];
+        }
+        foreach (var call in new[] { "CycleSwapA(cancellationToken, default, 2)", "CycleDropA(cancellationToken, 2)" })
+        {
+            yield return ["helper-cycle-invalid-" + call, $$"""
+                var token = {{call}};
+                for (var i = 0; i < 2; i++) await CALL(1, token);
+                """, true];
+        }
+
         yield return ["forty-conditional-copies", string.Join("\n", Enumerable.Range(0, 40).Select(i =>
             $"var copy{i} = context is null ? {(i == 0 ? "cancellationToken" : $"copy{i - 1}")} : {(i == 0 ? "cancellationToken" : $"copy{i - 1}")};"))
             + "for (var i = 0; i < 2; i++) await CALL(1, copy39);", false];
@@ -422,6 +437,75 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         }
     }
 
+    public static IEnumerable<object[]> HelperCases()
+    {
+        yield return ["loop-reset", "for (var i = 0; i < 2; i++) { } token = default; return token;", true];
+        yield return ["straight-line-reset", "token = default; return token;", true];
+        yield return ["conditional-reset", "if (token.CanBeCanceled) token = default; return token;", true];
+        yield return ["loop-carried-reset", "for (var i = 0; i < 2; i++) { if (i == 1) token = default; } return token;", true];
+        yield return ["self-assignment", "for (var i = 0; i < 2; i++) token = token; return token;", false];
+        yield return ["restored-copy", "var original = token; token = default; token = original; return token;", false];
+        yield return ["saved-copy", "var original = token; token = default; return original;", false];
+        yield return ["replaced-local", "var copy = token; for (var i = 0; i < 2; i++) copy = default; return copy;", true];
+        yield return ["catch-reset", "try { throw new System.Exception(); } catch { token = default; } return token;", true];
+        yield return ["finally-reset", "try { } finally { token = default; } return token;", true];
+        yield return ["finally-restores", "var original = token; try { token = default; } finally { token = original; } return token;", false];
+        yield return ["nested-helper", "return Pass(token);", false];
+        yield return ["ref-write", "void Reset(ref CancellationToken value) { value = default; } Reset(ref token); return token;", true];
+        yield return ["out-write", "void Reset(out CancellationToken value) { value = default; } Reset(out token); return token;", true];
+        yield return ["nested-reset", "return Drop(token);", true];
+        yield return ["extension-reset", "return token.DropToken();", true];
+        yield return ["return-snapshot-before-finally", "try { return token; } finally { token = default; }", false];
+        yield return ["recursive-result-not-used", "_ = RecursivePass(token, 2); return token;", false];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(HelperCases))]
+    public async Task Tracks_Helper_Parameter_Writes(string name, string body, bool warning)
+    {
+        _ = name;
+        await Verify("""
+            var token = WithWrites(cancellationToken);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, warning, $$"""
+            private static CancellationToken WithWrites(CancellationToken token) { {{body}} }
+            """);
+    }
+
+    public static IEnumerable<object[]> StoreCases()
+    {
+        yield return ["deconstruct-local", "var token = cancellationToken; (token, _) = (CancellationToken.None, 0);", true];
+        yield return ["deconstruct-parameter", "(cancellationToken, _) = (CancellationToken.None, 0); var token = cancellationToken;", true];
+        yield return ["deconstruct-preserves", "var token = default(CancellationToken); (token, _) = (cancellationToken, 0);", false];
+        yield return ["deconstruct-snapshot", "var token = default(CancellationToken); var saved = cancellationToken; (saved, token) = (default, saved);", false];
+        yield return ["deconstruct-swap", "var token = cancellationToken; var other = default(CancellationToken); (token, other) = (other, token);", true];
+        yield return ["deconstruct-nested", "var token = cancellationToken; ((token, _), _) = ((default(CancellationToken), 0), 0);", true];
+        yield return ["deconstruct-opaque", "(CancellationToken, int) Pair() => (default, 0); var token = cancellationToken; (token, _) = Pair();", true];
+        yield return ["ref-local-write", "var token = cancellationToken; { ref CancellationToken alias = ref token; alias = default; }", true];
+        yield return ["ref-parameter-write", "{ ref CancellationToken alias = ref cancellationToken; alias = default; } var token = cancellationToken;", true];
+        yield return ["ref-chain-write", "var token = cancellationToken; { ref CancellationToken alias = ref token; ref CancellationToken second = ref alias; second = default; }", true];
+        yield return ["ref-rebind", "var token = cancellationToken; var other = cancellationToken; { ref CancellationToken alias = ref token; alias = ref other; alias = default; }", false];
+        yield return ["ref-rebind-retains-old-alias", "var token = cancellationToken; var other = cancellationToken; { ref CancellationToken alias = ref token; ref CancellationToken second = ref alias; alias = ref other; second = default; }", true];
+        yield return ["ref-restore", "var token = default(CancellationToken); { ref CancellationToken alias = ref token; alias = cancellationToken; }", false];
+        yield return ["ref-read-after-backing-write", "var token = cancellationToken; var saved = cancellationToken; { ref CancellationToken alias = ref token; token = default; saved = alias; } token = saved;", true];
+        yield return ["ref-argument", "void Reset(ref CancellationToken value) { value = default; } var token = cancellationToken; { ref CancellationToken alias = ref token; Reset(ref alias); }", true];
+        yield return ["out-argument", "void Reset(out CancellationToken value) { value = default; } var token = cancellationToken; { ref CancellationToken alias = ref token; Reset(out alias); }", true];
+        yield return ["deconstruct-ref-target", "var token = cancellationToken; { ref CancellationToken alias = ref token; (alias, _) = (default(CancellationToken), 0); }", true];
+        yield return ["ref-conditional-write", "var token = cancellationToken; var other = cancellationToken; { ref CancellationToken alias = ref (context is null ? ref token : ref other); alias = default; }", true];
+        yield return ["deconstruct-unboxing-throw", "var token = cancellationToken; object boxed = context; try { CancellationToken ignored; int number; (ignored, number) = ((CancellationToken, int))boxed; } catch { token = default; }", true];
+        yield return ["deconstruct-tuple-conversion-throw", "var token = cancellationToken; try { CancellationToken ignored; int number; decimal amount = decimal.MaxValue; (ignored, number) = ((CancellationToken, int))(cancellationToken, amount); } catch { token = default; }", true];
+        yield return ["deconstruct-rhs-before-null-store", "var token = default(CancellationToken); CancellationToken[] items = null!; try { (items[0], _) = ((token = cancellationToken), 0); } catch { }", false];
+        yield return ["deconstruct-dynamic-target-effects", "var token = cancellationToken; dynamic target = context; try { (target[(token = default)], _) = (1, 0); } catch { }", true];
+    }
+
+    [TestMethod]
+    [DynamicData(nameof(StoreCases))]
+    public async Task Tracks_Stores_And_Ref_Aliases(string name, string body, bool warning)
+    {
+        _ = name;
+        await Verify(body + "\nfor (var i = 0; i < 2; i++) await CALL(1, token);", warning);
+    }
+
     [TestMethod]
     [DynamicData(nameof(ExceptionCases))]
     public async Task Tracks_Exception_And_Cleanup_Values(string name, string body, bool warning)
@@ -430,7 +514,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         await Verify(body, warning);
     }
 
-    private static async Task Verify(string body, bool warning)
+    private static async Task Verify(string body, bool warning, string helpers = "")
     {
         body = body.Replace("CALL", warning ? "{|#0:Task.Delay|}" : "Task.Delay");
         // Mark the invocation, rather than only its method name.
@@ -442,6 +526,7 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             {{TestSourceConstants.StandardModuleHeaderWithExtensions}}
             public class BuildModule : Module<List<string>>
             {
+                {{helpers}}
                 private static CancellationToken Pass(CancellationToken token) => token;
                 private static CancellationToken Pick(CancellationToken ignored, CancellationToken token) => token;
                 private static bool ThrowFilter() => throw new System.Exception();
@@ -487,6 +572,41 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                     for (var i = 0; i < remaining; i++) token = RecursivePass(token, remaining - 1);
                     return token;
                 }
+                private static CancellationToken CycleA(CancellationToken token, CancellationToken other, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = CycleB(remaining - 1, other, token);
+                    return token;
+                }
+                private static CancellationToken CycleB(int remaining, CancellationToken other, CancellationToken token)
+                {
+                    for (var i = 0; i < remaining; i++) token = CycleA(token, other, remaining - 1);
+                    return token;
+                }
+                private static CancellationToken CycleExpressionA(CancellationToken token, int remaining)
+                    => remaining > 0 ? CycleExpressionB(token, remaining - 1) : token;
+                private static CancellationToken CycleExpressionB(CancellationToken token, int remaining)
+                    => remaining > 0 ? CycleExpressionA(token, remaining - 1) : token;
+                private static CancellationToken CycleSwapA(CancellationToken token, CancellationToken other, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = CycleSwapB(other, token, remaining - 1);
+                    return token;
+                }
+                private static CancellationToken CycleSwapB(CancellationToken token, CancellationToken other, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = CycleSwapA(token, other, remaining - 1);
+                    return token;
+                }
+                private static CancellationToken CycleDropA(CancellationToken token, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = CycleDropB(token, remaining - 1);
+                    return token;
+                }
+                private static CancellationToken CycleDropB(CancellationToken token, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = CycleDropA(token, remaining - 1);
+                    token = default;
+                    return token;
+                }
 
                 protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                 {
@@ -497,6 +617,11 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             public static class TokenExtensions
             {
                 public static CancellationToken PassToken(this CancellationToken token) => token;
+                public static CancellationToken DropToken(this CancellationToken token)
+                {
+                    token = default;
+                    return token;
+                }
             }
             public class Resource : System.IDisposable, System.IAsyncDisposable
             {

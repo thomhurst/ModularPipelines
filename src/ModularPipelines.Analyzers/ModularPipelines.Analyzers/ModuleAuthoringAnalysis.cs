@@ -5654,7 +5654,8 @@ internal static class ModuleAuthoringAnalysis
         Compilation compilation,
         bool[] argumentValues,
         bool receiverValue,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IParameterSymbol> visitedSources)
     {
         if (!IsCancellationCarrier(invocation.Type))
         {
@@ -5662,9 +5663,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var method = NormalizeMethod(invocation.TargetMethod);
-        visitedMethods = CloneVisitedMethods(visitedMethods);
-        if (!visitedMethods.Add(method)
-            || GetMethodOperation(method, compilation, default) is not { } operation)
+        if (GetMethodOperation(method, compilation, default) is not { } operation)
         {
             return false;
         }
@@ -5685,19 +5684,31 @@ internal static class ModuleAuthoringAnalysis
             flowedParameters.Add(receiverParameter);
         }
 
+        visitedMethods = CloneVisitedMethods(visitedMethods);
+        if (!visitedMethods.Add(method))
+        {
+            // The active bodies still prove their returns. A recursive edge may
+            // assume that proof only when every original source slot is retained.
+            var sources = visitedSources.Where(source =>
+                SymbolEqualityComparer.Default.Equals(source.ContainingSymbol, method)).ToArray();
+            return sources.Length > 0 && sources.All(flowedParameters.Contains);
+        }
+
         return flowedParameters.Count > 0
             && HelperReturnsFlowedCancellationToken(
                 operation,
                 flowedParameters,
                 [with(SymbolEqualityComparer.Default)],
-                visitedMethods);
+                visitedMethods,
+                visitedSources);
     }
 
     private static bool HelperReturnsFlowedCancellationToken(
         IOperation operation,
         HashSet<IParameterSymbol> flowedParameters,
         HashSet<ILocalSymbol> visitedLocals,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IParameterSymbol>? visitedSources = null)
     {
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
@@ -5712,7 +5723,8 @@ internal static class ModuleAuthoringAnalysis
                    .SelectMany(GetReachableValueLeaves)
                    .Where(static returnValue => !AlwaysThrows(returnValue))
                    .All(returnValue => flowedParameters.Any(parameter =>
-                       FlowsFromCancellationToken(
+                       CancellationTokenReachingValues.TryGetValue(returnValue, parameter, visitedMethods, visitedSources)
+                       ?? FlowsFromCancellationToken(
                            returnValue,
                            parameter,
                            CloneVisitedLocals(visitedLocals),
