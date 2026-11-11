@@ -76,24 +76,13 @@ internal sealed class LocalDefinitionTransfer
 
         // A captured ??= location lowers to a simple assignment on the store path only.
         if (operation is ISimpleAssignmentOperation assignment
-            && _operationRoot.SemanticModel?.GetOperation(operation.Syntax) is ICoalesceAssignmentOperation
-            { Target: ILocalReferenceOperation reference }
-            && SymbolEqualityComparer.Default.Equals(reference.Local, _local))
+            && IsLoweredCoalescingStore(operation))
         {
             ApplyAssignedValue(assignment.Value, state);
             return;
         }
 
-        var target = operation switch
-        {
-            ISimpleAssignmentOperation { IsRef: true } => null,
-            IAssignmentOperation store => store.Target,
-            IIncrementOrDecrementOperation increment => increment.Target,
-            _ => null,
-        };
-        if (target is not null && MayReferenceLocal(target)
-            && (target is not ILocalReferenceOperation direct
-                || !SymbolEqualityComparer.Default.Equals(direct.Local, _local)))
+        if (WritesThroughAliasOrMember(operation))
         {
             Invalidate(state);
             return;
@@ -105,6 +94,25 @@ internal sealed class LocalDefinitionTransfer
         }
     }
 
+    private bool IsLoweredCoalescingStore(IOperation operation) =>
+        _operationRoot.SemanticModel?.GetOperation(operation.Syntax) is ICoalesceAssignmentOperation
+        { Target: ILocalReferenceOperation reference }
+        && SymbolEqualityComparer.Default.Equals(reference.Local, _local);
+
+    private bool WritesThroughAliasOrMember(IOperation operation)
+    {
+        var target = operation switch
+        {
+            ISimpleAssignmentOperation { IsRef: true } => null,
+            IAssignmentOperation store => store.Target,
+            IIncrementOrDecrementOperation increment => increment.Target,
+            _ => null,
+        };
+        return target is not null && MayReferenceLocal(target)
+            && (target is not ILocalReferenceOperation direct
+                || !SymbolEqualityComparer.Default.Equals(direct.Local, _local));
+    }
+
     internal void ApplyTargetStore(IOperation target, IOperation? value, HashSet<TextSpan> state)
     {
         if (target is IDeclarationExpressionOperation declaration)
@@ -114,17 +122,7 @@ internal sealed class LocalDefinitionTransfer
 
         if (target is ITupleOperation tuple)
         {
-            while (value is IConversionOperation conversion)
-            {
-                value = conversion.Operand;
-            }
-
-            var values = value as ITupleOperation;
-            for (var index = 0; index < tuple.Elements.Length; index++)
-            {
-                ApplyTargetStore(tuple.Elements[index], values is not null && index < values.Elements.Length
-                    ? values.Elements[index] : null, state);
-            }
+            ApplyTupleStore(tuple, value, state);
         }
         else if (target is ILocalReferenceOperation reference
             && SymbolEqualityComparer.Default.Equals(reference.Local, _local))
@@ -134,6 +132,21 @@ internal sealed class LocalDefinitionTransfer
         else if (MayReferenceLocal(target))
         {
             Invalidate(state);
+        }
+    }
+
+    private void ApplyTupleStore(ITupleOperation tuple, IOperation? value, HashSet<TextSpan> state)
+    {
+        while (value is IConversionOperation conversion)
+        {
+            value = conversion.Operand;
+        }
+
+        var values = value as ITupleOperation;
+        for (var index = 0; index < tuple.Elements.Length; index++)
+        {
+            ApplyTargetStore(tuple.Elements[index], values is not null && index < values.Elements.Length
+                ? values.Elements[index] : null, state);
         }
     }
 
@@ -352,14 +365,20 @@ internal sealed class LocalDefinitionTransfer
         IPropertyReferenceOperation { Instance: { Type.IsValueType: true } instance } => TargetsLocal(instance, local, operationRoot),
         IDeclarationExpressionOperation declaration => TargetsLocal(declaration.Expression, local, operationRoot),
         ITupleOperation tuple => tuple.Elements.Any(element => TargetsLocal(element, local, operationRoot)),
-        IConditionalOperation conditional => TargetsLocal(conditional.WhenTrue, local, operationRoot)
-            || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local, operationRoot)),
+        IConditionalOperation conditional => ConditionalTargetsLocal(conditional, local, operationRoot),
         IConversionOperation conversion => TargetsLocal(conversion.Operand, local, operationRoot),
         IParenthesizedOperation parenthesized => TargetsLocal(parenthesized.Operand, local, operationRoot),
         // Conditional ref expressions can lower to captures anywhere along the storage receiver path.
         // Resolve against the original tree without recursing back into lowered captures.
-        IFlowCaptureReferenceOperation when operationRoot is not null => operationRoot.DescendantsAndSelf().Any(candidate =>
-            candidate.Syntax.Span == target.Syntax.Span && TargetsLocal(candidate, local)),
+        IFlowCaptureReferenceOperation when operationRoot is not null => CaptureTargetsLocal(target, local, operationRoot),
         _ => false,
     };
+
+    private static bool ConditionalTargetsLocal(IConditionalOperation conditional, ILocalSymbol local, IOperation? operationRoot) =>
+        TargetsLocal(conditional.WhenTrue, local, operationRoot)
+        || (conditional.WhenFalse is { } whenFalse && TargetsLocal(whenFalse, local, operationRoot));
+
+    private static bool CaptureTargetsLocal(IOperation target, ILocalSymbol local, IOperation operationRoot) =>
+        operationRoot.DescendantsAndSelf().Any(candidate =>
+            candidate.Syntax.Span == target.Syntax.Span && TargetsLocal(candidate, local));
 }
