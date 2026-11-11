@@ -13,6 +13,14 @@ public static class Host
 {
     public static async Task<int> Main(string[] args)
     {
+        if (args[0] == "startup-marker")
+        {
+            File.WriteAllText(args[1], "started");
+            System.Console.WriteLine("startup-output");
+            System.Console.Error.WriteLine("startup-error");
+            return 0;
+        }
+
         if (args[0] == "stdin-echo")
         {
             System.Console.OutputEncoding = new System.Text.UTF8Encoding(false);
@@ -62,7 +70,7 @@ public static class Host
             return 0;
         }
 
-        if (args[0] is "pipeline-host" or "pipeline-background-host")
+        if (args[0] is "pipeline-host" or "pipeline-background-host" or "windows-nested-pipeline-host" or "windows-nested-background-host")
         {
             return await RunPipelineHostAsync(args);
         }
@@ -266,11 +274,14 @@ public static class Host
 
         try
         {
+            using var containment = OperatingSystem.IsWindows() && args[0].StartsWith("windows-nested-", StringComparison.Ordinal)
+                ? await CreateWindowsContainmentAsync()
+                : null;
             var builder = Pipeline.CreateBuilder([], sourceFilePath: string.Empty);
             builder.AddModule<IdleModule>();
             await using var pipeline = await builder.BuildAsync();
             var command = pipeline.Services.GetRequiredService<ICommandContext>();
-            var childRole = args[0] == "pipeline-background-host" ? "background-parent" : "parent";
+            var childRole = args[0] is "pipeline-background-host" or "windows-nested-background-host" ? "background-parent" : "parent";
             await command.ExecuteCommandLineToolAsync(new CommandLineToolOptions(Environment.ProcessPath!)
             {
                 Arguments = ["exec", "--runtimeconfig", args[2], typeof(Host).Assembly.Location, childRole, directory, args[2]],
@@ -286,6 +297,61 @@ public static class Host
         {
             Publish(directory, "host.error", exception.ToString());
             return 1;
+        }
+    }
+
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+    private static async Task<WindowsContainment> CreateWindowsContainmentAsync()
+    {
+        // Exercise the GA fix for a previously used runtime job after the launcher
+        // joins additional containment (dotnet/runtime#134990).
+        await RunWindowsLifetimeProbeAsync();
+        var containment = new WindowsContainment();
+        try
+        {
+            await RunWindowsLifetimeProbeAsync();
+            return containment;
+        }
+        catch
+        {
+            containment.Dispose();
+            throw;
+        }
+    }
+
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+    private static async Task RunWindowsLifetimeProbeAsync()
+    {
+        using var seed = Process.Start(new ProcessStartInfo(Environment.ProcessPath!)
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            KillOnParentExit = true,
+            InheritedHandles = [],
+            CreateNewProcessGroup = true,
+            RedirectStandardInput = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            ArgumentList = { "--version" },
+        })!;
+        try
+        {
+            seed.StandardInput.Close();
+            var output = seed.StandardOutput.ReadToEndAsync();
+            var error = seed.StandardError.ReadToEndAsync();
+            await Task.WhenAll(seed.WaitForExitAsync(), output, error).WaitAsync(TimeSpan.FromSeconds(10));
+            if (seed.ExitCode != 0 || string.IsNullOrWhiteSpace(await output) || !string.IsNullOrEmpty(await error))
+            {
+                throw new InvalidOperationException($"Runtime job seed exited with code {seed.ExitCode}.");
+            }
+        }
+        finally
+        {
+            if (!seed.HasExited)
+            {
+                seed.Kill();
+                await seed.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+            }
         }
     }
 

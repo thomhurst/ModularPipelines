@@ -64,9 +64,11 @@ internal sealed record ProcessCommand(
             }
         }
 
-        // Linux can protect the direct child at process creation. macOS does not support this API.
-        // Windows uses pipeline-owned jobs: .NET 11 RC1 KillOnParentExit fails with "Access is denied"
-        // inside a job object. Re-test it when the pinned SDK moves to .NET 11 GA.
+        // Linux protects the direct child at creation. macOS does not support this API.
+        // Windows keeps pipeline-owned jobs: .NET 11 GA KillOnParentExit still rejects
+        // Microsoft Store execution aliases with "Access is denied" (dotnet/runtime#137325).
+        // Suspension below prevents descendant escape, but abrupt host death between
+        // Process.Start and job attachment can still leave the suspended direct child alive.
         if (OperatingSystem.IsLinux())
         {
             startInfo.KillOnParentExit = true;
@@ -88,6 +90,9 @@ internal sealed record ProcessCommand(
         {
             // Keeps a console Ctrl+C aimed at the pipeline from reaching the command.
             startInfo.CreateNewProcessGroup = true;
+            // Descendants must inherit the per-command job for cancellation and pipeline disposal.
+            // ProcessRunner resumes only after the startup callback attaches command containment.
+            startInfo.StartSuspended = true;
         }
 
         return startInfo;
