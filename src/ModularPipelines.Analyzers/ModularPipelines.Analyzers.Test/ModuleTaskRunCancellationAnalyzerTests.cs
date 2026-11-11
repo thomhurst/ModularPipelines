@@ -28,7 +28,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
         {
             var source = Source(root, mutation, "{|#0:Task.Delay(1, cancellationToken)|}");
             var replacedArgument = root != "configuration"
-                && mutation is "cancellationToken = CancellationToken.None;" or "Replace(ref cancellationToken);" or "Replace(out cancellationToken);";
+                && mutation is "cancellationToken = CancellationToken.None;" or "Replace(ref cancellationToken);" or "Replace(out cancellationToken);" or "(cancellationToken, _) = (CancellationToken.None, 1);";
             if (replacedArgument)
             {
                 source = source.Replace("await Task.Run(", "await {|#1:Task.Run(")

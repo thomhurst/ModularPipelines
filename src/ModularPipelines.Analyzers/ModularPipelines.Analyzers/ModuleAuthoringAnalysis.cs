@@ -15,6 +15,9 @@ internal static class ModuleAuthoringAnalysis
     private const string AssemblyMetadataName = "System.Reflection.Assembly";
     private const string CancellationTokenMetadataName = "System.Threading.CancellationToken";
 
+    [ThreadStatic]
+    private static HashSet<IMethodSymbol>? _assignedTokenHelpers;
+
     private static readonly ImmutableHashSet<string> EagerLinqTerminalNames =
     [
         "Aggregate",
@@ -5601,6 +5604,57 @@ internal static class ModuleAuthoringAnalysis
             cancellationToken,
             visitedLocals,
             visitedMethods);
+    }
+
+    internal static bool FlowsFromAssignedCancellationTokenHelper(
+        IInvocationOperation invocation, Func<IOperation, bool> flows)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        var visited = _assignedTokenHelpers ??= [with(SymbolEqualityComparer.Default)];
+        if (!visited.Add(method))
+        {
+            return false;
+        }
+
+        try
+        {
+            return FlowsFromAssignedCancellationTokenHelperCore(invocation, flows);
+        }
+        finally
+        {
+            visited.Remove(method);
+        }
+    }
+
+    private static bool FlowsFromAssignedCancellationTokenHelperCore(
+        IInvocationOperation invocation, Func<IOperation, bool> flows)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        var parameters = invocation.Arguments
+            .Where(argument => argument.Parameter is not null && flows(argument.Value))
+            .Select(argument => GetTargetParameter(method, argument.Parameter!))
+            .OfType<IParameterSymbol>().ToList();
+        if (invocation.TargetMethod.ReducedFrom is not null
+            && invocation.Instance is { } receiver && flows(receiver)
+            && method.Parameters.FirstOrDefault() is { } receiverParameter)
+        {
+            parameters.Add(receiverParameter);
+        }
+
+        var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>()
+            .Where(returned => (GetEnclosingCallable(returned) is null
+                || ReferenceEquals(GetEnclosingCallable(returned), operation)) && IsInReachableBranch(returned))
+            .Select(static returned => returned.ReturnedValue).OfType<IOperation>().ToArray();
+        return parameters.Count > 0 && returns.Length > 0
+            && returns.SelectMany(GetReachableValueLeaves).Where(static value => !AlwaysThrows(value))
+                .All(value => parameters.Any(parameter => FlowsFromCancellationToken(
+                    value, parameter, [with(SymbolEqualityComparer.Default)], [with(SymbolEqualityComparer.Default), method])));
     }
 
     private static bool FlowsFromCancellationTokenSourceHelper(
