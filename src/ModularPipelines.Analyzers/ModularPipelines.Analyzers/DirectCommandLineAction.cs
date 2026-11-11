@@ -9,12 +9,8 @@ internal static class DirectCommandLineAction
 {
     internal static IMethodSymbol? GetTarget(IInvocationOperation invocation)
     {
-        if (invocation.TargetMethod.Name is not ("Invoke" or "InvokeAsync")
-            || invocation.TargetMethod.ContainingType.ToDisplayString() != "System.CommandLine.ParseResult"
-            || invocation.Instance is not IInvocationOperation parse
-            || parse.TargetMethod.Name != "Parse"
-            || parse.TargetMethod.ContainingType.ToDisplayString() != "System.CommandLine.Command"
-            || parse.Instance is not ILocalReferenceOperation command)
+        var command = GetParsedCommand(invocation);
+        if (command is null)
         {
             return null;
         }
@@ -26,11 +22,8 @@ internal static class DirectCommandLineAction
             return null;
         }
 
-        var declaration = block.Operations.SelectMany(static operation => operation.DescendantsAndSelf())
-            .OfType<IVariableDeclaratorOperation>()
-            .FirstOrDefault(candidate => SymbolEqualityComparer.Default.Equals(candidate.Symbol, command.Local));
-        if (declaration?.Initializer?.Value is not IObjectCreationOperation creation
-            || creation.Type?.ToDisplayString() != "System.CommandLine.RootCommand")
+        var declaration = GetRootCommandDeclaration(block, command.Local);
+        if (declaration is null)
         {
             return null;
         }
@@ -42,6 +35,35 @@ internal static class DirectCommandLineAction
         }
 
         return GetInlineTarget(setter);
+    }
+
+    private static ILocalReferenceOperation? GetParsedCommand(IInvocationOperation invocation)
+    {
+        if (invocation.TargetMethod.Name is not ("Invoke" or "InvokeAsync")
+            || invocation.TargetMethod.ContainingType.ToDisplayString() != "System.CommandLine.ParseResult"
+            || invocation.Instance is not IInvocationOperation parse
+            || parse.TargetMethod.Name != "Parse"
+            || parse.TargetMethod.ContainingType.ToDisplayString() != "System.CommandLine.Command"
+            || parse.Instance is not ILocalReferenceOperation command)
+        {
+            return null;
+        }
+
+        return command;
+    }
+
+    private static IVariableDeclaratorOperation? GetRootCommandDeclaration(IBlockOperation block, ILocalSymbol command)
+    {
+        var declaration = block.Operations.SelectMany(static operation => operation.DescendantsAndSelf())
+            .OfType<IVariableDeclaratorOperation>()
+            .FirstOrDefault(candidate => SymbolEqualityComparer.Default.Equals(candidate.Symbol, command));
+        if (declaration?.Initializer?.Value is not IObjectCreationOperation creation
+            || creation.Type?.ToDisplayString() != "System.CommandLine.RootCommand")
+        {
+            return null;
+        }
+
+        return declaration;
     }
 
     private static IInvocationOperation? GetOnlySetter(
