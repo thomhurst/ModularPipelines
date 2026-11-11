@@ -1267,7 +1267,10 @@ internal sealed class Command(
         }
     }
 
-    internal sealed class ProcessTreeTerminator(ICommandLogger commandLogger, WindowsJobLifetime windowsJobLifetime) : IDisposable
+    internal sealed class ProcessTreeTerminator(
+        ICommandLogger commandLogger,
+        WindowsJobLifetime windowsJobLifetime,
+        Func<Process, SafeFileHandle?>? createWindowsJob = null) : IDisposable
     {
         private static readonly TimeSpan DescendantPollingInterval = TimeSpan.FromMilliseconds(10);
         private readonly Lock _lock = new();
@@ -1283,7 +1286,15 @@ internal sealed class Command(
 
         public void Attach(Process process)
         {
-            var windowsJob = OperatingSystem.IsWindows() ? TryCreateWindowsJob(process) : null;
+            var windowsJob = OperatingSystem.IsWindows()
+                ? (createWindowsJob is null ? TryCreateWindowsJob(process) : createWindowsJob(process))
+                : null;
+            if (OperatingSystem.IsWindows() && windowsJob is null && !process.HasExited)
+            {
+                // RunAsync must kill the suspended child rather than resume it without containment.
+                throw new InvalidOperationException("Failed to attach the Windows command to its containment job.");
+            }
+
             if (windowsJob is not null)
             {
                 windowsJobLifetime.Add(windowsJob);

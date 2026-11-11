@@ -2,10 +2,12 @@ using System.Diagnostics;
 using System.Text;
 using ModularPipelines.Context;
 using ModularPipelines.Helpers.Internal;
+using ModularPipelines.Logging;
 using ModularPipelines.ProcessTestHost;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Attributes;
 using ModularPipelines.UnitTests.Helpers;
+using Moq;
 
 namespace ModularPipelines.UnitTests.Commands;
 
@@ -75,6 +77,51 @@ public class WindowsProcessStartupTests : TestBase
                 }, CancellationToken.None));
 
             await observer!.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        }
+        finally
+        {
+            using (observer)
+            {
+                if (observer is { HasExited: false })
+                {
+                    observer.Kill();
+                    await observer.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+                }
+            }
+        }
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Job_Attachment_Failure_Terminates_Child_Before_It_Runs(bool cancelBeforeAttachment)
+    {
+        await using var fixture = new ProcessTreeFixture();
+        var marker = Path.Combine(fixture.DirectoryPath, "uncontained-startup");
+        var command = new ProcessCommand(Path.Combine(Environment.SystemDirectory, "cmd.exe"),
+            ["/d", "/c", $"echo started>\"{marker}\""], string.Empty,
+            Environment.CurrentDirectory, new Dictionary<string, string?>(), null);
+        var output = new CommandOutputTarget(new BoundedCommandOutputBuffer(1024), null, null);
+        using var jobs = new WindowsJobLifetime();
+        using var terminator = new Command.ProcessTreeTerminator(Mock.Of<ICommandLogger>(), jobs, _ => null);
+        if (cancelBeforeAttachment)
+        {
+            terminator.Kill();
+        }
+
+        Process? observer = null;
+        try
+        {
+            await Assert.ThrowsAsync<InvalidOperationException>(() => ProcessRunner.RunAsync(command,
+                output, output, Encoding.UTF8, TimeSpan.FromSeconds(5), process =>
+                {
+                    observer = Process.GetProcessById(process.Id);
+                    _ = observer.SafeHandle;
+                    terminator.Attach(process);
+                }, CancellationToken.None));
+
+            await observer!.WaitForExitAsync().WaitAsync(TimeSpan.FromSeconds(5));
+            await Assert.That(File.Exists(marker)).IsFalse();
         }
         finally
         {
