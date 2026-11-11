@@ -5674,6 +5674,7 @@ internal static class ModuleAuthoringAnalysis
                         write.Parameter, GetTargetParameter(method, otherParameter))
                     && IsInReachableBranch(write)
                     && IsPotentialParameterWrite(write)
+                    && write.Parent is not ISimpleAssignmentOperation { IsRef: true }
                     && !IsCancellationPreservingStore(write, parameter)
                     && reads.Any(read => read.Syntax.SpanStart >= write.Syntax.SpanStart
                         || !IsLinearPredecessor(read, write)))));
@@ -5685,8 +5686,32 @@ internal static class ModuleAuthoringAnalysis
     {
         return write.Parent is ISimpleAssignmentOperation { IsRef: false } assignment
             && ReferenceEquals(assignment.Target, write)
-            && assignment.Value is IParameterReferenceOperation source
-            && SymbolEqualityComparer.Default.Equals(source.Parameter, parameter);
+            && IsCancellationPreservingValue(
+                assignment.Value,
+                parameter,
+                [with(SymbolEqualityComparer.Default)]);
+    }
+
+    private static bool IsCancellationPreservingValue(
+        IOperation value,
+        IParameterSymbol parameter,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        switch (value)
+        {
+            case IConversionOperation conversion:
+                return IsCancellationPreservingValue(conversion.Operand, parameter, visitedLocals);
+            case IParenthesizedOperation parenthesized:
+                return IsCancellationPreservingValue(parenthesized.Operand, parameter, visitedLocals);
+            case IParameterReferenceOperation reference:
+                return SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter);
+            case ILocalReferenceOperation local when visitedLocals.Add(local.Local):
+                var values = FindReachingLocalValues(local, local.Local).ToArray();
+                return values.Length > 0 && values.All(candidate =>
+                    IsCancellationPreservingValue(candidate, parameter, CloneVisitedLocals(visitedLocals)));
+            default:
+                return false;
+        }
     }
 
     private static IEnumerable<IParameterReferenceOperation> GetCancellationParameterReads(
@@ -5742,6 +5767,21 @@ internal static class ModuleAuthoringAnalysis
                     return null;
                 }
 
+                // A later rebinding in the same loop may reach this read on the
+                // next iteration, so textual ordering cannot prove distinct storage.
+                if (GetRoot(value).DescendantsAndSelf()
+                    .OfType<ISimpleAssignmentOperation>()
+                    .Any(assignment => assignment.IsRef
+                        && assignment.Syntax.SpanStart > value.Syntax.SpanStart
+                        && assignment.Target is ILocalReferenceOperation target
+                        && SymbolEqualityComparer.Default.Equals(target.Local, local.Local)
+                        && ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(value))
+                        && IsInReachableBranch(assignment)
+                        && SharesContainingLoop(assignment, value)))
+                {
+                    return null;
+                }
+
                 // Only ref assignments rebind storage. Assignments through the ref
                 // change its value and must not change the identity of the referent.
                 var rebindings = FindLocalAssignments(
@@ -5765,6 +5805,19 @@ internal static class ModuleAuthoringAnalysis
                 // calls need an alias proof before they can be considered distinct.
                 return null;
         }
+    }
+
+    private static bool SharesContainingLoop(IOperation first, IOperation second)
+    {
+        for (var ancestor = first.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation && HasAncestor(second, ancestor))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
