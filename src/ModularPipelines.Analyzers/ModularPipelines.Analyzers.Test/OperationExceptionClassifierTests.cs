@@ -764,6 +764,17 @@ public class OperationExceptionClassifierTests
             [.. new OperationExceptionClassifier(isKnownNonNull: _ => true, hasExactArrayType: _ => true).Classify(array)]);
     }
 
+    [TestMethod]
+    [DataRow("System.Index M(int value) => ^value;")]
+    [DataRow("object M(int[] array, int value) => array[^value];")]
+    [DataRow("System.Range M(int value) => ..^value;")]
+    public void FromEndIndexConstructionRetainsUnknownExceptions(string method)
+    {
+        var (root, classifier) = Compile($"class C {{ {method} }}");
+        var index = root.DescendantsAndSelf().OfType<IUnaryOperation>().Single(operation => operation.OperatorKind == UnaryOperatorKind.Hat);
+        Assert.AreSequenceEqual([null], [.. classifier.Classify(index)]);
+    }
+
     private static (IOperation Root, OperationExceptionClassifier Classifier) Compile(string source,
         LanguageVersion version = LanguageVersion.Preview, ImmutableArray<MetadataReference> references = default,
         bool checkOverflow = false, bool allowUnsafe = false)

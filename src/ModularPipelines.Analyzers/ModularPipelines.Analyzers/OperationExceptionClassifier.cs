@@ -298,6 +298,8 @@ internal sealed class OperationExceptionClassifier(
         or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
         or ITypeParameterObjectCreationOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
+        // The implicit System.Index constructor is absent from the operation children.
+        or IUnaryOperation { OperatorKind: UnaryOperatorKind.Hat }
         or IWithOperation { CloneMethod: not null }
         // Length and indexer/Slice calls are implicit, with no callable operation children.
         or IImplicitIndexerReferenceOperation;
