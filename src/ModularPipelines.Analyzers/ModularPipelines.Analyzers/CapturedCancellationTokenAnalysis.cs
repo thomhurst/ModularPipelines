@@ -666,6 +666,7 @@ internal static class CapturedCancellationTokenAnalysis
         {
             var conversion = _model!.Compilation.ClassifyConversion(source.Type, destination.Type);
             return conversion.IsDynamic || conversion.IsUserDefined || conversion.IsUnboxing
+                || OperationExceptionClassifier.CanNumericConversionOverflow(source.Type, destination.Type)
                 || (conversion.IsReference && !conversion.IsImplicit)
                 || TupleConversionCanThrow(source.Type, destination.Type);
         }
