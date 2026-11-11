@@ -730,9 +730,56 @@ public class ReachingDefinitionFlowTests
             + (marked ? "" : " [|Use(value)|];"), expected, additionalSource: MutableTypes);
 
     [TestMethod]
-    public void Retained_Ref_Escape_Can_Recover_After_Whole_Local_Overwrite() =>
-        AssertFlow("int value = 0; var holder = new Retained(ref value); holder.Field = 2; value = 3; [|Use(value)|];",
+    [DataRow("var holder = new Retained(ref value); var copy = holder; value = 3; copy.Field++;")]
+    [DataRow("var holder = new Retained(ref value); value = 3; (holder.Field, _) = (2, 0);")]
+    [DataRow("var holder = new Retained(ref value); value = 3; holder.Mutate();")]
+    [DataRow("var holder = new Retained(ref value); value = 3; _ = holder.Property;")]
+    [DataRow("var holder = new Retained(ref value); value = 3; _ = holder + 2;")]
+    [DataRow("scoped Retained holder = default; holder.Field = ref value; value = 3; holder.Field = 2;")]
+    [DataRow("scoped Retained holder = default; holder.Bind(ref value); value = 3; holder.Field = 2;")]
+    [DataRow("var holder = new Retained(ref value); (value, holder.Field) = (3, 2);")]
+    [DataRow("var holder = new Retained(ref value); value = 3; if (flag) holder.Field = 2;")]
+    [DataRow("var holder = new Retained(ref value); value = 3; while (flag) { holder.Field = 2; }")]
+    public void Retained_Ref_Writes_After_Overwrite_Do_Not_Return_Stale_Definitions(string statement) =>
+        AssertFlow("int value = 0; " + statement + " [|Use(value)|];", "", supported: false, additionalSource: MutableTypes);
+
+    [TestMethod]
+    [DataRow("var holder = new Retained(ref value); holder.Field = 2;")]
+    [DataRow("ref int alias = ref Forward(ref value); alias = 2;")]
+    [DataRow("var holder = new Retained(ref value); value = 1; holder.Mutate();")]
+    [DataRow("var holder = new Retained(ref value); (holder.Field, value) = (2, 1);")]
+    public void Retained_Ref_Escape_Can_Recover_After_Whole_Local_Overwrite(string statement) =>
+        AssertFlow("int value = 0; " + statement + " value = 3; [|Use(value)|];",
             "3", additionalSource: MutableTypes);
+
+    [TestMethod]
+    public void Retained_Ref_Write_Invalidates_Before_Exceptional_Completion() =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; try { holder.MutateAndThrow(); } catch { [|Use(value)|]; }",
+            "", supported: false, additionalSource: MutableTypes);
+
+    [TestMethod]
+    public void Retained_Ref_Write_Observes_Rhs_Before_Store() =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; holder.Field = [|value|];",
+            "3", additionalSource: MutableTypes);
+
+    [TestMethod]
+    public void Unreachable_Ref_Escape_Does_Not_Invalidate_Later_Writes() =>
+        AssertFlow("int value = 0; if (false) { var holder = new Retained(ref value); } int other = 2; [|Use(value)|];",
+            "0", additionalSource: MutableTypes);
+
+    [TestMethod]
+    public void Ref_Returning_Receiver_Can_Escape_Storage_Across_Overwrite() =>
+        AssertFlow("Inner value = new Inner(); ref int alias = ref value.GetRef(); value = new Inner(); alias = 2; [|Use(value)|];",
+            "", supported: false, additionalSource: MutableTypes);
+
+    [TestMethod]
+    [DataRow("sink[holder] = [|RetainedCalls.ReadInt(value)|];", "3", true)]
+    [DataRow("sink[holder] = 2; [|Use(value)|];", "", false)]
+    [DataRow("try { sink[holder] = 2; } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("_ = sink[holder]; [|Use(value)|];", "", false)]
+    public void RefLike_Indexer_Arguments_Invalidate_At_Accessor_Execution(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); var sink = new RetainedSink(); value = 3; " + statement,
+            expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
@@ -822,6 +869,8 @@ public class ReachingDefinitionFlowTests
             public int Property { get => Field; set { Field = value; throw new Exception(); } }
             public void Deconstruct(out int first, out int second) { Field++; first = Field; second = 0; }
             public void Mutate() { Field++; }
+            [System.Diagnostics.CodeAnalysis.UnscopedRef]
+            public ref int GetRef() => ref Field;
             public readonly int Read() => Field;
         }
         struct Mutable
@@ -846,6 +895,14 @@ public class ReachingDefinitionFlowTests
             public static int ReadInt(int item) => item;
         }
         class RetainedConsumer { public RetainedConsumer(Retained holder) { holder.Field = 2; throw new Exception(); } }
+        class RetainedSink
+        {
+            public int this[Retained holder]
+            {
+                get { holder.Field = 2; return 0; }
+                set { holder.Field = value; throw new Exception(); }
+            }
+        }
         readonly ref struct ReadonlyRetained
         {
             public readonly ref int Field;
@@ -856,10 +913,14 @@ public class ReachingDefinitionFlowTests
         {
             public ref int Field;
             public Retained(ref int field) { Field = ref field; }
+            public void Bind([System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { Field = ref field; }
             public readonly void Mutate() { Field = 2; throw new Exception(); }
             public readonly int MutatingProperty { get { Field = 2; throw new Exception(); } }
             public readonly void Deconstruct(out int first, out int second) { Field = 2; first = 0; second = 0; throw new Exception(); }
             public readonly void MutateAfterArgument(int argument) { Field = 2; }
+            public readonly void MutateAndThrow() { Field = 2; throw new Exception(); }
+            public readonly int Property { get { Field = 2; return 0; } }
+            public static int operator +(Retained holder, int value) { holder.Field = value; return value; }
         }
         """;
 

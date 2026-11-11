@@ -402,7 +402,30 @@ internal sealed class LocalDefinitionTransfer
         {
             yield return (reference.Local, assignment.Value);
         }
+        else if (operation is ISimpleAssignmentOperation { IsRef: true } memberBinding)
+        {
+            foreach (var receiver in GetRefLikeReceivers(memberBinding.Target))
+            {
+                yield return (receiver.Local, memberBinding.Value);
+            }
+        }
+        else if (operation is IInvocationOperation { Instance: { } instance } invocation)
+        {
+            foreach (var argument in invocation.Arguments.Where(static argument =>
+                argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
+                && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)))
+            {
+                foreach (var receiver in GetRefLikeReceivers(instance))
+                {
+                    yield return (receiver.Local, argument.Value);
+                }
+            }
+        }
     }
+
+    private static IEnumerable<ILocalReferenceOperation> GetRefLikeReceivers(IOperation receiver) =>
+        receiver.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
+            .Where(static reference => reference.Local.Type.IsRefLikeType);
 
     private static bool TargetsLocal(IOperation target, ILocalSymbol local, IOperation? operationRoot = null) => target switch
     {
@@ -411,7 +434,7 @@ internal sealed class LocalDefinitionTransfer
         // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
         IInvocationOperation call when call.TargetMethod.ReturnsByRef || call.TargetMethod.ReturnsByRefReadonly
             || call.Type?.IsRefLikeType == true =>
-            (call.Instance is { Type.IsRefLikeType: true } receiver && TargetsLocal(receiver, local, operationRoot))
+            (call.Instance is { Type.IsReferenceType: false } receiver && TargetsLocal(receiver, local, operationRoot))
             || call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),
         IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
             creation.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),

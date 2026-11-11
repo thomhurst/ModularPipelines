@@ -126,28 +126,7 @@ internal sealed class ReachingDefinitionFlow(
 
         if (operation is IDeconstructionAssignmentOperation deconstruction)
         {
-            VisitDeconstructionTarget(deconstruction.Target, state, block, continuation, filter);
-            Visit(deconstruction.Value, state, block, continuation, filter);
-            if (state.Count == 0)
-            {
-                return;
-            }
-
-            if (operation.Syntax.Span == invocation.Syntax.Span)
-            {
-                _reaching.UnionWith(state);
-            }
-
-            // Deconstruct calls and element conversions precede stores; later stores see earlier local writes.
-            if (deconstruction.Syntax is AssignmentExpressionSyntax syntax
-                && _operationRoot.SemanticModel is { } model
-                && CanDeconstructionMutateReceiver(model.GetDeconstructionInfo(syntax)))
-            {
-                transfer.InvalidateStorage(deconstruction.Value, state);
-            }
-
-            FollowOperationExceptions(deconstruction, state, block, continuation, filter);
-            StoreDeconstructionTarget(deconstruction.Target, deconstruction.Value, state, block, continuation, filter);
+            VisitDeconstruction(deconstruction, state, block, continuation, filter);
             return;
         }
 
@@ -168,14 +147,18 @@ internal sealed class ReachingDefinitionFlow(
             _reaching.UnionWith(state);
         }
 
+        InvalidateOperationStorage(operation, state);
+        FollowOperationExceptions(operation, state, block, continuation, filter);
+        transfer.ApplyStore(operation, state, addedTargets);
+    }
+
+    private void InvalidateOperationStorage(IOperation operation, HashSet<TextSpan> state)
+    {
         // A callee can mutate ref/out storage or retained refs before throwing, after all arguments evaluate.
         transfer.InvalidateByReferenceArguments(operation, state);
-        foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>())
+        if (operation is not IPropertyReferenceOperation property || !DefersSetterArguments(property))
         {
-            if (argument.Value.Type?.IsRefLikeType == true)
-            {
-                transfer.InvalidateStorage(argument.Value, state);
-            }
+            InvalidateRetainedArguments(operation, state);
         }
 
         InvalidateMutableReceiver(operation, state);
@@ -192,8 +175,52 @@ internal sealed class ReachingDefinitionFlow(
             transfer.InvalidateStorage(target, state);
         }
 
-        FollowOperationExceptions(operation, state, block, continuation, filter);
-        transfer.ApplyStore(operation, state, addedTargets);
+        if (target is IPropertyReferenceOperation setter)
+        {
+            InvalidateRetainedArguments(setter, state);
+        }
+    }
+
+    private static bool DefersSetterArguments(IPropertyReferenceOperation property) =>
+        !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly
+        && property.Parent is ISimpleAssignmentOperation assignment && ReferenceEquals(assignment.Target, property);
+
+    private void InvalidateRetainedArguments(IOperation operation, HashSet<TextSpan> state)
+    {
+        foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>())
+        {
+            if (argument.Value.Type?.IsRefLikeType == true)
+            {
+                transfer.InvalidateStorage(argument.Value, state);
+            }
+        }
+    }
+
+    private void VisitDeconstruction(IDeconstructionAssignmentOperation deconstruction, HashSet<TextSpan> state,
+        BasicBlock block, ImmutableArray<int> continuation, FilterContext? filter)
+    {
+        VisitDeconstructionTarget(deconstruction.Target, state, block, continuation, filter);
+        Visit(deconstruction.Value, state, block, continuation, filter);
+        if (state.Count == 0)
+        {
+            return;
+        }
+
+        if (deconstruction.Syntax.Span == invocation.Syntax.Span)
+        {
+            _reaching.UnionWith(state);
+        }
+
+        // Deconstruct calls and element conversions precede stores; later stores see earlier local writes.
+        if (deconstruction.Syntax is AssignmentExpressionSyntax syntax
+            && _operationRoot.SemanticModel is { } model
+            && CanDeconstructionMutateReceiver(model.GetDeconstructionInfo(syntax)))
+        {
+            transfer.InvalidateStorage(deconstruction.Value, state);
+        }
+
+        FollowOperationExceptions(deconstruction, state, block, continuation, filter);
+        StoreDeconstructionTarget(deconstruction.Target, deconstruction.Value, state, block, continuation, filter);
     }
 
     private void InvalidateMutableReceiver(IOperation operation, HashSet<TextSpan> state)
@@ -266,6 +293,11 @@ internal sealed class ReachingDefinitionFlow(
         }
 
         transfer.ApplyTargetStore(target, value, state);
+        if (target is IPropertyReferenceOperation setter)
+        {
+            InvalidateRetainedArguments(setter, state);
+        }
+
         if (target is not ILocalReferenceOperation
             && target is not IPropertyReferenceOperation { Property.ReturnsByRef: true })
         {
@@ -293,7 +325,17 @@ internal sealed class ReachingDefinitionFlow(
         ImmutableArray<int> continuation, FilterContext? filter, bool deconstructionStore = false,
         IOperation? storedValue = null)
     {
-        foreach (var exceptionName in CreateClassifier().Classify(operation, deconstructionStore, storedValue))
+        var exceptions = CreateClassifier().Classify(operation, deconstructionStore, storedValue);
+        if (exceptions.Contains(null))
+        {
+            // Readonly receivers and by-value operator operands can still write through ref fields.
+            foreach (var operand in operation.ChildOperations.Where(static child => child.Type?.IsRefLikeType == true))
+            {
+                transfer.InvalidateStorage(operand, state);
+            }
+        }
+
+        foreach (var exceptionName in exceptions)
         {
             FollowException(block, exceptionName is null ? null : _operationRoot.SemanticModel?.Compilation.GetTypeByMetadataName(exceptionName), state, continuation, filter);
         }
