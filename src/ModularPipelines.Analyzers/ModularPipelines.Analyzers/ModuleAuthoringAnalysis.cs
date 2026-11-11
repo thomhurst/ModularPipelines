@@ -5564,6 +5564,16 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ExitsBeforeReference(IOperation assignment, IOperation reference)
     {
+        // A return still executes enclosing finally blocks before leaving the callable.
+        for (var current = assignment.Parent; current is not null; current = current.Parent)
+        {
+            if (current is ITryOperation { Finally: { } finallyBlock }
+                && HasAncestor(reference, finallyBlock))
+            {
+                return false;
+            }
+        }
+
         for (var current = assignment.Parent; current is not null; current = current.Parent)
         {
             if (HasAncestor(reference, current))
@@ -6653,10 +6663,11 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanExitSwitch(IOperation operation, ILabelSymbol exitLabel)
     {
+        // Nested case transfers stay inside their switch. Ordinary labels may skip
+        // a restoring assignment, so they cannot establish definite assignment.
         var internalLabels = operation.DescendantsAndSelf()
-            .OfType<ILabeledOperation>().Select(static labeled => labeled.Label)
-            .Concat(operation.DescendantsAndSelf().OfType<ISwitchCaseOperation>()
-                .SelectMany(static @case => @case.Clauses.Select(static clause => clause.Label)))
+            .OfType<ISwitchCaseOperation>()
+            .SelectMany(static @case => @case.Clauses.Select(static clause => clause.Label))
             .ToImmutableHashSet(SymbolEqualityComparer.Default);
         return operation.DescendantsAndSelf().OfType<IBranchOperation>()
             .Any(branch => (branch.BranchKind == BranchKind.GoTo && !internalLabels.Contains(branch.Target))

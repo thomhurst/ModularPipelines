@@ -187,6 +187,37 @@ public class ModuleCancellationTokenParameterAnalyzerTests
                 .WithLocation(0).WithArguments(returnedDirectly ? "Run" : "Delay"));
     }
 
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Replaced_Token_In_Finally_After_Return(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+                (useLocal ? "var token = cancellationToken; " : "")
+                + $"try {{ {target} = CancellationToken.None; return; }} finally {{ await {{|#0:Task.Delay(1, {target})|}}; }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "return;");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Reports_Replaced_Token_When_Internal_Jump_Skips_Restoration(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}{target} = CancellationToken.None; "
+            + $"switch (context) {{ default: try {{ if (context != null) goto skip; {target} = saved; skip: ; }} finally {{ }} break; }}",
+            $"{{|#0:Task.Delay(1, {target})|}}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
     private static string Source(string statements, string call) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
         public class BuildModule : Module<List<string>>
