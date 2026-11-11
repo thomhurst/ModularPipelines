@@ -5806,11 +5806,8 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        if (!visitedLocals.Add(localReference.Local))
-        {
-            return false;
-        }
-
+        // Reaching values precede this reference, so revisiting an earlier value of
+        // the same local is safe. Symbol-only visits would reject preserved copies.
         var localValues = FindReachingLocalValues(
                 localReference,
                 localReference.Local)
@@ -6473,9 +6470,40 @@ internal static class ModuleAuthoringAnalysis
             .OfType<ISimpleAssignmentOperation>()
             .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
             .Where(candidate => AssignsLocal(candidate, local))
+            .Where(candidate => !IsInExclusiveBranch(candidate, operation))
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart),
         ];
+    }
+
+    private static bool IsInExclusiveBranch(IOperation candidate, IOperation operation)
+    {
+        for (var ancestor = candidate.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IConditionalOperation conditional
+                && ((HasAncestor(candidate, conditional.WhenTrue)
+                     && conditional.WhenFalse is { } whenFalse
+                     && HasAncestor(operation, whenFalse))
+                    || (conditional.WhenFalse is { } candidateFalse
+                        && HasAncestor(candidate, candidateFalse)
+                        && HasAncestor(operation, conditional.WhenTrue))))
+            {
+                return true;
+            }
+
+            if (ancestor is ISwitchCaseOperation candidateCase
+                && candidateCase.Parent is ISwitchOperation switchOperation
+                && !switchOperation.Descendants().OfType<IBranchOperation>()
+                    .Any(static branch => branch.BranchKind == BranchKind.GoTo)
+                && switchOperation.Cases.Any(otherCase =>
+                    !ReferenceEquals(otherCase, candidateCase)
+                    && HasAncestor(operation, otherCase)))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static IVariableDeclaratorOperation? FindLocalDeclarator(

@@ -3309,6 +3309,8 @@ public class ModuleAuthoringAnalyzerTests
     [TestMethod]
     [DataRow("cancellationToken = CancellationToken.None;")]
     [DataRow("cancellationToken = new CancellationTokenSource().Token;")]
+    [DataRow("var token = CancellationToken.None; cancellationToken = token; token = cancellationToken; cancellationToken = token;")]
+    [DataRow("switch (context) { case null: cancellationToken = CancellationToken.None; goto default; default: break; }")]
     [DataRow("cancellationToken = CancellationToken.None; cancellationToken = cancellationToken;")]
     [DataRow("if (context is not null) cancellationToken = CancellationToken.None;")]
     [DataRow("if (context is not null) cancellationToken = CancellationToken.None; else cancellationToken = new CancellationTokenSource().Token;")]
@@ -3348,6 +3350,44 @@ public class ModuleAuthoringAnalyzerTests
             {
                 {{assignment}}
                 await Task.Delay(1, cancellationToken);
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("var token = cancellationToken; cancellationToken = token; token = cancellationToken;")]
+    [DataRow("var token = cancellationToken; token = token;")]
+    public async Task Accepts_Preserved_Token_Through_Reused_Local(string assignment)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{assignment}}
+                await Task.Delay(1, token);
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("if (context is not null) { cancellationToken = CancellationToken.None; } else { await Task.Delay(1, cancellationToken); }")]
+    [DataRow("if (context is not null) { cancellationToken = CancellationToken.None; } else if (context is null) { await Task.Delay(1, cancellationToken); }")]
+    [DataRow("switch (context) { case null: cancellationToken = CancellationToken.None; break; default: await Task.Delay(1, cancellationToken); break; }")]
+    public async Task Accepts_Token_When_Overwrite_Is_In_Exclusive_Branch(string body)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{body}}
                 return null!;
             }
             """);
