@@ -5657,13 +5657,24 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IMethodSymbol> visitedMethods,
         HashSet<IParameterSymbol> visitedSources)
     {
-        if (!IsCancellationCarrier(invocation.Type) && !IsCancellationInput(invocation.Type))
+        var returnType = invocation.Type;
+        if (returnType is INamedTypeSymbol { OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullableType)
+        {
+            returnType = nullableType.TypeArguments[0];
+        }
+
+        if (!IsCancellationCarrier(returnType) && !IsCancellationInput(returnType))
         {
             return false;
         }
 
         var method = NormalizeMethod(invocation.TargetMethod);
         if (GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        if (HasContainerElementMutation(operation, invocation.Type))
         {
             return false;
         }
@@ -5687,6 +5698,32 @@ internal static class ModuleAuthoringAnalysis
                 [with(SymbolEqualityComparer.Default)],
                 visitedMethods,
                 visitedSources);
+    }
+
+    private static bool HasContainerElementMutation(IOperation operation, ITypeSymbol? returnType)
+    {
+        // Container facts describe the presence of a source token, not individual
+        // heap elements. Writes and writable ref escapes can invalidate that fact
+        // through aliases, so reject such container-forwarding proofs conservatively.
+        return !IsCancellationCarrier(returnType)
+            && IsCancellationInput(returnType)
+            && operation.DescendantsAndSelf().Any(static child =>
+                ((child is IArrayElementReferenceOperation { ArrayReference.Type: IArrayTypeSymbol array }
+                    && IsCancellationInput(array))
+                || (child is IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance }
+                    && IsCancellationInput(instance.Type)))
+                && MayWriteContainerElement(child));
+    }
+
+    private static bool MayWriteContainerElement(IOperation element)
+    {
+        return element.Syntax.Ancestors().Any(syntax => syntax switch
+        {
+            AssignmentExpressionSyntax assignment => assignment.Left.Span.Contains(element.Syntax.Span),
+            RefExpressionSyntax => true,
+            ArgumentSyntax argument => argument.RefKindKeyword.ValueText is "ref" or "out",
+            _ => false,
+        });
     }
 
     private static HashSet<IParameterSymbol> GetSourceHelperParameters(

@@ -777,6 +777,28 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             "private static CancellationToken[] Wrap(CancellationToken value) => new[] { value }; private static CancellationToken[] PassArray(CancellationToken[] value) => " + expression + ";");
     }
 
+    [TestMethod]
+    [DataRow("value", false)]
+    [DataRow("default(CancellationToken)", true)]
+    public async Task Tracks_Nullable_Token_Helper_Returns(string expression, bool warning)
+    {
+        await Verify("var optional = Wrap(cancellationToken); var token = optional ?? cancellationToken; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private static CancellationToken? Wrap(CancellationToken value) => " + expression + ";");
+    }
+
+    [TestMethod]
+    [DataRow("value[0] = default;", true)]
+    [DataRow("var alias = value; alias[0] = default;", true)]
+    [DataRow("ref var item = ref value[0]; item = default;", true)]
+    [DataRow("(value[0], value[0]) = (default, default);", true)]
+    [DataRow("var first = value[0];", false)]
+    [DataRow("", false)]
+    public async Task Rejects_Mutated_Token_Array_Helper_Inputs(string mutation, bool warning)
+    {
+        await Verify("var tokens = PassArray(new[] { cancellationToken }); using var linked = CancellationTokenSource.CreateLinkedTokenSource(tokens); var token = linked.Token; for (var i = 0; i < 2; i++) await CALL(1, token);", warning,
+            "private static CancellationToken[] PassArray(CancellationToken[] value) { " + mutation + " return value; }");
+    }
+
     private static async Task Verify(string body, bool warning, string helpers = "")
     {
         body = body.Replace("CALL", warning ? "{|#0:Task.Delay|}" : "Task.Delay");
