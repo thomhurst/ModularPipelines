@@ -937,6 +937,43 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Wide", "int", true, false, true)]
+    [DataRow("Wide", "int", true, true, false)]
+    [DataRow("Wide?", "int?", true, false, true)]
+    [DataRow("Wide", "Narrow", true, false, true)]
+    [DataRow("long", "Narrow", true, false, true)]
+    [DataRow("Wide", "int", false, false, false)]
+    [DataRow("Narrow", "long", true, false, false)]
+    [DataRow("Narrow", "char", true, false, false)]
+    [DataRow("Wide", "Wide", true, false, false)]
+    public async Task Tracks_Checked_Scalar_Enum_Conversions(string sourceType, string targetType, bool checkedConversion, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, default);
+
+            private static Task HelperAsync(CancellationToken token, {{sourceType}} value)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { _ = {{(checkedConversion ? "checked" : "unchecked")}}(({{targetType}})value); }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private enum Wide : long { Zero }
+            private enum Narrow : byte { Zero }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("decimal", "value++", false, true)]
     [DataRow("decimal", "--value", false, true)]
     [DataRow("decimal", "value++", true, false)]

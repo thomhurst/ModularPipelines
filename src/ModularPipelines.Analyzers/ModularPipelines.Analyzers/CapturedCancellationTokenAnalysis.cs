@@ -594,7 +594,7 @@ internal static class CapturedCancellationTokenAnalysis
         private bool ClassifyHiddenOperation(IOperation operation) => operation switch
         {
             ITupleBinaryOperation tuple => TupleOperatorCanThrow(tuple.LeftOperand.Type, tuple.RightOperand.Type, tuple),
-            IConversionOperation conversion => OperationExceptionClassifier.CanNumericConversionOverflow(conversion.Operand.Type, conversion.Type)
+            IConversionOperation conversion => ScalarConversionCanThrow(conversion)
                 || TupleConversionCanThrow(conversion.Operand.Type, conversion.Type,
                 _exceptionClassifier.IsInCheckedContext(conversion)),
             IDeconstructionAssignmentOperation { Syntax: AssignmentExpressionSyntax assignment } =>
@@ -602,6 +602,12 @@ internal static class CapturedCancellationTokenAnalysis
             IIsPatternOperation pattern => pattern.Pattern.DescendantsAndSelf().Any(PatternCanThrow),
             _ => false,
         };
+
+        private bool ScalarConversionCanThrow(IConversionOperation conversion) =>
+            OperationExceptionClassifier.CanNumericConversionOverflow(conversion.Operand.Type, conversion.Type)
+            || (conversion.Operand.Type is { } source && conversion.Type is { } destination
+                && (UnwrapNullable(source)?.TypeKind == TypeKind.Enum || UnwrapNullable(destination)?.TypeKind == TypeKind.Enum)
+                && CheckedConversionCanThrow(source, destination, _exceptionClassifier.IsInCheckedContext(conversion)));
 
         private static bool PatternCanThrow(IOperation operation) => operation is
             IRecursivePatternOperation { DeconstructSymbol: not null }
@@ -671,11 +677,11 @@ internal static class CapturedCancellationTokenAnalysis
             return conversion.IsDynamic || conversion.IsUserDefined || conversion.IsUnboxing
                 || (conversion.IsReference && !conversion.IsImplicit)
                 || OperationExceptionClassifier.CanNumericConversionOverflow(source.Type, destination.Type)
-                || CheckedTupleElementConversionCanThrow(source.Type, destination.Type, checkedContext)
+                || CheckedConversionCanThrow(source.Type, destination.Type, checkedContext)
                 || TupleConversionCanThrow(source.Type, destination.Type, checkedContext);
         }
 
-        private bool CheckedTupleElementConversionCanThrow(ITypeSymbol source, ITypeSymbol destination, bool checkedContext)
+        private bool CheckedConversionCanThrow(ITypeSymbol source, ITypeSymbol destination, bool checkedContext)
         {
             if (!checkedContext)
             {
