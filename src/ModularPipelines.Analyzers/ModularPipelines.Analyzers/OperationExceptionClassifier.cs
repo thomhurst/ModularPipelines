@@ -116,6 +116,9 @@ internal sealed class OperationExceptionClassifier(
         IIncrementOrDecrementOperation { Target: IArrayElementReferenceOperation } => true,
         IAssignmentOperation assignment =>
             !(assignment.Value.ConstantValue.HasValue && assignment.Value.ConstantValue.Value is null),
+        // A ref conditional obtains a writable element reference even when assigning null.
+        IConditionalOperation { IsRef: true, Parent: IAssignmentOperation assignment }
+            conditional when ReferenceEquals(assignment.Target, conditional) => true,
         IOperation
         {
             Parent: ISimpleAssignmentOperation

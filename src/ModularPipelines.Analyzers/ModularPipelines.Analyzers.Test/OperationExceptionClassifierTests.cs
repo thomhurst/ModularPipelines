@@ -154,6 +154,20 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("value")]
+    [DataRow("null")]
+    public void RefConditionalAssignmentChecksCovarianceBeforeStoredValue(string value)
+    {
+        var (root, classifier) = Compile($"class C {{ void M(bool flag, object[] a, object[] b, object value) {{ (flag ? ref a[0] : ref b[0]) = {value}; }} }}");
+        foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
+        {
+            Assert.Contains("System.ArrayTypeMismatchException", classifier.Classify(array));
+            Assert.DoesNotContain("System.ArrayTypeMismatchException",
+                new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+        }
+    }
+
+    [TestMethod]
     [DataRow("x + y", true)]
     [DataRow("x + (string)y", false)]
     [DataRow("x + 1", true)]
