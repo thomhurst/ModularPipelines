@@ -35,7 +35,7 @@
     <PackageVersion Include="FluentFTP" Version="55.1.0" />
     <PackageVersion Include="FSharp.Core" Version="10.1.403" />
     <PackageVersion Include="Initialization.Microsoft.Extensions.DependencyInjection" Version="1.1.44" />
-    <PackageVersion Include="Kevlar" Version="1.4.1" />
+    <PackageVersion Include="Kevlar" Version="1.5.0" />
     <PackageVersion Include="MailKit" Version="4.18.2" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.2" />
@@ -58,7 +58,7 @@
     <PackageVersion Include="MinVer" Version="8.0.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="10.0.403" />
     <PackageVersion Include="Microsoft.Testing.Extensions.HangDump" Version="2.5.2" />
-    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="18.5.40034" />
+    <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="18.12.1606" />
     <PackageVersion Include="Moq" Version="4.21.0" />
     <PackageVersion Include="MSTest" Version="4.5.2" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
