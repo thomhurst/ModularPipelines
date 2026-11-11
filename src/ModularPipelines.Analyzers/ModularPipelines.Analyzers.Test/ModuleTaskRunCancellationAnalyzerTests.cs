@@ -109,6 +109,9 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("execute", "ResetAlias();")]
     [DataRow("execute", "ResetConditionalAlias();")]
     [DataRow("execute", "ResetReassignedAlias();")]
+    [DataRow("execute", "ResetReassignedOutAlias(out var copy);")]
+    [DataRow("lifecycle", "ResetReassignedOutAlias(out var copy);")]
+    [DataRow("configuration", "ResetReassignedOutAlias(out var copy);")]
     public async Task Reports_Potentially_Overwritten_Captured_Token(string root, string mutation)
     {
         await VerifyCS.VerifyAnalyzerAsync(
@@ -140,6 +143,7 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 }, cancellationToken);
                 {{afterCallback}}
                 {{(root == "configuration" ? "return false;" : "")}}
+                {{(mutation == "ResetReassignedOutAlias(out var copy);" ? "void ResetReassignedOutAlias(out CancellationToken alias) { alias = default; alias = ref cancellationToken; alias = CancellationToken.None; }" : "")}}
                 {{(mutation == "ResetReassignedAlias();" ? "void ResetReassignedAlias() { CancellationToken other = default; ref var alias = ref other; alias = ref cancellationToken; alias = CancellationToken.None; }" : "")}}
                 {{(mutation == "ResetAlias();" ? "void ResetAlias() { ref var alias = ref cancellationToken; alias = CancellationToken.None; }" : "")}}
                 {{(mutation == "ResetConditionalAlias();" ? "void ResetConditionalAlias() { CancellationToken other = default; ref var alias = ref (cancellationToken.CanBeCanceled ? ref cancellationToken : ref other); alias = CancellationToken.None; }" : "")}}

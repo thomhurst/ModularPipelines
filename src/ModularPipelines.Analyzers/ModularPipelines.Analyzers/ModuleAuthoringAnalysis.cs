@@ -623,7 +623,7 @@ internal static class ModuleAuthoringAnalysis
                     && refAssignment.Target switch
                     {
                         ILocalReferenceOperation local => local.Local.RefKind == RefKind.Ref,
-                        IParameterReferenceOperation parameter => parameter.Parameter.RefKind == RefKind.Ref,
+                        IParameterReferenceOperation parameter => parameter.Parameter.RefKind is RefKind.Ref or RefKind.Out,
                         IFieldReferenceOperation field => field.Field.RefKind == RefKind.Ref,
                         _ => true,
                     })
