@@ -2938,6 +2938,76 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("first = ref second; return first;")]
+    [DataRow("first = ref second; return (first);")]
+    [DataRow("ref var alias = ref second; first = ref alias; return first;")]
+    [DataRow("first = ref second; ref var alias = ref first; return alias;")]
+    [DataRow("first = ref second; second = ref third; return first;")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) first = ref second; return first;")]
+    [DataRow("first = ref second; first = ref first; return first;")]
+    [DataRow("CancellationToken local = default; first = ref local; return first;")]
+    [DataRow("ref var alias = ref first; alias = ref second; return alias;")]
+    [DataRow("first = ref (DateTime.UtcNow.Ticks > 0 ? ref second : ref third); return first;")]
+    [DataRow("var snapshot = first; for (var i = 0; i < 2; i++) { snapshot = first; first = ref second; } return snapshot;")]
+    [DataRow("first = ref second; goto Read; first = ref third; Read: return first;")]
+    [DataRow("first = ref second; for (var i = 0; i < 2; i++) { goto Read; first = ref third; Read: return first; } return first;")]
+    public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("first = ref second; return first;", "cancellationToken")]
+    [DataRow("second = ref first; return second;", "default")]
+    [DataRow("var snapshot = first; first = ref second; return snapshot;", "default")]
+    [DataRow("ref var alias = ref first; first = ref second; return alias;", "default")]
+    [DataRow("first = ref third; third = ref second; return first;", "default")]
+    [DataRow("first = ref second; first = ref third; return first;", "default")]
+    [DataRow("if (false) first = ref second; return first;", "default")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) first = ref second; return first;", "cancellationToken")]
+    [DataRow("if (DateTime.UtcNow.Ticks > 0) { first = ref second; throw new Exception(); } return first;", "default")]
+    [DataRow("first = ref second; if (DateTime.UtcNow.Ticks > 0) { first = ref third; return first; } throw new Exception();", "default")]
+    [DataRow("CancellationToken local = first; first = ref local; return first;", "default")]
+    [DataRow("CancellationToken local = default; first = ref local; local = third; return first;", "default")]
+    [DataRow("first = ref (DateTime.UtcNow.Ticks > 0 ? ref second : ref third); return first;", "cancellationToken")]
+    [DataRow("var snapshot = first; for (var i = 0; i < 2; i++) { first = ref third; snapshot = first; first = ref second; } return snapshot;", "default")]
+    [DataRow("first = ref second; goto Reset; Reset: first = ref third; return first;", "default")]
+    [DataRow("static void Unused(ref CancellationToken first, ref CancellationToken second) { first = ref second; } return first;", "default")]
+    public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, second, report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
+    {
+        var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
+        return ModuleSource($$"""
+            private static CancellationToken Forward(
+                scoped ref CancellationToken first, scoped ref CancellationToken second, scoped ref CancellationToken third)
+            {
+                {{body}}
+            }
+
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context, CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                CancellationToken other = {{second}};
+                var third = cancellationToken;
+                var snapshot = Forward(ref token, ref other, ref third);
+                for (var i = 0; i < 2; i++)
+                    await {{delay}};
+                return null!;
+            }
+            """);
+    }
+
+    [TestMethod]
     public async Task Does_Not_Report_Dead_CancellationToken_Helper_Return()
     {
         var source = ModuleSource("""
