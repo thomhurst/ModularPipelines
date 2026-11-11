@@ -748,6 +748,22 @@ public class OperationExceptionClassifierTests
         Assert.IsTrue(new OperationExceptionClassifier(isKnownNonNull: _ => true).Classify(method).IsEmpty);
     }
 
+    [TestMethod]
+    [DataRow("range", true)]
+    [DataRow("1..3", true)]
+    [DataRow("..^1", true)]
+    [DataRow("index", false)]
+    [DataRow("^1", false)]
+    public void ArrayRangeSlicesPreserveUnknownExceptions(string index, bool isSlice)
+    {
+        var (root, classifier) = Compile($"class C {{ object M(int[] a, System.Range range, int index) => a[{index}]; }}");
+        var array = root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>().Single();
+        string?[] expected = isSlice ? [null] : ["System.NullReferenceException", "System.IndexOutOfRangeException"];
+        Assert.AreSequenceEqual(expected, classifier.Classify(array).ToArray());
+        Assert.AreSequenceEqual(classifier.Classify(array).ToArray(),
+            new OperationExceptionClassifier(isKnownNonNull: _ => true, hasExactArrayType: _ => true).Classify(array).ToArray());
+    }
+
     private static (IOperation Root, OperationExceptionClassifier Classifier) Compile(string source,
         LanguageVersion version = LanguageVersion.Preview, ImmutableArray<MetadataReference> references = default,
         bool checkOverflow = false, bool allowUnsafe = false)

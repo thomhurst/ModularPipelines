@@ -32,6 +32,13 @@ internal sealed class OperationExceptionClassifier(
         var result = ImmutableArray.CreateBuilder<string?>();
         if (GetArrayAccess(operation) is { } array)
         {
+            // Range slices lower to GetSubArray, whose exceptions differ from element access.
+            if (array.Indices.Length == 1 && array.Indices[0].Type is INamedTypeSymbol { Name: "Range" } rangeType
+                && rangeType.ToDisplayString() == "System.Range")
+            {
+                return [null];
+            }
+
             result.Add("System.NullReferenceException");
             result.Add("System.IndexOutOfRangeException");
             if (CanArrayAccessMismatch(operation, array, deconstructionStore, storedValue))
