@@ -180,7 +180,7 @@ internal static class CapturedCancellationTokenAnalysis
 
             if (branch.Semantics is ControlFlowBranchSemantics.Throw or ControlFlowBranchSemantics.Rethrow)
             {
-                if (!IsExhaustiveSwitch(_block.BranchValue))
+                if (!IsExhaustiveSwitchFailure(_block.BranchValue))
                 {
                     // A throw expression may hold any runtime subtype of its static type.
                     SearchException(_block.EnclosingRegion, storage, null, _resume);
@@ -436,7 +436,7 @@ internal static class CapturedCancellationTokenAnalysis
             }
 
             if ((CanThrow(operation) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
-                && !IsExhaustiveSwitch(operation))
+                && !IsExhaustiveSwitchFailure(operation))
             {
                 SearchException(_block.EnclosingRegion, storage, null, _resume);
             }
@@ -474,8 +474,7 @@ internal static class CapturedCancellationTokenAnalysis
             }
             else if (operation is IDeconstructionAssignmentOperation deconstruction)
             {
-                Visit(deconstruction.Target, storage);
-                var writes = ReferencesStorage(deconstruction.Target, storage);
+                var writes = VisitDeconstructionTarget(deconstruction.Target, storage);
                 Visit(deconstruction.Value, storage);
                 _written |= writes;
             }
@@ -488,6 +487,24 @@ internal static class CapturedCancellationTokenAnalysis
 
                 RecordStorageWrite(operation, storage);
             }
+        }
+
+        private bool VisitDeconstructionTarget(IOperation target, Storage storage)
+        {
+            if (target is ITupleOperation tuple)
+            {
+                var writes = false;
+                foreach (var element in tuple.Elements)
+                {
+                    // Capture each destination before later destinations can rebind its alias.
+                    writes |= VisitDeconstructionTarget(element, storage);
+                }
+
+                return writes;
+            }
+
+            Visit(target, storage);
+            return ReferencesStorage(target, storage);
         }
 
         private void RecordStorageWrite(IOperation operation, Storage storage)
@@ -509,8 +526,9 @@ internal static class CapturedCancellationTokenAnalysis
             }
         }
 
-        private bool IsExhaustiveSwitch(IOperation? operation) =>
-            operation?.Syntax is SwitchExpressionSyntax expression
+        // Only the synthesized failure is unreachable; conversions around the switch can still throw.
+        private bool IsExhaustiveSwitchFailure(IOperation? operation) =>
+            operation is IObjectCreationOperation { IsImplicit: true, Syntax: SwitchExpressionSyntax expression }
             && _model?.GetOperation(expression) is ISwitchExpressionOperation { IsExhaustive: true };
 
         private bool CatchesAll(ITypeSymbol? caughtType) => caughtType is null
@@ -538,10 +556,8 @@ internal static class CapturedCancellationTokenAnalysis
             }
 
             // CFG hoists store targets before branching values. Source parents retain
-            // the distinction between a field/event read and a store after value evaluation.
-            var classified = operation is IFieldReferenceOperation or IEventReferenceOperation or ISimpleAssignmentOperation
-                ? _model?.GetOperation(operation.Syntax) ?? operation
-                : operation;
+            // the distinction between a member read and a store after value evaluation.
+            var classified = operation is IFieldReferenceOperation or IEventReferenceOperation or IPropertyReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or ISimpleAssignmentOperation ? _model?.GetOperation(operation.Syntax) ?? operation : operation;
             return !(classified is IFieldReferenceOperation or IEventReferenceOperation && IsDeconstructionTarget(classified))
                 && !_exceptionClassifier.Classify(classified).IsEmpty;
         }
@@ -549,8 +565,13 @@ internal static class CapturedCancellationTokenAnalysis
         private static bool RequiresExceptionClassification(IOperation operation) => operation is
             ICollectionExpressionOperation or ISpreadOperation
             or IEventAssignmentOperation or IEventReferenceOperation or IFieldReferenceOperation or IMethodReferenceOperation
-            or ITypeParameterObjectCreationOperation or IFunctionPointerInvocationOperation
-            or ISimpleAssignmentOperation { Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation }
+            or ITypeParameterObjectCreationOperation or IFunctionPointerInvocationOperation or IImplicitIndexerReferenceOperation
+            or IPropertyReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
+            or ISimpleAssignmentOperation
+            {
+                Target: IFieldReferenceOperation or IEventReferenceOperation or IFlowCaptureReferenceOperation
+                or IPropertyReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation
+            }
             or IBinaryOperation or IUnaryOperation or ICompoundAssignmentOperation or IIncrementOrDecrementOperation;
 
         private static bool IsDeconstructionTarget(IOperation operation)
@@ -750,9 +771,8 @@ internal static class CapturedCancellationTokenAnalysis
 
     private static bool CanThrow(IOperation operation) => operation is
         IAwaitOperation or IInvocationOperation or IObjectCreationOperation or IArrayCreationOperation
-        or IPropertyReferenceOperation or IArrayElementReferenceOperation
+        or IArrayElementReferenceOperation
         or IDynamicInvocationOperation or IDynamicObjectCreationOperation
-        or IDynamicIndexerAccessOperation or IDynamicMemberReferenceOperation
         or IConversionOperation { OperatorMethod: not null }
         or IConversionOperation { IsChecked: true, Conversion.IsImplicit: false }
         or IConversionOperation { Conversion.IsReference: true, Conversion.IsImplicit: false }

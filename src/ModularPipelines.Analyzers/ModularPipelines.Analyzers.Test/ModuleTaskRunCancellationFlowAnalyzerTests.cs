@@ -1466,6 +1466,97 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("_ = receiver[index];", false, true)]
+    [DataRow("_ = receiver[index];", true, false)]
+    [DataRow("int result = choice switch { _ => value };", false, true)]
+    [DataRow("int result = choice switch { _ => value };", true, false)]
+    [DataRow("int result = choice switch { _ => 1 };", false, false)]
+    [DataRow("state.Value = (alias = ref other);", false, false)]
+    [DataRow("state.Value = choice > 0 ? (alias = ref other) : (alias = ref other);", false, false)]
+    [DataRow("state.Value = token;", false, true)]
+    [DataRow("GetState(state).Value = (alias = ref other);", false, true)]
+    [DataRow("state[(alias = ref other).GetHashCode()] = token;", false, false)]
+    [DataRow("state[GetIndex()] = (alias = ref other);", false, true)]
+    [DataRow("state.RefValue = (alias = ref other);", false, true)]
+    public async Task Tracks_Hidden_Exceptions_And_Setter_Evaluation_Order(string statement, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                var receiver = new IndexReceiver();
+                Index index = ^1;
+                var state = new SetterState();
+                var value = new SwitchValue();
+                int choice = 0;
+                try { {{statement}} }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+
+            private sealed class IndexReceiver
+            {
+                public int Length => throw new Exception();
+                public int this[int index] => throw new Exception();
+            }
+
+            private sealed class SetterState
+            {
+                private CancellationToken _value;
+                public CancellationToken Value { set => throw new Exception(); }
+                public CancellationToken this[int index] { set => throw new Exception(); }
+                public ref CancellationToken RefValue => ref _value;
+            }
+
+            private readonly struct SwitchValue
+            {
+                public static implicit operator int(SwitchValue value) => throw new Exception();
+            }
+
+            private static SetterState GetState(SetterState state) => throw new Exception();
+            private static int GetIndex() => throw new Exception();
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("token", "other", true, false)]
+    [DataRow("other", "token", false, false)]
+    [DataRow("token", "token", true, false)]
+    [DataRow("other", "other", false, false)]
+    [DataRow("token", "other", true, true)]
+    [DataRow("other", "token", false, true)]
+    public async Task Tracks_Straight_Line_Deconstruction_Destinations(string initial, string rebound, bool reports, bool nested)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken);
+
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                var slots = new CancellationToken[1];
+                {{(nested ? "((alias, _), " : "(alias, ")}}slots[(alias = ref {{rebound}}).GetHashCode() & 0]) =
+                    {{(nested ? "((CancellationToken.None, 0), CancellationToken.None)" : "(CancellationToken.None, CancellationToken.None)")}};
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     public async Task Reports_Helper_Token_Changed_After_Callback_Is_Scheduled()
     {
         var source = ModuleSource("""
