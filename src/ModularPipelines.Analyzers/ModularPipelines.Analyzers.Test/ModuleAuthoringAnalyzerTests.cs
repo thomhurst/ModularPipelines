@@ -2995,6 +2995,13 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = ref first; } finally {} return alias;")]
     [DataRow("ref var alias = ref second; try { switch (DateTime.UtcNow.Ticks) { case 0: throw new Exception(); default: alias = first; break; } } catch (Exception) {} return alias;")]
     [DataRow("first = ref third; var snapshot = third; do { snapshot = first; first = ref second; } while (DateTime.UtcNow.Ticks > 0); return snapshot;")]
+    [DataRow("ref var alias = ref first; try { alias = default; } finally { if (DateTime.UtcNow.Ticks > 0) alias = third; } return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; return second;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; alias = ref second; return alias;")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; second = default; return alias;")]
+    [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; i++, MayThrow(), alias = third) { alias = default; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; try { try { alias = default; } finally { MayThrow(); alias = third; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; try { try { throw new Exception(); } catch { alias = default; } finally { MayThrow(); alias = third; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3063,6 +3070,13 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref second; switch (DateTime.UtcNow.Ticks) { case 0: return third; default: alias = ref first; break; } return alias;", "default")]
     [DataRow("first = ref third; var snapshot = third; do { snapshot = first; first = ref second; } while (false); return snapshot;", "default")]
     [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { switch (choice) { case 0: alias = default; alias = third; MayThrow(); break; default: alias = third; break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; try { alias = default; } finally { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { alias = ref second; } finally { alias = ref third; } return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { throw new Exception(); } catch { alias = default; } finally { alias = third; } return alias;", "default")]
+    [DataRow("ref var alias = ref (DateTime.UtcNow.Ticks > 0 ? ref first : ref second); alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref first; try { for (var i = 0; i < 2; i++, alias = third, MayThrow()) { alias = default; } alias = third; } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); try { alias = default; if (false) throw error; alias = third; } catch (Exception) {} return alias;", "default")]
+    [DataRow("ref var alias = ref first; var error = new Exception(); try { alias = default; if (true) {} else throw error; alias = third; } catch (Exception) {} return alias;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);

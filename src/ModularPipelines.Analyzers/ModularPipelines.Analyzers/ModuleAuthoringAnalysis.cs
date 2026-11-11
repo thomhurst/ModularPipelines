@@ -5610,10 +5610,11 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var storages = GetCancellationTokenStorages(value, value, []).ToArray();
+        var aliasWrite = storages.Length > 1 ? FindDefiniteCancellationAliasValueWrite(read) : null;
         return storages.Length > 0 && storages.All(StorageFlows);
 
         bool StorageFlows(IOperation storage) => CancellationTokenStorageFlows(
-            storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+            storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites, aliasWrite);
     }
 
     private static bool CancellationTokenStorageFlows(
@@ -5622,16 +5623,22 @@ internal static class ModuleAuthoringAnalysis
         IReadOnlyCollection<IParameterSymbol> cancellationTokens,
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods,
-        HashSet<IOperation> visitedWrites)
+        HashSet<IOperation> visitedWrites,
+        IOperation? aliasWrite)
     {
         var symbol = GetCancellationStorageSymbol(storage);
         var writes = FindCancellationStorageAssignments(read, symbol, isRef: false);
         var definiteWrite = FindDefiniteCancellationStorageWrite(read, symbol, isRef: false);
+        if (aliasWrite is not null && (definiteWrite is null || aliasWrite.Syntax.SpanStart > definiteWrite.Syntax.SpanStart))
+        {
+            definiteWrite = aliasWrite;
+        }
         var reachingWrites = writes
             .Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
             .Where(write => ReachesAfterCancellationStorageReset(write, definiteWrite, read));
         foreach (var write in reachingWrites)
         {
+            // A cyclic write cannot prove token provenance; report conservatively.
             if (!visitedWrites.Add(write))
             {
                 return false;
@@ -5771,6 +5778,29 @@ internal static class ModuleAuthoringAnalysis
             .FirstOrDefault();
     }
 
+    private static IOperation? FindDefiniteCancellationAliasValueWrite(IOperation read)
+    {
+        var symbol = GetCancellationStorageSymbol(read);
+        if (symbol is not (ILocalSymbol { RefKind: not RefKind.None } or IParameterSymbol { RefKind: not RefKind.None }))
+        {
+            return null;
+        }
+
+        var bindings = FindCancellationStorageAssignments(read, symbol, isRef: true);
+        return GetRoot(read).DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+            .Where(assignment => !assignment.IsRef
+                && SymbolEqualityComparer.Default.Equals(GetCancellationStorageSymbol(assignment.Target), symbol))
+            .Where(IsInReachableBranch)
+            .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(read)))
+            .Where(assignment => IsDefiniteCancellationStorageBinding(assignment, read))
+            // A write through an ambiguous alias establishes its value, but only
+            // while the alias still denotes the storage selected at that write.
+            .Where(assignment => !bindings.Any(binding => binding.Syntax.SpanStart > assignment.Syntax.SpanStart
+                || SharesCancellationStorageLoop(binding, read)))
+            .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
+            .FirstOrDefault();
+    }
+
     private static bool ReachesAfterCancellationStorageReset(IOperation write, IOperation? reset, IOperation read) =>
         reset is null
         || (write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart)
@@ -5885,6 +5915,12 @@ internal static class ModuleAuthoringAnalysis
         // values even when the branch as a whole is the definite predecessor.
         for (var current = write; current.Parent is { } parent; current = parent)
         {
+            if (parent is ITryOperation enclosingTry && !ReferenceEquals(current, enclosingTry.Finally)
+                && FinallyOverwritesCancellationStorage(enclosingTry, read, symbol, isRef))
+            {
+                return true;
+            }
+
             if (parent is ITryOperation { Catches.Length: > 0 } attempt
                 && ReferenceEquals(current, attempt.Body) && !HasAncestor(read, attempt.Body)
                 && AlwaysExitsCallable(attempt.Body)
@@ -5933,12 +5969,20 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
+    private static bool FinallyOverwritesCancellationStorage(
+        ITryOperation attempt, IOperation read, ISymbol? symbol, bool isRef) =>
+        attempt.Finally is { } finalizer && !HasAncestor(read, attempt)
+        && DefinitelyWritesCancellationStorage(finalizer, symbol, isRef, read)
+        && !CancellationStorageOperationCanThrowBeforeOverwrite(
+            finalizer, symbol, isRef, new OperationExceptionClassifier(attempt.SemanticModel), out _);
+
     private static bool CanEscapeCancellationStorageWriteToRead(
         IOperation write, IOperation read, ISymbol? symbol, bool isRef)
     {
         for (var current = write.Parent; current is not null; current = current.Parent)
         {
             if (current is ITryOperation attempt && HasAncestor(write, attempt.Body)
+                && !FinallyOverwritesCancellationStorage(attempt, read, symbol, isRef)
                 && ((attempt.Finally is { } finallyBlock && HasAncestor(read, finallyBlock))
                     || (!HasAncestor(read, attempt.Body) && attempt.Catches.Any(handler =>
                         !DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef))))
@@ -5982,10 +6026,18 @@ internal static class ModuleAuthoringAnalysis
             // Leaving a loop body evaluates its condition and iteration steps
             // before a later statement can overwrite the storage.
             if (parent is ILoopOperation loop && ReferenceEquals(current, loop.Body)
-                && CanRepeatCancellationStorageLoop(loop)
-                && CancellationStorageLoopExitCanThrow(loop, classifier))
+                && CanRepeatCancellationStorageLoop(loop))
             {
-                return true;
+                if (CancellationStorageSequenceCanThrowBeforeOverwrite(
+                    CancellationStorageLoopExitOperations(loop), symbol, isRef, classifier, out var overwritten))
+                {
+                    return true;
+                }
+
+                if (overwritten)
+                {
+                    return false;
+                }
             }
 
             if (ReferenceEquals(parent, body))
@@ -5997,10 +6049,9 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool CancellationStorageLoopExitCanThrow(
-        ILoopOperation loop, OperationExceptionClassifier classifier)
+    private static IEnumerable<IOperation> CancellationStorageLoopExitOperations(ILoopOperation loop)
     {
-        var operations = loop switch
+        return loop switch
         {
             IWhileLoopOperation { Condition: { } condition } => (IEnumerable<IOperation>) [condition],
             IForLoopOperation forLoop => forLoop.Condition is { } condition
@@ -6008,8 +6059,6 @@ internal static class ModuleAuthoringAnalysis
                 : forLoop.AtLoopBottom,
             _ => [],
         };
-        return operations.SelectMany(static operation => operation.DescendantsAndSelf())
-            .Any(operation => operation is IThrowOperation || !classifier.Classify(operation).IsEmpty);
     }
 
     private static bool CancellationStorageOperationCanThrowBeforeOverwrite(
@@ -6058,6 +6107,12 @@ internal static class ModuleAuthoringAnalysis
         OperationExceptionClassifier classifier, out bool overwritten)
     {
         overwritten = false;
+        if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
+        {
+            return (condition ? conditional.WhenTrue : conditional.WhenFalse) is { } selected
+                && CancellationStorageOperationCanThrowBeforeOverwrite(selected, symbol, isRef, classifier, out overwritten);
+        }
+
         if (conditional.Condition.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty)
             || CancellationStorageOperationCanThrowBeforeOverwrite(conditional.WhenTrue, symbol, isRef, classifier, out var whenTrue))
         {
