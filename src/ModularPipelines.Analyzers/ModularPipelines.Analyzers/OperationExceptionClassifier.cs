@@ -188,6 +188,8 @@ internal sealed class OperationExceptionClassifier(
                 deconstruction.Syntax is not AssignmentExpressionSyntax syntax
                 || semanticModel is not { } model
                 || CanDeconstructionThrow(model.GetDeconstructionInfo(syntax)),
+            // The non-null branch conversion is metadata, not an operation child.
+            ICoalesceOperation coalesce => coalesce.ValueConversion.IsUserDefined,
             IConversionOperation conversion => CanConversionThrow(conversion),
             _ => false,
         };

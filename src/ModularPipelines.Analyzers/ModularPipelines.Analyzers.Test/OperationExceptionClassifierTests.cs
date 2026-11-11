@@ -15,6 +15,18 @@ public class OperationExceptionClassifierTests
     private static readonly string[] StaticInitializationExceptions = ["System.TypeInitializationException"];
 
     [TestMethod]
+    [DataRow("class V { public static implicit operator int(V value) => throw new System.Exception(); }", "V", "int", "0", true)]
+    [DataRow("struct V { public static implicit operator int(V value) => throw new System.Exception(); }", "V?", "int", "0", true)]
+    [DataRow("", "int?", "long", "0L", false)]
+    [DataRow("", "string", "object", "new object()", false)]
+    public void CoalesceInspectsHiddenValueConversion(string declaration, string from, string to, string fallback, bool throws)
+    {
+        var (root, classifier) = Compile($"{declaration} class C {{ {to} M({from} x) => x ?? {fallback}; }}");
+        var coalesce = root.DescendantsAndSelf().OfType<ICoalesceOperation>().Single();
+        Assert.AreSequenceEqual(throws ? [null] : [], classifier.Classify(coalesce).ToArray());
+    }
+
+    [TestMethod]
     [DataRow("decimal", "int", true)]
     [DataRow("decimal", "byte", true)]
     [DataRow("decimal", "sbyte", true)]
