@@ -15,6 +15,16 @@ public class OperationExceptionClassifierTests
     private static readonly string[] StaticInitializationExceptions = ["System.TypeInitializationException"];
 
     [TestMethod]
+    [DataRow("static unsafe void M(delegate* managed<void> action) => action();")]
+    [DataRow("static unsafe void M() { delegate* managed<void> action = &Throw; action(); }")]
+    public void FunctionPointerInvocationsRetainUnknownExceptions(string method)
+    {
+        var (root, classifier) = Compile($"class C {{ static void Throw() => throw new System.Exception(); {method} }}", allowUnsafe: true);
+        var invocation = root.DescendantsAndSelf().OfType<IFunctionPointerInvocationOperation>().Single();
+        Assert.AreSequenceEqual([null], classifier.Classify(invocation).ToArray());
+    }
+
+    [TestMethod]
     [DataRow("class V { public static implicit operator int(V value) => throw new System.Exception(); }", "V", "int", "0", true)]
     [DataRow("struct V { public static implicit operator int(V value) => throw new System.Exception(); }", "V?", "int", "0", true)]
     [DataRow("", "int?", "long", "0L", false)]
@@ -722,13 +732,13 @@ public class OperationExceptionClassifierTests
 
     private static (IOperation Root, OperationExceptionClassifier Classifier) Compile(string source,
         LanguageVersion version = LanguageVersion.Preview, ImmutableArray<MetadataReference> references = default,
-        bool checkOverflow = false)
+        bool checkOverflow = false, bool allowUnsafe = false)
     {
         var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(version));
         var paths = ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);
         var compilation = CSharpCompilation.Create("ClassifierTests", [tree],
             references.IsDefault ? paths.Select(path => MetadataReference.CreateFromFile(path)) : references,
-            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, checkOverflow: checkOverflow));
+            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, checkOverflow: checkOverflow, allowUnsafe: allowUnsafe));
         var errors = compilation.GetDiagnostics().Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
         Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(e => e.ToString())));
         var model = compilation.GetSemanticModel(tree);

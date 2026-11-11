@@ -289,7 +289,8 @@ internal sealed class OperationExceptionClassifier(
         || (!info.Nested.IsDefaultOrEmpty && info.Nested.Any(CanDeconstructionThrow));
 
     private static bool IsThrowingAccessOrCall(IOperation operation) => operation is
-        IInvocationOperation or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
+        IInvocationOperation or IFunctionPointerInvocationOperation
+        or IEventAssignmentOperation or IObjectCreationOperation or IDynamicObjectCreationOperation
         or ITypeParameterObjectCreationOperation
         or IArrayCreationOperation or IAwaitOperation or IDynamicInvocationOperation
         or IWithOperation { CloneMethod: not null }
