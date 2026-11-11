@@ -7,6 +7,17 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { if (Flag) Clear(); local = default; } Clear(); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } void Unused() { Clear(); } return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } Clear(); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; System.Action clear = () => local = default; clear(); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } void Invoke() { Clear(); } Invoke(); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; Clear(); return second; void Clear() { local = default; }", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } var saved = second; Clear(); return saved;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } Clear(); local = first; return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; void Clear() { local = default; } if (false) Clear(); return second;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; CancellationToken unrelated = default; void Clear() { unrelated = default; } Clear(); return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; goto Clear; Read: return second; Clear: second = default; goto Read;", true)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; goto Clear; Read: return second; Clear: second = local; goto Read;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; if (Flag) { first = ref second; return saved; } return first;", false)]

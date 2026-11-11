@@ -6,6 +6,13 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefReachabilityAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) continue; break; } else { return first; } } return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) goto Next; break; } else { return first; } Next: continue; } return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; break; } else { return first; } } return saved;", false)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; continue; } else { return first; } } return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) break; } else { return first; } } return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) break; else break; } else { return first; } } return saved;", false)]
+    [DataRow("var saved = first; for (var j = 0; j < 2; j++) { for (var i = 0; i < 2; i++) { if (Flag) { second = default; break; } else { return first; } } } return saved;", true)]
     [DataRow("goto Clear; Again: return first; Clear: second = default; goto Again;", true)]
     [DataRow("bool done = false; Again: if (done) return first; second = default; done = true; goto Again;", true)]
     [DataRow("bool done = false; Again: if (done) return first; second = first; done = true; goto Again;", false)]

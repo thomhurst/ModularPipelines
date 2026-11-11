@@ -5785,7 +5785,8 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            if (ancestor is ILoopOperation && HasAncestor(read, ancestor))
+            if (ancestor is ILoopOperation loop && HasAncestor(read, loop)
+                && !HasDefiniteCancellationLoopBreak(write, loop))
             {
                 return true;
             }
@@ -5794,20 +5795,53 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
+    private static bool HasDefiniteCancellationLoopBreak(IOperation write, ILoopOperation loop)
+    {
+        for (var ancestor = write.Parent; ancestor is not null && !ReferenceEquals(ancestor, loop); ancestor = ancestor.Parent)
+        {
+            if (ancestor is IBlockOperation && AlwaysBreaksCancellationLoop(ancestor, loop)
+                && !ancestor.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                    branch.BranchKind is BranchKind.Continue or BranchKind.GoTo
+                    && branch.Syntax.SpanStart > write.Syntax.SpanStart
+                    && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(write))
+                    && IsInReachableBranch(branch)))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool AlwaysBreaksCancellationLoop(IOperation operation, ILoopOperation loop)
+    {
+        return operation switch
+        {
+            IBranchOperation { BranchKind: BranchKind.Break } branch =>
+                SymbolEqualityComparer.Default.Equals(branch.Target, loop.ExitLabel),
+            IBlockOperation { Operations.Length: > 0 } block =>
+                AlwaysBreaksCancellationLoop(block.Operations[block.Operations.Length - 1], loop),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                AlwaysBreaksCancellationLoop(conditional.WhenTrue, loop)
+                && AlwaysBreaksCancellationLoop(whenFalse, loop),
+            _ => false,
+        };
+    }
+
     private static bool AreExclusiveCancellationBranches(IOperation write, IOperation read)
     {
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
             if (AreOppositeCancellationConditionalBranches(ancestor, write, read))
             {
-                return !SharesContainingLoop(write, read) && !HasCancellationBackJump(write, read);
+                return !CanCarryCancellationWriteAcrossLoop(write, read) && !HasCancellationBackJump(write, read);
             }
 
             if (ancestor is ISwitchCaseOperation writeCase && writeCase.Parent is ISwitchOperation switchOperation
                 && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } readCase
                 && !ReferenceEquals(writeCase, readCase))
             {
-                return !SharesContainingLoop(write, read) && !HasCancellationBackJump(write, read)
+                return !CanCarryCancellationWriteAcrossLoop(write, read) && !HasCancellationBackJump(write, read)
                     && !CanCancellationJumpBetweenSwitchCases(writeCase, readCase, switchOperation);
             }
         }
@@ -6037,15 +6071,45 @@ internal static class ModuleAuthoringAnalysis
     {
         // Reaching values track direct assignments, but references can mutate
         // the same slot between a copy and its use, or after alias creation.
-        return GetRoot(read).DescendantsAndSelf().Any(operation =>
-            operation.Syntax.SpanStart > source.Syntax.SpanStart
-            && CanCancellationMutationReachLocalRead(source, operation, read)
-            && IsInReachableBranch(operation)
-            && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(read))
-            && !HasAncestor(read, operation)
-            && CanCancellationWriteReachRead(operation, read)
-            && !IsCancellationStorageSelfStore(operation)
-            && MayMutateCancellationStorage(operation, read));
+        return GetRoot(read).DescendantsAndSelf()
+            .Where(IsInReachableBranch)
+            .Where(operation => !HasAncestor(read, operation)
+                && !IsCancellationStorageSelfStore(operation)
+                && MayMutateCancellationStorage(operation, read))
+            .Any(operation => GetCancellationExecutionSites(operation, read, [with(SymbolEqualityComparer.Default)])
+                .Any(site => site.Syntax.SpanStart > source.Syntax.SpanStart
+                    && CanCancellationMutationReachLocalRead(source, site, read)
+                    && CanCancellationWriteReachRead(site, read)));
+    }
+
+    private static IEnumerable<IOperation> GetCancellationExecutionSites(
+        IOperation operation,
+        IOperation read,
+        HashSet<IMethodSymbol> visitedCallables)
+    {
+        var callable = GetEnclosingCallable(operation);
+        if (ReferenceEquals(callable, GetEnclosingCallable(read)))
+        {
+            yield return operation;
+            yield break;
+        }
+
+        if (GetCallableSymbol(callable) is not { } symbol || !visitedCallables.Add(symbol))
+        {
+            yield break;
+        }
+
+        // Compare the invocation with the read, not the callback declaration.
+        // Walk callers as well so nested callbacks execute at their outer call site.
+        foreach (var invocation in GetRoot(read).DescendantsAndSelf().OfType<IInvocationOperation>()
+            .Where(IsInReachableBranch)
+            .Where(invocation => InvocationTargetsCallable(invocation, symbol)))
+        {
+            foreach (var site in GetCancellationExecutionSites(invocation, read, CloneVisitedMethods(visitedCallables)))
+            {
+                yield return site;
+            }
+        }
     }
 
     private static bool CanCancellationMutationReachLocalRead(IOperation source, IOperation operation, IOperation read)
@@ -6064,7 +6128,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return operation switch
         {
-            ISimpleAssignmentOperation { IsRef: false, Target: ILocalReferenceOperation { Local.RefKind: not RefKind.None } target }
+            ISimpleAssignmentOperation { IsRef: false, Target: ILocalReferenceOperation target }
                 => MayShareCancellationStorage(target, read, preserveParameters: true),
             ISimpleAssignmentOperation { IsRef: false, Target: IParameterReferenceOperation { Parameter.RefKind: not RefKind.None } target }
                 => MayShareCancellationStorage(target, read, preserveParameters: true),
