@@ -5763,18 +5763,23 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            // Exception types and filters may be unknown. Keep a possible catch
-            // path, but a handler that returns cannot reach a later token read.
-            if (tryOperation.Catches.Any(catchClause =>
-                    HasAncestor(read, catchClause.Handler)
-                    || (!HasAncestor(read, tryOperation)
-                        && !AlwaysExitsCallable(catchClause.Handler))))
+            if (CanCancellationCatchReachRead(tryOperation, read))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool CanCancellationCatchReachRead(ITryOperation tryOperation, IOperation read)
+    {
+        // Exception types and filters may be unknown. Keep a possible catch
+        // path, but a handler that returns cannot reach a later token read.
+        return tryOperation.Catches.Any(catchClause =>
+            HasAncestor(read, catchClause.Handler)
+            || (catchClause.Filter is { } filter && HasAncestor(read, filter))
+            || (!HasAncestor(read, tryOperation) && !AlwaysExitsCallable(catchClause.Handler)));
     }
 
     private static bool IsReturnedCancellationRead(IOperation read)
@@ -5870,6 +5875,7 @@ internal static class ModuleAuthoringAnalysis
             && IsInReachableBranch(operation)
             && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(read))
             && !HasAncestor(read, operation)
+            && CanCancellationWriteReachRead(operation, read)
             && !IsCancellationStorageSelfStore(operation)
             && operation switch
             {
@@ -5910,26 +5916,40 @@ internal static class ModuleAuthoringAnalysis
                 {
                     yield return reference;
                 }
-                else if (storage is ILocalSymbol local && visitedLocals.Add(local))
+                else if (storage is ILocalSymbol local)
                 {
-                    foreach (var localValue in FindReachingLocalValues(reference, local))
-                    {
-                        foreach (var read in GetCancellationParameterReads(localValue, parameter, visitedLocals))
-                        {
-                            yield return read;
-                        }
-                    }
-                }
-            }
-            else if (candidate is ILocalReferenceOperation local && visitedLocals.Add(local.Local))
-            {
-                foreach (var localValue in FindReachingLocalValues(local, local.Local))
-                {
-                    foreach (var read in GetCancellationParameterReads(localValue, parameter, visitedLocals))
+                    foreach (var read in GetLocalCancellationParameterReads(reference, local, parameter, visitedLocals))
                     {
                         yield return read;
                     }
                 }
+            }
+            else if (candidate is ILocalReferenceOperation local)
+            {
+                foreach (var read in GetLocalCancellationParameterReads(local, local.Local, parameter, visitedLocals))
+                {
+                    yield return read;
+                }
+            }
+        }
+    }
+
+    private static IEnumerable<IParameterReferenceOperation> GetLocalCancellationParameterReads(
+        IOperation reference,
+        ILocalSymbol local,
+        IParameterSymbol parameter,
+        HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (!visitedLocals.Add(local))
+        {
+            yield break;
+        }
+
+        foreach (var localValue in FindReachingLocalValues(reference, local))
+        {
+            foreach (var read in GetCancellationParameterReads(localValue, parameter, visitedLocals))
+            {
+                yield return read;
             }
         }
     }
@@ -5991,7 +6011,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => assignment.Syntax.SpanStart < value.Syntax.SpanStart)
             .ToArray();
 
-        if (HasLoopCarriedCancellationRebinding(rebindings, precedingRebindings, value))
+        if (HasCarriedCancellationRebinding(rebindings, precedingRebindings, value))
         {
             return null;
         }
@@ -6006,17 +6026,18 @@ internal static class ModuleAuthoringAnalysis
         return GetInitialCancellationStorage(value, symbol, visitedStorage, invocation, method, preserveParameters);
     }
 
-    private static bool HasLoopCarriedCancellationRebinding(
+    private static bool HasCarriedCancellationRebinding(
         ISimpleAssignmentOperation[] rebindings,
         ISimpleAssignmentOperation[] precedingRebindings,
         IOperation value)
     {
-        // A later rebinding may reach this read on the next loop iteration, unless
-        // an unconditional reset in that loop must run before the read.
+        // A later rebinding can reach this read through a backward goto or a
+        // loop backedge. Only a definite reset within the loop overrides it.
         return rebindings.Any(assignment => assignment.Syntax.SpanStart > value.Syntax.SpanStart
-            && SharesContainingLoop(assignment, value)
-            && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
-                && ResetsWithinSharedLoop(reset, assignment, value)));
+            && (HasCancellationBackJump(assignment, value)
+                || (SharesContainingLoop(assignment, value)
+                    && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
+                        && ResetsWithinSharedLoop(reset, assignment, value)))));
     }
 
     private static ISymbol? GetInitialCancellationStorage(
