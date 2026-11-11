@@ -104,6 +104,45 @@ internal sealed class CancellationTokenReachingValues
         return analysis;
     }
 
+    // Heap locations cannot alias tracked symbols, but remain unproven for reads.
+    // Keep heap membership through joins so a mixed location cannot strongly restore a local.
+    private sealed class StorageTargets
+    {
+        public HashSet<ISymbol> Symbols { get; } = [with(SymbolEqualityComparer.Default)];
+
+        public bool HasHeap { get; set; }
+
+        public bool IsUnknown => Symbols.Count == 0 && !HasHeap;
+
+        public StorageTargets Clone()
+        {
+            var copy = new StorageTargets { HasHeap = HasHeap };
+            copy.Symbols.UnionWith(Symbols);
+            return copy;
+        }
+
+        public bool Merge(StorageTargets other)
+        {
+            if (IsUnknown)
+            {
+                return false;
+            }
+
+            if (other.IsUnknown)
+            {
+                Symbols.Clear();
+                HasHeap = false;
+                return true;
+            }
+
+            var count = Symbols.Count;
+            var hadHeap = HasHeap;
+            Symbols.UnionWith(other.Symbols);
+            HasHeap |= other.HasHeap;
+            return count != Symbols.Count || hadHeap != HasHeap;
+        }
+    }
+
     // A state contains facts true on every path to this point. Joining can only
     // remove facts, so even mutually dependent copies converge in finite time.
     private sealed class State
@@ -112,9 +151,9 @@ internal sealed class CancellationTokenReachingValues
 
         public HashSet<CaptureId> Captures { get; } = [];
 
-        public Dictionary<ILocalSymbol, HashSet<ISymbol>> Aliases { get; } = [with(SymbolEqualityComparer.Default)];
+        public Dictionary<ILocalSymbol, StorageTargets> Aliases { get; } = [with(SymbolEqualityComparer.Default)];
 
-        public Dictionary<CaptureId, HashSet<ISymbol>> CaptureAliases { get; } = [];
+        public Dictionary<CaptureId, StorageTargets> CaptureAliases { get; } = [];
 
         public State Clone()
         {
@@ -123,12 +162,12 @@ internal sealed class CancellationTokenReachingValues
             copy.Captures.UnionWith(Captures);
             foreach (var alias in Aliases)
             {
-                copy.Aliases.Add(alias.Key, new(alias.Value, SymbolEqualityComparer.Default));
+                copy.Aliases.Add(alias.Key, alias.Value.Clone());
             }
 
             foreach (var alias in CaptureAliases)
             {
-                copy.CaptureAliases.Add(alias.Key, new(alias.Value, SymbolEqualityComparer.Default));
+                copy.CaptureAliases.Add(alias.Key, alias.Value.Clone());
             }
 
             return copy;
@@ -144,7 +183,7 @@ internal sealed class CancellationTokenReachingValues
             return count != Values.Count + Captures.Count || aliasesChanged;
         }
 
-        private static bool MergeAliases<TKey>(Dictionary<TKey, HashSet<ISymbol>> aliases, Dictionary<TKey, HashSet<ISymbol>> other)
+        private static bool MergeAliases<TKey>(Dictionary<TKey, StorageTargets> aliases, Dictionary<TKey, StorageTargets> other)
             where TKey : notnull
         {
             var changed = false;
@@ -153,19 +192,12 @@ internal sealed class CancellationTokenReachingValues
                 if (!aliases.TryGetValue(key, out var targets))
                 {
                     // An absent binding on one path makes the location unknown.
-                    aliases.Add(key, [with(SymbolEqualityComparer.Default)]);
+                    aliases.Add(key, new StorageTargets());
                     changed = true;
                 }
-                else if (!other.TryGetValue(key, out var incoming) || incoming.Count == 0)
+                else
                 {
-                    changed |= targets.Count > 0;
-                    targets.Clear();
-                }
-                else if (targets.Count > 0)
-                {
-                    var count = targets.Count;
-                    targets.UnionWith(incoming);
-                    changed |= count != targets.Count;
+                    changed |= targets.Merge(other.TryGetValue(key, out var incoming) ? incoming : new StorageTargets());
                 }
             }
 
@@ -577,20 +609,22 @@ internal sealed class CancellationTokenReachingValues
     {
         return local.RefKind == RefKind.None
             ? state.Values.Contains(local)
-            : state.Aliases.TryGetValue(local, out var targets) && targets.Count > 0 && targets.All(state.Values.Contains);
+            : state.Aliases.TryGetValue(local, out var targets) && !targets.IsUnknown && !targets.HasHeap && targets.Symbols.All(state.Values.Contains);
     }
 
-    private static HashSet<ISymbol> ResolveStorage(IOperation reference, State state)
+    private static StorageTargets ResolveStorage(IOperation reference, State state)
     {
         return reference switch
         {
-            ILocalReferenceOperation { Local.RefKind: RefKind.None } local => [with(SymbolEqualityComparer.Default), local.Local],
-            ILocalReferenceOperation local when state.Aliases.TryGetValue(local.Local, out var targets) => new(targets, SymbolEqualityComparer.Default),
-            IParameterReferenceOperation parameter => [with(SymbolEqualityComparer.Default), parameter.Parameter],
-            IFlowCaptureReferenceOperation capture when state.CaptureAliases.TryGetValue(capture.Id, out var targets) => new(targets, SymbolEqualityComparer.Default),
+            ILocalReferenceOperation { Local.RefKind: RefKind.None } local => new StorageTargets { Symbols = { local.Local } },
+            ILocalReferenceOperation local when state.Aliases.TryGetValue(local.Local, out var targets) => targets.Clone(),
+            IParameterReferenceOperation parameter => new StorageTargets { Symbols = { parameter.Parameter } },
+            IFlowCaptureReferenceOperation capture when state.CaptureAliases.TryGetValue(capture.Id, out var targets) => targets.Clone(),
             IConversionOperation conversion => ResolveStorage(conversion.Operand, state),
             IParenthesizedOperation parenthesized => ResolveStorage(parenthesized.Operand, state),
-            _ => [with(SymbolEqualityComparer.Default)],
+            // Array elements and fields cannot designate tracked stack locals or parameters.
+            IArrayElementReferenceOperation or IFieldReferenceOperation { Field.RefKind: RefKind.None } => new StorageTargets { HasHeap = true },
+            _ => new StorageTargets(),
         };
     }
 
@@ -612,18 +646,18 @@ internal sealed class CancellationTokenReachingValues
         }
 
         var targets = ResolveStorage(target, state);
-        if (targets.Count == 0)
+        if (targets.IsUnknown)
         {
-            // A ref-return or heap alias may designate any tracked storage.
+            // An unknown ref-return may designate any tracked storage.
             state.Values.Clear();
         }
-        else if (targets.Count == 1)
+        else if (targets.Symbols.Count == 1 && !targets.HasHeap)
         {
-            Set(state.Values, targets.Single(), value);
+            Set(state.Values, targets.Symbols.Single(), value);
         }
         else if (!value)
         {
-            state.Values.ExceptWith(targets);
+            state.Values.ExceptWith(targets.Symbols);
         }
 
         return true;

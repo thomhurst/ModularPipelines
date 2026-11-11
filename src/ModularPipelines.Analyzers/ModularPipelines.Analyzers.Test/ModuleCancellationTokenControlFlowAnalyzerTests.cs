@@ -464,6 +464,13 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
         yield return ["nested-reset", "return Drop(token);", true];
         yield return ["extension-reset", "return token.DropToken();", true];
         yield return ["return-snapshot-before-finally", "try { return token; } finally { token = default; }", false];
+        yield return ["heap-ref-write", "var items = new CancellationToken[1]; ref var item = ref items[0]; item = default; return token;", false];
+        yield return ["heap-ref-call", "void Reset(ref CancellationToken value) { value = default; } var items = new CancellationToken[1]; ref var item = ref items[0]; Reset(ref item); return token;", false];
+        yield return ["field-ref-write", "var box = new TokenBox(); ref var item = ref box.Value; item = default; return token;", false];
+        yield return ["unknown-ref-write", "static ref CancellationToken Identity(ref CancellationToken value) => ref value; ref var item = ref Identity(ref token); item = default; return token;", true];
+        yield return ["heap-ref-read", "var items = new CancellationToken[1]; ref var item = ref items[0]; item = token; return item;", true];
+        yield return ["mixed-heap-local-ref-write", "var items = new CancellationToken[1]; ref var item = ref (token.CanBeCanceled ? ref token : ref items[0]); item = default; return token;", true];
+        yield return ["mixed-heap-local-ref-restore", "var original = token; token = default; var items = new CancellationToken[1]; ref var item = ref (original.CanBeCanceled ? ref token : ref items[0]); item = original; return token;", true];
         yield return ["recursive-result-not-used", "_ = RecursivePass(token, 2); return token;", false];
     }
 
@@ -632,6 +639,10 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                     token = default;
                     return token;
                 }
+            }
+            public class TokenBox
+            {
+                public CancellationToken Value;
             }
             public class Resource : System.IDisposable, System.IAsyncDisposable
             {
