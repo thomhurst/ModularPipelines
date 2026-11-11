@@ -3444,6 +3444,95 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("for (var i = 0; i < 2; i++) { var token = cancellationToken; if (i == 0) token = CancellationToken.None; else await Task.Delay(1, token); }")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { cancellationToken = original; if (i == 0) cancellationToken = CancellationToken.None; else await Task.Delay(1, cancellationToken); }")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { if (context is null) cancellationToken = original; else cancellationToken = original; if (i == 0) cancellationToken = CancellationToken.None; else await Task.Delay(1, cancellationToken); }")]
+    [DataRow("for (var i = 0; i < 2; i++) { var token = cancellationToken; switch (i) { case 0: token = CancellationToken.None; break; default: await Task.Delay(1, token); break; } }")]
+    [DataRow("if (context is null) { cancellationToken = CancellationToken.None; return null!; } await Task.Delay(1, cancellationToken);")]
+    [DataRow("if (context is null) { cancellationToken = CancellationToken.None; return null!; } else { cancellationToken = cancellationToken; } await Task.Delay(1, cancellationToken);")]
+    [DataRow("if (context is null) { cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); } await Task.Delay(1, cancellationToken);")]
+    public async Task Accepts_Token_When_Overwrite_Cannot_Reach_Use(string body)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{body}}
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("var token = cancellationToken; for (var i = 0; i < 2; i++) { token = token; if (i == 0) token = CancellationToken.None; else await {|#0:Task.Delay(1, token)|}; }")]
+    [DataRow("var token = cancellationToken; var copy = token; for (var i = 0; i < 2; i++) { token = copy; if (i == 0) { token = CancellationToken.None; copy = token; } else await {|#0:Task.Delay(1, token)|}; }")]
+    [DataRow("var original = cancellationToken; for (var i = 0; i < 2; i++) { if (context is null) cancellationToken = original; if (i == 0) cancellationToken = CancellationToken.None; else await {|#0:Task.Delay(1, cancellationToken)|}; }")]
+    [DataRow("for (var i = 0; i < 2; i++) { var token = cancellationToken; for (var j = 0; j < 2; j++) { if (j == 0) token = CancellationToken.None; else await {|#0:Task.Delay(1, token)|}; } }")]
+    [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; throw new System.InvalidOperationException(); } } catch (System.InvalidOperationException) { } await {|#0:Task.Delay(1, cancellationToken)|};")]
+    [DataRow("try { if (context is null) { cancellationToken = CancellationToken.None; return null!; } } finally { await {|#0:Task.Delay(1, cancellationToken)|}; }")]
+    public async Task Reports_Token_When_Overwrite_Can_Still_Reach_Use(string body)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{body}}
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("first = second; return first;", "cancellationToken, cancellationToken", true)]
+    [DataRow("if (condition) first = second; return first;", "cancellationToken, cancellationToken", true)]
+    [DataRow("first = second; return first;", "CancellationToken.None, cancellationToken", true)]
+    [DataRow("first = second; return first;", "cancellationToken, CancellationToken.None", false)]
+    [DataRow("if (condition) first = second; return first;", "CancellationToken.None, cancellationToken", false)]
+    public async Task Tracks_Assignments_Between_Helper_Token_Parameters(
+        string body,
+        string arguments,
+        bool forwardsToken)
+    {
+        var call = $"Task.Delay(1, Forward({arguments}, context is null))";
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                await {{(forwardsToken ? call : "{|#0:" + call + "|}")}};
+                return null!;
+            }
+
+            private static CancellationToken Forward(
+                CancellationToken first,
+                CancellationToken second,
+                bool condition)
+            {
+                {{body}}
+            }
+            """);
+
+        var expected = forwardsToken
+            ? []
+            : new[]
+            {
+                VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                    .WithLocation(0)
+                    .WithArguments("Delay"),
+            };
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
     public async Task Handles_Invalid_Self_Referencing_Token_Initializer()
     {
         var source = ModuleSource("""

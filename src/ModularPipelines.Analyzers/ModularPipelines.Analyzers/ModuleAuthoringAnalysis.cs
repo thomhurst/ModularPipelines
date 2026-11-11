@@ -5417,18 +5417,19 @@ internal static class ModuleAuthoringAnalysis
         IParameterSymbol cancellationToken,
         CancellationTokenFlowContext context)
     {
-        if (!SymbolEqualityComparer.Default.Equals(
-                parameterReference.Parameter,
-                cancellationToken))
-        {
-            return false;
-        }
-
-        return FindReachingAssignedValues(parameterReference, cancellationToken)
-            .All(value => FlowsFromCancellationToken(
-                value,
-                cancellationToken,
-                context));
+        var values = FindReachingAssignedValues(
+            parameterReference,
+            parameterReference.Parameter,
+            out var includesInitialValue);
+        return (!includesInitialValue
+                || context.IsFlowedParameter(parameterReference.Parameter)
+                || SymbolEqualityComparer.Default.Equals(
+                    parameterReference.Parameter,
+                    cancellationToken))
+               && values.All(value => FlowsFromCancellationToken(
+                   value,
+                   cancellationToken,
+                   context));
     }
 
     private static bool FlowsFromParallelCallbackToken(
@@ -5520,6 +5521,7 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        var returnContext = methodContext.WithFlowedParameters(flowedParameters);
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
             .Where(static returnOperation =>
@@ -5532,11 +5534,10 @@ internal static class ModuleAuthoringAnalysis
                && returnValues
                    .SelectMany(GetReachableValueLeaves)
                    .Where(static returnValue => !AlwaysThrows(returnValue))
-                   .All(returnValue => flowedParameters.Any(parameter =>
-                       FlowsFromCancellationToken(
-                           returnValue,
-                           parameter,
-                           methodContext)));
+                   .All(returnValue => FlowsFromCancellationToken(
+                       returnValue,
+                       cancellationToken,
+                       returnContext));
     }
 
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
@@ -6129,7 +6130,13 @@ internal static class ModuleAuthoringAnalysis
 
     private static IEnumerable<IOperation> FindReachingAssignedValues(
         IOperation operation,
-        ISymbol local)
+        ISymbol local) =>
+        FindReachingAssignedValues(operation, local, out _);
+
+    private static IEnumerable<IOperation> FindReachingAssignedValues(
+        IOperation operation,
+        ISymbol local,
+        out bool includesInitialValue)
     {
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
@@ -6145,10 +6152,11 @@ internal static class ModuleAuthoringAnalysis
             linearAssignment?.Syntax.SpanStart ?? int.MinValue,
             branchingOperation?.Syntax.SpanStart ?? int.MinValue);
 
+        includesInitialValue = linearAssignment is null && branchingOperation is null;
         if (branchingOperation is not null
             && branchingOperation.Syntax.SpanStart == lowerBound)
         {
-            return GetValuesAfterAssigningBranch(branchingOperation, local, assignments);
+            return GetValuesAfterAssigningBranch(branchingOperation, operation, local, assignments);
         }
 
         var assignedValues = assignments
@@ -6182,10 +6190,12 @@ internal static class ModuleAuthoringAnalysis
 
     private static IEnumerable<IOperation> GetValuesAfterAssigningBranch(
         IOperation branchingOperation,
+        IOperation operation,
         ISymbol local,
         IEnumerable<ISimpleAssignmentOperation> assignments)
     {
         var branchValues = GetReachingLocalAssignments(branchingOperation, local)
+            .Where(assignment => !IsInTerminatingBranch(assignment, operation))
             .Select(static assignment => assignment.Value);
         var subsequentValues = assignments
             .Where(candidate => candidate.Syntax.SpanStart > branchingOperation.Syntax.Span.End)
@@ -6450,18 +6460,23 @@ internal static class ModuleAuthoringAnalysis
             .OfType<ISimpleAssignmentOperation>()
             .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
             .Where(candidate => AssignsLocal(candidate, local))
-            .Where(candidate => !IsInExclusiveBranch(candidate, operation))
+            .Where(candidate => !IsInExclusiveBranch(candidate, operation, local))
+            .Where(candidate => !IsInTerminatingBranch(candidate, operation))
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart),
         ];
     }
 
-    private static bool IsInExclusiveBranch(IOperation candidate, IOperation operation)
+    private static bool IsInExclusiveBranch(
+        IOperation candidate,
+        IOperation operation,
+        ISymbol local)
     {
         for (var ancestor = candidate.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            // An outer loop can carry a value from one arm into another iteration.
-            if (HasEnclosingLoop(ancestor))
+            // Opposite arms can communicate across iterations unless every shared
+            // loop definitely resets the symbol before entering this branch.
+            if (CanCarryValueAcrossLoop(ancestor, operation, local))
             {
                 continue;
             }
@@ -6482,12 +6497,101 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool HasEnclosingLoop(IOperation operation)
+    private static bool CanCarryValueAcrossLoop(
+        IOperation branch,
+        IOperation operation,
+        ISymbol local)
     {
-        for (var ancestor = operation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is ILoopOperation)
+            if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
             {
+                break;
+            }
+
+            if (ancestor is ILoopOperation loop
+                && HasAncestor(operation, loop)
+                && !IsResetBeforeBranch(loop, branch, local))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IsResetBeforeBranch(
+        ILoopOperation loop,
+        IOperation branch,
+        ISymbol local)
+    {
+        return loop.Descendants()
+            .Where(candidate => candidate.Syntax.Span.End <= branch.Syntax.SpanStart)
+            .Where(candidate => IsLinearPredecessor(candidate, branch))
+            .Any(candidate => IsIterationIndependentReset(candidate, loop, local));
+    }
+
+    private static bool IsIterationIndependentReset(
+        IOperation candidate,
+        ILoopOperation loop,
+        ISymbol local)
+    {
+        if (candidate is IVariableDeclaratorOperation { Initializer: { } initializer } declarator
+            && SymbolEqualityComparer.Default.Equals(declarator.Symbol, local))
+        {
+            return IsIterationIndependentValue(initializer.Value, loop);
+        }
+
+        return DefinitelyAssignsLocal(candidate, local)
+            && GetReachingLocalAssignments(candidate, local)
+                .All(assignment => IsIterationIndependentValue(assignment.Value, loop));
+    }
+
+    private static bool IsIterationIndependentValue(IOperation value, ILoopOperation loop)
+    {
+        var referencedSymbols = value.DescendantsAndSelf()
+            .Select(static operation => operation switch
+            {
+                ILocalReferenceOperation localReference => (ISymbol) localReference.Local,
+                IParameterReferenceOperation parameterReference => parameterReference.Parameter,
+                _ => null,
+            })
+            .OfType<ISymbol>()
+            .ToArray();
+        return !loop.Descendants().Any(candidate =>
+            (candidate is ISimpleAssignmentOperation assignment
+                && referencedSymbols.Any(symbol => AssignsLocal(assignment, symbol)))
+            || (candidate is IVariableDeclaratorOperation declarator
+                && referencedSymbols.Contains(declarator.Symbol, SymbolEqualityComparer.Default)));
+    }
+
+    private static bool IsInTerminatingBranch(IOperation candidate, IOperation operation)
+    {
+        for (var ancestor = candidate.Parent;
+             ancestor is not null && !HasAncestor(operation, ancestor);
+             ancestor = ancestor.Parent)
+        {
+            if (ancestor is IBlockOperation
+                && AlwaysExitsCallable(ancestor)
+                && !ExitCanReachHandler(ancestor, operation))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool ExitCanReachHandler(IOperation branch, IOperation operation)
+    {
+        for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ITryOperation tryOperation
+                && (tryOperation.Catches.Length > 0
+                    || (tryOperation.Finally is { } finallyBlock
+                    && HasAncestor(operation, finallyBlock))))
+            {
+                // A throw may be caught, and finally executes even after return.
                 return true;
             }
 
