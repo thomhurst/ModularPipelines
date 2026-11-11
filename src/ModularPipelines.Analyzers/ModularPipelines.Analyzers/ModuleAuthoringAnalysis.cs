@@ -6195,7 +6195,7 @@ internal static class ModuleAuthoringAnalysis
         IEnumerable<ISimpleAssignmentOperation> assignments)
     {
         var branchValues = GetReachingLocalAssignments(branchingOperation, local)
-            .Where(assignment => !IsInTerminatingBranch(assignment, operation))
+            .Where(assignment => !IsInTerminatingBranch(assignment, operation, local))
             .Select(static assignment => assignment.Value);
         var subsequentValues = assignments
             .Where(candidate => candidate.Syntax.SpanStart > branchingOperation.Syntax.Span.End)
@@ -6461,7 +6461,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
             .Where(candidate => AssignsLocal(candidate, local))
             .Where(candidate => !IsInExclusiveBranch(candidate, operation, local))
-            .Where(candidate => !IsInTerminatingBranch(candidate, operation))
+            .Where(candidate => !IsInTerminatingBranch(candidate, operation, local))
             .Where(candidate => ReferenceEquals(GetEnclosingCallable(candidate), callable))
             .OrderByDescending(static candidate => candidate.Syntax.SpanStart),
         ];
@@ -6593,14 +6593,14 @@ internal static class ModuleAuthoringAnalysis
                 && referencedSymbols.Contains(declarator.Symbol, SymbolEqualityComparer.Default)));
     }
 
-    private static bool IsInTerminatingBranch(IOperation candidate, IOperation operation)
+    private static bool IsInTerminatingBranch(IOperation candidate, IOperation operation, ISymbol local)
     {
         for (var ancestor = candidate.Parent;
              ancestor is not null && !HasAncestor(operation, ancestor);
              ancestor = ancestor.Parent)
         {
             if (ancestor is IBlockOperation
-                && AlwaysExitsBeforeUse(ancestor, operation)
+                && AlwaysExitsBeforeUse(ancestor, operation, local)
                 && !ExitCanReachHandler(ancestor, operation))
             {
                 return true;
@@ -6610,23 +6610,23 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool AlwaysExitsBeforeUse(IOperation branch, IOperation operation)
+    private static bool AlwaysExitsBeforeUse(IOperation branch, IOperation operation, ISymbol local)
     {
         return branch switch
         {
             IReturnOperation or IThrowOperation => true,
             IBranchOperation { BranchKind: BranchKind.Break } exit =>
-                BreakExitsContainingRegion(exit, operation),
+                BreakExitsContainingRegion(exit, operation, local),
             IBlockOperation { Operations.Length: > 0 } block =>
-                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation),
+                AlwaysExitsBeforeUse(block.Operations[block.Operations.Length - 1], operation, local),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
-                AlwaysExitsBeforeUse(conditional.WhenTrue, operation)
-                && AlwaysExitsBeforeUse(whenFalse, operation),
+                AlwaysExitsBeforeUse(conditional.WhenTrue, operation, local)
+                && AlwaysExitsBeforeUse(whenFalse, operation, local),
             _ => false,
         };
     }
 
-    private static bool BreakExitsContainingRegion(IBranchOperation exit, IOperation operation)
+    private static bool BreakExitsContainingRegion(IBranchOperation exit, IOperation operation, ISymbol local)
     {
         for (var ancestor = exit.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
@@ -6638,7 +6638,9 @@ internal static class ModuleAuthoringAnalysis
             };
             if (SymbolEqualityComparer.Default.Equals(exit.Target, exitLabel))
             {
-                return HasAncestor(operation, ancestor);
+                // An outer loop can re-enter this region with the overwritten value.
+                return HasAncestor(operation, ancestor)
+                    && !CanCarryValueAcrossLoop(ancestor, operation, local);
             }
         }
 
