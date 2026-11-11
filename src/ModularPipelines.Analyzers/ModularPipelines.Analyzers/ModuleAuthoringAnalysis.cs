@@ -5696,6 +5696,16 @@ internal static class ModuleAuthoringAnalysis
         IOperation assignment,
         IOperation reference)
     {
+        // Opposite branches can execute on successive iterations of a common
+        // loop, so their stores are not exclusive across the loop back-edge.
+        for (var ancestor = assignment.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is ILoopOperation && HasAncestor(reference, ancestor))
+            {
+                return false;
+            }
+        }
+
         for (var current = assignment; current.Parent is { } parent; current = parent)
         {
             if (parent is IConditionalOperation { WhenFalse: { } whenFalse } conditional

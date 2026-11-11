@@ -51,6 +51,28 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Reports_Loop_Carried_Token_In_Opposite_Branch(bool useLocal, bool useSwitch)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var branches = useSwitch
+            ? $"switch (i) {{ case 0: {target} = CancellationToken.None; break; default: await {{|#0:Task.Delay(1, {target})|}}; break; }}"
+            : $"if (i == 0) {{ {target} = CancellationToken.None; }} else {{ await {{|#0:Task.Delay(1, {target})|}}; }}";
+        var source = Source(
+                (useLocal ? "var token = cancellationToken; " : "")
+                + $"for (var i = 0; i < 2; i++) {{ {branches} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     public async Task Recognizes_Original_Parameter_In_Exclusive_Branch()
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(
