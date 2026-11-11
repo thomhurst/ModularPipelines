@@ -434,7 +434,7 @@ internal sealed class OperationExceptionClassifier(
         && !IsInCheckedContext(conversion);
 
     // Roslyn does not set IConversionOperation.IsChecked for every enumeration conversion.
-    private bool IsInCheckedContext(IOperation operation)
+    internal bool IsInCheckedContext(IOperation operation)
     {
         foreach (var syntax in operation.Syntax.Ancestors())
         {
@@ -466,14 +466,17 @@ internal sealed class OperationExceptionClassifier(
 
     // Decimal narrowing and floating-point-to-decimal conversions can overflow even in unchecked code.
     private static bool CanNumericConversionOverflow(IConversionOperation conversion) =>
-        GetArithmeticOperandType(conversion.Operand.Type) switch
+        CanNumericConversionOverflow(conversion.Operand.Type, conversion.Type);
+
+    internal static bool CanNumericConversionOverflow(ITypeSymbol? source, ITypeSymbol? destination) =>
+        GetArithmeticOperandType(source) switch
         {
-            SpecialType.System_Decimal => GetArithmeticOperandType(conversion.Type) is
+            SpecialType.System_Decimal => GetArithmeticOperandType(destination) is
                 SpecialType.System_SByte or SpecialType.System_Byte or SpecialType.System_Int16 or SpecialType.System_UInt16
                 or SpecialType.System_Int32 or SpecialType.System_UInt32 or SpecialType.System_Int64 or SpecialType.System_UInt64
                 or SpecialType.System_IntPtr or SpecialType.System_UIntPtr or SpecialType.System_Char,
             SpecialType.System_Single or SpecialType.System_Double =>
-                GetArithmeticOperandType(conversion.Type) == SpecialType.System_Decimal,
+                GetArithmeticOperandType(destination) == SpecialType.System_Decimal,
             _ => false,
         };
 
