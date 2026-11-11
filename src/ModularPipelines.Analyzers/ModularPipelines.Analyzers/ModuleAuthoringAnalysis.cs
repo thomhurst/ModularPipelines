@@ -854,14 +854,6 @@ internal static class ModuleAuthoringAnalysis
             ? executeMethod.ContainingType
             : targetMethod.ContainingType;
         var memberMethods = GetModuleMemberMethods(analysisType, compilation);
-        if (targetMethod.MethodKind == MethodKind.LocalFunction
-            && GetMethodOperation(targetMethod, compilation, cancellationToken) is { } targetOperation)
-        {
-            memberMethods = memberMethods.AddRange(GetRoot(targetOperation)
-                .DescendantsAndSelf()
-                .OfType<ILocalFunctionOperation>()
-                .Select(static localFunction => localFunction.Symbol));
-        }
 
         var mappedTokenPaths = FindMappedCancellationTokenPaths(
                 executeMethod,
@@ -907,6 +899,14 @@ internal static class ModuleAuthoringAnalysis
             yield break;
         }
 
+        if (targetMethod.MethodKind == MethodKind.LocalFunction)
+        {
+            memberMethods = [.. memberMethods.AddRange(operation.DescendantsAndSelf()
+                .OfType<ILocalFunctionOperation>()
+                .Select(static localFunction => localFunction.Symbol))
+                .Distinct<IMethodSymbol>(SymbolEqualityComparer.Default)];
+        }
+
         foreach (var invocation in GetReachableInvocations(operation))
         {
             // Local functions map their arguments in their own traversal step.
@@ -938,10 +938,15 @@ internal static class ModuleAuthoringAnalysis
                     continue;
                 }
 
+                // Local functions retain access to tokens captured from their caller.
+                var nextTokens = method.MethodKind == MethodKind.LocalFunction
+                    ? sourceTokens.AddRange(tokens)
+                    : tokens;
+
                 foreach (var mappedTokens in FindMappedCancellationTokenPaths(
                              method,
                              targetMethod,
-                             tokens,
+                             nextTokens,
                              memberMethods,
                              compilation,
                              nextVisitedMethods,

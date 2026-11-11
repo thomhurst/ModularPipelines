@@ -133,6 +133,26 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
                 .WithLocation(1).WithArguments("Run"));
     }
 
+    [TestMethod]
+    [DataRow("execute")]
+    [DataRow("lifecycle")]
+    [DataRow("configuration")]
+    public async Task Recognizes_Token_Forwarded_Through_Local_Wrapper_In_Entry(string root)
+    {
+        var source = ModuleSource(root, """
+            private static Task HelperAsync(CancellationToken token)
+            {
+                return RunAsync(token);
+
+                Task RunAsync(CancellationToken localToken) => Task.Run(() => { }, localToken);
+            }
+            """);
+        source = source.Replace("=> HelperAsync(cancellationToken);", "{ return Wrapper(); Task Wrapper() => HelperAsync(cancellationToken); }")
+            .Replace("await HelperAsync(cancellationToken); return false;", "await Wrapper(); return false; Task Wrapper() => HelperAsync(cancellationToken);");
+
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
     private static string ModuleSource(string root, string helper)
     {
         var entry = root switch
