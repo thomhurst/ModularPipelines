@@ -7,6 +7,196 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Conditional_Tuple_References_Preserve_Only_Unaffected_Payloads(string taskType, bool affected)
+    {
+        var field = affected ? "Item2" : "Item1";
+        var statements = $"({taskType}<CancellationToken>, {taskType}<CancellationToken>) saved = ({taskType}.FromResult(cancellationToken), {taskType}.FromResult(cancellationToken)); "
+            + $"{taskType}<CancellationToken> other = {taskType}.FromResult(cancellationToken); ref {taskType}<CancellationToken> alias = ref (context != null ? ref saved.Item2 : ref other); "
+            + $"saved.Item2 = {taskType}.FromResult(cancellationToken); alias = {taskType}.FromResult(CancellationToken.None); cancellationToken = await saved.{field};";
+        var call = affected ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, call), affected
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("ref")]
+    [DataRow("ref readonly")]
+    public async Task Array_References_Invalidate_Backing_Facts_Before_Storage_Escape(string reference)
+    {
+        var statements = $"CancellationToken[] tokens = new[] {{ cancellationToken }}; var copy = tokens; {reference} CancellationToken[] alias = ref tokens; alias[0] = default; "
+            + "cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(copy).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Readonly_Span_References_Invalidate_Only_On_Content_Writes(bool writes)
+    {
+        var mutation = writes ? "alias[0] = default;" : "";
+        var statements = "var tokens = new[] { cancellationToken }; var span = new Span<CancellationToken>(tokens); ref readonly Span<CancellationToken> alias = ref span; "
+            + $"{mutation} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;";
+        var call = writes ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, call), writes
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    public async Task Readonly_Array_References_Preserve_Unchanged_Contents()
+    {
+        var statements = "CancellationToken[] tokens = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref tokens; "
+            + "cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", "tokens[0] = default;")]
+    [DataRow("ValueTask", "tokens[0] = default;")]
+    [DataRow("Task", "var alias = tokens; alias[0] = default;")]
+    [DataRow("ValueTask", "var alias = tokens; alias[0] = default;")]
+    public async Task Async_Collection_Helpers_Do_Not_Prove_Mutated_Input_Payloads(string taskType, string mutation)
+    {
+        var statements = $"static async {taskType}<CancellationToken> Link(CancellationToken[] tokens) {{ await Task.Yield(); {mutation} return CancellationTokenSource.CreateLinkedTokenSource(tokens).Token; }} "
+            + "var tokens = new[] { cancellationToken }; cancellationToken = await Link(tokens);";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Async_Scalar_Helpers_Do_Not_Prove_Mutated_Local_Collections(string taskType)
+    {
+        var statements = $"static async {taskType}<CancellationToken> Link(CancellationToken token) {{ await Task.Yield(); var tokens = new[] {{ token }}; tokens[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(tokens).Token; }} "
+            + "cancellationToken = await Link(cancellationToken);";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Conditional_Parameter_References_Track_Writable_Escapes(bool writable)
+    {
+        var reference = writable ? "ref CancellationToken" : "ref readonly CancellationToken";
+        var mutation = writable ? "alias = default;" : "";
+        var statements = $"CancellationToken other = default; {reference} alias = ref (context != null ? ref cancellationToken : ref other); {mutation}";
+        var call = writable ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, call), writable
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Returned_Awaitable_References_Invalidate_Argument_Storage(string taskType)
+    {
+        var statements = $"static ref {taskType}<CancellationToken> Keep(ref {taskType}<CancellationToken> value) => ref value; "
+            + $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); ref {taskType}<CancellationToken> alias = ref Keep(ref saved); "
+            + $"saved = {taskType}.FromResult(cancellationToken); alias = {taskType}.FromResult(CancellationToken.None); cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Conditional_Awaitable_References_Invalidate_Captured_Storage(string taskType)
+    {
+        var statements = $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); {taskType}<CancellationToken> other = {taskType}.FromResult(cancellationToken); "
+            + $"ref {taskType}<CancellationToken> alias = ref (context != null ? ref saved : ref other); alias = {taskType}.FromResult(CancellationToken.None); cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Readonly_Awaitable_Aliases_Do_Not_Retain_Stale_Payloads(string taskType)
+    {
+        var statements = $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); ref readonly {taskType}<CancellationToken> alias = ref saved; "
+            + $"saved = {taskType}.FromResult(CancellationToken.None); cancellationToken = await alias;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", "alias = replacement;", "saved")]
+    [DataRow("ValueTask", "alias = replacement;", "saved")]
+    [DataRow("Task", "saved = Task.FromResult(cancellationToken); alias = replacement;", "saved")]
+    [DataRow("ValueTask", "saved = ValueTask.FromResult(cancellationToken); alias = replacement;", "saved")]
+    [DataRow("Task", "saved = replacement;", "alias")]
+    [DataRow("ValueTask", "saved = replacement;", "alias")]
+    public async Task Writable_Awaitable_References_Invalidate_Storage(string taskType, string mutation, string awaited)
+    {
+        var statements = $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); var replacement = {taskType}.FromResult(CancellationToken.None); "
+            + $"ref {taskType}<CancellationToken> alias = ref saved; {mutation} cancellationToken = await {awaited};";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Writable_Awaitable_Reference_Reassignment_Invalidates_Storage(string taskType)
+    {
+        var statements = $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); {taskType}<CancellationToken> other = {taskType}.FromResult(cancellationToken); "
+            + $"ref {taskType}<CancellationToken> alias = ref other; alias = ref saved; alias = {taskType}.FromResult(CancellationToken.None); cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Writable_Tuple_Awaitable_References_Invalidate_Storage(string taskType)
+    {
+        var statements = $"({taskType}<CancellationToken>, int) saved = ({taskType}.FromResult(cancellationToken), 1); ref {taskType}<CancellationToken> alias = ref saved.Item1; "
+            + $"saved.Item1 = {taskType}.FromResult(cancellationToken); alias = {taskType}.FromResult(CancellationToken.None); cancellationToken = await saved.Item1;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", "")]
+    [DataRow("ValueTask", "")]
+    [DataRow("Task", "alias = ref saved;")]
+    [DataRow("ValueTask", "alias = ref saved;")]
+    public async Task Readonly_Awaitable_References_Preserve_Storage(string taskType, string reassignment)
+    {
+        var statements = $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); ref readonly {taskType}<CancellationToken> alias = ref saved; "
+            + $"{reassignment} cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Copied_Awaitable_Payload_Survives_Reference_Escape(string taskType)
+    {
+        var statements = $"{taskType}<CancellationToken> saved = {taskType}.FromResult(cancellationToken); var copy = saved; ref {taskType}<CancellationToken> alias = ref saved; "
+            + $"alias = {taskType}.FromResult(CancellationToken.None); cancellationToken = await copy;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
     [DataRow("Task", "{ await Task.Yield(); return token; }", false)]
     [DataRow("ValueTask", "{ await Task.Yield(); return token; }", false)]
     [DataRow("Task", "=> token;", false)]

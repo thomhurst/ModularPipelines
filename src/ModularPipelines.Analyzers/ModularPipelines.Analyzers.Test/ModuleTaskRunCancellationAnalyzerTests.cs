@@ -30,7 +30,10 @@ public class ModuleTaskRunCancellationAnalyzerTests
             var replacedArgument = root != "configuration"
                 && mutation is "cancellationToken = CancellationToken.None;" or "Replace(ref cancellationToken);" or "Replace(out cancellationToken);" or "(cancellationToken, _) = (CancellationToken.None, 1);"
                     or "ref CancellationToken alias = ref cancellationToken; alias = CancellationToken.None;"
-                    or "CancellationToken other = default; ref CancellationToken alias = ref other; alias = ref cancellationToken; alias = CancellationToken.None;";
+                    or "CancellationToken other = default; ref CancellationToken alias = ref other; alias = ref cancellationToken; alias = CancellationToken.None;"
+                    or "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref cancellationToken : ref other); alias = CancellationToken.None;"
+                    or "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref cancellationToken); alias = CancellationToken.None;"
+                    or "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref cancellationToken : ref other)); alias = CancellationToken.None;";
             if (replacedArgument)
             {
                 source = source.Replace("await Task.Run(", "await {|#1:Task.Run(")

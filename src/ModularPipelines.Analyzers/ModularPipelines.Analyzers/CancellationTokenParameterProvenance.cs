@@ -76,7 +76,7 @@ internal static class CancellationTokenParameterProvenance
 
     private static bool IsWritten(IOperation operation)
     {
-        while (operation.Parent is ITupleOperation or IConversionOperation)
+        while (operation.Parent is ITupleOperation or IConversionOperation or IConditionalOperation { IsRef: true })
         {
             operation = operation.Parent;
         }
@@ -164,21 +164,91 @@ internal static class CancellationTokenParameterProvenance
                 || (Arrays is { } leftArrays && other.Arrays is { } rightArrays && leftArrays.SetEquals(rightArrays)));
     }
 
+    private readonly struct StorageReference(ISymbol symbol, string path) : IEquatable<StorageReference>
+    {
+        public ISymbol Symbol { get; } = symbol;
+
+        public string Path { get; } = path;
+
+        public bool Equals(StorageReference other) => SymbolEqualityComparer.Default.Equals(Symbol, other.Symbol) && Path == other.Path;
+
+        public override bool Equals(object? obj) => obj is StorageReference other && Equals(other);
+
+        public override int GetHashCode() => unchecked((SymbolEqualityComparer.Default.GetHashCode(Symbol) * 397) ^ StringComparer.Ordinal.GetHashCode(Path));
+    }
+
     private sealed class State
     {
         public Dictionary<ISymbol, Value> Values { get; } = [with(SymbolEqualityComparer.Default)];
 
-        // Writable references can mutate their targets after later direct writes.
+        public Dictionary<CaptureId, Value> Captures { get; } = [];
+
         public HashSet<ISymbol> EscapedSymbols { get; } = [with(SymbolEqualityComparer.Default)];
 
         public Dictionary<ISymbol, HashSet<string>> EscapedFields { get; } = [with(SymbolEqualityComparer.Default)];
 
-        public Dictionary<CaptureId, Value> Captures { get; } = [];
+        public HashSet<CaptureId> EscapedCaptures { get; } = [];
+
+        public Dictionary<CaptureId, HashSet<StorageReference>> CaptureTargets { get; } = [];
 
         // Only syntax-named indices need facts, even for very large allocations.
         public Dictionary<TextSpan, Dictionary<int, Value>> Arrays { get; } = [];
 
         public HashSet<TextSpan> SafeArrays { get; } = [];
+
+        public void SetValue(ISymbol symbol, Value value) =>
+            Values[symbol] = EscapedSymbols.Contains(symbol) ? Value.None : value;
+
+        public void SetCapture(CaptureId id, Value value) =>
+            Captures[id] = EscapedCaptures.Contains(id) ? Value.None : value;
+
+        public void SetCaptureTargets(CaptureId id, IEnumerable<StorageReference> targets)
+        {
+            CaptureTargets[id] = [.. targets];
+            if (EscapedCaptures.Contains(id))
+            {
+                Escape(id);
+            }
+        }
+
+        public void Escape(ISymbol symbol)
+        {
+            EscapedSymbols.Add(symbol);
+            SetValue(symbol, Values.TryGetValue(symbol, out var value) ? value : Value.None);
+        }
+
+        public void Escape(ISymbol symbol, string path)
+        {
+            if (path.Length == 0)
+            {
+                Escape(symbol);
+                return;
+            }
+
+            if (!EscapedFields.TryGetValue(symbol, out var paths))
+            {
+                EscapedFields.Add(symbol, paths = [with(StringComparer.Ordinal)]);
+            }
+
+            paths.Add(path);
+        }
+
+        public bool IsEscaped(StorageReference reference) => EscapedSymbols.Contains(reference.Symbol)
+            || (EscapedFields.TryGetValue(reference.Symbol, out var paths)
+                && paths.Any(path => reference.Path == path || reference.Path.StartsWith(path + "/", StringComparison.Ordinal)));
+
+        public void Escape(CaptureId id)
+        {
+            EscapedCaptures.Add(id);
+            SetCapture(id, Captures.TryGetValue(id, out var value) ? value : Value.None);
+            if (CaptureTargets.TryGetValue(id, out var targets))
+            {
+                foreach (var target in targets)
+                {
+                    Escape(target.Symbol, target.Path);
+                }
+            }
+        }
 
         public void SetArraySafety(TextSpan identity, bool safe)
         {
@@ -210,37 +280,31 @@ internal static class CancellationTokenParameterProvenance
                 copy.Arrays.Add(entry.Key, [with(entry.Value)]);
             }
 
+            copy.SafeArrays.UnionWith(SafeArrays);
+            copy.EscapedSymbols.UnionWith(EscapedSymbols);
+            copy.EscapedCaptures.UnionWith(EscapedCaptures);
             foreach (var entry in EscapedFields)
             {
                 copy.EscapedFields.Add(entry.Key, [with(StringComparer.Ordinal), .. entry.Value]);
             }
 
-            copy.SafeArrays.UnionWith(SafeArrays);
-            copy.EscapedSymbols.UnionWith(EscapedSymbols);
+            foreach (var entry in CaptureTargets)
+            {
+                copy.CaptureTargets.Add(entry.Key, [.. entry.Value]);
+            }
 
             return copy;
         }
 
         public bool Merge(State other)
         {
-            var changed = MergeValues(Values, other.Values) | MergeValues(Captures, other.Captures);
-            var escapedCount = EscapedSymbols.Count;
+            var changed = MergeCaptureTargets(other) | MergeEscapedFields(other);
+            var escapedCount = EscapedSymbols.Count + EscapedCaptures.Count;
             EscapedSymbols.UnionWith(other.EscapedSymbols);
-            changed |= escapedCount != EscapedSymbols.Count;
-            foreach (var entry in other.EscapedFields)
-            {
-                if (!EscapedFields.TryGetValue(entry.Key, out var paths))
-                {
-                    EscapedFields.Add(entry.Key, [with(StringComparer.Ordinal), .. entry.Value]);
-                    changed = true;
-                    continue;
-                }
-
-                var count = paths.Count;
-                paths.UnionWith(entry.Value);
-                changed |= count != paths.Count;
-            }
-
+            EscapedCaptures.UnionWith(other.EscapedCaptures);
+            ApplyCaptureEscapes();
+            changed |= escapedCount != EscapedSymbols.Count + EscapedCaptures.Count;
+            changed |= MergeValues(Values, other.Values, EscapedSymbols) | MergeValues(Captures, other.Captures, EscapedCaptures);
             // An allocation absent from one path has no aliases on that path.
             foreach (var entry in other.Arrays)
             {
@@ -269,13 +333,66 @@ internal static class CancellationTokenParameterProvenance
             return changed;
         }
 
-        private static bool MergeValues<TKey>(Dictionary<TKey, Value> values, Dictionary<TKey, Value> other)
+        private bool MergeCaptureTargets(State other)
+        {
+            var changed = false;
+            foreach (var entry in other.CaptureTargets)
+            {
+                if (!CaptureTargets.TryGetValue(entry.Key, out var targets))
+                {
+                    targets = [];
+                    CaptureTargets.Add(entry.Key, targets);
+                }
+
+                var count = targets.Count;
+                targets.UnionWith(entry.Value);
+                changed |= targets.Count != count;
+            }
+
+            return changed;
+        }
+
+        private bool MergeEscapedFields(State other)
+        {
+            var changed = false;
+            foreach (var entry in other.EscapedFields)
+            {
+                if (!EscapedFields.TryGetValue(entry.Key, out var paths))
+                {
+                    EscapedFields.Add(entry.Key, [with(StringComparer.Ordinal), .. entry.Value]);
+                    changed = true;
+                    continue;
+                }
+
+                var count = paths.Count;
+                paths.UnionWith(entry.Value);
+                changed |= paths.Count != count;
+            }
+
+            return changed;
+        }
+
+        private void ApplyCaptureEscapes()
+        {
+            // A join can add targets to a capture that already escaped.
+            foreach (var capture in EscapedCaptures)
+            {
+                Escape(capture);
+            }
+        }
+
+        private static bool MergeValues<TKey>(Dictionary<TKey, Value> values, Dictionary<TKey, Value> other, HashSet<TKey> escaped)
             where TKey : notnull
         {
             var changed = false;
             foreach (var key in values.Keys.ToArray())
             {
                 var merged = values[key].Merge(other.TryGetValue(key, out var value) ? value : Value.None);
+                if (escaped.Contains(key))
+                {
+                    merged = Value.None;
+                }
+
                 changed |= !merged.SameAs(values[key]);
                 values[key] = merged;
             }
@@ -432,6 +549,10 @@ internal static class CancellationTokenParameterProvenance
                 InvalidateArrays(value, state);
                 if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
                 {
+                    if (IsTokenAwaitable(argument.Value.Type))
+                    {
+                        InvalidateReferencedStorage(argument.Value, state);
+                    }
                     Assign(argument.Value, Value.None, state);
                 }
             }
@@ -641,6 +762,10 @@ internal static class CancellationTokenParameterProvenance
             foreach (var (target, value) in references)
             {
                 InvalidateArrays(value, state);
+                if (IsTokenAwaitable(target.Type))
+                {
+                    InvalidateReferencedStorage(target, state);
+                }
                 Assign(target, Value.None, state);
             }
 
@@ -689,12 +814,17 @@ internal static class CancellationTokenParameterProvenance
                     return tuple;
                 case IFlowCaptureOperation capture:
                     var captured = Evaluate(capture.Value, state);
-                    state.Captures[capture.Id] = captured;
+                    state.SetCapture(capture.Id, captured);
+                    state.SetCaptureTargets(capture.Id, ReferencedStorage(capture.Value, state));
                     return captured;
                 case ISimpleAssignmentOperation assignment:
                     return EvaluateAssignment(assignment, state);
                 case IArgumentOperation argument when argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out:
                     InvalidateArrays(Evaluate(argument.Value, state), state);
+                    if (IsTokenAwaitable(argument.Value.Type))
+                    {
+                        InvalidateReferencedStorage(argument.Value, state);
+                    }
                     Assign(argument.Value, Value.None, state);
                     return Value.None;
                 case IArgumentOperation argument:
@@ -714,16 +844,14 @@ internal static class CancellationTokenParameterProvenance
         private Value EvaluateAssignment(ISimpleAssignmentOperation assignment, State state)
         {
             var assigned = Evaluate(assignment.Value, state);
-            if (assignment.IsRef
-                && (assignment.Target is not ILocalReferenceOperation local || local.Local.RefKind == RefKind.Ref))
+            if (assignment.IsRef)
             {
-                InvalidateReferenceTarget(assignment.Value, state);
-            }
-
-            // A reference local is an alias, not a snapshot, even when readonly.
-            if (assignment.IsRef && assignment.Target is ILocalReferenceOperation reference)
-            {
-                state.EscapedSymbols.Add(reference.Local);
+                // Even a readonly alias can observe later writes to its source.
+                InvalidateReferencedStorage(assignment.Target, state);
+                if (assignment.Target is not ILocalReferenceOperation local || local.Local.RefKind == RefKind.Ref)
+                {
+                    InvalidateReferenceTarget(assignment.Value, state);
+                }
             }
 
             Assign(assignment.Target, assigned, state);
@@ -737,55 +865,77 @@ internal static class CancellationTokenParameterProvenance
             switch (target)
             {
                 case ILocalReferenceOperation local:
-                    InvalidateArrays(Evaluate(local, state), state);
-                    state.EscapedSymbols.Add(local.Local);
+                    InvalidateArrays(Get(state.Values, local.Local), state);
                     break;
                 case IParameterReferenceOperation parameter:
-                    InvalidateArrays(Evaluate(parameter, state), state);
-                    state.EscapedSymbols.Add(parameter.Parameter);
+                    InvalidateArrays(Get(state.Values, parameter.Parameter), state);
+                    break;
+                case IFlowCaptureReferenceOperation capture:
+                    InvalidateArrays(Get(state.Captures, capture.Id), state);
                     break;
                 case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
                     InvalidateArrays(Evaluate(field, state), state);
-                    EscapeTupleField(field, state);
                     break;
                 case IArrayElementReferenceOperation element:
                     InvalidateArrays(Evaluate(element.ArrayReference, state), state);
+                    InvalidateUnknownReferenceArrays(element.ArrayReference, state);
                     break;
                 case IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver }
                     when IsTokenCollection(receiver.Type):
                     InvalidateArrays(Evaluate(receiver, state), state);
+                    InvalidateUnknownReferenceArrays(receiver, state);
                     break;
+            }
+
+            InvalidateReferencedStorage(target, state);
+        }
+
+        private static void InvalidateReferencedStorage(IOperation target, State state)
+        {
+            foreach (var reference in ReferencedStorage(target, state))
+            {
+                state.Escape(reference.Symbol, reference.Path);
+            }
+
+            if (target is IFlowCaptureReferenceOperation capture)
+            {
+                state.Escape(capture.Id);
             }
         }
 
-        private void EscapeTupleField(IFieldReferenceOperation field, State state)
+        private static IEnumerable<StorageReference> ReferencedStorage(IOperation target, State state) => target switch
         {
-            IOperation root = field;
-            var path = string.Empty;
-            while (root is IFieldReferenceOperation element && TupleElementIndex(element) >= 0)
+            ILocalReferenceOperation local => [new StorageReference(local.Local, string.Empty)],
+            IParameterReferenceOperation parameter => [new StorageReference(parameter.Parameter, string.Empty)],
+            IFlowCaptureReferenceOperation capture when state.CaptureTargets.TryGetValue(capture.Id, out var targets) => targets,
+            IFieldReferenceOperation field when TupleElementIndex(field) >= 0 => ReferencedStorage(field.Instance!, state)
+                .Select(reference => new StorageReference(reference.Symbol, reference.Path + "/" + TupleElementIndex(field))),
+            IConversionOperation conversion => ReferencedStorage(conversion.Operand, state),
+            IDeclarationExpressionOperation declaration => ReferencedStorage(declaration.Expression, state),
+            _ => [],
+        };
+
+        private static void InvalidateUnknownReferenceArrays(IOperation receiver, State state)
+        {
+            var escaped = ReferencedStorage(receiver, state).Any(state.IsEscaped);
+            if (!escaped && receiver is IFlowCaptureReferenceOperation capture)
             {
-                path = "/" + TupleElementIndex(element) + path;
-                root = element.Instance!;
+                escaped = state.EscapedCaptures.Contains(capture.Id);
             }
 
-            var symbol = root switch
+            if (!escaped)
             {
-                ILocalReferenceOperation local => (ISymbol) local.Local,
-                IParameterReferenceOperation parameter => parameter.Parameter,
-                _ => null,
-            };
-            if (symbol is null)
-            {
-                InvalidateReferenceTarget(root, state);
                 return;
             }
 
-            if (!state.EscapedFields.TryGetValue(symbol, out var paths))
+            // An escaped reference lost its allocation identity. A write through
+            // it can affect any tracked backing storage, but a readonly bind cannot.
+            foreach (var identity in state.Arrays.Keys.ToArray())
             {
-                state.EscapedFields.Add(symbol, paths = [with(StringComparer.Ordinal)]);
+                state.Arrays[identity] = [];
             }
 
-            paths.Add(path);
+            state.SafeArrays.Clear();
         }
 
         private static Value GetSymbolValue(ISymbol symbol, State state)
@@ -935,6 +1085,7 @@ internal static class CancellationTokenParameterProvenance
 
             if (array.Arrays is not { } identities)
             {
+                InvalidateUnknownReferenceArrays(receiver, state);
                 return;
             }
 
@@ -974,13 +1125,13 @@ internal static class CancellationTokenParameterProvenance
                     AssignCollectionElement(receiver, [.. indexer.Arguments.Select(argument => argument.Value)], value, state);
                     break;
                 case IParameterReferenceOperation parameter:
-                    state.Values[parameter.Parameter] = value;
+                    state.SetValue(parameter.Parameter, value);
                     break;
                 case ILocalReferenceOperation local:
-                    state.Values[local.Local] = value;
+                    state.SetValue(local.Local, value);
                     break;
                 case IFlowCaptureReferenceOperation capture:
-                    state.Captures[capture.Id] = value;
+                    state.SetCapture(capture.Id, value);
                     break;
                 case IConversionOperation conversion:
                     Assign(conversion.Operand, value, state);

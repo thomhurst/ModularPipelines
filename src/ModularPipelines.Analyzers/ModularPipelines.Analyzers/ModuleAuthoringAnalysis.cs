@@ -5691,12 +5691,16 @@ internal static class ModuleAuthoringAnalysis
         var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
         if (method.IsAsync)
         {
-            // Collection contents can change through aliases or calls without writing
-            // the parameter itself. Async helper proof does not track those effects.
-            parameters.RemoveAll(parameter => !IsCancellationToken(parameter));
+            // Async payload proof is scalar-only. Collection contents and aliases
+            // are not tracked across source-helper boundaries.
+            if (operation.DescendantsAndSelf().Any(static child => IsCancellationTokenCollection(child.Type)))
+            {
+                return false;
+            }
+
             // Local-function parameter analysis retains a captured-value fallback.
             // Do not use that fallback to prove a written async return payload.
-            parameters.RemoveAll(parameter => operation.DescendantsAndSelf()
+            parameters.RemoveAll(parameter => !IsCancellationToken(parameter) || operation.DescendantsAndSelf()
                 .OfType<IParameterReferenceOperation>()
                 .Any(reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
                     && IsPotentialParameterWrite(reference)));
@@ -5843,10 +5847,15 @@ internal static class ModuleAuthoringAnalysis
     private static bool IsCancellationInput(IParameterSymbol parameter)
     {
         return IsCancellationToken(parameter)
-               || (parameter.Type is IArrayTypeSymbol arrayType
+               || IsCancellationTokenCollection(parameter.Type);
+    }
+
+    private static bool IsCancellationTokenCollection(ITypeSymbol? type)
+    {
+        return (type is IArrayTypeSymbol arrayType
                    && arrayType.ElementType.ToDisplayString()
                    == CancellationTokenMetadataName)
-               || (parameter.Type is INamedTypeSymbol { IsGenericType: true } namedType
+               || (type is INamedTypeSymbol { IsGenericType: true } namedType
                    && namedType.TypeArguments.Length == 1
                    && namedType.OriginalDefinition.ToDisplayString() is
                        "System.Span<T>"
