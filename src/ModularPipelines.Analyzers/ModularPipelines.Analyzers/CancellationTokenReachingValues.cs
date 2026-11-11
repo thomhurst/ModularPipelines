@@ -18,16 +18,20 @@ internal sealed class CancellationTokenReachingValues
     private readonly ControlFlowGraph _graph;
     private readonly SemanticModel _model;
     private readonly OperationExceptionClassifier _exceptions;
+    private readonly HashSet<IMethodSymbol> _visitedMethods;
+    private readonly IParameterSymbol _source;
     private readonly Dictionary<(TextSpan Span, OperationKind Kind), bool> _values = [];
 
-    private CancellationTokenReachingValues(ControlFlowGraph graph, SemanticModel model)
+    private CancellationTokenReachingValues(ControlFlowGraph graph, SemanticModel model, HashSet<IMethodSymbol> visitedMethods, IParameterSymbol source)
     {
         _graph = graph;
         _model = model;
+        _visitedMethods = visitedMethods;
+        _source = source;
         _exceptions = new OperationExceptionClassifier(model);
     }
 
-    public static bool? TryGetValue(IOperation reference, IParameterSymbol source)
+    public static bool? TryGetValue(IOperation reference, IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods = null)
     {
         var root = GetAnalysisRoot(reference);
         if (root?.SemanticModel is not { } model
@@ -36,8 +40,13 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
-        var analysis = Analyses.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
-            .GetOrAdd(source, _ => new Lazy<CancellationTokenReachingValues?>(() => Create(root, model, source))).Value;
+        // Helper proofs depend on their call-chain recursion guard and must not share
+        // the context-free cache or re-enter a Lazy analysis under construction.
+        var analysis = visitedMethods is { Count: > 0 }
+            ? Create(root, model, source, visitedMethods)
+            : Analyses.GetValue(root, static _ => new(SymbolEqualityComparer.Default))
+                .GetOrAdd(source, _ => new Lazy<CancellationTokenReachingValues?>(() => Create(
+                    root, model, source, [with(SymbolEqualityComparer.Default)]))).Value;
         if (analysis is null)
         {
             return null;
@@ -65,7 +74,7 @@ internal sealed class CancellationTokenReachingValues
         return root;
     }
 
-    private static CancellationTokenReachingValues? Create(IOperation root, SemanticModel model, IParameterSymbol source)
+    private static CancellationTokenReachingValues? Create(IOperation root, SemanticModel model, IParameterSymbol source, HashSet<IMethodSymbol> visitedMethods)
     {
         ControlFlowGraph? graph;
         try
@@ -83,7 +92,7 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
-        var analysis = new CancellationTokenReachingValues(graph, model);
+        var analysis = new CancellationTokenReachingValues(graph, model, visitedMethods, source);
         var initial = new State();
         initial.Values.Add(source);
         analysis.Run(graph.Root, initial, graph.Blocks[0]);
@@ -427,7 +436,19 @@ internal sealed class CancellationTokenReachingValues
         return (invocation.TargetMethod.Name == "CreateLinkedTokenSource"
                 && invocation.TargetMethod.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource"
                 && arguments.Any(static argument => argument))
-            || ModuleAuthoringAnalysis.FlowsFromCancellationTokenSourceHelper(invocation, _model.Compilation, arguments, receiverValue);
+            || IsSourcePreservingRecursion(invocation, arguments)
+            || ModuleAuthoringAnalysis.FlowsFromCancellationTokenSourceHelper(invocation, _model.Compilation, arguments, receiverValue, _visitedMethods);
+    }
+
+    private bool IsSourcePreservingRecursion(IInvocationOperation invocation, bool[] arguments)
+    {
+        // Prove direct recursion by induction: the enclosing helper's returns are
+        // still checked, and the recursive edge must retain the same input slot.
+        // Accepting any flowing argument here would wrongly accept swapped inputs.
+        return SymbolEqualityComparer.Default.Equals(invocation.Type, _source.Type)
+            && SymbolEqualityComparer.Default.Equals(invocation.TargetMethod.OriginalDefinition, _source.ContainingSymbol)
+            && invocation.Arguments.Where((argument, index) => arguments[index]
+                && SymbolEqualityComparer.Default.Equals(argument.Parameter, _source)).Any();
     }
 
     private static void InvalidateRefArguments(IInvocationOperation invocation, State state)

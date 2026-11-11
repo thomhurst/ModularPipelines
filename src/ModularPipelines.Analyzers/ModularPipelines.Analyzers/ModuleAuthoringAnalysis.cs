@@ -5545,15 +5545,7 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
-        // Helper-return proofs already carry a recursion guard. Keep those proofs
-        // within that analysis instead of re-entering a cached CFG under construction.
-        if (cancellationToken.ContainingSymbol is IMethodSymbol sourceMethod
-            && visitedMethods.Contains(NormalizeMethod(sourceMethod)))
-        {
-            return null;
-        }
-
-        return CancellationTokenReachingValues.TryGetValue(value, cancellationToken);
+        return CancellationTokenReachingValues.TryGetValue(value, cancellationToken, visitedMethods);
     }
 
     private static bool FlowsFromParallelCallbackToken(
@@ -5661,7 +5653,8 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         Compilation compilation,
         bool[] argumentValues,
-        bool receiverValue)
+        bool receiverValue,
+        HashSet<IMethodSymbol> visitedMethods)
     {
         if (!IsCancellationCarrier(invocation.Type))
         {
@@ -5669,7 +5662,9 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var method = NormalizeMethod(invocation.TargetMethod);
-        if (GetMethodOperation(method, compilation, default) is not { } operation)
+        visitedMethods = CloneVisitedMethods(visitedMethods);
+        if (!visitedMethods.Add(method)
+            || GetMethodOperation(method, compilation, default) is not { } operation)
         {
             return false;
         }
@@ -5695,7 +5690,7 @@ internal static class ModuleAuthoringAnalysis
                 operation,
                 flowedParameters,
                 [with(SymbolEqualityComparer.Default)],
-                [with(SymbolEqualityComparer.Default), method]);
+                visitedMethods);
     }
 
     private static bool HelperReturnsFlowedCancellationToken(

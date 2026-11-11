@@ -185,6 +185,27 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                 """, true];
         }
 
+        yield return ["helper-discards-parameter", """
+            var token = Drop(cancellationToken);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["helper-restores-parameter", """
+            var token = Restore(cancellationToken);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, false];
+        yield return ["recursive-helper-swaps-inputs", """
+            var token = Swap(cancellationToken, default, 1);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["recursive-helper-discards-input", """
+            var token = RecursiveDrop(cancellationToken, 1);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+        yield return ["helper-discards-local-copy", """
+            var token = DropCopy(cancellationToken);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, true];
+
         yield return ["forty-conditional-copies", string.Join("\n", Enumerable.Range(0, 40).Select(i =>
             $"var copy{i} = context is null ? {(i == 0 ? "cancellationToken" : $"copy{i - 1}")} : {(i == 0 ? "cancellationToken" : $"copy{i - 1}")};"))
             + "for (var i = 0; i < 2; i++) await CALL(1, copy39);", false];
@@ -427,6 +448,38 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                 private static CancellationToken LoopPass(CancellationToken token)
                 {
                     for (var i = 0; i < 2; i++) { }
+                    return token;
+                }
+                private static CancellationToken Drop(CancellationToken token)
+                {
+                    for (var i = 0; i < 2; i++) { }
+                    token = default;
+                    return token;
+                }
+                private static CancellationToken Restore(CancellationToken token)
+                {
+                    var original = token;
+                    for (var i = 0; i < 2; i++) { }
+                    token = default;
+                    token = original;
+                    return token;
+                }
+                private static CancellationToken DropCopy(CancellationToken token)
+                {
+                    var copy = token;
+                    for (var i = 0; i < 2; i++) { }
+                    copy = default;
+                    return copy;
+                }
+                private static CancellationToken Swap(CancellationToken token, CancellationToken other, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = Swap(other, token, remaining - 1);
+                    return token;
+                }
+                private static CancellationToken RecursiveDrop(CancellationToken token, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = RecursiveDrop(token, remaining - 1);
+                    token = default;
                     return token;
                 }
                 private static CancellationToken RecursivePass(CancellationToken token, int remaining)
