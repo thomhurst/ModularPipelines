@@ -937,6 +937,36 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("decimal", "value++", false, true)]
+    [DataRow("decimal", "--value", false, true)]
+    [DataRow("decimal", "value++", true, false)]
+    [DataRow("int", "value++", false, false)]
+    [DataRow("double", "--value", false, false)]
+    public async Task Tracks_Unchecked_Decimal_Increment_Exceptions(string type, string expression, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
+                HelperAsync(cancellationToken, default);
+
+            private static Task HelperAsync(CancellationToken token, {{type}} value)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                try { unchecked { {{expression}}; } }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            """);
+
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("await pending;", true)]
     [DataRow("throw error;", true)]
     [DataRow("await pending;", false)]
