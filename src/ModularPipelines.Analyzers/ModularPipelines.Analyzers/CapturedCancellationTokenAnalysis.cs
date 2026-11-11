@@ -469,7 +469,9 @@ internal static class CapturedCancellationTokenAnalysis
                 }
                 else
                 {
-                    _written |= writes;
+                    // Transfers into ref fields and other untracked destinations escape
+                    // the local alias model; subsequent writes can overwrite the token.
+                    _written |= writes || (assignment.IsRef && ReferencesStorage(assignment.Value, storage));
                 }
             }
             else if (operation is IDeconstructionAssignmentOperation deconstruction)
@@ -800,7 +802,9 @@ internal static class CapturedCancellationTokenAnalysis
     {
         ITupleOperation tuple => tuple.Elements.Any(TargetCanThrow),
         IConversionOperation conversion => TargetCanThrow(conversion.Operand),
-        IPropertyReferenceOperation or IImplicitIndexerReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation => true,
+        IPropertyReferenceOperation property => !property.Property.ReturnsByRef && !property.Property.ReturnsByRefReadonly,
+        IImplicitIndexerReferenceOperation { IndexerSymbol: IPropertySymbol property } => !property.ReturnsByRef && !property.ReturnsByRefReadonly,
+        IImplicitIndexerReferenceOperation or IDynamicMemberReferenceOperation or IDynamicIndexerAccessOperation or IArrayElementReferenceOperation => true,
         _ => false,
     };
 

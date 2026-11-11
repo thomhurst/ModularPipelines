@@ -1466,6 +1466,54 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("token", true)]
+    [DataRow("other", false)]
+    public async Task Tracks_Aliases_Transferred_Into_Ref_Fields(string initial, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => HelperAsync(cancellationToken);
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                scoped TokenSlot slot = default;
+                slot.Value = ref alias;
+                slot.Value = default;
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            private ref struct TokenSlot { public ref CancellationToken Value; }
+            """);
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("other", "token", false)]
+    [DataRow("token", "other", true)]
+    public async Task Preserves_Ref_Return_Indexer_Exception_Order(string initial, string rebound, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => HelperAsync(cancellationToken);
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                var state = new RefState();
+                Index index = ^1;
+                try { state[index] = (alias = ref {{rebound}}); }
+                catch { alias = default; }
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            private sealed class RefState
+            {
+                private CancellationToken _value;
+                public int Length => 1;
+                public ref CancellationToken this[int index] => ref _value;
+            }
+            """);
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("other", "token", false, true)]
     [DataRow("other", "token", true, false)]
     [DataRow("token", "other", false, true)]
