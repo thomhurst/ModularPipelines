@@ -633,9 +633,15 @@ internal sealed class LocalDefinitionTransfer
     private static bool InitializerRetainsStorage(IObjectOrCollectionInitializerOperation? initializer,
         ILocalSymbol local, IOperation? operationRoot) =>
         initializer is not null
-        && initializer.Descendants().OfType<ISimpleAssignmentOperation>().Any(assignment =>
-            (assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true)
-            && TargetsLocal(assignment.Value, local, operationRoot));
+        && initializer.Descendants().Any(operation => operation switch
+        {
+            ISimpleAssignmentOperation assignment =>
+                (assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true)
+                && TargetsLocal(assignment.Value, local, operationRoot),
+            // Collection initializers call Add on an implicit receiver instead of assigning a field.
+            IInvocationOperation call => call.Arguments.Any(argument => CanRetainStorage(argument, local, operationRoot)),
+            _ => false,
+        });
 
     private static bool InvocationRetainsStorage(IInvocationOperation call, ILocalSymbol local, IOperation? operationRoot)
     {

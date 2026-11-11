@@ -934,6 +934,21 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("scoped RetainedCollection items = new() { holder }; value = 3; items.Item.Field = 2;", "", false)]
+    [DataRow("scoped RetainedCollection items = new() { holder }; var copy = items; value = 3; copy.Item.Field = 2;", "", false)]
+    [DataRow("scoped RetainedCollection items = default; items = new() { holder }; value = 3; items.Item.Field = 2;", "", false)]
+    [DataRow("scoped RetainedCollection items = new() { { default, holder } }; value = 3; items.Item.Field = 2;", "", false)]
+    [DataRow("scoped RetainedCollection items = new() { holder }; value = 3; try { items.Item.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("scoped RetainedCollection items = new() { holder }; items.Item.Field = 2; value = 3;", "3", true)]
+    [DataRow("scoped RetainedCollection items = new() { holder }; value = 3; if (false) items.Item.Field = 2;", "3", true)]
+    [DataRow("scoped RetainedCollection items = new() { holder }; value = 3; items.Item.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); scoped RetainedCollection items = new() { unrelated }; value = 3; items.Item.Field = 2;", "3", true)]
+    public void Collection_Initializers_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     [DataRow("var copy = flag switch { true => holder, _ => holder }; value = 3; copy.Field = 2;", "", false)]
     [DataRow("scoped Retained copy = default; copy = flag switch { true => holder, _ => default }; value = 3; copy.Field = 2;", "", false)]
     [DataRow("var copy = flag switch { true => default, _ => holder }; var second = copy; value = 3; second.Field = 2;", "", false)]
@@ -1163,6 +1178,13 @@ public class ReachingDefinitionFlowTests
                 get { Item = item; if (fail) throw new Exception(); return 0; }
                 set { Item = item; }
             }
+        }
+        ref struct RetainedCollection : System.Collections.IEnumerable
+        {
+            public Retained Item;
+            public void Add(Retained item) { Item = item; }
+            public void Add(Retained first, Retained second) { Item = second; }
+            public System.Collections.IEnumerator GetEnumerator() => throw new Exception();
         }
         ref struct RefItems
         {
