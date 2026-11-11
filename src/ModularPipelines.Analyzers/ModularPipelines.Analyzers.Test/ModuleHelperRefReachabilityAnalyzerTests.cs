@@ -29,6 +29,11 @@ public class ModuleHelperRefReachabilityAnalyzerTests
     [DataRow("for (var i = 0; i < 2; i++) { var saved = first; second = default; if (Flag) return saved; else return saved; } return first;", false)]
     [DataRow("for (var i = 0; i < 2; i++) { var saved = first; second = default; if (Flag) return saved; } return first;", true)]
     [DataRow("for (var i = 0; i < 2; i++) { var saved = first; second = default; if (Flag) continue; return saved; } return first;", true)]
+    [DataRow("var saved = first; switch (Flag) { case true: second = default; break; default: return first; } return saved;", false)]
+    [DataRow("var saved = first; switch (Flag) { case true: second = default; goto default; default: return first; } return saved;", true)]
+    [DataRow("var saved = first; switch (Count) { case 0: second = default; goto case 1; case 1: goto default; default: return first; } return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { switch (i) { case 0: second = default; break; default: return first; } } return saved;", true)]
+    [DataRow("var saved = first; switch (Count) { case 0: second = default; goto case 1; case 1: return saved; default: return first; }", false)]
     public async Task Checks_Helper_Mutation_Reachability(string body, bool reports)
     {
         await new ModuleHelperRefCancellationAnalyzerTests().Checks_Helper_Ref_Argument_Storage(

@@ -58,6 +58,8 @@ public class ModuleLiveRefCancellationAnalyzerTests
     [DataRow("cancellationToken = default;", true)]
     [DataRow("alias = default;", true)]
     [DataRow("", false)]
+    [DataRow("var saved = cancellationToken; void Clear() { cancellationToken = default; } alias = saved; Clear();", true)]
+    [DataRow("var saved = cancellationToken; alias = default; alias = saved;", false)]
     public async Task Checks_Live_Ref_To_Captured_Token(string mutation, bool reports)
     {
         var call = "Task.Delay(1, alias)";

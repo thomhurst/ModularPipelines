@@ -68,6 +68,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref other", "CancellationToken other = default;", "first = default; CancellationToken local = first; CancellationToken copy = local; second = ref copy; return second;", true)]
     [DataRow("ref other, ref token", "CancellationToken other = default;", "first = ref second; ref CancellationToken alias = ref first; second = default; return alias;", true)]
     [DataRow("ref other, ref token", "CancellationToken other = default;", "first = ref second; ref CancellationToken alias = ref first; var saved = alias; second = default; return saved;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; (second, first) = (default(CancellationToken), default(CancellationToken)); return second;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var local = first; second = ref local; CancellationToken unrelated = default; (unrelated, first) = (default(CancellationToken), default(CancellationToken)); return second;", false)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {

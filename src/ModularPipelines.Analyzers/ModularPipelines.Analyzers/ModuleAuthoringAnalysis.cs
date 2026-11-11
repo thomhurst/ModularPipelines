@@ -5597,6 +5597,7 @@ internal static class ModuleAuthoringAnalysis
             && restore.Syntax.SpanStart > write.Syntax.SpanStart
             && restore.Syntax.SpanStart < read.Syntax.SpanStart
             && ReferenceEquals(GetEnclosingCallable(restore), GetEnclosingCallable(read))
+            && ReferenceEquals(GetEnclosingCallable(restore), GetEnclosingCallable(write))
             && IsDefiniteCancellationPredecessor(restore, read)
             && IsInReachableBranch(restore);
     }
@@ -5803,6 +5804,53 @@ internal static class ModuleAuthoringAnalysis
             {
                 return !SharesContainingLoop(write, read) && !HasCancellationBackJump(write, read);
             }
+
+            if (ancestor is ISwitchCaseOperation writeCase && writeCase.Parent is ISwitchOperation switchOperation
+                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } readCase
+                && !ReferenceEquals(writeCase, readCase))
+            {
+                return !SharesContainingLoop(write, read) && !HasCancellationBackJump(write, read)
+                    && !CanCancellationJumpBetweenSwitchCases(writeCase, readCase, switchOperation);
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanCancellationJumpBetweenSwitchCases(
+        ISwitchCaseOperation writeCase,
+        ISwitchCaseOperation readCase,
+        ISwitchOperation switchOperation)
+    {
+        var pending = new Stack<ISwitchCaseOperation>();
+        var visited = new HashSet<ISwitchCaseOperation>();
+        pending.Push(writeCase);
+        while (pending.Count > 0)
+        {
+            var current = pending.Pop();
+            if (!visited.Add(current))
+            {
+                continue;
+            }
+
+            if (ReferenceEquals(current, readCase))
+            {
+                return true;
+            }
+
+            var targets = current.DescendantsAndSelf().OfType<IBranchOperation>()
+                .Where(branch => branch.BranchKind == BranchKind.GoTo
+                    && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(writeCase))
+                    && IsInReachableBranch(branch))
+                .Select(static branch => branch.Target)
+                .ToArray();
+            foreach (var candidate in switchOperation.Cases.Where(candidate =>
+                candidate.Clauses.Any(clause => targets.Contains(clause.Label, SymbolEqualityComparer.Default))
+                || candidate.DescendantsAndSelf().OfType<ILabeledOperation>()
+                    .Any(label => targets.Contains(label.Label, SymbolEqualityComparer.Default))))
+            {
+                pending.Push(candidate);
+            }
         }
 
         return false;
@@ -5998,6 +6046,9 @@ internal static class ModuleAuthoringAnalysis
                     => MayShareCancellationStorage(target, read, preserveParameters: true),
                 ISimpleAssignmentOperation { IsRef: false, Target: IParameterReferenceOperation { Parameter.RefKind: not RefKind.None } target }
                     => MayShareCancellationStorage(target, read, preserveParameters: true),
+                IDeconstructionAssignmentOperation assignment
+                    => GetCancellationStorageTargets(assignment.Target)
+                        .Any(target => MayShareCancellationStorage(target, read, preserveParameters: true)),
                 IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument
                     => MayShareCancellationStorage(argument.Value, read, preserveParameters: true),
                 _ => false,
