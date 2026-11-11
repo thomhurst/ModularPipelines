@@ -409,16 +409,38 @@ internal sealed class LocalDefinitionTransfer
                 yield return (receiver.Local, memberBinding.Value);
             }
         }
-        else if (operation is IInvocationOperation { Instance: { } instance } invocation)
+        else if (operation is IInvocationOperation invocation)
         {
             foreach (var argument in invocation.Arguments.Where(static argument =>
                 argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
                 && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)))
             {
-                foreach (var receiver in GetRefLikeReceivers(instance))
+                foreach (var receiver in GetRetentionDestinations(invocation))
                 {
                     yield return (receiver.Local, argument.Value);
                 }
+            }
+        }
+    }
+
+    private static IEnumerable<ILocalReferenceOperation> GetRetentionDestinations(IInvocationOperation invocation)
+    {
+        if (invocation.Instance is { } instance)
+        {
+            foreach (var receiver in GetRefLikeReceivers(instance))
+            {
+                yield return receiver;
+            }
+        }
+
+        // A callee can establish a retained binding through writable arguments as well as its
+        // receiver. Scoped destinations still permit ref-field writes; scoping limits the source.
+        foreach (var argument in invocation.Arguments.Where(static argument =>
+            argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out && argument.Value.Type?.IsRefLikeType == true))
+        {
+            foreach (var receiver in GetRefLikeReceivers(argument.Value))
+            {
+                yield return receiver;
             }
         }
     }

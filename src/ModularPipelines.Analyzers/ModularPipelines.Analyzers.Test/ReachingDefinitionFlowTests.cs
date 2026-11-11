@@ -753,6 +753,20 @@ public class ReachingDefinitionFlowTests
             "3", additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("RetainedCalls.Bind(ref holder, ref value); value = 3; holder.Field = 2;", "", false)]
+    [DataRow("RetainedCalls.Bind(ref holder, ref value); var copy = holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("RetainedCalls.BindOut(out holder, ref value); value = 3; holder.Mutate();", "", false)]
+    [DataRow("RetainedCalls.Bind(ref holder, ref value); value = 3; try { holder.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("RetainedCalls.Bind(ref holder, ref value); holder.Field = 2; value = 3;", "3", true)]
+    [DataRow("int other = 0; RetainedCalls.Bind(ref holder, ref other); value = 3; holder.Field = 2;", "3", true)]
+    [DataRow("RetainedCalls.Bind(ref holder, ref value); value = 3; if (false) holder.Field = 2;", "3", true)]
+    [DataRow("RetainedCalls.Bind(ref holder, ref value); value = 3; holder.Field = [|value|];", "3", true)]
+    public void Writable_RefLike_Arguments_Retain_Storage_Bindings(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; scoped Retained holder = default; " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Retained_Ref_Write_Invalidates_Before_Exceptional_Completion() =>
         AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; try { holder.MutateAndThrow(); } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -888,6 +902,8 @@ public class ReachingDefinitionFlowTests
         class Reference { public int Field; public Inner Nested; public event Action Changed { add { } remove { } } }
         static class RetainedCalls
         {
+            public static void Bind(ref Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { holder.Field = ref field; }
+            public static void BindOut(out Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { holder = new Retained(ref field); }
             public static void Mutate(Retained holder) { holder.Field = 2; throw new Exception(); }
             public static void MutateReadonly(in Retained holder) { holder.Field = 2; }
             public static void MutateScoped(scoped Retained holder) { holder.Field = 2; }
