@@ -907,16 +907,11 @@ internal static class ModuleAuthoringAnalysis
                 .Distinct<IMethodSymbol>(SymbolEqualityComparer.Default)];
         }
 
-        foreach (var invocation in GetReachableInvocations(operation))
+        foreach (var invocation in GetCancellationMappingInvocations(
+                     operation,
+                     currentMethod,
+                     targetMethod))
         {
-            // Local functions map their arguments in their own traversal step.
-            if (targetMethod.MethodKind == MethodKind.LocalFunction
-                && GetEnclosingCallable(invocation) is ILocalFunctionOperation localFunction
-                && !SymbolEqualityComparer.Default.Equals(localFunction.Symbol, currentMethod))
-            {
-                continue;
-            }
-
             foreach (var (method, tokens) in GetInvocationCancellationTokenMappings(
                          invocation,
                          memberMethods,
@@ -957,6 +952,25 @@ internal static class ModuleAuthoringAnalysis
                     yield return mappedTokens;
                 }
             }
+        }
+    }
+
+    private static IEnumerable<IInvocationOperation> GetCancellationMappingInvocations(
+        IOperation operation,
+        IMethodSymbol currentMethod,
+        IMethodSymbol targetMethod)
+    {
+        foreach (var invocation in GetReachableInvocations(operation))
+        {
+            // Local functions map their arguments in their own traversal step.
+            if (targetMethod.MethodKind == MethodKind.LocalFunction
+                && GetEnclosingCallable(invocation) is ILocalFunctionOperation localFunction
+                && !SymbolEqualityComparer.Default.Equals(localFunction.Symbol, currentMethod))
+            {
+                continue;
+            }
+
+            yield return invocation;
         }
     }
 
