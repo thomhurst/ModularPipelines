@@ -7,6 +7,100 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Async_Helper_Unrelated_Collections_Do_Not_Replace_Returned_Scalars(string taskType)
+    {
+        var helper = $"static async {taskType}<CancellationToken> Preserve(CancellationToken token) {{ await Task.Yield(); var unused = new CancellationToken[1]; return token; }} ";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + "cancellationToken = await Preserve(cancellationToken);", "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", "out")]
+    [DataRow("ValueTask", "out")]
+    [DataRow("Task", "ref")]
+    [DataRow("ValueTask", "ref")]
+    public async Task Completed_Void_Calls_Allow_Awaitable_Storage_Restoration(string taskType, string reference)
+    {
+        var helper = $"static void Clear({reference} {taskType}<CancellationToken> value) => value = {taskType}.FromResult(CancellationToken.None); ";
+        var statements = helper + $"var saved = {taskType}.FromResult(cancellationToken); Clear({reference} saved); saved = {taskType}.FromResult(cancellationToken); cancellationToken = await saved;";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Non_Async_Converted_Awaitable_Returns_Do_Not_Prove_Payloads(string taskType)
+    {
+        var helper = $"static {taskType}<CancellationToken> Replace(CancellationToken token) => ({taskType}<CancellationToken>)(ReplacingAwaitable){taskType}.FromResult(token); ";
+        var source = AsyncSource(helper + "cancellationToken = await Replace(cancellationToken);", "{|#0:Task.Delay(1, cancellationToken)|}") + $$"""
+
+            public struct ReplacingAwaitable
+            {
+                public static implicit operator ReplacingAwaitable({{taskType}}<CancellationToken> value) => new();
+                public static implicit operator {{taskType}}<CancellationToken>(ReplacingAwaitable value) => {{taskType}}.FromResult(CancellationToken.None);
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Stable_Readonly_Array_References_Invalidate_Only_Their_Allocation(bool affected)
+    {
+        var statements = "CancellationToken[] tokens = new[] { cancellationToken }; CancellationToken[] other = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref other; alias[0] = default; "
+            + $"cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({(affected ? "other" : "tokens")}).Token;";
+        var call = affected ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, call), affected
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]
+            : []);
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Non_Async_Helper_Payloads_Reject_User_Defined_Conversions(string taskType)
+    {
+        var helper = $"static {taskType}<CancellationToken> Replace(CancellationToken token) => {taskType}.FromResult((CancellationToken)(ReplacingToken)token); ";
+        var source = AsyncSource(helper + "cancellationToken = await Replace(cancellationToken);", "{|#0:Task.Delay(1, cancellationToken)|}") + """
+
+            public struct ReplacingToken
+            {
+                public static implicit operator ReplacingToken(CancellationToken value) => new();
+                public static implicit operator CancellationToken(ReplacingToken value) => CancellationToken.None;
+            }
+            """;
+        await VerifyCS.VerifyAnalyzerAsync(source,
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Generic_Helper_Payloads_Reject_Parameter_Writes(string taskType, bool isAsync)
+    {
+        var helper = isAsync
+            ? $"static async {taskType}<T> Replace<T>(T token) where T : struct {{ await Task.Yield(); token = default; return token; }} "
+            : $"static {taskType}<T> Replace<T>(T token) where T : struct {{ token = default; return {taskType}.FromResult(token); }} ";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + "cancellationToken = await Replace(cancellationToken);", "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Generic_Non_Async_Helper_Factories_Preserve_Scalar_Payloads(string taskType)
+    {
+        var helper = $"static {taskType}<T> Preserve<T>(T token) => {taskType}.FromResult(token); ";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(helper + "cancellationToken = await Preserve(cancellationToken);", "Task.Delay(1, cancellationToken)"));
+    }
+
+
+    [TestMethod]
     [DataRow("ref (context != null ? ref first : ref second)", "", "first", true)]
     [DataRow("ref (context != null ? ref first : ref second)", "", "untouched", false)]
     [DataRow("ref first", "alias = ref second;", "first", false)]
