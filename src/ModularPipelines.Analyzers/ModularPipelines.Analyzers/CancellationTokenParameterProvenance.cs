@@ -575,7 +575,8 @@ internal static class CancellationTokenParameterProvenance
                     return captured;
                 case ISimpleAssignmentOperation assignment:
                     var assigned = Evaluate(assignment.Value, state);
-                    if (assignment.IsRef)
+                    if (assignment.IsRef
+                        && (assignment.Target is not ILocalReferenceOperation local || local.Local.RefKind == RefKind.Ref))
                     {
                         InvalidateReferenceTarget(assignment.Value, state);
                     }

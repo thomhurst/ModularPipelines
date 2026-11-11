@@ -7,6 +7,28 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenParameterAnalyzerTests
 {
     [TestMethod]
+    [DataRow("Span")]
+    [DataRow("ReadOnlySpan")]
+    public async Task Reports_Replacement_Read_From_Nonzero_Slice(string spanType)
+    {
+        var statements = $"var tokens = new[] {{ cancellationToken, CancellationToken.None }}; var slice = new {spanType}<CancellationToken>(tokens, 1, 1); cancellationToken = slice[0];";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow("ref readonly CancellationToken first = ref tokens[0];")]
+    [DataRow("CancellationToken other = default; ref readonly CancellationToken first = ref other; first = ref tokens[0];")]
+    [DataRow("var span = new Span<CancellationToken>(tokens); ref readonly CancellationToken first = ref span[0];")]
+    [DataRow("var span = new Span<CancellationToken>(tokens); CancellationToken other = default; ref readonly CancellationToken first = ref other; first = ref span[0];")]
+    public async Task Readonly_References_Preserve_Collection_Provenance(string reference)
+    {
+        var statements = $"var tokens = new[] {{ cancellationToken }}; {reference} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;";
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, "Task.Delay(1, cancellationToken)"));
+    }
+
+    [TestMethod]
     [DataRow("var tokens = new[] { cancellationToken }; var span = new Span<CancellationToken>(tokens); ref CancellationToken first = ref span[0]; first = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(span).Token;")]
     [DataRow("var tokens = new[] { cancellationToken }; ref CancellationToken first = ref tokens[0]; first = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;")]
     [DataRow("cancellationToken = CancellationToken.None;")]
