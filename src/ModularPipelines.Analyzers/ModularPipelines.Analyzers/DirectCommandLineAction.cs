@@ -152,7 +152,7 @@ internal static class DirectCommandLineAction
             if (operation is IAnonymousFunctionOperation or ILocalFunctionOperation
                 or IConditionalOperation or ILoopOperation or ISwitchOperation
                 or ISwitchExpressionOperation or IConditionalAccessOperation
-                or ICoalesceOperation
+                or ICoalesceOperation or ICoalesceAssignmentOperation
                 or IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr })
             {
                 return null;

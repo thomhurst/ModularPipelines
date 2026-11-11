@@ -59,6 +59,7 @@ public class DirectCommandLineRegistrationTests
     [DataRow("if (args.Length > 0) return command.Parse(args).Invoke(); return 0;")]
     [DataRow("while (args.Length > 0) return command.Parse(args).Invoke(); return 0;")]
     [DataRow("return args.Length > 0 ? command.Parse(args).Invoke() : 0;")]
+    [DataRow("int? exitCode = 0; exitCode ??= command.Parse(args).Invoke(); return exitCode.Value;")]
     public async Task Keeps_Diagnostic_For_Conditional_Invocation(string invocation)
     {
         await VerifyAsync("command.SetAction(_ => { Pipeline.CreateBuilder().AddModule<BuildModule>(); }); " + invocation, false);
