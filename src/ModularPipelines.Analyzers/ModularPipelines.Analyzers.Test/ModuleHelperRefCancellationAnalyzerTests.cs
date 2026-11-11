@@ -66,6 +66,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = default; second = ref local; return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; second = ref local; return second;", false)]
     [DataRow("ref token, ref other", "CancellationToken other = default;", "first = default; CancellationToken local = first; CancellationToken copy = local; second = ref copy; return second;", true)]
+    [DataRow("ref other, ref token", "CancellationToken other = default;", "first = ref second; ref CancellationToken alias = ref first; second = default; return alias;", true)]
+    [DataRow("ref other, ref token", "CancellationToken other = default;", "first = ref second; ref CancellationToken alias = ref first; var saved = alias; second = default; return saved;", false)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {
@@ -117,6 +119,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("second = ref first; second = ref third; second = default; return first;", false)]
     [DataRow("ref CancellationToken alias = ref second; var saved = first; Clear(ref alias); return saved;", false)]
     [DataRow("ref CancellationToken alias = ref second; Clear(ref alias); return first;", true)]
+    [DataRow("bool done = false; Again: second = ref first; var saved = second; second = ref third; if (!done) { done = true; goto Again; } return saved;", false)]
+    [DataRow("bool done = false; Again: if (!done) second = ref first; var saved = second; second = ref third; if (!done) { done = true; goto Again; } return saved;", true)]
     public async Task Checks_Helper_Ref_Parameter_Rebinding(string body, bool reports)
     {
         var call = "Task.Delay(1, snapshot)";

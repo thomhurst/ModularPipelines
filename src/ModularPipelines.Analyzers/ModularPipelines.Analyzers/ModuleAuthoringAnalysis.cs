@@ -5458,7 +5458,7 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
-                && (CancellationParameterReadsToken(parameterReference, cancellationToken, visitedLocals, visitedMethods)
+                && (CancellationStorageReadsToken(parameterReference, cancellationToken, visitedLocals, visitedMethods)
                     || FlowsFromParallelCallbackToken(
                         parameterReference,
                         cancellationToken,
@@ -5528,8 +5528,8 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static bool CancellationParameterReadsToken(
-        IParameterReferenceOperation reference,
+    private static bool CancellationStorageReadsToken(
+        IOperation reference,
         IParameterSymbol cancellationToken,
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
@@ -5694,10 +5694,16 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanCancellationWriteReachRead(IOperation write, IOperation read)
     {
+        if (AreExclusiveCancellationBranches(write, read))
+        {
+            return false;
+        }
+
         if (read.Syntax.SpanStart < write.Syntax.SpanStart
+            && !SharesContainingLoop(read, write)
             && !HasCancellationBackJump(write, read)
             && (IsLinearPredecessor(read, write)
-                || (IsReturnedCancellationRead(read) && !SharesContainingLoop(read, write))))
+                || IsReturnedCancellationRead(read)))
         {
             return false;
         }
@@ -5712,6 +5718,21 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return true;
+    }
+
+    private static bool AreExclusiveCancellationBranches(IOperation write, IOperation read)
+    {
+        for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IConditionalOperation { WhenFalse: { } whenFalse } conditional
+                && ((HasAncestor(write, conditional.WhenTrue) && HasAncestor(read, whenFalse))
+                    || (HasAncestor(write, whenFalse) && HasAncestor(read, conditional.WhenTrue))))
+            {
+                return !SharesContainingLoop(write, read) && !HasCancellationBackJump(write, read);
+            }
+        }
+
+        return false;
     }
 
     private static bool HasCancellationBackJump(IOperation write, IOperation read)
@@ -5871,7 +5892,9 @@ internal static class ModuleAuthoringAnalysis
             operation.Syntax.SpanStart > source.Syntax.SpanStart
             && (ReferenceEquals(source, read)
                 || operation.Syntax.SpanStart < read.Syntax.SpanStart
-                || SharesContainingLoop(operation, read))
+                || (SharesContainingLoop(operation, read)
+                    && !(IsDefiniteCancellationPredecessor(source, read)
+                        && ResetsWithinSharedLoop(source, operation, read))))
             && IsInReachableBranch(operation)
             && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(read))
             && !HasAncestor(read, operation)
@@ -5901,7 +5924,7 @@ internal static class ModuleAuthoringAnalysis
         return target is not null && SymbolEqualityComparer.Default.Equals(target, value);
     }
 
-    private static IEnumerable<IParameterReferenceOperation> GetCancellationParameterReads(
+    private static IEnumerable<IOperation> GetCancellationParameterReads(
         IOperation value,
         IParameterSymbol parameter,
         HashSet<ILocalSymbol> visitedLocals)
@@ -5926,6 +5949,26 @@ internal static class ModuleAuthoringAnalysis
             }
             else if (candidate is ILocalReferenceOperation local)
             {
+                if (local.Local.RefKind != RefKind.None)
+                {
+                    // Ref aliases read live storage here; value locals below retain
+                    // the read that created their snapshot.
+                    var storage = GetCancellationStorage(local, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+                    if (SymbolEqualityComparer.Default.Equals(storage, parameter))
+                    {
+                        yield return local;
+                    }
+                    else if (storage is ILocalSymbol referent)
+                    {
+                        foreach (var read in GetLocalCancellationParameterReads(local, referent, parameter, visitedLocals))
+                        {
+                            yield return read;
+                        }
+                    }
+
+                    continue;
+                }
+
                 foreach (var read in GetLocalCancellationParameterReads(local, local.Local, parameter, visitedLocals))
                 {
                     yield return read;
@@ -5934,7 +5977,7 @@ internal static class ModuleAuthoringAnalysis
         }
     }
 
-    private static IEnumerable<IParameterReferenceOperation> GetLocalCancellationParameterReads(
+    private static IEnumerable<IOperation> GetLocalCancellationParameterReads(
         IOperation reference,
         ILocalSymbol local,
         IParameterSymbol parameter,
@@ -6032,12 +6075,29 @@ internal static class ModuleAuthoringAnalysis
         IOperation value)
     {
         // A later rebinding can reach this read through a backward goto or a
-        // loop backedge. Only a definite reset within the loop overrides it.
+        // loop backedge. A definite reset on every incoming path overrides it.
         return rebindings.Any(assignment => assignment.Syntax.SpanStart > value.Syntax.SpanStart
-            && (HasCancellationBackJump(assignment, value)
+            && ((HasCancellationBackJump(assignment, value)
+                    && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
+                        && ResetsAfterCancellationBackJump(reset, assignment, value)))
                 || (SharesContainingLoop(assignment, value)
                     && !precedingRebindings.Any(reset => IsDefiniteCancellationPredecessor(reset, value)
                         && ResetsWithinSharedLoop(reset, assignment, value)))));
+    }
+
+    private static bool ResetsAfterCancellationBackJump(IOperation reset, IOperation assignment, IOperation read)
+    {
+        var root = GetRoot(read);
+        var labels = root.DescendantsAndSelf().OfType<ILabeledOperation>()
+            .Where(label => label.Syntax.SpanStart <= read.Syntax.SpanStart)
+            .ToArray();
+        return root.DescendantsAndSelf().OfType<IBranchOperation>()
+            .Where(branch => branch.BranchKind == BranchKind.GoTo
+                && branch.Syntax.SpanStart > assignment.Syntax.SpanStart
+                && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(read))
+                && IsInReachableBranch(branch))
+            .All(branch => !labels.Any(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                && label.Syntax.SpanStart > reset.Syntax.SpanStart));
     }
 
     private static ISymbol? GetInitialCancellationStorage(
@@ -6400,6 +6460,11 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        if (localReference.Local.RefKind != RefKind.None)
+        {
+            return CancellationStorageReadsToken(localReference, cancellationToken, visitedLocals, visitedMethods);
+        }
+
         if (!visitedLocals.Add(localReference.Local))
         {
             return false;
