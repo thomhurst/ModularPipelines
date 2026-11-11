@@ -468,6 +468,27 @@ public class OperationExceptionClassifierTests
     }
 
     [TestMethod]
+    [DataRow("ref", "a[0]", true)]
+    [DataRow("ref", "flag ? ref a[0] : ref a[1]", true)]
+    [DataRow("ref readonly", "a[0]", false)]
+    [DataRow("ref readonly", "flag ? ref a[0] : ref a[1]", false)]
+    public void RefFieldReassignmentPreservesWritableContext(string modifier, string value, bool mismatch)
+    {
+        var (root, classifier) = Compile($$"""
+            ref struct C {
+                public {{modifier}} object Alias;
+                void M(bool flag, object[] a) { Alias = ref ({{value}}); }
+            }
+            """);
+        foreach (var array in root.DescendantsAndSelf().OfType<IArrayElementReferenceOperation>())
+        {
+            Assert.AreEqual(mismatch, classifier.Classify(array).Contains("System.ArrayTypeMismatchException"));
+            Assert.DoesNotContain("System.ArrayTypeMismatchException",
+                new OperationExceptionClassifier(hasExactArrayType: _ => true).Classify(array));
+        }
+    }
+
+    [TestMethod]
     [DataRow("a[0] += value;")]
     [DataRow("a[0]++;")]
     public void OverloadedArrayStoresPreserveMismatchAndOperatorExceptions(string statement)

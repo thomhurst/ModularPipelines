@@ -128,6 +128,7 @@ internal sealed class OperationExceptionClassifier(
                 IsRef: true,
                 Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref }
                     or IParameterReferenceOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+                    or IFieldReferenceOperation { Field.RefKind: RefKind.Ref }
             }
         } => true,
         IOperation
