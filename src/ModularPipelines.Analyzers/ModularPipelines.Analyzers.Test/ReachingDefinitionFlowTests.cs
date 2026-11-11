@@ -682,6 +682,26 @@ public class ReachingDefinitionFlowTests
         AssertFlow("int value = 0; " + statement + " [|Use(value)|];", "", supported: false, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("RetainedCalls.Mutate(holder);", false)]
+    [DataRow("RetainedCalls.MutateReadonly(in holder);", false)]
+    [DataRow("RetainedCalls.MutateScoped(holder);", false)]
+    [DataRow("var consumer = new RetainedConsumer(holder);", false)]
+    [DataRow("try { RetainedCalls.Mutate(holder); } catch { [|Use(value)|]; }", true)]
+    [DataRow("try { var consumer = new RetainedConsumer(holder); } catch { [|Use(value)|]; }", true)]
+    public void RefLike_Arguments_Invalidate_Retained_Storage(string statement, bool exceptional) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; " + statement
+            + (exceptional ? "" : " [|Use(value)|];"), "", supported: false, additionalSource: MutableTypes);
+
+    [TestMethod]
+    [DataRow("RetainedCalls.Mutate(holder); value = 4;", "4", false)]
+    [DataRow("if (false) RetainedCalls.Mutate(holder);", "3", false)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); RetainedCalls.Mutate(unrelated);", "3", false)]
+    [DataRow("RetainedCalls.MutateAfterArgument(holder, [|RetainedCalls.ReadInt(value)|]);", "3", true)]
+    public void RefLike_Argument_Invalidation_Respects_Execution_And_Recovery(string statement, string expected, bool marked) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; " + statement
+            + (marked ? "" : " [|Use(value)|];"), expected, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Retained_Ref_Escape_Can_Recover_After_Whole_Local_Overwrite() =>
         AssertFlow("int value = 0; var holder = new Retained(ref value); holder.Field = 2; value = 3; [|Use(value)|];",
             "3", additionalSource: MutableTypes);
@@ -789,6 +809,15 @@ public class ReachingDefinitionFlowTests
             public readonly int Read() => Field;
         }
         class Reference { public int Field; public Inner Nested; public event Action Changed { add { } remove { } } }
+        static class RetainedCalls
+        {
+            public static void Mutate(Retained holder) { holder.Field = 2; throw new Exception(); }
+            public static void MutateReadonly(in Retained holder) { holder.Field = 2; }
+            public static void MutateScoped(scoped Retained holder) { holder.Field = 2; }
+            public static void MutateAfterArgument(Retained holder, int argument) { holder.Field = 2; }
+            public static int ReadInt(int item) => item;
+        }
+        class RetainedConsumer { public RetainedConsumer(Retained holder) { holder.Field = 2; throw new Exception(); } }
         ref struct Retained
         {
             public ref int Field;

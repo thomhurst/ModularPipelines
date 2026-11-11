@@ -168,8 +168,16 @@ internal sealed class ReachingDefinitionFlow(
             _reaching.UnionWith(state);
         }
 
-        // A ref/out callee can mutate before throwing, after all arguments finish evaluating.
+        // A callee can mutate ref/out storage or retained refs before throwing, after all arguments evaluate.
         transfer.InvalidateByReferenceArguments(operation, state);
+        foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>())
+        {
+            if (argument.Value.Type?.IsRefLikeType == true)
+            {
+                transfer.InvalidateStorage(argument.Value, state);
+            }
+        }
+
         InvalidateMutableReceiver(operation, state);
         // A setter may mutate storage and then throw. Ordinary local stores occur only on success.
         var target = operation switch
