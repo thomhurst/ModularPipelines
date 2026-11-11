@@ -21,6 +21,8 @@ public class ModuleAuthoringAnalyzerTests
         }
         """;
 
+    public TestContext TestContext { get; set; } = null!;
+
     [TestMethod]
     public void New_Module_Authoring_Rules_Default_To_Warning()
     {
@@ -3393,6 +3395,76 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("for (var i = 0; i < 2; i++) { if (i == 0) cancellationToken = CancellationToken.None; else await {|#0:Task.Delay(1, cancellationToken)|}; }")]
+    [DataRow("var i = 0; while (i++ < 2) { if (i == 1) cancellationToken = CancellationToken.None; else await {|#0:Task.Delay(1, cancellationToken)|}; }")]
+    [DataRow("var i = 0; do { if (i++ == 0) cancellationToken = CancellationToken.None; else await {|#0:Task.Delay(1, cancellationToken)|}; } while (i < 2);")]
+    [DataRow("for (var i = 0; i < 2; i++) { switch (i) { case 0: cancellationToken = CancellationToken.None; break; default: await {|#0:Task.Delay(1, cancellationToken)|}; break; } }")]
+    public async Task Reports_Loop_Carried_CancellationToken_Overwrite(string body)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{body}}
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("token")]
+    [DataRow("cancellationToken")]
+    public async Task Accepts_Many_Conditional_Token_Copies(string variable)
+    {
+        var assignments = string.Join("\n", Enumerable.Repeat(
+            $"if (context is not null) {variable} = {variable};", 40));
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                var token = cancellationToken;
+                {{assignments}}
+                await Task.Delay(1, {{variable}});
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source)
+            .WaitAsync(TimeSpan.FromSeconds(30), TestContext.CancellationToken);
+    }
+
+    [TestMethod]
+    public async Task Handles_Invalid_Self_Referencing_Token_Initializer()
+    {
+        var source = ModuleSource("""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                CancellationToken token = {|#0:token|};
+                await {|#1:Task.Delay(1, token)|};
+                return null!;
+            }
+            """);
+
+        var compilerError = Microsoft.CodeAnalysis.Testing.DiagnosticResult.CompilerError("CS0165")
+            .WithLocation(0)
+            .WithArguments("token");
+        var warning = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(1)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, compilerError, warning)
+            .WaitAsync(TimeSpan.FromSeconds(30), TestContext.CancellationToken);
     }
 
     [TestMethod]
