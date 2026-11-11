@@ -5458,9 +5458,7 @@ internal static class ModuleAuthoringAnalysis
                 visitedMethods),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
-                && (SymbolEqualityComparer.Default.Equals(
-                    parameterReference.Parameter,
-                    cancellationToken)
+                && (CancellationParameterReadsToken(parameterReference, cancellationToken, visitedLocals, visitedMethods)
                     || FlowsFromParallelCallbackToken(
                         parameterReference,
                         cancellationToken,
@@ -5528,6 +5526,30 @@ internal static class ModuleAuthoringAnalysis
                     visitedMethods),
             _ => false,
         };
+    }
+
+    private static bool CancellationParameterReadsToken(
+        IParameterReferenceOperation reference,
+        IParameterSymbol cancellationToken,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
+        var storage = GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        if (storage is IParameterSymbol parameter)
+        {
+            return SymbolEqualityComparer.Default.Equals(parameter, cancellationToken);
+        }
+
+        if (storage is not ILocalSymbol local || !visitedLocals.Add(local))
+        {
+            return false;
+        }
+
+        var values = FindReachingLocalValues(reference, local).ToArray();
+        return values.Length > 0 && values.All(value =>
+            !HasAliasedStorageMutation(value, reference)
+            && FlowsFromCancellationToken(
+                value, cancellationToken, CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods)));
     }
 
     private static bool FlowsFromParallelCallbackToken(
@@ -5679,20 +5701,41 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanCancellationWriteReachRead(IOperation write, IOperation read)
     {
-        if (read.Syntax.SpanStart < write.Syntax.SpanStart && IsLinearPredecessor(read, write))
+        if (read.Syntax.SpanStart < write.Syntax.SpanStart
+            && (IsLinearPredecessor(read, write)
+                || (IsReturnedCancellationRead(read) && !SharesContainingLoop(read, write))))
         {
             return false;
         }
 
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
-            if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block))
+            if (ancestor is IBlockOperation block && !HasAncestor(read, block) && AlwaysExitsCallable(block)
+                && !block.DescendantsAndSelf().OfType<IThrowOperation>().Any())
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static bool IsReturnedCancellationRead(IOperation read)
+    {
+        for (var ancestor = read.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        {
+            if (ancestor is IReturnOperation)
+            {
+                return true;
+            }
+
+            if (ancestor is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     private static IEnumerable<IOperation> GetCancellationStorageWrites(IOperation operation)
@@ -5746,7 +5789,8 @@ internal static class ModuleAuthoringAnalysis
             case IParenthesizedOperation parenthesized:
                 return IsCancellationPreservingValue(parenthesized.Operand, parameter, visitedLocals);
             case IParameterReferenceOperation reference:
-                return SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter);
+                return SymbolEqualityComparer.Default.Equals(
+                    GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true), parameter);
             case ILocalReferenceOperation local when visitedLocals.Add(local.Local):
                 var values = FindReachingLocalValues(local, local.Local).ToArray();
                 return values.Length > 0 && values.All(candidate =>
@@ -5767,14 +5811,31 @@ internal static class ModuleAuthoringAnalysis
                 || operation.Syntax.SpanStart < read.Syntax.SpanStart
                 || SharesContainingLoop(operation, read))
             && IsInReachableBranch(operation)
+            && ReferenceEquals(GetEnclosingCallable(operation), GetEnclosingCallable(read))
+            && !HasAncestor(read, operation)
+            && !IsCancellationStorageSelfStore(operation)
             && operation switch
             {
                 ISimpleAssignmentOperation { IsRef: false, Target: ILocalReferenceOperation { Local.RefKind: not RefKind.None } target }
-                    => MayShareCancellationStorage(target, read),
+                    => MayShareCancellationStorage(target, read, preserveParameters: true),
+                ISimpleAssignmentOperation { IsRef: false, Target: IParameterReferenceOperation { Parameter.RefKind: not RefKind.None } target }
+                    => MayShareCancellationStorage(target, read, preserveParameters: true),
                 IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument
-                    => MayShareCancellationStorage(argument.Value, read),
+                    => MayShareCancellationStorage(argument.Value, read, preserveParameters: true),
                 _ => false,
             });
+    }
+
+    private static bool IsCancellationStorageSelfStore(IOperation operation)
+    {
+        if (operation is not ISimpleAssignmentOperation { IsRef: false } assignment)
+        {
+            return false;
+        }
+
+        var target = GetCancellationStorage(assignment.Target, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        var value = GetCancellationStorage(assignment.Value, [with(SymbolEqualityComparer.Default)], preserveParameters: true);
+        return target is not null && SymbolEqualityComparer.Default.Equals(target, value);
     }
 
     private static IEnumerable<IParameterReferenceOperation> GetCancellationParameterReads(
@@ -5785,7 +5846,8 @@ internal static class ModuleAuthoringAnalysis
         foreach (var candidate in value.DescendantsAndSelf())
         {
             if (candidate is IParameterReferenceOperation reference
-                && SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter))
+                && SymbolEqualityComparer.Default.Equals(
+                    GetCancellationStorage(reference, [with(SymbolEqualityComparer.Default)], preserveParameters: true), parameter))
             {
                 yield return reference;
             }
@@ -5806,7 +5868,8 @@ internal static class ModuleAuthoringAnalysis
         IOperation first,
         IOperation second,
         IInvocationOperation? invocation = null,
-        IMethodSymbol? method = null)
+        IMethodSymbol? method = null,
+        bool preserveParameters = false)
     {
         // Safe C# cannot alias token storage with a reference to another type.
         if (first.Type?.ToDisplayString() != CancellationTokenMetadataName
@@ -5815,8 +5878,8 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
-        var firstStorage = GetCancellationStorage(first, [with(SymbolEqualityComparer.Default)], invocation, method);
-        var secondStorage = GetCancellationStorage(second, [with(SymbolEqualityComparer.Default)], invocation, method);
+        var firstStorage = GetCancellationStorage(first, [with(SymbolEqualityComparer.Default)], invocation, method, preserveParameters);
+        var secondStorage = GetCancellationStorage(second, [with(SymbolEqualityComparer.Default)], invocation, method, preserveParameters);
         return firstStorage is null || secondStorage is null
             || SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
     }
@@ -5825,14 +5888,15 @@ internal static class ModuleAuthoringAnalysis
         IOperation value,
         HashSet<ISymbol> visitedStorage,
         IInvocationOperation? invocation = null,
-        IMethodSymbol? method = null)
+        IMethodSymbol? method = null,
+        bool preserveParameters = false)
     {
         switch (value)
         {
             case IConversionOperation conversion:
-                return GetCancellationStorage(conversion.Operand, visitedStorage, invocation, method);
+                return GetCancellationStorage(conversion.Operand, visitedStorage, invocation, method, preserveParameters);
             case IParenthesizedOperation parenthesized:
-                return GetCancellationStorage(parenthesized.Operand, visitedStorage, invocation, method);
+                return GetCancellationStorage(parenthesized.Operand, visitedStorage, invocation, method, preserveParameters);
             case IParameterReferenceOperation { Parameter.RefKind: RefKind.None } parameter:
                 return parameter.Parameter;
             case ILocalReferenceOperation { Local.RefKind: RefKind.None } local:
@@ -5865,11 +5929,11 @@ internal static class ModuleAuthoringAnalysis
         if (precedingRebindings.FirstOrDefault() is { } rebinding)
         {
             return IsDefiniteCancellationPredecessor(rebinding, value)
-                ? GetCancellationStorage(rebinding.Value, visitedStorage, invocation, method)
+                ? GetCancellationStorage(rebinding.Value, visitedStorage, invocation, method, preserveParameters)
                 : null;
         }
 
-        return GetInitialCancellationStorage(value, symbol, visitedStorage, invocation, method);
+        return GetInitialCancellationStorage(value, symbol, visitedStorage, invocation, method, preserveParameters);
     }
 
     private static bool HasLoopCarriedCancellationRebinding(
@@ -5890,18 +5954,19 @@ internal static class ModuleAuthoringAnalysis
         ISymbol symbol,
         HashSet<ISymbol> visitedStorage,
         IInvocationOperation? invocation,
-        IMethodSymbol? method)
+        IMethodSymbol? method,
+        bool preserveParameters)
     {
         if (value is ILocalReferenceOperation localReference)
         {
             var initializer = FindLocalDeclarator(
                 GetRoot(value), value, localReference.Local, GetEnclosingCallable(value))?.Initializer?.Value;
             return initializer is not null
-                ? GetCancellationStorage(initializer, visitedStorage, invocation, method)
+                ? GetCancellationStorage(initializer, visitedStorage, invocation, method, preserveParameters)
                 : null;
         }
 
-        return GetCancellationArgumentStorage(symbol as IParameterSymbol, invocation, method);
+        return preserveParameters ? symbol : GetCancellationArgumentStorage(symbol as IParameterSymbol, invocation, method);
     }
 
     private static ISymbol? GetCancellationArgumentStorage(

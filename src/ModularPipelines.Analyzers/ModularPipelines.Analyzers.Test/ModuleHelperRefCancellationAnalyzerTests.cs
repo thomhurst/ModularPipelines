@@ -46,6 +46,22 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "if (Flag) { var saved = first; second = default; return saved; } return first;", false)]
     [DataRow("ref token, ref token", "", "if (Flag) { second = default; return first; } return first;", true)]
     [DataRow("ref token, ref token", "", "if (Flag) { second = default; } return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "first = ref second; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = cancellationToken;", "first = ref second; return first;", false)]
+    [DataRow("ref other, ref token", "CancellationToken other = default;", "first = ref second; return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "first = ref second; var saved = first; return saved;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "var saved = first; first = ref second; return saved;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "first = ref second; first = ref second; return first;", true)]
+    [DataRow("ref token, ref token", "", "try { second = default; throw new System.InvalidOperationException(); } catch { return first; }", true)]
+    [DataRow("ref token, ref token", "", "try { second = default; throw new System.InvalidOperationException(); } catch { } return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; if (Flag) return first; second = default; return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; void Unused() { ref CancellationToken alias = ref saved; alias = default; } second = saved; return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "first = ref second; second = default; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = cancellationToken;", "first = ref second; second = default; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; return first;", false)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; first = default; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; ref CancellationToken alias = ref local; alias = default; return first;", true)]
+    [DataRow("ref token, ref other", "CancellationToken other = default;", "CancellationToken local = first; first = ref local; first = local; return first;", false)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
     {
@@ -58,7 +74,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static int Count;
                 private static bool Flag;
 
-                private static CancellationToken Forward(ref CancellationToken first, ref CancellationToken second)
+                private static CancellationToken Forward(scoped ref CancellationToken first, scoped ref CancellationToken second)
                 {
                     {{body}}
                 }
