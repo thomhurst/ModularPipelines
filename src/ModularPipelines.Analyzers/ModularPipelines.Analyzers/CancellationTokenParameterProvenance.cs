@@ -148,7 +148,8 @@ internal static class CancellationTokenParameterProvenance
 
         public Dictionary<CaptureId, Value> Captures { get; } = [];
 
-        public Dictionary<TextSpan, Value[]> Arrays { get; } = [];
+        // Only syntax-named indices need facts, even for very large allocations.
+        public Dictionary<TextSpan, Dictionary<int, Value>> Arrays { get; } = [];
 
         public HashSet<TextSpan> SafeArrays { get; } = [];
 
@@ -179,7 +180,7 @@ internal static class CancellationTokenParameterProvenance
 
             foreach (var entry in Arrays)
             {
-                copy.Arrays.Add(entry.Key, (Value[]) entry.Value.Clone());
+                copy.Arrays.Add(entry.Key, [with(entry.Value)]);
             }
 
             copy.SafeArrays.UnionWith(SafeArrays);
@@ -196,7 +197,7 @@ internal static class CancellationTokenParameterProvenance
                 var elements = entry.Value;
                 if (!Arrays.TryGetValue(span, out var current))
                 {
-                    Arrays.Add(span, (Value[]) elements.Clone());
+                    Arrays.Add(span, [with(elements)]);
                     SetArraySafety(span, other.SafeArrays.Contains(span));
                     changed = true;
                     continue;
@@ -206,11 +207,11 @@ internal static class CancellationTokenParameterProvenance
                 changed |= safe != SafeArrays.Contains(span);
                 SetArraySafety(span, safe);
 
-                for (var i = 0; i < current.Length; i++)
+                foreach (var index in current.Keys.ToArray())
                 {
-                    var merged = current[i].Merge(i < elements.Length ? elements[i] : Value.None);
-                    changed |= !merged.SameAs(current[i]);
-                    current[i] = merged;
+                    var merged = current[index].Merge(GetElement(elements, index));
+                    changed |= !merged.SameAs(current[index]);
+                    current[index] = merged;
                 }
             }
 
@@ -230,6 +231,9 @@ internal static class CancellationTokenParameterProvenance
 
             return changed;
         }
+
+        public static Value GetElement(Dictionary<int, Value> elements, int index) =>
+            elements.TryGetValue(index, out var value) ? value : Value.None;
     }
 
     private sealed class Analysis(ControlFlowGraph graph, IParameterSymbol source, SemanticModel model)
@@ -328,8 +332,15 @@ internal static class CancellationTokenParameterProvenance
                     return new Value(elements: [.. tuple.Elements.Select(element => Evaluate(element, state))]);
                 case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
                     return Element(Evaluate(field.Instance!, state), TupleElementIndex(field));
-                case IArrayCreationOperation { Initializer: { } initializer } array:
-                    var arrayElements = initializer.ElementValues.Select(element => Evaluate(element, state)).ToArray();
+                case IArrayCreationOperation array:
+                    foreach (var dimension in array.DimensionSizes)
+                    {
+                        Evaluate(dimension, state);
+                    }
+
+                    var arrayElements = array.Initializer is { } initializer
+                        ? initializer.ElementValues.Select(element => Evaluate(element, state)).ToArray()
+                        : [];
                     if (IsTokenCollection(array.Type))
                     {
                         return CreateArray(array.Syntax.Span, arrayElements, state);
@@ -404,21 +415,43 @@ internal static class CancellationTokenParameterProvenance
             // CFG operations have no SemanticModel. Recover the source operation
             // so the existing helper analysis can inspect its declaration.
             var arguments = new Dictionary<TextSpan, bool>();
+            var values = new Dictionary<TextSpan, Value>();
             if (invocation.Instance is { } receiver)
             {
                 var value = Evaluate(receiver, state);
                 arguments[receiver.Syntax.Span] = IsSafe(value, state);
-                InvalidateArrays(value, state);
+                values[receiver.Syntax.Span] = value;
             }
 
             foreach (var argument in invocation.Arguments)
             {
                 var value = Evaluate(argument, state);
                 arguments[argument.Value.Syntax.Span] = IsSafe(value, state);
+                values[argument.Value.Syntax.Span] = value;
+            }
+
+            if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive
+                && keepAlive.ContainingType.ToDisplayString() == "System.GC")
+            {
+                return Value.None;
+            }
+
+            var original = model.GetOperation(invocation.Syntax) as IInvocationOperation;
+            if (original is not null
+                && ModuleAuthoringAnalysis.GetIdentityHelperArgument(original) is { } returnedArgument)
+            {
+                return Get(values, returnedArgument.Syntax.Span);
+            }
+
+            foreach (var value in values.Values)
+            {
                 InvalidateArrays(value, state);
             }
 
-            if (model.GetOperation(invocation.Syntax) is IInvocationOperation original
+            // A collection result cannot use a scalar snapshot: later writes must
+            // affect its allocation. Unknown collection helpers remain escapes.
+            if (invocation.Type?.ToDisplayString() is "System.Threading.CancellationToken" or "System.Threading.CancellationTokenSource"
+                && original is not null
                 && ModuleAuthoringAnalysis.FlowsFromAssignedCancellationTokenHelper(
                     original, operation => arguments.TryGetValue(operation.Syntax.Span, out var safe) && safe))
             {
@@ -503,15 +536,16 @@ internal static class CancellationTokenParameterProvenance
         private static Value CreateArray(TextSpan identity, IEnumerable<Value> elements, State state)
         {
             // Allocation sites are finite, even when a loop revisits this operation.
-            var values = elements.ToArray();
-            var safe = values.Any(static value => value.Safe);
+            var values = elements.Select((value, index) => (value, index))
+                .ToDictionary(static element => element.index, static element => element.value);
+            var safe = values.Values.Any(static value => value.Safe);
             if (state.Arrays.TryGetValue(identity, out var previous))
             {
                 // Aliases can still refer to an earlier allocation at this site.
                 safe &= state.SafeArrays.Contains(identity);
-                for (var i = 0; i < values.Length; i++)
+                foreach (var index in values.Keys.ToArray())
                 {
-                    values[i] = values[i].Merge(i < previous.Length ? previous[i] : Value.None);
+                    values[index] = values[index].Merge(State.GetElement(previous, index));
                 }
             }
 
@@ -530,13 +564,13 @@ internal static class CancellationTokenParameterProvenance
 
             foreach (var span in arrays)
             {
-                if (!state.Arrays.TryGetValue(span, out var elements)
-                    || index < 0 || index >= elements.Length)
+                if (!state.Arrays.TryGetValue(span, out var elements) || index < 0)
                 {
                     return Value.None;
                 }
 
-                result = result is null ? elements[index] : result.Merge(elements[index]);
+                var element = State.GetElement(elements, index);
+                result = result is null ? element : result.Merge(element);
             }
 
             return result ?? Value.None;
@@ -548,9 +582,9 @@ internal static class CancellationTokenParameterProvenance
             {
                 foreach (var span in arrays)
                 {
-                    if (state.Arrays.TryGetValue(span, out var elements))
+                    if (state.Arrays.ContainsKey(span))
                     {
-                        state.Arrays[span] = [.. elements.Select(static _ => Value.None)];
+                        state.Arrays[span] = [];
                         state.SafeArrays.Remove(span);
                     }
                 }
@@ -624,12 +658,12 @@ internal static class CancellationTokenParameterProvenance
 
                     foreach (var identity in identities)
                     {
-                        if (state.Arrays.TryGetValue(identity, out var items) && arrayIndex >= 0 && arrayIndex < items.Length)
+                        if (state.Arrays.TryGetValue(identity, out var items) && arrayIndex >= 0)
                         {
-                            items[arrayIndex] = identities.Count == 1 && !array.UnknownArray ? value : items[arrayIndex].Merge(value);
+                            items[arrayIndex] = identities.Count == 1 && !array.UnknownArray ? value : State.GetElement(items, arrayIndex).Merge(value);
                             // A safe write cannot remove an existing signal. Other writes
                             // require a still-safe element; the summary does not name one.
-                            state.SetArraySafety(identity, items.Any(static item => item.Safe)
+                            state.SetArraySafety(identity, items.Values.Any(static item => item.Safe)
                                 || (value.Safe && state.SafeArrays.Contains(identity)));
                         }
                     }

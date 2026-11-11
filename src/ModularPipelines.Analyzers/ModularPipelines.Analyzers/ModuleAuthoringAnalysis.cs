@@ -5606,6 +5606,52 @@ internal static class ModuleAuthoringAnalysis
             visitedMethods);
     }
 
+    internal static IOperation? GetIdentityHelperArgument(IInvocationOperation invocation)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return null;
+        }
+
+        if (operation is ILocalFunctionOperation { Body: { } body })
+        {
+            operation = body;
+        }
+
+        if (operation.DescendantsAndSelf().Any(static child => child is not
+                (IMethodBodyOperation or IBlockOperation or IReturnOperation or IParameterReferenceOperation or IConversionOperation { OperatorMethod: null })))
+        {
+            return null;
+        }
+
+        var returns = operation.DescendantsAndSelf().OfType<IReturnOperation>().ToArray();
+        if (returns.Length != 1 || returns[0].ReturnedValue is not { } returned)
+        {
+            return null;
+        }
+
+        while (returned is IConversionOperation conversion)
+        {
+            returned = conversion.Operand;
+        }
+
+        if (returned is not IParameterReferenceOperation parameter)
+        {
+            return null;
+        }
+
+        if (invocation.TargetMethod.ReducedFrom is not null
+            && SymbolEqualityComparer.Default.Equals(method.Parameters[0], parameter.Parameter))
+        {
+            return invocation.Instance;
+        }
+
+        return invocation.Arguments.FirstOrDefault(argument => argument.Parameter is not null
+            && SymbolEqualityComparer.Default.Equals(GetTargetParameter(method, argument.Parameter), parameter.Parameter))?.Value;
+    }
+
     internal static bool FlowsFromAssignedCancellationTokenHelper(
         IInvocationOperation invocation, Func<IOperation, bool> flows)
     {
