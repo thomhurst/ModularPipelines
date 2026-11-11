@@ -2639,7 +2639,6 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("try { try { throw new Exception(); } finally { if (context != null) a = GetTask(); } } catch (Exception) when (a.IsCompleted) { _ = {|#0:a.Result|}; }")]
     [DataRow("await ((Task)a.WaitAsync(TimeSpan.Zero, cancellationToken)).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
     [DataRow("var waiting = a; await ((Task)(waiting = a.WaitAsync(cancellationToken))).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = waiting.Result; _ = {|#0:a.Result|};")]
-    [DataRow("a = new TaskCompletionSource<int>().Task; cancellationToken = new CancellationToken(true); await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing); _ = {|#0:a.Result|};")]
     [DataRow("await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing | ConfigureAwaitOptions.ForceYielding); _ = {|#0:a.Result|};")]
     [DataRow("var options = ConfigureAwaitOptions.SuppressThrowing; await ((Task)a).WaitAsync(cancellationToken).ConfigureAwait(options); _ = {|#0:a.Result|};")]
     [DataRow("async Task Read(Task<int> task, ConfigureAwaitOptions options) { await ((Task)task).WaitAsync(cancellationToken).ConfigureAwait(options); _ = {|#0:task.Result|}; } await Read(a, ConfigureAwaitOptions.SuppressThrowing);")]
@@ -2704,6 +2703,27 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("Result");
         await VerifyAsyncCS.VerifyAnalyzerAsync(CompletedTaskSource(statements), expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Result_And_Unflowed_Overwritten_Token_After_Suppressed_Cancellation()
+    {
+        var source = CompletedTaskSource("""
+            a = new TaskCompletionSource<int>().Task;
+            cancellationToken = new CancellationToken(true);
+            await {|#1:((Task)a).WaitAsync(cancellationToken)|}
+                .ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            _ = {|#0:a.Result|};
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(
+            source,
+            VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.BlockingCallId)
+                .WithLocation(0)
+                .WithArguments("Result"),
+            VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(1)
+                .WithArguments("WaitAsync"));
     }
 
     [TestMethod]
@@ -3265,6 +3285,74 @@ public class ModuleAuthoringAnalyzerTests
             .WithLocation(0)
             .WithArguments("FetchAsync");
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    public async Task Reports_Overwritten_Token_In_Directly_Returned_Task()
+    {
+        var source = ModuleSource("""
+            protected override Task ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                cancellationToken = CancellationToken.None;
+                return {|#0:Task.Delay(1, cancellationToken)|};
+            }
+            """).Replace("Module<List<string>>", "Module");
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = CancellationToken.None;")]
+    [DataRow("cancellationToken = new CancellationTokenSource().Token;")]
+    [DataRow("cancellationToken = CancellationToken.None; cancellationToken = cancellationToken;")]
+    [DataRow("if (context is not null) cancellationToken = CancellationToken.None;")]
+    [DataRow("if (context is not null) cancellationToken = CancellationToken.None; else cancellationToken = new CancellationTokenSource().Token;")]
+    public async Task Reports_Overwritten_CancellationToken_Parameter(string assignment)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{assignment}}
+                await {|#0:Task.Delay(1, cancellationToken)|};
+                return null!;
+            }
+            """);
+
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0)
+            .WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("")]
+    [DataRow("cancellationToken = cancellationToken;")]
+    [DataRow("if (context is not null) cancellationToken = cancellationToken; else cancellationToken = cancellationToken;")]
+    [DataRow("var original = cancellationToken; cancellationToken = CancellationToken.None; cancellationToken = original;")]
+    [DataRow("var original = cancellationToken; if (context is not null) cancellationToken = CancellationToken.None; cancellationToken = original;")]
+    [DataRow("var original = cancellationToken; cancellationToken = CancellationToken.None; if (context is not null) cancellationToken = original; else cancellationToken = original;")]
+    [DataRow("if (false) cancellationToken = CancellationToken.None;")]
+    public async Task Accepts_Preserved_CancellationToken_Parameter(string assignment)
+    {
+        var source = ModuleSource($$"""
+            protected override async Task<List<string>> ExecuteAsync(
+                IModuleContext context,
+                CancellationToken cancellationToken)
+            {
+                {{assignment}}
+                await Task.Delay(1, cancellationToken);
+                return null!;
+            }
+            """);
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]
