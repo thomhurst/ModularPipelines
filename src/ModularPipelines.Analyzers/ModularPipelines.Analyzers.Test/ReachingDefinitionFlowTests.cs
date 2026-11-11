@@ -854,6 +854,37 @@ public class ReachingDefinitionFlowTests
                 + " static class PatternCalls { public static int MutatePattern(Retained copy) { copy.Field = 2; return 0; } }");
 
     [TestMethod]
+    [DataRow("holder.Copy(out copy); value = 3; copy.Field = 2;", "", false)]
+    [DataRow("holder.CopyRef(ref copy); var second = copy; value = 3; second.Field = 2;", "", false)]
+    [DataRow("holder.Copy(out copy); value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("holder.Copy(out copy); copy.Field = 2; value = 3;", "3", true)]
+    [DataRow("holder.Copy(out copy); value = 3; if (false) copy.Field = 2;", "3", true)]
+    [DataRow("holder.Copy(out copy); value = 3; copy.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); unrelated.Copy(out copy); value = 3; copy.Field = 2;", "3", true)]
+    public void Receiver_Storage_Is_Retained_By_Writable_Arguments(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); scoped Retained copy = default; " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
+    public void Value_Receiver_Storage_Can_Be_Retained_By_Output() =>
+        AssertFlow("Inner value = new Inner(); scoped Retained copy = default; value.Copy(out copy); value = new Inner(); copy.Field = 2; [|Use(value)|];",
+            "", supported: false, additionalSource: MutableTypes);
+
+    [TestMethod]
+    [DataRow("container.Item = holder; value = 3; container.Item.Field = 2;", "", false)]
+    [DataRow("container.Item = holder; var copy = container; value = 3; copy.Item.Field = 2;", "", false)]
+    [DataRow("container.Item = holder; value = 3; try { container.Item.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("container.Item = holder; container.Item.Field = 2; value = 3;", "3", true)]
+    [DataRow("container.Item = holder; value = 3; if (false) container.Item.Field = 2;", "3", true)]
+    [DataRow("container.Item = holder; value = 3; container.Item.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); container.Item = unrelated; value = 3; container.Item.Field = 2;", "3", true)]
+    public void RefLike_Field_Values_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); scoped RetainedContainer container = default; " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -943,6 +974,8 @@ public class ReachingDefinitionFlowTests
             public void Mutate() { Field++; }
             [System.Diagnostics.CodeAnalysis.UnscopedRef]
             public ref int GetRef() => ref Field;
+            [System.Diagnostics.CodeAnalysis.UnscopedRef]
+            public void Copy(out Retained copy) { copy = new Retained(ref Field); }
             public readonly int Read() => Field;
         }
         struct Mutable
@@ -1000,10 +1033,13 @@ public class ReachingDefinitionFlowTests
             public ReadonlyRetained(ref int field) { Field = ref field; }
             public void Mutate() { Field = 2; throw new Exception(); }
         }
+        ref struct RetainedContainer { public Retained Item; }
         ref struct Retained
         {
             public ref int Field;
             public Retained(ref int field) { Field = ref field; }
+            public readonly void Copy(out Retained copy) { copy = this; }
+            public readonly void CopyRef(ref Retained copy) { copy = this; }
             public void Bind([System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { Field = ref field; }
             public readonly void Mutate() { Field = 2; throw new Exception(); }
             public readonly int MutatingProperty { get { Field = 2; throw new Exception(); } }

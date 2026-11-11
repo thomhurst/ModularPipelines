@@ -390,19 +390,12 @@ internal sealed class LocalDefinitionTransfer
 
     private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetAliasSources(IOperation operation)
     {
-        if (operation is IVariableDeclaratorOperation { Initializer: { } initializer } declarator)
+        if (GetDirectAliasSource(operation) is { } direct)
         {
-            if (declarator.Symbol.RefKind != RefKind.None || declarator.Symbol.Type.IsRefLikeType)
-            {
-                yield return (declarator.Symbol, initializer.Value);
-            }
+            yield return direct;
         }
-        else if (operation is ISimpleAssignmentOperation { Target: ILocalReferenceOperation reference } assignment
-            && (assignment.IsRef || reference.Local.Type.IsRefLikeType))
-        {
-            yield return (reference.Local, assignment.Value);
-        }
-        else if (operation is ISimpleAssignmentOperation { IsRef: true } memberBinding)
+        else if (operation is ISimpleAssignmentOperation memberBinding
+            && (memberBinding.IsRef || memberBinding.Value.Type?.IsRefLikeType == true))
         {
             foreach (var receiver in GetRefLikeReceivers(memberBinding.Target))
             {
@@ -422,6 +415,16 @@ internal sealed class LocalDefinitionTransfer
             }
         }
     }
+
+    private static (ILocalSymbol Alias, IOperation Source)? GetDirectAliasSource(IOperation operation) => operation switch
+    {
+        IVariableDeclaratorOperation { Initializer: { } initializer } declarator
+            when declarator.Symbol.RefKind != RefKind.None || declarator.Symbol.Type.IsRefLikeType =>
+            (declarator.Symbol, initializer.Value),
+        ISimpleAssignmentOperation { Target: ILocalReferenceOperation reference } assignment
+            when assignment.IsRef || reference.Local.Type.IsRefLikeType => (reference.Local, assignment.Value),
+        _ => null,
+    };
 
     private static IOperation? GetMatchedInput(IOperation pattern)
     {
@@ -445,14 +448,27 @@ internal sealed class LocalDefinitionTransfer
 
     private static IEnumerable<(ILocalSymbol Alias, IOperation Source)> GetCallAliasSources(IOperation operation)
     {
+        foreach (var source in GetRetentionSources(operation))
+        {
+            foreach (var receiver in GetRetentionDestinations(operation))
+            {
+                yield return (receiver.Local, source);
+            }
+        }
+    }
+
+    private static IEnumerable<IOperation> GetRetentionSources(IOperation operation)
+    {
+        if (operation is IInvocationOperation { Instance: { Type.IsReferenceType: false } instance })
+        {
+            yield return instance;
+        }
+
         foreach (var argument in operation.ChildOperations.OfType<IArgumentOperation>().Where(static argument =>
             argument.Parameter?.ScopedKind != ScopedKind.ScopedRef
             && (argument.Parameter?.RefKind != RefKind.None || argument.Value.Type?.IsRefLikeType == true)))
         {
-            foreach (var receiver in GetRetentionDestinations(operation))
-            {
-                yield return (receiver.Local, argument.Value);
-            }
+            yield return argument.Value;
         }
     }
 
