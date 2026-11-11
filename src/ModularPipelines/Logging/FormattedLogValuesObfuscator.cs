@@ -47,8 +47,8 @@ internal class FormattedLogValuesObfuscator(ISecretObfuscator secretObfuscator) 
         var currentRegistrationState = builtInObfuscator.GetRegistrationState();
         return currentRegistrationState.Version != registrationState.Version
                && currentRegistrationState.HasSecrets
-            ? TryObfuscateValues(state, skipOrdinaryValues: false)
-            : obfuscatedState;
+                   ? TryObfuscateValues(state, skipOrdinaryValues: false)
+                   : obfuscatedState;
     }
 
     private object TryObfuscateValues(object state, bool skipOrdinaryValues)

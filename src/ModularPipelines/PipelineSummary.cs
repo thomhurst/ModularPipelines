@@ -220,8 +220,8 @@ public sealed record PipelineSummary
             return Results.Count == Modules.Count
                 && Results.All(result => result.Status is ModuleStatus.Succeeded or ModuleStatus.Skipped
                     or ModuleStatus.RestoredFromCache or ModuleStatus.RestoredFromHistory or ModuleStatus.FailureIgnored)
-                ? ModuleStatus.Succeeded
-                : ModuleStatus.Unknown;
+                        ? ModuleStatus.Succeeded
+                        : ModuleStatus.Unknown;
         }
     }
 

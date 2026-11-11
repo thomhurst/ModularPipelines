@@ -64,9 +64,11 @@ internal sealed class NonSpectreLoggerFactory(
         if (loggerControl is not NoopSpectreConsoleLoggerControl { HasConsoleProvider: true }
             || loggerFactory.GetType() != typeof(LoggerFactory))
         {
-            return [new SpectreSuppressingLogger(
+            return [
+                new SpectreSuppressingLogger(
                 loggerFactory.CreateLogger(categoryName),
-                loggerControl)];
+                loggerControl)
+            ];
         }
 
         lock (_providerLoggersLock)
@@ -334,9 +336,11 @@ internal static class LoggerFactoryProviderAccessor
         {
             var registrations = (IEnumerable) LoggerFactoryFields.ProviderRegistrations
                 .GetValue(loggerFactory)!;
-            return [.. registrations.Cast<object>()
+            return [
+                .. registrations.Cast<object>()
                 .Select(registration => (ILoggerProvider) LoggerFactoryFields.Provider
-                    .GetValue(registration)!)];
+                    .GetValue(registration)!)
+            ];
         }
     }
 

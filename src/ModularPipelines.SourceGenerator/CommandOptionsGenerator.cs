@@ -228,7 +228,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             {
                 TypeKind: not TypeKind.Error,
                 ContainingNamespace: not null,
-            } optionsType
+            }
+            optionsType
             && IsConcreteOptionsRegistrationUsage(context))
         {
             return new OptionsTypeUsage(
@@ -246,11 +247,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         return enclosingNamespace != OptionsNamespace
                && optionsTypeSymbol is ITypeParameterSymbol typeParameter
                && IsGenericOptionsRegistrationUsage(context)
-            ? new OptionsTypeUsage(
-                TypeIdentity: null,
-                typeParameter.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                context.Node.GetLocation())
-            : null;
+                   ? new OptionsTypeUsage(
+                       TypeIdentity: null,
+                       typeParameter.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
+                       context.Node.GetLocation())
+                   : null;
     }
 
     private static bool IsGenericOptionsRegistrationUsage(GeneratorSyntaxContext context)
@@ -282,7 +283,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         {
             MetadataName: "OptionsBuilder`1",
             ContainingNamespace: { } containingNamespace,
-        } && containingNamespace.ToDisplayString() == OptionsNamespace;
+        }
+        && containingNamespace.ToDisplayString() == OptionsNamespace;
 
     private static bool IsServiceTypeRegistrationUsage(GeneratorSyntaxContext context)
     {
@@ -679,20 +681,20 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     {
         var metadata = hasPartialDeclaration
                        && (isCommandOptions || secretMetadata.HasAttributes)
-            ? null
-            : new TypeMetadata(
-                typeName,
-                GetMetadataName(type),
-                type.ContainingAssembly.Identity.ToString(),
-                CanRegisterCommandMetadata: !hasPartialDeclaration,
-                CanRegisterSecretCoverage: !hasPartialDeclaration,
-                UseTypeForEmptySecretCoverage: isExternal,
-                UseExternalTypeNameForEmptySecretCoverage: false,
-                IsExternal: isExternal,
-                isCommandOptions,
-                commandMetadata,
-                secretMetadata,
-                GetExperimentalDiagnosticIds(type));
+                           ? null
+                           : new TypeMetadata(
+                               typeName,
+                               GetMetadataName(type),
+                               type.ContainingAssembly.Identity.ToString(),
+                               CanRegisterCommandMetadata: !hasPartialDeclaration,
+                               CanRegisterSecretCoverage: !hasPartialDeclaration,
+                               UseTypeForEmptySecretCoverage: isExternal,
+                               UseExternalTypeNameForEmptySecretCoverage: false,
+                               IsExternal: isExternal,
+                               isCommandOptions,
+                               commandMetadata,
+                               secretMetadata,
+                               GetExperimentalDiagnosticIds(type));
         return new TypeMetadataCandidate(
             typeName,
             GetMetadataName(type),
@@ -1055,8 +1057,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                    .Any(type => type.OriginalDefinition.SpecialType
                                 == SpecialType.System_Collections_Generic_IEnumerable_T
                                 && IsCliValuePair(type.TypeArguments[0]))
-            ? 2
-            : 1;
+                                    ? 2
+                                    : 1;
     }
 
     private static bool IsCliValuePair(ITypeSymbol type)
@@ -1101,20 +1103,26 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             .ToList();
         var sharedParts = SharedParts.Create(uniqueItems);
 
-        var sources = uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize
-            ?
+        List<(string HintName, string Source)> sources;
+        if (uniqueItems.Count(RequiresCommandRegistrationChunking) <= RuntimeRegistrationChunkSize)
+        {
+            sources =
             [
                 ("ModularPipelines.RuntimeMetadata.g.cs", GenerateSingleSource(
                     uniqueItems,
                     coveredExternalAssemblyIdentities,
                     requiresGeneratedMetadata,
                     sharedParts)),
-            ]
-            : GenerateChunkedSources(
+            ];
+        }
+        else
+        {
+            sources = GenerateChunkedSources(
                 uniqueItems,
                 coveredExternalAssemblyIdentities,
                 requiresGeneratedMetadata,
                 sharedParts);
+        }
 
         sources.AddRange(GenerateSharedPartSources(uniqueItems, sharedParts.CommandParts, SharedParts.CommandClassPrefix, AppendSharedCommandPart));
         sources.AddRange(GenerateSharedPartSources(uniqueItems, sharedParts.SecretParts, SharedParts.SecretClassPrefix, AppendSharedSecretPart));
@@ -1777,11 +1785,11 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         || !assembly.HasRuntimeMetadataRegistration
         || (assembly.RuntimeSchemaVersion == RuntimeMetadataSchemaVersion
             && assembly.CommandSchemaVersion == CommandMetadataSchemaVersion)
-            ? null
-            : new IncompatibleMetadataAssembly(
-                assembly.Assembly.Identity.ToString(),
-                assembly.RuntimeSchemaVersion,
-                assembly.CommandSchemaVersion);
+                ? null
+                : new IncompatibleMetadataAssembly(
+                    assembly.Assembly.Identity.ToString(),
+                    assembly.RuntimeSchemaVersion,
+                    assembly.CommandSchemaVersion);
 
     private static void ReportIncompatibleRuntimeMetadata(
         SourceProductionContext context,

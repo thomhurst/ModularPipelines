@@ -121,8 +121,8 @@ public sealed class StatefulModuleCodeFixProvider : CodeFixProvider
                 or AccessorDeclarationSyntax);
         SyntaxNode fieldReferenceNode = identifier.Parent is MemberAccessExpressionSyntax memberAccess
                                         && memberAccess.Name == identifier
-            ? memberAccess
-            : identifier;
+                                            ? memberAccess
+                                            : identifier;
         var fieldReference = semanticModel.GetOperation(fieldReferenceNode, cancellationToken)
             as IFieldReferenceOperation;
 

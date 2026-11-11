@@ -86,7 +86,8 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             ModuleDependencyDeclarations.GetDeclarations(module, context.Compilation, context.CancellationToken));
 
         DependencyDeclarationKind? declarationKind = dependencies.TryGetValue(namedTypeSymbol, out var declaredKind)
-            ? declaredKind : null;
+            ? declaredKind
+            : null;
         if (declarationKind != DependencyDeclarationKind.Required)
         {
             var selectorKind = ModuleDependencySelectors.GetDeclarationKind(classSymbol, namedTypeSymbol, context.Compilation);

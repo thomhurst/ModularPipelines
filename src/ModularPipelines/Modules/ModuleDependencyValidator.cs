@@ -131,12 +131,14 @@ internal static class ModuleDependencyValidator
         IModuleDependencyRegistry? dynamicRegistry,
         IModuleMetadataRegistry? metadataRegistry)
     {
-        return [.. ModuleDependencyResolver
+        return [
+            .. ModuleDependencyResolver
             .GetAllDependencies(module, moduleTypes, dynamicRegistry, metadataRegistry)
             .GroupBy(dependency => dependency.DependencyType)
             .Select(group => (
                 DependencyType: group.Key,
-                Optional: group.All(dependency => dependency.Optional)))];
+                Optional: group.All(dependency => dependency.Optional)))
+        ];
     }
 
     /// <summary>

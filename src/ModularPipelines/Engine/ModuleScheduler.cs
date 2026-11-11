@@ -467,12 +467,20 @@ internal class ModuleScheduler : IModuleScheduler
             var isPotentiallyDeadlocked = _exitConditions.IsDeadlocked(snapshot, queuedCount);
             isDeadlocked = shouldExit && isPotentiallyDeadlocked;
             requiresDeadlockConfirmation = isPotentiallyDeadlocked && !shouldExit;
-            pendingModules = isDeadlocked
-                ? [.. _moduleStates.Values
-                    .Where(x => x.State == ModuleExecutionState.Pending)
-                    .Select(x => x.ModuleType.Name)
-                    .OrderBy(x => x, StringComparer.Ordinal)]
-                : [];
+            if (isDeadlocked)
+            {
+                pendingModules =
+                [
+                    .. _moduleStates.Values
+                        .Where(x => x.State == ModuleExecutionState.Pending)
+                        .Select(x => x.ModuleType.Name)
+                        .OrderBy(x => x, StringComparer.Ordinal),
+                ];
+            }
+            else
+            {
+                pendingModules = [];
+            }
 
             if (shouldExit)
             {

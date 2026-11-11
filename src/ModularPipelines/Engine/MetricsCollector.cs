@@ -180,14 +180,17 @@ internal class MetricsCollector : IMetricsCollector
         GetTimelines(GetModuleData(moduleTypes));
 
     private List<ModuleMetricsData> GetModuleData(IReadOnlyCollection<Type> moduleTypes) =>
-        [.. moduleTypes
+        [
+            .. moduleTypes
             .Distinct()
             .Select(moduleType => _moduleMetrics.TryGetValue(moduleType, out var data) ? data : null)
-            .OfType<ModuleMetricsData>()];
+            .OfType<ModuleMetricsData>()
+        ];
 
     private static List<ModuleTimeline> GetTimelines(IEnumerable<ModuleMetricsData> moduleData)
     {
-        return [.. moduleData
+        return [
+            .. moduleData
             .Select(data => new ModuleTimeline
             {
                 Name = data.ModuleType.Name,
@@ -207,7 +210,8 @@ internal class MetricsCollector : IMetricsCollector
                 WasSuccessful = data.WasSuccessful,
                 Status = data.Status,
             })
-            .OrderBy(t => t.StartTime ?? DateTimeOffset.MaxValue)];
+            .OrderBy(t => t.StartTime ?? DateTimeOffset.MaxValue)
+        ];
     }
 
     /// <summary>

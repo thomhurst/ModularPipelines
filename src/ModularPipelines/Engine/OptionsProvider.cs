@@ -74,12 +74,14 @@ internal class OptionsProvider : IOptionsProvider
 
         // Use Lazy<T> for thread-safe initialization
         _cachedOptionTypes = new Lazy<IReadOnlyList<Type>>(
-            () => [.. _pipelineServiceContainerWrapper.ServiceCollection
+            () => [
+                .. _pipelineServiceContainerWrapper.ServiceCollection
                 .Select(sd => sd.ServiceType)
                 .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
                 .Select(s => s.GetGenericArguments()[0])
                 .Where(type => !registeredTypes.Contains(type))
-                .Distinct()],
+                .Distinct()
+            ],
             LazyThreadSafetyMode.ExecutionAndPublication);
     }
 

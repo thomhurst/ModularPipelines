@@ -277,8 +277,8 @@ internal sealed class PipelineImpl : IPipeline
             {
                 return allowReentrancy && (_disposalOwnership.Value?.IsActive == true
                     || Volatile.Read(ref _isSynchronousContainerDisposalActive) == 1)
-                    ? ValueTask.CompletedTask
-                    : new ValueTask(_disposeTask);
+                        ? ValueTask.CompletedTask
+                        : new ValueTask(_disposeTask);
             }
 
             completion = new TaskCompletionSource(

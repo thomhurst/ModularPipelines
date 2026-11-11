@@ -85,10 +85,12 @@ internal static class WindowsCommandResolver
             return [command];
         }
 
-        return [.. pathExtensions
+        return [
+            .. pathExtensions
             .Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Select(extension => extension.StartsWith('.') ? extension : $".{extension}")
-            .Select(extension => command + extension.ToLowerInvariant())];
+            .Select(extension => command + extension.ToLowerInvariant())
+        ];
     }
 
     private static IEnumerable<string> GetSearchDirectories(string processDirectory, string searchPath)

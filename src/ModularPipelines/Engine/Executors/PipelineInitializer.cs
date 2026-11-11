@@ -235,8 +235,8 @@ internal class PipelineInitializer(
                                    obfuscatedValue,
                                    maskValue,
                                    effectiveMaximumWidth)
-                ? maskValue
-                : MakeSingleLine(obfuscatedValue);
+                                       ? maskValue
+                                       : MakeSingleLine(obfuscatedValue);
             return new Text(displayValue).Ellipsis();
         }
     }

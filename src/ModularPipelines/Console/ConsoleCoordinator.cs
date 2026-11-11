@@ -651,13 +651,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             await FlushWriterAsync(error, flushKind).ConfigureAwait(false);
         }
 
-        return [.. _moduleBuffers.Values
+        return [
+            .. _moduleBuffers.Values
             // A canceled completion attempt can leave existing output (or only a
             // final failure header) pending. Teardown must retry it with a fresh token.
             .Where(buffer => flushKind is OutputFlushKind.Complete
                 ? buffer.NeedsCompletionFlush
                 : buffer.HasOutput && !populatedBeforeFlush.Contains(buffer))
-            .Cast<IModuleOutputBuffer>()];
+            .Cast<IModuleOutputBuffer>()
+        ];
     }
 
     private async Task FlushBufferSafelyAsync(

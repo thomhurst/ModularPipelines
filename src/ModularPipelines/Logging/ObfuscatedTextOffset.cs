@@ -14,7 +14,7 @@ internal static class ObfuscatedTextOffset
         return outputOffset > 0
                && outputOffset < output.Length
                && char.IsLowSurrogate(output[outputOffset])
-            ? outputOffset + 1
-            : outputOffset;
+                   ? outputOffset + 1
+                   : outputOffset;
     }
 }

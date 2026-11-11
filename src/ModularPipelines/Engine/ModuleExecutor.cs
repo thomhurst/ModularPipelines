@@ -158,9 +158,11 @@ internal class ModuleExecutor(
 
     internal static IReadOnlyList<Exception> FlattenDistinctExceptions(
         params Exception[] exceptions) =>
-        [.. exceptions
+        [
+            .. exceptions
             .SelectMany(FlattenException)
-            .Distinct<Exception>(ReferenceEqualityComparer.Instance)];
+            .Distinct<Exception>(ReferenceEqualityComparer.Instance)
+        ];
 
     private static IEnumerable<Exception> FlattenException(Exception exception) =>
         exception is AggregateException { InnerExceptions.Count: > 0 } aggregateException

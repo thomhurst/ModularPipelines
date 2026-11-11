@@ -250,8 +250,8 @@ internal static class PipelineCommandLineParser
 
         path = index + 1 < arguments.Count
                && IsGraphPath(arguments[index + 1])
-            ? arguments[++index]
-            : null;
+                   ? arguments[++index]
+                   : null;
         return true;
     }
 
@@ -457,8 +457,8 @@ internal static class PipelineCommandLineParser
             {
                 var substitutionCost = char.ToUpperInvariant(left[leftIndex - 1])
                     == char.ToUpperInvariant(right[rightIndex - 1])
-                    ? 0
-                    : 1;
+                        ? 0
+                        : 1;
                 current[rightIndex] = Math.Min(
                     Math.Min(current[rightIndex - 1] + 1, previous[rightIndex] + 1),
                     previous[rightIndex - 1] + substitutionCost);

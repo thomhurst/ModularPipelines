@@ -143,8 +143,8 @@ internal sealed class CommandModelProvider : ICommandModelProvider
                                 && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                                 && typeof(ModularPipelines.CliValuePair)
                                     .IsAssignableFrom(type.GetGenericArguments()[0]))
-            ? 2
-            : 1;
+                                        ? 2
+                                        : 1;
     }
 
     [RequiresUnreferencedCode("Reflection fallback requires CLI-attributed properties.")]

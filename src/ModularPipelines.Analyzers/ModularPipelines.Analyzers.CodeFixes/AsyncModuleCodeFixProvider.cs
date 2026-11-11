@@ -117,7 +117,8 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             {
                 Name: AnalyzerConstants.MethodNames.FromResult,
                 ContainingType.Name: AnalyzerConstants.TypeNames.Task,
-            } method
+            }
+            method
             && method.ContainingNamespace.ToDisplayString()
             == AnalyzerConstants.Namespaces.SystemThreadingTasks
             && invocation.ArgumentList.Arguments.FirstOrDefault()?.Expression is { } innerExpression)

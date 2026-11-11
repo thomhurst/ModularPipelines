@@ -324,7 +324,8 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
     {
         if (error == 2 || (OperatingSystem.IsWindows() && error == 3))
         {
-            return directory ? new DirectoryNotFoundException($"Artifact directory '{path}' was not found.")
+            return directory
+                ? new DirectoryNotFoundException($"Artifact directory '{path}' was not found.")
                 : new FileNotFoundException("Artifact file was not found.", path);
         }
 
@@ -338,8 +339,11 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
     }
 
     // Linux arm64 deliberately uses different directory/no-follow bits from x64.
-    private static int UnixNoFollow => OperatingSystem.IsMacOS() ? 0x100
-        : RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? 0x8000 : 0x20000;
+    private static int UnixNoFollow => OperatingSystem.IsMacOS()
+        ? 0x100
+        : RuntimeInformation.ProcessArchitecture == Architecture.Arm64
+            ? 0x8000
+            : 0x20000;
 
     private static int UnixCloseOnExec => OperatingSystem.IsMacOS() ? 0x1000000 : 0x80000;
 
@@ -352,7 +356,8 @@ internal sealed partial class BoundArtifactDirectory : IDisposable
     private static int UnixDirectoryFlags => UnixCloseOnExec | UnixNoFollow
         // O_SEARCH on macOS and O_PATH on Linux bind directories without requiring
         // read permission. O_DIRECTORY also rejects a symlink opened with O_PATH.
-        | (OperatingSystem.IsMacOS() ? 0x40100000
+        | (OperatingSystem.IsMacOS()
+            ? 0x40100000
             : 0x200000 | (RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? 0x4000 : 0x10000));
 
     private static int CreateAt(SafeFileHandle directory, string leaf, int flags, uint mode)

@@ -214,8 +214,8 @@ internal sealed class PipelineRunReportFactory(
         return resultsByRuntimeType.TryGetValue(moduleType, out var runtimeResult)
             ? runtimeResult
             : resultsByType.TryGetValue(typeName, out var result)
-            ? result
-            : resultsByName.GetValueOrDefault(moduleType.Name);
+                ? result
+                : resultsByName.GetValueOrDefault(moduleType.Name);
     }
 
     private static CurrentModuleReportValues CreateCurrentReportValues(
@@ -270,8 +270,8 @@ internal sealed class PipelineRunReportFactory(
             // Detect a pattern change while the already-masked excerpt is handed off.
             return currentVersion == version
                    && secretProvider?.Version == currentVersion
-                ? excerpt
-                : null;
+                       ? excerpt
+                       : null;
         }
 
         var secretPatternsVersion = secretProvider?.Version;
@@ -355,8 +355,8 @@ internal sealed class PipelineRunReportFactory(
             writeAsync,
             () => serialization.SecretPatternsVersion is { } version
                   && secretProvider?.Version != version
-                ? RunReportJsonSerializer.Serialize(RemoveOutputExcerpts(report))
-                : null,
+                      ? RunReportJsonSerializer.Serialize(RemoveOutputExcerpts(report))
+                      : null,
             serialization.SecretPatternsVersion is { } version
                 ? action => secretProvider?.TryExecuteIfVersionCurrent(version, action) == true
                 : null,

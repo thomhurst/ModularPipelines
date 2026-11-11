@@ -726,11 +726,11 @@ internal sealed class CommandLineBuilder(
             suppliedOperandCount);
         return followingOperandCount is { } count
                && manualArgs.Count - index - 1 >= count
-            ? new ManualOptionMatch(
-                count + 1,
-                option.IsGlobalOption,
-                IsTerminal: option.Phase == CommandLinePhase.Terminal)
-            : null;
+                   ? new ManualOptionMatch(
+                       count + 1,
+                       option.IsGlobalOption,
+                       IsTerminal: option.Phase == CommandLinePhase.Terminal)
+                   : null;
     }
 
     private static void AddRecognizedManualOptions(
@@ -941,8 +941,8 @@ internal sealed class CommandLineBuilder(
             flagsByName,
             optionsByName,
             options.ArgumentsContainOptionTerminator)
-            ? 0
-            : remainingOperandCount;
+                ? 0
+                : remainingOperandCount;
     }
 
     private static int GetConfiguredManualOperandCount(OptionPart option)

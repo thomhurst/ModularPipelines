@@ -1089,8 +1089,8 @@ internal class CoordinatedTextWriter : TextWriter
         {
             return _secretProvider.Version == secretPatterns.Version
                 && GetPatternComparison() == secretPatterns.Comparison
-                ? output
-                : _secretObfuscator.Obfuscate(output, null);
+                    ? output
+                    : _secretObfuscator.Obfuscate(output, null);
         }
 
         lock (_customObfuscatorLock)

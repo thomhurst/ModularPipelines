@@ -138,7 +138,7 @@ public class ConflictingDependsOnAttributeCodeFixProvider : CodeFixProvider
         return attributeList.GetTrailingTrivia().Any(static trivia =>
             !trivia.IsKind(SyntaxKind.WhitespaceTrivia)
             && !trivia.IsKind(SyntaxKind.EndOfLineTrivia))
-            ? SyntaxRemoveOptions.KeepExteriorTrivia
-            : SyntaxRemoveOptions.KeepLeadingTrivia;
+                ? SyntaxRemoveOptions.KeepExteriorTrivia
+                : SyntaxRemoveOptions.KeepLeadingTrivia;
     }
 }

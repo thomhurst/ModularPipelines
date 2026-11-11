@@ -114,7 +114,7 @@ internal static class PluginVersionValidator
             BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
         return field is { IsLiteral: true }
                && field.GetRawConstantValue() is int schemaVersion
-            ? schemaVersion
-            : null;
+                   ? schemaVersion
+                   : null;
     }
 }

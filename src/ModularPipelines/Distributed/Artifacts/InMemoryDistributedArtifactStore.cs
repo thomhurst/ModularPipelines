@@ -67,9 +67,11 @@ internal class InMemoryDistributedArtifactStore : IDistributedArtifactStore
         List<ArtifactReference> references;
         lock (artifactIds)
         {
-            references = [.. artifactIds
+            references = [
+                .. artifactIds
                 .Where(id => _artifacts.ContainsKey(id))
-                .Select(id => _artifacts[id].Reference)];
+                .Select(id => _artifacts[id].Reference)
+            ];
         }
 
         return Task.FromResult<IReadOnlyList<ArtifactReference>>(references);
