@@ -5449,7 +5449,12 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        if (value is ILocalReferenceOperation or IParameterReferenceOperation
+        // Helper-return proofs already carry a recursion guard. Keep those proofs
+        // within that analysis instead of re-entering a cached CFG under construction.
+        var isHelperReturn = cancellationToken.ContainingSymbol is IMethodSymbol sourceMethod
+            && visitedMethods.Contains(NormalizeMethod(sourceMethod));
+        if (!isHelperReturn
+            && value is ILocalReferenceOperation or IParameterReferenceOperation
             && CancellationTokenReachingValues.TryGetValue(value, cancellationToken) is { } reachingValue)
         {
             return reachingValue;
@@ -5634,6 +5639,56 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        return HelperReturnsFlowedCancellationToken(operation, flowedParameters, visitedLocals, visitedMethods);
+    }
+
+    internal static bool FlowsFromCancellationTokenSourceHelper(
+        IInvocationOperation invocation,
+        Compilation compilation,
+        bool[] argumentValues,
+        bool receiverValue)
+    {
+        if (!IsCancellationCarrier(invocation.Type))
+        {
+            return false;
+        }
+
+        var method = NormalizeMethod(invocation.TargetMethod);
+        if (GetMethodOperation(method, compilation, default) is not { } operation)
+        {
+            return false;
+        }
+
+        var flowedParameters = new HashSet<IParameterSymbol>(
+            invocation.Arguments
+                .Where((argument, index) => argumentValues[index]
+                    && argument.Parameter is not null
+                    && IsCancellationToken(argument.Parameter))
+                .Select(argument => GetTargetParameter(method, argument.Parameter))
+                .OfType<IParameterSymbol>(),
+            SymbolEqualityComparer.Default);
+        if (receiverValue
+            && invocation.TargetMethod.ReducedFrom is not null
+            && method.Parameters.FirstOrDefault() is { } receiverParameter
+            && IsCancellationToken(receiverParameter))
+        {
+            flowedParameters.Add(receiverParameter);
+        }
+
+        return flowedParameters.Count > 0
+            && HelperReturnsFlowedCancellationToken(
+                operation,
+                flowedParameters,
+                [with(SymbolEqualityComparer.Default)],
+                [with(SymbolEqualityComparer.Default), method]);
+    }
+
+    private static bool HelperReturnsFlowedCancellationToken(
+        IOperation operation,
+        HashSet<IParameterSymbol> flowedParameters,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods)
+    {
         var returnValues = operation.DescendantsAndSelf()
             .OfType<IReturnOperation>()
             .Where(static returnOperation =>

@@ -168,6 +168,23 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
                 """, false];
         }
 
+        foreach (var expression in new[] { "Pass(cancellationToken)", "cancellationToken.PassToken()", "Pass(Pass(cancellationToken))", "TokenExtensions.PassToken(cancellationToken)", "Pick(default, cancellationToken)", "Pick(token: cancellationToken, ignored: default)", "LoopPass(cancellationToken)" })
+        {
+            yield return ["helper-result-" + expression, $$"""
+                var token = {{expression}};
+                for (var i = 0; i < 2; i++) await CALL(1, token);
+                """, false];
+            yield return ["helper-reset-" + expression, $$"""
+                var token = cancellationToken;
+                for (var i = 0; i < 2; i++)
+                {
+                    cancellationToken = default;
+                    token = {{expression}};
+                    await CALL(1, token);
+                }
+                """, true];
+        }
+
         yield return ["forty-conditional-copies", string.Join("\n", Enumerable.Range(0, 40).Select(i =>
             $"var copy{i} = context is null ? {(i == 0 ? "cancellationToken" : $"copy{i - 1}")} : {(i == 0 ? "cancellationToken" : $"copy{i - 1}")};"))
             + "for (var i = 0; i < 2; i++) await CALL(1, copy39);", false];
@@ -205,6 +222,96 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     public static IEnumerable<object[]> ExceptionCases()
     {
+        foreach (var expression in new[] { "target.Run()", "target.Value", "target[0]", "(int)target", "target + 1", "-target" })
+        {
+            yield return ["dynamic-throw-" + expression, $$"""
+                var token = cancellationToken;
+                dynamic target = context;
+                try { var result = {{expression}}; }
+                catch { token = default; }
+                await CALL(1, token);
+                """, true];
+        }
+
+        foreach (var modifier in new[] { "ref", "out" })
+        {
+            yield return ["dynamic-write-" + modifier, $$"""
+                var token = cancellationToken;
+                dynamic target = context;
+                try { target.Run({{modifier}} token); }
+                catch { }
+                await CALL(1, token);
+                """, true];
+        }
+
+        yield return ["unboxing-throw", """
+            var token = cancellationToken;
+            object boxed = context;
+            try { var number = (int)boxed; }
+            catch { token = default; }
+            await CALL(1, token);
+            """, true];
+        foreach (var filter in new[] { "(token = default) is var ignored && context is null", "(token = default).CanBeCanceled", "(token = default) is var ignored && context.ToString() is null" })
+        {
+            yield return ["false-filter-writes-" + filter, $$"""
+                var token = cancellationToken;
+                try { throw new System.Exception(); }
+                catch (System.Exception) when ({{filter}}) { return null!; }
+                catch { }
+                await CALL(1, token);
+                """, true];
+        }
+
+        yield return ["filter-writes-reach-outer-handler", """
+            var token = cancellationToken;
+            try
+            {
+                try { throw new System.Exception(); }
+                catch (System.Exception) when ((token = default) is var ignored && context is null) { return null!; }
+            }
+            catch { }
+            await CALL(1, token);
+            """, true];
+        yield return ["true-filter-does-not-reach-sibling", """
+            var token = cancellationToken;
+            try { throw new System.Exception(); }
+            catch (System.Exception) when (true) { token = cancellationToken; }
+            catch { token = default; }
+            await CALL(1, token);
+            """, false];
+
+        yield return ["typed-true-filter-can-be-skipped", """
+            var token = cancellationToken;
+            try { throw new System.Exception(); }
+            catch (System.InvalidOperationException) when (true) { return null!; }
+            catch { token = default; }
+            await CALL(1, token);
+            """, true];
+        yield return ["discard-does-not-throw", """
+            var token = cancellationToken;
+            try { _ = context; }
+            catch { token = default; }
+            await CALL(1, token);
+            """, false];
+        yield return ["throwing-filter-retains-writes", """
+            var token = cancellationToken;
+            try { throw new System.Exception(); }
+            catch (System.Exception) when ((token = default) is var ignored && ThrowFilter()) { return null!; }
+            catch { }
+            await CALL(1, token);
+            """, true];
+        yield return ["false-filter-restores", """
+            var token = default(CancellationToken);
+            try { throw new System.Exception(); }
+            catch (System.Exception) when ((token = cancellationToken) is var ignored && false) { return null!; }
+            catch { }
+            await CALL(1, token);
+            """, false];
+        yield return ["recursive-loop-helper-is-bounded", """
+            var token = RecursivePass(cancellationToken, 2);
+            for (var i = 0; i < 2; i++) await CALL(1, token);
+            """, false];
+
         yield return ["return-does-not-throw", """
             var token = cancellationToken;
             try { if (context is null) { token = default; return null!; } }
@@ -314,11 +421,29 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
             {{TestSourceConstants.StandardModuleHeaderWithExtensions}}
             public class BuildModule : Module<List<string>>
             {
+                private static CancellationToken Pass(CancellationToken token) => token;
+                private static CancellationToken Pick(CancellationToken ignored, CancellationToken token) => token;
+                private static bool ThrowFilter() => throw new System.Exception();
+                private static CancellationToken LoopPass(CancellationToken token)
+                {
+                    for (var i = 0; i < 2; i++) { }
+                    return token;
+                }
+                private static CancellationToken RecursivePass(CancellationToken token, int remaining)
+                {
+                    for (var i = 0; i < remaining; i++) token = RecursivePass(token, remaining - 1);
+                    return token;
+                }
+
                 protected override async Task<List<string>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
                 {
                     {{body}}
                     return null!;
                 }
+            }
+            public static class TokenExtensions
+            {
+                public static CancellationToken PassToken(this CancellationToken token) => token;
             }
             public class Resource : System.IDisposable, System.IAsyncDisposable
             {
