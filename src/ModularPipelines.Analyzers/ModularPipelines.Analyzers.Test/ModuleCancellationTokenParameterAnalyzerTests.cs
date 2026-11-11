@@ -41,6 +41,23 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Task", "tokens[0] = default;")]
+    [DataRow("ValueTask", "tokens[0] = default;")]
+    [DataRow("Task", "var alias = tokens; alias[0] = default;")]
+    [DataRow("ValueTask", "var alias = tokens; alias[0] = default;")]
+    [DataRow("Task", "Array.Clear(tokens, 0, tokens.Length);")]
+    [DataRow("ValueTask", "Array.Clear(tokens, 0, tokens.Length);")]
+    public async Task Async_Source_Helpers_Report_Mutated_Collection_Payload(string taskType, string mutation)
+    {
+        var statements = $"static async {taskType}<CancellationToken> Link(CancellationToken[] tokens) "
+            + $"{{ await Task.Yield(); {mutation} return CancellationTokenSource.CreateLinkedTokenSource(tokens).Token; }} "
+            + "var tokens = new[] { cancellationToken }; cancellationToken = await Link(tokens);";
+        await VerifyCS.VerifyAnalyzerAsync(AsyncSource(statements, "{|#0:Task.Delay(1, cancellationToken)|}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task Awaitable_Payload_Joins_Require_Original_On_Every_Path(bool replaced)

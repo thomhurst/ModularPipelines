@@ -5691,6 +5691,9 @@ internal static class ModuleAuthoringAnalysis
         var parameters = GetAssignedCancellationTokenParameters(invocation, method, flows);
         if (method.IsAsync)
         {
+            // Collection contents can change through aliases or calls without writing
+            // the parameter itself. Async helper proof does not track those effects.
+            parameters.RemoveAll(parameter => !IsCancellationToken(parameter));
             // Local-function parameter analysis retains a captured-value fallback.
             // Do not use that fallback to prove a written async return payload.
             parameters.RemoveAll(parameter => operation.DescendantsAndSelf()

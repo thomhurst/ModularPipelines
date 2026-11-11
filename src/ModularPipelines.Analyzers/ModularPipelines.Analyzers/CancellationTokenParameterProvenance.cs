@@ -171,6 +171,8 @@ internal static class CancellationTokenParameterProvenance
         // Writable references can mutate their targets after later direct writes.
         public HashSet<ISymbol> EscapedSymbols { get; } = [with(SymbolEqualityComparer.Default)];
 
+        public Dictionary<ISymbol, HashSet<string>> EscapedFields { get; } = [with(SymbolEqualityComparer.Default)];
+
         public Dictionary<CaptureId, Value> Captures { get; } = [];
 
         // Only syntax-named indices need facts, even for very large allocations.
@@ -208,6 +210,11 @@ internal static class CancellationTokenParameterProvenance
                 copy.Arrays.Add(entry.Key, [with(entry.Value)]);
             }
 
+            foreach (var entry in EscapedFields)
+            {
+                copy.EscapedFields.Add(entry.Key, [with(StringComparer.Ordinal), .. entry.Value]);
+            }
+
             copy.SafeArrays.UnionWith(SafeArrays);
             copy.EscapedSymbols.UnionWith(EscapedSymbols);
 
@@ -220,6 +227,20 @@ internal static class CancellationTokenParameterProvenance
             var escapedCount = EscapedSymbols.Count;
             EscapedSymbols.UnionWith(other.EscapedSymbols);
             changed |= escapedCount != EscapedSymbols.Count;
+            foreach (var entry in other.EscapedFields)
+            {
+                if (!EscapedFields.TryGetValue(entry.Key, out var paths))
+                {
+                    EscapedFields.Add(entry.Key, [with(StringComparer.Ordinal), .. entry.Value]);
+                    changed = true;
+                    continue;
+                }
+
+                var count = paths.Count;
+                paths.UnionWith(entry.Value);
+                changed |= count != paths.Count;
+            }
+
             // An allocation absent from one path has no aliases on that path.
             foreach (var entry in other.Arrays)
             {
@@ -336,7 +357,7 @@ internal static class CancellationTokenParameterProvenance
             return operation switch
             {
                 IParameterReferenceOperation parameter => EvaluateParameter(parameter, state),
-                ILocalReferenceOperation local => state.EscapedSymbols.Contains(local.Local) ? Value.None : Get(state.Values, local.Local),
+                ILocalReferenceOperation local => GetSymbolValue(local.Local, state),
                 IFlowCaptureReferenceOperation capture => Get(state.Captures, capture.Id),
                 IConversionOperation conversion => EvaluateConversion(conversion, state),
                 IAwaitOperation awaited => EvaluateAwait(awaited, state),
@@ -364,7 +385,7 @@ internal static class CancellationTokenParameterProvenance
 
         private Value EvaluateParameter(IParameterReferenceOperation parameter, State state)
         {
-            var value = state.EscapedSymbols.Contains(parameter.Parameter) ? Value.None : Get(state.Values, parameter.Parameter);
+            var value = GetSymbolValue(parameter.Parameter, state);
             var safe = IsSafe(value, state);
             var span = parameter.Syntax.Span;
             _results[span] = safe && (!_results.TryGetValue(span, out var previous) || previous);
@@ -724,7 +745,8 @@ internal static class CancellationTokenParameterProvenance
                     state.EscapedSymbols.Add(parameter.Parameter);
                     break;
                 case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
-                    InvalidateReferenceTarget(field.Instance!, state);
+                    InvalidateArrays(Evaluate(field, state), state);
+                    EscapeTupleField(field, state);
                     break;
                 case IArrayElementReferenceOperation element:
                     InvalidateArrays(Evaluate(element.ArrayReference, state), state);
@@ -734,6 +756,61 @@ internal static class CancellationTokenParameterProvenance
                     InvalidateArrays(Evaluate(receiver, state), state);
                     break;
             }
+        }
+
+        private void EscapeTupleField(IFieldReferenceOperation field, State state)
+        {
+            IOperation root = field;
+            var path = string.Empty;
+            while (root is IFieldReferenceOperation element && TupleElementIndex(element) >= 0)
+            {
+                path = "/" + TupleElementIndex(element) + path;
+                root = element.Instance!;
+            }
+
+            var symbol = root switch
+            {
+                ILocalReferenceOperation local => (ISymbol) local.Local,
+                IParameterReferenceOperation parameter => parameter.Parameter,
+                _ => null,
+            };
+            if (symbol is null)
+            {
+                InvalidateReferenceTarget(root, state);
+                return;
+            }
+
+            if (!state.EscapedFields.TryGetValue(symbol, out var paths))
+            {
+                state.EscapedFields.Add(symbol, paths = [with(StringComparer.Ordinal)]);
+            }
+
+            paths.Add(path);
+        }
+
+        private static Value GetSymbolValue(ISymbol symbol, State state)
+        {
+            if (state.EscapedSymbols.Contains(symbol))
+            {
+                return Value.None;
+            }
+
+            var value = Get(state.Values, symbol);
+            return state.EscapedFields.TryGetValue(symbol, out var paths)
+                ? MaskEscapedFields(value, paths, string.Empty)
+                : value;
+        }
+
+        private static Value MaskEscapedFields(Value value, HashSet<string> paths, string path)
+        {
+            if (paths.Contains(path))
+            {
+                return Value.None;
+            }
+
+            return value.Elements is { } elements
+                ? new Value(elements: [.. elements.Select((element, index) => MaskEscapedFields(element, paths, path + "/" + index))])
+                : value;
         }
 
         private static Value Get<TKey>(Dictionary<TKey, Value> values, TKey key)

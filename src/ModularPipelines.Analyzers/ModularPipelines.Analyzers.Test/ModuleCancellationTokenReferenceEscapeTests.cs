@@ -52,6 +52,26 @@ public class ModuleCancellationTokenReferenceEscapeTests
         await VerifyCS.VerifyAnalyzerAsync(Source("var saved = Task.FromResult(cancellationToken); ref readonly Task<CancellationToken> alias = ref saved; cancellationToken = await saved;", false));
     }
 
+    [TestMethod]
+    [DataRow("var saved = (cancellationToken, 1); ref int count = ref saved.Item2; count = 2; cancellationToken = saved.Item1;")]
+    [DataRow("var saved = (cancellationToken, cancellationToken); ref CancellationToken alias = ref saved.Item2; alias = default; cancellationToken = saved.Item1;")]
+    [DataRow("var saved = ((cancellationToken, cancellationToken), 1); ref CancellationToken alias = ref saved.Item1.Item2; alias = default; cancellationToken = saved.Item1.Item1;")]
+    [DataRow("var saved = (Task.FromResult(cancellationToken), 1); if (context != null) { ref int alias = ref saved.Item2; alias = 2; } cancellationToken = await saved.Item1;")]
+    public async Task Tuple_Field_References_Preserve_Sibling_Provenance(string statements)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, false));
+    }
+
+    [TestMethod]
+    [DataRow("var saved = (cancellationToken, 1); ref CancellationToken alias = ref saved.Item1; saved = (cancellationToken, 2); alias = default; cancellationToken = saved.Item1;")]
+    [DataRow("var saved = ((cancellationToken, cancellationToken), 1); ref CancellationToken alias = ref saved.Item1.Item2; saved.Item1 = (cancellationToken, cancellationToken); alias = default; cancellationToken = saved.Item1.Item2;")]
+    [DataRow("var saved = (cancellationToken, 1); if (context != null) { ref CancellationToken alias = ref saved.Item1; alias = default; } cancellationToken = saved.Item1;")]
+    public async Task Escaped_Tuple_Fields_Remain_Unproven(string statements)
+    {
+        await VerifyCS.VerifyAnalyzerAsync(Source(statements, true),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+    }
+
     private static string Source(string statements, bool warns) => $$"""
         {{TestSourceConstants.StandardModuleHeader}}
         #nullable disable
