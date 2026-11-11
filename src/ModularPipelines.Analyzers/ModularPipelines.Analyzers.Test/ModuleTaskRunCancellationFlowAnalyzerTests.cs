@@ -698,6 +698,98 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ConvertsToInt", "int", "==", false, true)]
+    [DataRow("int", "ConvertsToInt", "!=", false, true)]
+    [DataRow("ConvertsToInt?", "int?", "==", false, true)]
+    [DataRow("(ConvertsToInt, int)", "(int, int)", "==", false, true)]
+    [DataRow("ConvertsToInt", "int", "==", true, false)]
+    [DataRow("short", "int", "==", false, false)]
+    public async Task Tracks_Tuple_Equality_Operand_Conversions(string leftType, string rightType, string comparison, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => HelperAsync(cancellationToken);
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                ({{leftType}}, int) left = default;
+                ({{rightType}}, int) right = default;
+                try { _ = left {{comparison}} right; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            private readonly struct ConvertsToInt
+            {
+                public static implicit operator int(ConvertsToInt value) => throw new Exception();
+            }
+            """);
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("token", "other", false, true)]
+    [DataRow("other", "token", false, true)]
+    [DataRow("token", "other", true, false)]
+    [DataRow("other", "other", false, false)]
+    public async Task Tracks_Record_With_Clone_Exception_Order(string initial, string rebound, bool rebindInHandler, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => HelperAsync(cancellationToken);
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref {{initial}};
+                var state = new CloneState();
+                try { _ = state with { Value = (alias = ref {{rebound}}) }; }
+                catch
+                {
+                    {{(rebindInHandler ? "alias = ref other;" : "")}}
+                    alias = default;
+                }
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            private sealed record CloneState
+            {
+                public CloneState() { }
+                private CloneState(CloneState original) => throw new Exception();
+                public CancellationToken Value { get; init; }
+            }
+            """);
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
+    [DataRow("slots[0] = (alias = ref other);", false)]
+    [DataRow("slots[0] = choose ? (alias = ref other) : (alias = ref other);", false)]
+    [DataRow("slots[^1] = (alias = ref other);", true)]
+    [DataRow("GetSlots(slots)[0] = (alias = ref other);", true)]
+    [DataRow("slots[GetIndex()] = (alias = ref other);", true)]
+    [DataRow("slots[(alias = ref other).GetHashCode() & 0] = token;", false)]
+    public async Task Preserves_Array_Store_Exception_Order(string statement, bool reports)
+    {
+        var source = ModuleSource($$"""
+            protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) => HelperAsync(cancellationToken);
+            private static Task HelperAsync(CancellationToken token)
+            {
+                var other = default(CancellationToken);
+                ref var alias = ref token;
+                var slots = new CancellationToken[1];
+                bool choose = false;
+                try { {{statement}} }
+                catch { alias = default; }
+                return Task.Run(async () => await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}, token);
+            }
+            private static CancellationToken[] GetSlots(CancellationToken[] slots) => throw new Exception();
+            private static int GetIndex() => throw new Exception();
+            """);
+        await VerifyCallAsync(source, !reports, "Delay");
+    }
+
+    [TestMethod]
     [DataRow("pair", "token", false, true)]
     [DataRow("(new ThrowingInt(), 2)", "token", false, true)]
     [DataRow("(new ThrowingInt(), 2)", "token", true, false)]
@@ -1518,7 +1610,9 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
     [DataRow("other", "token", true, false)]
     [DataRow("token", "other", false, true)]
     [DataRow("other", "other", false, false)]
-    public async Task Tracks_Implicit_Indexer_Store_Exceptions_After_Value(string initial, string rebound, bool rebindInHandler, bool reports)
+    [DataRow("other", "token", false, true, false)]
+    [DataRow("token", "other", false, true, false)]
+    public async Task Tracks_Implicit_Indexer_Store_Exceptions_After_Value(string initial, string rebound, bool rebindInHandler, bool reports, bool throwingLength = true)
     {
         var source = ModuleSource($$"""
             protected override Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) =>
@@ -1542,7 +1636,7 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
 
             private sealed class SetterState
             {
-                public int Length => throw new Exception();
+                public int Length => {{(throwingLength ? "throw new Exception()" : "1")}};
                 public CancellationToken this[int index] { set => throw new Exception(); }
             }
             """);

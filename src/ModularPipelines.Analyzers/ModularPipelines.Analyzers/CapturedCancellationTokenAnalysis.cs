@@ -435,11 +435,26 @@ internal static class CapturedCancellationTokenAnalysis
                 _written |= ReferencesStorage(operation, storage);
             }
 
-            if ((CanThrow(operation) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
+            if (((CanThrow(operation) && !IsDeferredArrayStore(operation)) || HiddenOperationCanThrow(operation) || ClassifiedOperationCanThrow(operation))
                 && !IsExhaustiveSwitchFailure(operation))
             {
                 SearchException(_block.EnclosingRegion, storage, null, _resume);
             }
+        }
+
+        private bool IsDeferredArrayStore(IOperation operation)
+        {
+            if (operation is not IArrayElementReferenceOperation)
+            {
+                return false;
+            }
+
+            // Source parents preserve the store target when CFG hoists branching values.
+            // Its children still contribute early exceptions. Index/Range operands may
+            // additionally read the array length before the value is evaluated.
+            return (_model?.GetOperation(operation.Syntax) ?? operation) is IArrayElementReferenceOperation { Parent: ISimpleAssignmentOperation assignment } array
+                && ReferenceEquals(assignment.Target, array)
+                && array.Indices.All(index => index.Type?.SpecialType == SpecialType.System_Int32);
         }
 
         private void VisitEarlyCollectionCalls(IOperation operation, Storage storage)
