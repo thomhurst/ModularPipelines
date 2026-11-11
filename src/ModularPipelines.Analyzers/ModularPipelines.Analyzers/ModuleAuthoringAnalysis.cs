@@ -5546,7 +5546,7 @@ internal static class ModuleAuthoringAnalysis
             .Where(assignment => ReferenceEquals(GetEnclosingCallable(assignment), callable))
             .Where(assignment => AssignsSymbol(assignment, symbol))
             .Where(IsInReachableBranch)
-            .Where(assignment => !AreInExclusiveConditionalBranches(assignment, reference))
+            .Where(assignment => !AreInExclusiveBranches(assignment, reference))
             .OrderByDescending(static assignment => assignment.Syntax.SpanStart)
             .ToArray();
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
@@ -5561,7 +5561,7 @@ internal static class ModuleAuthoringAnalysis
         ];
     }
 
-    private static bool AreInExclusiveConditionalBranches(
+    private static bool AreInExclusiveBranches(
         IOperation assignment,
         IOperation reference)
     {
@@ -5572,6 +5572,55 @@ internal static class ModuleAuthoringAnalysis
                     || (ReferenceEquals(current, whenFalse) && HasAncestor(reference, conditional.WhenTrue))))
             {
                 return true;
+            }
+
+            if (current is ISwitchCaseOperation assignmentCase
+                && parent is ISwitchOperation switchOperation
+                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(reference, candidate)) is { } referenceCase
+                && !ReferenceEquals(assignmentCase, referenceCase)
+                && !CanTransferBetweenSwitchCases(assignmentCase, referenceCase, switchOperation))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanTransferBetweenSwitchCases(
+        ISwitchCaseOperation source,
+        ISwitchCaseOperation destination,
+        ISwitchOperation switchOperation)
+    {
+        var pending = new Stack<ISwitchCaseOperation>();
+        var visited = new HashSet<ISwitchCaseOperation>();
+        pending.Push(source);
+        while (pending.Count > 0)
+        {
+            var current = pending.Pop();
+            if (ReferenceEquals(current, destination))
+            {
+                return true;
+            }
+
+            if (!visited.Add(current))
+            {
+                continue;
+            }
+
+            var targets = current.DescendantsAndSelf()
+                .OfType<IBranchOperation>()
+                .Where(static branch => branch.BranchKind == BranchKind.GoTo)
+                .Select(static branch => branch.Target)
+                .ToArray();
+            foreach (var candidate in switchOperation.Cases)
+            {
+                if (candidate.Clauses.Any(clause => targets.Contains(clause.Label, SymbolEqualityComparer.Default))
+                    || candidate.DescendantsAndSelf().OfType<ILabeledOperation>()
+                        .Any(label => targets.Contains(label.Label, SymbolEqualityComparer.Default)))
+                {
+                    pending.Push(candidate);
+                }
             }
         }
 
@@ -6543,16 +6592,48 @@ internal static class ModuleAuthoringAnalysis
                    @case.Clauses.Any(static clause =>
                        clause is IDefaultCaseClauseOperation))
                && switchOperation.Cases.All(@case =>
-                   SwitchCaseCannotReachFollowingOperation(@case)
-                   || @case.Body.Any(candidate =>
-                       DefinitelyAssignsSymbol(candidate, symbol)));
+                   DefinitelyAssignsSymbolBeforeSwitchExit(@case.Body, symbol, switchOperation.ExitLabel));
     }
 
-    private static bool SwitchCaseCannotReachFollowingOperation(
-        ISwitchCaseOperation switchCase)
+    private static bool DefinitelyAssignsSymbolBeforeSwitchExit(
+        IEnumerable<IOperation> operations,
+        ISymbol symbol,
+        ILabelSymbol exitLabel)
     {
-        return switchCase.Body.Length > 0
-               && AlwaysExitsCallable(switchCase.Body[switchCase.Body.Length - 1]);
+        foreach (var operation in operations)
+        {
+            var assigns = operation switch
+            {
+                IBlockOperation block =>
+                    DefinitelyAssignsSymbolBeforeSwitchExit(block.Operations, symbol, exitLabel),
+                IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                    DefinitelyAssignsSymbolBeforeSwitchExit([conditional.WhenTrue], symbol, exitLabel)
+                    && DefinitelyAssignsSymbolBeforeSwitchExit([whenFalse], symbol, exitLabel),
+                IReturnOperation or IThrowOperation => true,
+                _ => DefinitelyAssignsSymbol(operation, symbol)
+                     && !CanExitSwitch(operation, exitLabel),
+            };
+            if (assigns)
+            {
+                return true;
+            }
+
+            // A branch can leave this case before a later assignment executes.
+            // Breaks belonging to nested switches or loops do not exit this switch.
+            if (CanExitSwitch(operation, exitLabel))
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanExitSwitch(IOperation operation, ILabelSymbol exitLabel)
+    {
+        return operation.DescendantsAndSelf().OfType<IBranchOperation>()
+            .Any(branch => branch.BranchKind == BranchKind.GoTo
+                || SymbolEqualityComparer.Default.Equals(branch.Target, exitLabel));
     }
 
     private static bool AlwaysExitsCallable(IOperation operation)

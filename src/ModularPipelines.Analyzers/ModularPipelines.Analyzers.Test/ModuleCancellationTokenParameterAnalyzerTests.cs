@@ -61,6 +61,75 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
+    public async Task Recognizes_Original_Token_In_Exclusive_Switch_Case(bool useLocal)
+    {
+        var target = useLocal ? "saved" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var saved = cancellationToken; " : "")
+            + $"switch (context) {{ case null: {target} = CancellationToken.None; return Task.CompletedTask; default: return Task.Delay(1, {target}); }}",
+            "Task.CompletedTask"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "goto default;")]
+    [DataRow(true, "goto default;")]
+    [DataRow(false, "goto case 1;")]
+    [DataRow(true, "goto case 1;")]
+    [DataRow(false, "goto transfer;")]
+    [DataRow(true, "goto transfer;")]
+    public async Task Reports_Replaced_Token_After_Switch_Transfer(bool useLocal, string transfer)
+    {
+        var target = useLocal ? "saved" : "cancellationToken";
+        var destination = transfer == "goto default;" ? "default:" : "case 1:";
+        var label = transfer == "goto transfer;" ? "transfer:" : "";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            (useLocal ? "var saved = cancellationToken; " : "")
+            + $"switch (DateTime.Now.Second) {{ case 0: {target} = CancellationToken.None; {transfer} {destination} {label} return {{|#0:Task.Delay(1, {target})|}}; }}",
+            "Task.CompletedTask"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "if (DateTime.Now.Ticks > 0) break;")]
+    [DataRow(true, "if (DateTime.Now.Ticks > 0) break;")]
+    [DataRow(false, "if (DateTime.Now.Ticks > 0) goto end;")]
+    [DataRow(true, "if (DateTime.Now.Ticks > 0) goto end;")]
+    [DataRow(false, "if (DateTime.Now.Ticks > 0) { break; } else { {target} = saved; }")]
+    [DataRow(true, "if (DateTime.Now.Ticks > 0) { break; } else { {target} = saved; }")]
+    [DataRow(false, "if (DateTime.Now.Ticks > 0) break; return Task.CompletedTask;")]
+    [DataRow(true, "if (DateTime.Now.Ticks > 0) break; return Task.CompletedTask;")]
+    [DataRow(false, "try { if (DateTime.Now.Ticks > 0) break; {target} = saved; } finally { }")]
+    [DataRow(true, "try { if (DateTime.Now.Ticks > 0) break; {target} = saved; } finally { }")]
+    public async Task Reports_Replaced_Token_After_Early_Switch_Exit(bool useLocal, string earlyExit)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}{target} = CancellationToken.None; "
+            + $"switch (context != null) {{ default: {{ {earlyExit.Replace("{target}", target)} {target} = saved; break; }} }} "
+            + (earlyExit.Contains("goto") ? "end:;" : ""),
+            $"{{|#0:Task.Delay(1, {target})|}}"),
+            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false, false)]
+    [DataRow(true, false)]
+    [DataRow(false, true)]
+    [DataRow(true, true)]
+    public async Task Recognizes_Original_Token_After_Switch_Restoration(bool useLocal, bool returningCase)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        await VerifyCS.VerifyAnalyzerAsync(Source(
+            $"var saved = cancellationToken; {(useLocal ? "var token = cancellationToken; " : "")}{target} = CancellationToken.None; "
+            + $"switch (context) {{ case null: {(returningCase ? "return Task.CompletedTask;" : $"{target} = saved; break;")} default: {{ switch (DateTime.Now.Second) {{ default: break; }} {target} = saved; break; }} }}",
+            $"Task.Delay(1, {target})"));
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
     public async Task Recognizes_Repeated_Conditional_Identity_Assignments(bool useLocal)
     {
         var target = useLocal ? "saved" : "cancellationToken";
