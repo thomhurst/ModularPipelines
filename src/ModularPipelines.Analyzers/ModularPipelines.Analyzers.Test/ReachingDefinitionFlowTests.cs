@@ -769,6 +769,8 @@ public class ReachingDefinitionFlowTests
     [TestMethod]
     [DataRow("new RetainedBinder(ref holder, ref value); value = 3; holder.Field = 2;", "", false)]
     [DataRow("new RetainedBinder(ref holder, ref value); var copy = holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("RetainedBinder binder = new(ref holder, ref value); value = 3; holder.Field = 2;", "", false)]
+    [DataRow("try { new RetainedBinder(ref holder, ref value, true); } catch { value = 3; holder.Field = 2; [|Use(value)|]; }", "", false)]
     [DataRow("new RetainedOutBinder(out holder, ref value); value = 3; holder.Mutate();", "", false)]
     [DataRow("new RetainedBinder(ref holder, ref value); value = 3; try { holder.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
     [DataRow("new RetainedBinder(ref holder, ref value); holder.Field = 2; value = 3;", "3", true)]
@@ -778,6 +780,18 @@ public class ReachingDefinitionFlowTests
     public void Constructor_Arguments_Retain_Storage_Bindings(string statement, string expected, bool supported) =>
         AssertFlow("int value = 0; scoped Retained holder = default; " + statement
             + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
+    [DataRow("_ = holder is (0, 0); [|Use(value)|];", "", false)]
+    [DataRow("try { _ = holder is (0, 0); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("_ = holder switch { (0, 0) => true, _ => false }; [|Use(value)|];", "", false)]
+    [DataRow("try { switch (holder) { case (0, 0): break; } } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("_ = holder is (0, 0); value = 4; [|Use(value)|];", "4", true)]
+    [DataRow("if (false) { _ = holder is (0, 0); } [|Use(value)|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); _ = unrelated is (0, 0); [|Use(value)|];", "3", true)]
+    public void Positional_Patterns_Invalidate_Retained_Receiver_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); value = 3; " + statement,
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
@@ -926,7 +940,11 @@ public class ReachingDefinitionFlowTests
         }
         class RetainedBinder
         {
-            public RetainedBinder(ref Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { holder.Field = ref field; }
+            public RetainedBinder(ref Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field, bool fail = false)
+            {
+                holder.Field = ref field;
+                if (fail) throw new Exception();
+            }
         }
         class RetainedOutBinder
         {

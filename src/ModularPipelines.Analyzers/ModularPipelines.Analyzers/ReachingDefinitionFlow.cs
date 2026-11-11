@@ -228,22 +228,23 @@ internal sealed class ReachingDefinitionFlow(
         var (receiver, method) = operation switch
         {
             IInvocationOperation call => (call.Instance, call.TargetMethod),
-            IPropertyReferenceOperation property when property.Parent is not ISimpleAssignmentOperation assignment
-                || !ReferenceEquals(assignment.Target, property)
-                || property.Property.ReturnsByRef || property.Property.ReturnsByRefReadonly =>
+            IPropertyReferenceOperation property when !DefersSetterArguments(property) =>
                 (property.Instance, property.Property.GetMethod),
             _ => ((IOperation?) null, (IMethodSymbol?) null),
         };
-        // Ref-like copies and readonly members can still mutate storage through retained refs.
-        // Ordinary readonly value receivers and converted temporaries cannot mutate their source.
-        if ((receiver is { Type.IsRefLikeType: true } && method is not null)
-            || (receiver is { Type.IsReferenceType: false } && method is { IsReadOnly: false }
-                && receiver.Type is not INamedTypeSymbol { IsReadOnly: true }
-                && receiver is not IConversionOperation))
+        if (receiver is not null && CanMutateReceiver(receiver, method))
         {
             transfer.InvalidateStorage(receiver, state);
         }
     }
+
+    // Ref-like copies and readonly members can still mutate storage through retained refs.
+    // Ordinary readonly value receivers and converted temporaries cannot mutate their source.
+    private static bool CanMutateReceiver(IOperation receiver, IMethodSymbol? method) =>
+        (receiver is { Type.IsRefLikeType: true } && method is not null)
+        || (receiver is { Type.IsReferenceType: false } && method is { IsReadOnly: false }
+            && receiver.Type is not INamedTypeSymbol { IsReadOnly: true }
+            && receiver is not IConversionOperation);
 
     private static bool CanDeconstructionMutateReceiver(DeconstructionInfo info) =>
         info.Method is { IsReadOnly: false } or { ContainingType.IsRefLikeType: true }
@@ -328,6 +329,12 @@ internal sealed class ReachingDefinitionFlow(
         var exceptions = CreateClassifier().Classify(operation, deconstructionStore, storedValue);
         if (exceptions.Contains(null))
         {
+            // Implicit pattern calls keep their input on the enclosing is-pattern, not among children.
+            if (operation is IPatternOperation && GetPatternInput(operation) is { Type.IsRefLikeType: true } input)
+            {
+                transfer.InvalidateStorage(input, state);
+            }
+
             // Readonly receivers and by-value operator operands can still write through ref fields.
             foreach (var operand in operation.ChildOperations.Where(static child => child.Type?.IsRefLikeType == true))
             {
@@ -339,6 +346,19 @@ internal sealed class ReachingDefinitionFlow(
         {
             FollowException(block, exceptionName is null ? null : _operationRoot.SemanticModel?.Compilation.GetTypeByMetadataName(exceptionName), state, continuation, filter);
         }
+    }
+
+    private static IOperation? GetPatternInput(IOperation operation)
+    {
+        for (var parent = operation.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is IIsPatternOperation isPattern)
+            {
+                return isPattern.Value;
+            }
+        }
+
+        return null;
     }
 
     private bool HasExactArrayType(IOperation value, ITypeSymbol? arrayType, HashSet<ILocalSymbol> visited)
