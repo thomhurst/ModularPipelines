@@ -440,6 +440,12 @@ internal sealed class LocalDefinitionTransfer
     {
         ISimpleAssignmentOperation assignment when assignment.IsRef || assignment.Value.Type?.IsRefLikeType == true =>
             (assignment.Target, assignment.Value),
+        // Instance compound operators mutate their receiver and return void. Their argument
+        // can still escape into ref-like receiver storage, independently of result retention.
+        ICompoundAssignmentOperation { OperatorMethod: { IsStatic: false, Parameters.Length: 1 } method } compound
+            when method.Parameters[0].ScopedKind != ScopedKind.ScopedRef
+                && (method.Parameters[0].RefKind != RefKind.None || compound.Value.Type?.IsRefLikeType == true) =>
+            (compound.Target, compound.Value),
         ICompoundAssignmentOperation { Type.IsRefLikeType: true, OperatorMethod: not null } compound =>
             (compound.Target, compound),
         _ => null,
@@ -460,7 +466,8 @@ internal sealed class LocalDefinitionTransfer
 
         if (target is ITupleOperation targets)
         {
-            for (var index = 0; index < targets.Elements.Length; index++)
+            for (var index = 0; index < targets.Elements.Length
+                && (value is not ITupleOperation tuple || index < tuple.Elements.Length); index++)
             {
                 // Tuple expressions have independent sources. An implicit Deconstruct can copy
                 // receiver storage into any writable ref-like output, including nested outputs.
@@ -581,6 +588,7 @@ internal sealed class LocalDefinitionTransfer
     {
         ILocalReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Local, local),
         IParameterReferenceOperation reference => SymbolEqualityComparer.Default.Equals(reference.Parameter, local),
+        ISimpleAssignmentOperation assignment => TargetsLocal(assignment.Value, local, operationRoot),
         // A returned ref or ref-like value may retain any non-scoped by-reference input. Keep
         // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
         IInvocationOperation call => InvocationRetainsStorage(call, local, operationRoot),

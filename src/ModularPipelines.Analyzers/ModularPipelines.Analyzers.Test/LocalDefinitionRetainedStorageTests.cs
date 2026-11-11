@@ -37,6 +37,9 @@ public class LocalDefinitionRetainedStorageTests
 
     [TestMethod]
     [DataRow("var copy = holder;", "copy.Field = 2")]
+    [DataRow("scoped Retained middle = default; scoped Retained copy = (middle = holder);", "copy.Field = 2")]
+    [DataRow("scoped InstanceRetainedOperators copy = default; copy += holder;", "copy.Field = 2")]
+    [DataRow("scoped InstanceRetainedContainer container = default; container.Item += holder;", "container.Item.Field = 2")]
     [DataRow("var copy = Return(holder); var second = copy;", "second.Field = 2")]
     [DataRow("ref int copy = ref ReturnRef(holder);", "copy = 2")]
     [DataRow("scoped Retained copy = default; copy = holder;", "copy.Field = 2")]
@@ -175,12 +178,22 @@ public class LocalDefinitionRetainedStorageTests
         Assert.IsFalse(scenario.Transfer.ReferencesStorage(operation));
     }
 
+    [TestMethod]
+    public void Incomplete_Deconstruction_Does_Not_Throw_While_Building_Storage_Closure()
+    {
+        var scenario = new Scenario("int value = 0; int a = 0, b = 0, c = 0; (a, b, c) = (1, 2);", "CS8132");
+        var assignment = scenario.Root.DescendantsAndSelf().OfType<IDeconstructionAssignmentOperation>().Single();
+        Assert.AreEqual(3, ((ITupleOperation) assignment.Target).Elements.Length);
+        Assert.AreEqual(2, ((ITupleOperation) assignment.Value).Elements.Length);
+        scenario.AssertValues("0");
+    }
+
     private sealed class Scenario
     {
         private static readonly MetadataReference[] References = [.. ((string) AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!)
             .Split(Path.PathSeparator).Select(static path => MetadataReference.CreateFromFile(path))];
 
-        internal Scenario(string body)
+        internal Scenario(string body, string? expectedError = null)
         {
             var source = Types + "class Example { " + Methods
                 + "static void Run(bool flag, scoped Retained parameter) { " + body + " } }";
@@ -188,7 +201,14 @@ public class LocalDefinitionRetainedStorageTests
             var compilation = CSharpCompilation.Create("RetainedStorageTest", [tree], References,
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
             var errors = compilation.GetDiagnostics().Where(static diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
-            Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(static error => error.ToString())));
+            if (expectedError is null)
+            {
+                Assert.IsEmpty(errors, string.Join(Environment.NewLine, errors.Select(static error => error.ToString())));
+            }
+            else
+            {
+                Assert.IsTrue(errors.Any(error => error.Id == expectedError));
+            }
             var model = compilation.GetSemanticModel(tree);
             var method = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>().Single(static method => method.Identifier.ValueText == "Run");
             Root = model.GetOperation(method)!;
@@ -281,6 +301,15 @@ public class LocalDefinitionRetainedStorageTests
             public OutBinder(out Retained holder, [System.Diagnostics.CodeAnalysis.UnscopedRef] ref int field) { holder = new Retained(ref field); }
         }
         class Consumer { public Consumer(Retained holder) { holder.Field = 2; } }
+        ref struct InstanceRetainedOperators
+        {
+            public ref int Field;
+            public void operator +=(Retained other) { Field = ref other.Field; }
+        }
+        ref struct InstanceRetainedContainer
+        {
+            public InstanceRetainedOperators Item;
+        }
         struct InstanceOperators
         {
             public void operator +=(int value) { }
