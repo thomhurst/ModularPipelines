@@ -119,6 +119,8 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     [DataRow(true, "{target} = {target};")]
     [DataRow(false, "var carried = {target}; {target} = carried;")]
     [DataRow(true, "var carried = {target}; {target} = carried;")]
+    [DataRow(false, "var carried = {target}; var copy = carried; {target} = copy;")]
+    [DataRow(true, "var carried = {target}; var copy = carried; {target} = copy;")]
     [DataRow(false, "if (i > 0) goto branches; {target} = saved; branches: ;")]
     [DataRow(true, "if (i > 0) goto branches; {target} = saved; branches: ;")]
     public async Task Reports_Loop_Carried_Token_With_Ineffective_Reset(bool useLocal, string reset)
@@ -134,6 +136,63 @@ public class ModuleCancellationTokenParameterAnalyzerTests
         await VerifyCS.VerifyAnalyzerAsync(source,
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
                 .WithLocation(0).WithArguments("Delay"));
+    }
+
+    [TestMethod]
+    [DataRow(false, "var copy = saved; {target} = copy;")]
+    [DataRow(true, "var copy = saved; {target} = copy;")]
+    [DataRow(false, "var copy = {target}; copy = saved; {target} = copy;")]
+    [DataRow(true, "var copy = {target}; copy = saved; {target} = copy;")]
+    [DataRow(false, "if (i > 0) goto reset; reset: {target} = saved;")]
+    [DataRow(true, "if (i > 0) goto reset; reset: {target} = saved;")]
+    [DataRow(false, "saved = original; {target} = saved;")]
+    [DataRow(true, "saved = original; {target} = saved;")]
+    [DataRow(true, "saved = cancellationToken; {target} = saved;")]
+    public async Task Recognizes_Independent_Reset_With_Copies_Or_Jumps(bool useLocal, string reset)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+                "var original = cancellationToken; var saved = original; "
+                + (useLocal ? "var token = saved; " : "")
+                + $"for (var i = 0; i < 2; i++) {{ {reset.Replace("{target}", target)} if (i == 0) {{ {target} = CancellationToken.None; }} else {{ await Task.Delay(1, {target}); }} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recognizes_Independent_Reset_Through_Repeated_Copies(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var copies = string.Join(" ", Enumerable.Range(1, 32)
+            .Select(index => $"var copy{index} = context != null ? copy{index - 1} : copy{index - 1};"));
+        var source = Source(
+                "var saved = cancellationToken; "
+                + (useLocal ? "var token = saved; " : "")
+                + $"for (var i = 0; i < 2; i++) {{ var copy0 = saved; {copies} {target} = copy32; if (i == 0) {{ {target} = CancellationToken.None; }} else {{ await Task.Delay(1, {target}); }} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow(false)]
+    [DataRow(true)]
+    public async Task Recognizes_Independent_Reset_With_Harmless_Jump(bool useLocal)
+    {
+        var target = useLocal ? "token" : "cancellationToken";
+        var source = Source(
+                "var saved = cancellationToken; "
+                + (useLocal ? "var token = saved; " : "")
+                + $"for (var i = 0; i < 2; i++) {{ {target} = saved; if (i == 0) {{ {target} = CancellationToken.None; goto done; done: ; }} else {{ await Task.Delay(1, {target}); }} }}",
+                "Task.CompletedTask")
+            .Replace("override Task OnBeforeExecuteAsync", "override async Task OnBeforeExecuteAsync")
+            .Replace("return Task.CompletedTask;", "await Task.CompletedTask;");
+        await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
     [TestMethod]

@@ -5697,6 +5697,28 @@ internal static class ModuleAuthoringAnalysis
         IOperation reference,
         ISymbol symbol)
     {
+        if (CanCarrySymbolAcrossLoopIterations(assignment, reference, symbol))
+        {
+            return false;
+        }
+
+        for (var current = assignment; current.Parent is { } parent; current = parent)
+        {
+            if (AreInOppositeConditionalBranches(current, parent, reference)
+                || AreInExclusiveSwitchCases(current, parent, reference))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CanCarrySymbolAcrossLoopIterations(
+        IOperation assignment,
+        IOperation reference,
+        ISymbol symbol)
+    {
         // Opposite branches can execute on successive iterations of a common
         // loop, so their stores are not exclusive across the loop back-edge.
         for (var ancestor = assignment.Parent; ancestor is not null; ancestor = ancestor.Parent)
@@ -5704,30 +5726,33 @@ internal static class ModuleAuthoringAnalysis
             if (ancestor is ILoopOperation loop && HasAncestor(reference, loop)
                 && !ResetsSymbolBeforeBranches(loop, assignment, reference, symbol))
             {
-                return false;
-            }
-        }
-
-        for (var current = assignment; current.Parent is { } parent; current = parent)
-        {
-            if (parent is IConditionalOperation { WhenFalse: { } whenFalse } conditional
-                && ((ReferenceEquals(current, conditional.WhenTrue) && HasAncestor(reference, whenFalse))
-                    || (ReferenceEquals(current, whenFalse) && HasAncestor(reference, conditional.WhenTrue))))
-            {
-                return true;
-            }
-
-            if (current is ISwitchCaseOperation assignmentCase
-                && parent is ISwitchOperation switchOperation
-                && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(reference, candidate)) is { } referenceCase
-                && !ReferenceEquals(assignmentCase, referenceCase)
-                && !CanTransferBetweenSwitchCases(assignmentCase, referenceCase, switchOperation))
-            {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool AreInOppositeConditionalBranches(
+        IOperation assignmentBranch,
+        IOperation parent,
+        IOperation reference)
+    {
+        return parent is IConditionalOperation { WhenFalse: { } whenFalse } conditional
+            && ((ReferenceEquals(assignmentBranch, conditional.WhenTrue) && HasAncestor(reference, whenFalse))
+                || (ReferenceEquals(assignmentBranch, whenFalse) && HasAncestor(reference, conditional.WhenTrue)));
+    }
+
+    private static bool AreInExclusiveSwitchCases(
+        IOperation assignmentBranch,
+        IOperation parent,
+        IOperation reference)
+    {
+        return assignmentBranch is ISwitchCaseOperation assignmentCase
+            && parent is ISwitchOperation switchOperation
+            && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(reference, candidate)) is { } referenceCase
+            && !ReferenceEquals(assignmentCase, referenceCase)
+            && !CanTransferBetweenSwitchCases(assignmentCase, referenceCase, switchOperation);
     }
 
     private static bool ResetsSymbolBeforeBranches(
@@ -5739,59 +5764,106 @@ internal static class ModuleAuthoringAnalysis
         // Only stores executed before both arms can kill a value from a previous
         // iteration. A conditional reset must not hide a real loop-carried store.
         return loop.Body.DescendantsAndSelf().Any(candidate =>
-            candidate.Syntax.Span.End <= assignment.Syntax.SpanStart
+            IsResetBeforeBranches(candidate, loop, assignment, reference, symbol));
+    }
+
+    private static bool IsResetBeforeBranches(
+        IOperation candidate,
+        ILoopOperation loop,
+        IOperation assignment,
+        IOperation reference,
+        ISymbol symbol)
+    {
+        return candidate.Syntax.Span.End <= assignment.Syntax.SpanStart
             && candidate.Syntax.Span.End <= reference.Syntax.SpanStart
-            && !loop.Body.DescendantsAndSelf().OfType<IBranchOperation>()
-                .Any(branch => branch.BranchKind == BranchKind.GoTo
-                    && loop.Body.DescendantsAndSelf().OfType<ILabeledOperation>()
-                        .Any(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
-                            && label.Syntax.SpanStart >= candidate.Syntax.Span.End))
             && IsLinearPredecessor(candidate, assignment)
             && IsLinearPredecessor(candidate, reference)
             && !CanExceptionBypassOverwrite(candidate, assignment, symbol)
             && !CanExceptionBypassOverwrite(candidate, reference, symbol)
-            && ((candidate is ISimpleAssignmentOperation reset && AssignsSymbol(reset, symbol)
-                    && IsIndependentOfLoopStores(reset.Value, loop))
-                || (candidate is IVariableDeclaratorOperation { Initializer: not null } declarator
-                    && SymbolEqualityComparer.Default.Equals(declarator.Symbol, symbol)
-                    && IsIndependentOfLoopStores(declarator.Initializer.Value, loop))));
+            && HasIndependentResetValue(candidate, loop, symbol)
+            && !CanJumpPastReset(loop, candidate, reference);
     }
 
-    private static bool IsIndependentOfLoopStores(IOperation value, ILoopOperation loop)
+    private static bool HasIndependentResetValue(IOperation candidate, ILoopOperation loop, ISymbol symbol)
     {
-        // A copy of a loop-carried value is not a reset. Follow local
-        // initializers as well, so an intermediate copy cannot hide it.
-        foreach (var reference in value.DescendantsAndSelf())
+        var value = candidate switch
         {
-            ISymbol? dependency = reference switch
-            {
-                ILocalReferenceOperation local => local.Local,
-                IParameterReferenceOperation parameter => parameter.Parameter,
-                _ => null,
-            };
-            if (dependency is null)
-            {
-                continue;
-            }
+            ISimpleAssignmentOperation reset when AssignsSymbol(reset, symbol) => reset.Value,
+            IVariableDeclaratorOperation { Initializer: { } initializer } declarator
+                when SymbolEqualityComparer.Default.Equals(declarator.Symbol, symbol) => initializer.Value,
+            _ => null,
+        };
+        return value is not null
+            && IsIndependentOfLoopCarriedSymbol(value, loop, symbol, []);
+    }
 
-            if (loop.Body.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
-                .Any(store => AssignsSymbol(store, dependency)))
-            {
-                return false;
-            }
+    private static bool IsIndependentOfLoopCarriedSymbol(
+        IOperation value,
+        ILoopOperation loop,
+        ISymbol symbol,
+        Dictionary<ILocalReferenceOperation, bool> localProofs)
+    {
+        return value.DescendantsAndSelf().All(operation => operation switch
+        {
+            IParameterReferenceOperation parameter => !SymbolEqualityComparer.Default.Equals(parameter.Parameter, symbol),
+            ILocalReferenceOperation local => !SymbolEqualityComparer.Default.Equals(local.Local, symbol)
+                && IsIndependentLoopLocal(local, loop, symbol, localProofs),
+            _ => true,
+        });
+    }
 
-            var initializer = loop.Body.DescendantsAndSelf().OfType<IVariableDeclaratorOperation>()
-                .FirstOrDefault(declaration => SymbolEqualityComparer.Default.Equals(declaration.Symbol, dependency))
-                ?.Initializer;
-            if (initializer is not null
-                && (initializer.Syntax.Span.End > value.Syntax.SpanStart
-                    || !IsIndependentOfLoopStores(initializer.Value, loop)))
-            {
-                return false;
-            }
+    private static bool IsIndependentLoopLocal(
+        ILocalReferenceOperation reference,
+        ILoopOperation loop,
+        ISymbol symbol,
+        Dictionary<ILocalReferenceOperation, bool> localProofs)
+    {
+        if (localProofs.TryGetValue(reference, out var independent))
+        {
+            return independent;
         }
 
-        return true;
+        // A cycle cannot prove independence. Reuse completed proofs so repeated
+        // copies do not expand the same initializer tree exponentially.
+        localProofs.Add(reference, false);
+        var value = FindReachingLocalValue(reference, reference.Local);
+        if (value is null)
+        {
+            return false;
+        }
+
+        // A snapshot outside the loop is stable only when the loop never
+        // writes it. An in-loop copy needs an independent reaching value.
+        if (!HasAncestor(value, loop.Body))
+        {
+            independent = !loop.Body.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+                .Any(assignment => AssignsSymbol(assignment, reference.Local));
+        }
+        else
+        {
+            var store = value.Parent ?? value;
+            independent = !CanJumpPastReset(loop, store, reference)
+                && !CanExceptionBypassOverwrite(store, reference, reference.Local)
+                && IsIndependentOfLoopCarriedSymbol(value, loop, symbol, localProofs);
+        }
+
+        localProofs[reference] = independent;
+        return independent;
+    }
+
+    private static bool CanJumpPastReset(ILoopOperation loop, IOperation reset, IOperation reference)
+    {
+        // Forward jumps after the reset preserve it. A jump from before the
+        // reset, or a backward jump that repeats only the branches, can skip it.
+        var labels = loop.Body.DescendantsAndSelf().OfType<ILabeledOperation>()
+            .Where(label => label.Syntax.SpanStart >= reset.Syntax.Span.End
+                && label.Syntax.SpanStart <= reference.Syntax.SpanStart)
+            .ToArray();
+        return loop.Body.DescendantsAndSelf().OfType<IBranchOperation>()
+            .Any(branch => branch.BranchKind == BranchKind.GoTo
+                && labels.Any(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                    && (branch.Syntax.SpanStart < reset.Syntax.SpanStart
+                        || label.Syntax.SpanStart < branch.Syntax.SpanStart)));
     }
 
     private static bool CanTransferBetweenSwitchCases(
