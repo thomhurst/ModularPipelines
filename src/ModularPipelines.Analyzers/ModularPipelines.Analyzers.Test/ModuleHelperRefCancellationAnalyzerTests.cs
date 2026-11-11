@@ -214,6 +214,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("second = ref first; var saved = first; int count = 0; void Copy() { (first, count) = (saved, 1); } Copy(); return second;", false)]
     [DataRow("second = ref first; var saved = first; int count = 0; void Copy() { (count, (first, count)) = (1, (saved, 2)); } Copy(); return second;", false)]
     [DataRow("second = ref first; var saved = first; saved = default; int count = 0; void Copy() { (first, count) = (saved, 1); } Copy(); return second;", true)]
+    [DataRow("var saved = first; var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = saved; } return second;", false)]
+    [DataRow("var saved = first; var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); saved = default; first = saved; } return second;", true)]
     [DataRow("var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = default; } return second;", true)]
     [DataRow("var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); } return second;", false)]
     [DataRow("var local = first; second = ref local; for (int i = 0; i < 2; i++) { var intact = first; void Copy() { local = intact; } Copy(); first = default; break; } return second;", false)]

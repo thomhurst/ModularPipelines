@@ -5813,7 +5813,8 @@ internal static class ModuleAuthoringAnalysis
         {
             if (ancestor is IBlockOperation && AlwaysBreaksCancellationLoop(ancestor, loop)
                 && !ancestor.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
-                    branch.BranchKind is BranchKind.Continue or BranchKind.GoTo
+                    !IsCancellationLoopExit(branch, loop)
+                    && branch.BranchKind is BranchKind.Continue or BranchKind.GoTo
                     && branch.Syntax.SpanStart > write.Syntax.SpanStart
                     && ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(write))
                     && IsInReachableBranch(branch)))
@@ -5829,8 +5830,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return operation switch
         {
-            IBranchOperation { BranchKind: BranchKind.Break } branch =>
-                SymbolEqualityComparer.Default.Equals(branch.Target, loop.ExitLabel),
+            IBranchOperation branch => IsCancellationLoopExit(branch, loop),
             IBlockOperation { Operations.Length: > 0 } block =>
                 AlwaysBreaksCancellationLoop(block.Operations[block.Operations.Length - 1], loop),
             IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
@@ -5838,6 +5838,19 @@ internal static class ModuleAuthoringAnalysis
                 && AlwaysBreaksCancellationLoop(whenFalse, loop),
             _ => false,
         };
+    }
+
+    private static bool IsCancellationLoopExit(IBranchOperation branch, ILoopOperation loop)
+    {
+        if (branch.BranchKind == BranchKind.Break)
+        {
+            return SymbolEqualityComparer.Default.Equals(branch.Target, loop.ExitLabel);
+        }
+
+        return branch.BranchKind == BranchKind.GoTo
+            && GetRoot(loop).DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+                SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                && !HasAncestor(label, loop));
     }
 
     private static bool AreExclusiveCancellationBranches(IOperation write, IOperation read)
@@ -6242,7 +6255,8 @@ internal static class ModuleAuthoringAnalysis
             .SelectMany(GetCancellationStorageWrites)
             .Where(IsInReachableBranch)
             .Where(write => !visitedWrites.Any(visited => HasAncestor(write, visited)) && !IsCancellationStorageSelfStore(write.Parent!))
-            .Where(write => CancellationSnapshotWriteMayAlias(write, later))
+            .Where(write => CancellationSnapshotWriteMayAlias(write, later)
+                && !CancellationStorePreservesSnapshot(write, earlier, visitedWrites))
             .SelectMany(write => GetCancellationExecutionSites(write, later, [with(SymbolEqualityComparer.Default)]))
             .Any(site => site.Syntax.SpanStart > earlier.Syntax.SpanStart
                 && ((site.Syntax.SpanStart < later.Syntax.SpanStart
@@ -6251,6 +6265,28 @@ internal static class ModuleAuthoringAnalysis
                     || HasCancellationBackJump(site, later)
                     || (CanCancellationWriteReachRead(site, earlier)
                         && (CanCarryCancellationWriteAcrossLoop(site, earlier) || HasCancellationBackJump(site, earlier)))));
+    }
+
+    private static bool CancellationStorePreservesSnapshot(
+        IOperation write,
+        IOperation snapshot,
+        HashSet<IOperation> visitedWrites)
+    {
+        if (write.Parent is not ISimpleAssignmentOperation { IsRef: false } assignment
+            || !ReferenceEquals(assignment.Target, write) || !visitedWrites.Add(assignment))
+        {
+            return false;
+        }
+
+        try
+        {
+            return HaveSameCancellationSnapshot(
+                assignment.Value, snapshot, write, [with(SymbolEqualityComparer.Default)], visitedWrites);
+        }
+        finally
+        {
+            visitedWrites.Remove(assignment);
+        }
     }
 
     private static bool CancellationSnapshotWriteMayAlias(IOperation write, IParameterReferenceOperation read)

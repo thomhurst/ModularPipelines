@@ -6,6 +6,9 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefReachabilityAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; goto Done; } else { return first; } } Done: return saved;", false)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) goto Done; } else { return first; } } Done: return saved;", true)]
+    [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) continue; goto Done; } else { return first; } } Done: return saved;", true)]
     [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) continue; break; } else { return first; } } return saved;", true)]
     [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; if (Flag) goto Next; break; } else { return first; } Next: continue; } return saved;", true)]
     [DataRow("var saved = first; for (var i = 0; i < 2; i++) { if (Flag) { second = default; break; } else { return first; } } return saved;", false)]
