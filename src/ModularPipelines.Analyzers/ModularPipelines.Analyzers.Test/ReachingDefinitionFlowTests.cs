@@ -958,6 +958,20 @@ public class ReachingDefinitionFlowTests
             expected, supported: supported, additionalSource: MutableTypes);
 
     [TestMethod]
+    [DataRow("scoped Retained copy = default; copy += holder; value = 3; copy.Field = 2;", "", false)]
+    [DataRow("scoped Retained copy = default; copy += holder; var second = copy; value = 3; second.Field = 2;", "", false)]
+    [DataRow("scoped RetainedContainer container = default; container.Item += holder; value = 3; container.Item.Field = 2;", "", false)]
+    [DataRow("scoped Retained copy = default; copy += holder; value = 3; try { copy.MutateAndThrow(); } catch { [|Use(value)|]; }", "", false)]
+    [DataRow("scoped Retained copy = default; copy += holder; copy.Field = 2; value = 3;", "3", true)]
+    [DataRow("scoped Retained copy = default; copy += holder; value = 3; if (false) copy.Field = 2;", "3", true)]
+    [DataRow("scoped Retained copy = default; copy += holder; value = 3; copy.Field = [|value|];", "3", true)]
+    [DataRow("int other = 0; var unrelated = new Retained(ref other); scoped Retained copy = default; copy += unrelated; value = 3; copy.Field = 2;", "3", true)]
+    public void Compound_Assignment_Results_Retain_Storage(string statement, string expected, bool supported) =>
+        AssertFlow("int value = 0; var holder = new Retained(ref value); " + statement
+            + (statement.Contains("[|", StringComparison.Ordinal) ? "" : " [|Use(value)|];"),
+            expected, supported: supported, additionalSource: MutableTypes);
+
+    [TestMethod]
     public void Mutating_Setter_Invalidates_Before_Throwing() =>
         AssertFlow("Mutable value = new Mutable(); try { value.Property = 1; } catch { [|Use(value)|]; }",
             "", supported: false, additionalSource: MutableTypes);
@@ -1120,6 +1134,7 @@ public class ReachingDefinitionFlowTests
             public readonly void MutateAfterArgument(int argument) { Field = 2; }
             public readonly void MutateAndThrow() { Field = 2; throw new Exception(); }
             public readonly int Property { get { Field = 2; return 0; } }
+            public static Retained operator +(Retained left, Retained right) => right;
             public static Retained operator ++(Retained holder) => holder;
             public static Retained operator -(Retained holder, int unused) => holder;
             public static Retained operator -(int unused, Retained holder) => holder;

@@ -402,6 +402,13 @@ internal sealed class LocalDefinitionTransfer
                 yield return (receiver.Local, memberBinding.Value);
             }
         }
+        else if (operation is ICompoundAssignmentOperation { Type.IsRefLikeType: true, OperatorMethod: not null } compound)
+        {
+            foreach (var receiver in GetRefLikeReceivers(compound.Target))
+            {
+                yield return (receiver.Local, compound);
+            }
+        }
         else if (operation is IDeconstructionAssignmentOperation deconstruction)
         {
             foreach (var binding in GetDeconstructionAliasSources(deconstruction.Target, deconstruction.Value))
@@ -543,13 +550,8 @@ internal sealed class LocalDefinitionTransfer
         // A returned ref or ref-like value may retain any non-scoped by-reference input. Keep
         // the holder in the callable-wide closure so a later whole-local store cannot hide its writes.
         IInvocationOperation call => InvocationRetainsStorage(call, local, operationRoot),
-        IBinaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } binary =>
-            OperatorOperandRetainsStorage(binary.LeftOperand, method.Parameters[0], local, operationRoot)
-            || OperatorOperandRetainsStorage(binary.RightOperand, method.Parameters[1], local, operationRoot),
-        IUnaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } unary =>
-            OperatorOperandRetainsStorage(unary.Operand, method.Parameters[0], local, operationRoot),
-        IIncrementOrDecrementOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } increment =>
-            OperatorOperandRetainsStorage(increment.Target, method.Parameters[0], local, operationRoot),
+        IBinaryOperation or ICompoundAssignmentOperation or IUnaryOperation or IIncrementOrDecrementOperation =>
+            OperatorRetainsStorage(target, local, operationRoot),
         IObjectCreationOperation { Type.IsRefLikeType: true } creation =>
             CreationRetainsStorage(creation, local, operationRoot),
         // Interface-constrained type parameters may hold structs; only definite reference receivers preserve storage.
@@ -569,6 +571,21 @@ internal sealed class LocalDefinitionTransfer
         // Conditional ref expressions can lower to captures anywhere along the storage receiver path.
         // Resolve against the original tree without recursing back into lowered captures.
         IFlowCaptureReferenceOperation when operationRoot is not null => CaptureTargetsLocal(target, local, operationRoot),
+        _ => false,
+    };
+
+    private static bool OperatorRetainsStorage(IOperation operation, ILocalSymbol local, IOperation? operationRoot) => operation switch
+    {
+        IBinaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } binary =>
+            OperatorOperandRetainsStorage(binary.LeftOperand, method.Parameters[0], local, operationRoot)
+            || OperatorOperandRetainsStorage(binary.RightOperand, method.Parameters[1], local, operationRoot),
+        ICompoundAssignmentOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } compound =>
+            OperatorOperandRetainsStorage(compound.Target, method.Parameters[0], local, operationRoot)
+            || OperatorOperandRetainsStorage(compound.Value, method.Parameters[1], local, operationRoot),
+        IUnaryOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } unary =>
+            OperatorOperandRetainsStorage(unary.Operand, method.Parameters[0], local, operationRoot),
+        IIncrementOrDecrementOperation { OperatorMethod: { } method, Type.IsRefLikeType: true } increment =>
+            OperatorOperandRetainsStorage(increment.Target, method.Parameters[0], local, operationRoot),
         _ => false,
     };
 
