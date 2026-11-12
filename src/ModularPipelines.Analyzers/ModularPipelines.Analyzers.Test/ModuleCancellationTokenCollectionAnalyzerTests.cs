@@ -399,6 +399,40 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static CancellationToken[] Pack(CancellationToken token) => new[] { token }; private static Span<CancellationToken> PackSpan(CancellationToken token) => new CancellationToken[] { token }; private static ReadOnlySpan<CancellationToken> PackReadonly(CancellationToken token) => new CancellationToken[] { token };");
     }
 
+    [TestMethod]
+    [DataRow("var copied = First(tokens);", false)]
+    [DataRow("First(tokens);", false)]
+    [DataRow("var copied = FirstSpan(tokens.AsSpan());", false)]
+    [DataRow("ref CancellationToken alias = ref (context != null ? ref (First(tokens)) : ref tokens[0]);", true)]
+    [DataRow("ref readonly CancellationToken copied = ref (context != null ? ref First(tokens) : ref tokens[0]);", false)]
+    [DataRow("ref readonly CancellationToken copied = ref First(tokens);", false)]
+    [DataRow("var receiver = tokens; var copied = FirstRef(ref receiver);", false)]
+    [DataRow("ref CancellationToken alias = ref First(tokens);", true)]
+    public async Task Copied_Reference_Results_Allow_Facts_To_Be_Restored(string binding, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; {binding} tokens[0] = cancellationToken; {(warns ? "alias = default;" : "")} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns,
+            "private static ref CancellationToken First(CancellationToken[] items) => ref items[0]; private static ref CancellationToken FirstRef(ref CancellationToken[] items) => ref items[0]; private static ref CancellationToken FirstSpan(Span<CancellationToken> items) => ref items[0];");
+    }
+
+    [TestMethod]
+    [DataRow("cancellationToken = Pack(cancellationToken)[0];", false)]
+    [DataRow("cancellationToken = PackSpan(cancellationToken)[0];", false)]
+    [DataRow("cancellationToken = PackReadonly(cancellationToken)[0];", false)]
+    [DataRow("cancellationToken = Pack(cancellationToken).AsSpan(0, 1)[0];", false)]
+    [DataRow("cancellationToken = new ReadOnlySpan<CancellationToken>(Pack(cancellationToken), 0, 1)[0];", false)]
+    [DataRow("CancellationToken[] tokens = [..Pack(cancellationToken)]; cancellationToken = tokens[0];", false)]
+    [DataRow("var tokens = Pack(cancellationToken); cancellationToken = tokens[context == null ? 0 : 1];", false)]
+    [DataRow("cancellationToken = Pack(cancellationToken)[0]; cancellationToken = default;", true)]
+    [DataRow("var tokens = context != null ? Pack(cancellationToken) : new[] { cancellationToken }; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", false)]
+    [DataRow("var tokens = context != null ? new[] { cancellationToken } : Pack(cancellationToken); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", false)]
+    [DataRow("var tokens = context != null ? Pack(cancellationToken) : new[] { cancellationToken }; cancellationToken = tokens[0];", false)]
+    [DataRow("var tokens = context != null ? Pack(cancellationToken) : new[] { cancellationToken }; tokens = new CancellationToken[1]; cancellationToken = tokens[0];", true)]
+    public async Task Unsupported_Collection_Projections_And_Joins_Remain_Unknown(string statements, bool warns)
+    {
+        await Verify(statements, warns,
+            "private static CancellationToken[] Pack(CancellationToken token) => new[] { token }; private static Span<CancellationToken> PackSpan(CancellationToken token) => new CancellationToken[] { token }; private static ReadOnlySpan<CancellationToken> PackReadonly(CancellationToken token) => new CancellationToken[] { token };");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")

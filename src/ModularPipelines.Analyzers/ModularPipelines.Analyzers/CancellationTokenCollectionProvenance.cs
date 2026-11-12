@@ -1,4 +1,5 @@
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using Microsoft.CodeAnalysis.Operations;
 using Microsoft.CodeAnalysis.Text;
@@ -76,12 +77,12 @@ internal static class CancellationTokenCollectionProvenance
         {
             if (Arrays is { } leftArrays && other.Arrays is { } rightArrays)
             {
-                return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray, sliced: Sliced || other.Sliced);
+                return new Value(arrays: [.. leftArrays, .. rightArrays], unknownArray: UnknownArray || other.UnknownArray, sliced: Sliced || other.Sliced, unsupported: Unsupported || other.Unsupported);
             }
 
             if (Arrays is { } knownArrays)
             {
-                return new Value(arrays: knownArrays, unknownArray: true, sliced: Sliced);
+                return new Value(arrays: knownArrays, unknownArray: true, sliced: Sliced, unsupported: Unsupported || other.Unsupported);
             }
 
             if (other.Arrays is not null)
@@ -547,7 +548,7 @@ internal static class CancellationTokenCollectionProvenance
             {
                 // Slice construction does not mutate the backing array. Its offsets
                 // are not tracked, so only full-array views share element facts.
-                return arguments.Length == 1 ? arguments[0].Value : new Value(arrays: arguments[0].Value.Arrays, unknownArray: true, sliced: true);
+                return arguments.Length == 1 ? arguments[0].Value : new Value(arrays: arguments[0].Value.Arrays, unknownArray: true, sliced: true, unsupported: arguments[0].Value.Unsupported);
             }
 
             // Constructors cannot mutate arguments until all values are evaluated.
@@ -644,7 +645,7 @@ internal static class CancellationTokenCollectionProvenance
                 return ArrayElement(arrayValue, arrayIndex, state);
             }
 
-            return Value.None;
+            return HasUnsupportedProvenance(arrayValue, state) ? Value.Unknown : Value.None;
         }
 
         private Value EvaluateLinkedSource(IInvocationOperation invocation, State state)
@@ -686,7 +687,7 @@ internal static class CancellationTokenCollectionProvenance
                 // aliases for invalidation, but cannot prove offsets or contents.
                 return invocation.Arguments.Length == 1
                     ? backing
-                    : new Value(arrays: backing.Arrays, unknownArray: true, sliced: true);
+                    : new Value(arrays: backing.Arrays, unknownArray: true, sliced: true, unsupported: backing.Unsupported);
             }
 
             if (invocation.TargetMethod is { Name: "KeepAlive", IsStatic: true, Parameters.Length: 1 } keepAlive
@@ -697,7 +698,7 @@ internal static class CancellationTokenCollectionProvenance
 
             foreach (var value in values.Values)
             {
-                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef, state);
+                InvalidateInvocationArrays(value, ReturnsWritableAlias(invocation), state);
             }
 
             // Source-helper and awaitable payload proofs remain with the existing
@@ -730,9 +731,9 @@ internal static class CancellationTokenCollectionProvenance
             // A call cannot write ref/out targets until every argument is evaluated.
             foreach (var (target, value) in references)
             {
-                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef, state);
+                InvalidateInvocationArrays(value, ReturnsWritableAlias(invocation), state);
 
-                if (invocation.TargetMethod.ReturnsByRef || invocation.TargetMethod.ReturnsByRefReadonly
+                if (UsesReturnedReference(invocation)
                     || invocation.Type?.IsRefLikeType == true)
                 {
                     InvalidateReferencedStorage(target, state);
@@ -1108,7 +1109,7 @@ internal static class CancellationTokenCollectionProvenance
             Value? result = null;
             if (value.UnknownArray || value.Arrays is not { Count: > 0 } arrays)
             {
-                return Value.None;
+                return HasUnsupportedProvenance(value, state) ? Value.Unknown : Value.None;
             }
 
             foreach (var span in arrays)
@@ -1124,6 +1125,18 @@ internal static class CancellationTokenCollectionProvenance
 
             return result ?? Value.None;
         }
+
+        private static bool UsesReturnedReference(IInvocationOperation invocation) =>
+            (invocation.TargetMethod.ReturnsByRef || invocation.TargetMethod.ReturnsByRefReadonly)
+            && (invocation.Parent is ISimpleAssignmentOperation { IsRef: true }
+                || invocation.Syntax.Ancestors().FirstOrDefault(static syntax => syntax is not ParenthesizedExpressionSyntax) is RefExpressionSyntax
+                || invocation.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out });
+
+        private static bool ReturnsWritableAlias(IInvocationOperation invocation) => invocation.TargetMethod.ReturnsByRef
+            && UsesReturnedReference(invocation)
+            && invocation.Parent is not ISimpleAssignmentOperation { Target: ILocalReferenceOperation { Local.RefKind: RefKind.RefReadOnly } }
+            && !invocation.Syntax.Ancestors().OfType<VariableDeclarationSyntax>()
+                .Any(static declaration => declaration.Type is RefTypeSyntax { ReadOnlyKeyword.RawKind: not 0 });
 
         private static void InvalidateInvocationArrays(Value value, bool returnsWritableReference, State state)
         {
