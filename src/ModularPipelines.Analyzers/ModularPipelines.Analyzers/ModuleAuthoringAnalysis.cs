@@ -5919,9 +5919,7 @@ internal static class ModuleAuthoringAnalysis
             }
 
             if (parent is IConditionalOperation conditional
-                && ((ReferenceEquals(current, conditional.WhenTrue)
-                        && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
-                    || (ReferenceEquals(current, conditional.WhenFalse) && HasAncestor(read, conditional.WhenTrue)))
+                && IsReadInSiblingCancellationConditional(current, conditional, read)
                 && !conditional.DescendantsAndSelf().OfType<IBranchOperation>().Any())
             {
                 return conditional;
@@ -6334,14 +6332,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsDefiniteCancellationStorageBinding(IOperation binding, IOperation read)
     {
-        var predecessor = binding;
+        var predecessor = GetCancellationStorageBindingPredecessor(binding, read);
         var sequence = GetCancellationStorageSequenceContainer(predecessor);
-        while (sequence is IBlockOperation && !HasAncestor(read, sequence)
-            && sequence.Parent is IBlockOperation or ILabeledOperation)
-        {
-            predecessor = sequence;
-            sequence = GetCancellationStorageSequenceContainer(predecessor);
-        }
 
         // Internal jumps in a promoted block are not region entry points.
         // A later label can therefore bypass the assignment being proved.
@@ -6359,6 +6351,26 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        return HasDefiniteCancellationStorageEntry(binding, predecessor, read, sequence);
+    }
+
+    private static IOperation GetCancellationStorageBindingPredecessor(IOperation binding, IOperation read)
+    {
+        var predecessor = binding;
+        var sequence = GetCancellationStorageSequenceContainer(predecessor);
+        while (sequence is IBlockOperation && !HasAncestor(read, sequence)
+            && sequence.Parent is IBlockOperation or ILabeledOperation)
+        {
+            predecessor = sequence;
+            sequence = GetCancellationStorageSequenceContainer(predecessor);
+        }
+
+        return predecessor;
+    }
+
+    private static bool HasDefiniteCancellationStorageEntry(
+        IOperation binding, IOperation predecessor, IOperation read, IOperation sequence)
+    {
         var first = predecessor.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
             .FirstOrDefault(statement => statement.Parent == sequence.Syntax);
         var last = read.Syntax.AncestorsAndSelf().OfType<StatementSyntax>()
@@ -6402,10 +6414,7 @@ internal static class ModuleAuthoringAnalysis
             }
 
             if (parent is IConditionalOperation conditional
-                && ((ReferenceEquals(conditional.WhenTrue, current)
-                        && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
-                    || (ReferenceEquals(conditional.WhenFalse, current)
-                        && HasAncestor(read, conditional.WhenTrue)))
+                && IsReadInSiblingCancellationConditional(current, conditional, read)
                 && !SharesCancellationStorageLoop(binding, read)
                 && !CanRevisitCancellationStorageOperation(conditional))
             {
@@ -6415,6 +6424,12 @@ internal static class ModuleAuthoringAnalysis
 
         return true;
     }
+
+    private static bool IsReadInSiblingCancellationConditional(
+        IOperation branch, IConditionalOperation conditional, IOperation read) =>
+        (ReferenceEquals(conditional.WhenTrue, branch)
+            && conditional.WhenFalse is { } whenFalse && HasAncestor(read, whenFalse))
+        || (ReferenceEquals(conditional.WhenFalse, branch) && HasAncestor(read, conditional.WhenTrue));
 
     private static bool IsUnreachableCancellationStorageCase(IOperation current, IOperation binding, IOperation read) =>
         current is ISwitchCaseOperation sourceCase && current.Parent is ISwitchOperation switchOperation
