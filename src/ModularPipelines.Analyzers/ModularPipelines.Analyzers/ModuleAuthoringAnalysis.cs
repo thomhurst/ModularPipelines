@@ -5648,16 +5648,29 @@ internal static class ModuleAuthoringAnalysis
 
         var relevant = GetForwardedContainerSymbols(operation, flowedParameters);
         return operation.DescendantsAndSelf().Any(child =>
-            (ExposesCancellationContainer(child)
-                || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
-            && ReferencesContainer(child, relevant));
+            IsInReachableBranch(child)
+            && (((ExposesCancellationContainer(child)
+                        || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
+                    && ReferencesContainer(child, relevant))
+                || (child is IAssignmentOperation assignment
+                    && GetContainerStorageReferences(assignment.Target).OfType<IParameterReferenceOperation>()
+                        .Any(parameter => relevant.Contains(parameter.Parameter)))));
     }
 
     private static HashSet<ISymbol> GetForwardedContainerSymbols(
-        IOperation operation, HashSet<IParameterSymbol> flowedParameters)
+        IOperation operation, HashSet<IParameterSymbol> flowedParameters,
+        ILocalReferenceOperation? callerReference = null)
     {
         var relevant = new HashSet<ISymbol>(flowedParameters.Where(static parameter => IsCancellationContainer(parameter.Type)), SymbolEqualityComparer.Default);
-        var children = operation.DescendantsAndSelf().ToArray();
+        if (callerReference is not null)
+        {
+            relevant.Add(callerReference.Local);
+        }
+
+        var children = operation.DescendantsAndSelf()
+            .Where(IsInReachableBranch)
+            .Where(child => callerReference is null || child.Syntax.SpanStart < callerReference.Syntax.SpanStart)
+            .ToArray();
         // Caller-owned containers can alias even when only one has proven provenance.
         foreach (var parameter in children.OfType<IParameterReferenceOperation>())
         {
@@ -5720,6 +5733,16 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol>? visitedLocals = null)
     {
         visitedLocals ??= [with(SymbolEqualityComparer.Default)];
+        if (value is IConversionOperation or IConditionalOperation or ISwitchExpressionOperation or ICoalesceOperation)
+        {
+            foreach (var leaf in GetReachableValueLeaves(value))
+            {
+                AddDeconstructionContainerAliases(target, leaf, relevant, CloneVisitedLocals(visitedLocals));
+            }
+
+            return;
+        }
+
         if (value is ILocalReferenceOperation local && visitedLocals.Add(local.Local))
         {
             foreach (var reachingValue in FindReachingLocalValues(local, local.Local))
@@ -5834,13 +5857,22 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool MayWriteContainerElement(IOperation element)
     {
-        return element.Syntax.Ancestors().Any(syntax => syntax switch
+        // Only the storage expression itself can be written. An element read
+        // inside another target's index or receiver is not a write to that element.
+        var target = element;
+        while (target.Parent is IConversionOperation or ITupleOperation or IDeclarationExpressionOperation)
         {
-            AssignmentExpressionSyntax assignment => assignment.Left.Span.Contains(element.Syntax.Span),
-            RefExpressionSyntax => true,
-            ArgumentSyntax argument => argument.RefKindKeyword.ValueText is "ref" or "out",
+            target = target.Parent;
+        }
+
+        return element.Syntax.Parent is RefExpressionSyntax || target.Parent switch
+        {
+            IAssignmentOperation assignment => ReferenceEquals(assignment.Target, target),
+            IIncrementOrDecrementOperation => true,
+            IArgumentOperation argument => argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out,
+            IVariableInitializerOperation { Parent: IVariableDeclaratorOperation declaration } => declaration.Symbol.RefKind != RefKind.None,
             _ => false,
-        });
+        };
     }
 
     private static HashSet<IParameterSymbol> GetFlowedCancellationParameters(
@@ -6115,6 +6147,22 @@ internal static class ModuleAuthoringAnalysis
         if (!visitedLocals.Add(localReference.Local))
         {
             return false;
+        }
+
+        if (IsCancellationContainer(localReference.Type))
+        {
+            var root = GetRoot(localReference);
+            var relevant = GetForwardedContainerSymbols(root, [], localReference);
+            if (root.DescendantsAndSelf().Any(child =>
+                    child.Syntax.SpanStart < localReference.Syntax.SpanStart
+                    && !child.Syntax.Span.Contains(localReference.Syntax.Span)
+                    && IsInReachableBranch(child)
+                    && (ExposesCancellationContainer(child)
+                        || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
+                    && ReferencesContainer(child, relevant)))
+            {
+                return false;
+            }
         }
 
         var localValues = FindReachingLocalValues(
