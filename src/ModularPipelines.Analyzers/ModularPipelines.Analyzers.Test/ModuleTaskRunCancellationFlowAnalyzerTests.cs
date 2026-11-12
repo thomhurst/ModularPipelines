@@ -216,7 +216,17 @@ public class ModuleTaskRunCancellationFlowAnalyzerTests
             private static void Store(Action callback) { }
             """);
 
-        await VerifyCallAsync(source, false, "Delay");
+        var warnsAtRun = !insideCallback && write is "token = CancellationToken.None;" or "token = default;";
+        if (warnsAtRun)
+        {
+            source = source.Replace("return Task.Run(", "return {|#1:Task.Run(")
+                .Replace("}, token);", "}, token)|};");
+        }
+
+        await VerifyCS.VerifyAnalyzerAsync(source, warnsAtRun
+            ? [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"),
+                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("Run")]
+            : [VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay")]);
     }
 
     [TestMethod]
