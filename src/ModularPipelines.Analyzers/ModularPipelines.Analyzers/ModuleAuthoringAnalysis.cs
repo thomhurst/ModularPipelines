@@ -5779,44 +5779,105 @@ internal static class ModuleAuthoringAnalysis
     private static IEnumerable<IOperation> GetCurrentCancellationArrayElements(
         IOperation source, ILocalReferenceOperation read, IOperation body)
     {
+        return GetCurrentCancellationArrayElements(source, read, body, [with(SymbolEqualityComparer.Default)]) ?? [];
+    }
+
+    private static IOperation[]? GetCurrentCancellationArrayElements(
+        IOperation source, ILocalReferenceOperation read, IOperation body, HashSet<ILocalSymbol> visitedArrays,
+        bool requireExpanded = false)
+    {
+        if (!visitedArrays.Add(read.Local))
+        {
+            return null;
+        }
+
         var (initializer, array) = ResolveCancellationArrayInitializer(source, read.Local);
         if (initializer is null)
         {
-            return [];
+            return null;
         }
 
         source = initializer;
         var inputs = GetCancellationInputElements(source);
         if (inputs.IsDefault)
         {
-            return [];
+            return null;
         }
 
-        var elements = inputs.ToArray();
-        foreach (var write in body.DescendantsAndSelf().SelectMany(static operation => GetCancellationStorageWrites(operation))
-                     .Where(write => write.Target.Syntax.SpanStart > source.Syntax.SpanStart
-                         && write.Target.Syntax.SpanStart < read.Syntax.SpanStart
-                         && CanCancellationWriteReachSnapshot(write.Target, read)
-                         && IsInReachableBranch(write.Target))
-                     .OrderBy(static write => write.Target.Syntax.SpanStart))
+        var writes = body.DescendantsAndSelf().SelectMany(static operation => GetCancellationStorageWrites(operation))
+            .Where(write => write.Target.Syntax.SpanStart > source.Syntax.SpanStart
+                && write.Target.Syntax.SpanStart < read.Syntax.SpanStart
+                && CanCancellationWriteReachSnapshot(write.Target, read)
+                && IsInReachableBranch(write.Target))
+            .Where(write => write.Target is IArrayElementReferenceOperation element
+                && ReferencesCancellationArray(element.ArrayReference, array, [with(SymbolEqualityComparer.Default)]))
+            .OrderBy(static write => write.Target.Syntax.SpanStart)
+            .ToArray();
+        // A spread contributes its runtime element count, rather than one syntax element.
+        var elements = ExpandCancellationArrayElements(inputs, body, visitedArrays);
+        if (elements is null)
         {
-            if (write.Target is not IArrayElementReferenceOperation element
-                || !ReferencesCancellationArray(element.ArrayReference, array, [with(SymbolEqualityComparer.Default)]))
-            {
-                continue;
-            }
+            // Unknown spread lengths prevent indexing, but do not invalidate untouched inputs.
+            return writes.Length == 0 && !requireExpanded ? inputs.ToArray() : null;
+        }
 
+        foreach (var write in writes)
+        {
+            var element = (IArrayElementReferenceOperation) write.Target;
             if (element.Indices.Length != 1 || element.Indices[0].ConstantValue is not { HasValue: true, Value: int index }
                 || index < 0 || index >= elements.Length || write.Value is null
                 || !IsLinearPredecessor(write.Target, read))
             {
-                return [];
+                return null;
             }
 
             elements[index] = write.Value;
         }
 
         return elements;
+    }
+
+    private static IOperation[]? ExpandCancellationArrayElements(
+        ImmutableArray<IOperation> inputs, IOperation body, HashSet<ILocalSymbol> visitedArrays)
+    {
+        var elements = new List<IOperation>();
+        foreach (var input in inputs)
+        {
+            if (input is not ISpreadOperation spread)
+            {
+                elements.Add(input);
+                continue;
+            }
+
+            var value = spread.Operand;
+            while (value is IConversionOperation conversion)
+            {
+                value = conversion.Operand;
+            }
+
+            IOperation[]? expanded;
+            if (value is ILocalReferenceOperation local)
+            {
+                var sources = FindReachingLocalValues(local, local.Local).ToArray();
+                expanded = sources.Length == 1
+                    ? GetCurrentCancellationArrayElements(sources[0], local, body, CloneVisitedLocals(visitedArrays), requireExpanded: true)
+                    : null;
+            }
+            else
+            {
+                var nested = GetCancellationInputElements(value);
+                expanded = nested.IsDefault ? null : ExpandCancellationArrayElements(nested, body, visitedArrays);
+            }
+
+            if (expanded is null)
+            {
+                return null;
+            }
+
+            elements.AddRange(expanded);
+        }
+
+        return elements.ToArray();
     }
 
     private static (IOperation? Initializer, ILocalSymbol Array) ResolveCancellationArrayInitializer(
