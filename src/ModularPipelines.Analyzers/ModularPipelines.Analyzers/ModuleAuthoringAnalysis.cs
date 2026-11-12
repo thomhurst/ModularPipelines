@@ -5826,13 +5826,15 @@ internal static class ModuleAuthoringAnalysis
         {
             var element = (IArrayElementReferenceOperation) write.Target;
             if (element.Indices.Length != 1 || element.Indices[0].ConstantValue is not { HasValue: true, Value: int index }
-                || index < 0 || index >= elements.Length || write.Value is null
-                || !IsLinearPredecessor(write.Target, read))
+                || index < 0 || index >= elements.Length)
             {
                 return null;
             }
 
-            elements[index] = write.Value;
+            // A conditional write can invalidate this slot without affecting other elements.
+            elements[index] = write.Value is not null && IsLinearPredecessor(write.Target, read)
+                ? write.Value
+                : element;
         }
 
         return elements;

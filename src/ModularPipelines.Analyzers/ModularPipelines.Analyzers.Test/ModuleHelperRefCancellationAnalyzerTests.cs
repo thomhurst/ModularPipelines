@@ -122,6 +122,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "var saved = first; return Flag switch { true => IdentityValue(second = default, saved), false => first };", false)]
     [DataRow("ref token, ref token", "", "var saved = first; return Flag switch { true => IdentityValue(second = default, first), false => saved };", true)]
     [DataRow("ref token, ref token", "", "var saved = first; return Flag switch { _ when (second = default) == default && Flag => saved, _ => first };", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; if (Flag) inputs[1] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, default]; if (Flag) inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first, first]; if (Flag) inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
