@@ -5751,6 +5751,14 @@ internal static class ModuleAuthoringAnalysis
                 return IsCancellationPreservingSnapshot(conversion.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IParenthesizedOperation parenthesized:
                 return IsCancellationPreservingSnapshot(parenthesized.Operand, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
+            case IConditionalOperation or ISwitchExpressionOperation:
+                var reachableValues = GetReachableValueLeaves(value)
+                    .Where(static candidate => !AlwaysThrows(candidate))
+                    .ToArray();
+                return reachableValues.Length > 0
+                    && reachableValues.All(candidate => IsCancellationPreservingSnapshot(
+                        candidate, read, body, caller, CloneVisitedLocals(visitedLocals),
+                        visitedWrites, CloneVisitedMethods(visitedMethods)));
             case IPropertyReferenceOperation { Instance: { } instance } property when IsCancellationTokenSourceToken(property):
                 return IsCancellationPreservingSnapshot(instance, read, body, caller, visitedLocals, visitedWrites, visitedMethods);
             case IInvocationOperation factory when IsKnownCancellationCarrierFactory(factory):

@@ -59,6 +59,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "second = CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", false)]
     [DataRow("ref token, ref token", "", "second = IdentityValue(default, first); return first;", false)]
     [DataRow("ref token, ref token", "", "second = default; second = IdentityValue(default, first); return first;", true)]
+    [DataRow("ref token, ref token", "", "second = Flag ? first : CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", false)]
+    [DataRow("ref token, ref token", "", "second = Flag ? first : default; return first;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
@@ -80,6 +82,15 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("token, ref Field", "", "return Link(first, 2);", false)]
     [DataRow("token, ref Field", "", "return Mutual(first, 2);", false)]
     [DataRow("token, ref Field", "", "first = IdentityValue(first, default); return first;", true)]
+    [DataRow("token, ref Field", "", "first = Flag ? first : CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", false)]
+    [DataRow("token, ref Field", "", "first = Flag ? first : default; return first;", true)]
+    [DataRow("token, ref Field", "", "first = true ? first : default; return first;", false)]
+    [DataRow("token, ref Field", "", "first = Flag ? first : throw new System.InvalidOperationException(); return first;", false)]
+    [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }; return first;", false)]
+    [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => default }; return first;", true)]
+    [DataRow("token, ref Field", "", "first = true switch { true => first, false => default }; return first;", false)]
+    [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => throw new System.InvalidOperationException() }; return first;", false)]
+    [DataRow("token, ref Field", "", "first = Flag ? first : (Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }); return first;", false)]
     public async Task Checks_Helper_Private_Value_Parameter_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: false);
