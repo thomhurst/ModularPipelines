@@ -255,7 +255,8 @@ internal static partial class ModuleAuthoringAnalysis
                 relevant.Add(declaration.Symbol);
                 AddContainerReferences(initializer, relevant);
             }
-            else if (child is ISimpleAssignmentOperation { IsRef: false } assignment
+            else if (child is IAssignmentOperation assignment
+                && assignment is ISimpleAssignmentOperation { IsRef: false } or ICoalesceAssignmentOperation
                 && IsCancellationContainer(assignment.Value.Type)
                 && (ReferencesContainer(assignment.Target, relevant) || ReferencesContainer(assignment.Value, relevant)))
             {
@@ -377,6 +378,12 @@ internal static partial class ModuleAuthoringAnalysis
                 return GetContainerAllocationValues(assignment.Value, visited);
             }
 
+            if (operation is ICoalesceAssignmentOperation coalesce)
+            {
+                return GetContainerAllocationValues(coalesce.Target, CloneVisitedLocals(visited))
+                    .Concat(GetContainerAllocationValues(coalesce.Value, CloneVisitedLocals(visited)));
+            }
+
             if (operation is IInvocationOperation invocation)
             {
                 // Unknown returns stay conservative, but their input allocations may
@@ -418,7 +425,7 @@ internal static partial class ModuleAuthoringAnalysis
             return operations.Any(operation => operation switch
             {
                 // Captured writes execute at call sites, rather than declaration offsets.
-                ISimpleAssignmentOperation { Target: ILocalReferenceOperation target }
+                IAssignmentOperation { Target: ILocalReferenceOperation target }
                     when SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
                         && !ReferenceEquals(GetEnclosingCallable(operation), callable) =>
                     lifetime is null || lifetime.Contains(operation)
@@ -521,9 +528,19 @@ internal static partial class ModuleAuthoringAnalysis
 
         private static IEnumerable<IOperation> GetReachingContainerLocalValues(ILocalReferenceOperation reference)
         {
-            var assignments = FindLocalAssignments(GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference))
-                .Where(IsInReachableBranch).ToArray();
-            var definite = assignments.FirstOrDefault(assignment => IsDefiniteContainerPredecessor(assignment, reference));
+            var root = GetRoot(reference);
+            var callable = GetEnclosingCallable(reference);
+            var assignments = FindLocalAssignments(root, reference, reference.Local, callable)
+                .Cast<IAssignmentOperation>()
+                .Concat(GetReachableContainerOperations(root).OfType<ICoalesceAssignmentOperation>()
+                    .Where(assignment => assignment.Target is ILocalReferenceOperation target
+                        && SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
+                        && ReferenceEquals(GetEnclosingCallable(assignment), callable)
+                        && assignment.Syntax.SpanStart < reference.Syntax.SpanStart))
+                .Where(IsInReachableBranch)
+                .OrderByDescending(static assignment => assignment.Syntax.SpanStart).ToArray();
+            var definite = assignments.FirstOrDefault(assignment => assignment is ISimpleAssignmentOperation
+                && IsDefiniteContainerPredecessor(assignment, reference));
             if (definite is not null)
             {
                 return assignments.Where(assignment => assignment.Syntax.SpanStart >= definite.Syntax.SpanStart)
@@ -575,7 +592,8 @@ internal static partial class ModuleAuthoringAnalysis
                     return !HasBypassingContainerGoto(candidate, reference);
                 }
 
-                if (ancestor is ILoopOperation or ISwitchOperation or ISwitchExpressionArmOperation or ITryOperation
+                if (ancestor is ILoopOperation or ISwitchOperation or ITryOperation
+                    || (ancestor is ISwitchExpressionArmOperation arm && !IsGuaranteedContainerSwitchArm(arm))
                     || ancestor is IConditionalOperation { Condition.ConstantValue: not { HasValue: true, Value: bool } }
                     || CanSkipContainerOperand(ancestor, candidate))
                 {
@@ -585,6 +603,9 @@ internal static partial class ModuleAuthoringAnalysis
 
             return false;
         }
+
+        private static bool IsGuaranteedContainerSwitchArm(ISwitchExpressionArmOperation arm) =>
+            arm is { Guard: null, Pattern: IDiscardPatternOperation, Parent: ISwitchExpressionOperation { Arms.Length: 1 } };
 
         private static bool CanSkipContainerOperand(IOperation ancestor, IOperation candidate) => ancestor switch
         {
@@ -596,6 +617,8 @@ internal static partial class ModuleAuthoringAnalysis
                 binary.LeftOperand.ConstantValue is not { HasValue: true, Value: false },
             ICoalesceOperation coalesce when HasAncestor(candidate, coalesce.WhenNull) =>
                 coalesce.Value.ConstantValue is not { HasValue: true, Value: null },
+            ICoalesceAssignmentOperation assignment when HasAncestor(candidate, assignment.Value) =>
+                assignment.Target.ConstantValue is not { HasValue: true, Value: null },
             IConditionalAccessOperation access when HasAncestor(candidate, access.WhenNotNull) => true,
             _ => false,
         };
@@ -661,6 +684,8 @@ internal static partial class ModuleAuthoringAnalysis
             IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => GetContainerStorageReferences(instance, visited),
             IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand, visited),
             ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Value, visited),
+            ICoalesceAssignmentOperation assignment => GetContainerStorageReferences(assignment.Target, visited)
+                .Concat(GetContainerStorageReferences(assignment.Value, visited)),
             _ => GetCompositeContainerStorageReferences(operation, visited),
         };
 
