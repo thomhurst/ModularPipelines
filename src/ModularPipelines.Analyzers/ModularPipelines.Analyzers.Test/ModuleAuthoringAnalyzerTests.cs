@@ -3076,6 +3076,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; try { if (DateTime.UtcNow.Ticks > 0) { alias = default; throw new Exception(); alias = ref third; } else alias = ref first; } catch { } return alias;")]
     [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; alias = ref first; } else alias = ref first; return alias;")]
     [DataRow("ref var alias = ref first; for (var i = 0; i < 2; i++) { if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; } return alias;")]
+    [DataRow("ref var alias = ref first; try { alias = default; switch (MayThrow()) { case 0: alias = third; break; default: alias = third; break; } } catch (Exception) {} return alias; static int MayThrow() => throw new Exception();")]
+    [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { alias = default; switch (choice) { case 0: MayThrow(); alias = third; break; default: alias = third; break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3209,6 +3211,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { alias = default; alias = ref third; } else alias = ref first; return alias;", "cancellationToken")]
     [DataRow("ref var alias = ref first; switch (DateTime.UtcNow.Ticks) { case 0: alias = default; alias = ref third; break; default: alias = ref first; break; } return alias;", "cancellationToken")]
     [DataRow("ref var alias = ref first; if (DateTime.UtcNow.Ticks > 0) { first = default; alias = ref third; } else alias = ref first; return alias;", "cancellationToken")]
+    [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { alias = default; switch (choice) { case 0: alias = third; MayThrow(); break; default: alias = third; MayThrow(); break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
+    [DataRow("ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { alias = ref second; switch (choice) { case 0: alias = ref third; MayThrow(); break; default: alias = ref third; MayThrow(); break; } } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);

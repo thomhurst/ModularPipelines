@@ -6333,6 +6333,33 @@ internal static class ModuleAuthoringAnalysis
             return CancellationStorageBranchesCanThrowBeforeOverwrite(conditional, symbol, isRef, classifier, out overwritten);
         }
 
+        if (operation is ISwitchOperation switchOperation
+            && !switchOperation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+                !IsNestedCancellationStorageSwitchBreak(branch, switchOperation)))
+        {
+            if (switchOperation.Value.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty))
+            {
+                return true;
+            }
+
+            var allCasesOverwrite = switchOperation.Cases.Any(@case =>
+                @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation));
+            foreach (var switchCase in switchOperation.Cases)
+            {
+                if (switchCase.Clauses.Any(clause => clause.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty))
+                    || CancellationStorageSequenceCanThrowBeforeOverwrite(
+                        switchCase.Body, symbol, isRef, classifier, out var caseOverwritten))
+                {
+                    return true;
+                }
+
+                allCasesOverwrite &= caseOverwritten;
+            }
+
+            overwritten = allCasesOverwrite;
+            return false;
+        }
+
         overwritten = DefinitelyWritesCancellationStorage(operation, symbol, isRef);
         return operation.DescendantsAndSelf().Any(child =>
             ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(operation))
