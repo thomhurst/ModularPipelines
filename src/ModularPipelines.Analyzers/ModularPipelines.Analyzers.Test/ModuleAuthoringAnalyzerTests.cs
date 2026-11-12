@@ -3659,9 +3659,45 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("var choose = DateTime.UtcNow.Ticks > 0; var error = new Exception(); try { _ = ((first = default) is var cleared ? (choose ? \"a\" : \"b\") : \"ok\") ?? throw error; first = third; } catch {} return first;", false)]
     [DataRow("var error = new Exception(); try { _ = (((first = default) is var cleared) switch { true => \"a\", false => \"b\" }) ?? throw error; first = third; } catch {} return first;", false)]
     [DataRow("var error = new Exception(); try { _ = (((first = default) is var cleared) switch { true => \"a\", false => (string?)null }) ?? throw error; first = third; } catch {} return first;", true)]
+    [DataRow("var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((first = default) is var cleared ? receiver : receiver)?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", true)]
+    [DataRow("var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((first = default) is var cleared ? \"ok\" : \"ok\")?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", false)]
+    [DataRow("ref var alias = ref first; var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((alias = default) is var cleared ? receiver : receiver)?.Equals(alias = third); MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();", true)]
+    [DataRow("ref var alias = ref first; var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((alias = default) is var cleared ? \"ok\" : \"ok\")?.Equals(alias = third); MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();", false)]
+    [DataRow("var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((first = default) is var cleared ? receiver : null)?.Equals(MayThrow()); first = third; } catch {} return first; static object MayThrow() => throw new Exception();", true)]
+    [DataRow("var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((first = default) is var cleared ? receiver : null)?.Equals(first = third); first = third; } catch {} return first;", false)]
+    [DataRow("CancellationToken? receiver = DateTime.UtcNow.Ticks > 0 ? null : third; try { _ = ((first = default) is var cleared ? receiver : null)?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", true)]
+    [DataRow("ref var alias = ref first; CancellationToken? receiver = DateTime.UtcNow.Ticks > 0 ? null : third; try { _ = ((alias = default) is var cleared ? receiver : null)?.Equals(alias = third); MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();", true)]
+    [DataRow("var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((first = default) is var cleared ? receiver : null)?.Equals(first = third); MayThrow(); first = third; } catch {} return first; static void MayThrow() => throw new Exception();", true)]
+    [DataRow("ref var alias = ref first; var receiver = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; try { _ = ((alias = default) is var cleared ? receiver : null)?.Equals(alias = third); MayThrow(); alias = third; } catch {} return alias; static void MayThrow() => throw new Exception();", true)]
     public async Task Tracks_CancellationToken_Conditional_Expression_Continuations(string body, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public async Task Tracks_CancellationToken_Left_Nested_Coalesce(bool report)
+    {
+        var expression = "((first = default) is var cleared ? text : null)";
+        for (var depth = 0; depth < 18; depth++)
+        {
+            expression = "(" + expression + " ?? null)";
+        }
+
+        var fallback = report ? "throw error" : "\"ok\"";
+        var source = ReboundCancellationTokenHelperSource(
+            "var text = DateTime.UtcNow.Ticks > 0 ? null : \"ok\"; var error = new Exception();"
+            + " try { _ = " + expression + " ?? " + fallback + "; first = third; } catch {} return first;",
+            "default", report);
         var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
         if (report)
         {

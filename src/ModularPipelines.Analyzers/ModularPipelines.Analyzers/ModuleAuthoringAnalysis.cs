@@ -6443,9 +6443,20 @@ internal static class ModuleAuthoringAnalysis
                 conditional, symbol, isRef, classifier, exceptionBoundary, out overwritten, includeCondition: false);
         }
 
+        if (parent is IConditionalAccessOperation access && ReferenceEquals(current, access.Operation))
+        {
+            // The non-null continuation can throw, but its writes do not restore
+            // the receiver-null path. Only a proven non-null receiver makes them definite.
+            var canThrow = CancellationStorageOperationCanThrowBeforeOverwrite(
+                access.WhenNotNull, symbol, isRef, classifier, exceptionBoundary, out var continuationOverwrites);
+            overwritten = continuationOverwrites && IsStaticallyNonNullCoalesceValue(access.Operation);
+            return canThrow;
+        }
+
         return CancellationStorageShortCircuitContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageCoalesceContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary)
-            || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary);
+            || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
+            || CancellationStorageUnknownContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary);
     }
 
     private static bool CancellationStorageCoalesceContinuationCanThrow(
@@ -6587,8 +6598,27 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsLinearCancellationStorageExpression(IOperation operation) =>
         operation.Syntax is ExpressionSyntax
-        && operation is not (IConditionalOperation or ICoalesceOperation or IAnonymousFunctionOperation
-            or IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr });
+        && operation is ISimpleAssignmentOperation or ICompoundAssignmentOperation or IDeconstructionAssignmentOperation
+            or IInvocationOperation or IObjectCreationOperation
+            or IConversionOperation or IParenthesizedOperation or IUnaryOperation
+            or IBinaryOperation { OperatorKind: not (BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr) }
+            or IPropertyReferenceOperation or IFieldReferenceOperation or IArrayElementReferenceOperation
+            or IArrayCreationOperation or ITupleOperation
+            or IIsTypeOperation or IAwaitOperation or IThrowOperation
+            or IIncrementOrDecrementOperation;
+
+    private static bool CancellationStorageUnknownContinuationCanThrow(
+        IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary) =>
+        parent.Syntax is ExpressionSyntax && !IsLinearCancellationStorageExpression(parent)
+        && parent is not (IConditionalOperation or ICoalesceOperation or IConditionalAccessOperation
+            or IAnonymousFunctionOperation or ISwitchExpressionOperation
+            or IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr })
+        // Unknown expression forms may skip successors. Their possible exceptions
+        // matter, but a write in one child must not stop the outer path scan.
+        && parent.ChildOperations.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1)
+            .Any(operation => CancellationStorageOperationCanThrowBeforeOverwrite(
+                operation, symbol, isRef, classifier, exceptionBoundary, out _));
 
     private static IEnumerable<IOperation> CancellationStorageLoopExitOperations(ILoopOperation loop)
     {
@@ -6630,7 +6660,7 @@ internal static class ModuleAuthoringAnalysis
                 binary, symbol, isRef, classifier, exceptionBoundary, out overwritten);
         }
 
-        if (operation is IInvocationOperation)
+        if (operation is IInvocationOperation or IArgumentOperation or IConversionOperation)
         {
             return CancellationStorageCallCanThrowBeforeOverwrite(operation, symbol, isRef, classifier, exceptionBoundary, out overwritten);
         }
@@ -7445,9 +7475,22 @@ internal static class ModuleAuthoringAnalysis
             value = conversion.Operand;
         }
 
-        return GetReachableValueLeaves(value).All(static leaf =>
-            leaf.ConstantValue is { HasValue: true, Value: not null }
-            || AlwaysThrows(leaf));
+        // Do not enumerate reachable leaves here: coalesce leaf enumeration
+        // itself asks this question and would revisit left-nested trees exponentially.
+        return value switch
+        {
+            IConditionalOperation conditional =>
+                conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition }
+                    ? IsStaticallyNonNullCoalesceValue(condition ? conditional.WhenTrue : conditional.WhenFalse!)
+                    : IsStaticallyNonNullCoalesceValue(conditional.WhenTrue)
+                        && conditional.WhenFalse is { } whenFalse && IsStaticallyNonNullCoalesceValue(whenFalse),
+            ICoalesceOperation coalesce =>
+                IsStaticallyNonNullCoalesceValue(coalesce.Value) || IsStaticallyNonNullCoalesceValue(coalesce.WhenNull),
+            ISwitchExpressionOperation switchExpression => switchExpression.Arms
+                .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+                .All(arm => IsStaticallyNonNullCoalesceValue(arm.Value)),
+            _ => value.ConstantValue is { HasValue: true, Value: not null } || AlwaysThrows(value),
+        };
     }
 
     private static bool IsNullableValueType(ITypeSymbol type) =>
