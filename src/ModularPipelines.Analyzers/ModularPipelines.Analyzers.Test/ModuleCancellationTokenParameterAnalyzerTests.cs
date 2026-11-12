@@ -63,6 +63,17 @@ public class ModuleCancellationTokenParameterAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; var slots = new Dictionary<CancellationToken, int>(); slots[cancellationToken = saved] = 0;", false)]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; var slots = new int[1]; slots[(cancellationToken = saved).GetHashCode() & 0] = 0;", false)]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; var slots = new Dictionary<CancellationToken, int>(); (new[] { slots })[(cancellationToken = saved).GetHashCode() & 0][default] = 0;", false)]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; var slots = new Dictionary<CancellationToken, int>(); slots[cancellationToken = default] = (cancellationToken = saved).GetHashCode();", false)]
+    [DataRow("var saved = cancellationToken; cancellationToken = default; var slots = new Dictionary<CancellationToken, int>(); slots[cancellationToken = saved] = (cancellationToken = default).GetHashCode();", true)]
+    public async Task Tracks_Assignment_Target_Side_Effects_In_Evaluation_Order(string statements, bool warns)
+    {
+        await Verify(statements, false, warns);
+    }
+
+    [TestMethod]
     [Timeout(30000, CooperativeCancellation = true)]
     public async Task Conditional_Copies_Have_Bounded_Cost()
     {

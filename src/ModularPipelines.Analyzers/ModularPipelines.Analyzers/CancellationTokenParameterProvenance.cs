@@ -276,6 +276,8 @@ internal static class CancellationTokenParameterProvenance
 
         private bool? EvaluateAssignment(ISimpleAssignmentOperation assignment, State state)
         {
+            // Receivers and index arguments can assign scalar values before the RHS.
+            Evaluate(assignment.Target, state);
             var assigned = Evaluate(assignment.Value, state);
             if (GetTarget(assignment.Target) is { } target)
             {
