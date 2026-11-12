@@ -32,7 +32,8 @@ internal sealed class DistributedAssignmentExecutor(
     ArtifactLifecycleManager? artifactLifecycleManager,
     AcceptedArtifactRegistry? acceptedArtifacts,
     IExecutionLocationContext? executionLocationContext,
-    ILogger logger)
+    ILogger logger,
+    IMetricsCollector? metricsCollector = null)
 {
     /// <summary>
     /// Executes the lease and publishes its result.
@@ -186,6 +187,9 @@ internal sealed class DistributedAssignmentExecutor(
                 metadataRegistry);
             IModuleResult result;
             executionTimer.StartExecution();
+            // Worker execution bypasses the scheduler that normally tracks running modules.
+            // The master leaves this collector unset: its scheduler already owns these metrics.
+            metricsCollector?.RecordModuleStarted(moduleType, DateTimeOffset.UtcNow);
             try
             {
                 using (DistributedAssignmentExecutionScope.Enter())
@@ -199,6 +203,16 @@ internal sealed class DistributedAssignmentExecutor(
             finally
             {
                 executionTimer.FinishExecution();
+                var resultTask = module.AsInternal().ResultTask;
+                var outcome = resultTask.IsCompletedSuccessfully ? resultTask.Result : null;
+                var status = outcome?.Status
+                    ?? (cancellationToken.IsCancellationRequested ? ModuleStatus.Canceled : ModuleStatus.Failed);
+                metricsCollector?.RecordModuleCompleted(
+                    moduleType,
+                    DateTimeOffset.UtcNow,
+                    outcome?.ExceptionOrDefault is null,
+                    status == ModuleStatus.Skipped,
+                    status);
             }
 
             cancellationToken.ThrowIfCancellationRequested();
