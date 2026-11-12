@@ -85,6 +85,24 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "var saved = first; second = default; ref CancellationToken alias = ref saved; alias = default; return CancellationTokenSource.CreateLinkedTokenSource(new[] { first, saved }).Token;", true)]
     [DataRow("ref token, ref token", "", "second = default; return CancellationTokenSource.CreateLinkedTokenSource(new[] { first, CancellationToken.None }).Token;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; second = default; return CancellationTokenSource.CreateLinkedTokenSource([first, Flag ? saved : CancellationToken.None]).Token;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; (saved, second) = (first, default(CancellationToken)); return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; (second, saved) = (default(CancellationToken), first); return saved;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; (saved, second) = (first, default(CancellationToken)); return saved;", true)]
+    [DataRow("ref token, ref token", "", "Identity(ref second, ref first); return first;", false)]
+    [DataRow("ref token, ref token", "", "Identity(ref first, ref second); return first;", false)]
+    [DataRow("ref token, ref token", "", "Clear(ref second); return first;", true)]
+    [DataRow("ref token, ref token", "", "Preserve(ref second); return first;", false)]
+    [DataRow("ref token, ref token", "", "ClearNested(ref second); return first;", true)]
+    [DataRow("ref token, ref token", "", "IdentityNested(ref second); return first;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; inputs[1] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; var alias = inputs; alias[1] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; inputs[1] = default; inputs[1] = saved; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; var alias = inputs; inputs[1] = default; return CancellationTokenSource.CreateLinkedTokenSource(alias).Token;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; var alias = inputs; inputs[0] = default; return CancellationTokenSource.CreateLinkedTokenSource(alias).Token;", false)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; inputs[0] = default; second = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token; return first;", true)]
+    [DataRow("ref token, ref token", "", "CancellationToken[] inputs = [first]; inputs[0] = first; second = CancellationTokenSource.CreateLinkedTokenSource(inputs).Token; return first;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; CancellationToken[] inputs = [first, saved]; inputs[Flag ? 0 : 1] = default; return CancellationTokenSource.CreateLinkedTokenSource(inputs).Token;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
@@ -140,6 +158,11 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 }
 
                 private static CancellationToken Identity(scoped ref CancellationToken ignored, scoped ref CancellationToken value) => value;
+
+                private static void Clear(scoped ref CancellationToken value) => value = default;
+                private static void Preserve(scoped ref CancellationToken value) => value = value;
+                private static void ClearNested(scoped ref CancellationToken value) => Clear(ref value);
+                private static void IdentityNested(scoped ref CancellationToken value) => Identity(ref value, ref value);
 
                 private static CancellationToken IdentityValue(CancellationToken ignored, CancellationToken value) => value;
 

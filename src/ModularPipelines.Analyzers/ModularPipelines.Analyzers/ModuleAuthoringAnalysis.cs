@@ -5711,6 +5711,15 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
+        if (local.Type is IArrayTypeSymbol)
+        {
+            return FindReachingLocalValues(local, local.Local).Any(source =>
+                !GetCurrentCancellationArrayElements(source, local, body).Any(element =>
+                    FlowsFromCancellationToken(element, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
+                    && !HasAliasedCancellationWrite(invocation, method, body, element, parameter,
+                        CloneVisitedMethods(visitedMethods), CloneVisitedLocals(visitedSnapshots))));
+        }
+
         return FindReachingLocalValues(local, local.Local).Any(source =>
             HasCancellationSnapshotMutation(source, local, body, (invocation, method), [], visitedMethods)
             || HasAliasedCancellationWrite(invocation, method, body, source, parameter,
@@ -5767,6 +5776,95 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
+    private static IEnumerable<IOperation> GetCurrentCancellationArrayElements(
+        IOperation source, ILocalReferenceOperation read, IOperation body)
+    {
+        var (initializer, array) = ResolveCancellationArrayInitializer(source, read.Local);
+        if (initializer is null)
+        {
+            return [];
+        }
+
+        source = initializer;
+        var inputs = GetCancellationInputElements(source);
+        if (inputs.IsDefault)
+        {
+            return [];
+        }
+
+        var elements = inputs.ToArray();
+        foreach (var write in body.DescendantsAndSelf().SelectMany(static operation => GetCancellationStorageWrites(operation))
+                     .Where(write => write.Target.Syntax.SpanStart > source.Syntax.SpanStart
+                         && write.Target.Syntax.SpanStart < read.Syntax.SpanStart
+                         && CanCancellationWriteReachSnapshot(write.Target, read)
+                         && IsInReachableBranch(write.Target))
+                     .OrderBy(static write => write.Target.Syntax.SpanStart))
+        {
+            if (write.Target is not IArrayElementReferenceOperation element
+                || !ReferencesCancellationArray(element.ArrayReference, array, [with(SymbolEqualityComparer.Default)]))
+            {
+                continue;
+            }
+
+            if (element.Indices.Length != 1 || element.Indices[0].ConstantValue is not { HasValue: true, Value: int index }
+                || index < 0 || index >= elements.Length || write.Value is null
+                || !IsLinearPredecessor(write.Target, read))
+            {
+                return [];
+            }
+
+            elements[index] = write.Value;
+        }
+
+        return elements;
+    }
+
+    private static (IOperation? Initializer, ILocalSymbol Array) ResolveCancellationArrayInitializer(
+        IOperation source, ILocalSymbol array)
+    {
+        var visited = new HashSet<ILocalSymbol>(SymbolEqualityComparer.Default);
+        while (true)
+        {
+            if (source is IConversionOperation conversion)
+            {
+                source = conversion.Operand;
+                continue;
+            }
+
+            if (source is ILocalReferenceOperation alias && visited.Add(alias.Local))
+            {
+                var values = FindReachingLocalValues(alias, alias.Local).ToArray();
+                if (values.Length != 1)
+                {
+                    return (null, array);
+                }
+
+                array = alias.Local;
+                source = values[0];
+                continue;
+            }
+
+            break;
+        }
+
+        return (source, array);
+    }
+
+    private static bool ReferencesCancellationArray(
+        IOperation value, ILocalSymbol array, HashSet<ILocalSymbol> visitedLocals)
+    {
+        if (value is IConversionOperation conversion)
+        {
+            return ReferencesCancellationArray(conversion.Operand, array, visitedLocals);
+        }
+
+        return value is ILocalReferenceOperation local
+            && (SymbolEqualityComparer.Default.Equals(local.Local, array)
+                || (visitedLocals.Add(local.Local)
+                    && FindReachingLocalValues(local, local.Local).Any(source =>
+                        ReferencesCancellationArray(source, array, CloneVisitedLocals(visitedLocals)))));
+    }
+
     private static bool HasCancellationLocalSnapshotMutation(
         IOperation value,
         IParameterSymbol parameter,
@@ -5794,7 +5892,7 @@ internal static class ModuleAuthoringAnalysis
         // A snapshot can survive later writes to its source, but not writes to its own slot.
         // Compare a preserving write with the snapshot's original value, not its copied slot.
         return body.DescendantsAndSelf()
-            .SelectMany(GetCancellationStorageWrites)
+            .SelectMany(static operation => GetCancellationStorageWrites(operation))
             .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
             .Where(write => IsInReachableBranch(write.Target)
                 && CanCancellationWriteReachSnapshot(write.Target, read)
@@ -5809,6 +5907,15 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CanCancellationWriteReachSnapshot(IOperation write, IOperation read)
     {
+        // Deconstruction evaluates the complete RHS before writing any target.
+        for (var parent = write.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is IDeconstructionAssignmentOperation tuple && HasAncestor(read, tuple.Value))
+            {
+                return false;
+            }
+        }
+
         // Ref arguments can be written only after all argument expressions have been evaluated.
         if (write.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IInvocationOperation nestedCall }
             && HasAncestor(read, nestedCall))
@@ -5925,6 +6032,14 @@ internal static class ModuleAuthoringAnalysis
         HashSet<IMethodSymbol> visitedMethods)
     {
         var values = FindReachingLocalValues(local, local.Local).ToArray();
+        if (local.Type is IArrayTypeSymbol)
+        {
+            return values.Length > 0 && values.All(source =>
+                GetCurrentCancellationArrayElements(source, local, body).Any(element =>
+                    IsCancellationPreservingSnapshot(element, read, body, caller,
+                        CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods))));
+        }
+
         return values.Length > 0 && values.All(source =>
             !HasCancellationSnapshotMutation(source, local, body, caller, visitedWrites, visitedMethods)
             && IsCancellationPreservingSnapshot(source, read, body, caller, CloneVisitedLocals(visitedLocals), visitedWrites, visitedMethods));
@@ -5976,15 +6091,56 @@ internal static class ModuleAuthoringAnalysis
             && preservesInput(argument.Value)));
     }
 
-    private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationStorageWrites(IOperation operation)
+    private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationStorageWrites(
+        IOperation operation, HashSet<IMethodSymbol>? visitedMethods = null)
     {
         return operation switch
         {
             ISimpleAssignmentOperation { IsRef: false } assignment => [(assignment.Target, assignment.Value)],
             IDeconstructionAssignmentOperation assignment => GetCancellationTupleWrites(assignment.Target, assignment.Value),
-            IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument => [(argument.Value, null)],
+            IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out } argument
+                when !IsUnchangedCancellationRefArgument(argument, visitedMethods) => [(argument.Value, null)],
             _ => [],
         };
+    }
+
+    private static bool IsUnchangedCancellationRefArgument(
+        IArgumentOperation argument, HashSet<IMethodSymbol>? visitedMethods)
+    {
+        if (argument.Parent is not IInvocationOperation invocation || argument.Parameter is null)
+        {
+            return false;
+        }
+
+        var method = NormalizeMethod(invocation.TargetMethod);
+        var methods = visitedMethods is null
+            ? new HashSet<IMethodSymbol>(SymbolEqualityComparer.Default)
+            : CloneVisitedMethods(visitedMethods);
+        if (!methods.Add(method)
+            || invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } body
+            || GetTargetParameter(method, argument.Parameter) is not { } parameter)
+        {
+            return false;
+        }
+
+        return !body.DescendantsAndSelf()
+            .Where(static operation => GetEnclosingCallable(operation) is null && IsInReachableBranch(operation))
+            .SelectMany(operation => GetCancellationStorageWrites(operation, methods))
+            .Any(write => CancellationWriteChangesParameter(write.Target, write.Value, parameter));
+    }
+
+    private static bool CancellationWriteChangesParameter(IOperation target, IOperation? value, IParameterSymbol parameter)
+    {
+        var storage = GetCancellationStorage(target, [], preserveParameters: true);
+        if (storage is not null && !SymbolEqualityComparer.Default.Equals(storage, parameter))
+        {
+            return false;
+        }
+
+        // A direct self-copy leaves the slot unchanged; other values need a separate proof.
+        return value is null || storage is null
+            || !SymbolEqualityComparer.Default.Equals(GetCancellationStorage(value, [], preserveParameters: true), parameter);
     }
 
     private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationTupleWrites(IOperation target, IOperation value)
@@ -6037,6 +6193,15 @@ internal static class ModuleAuthoringAnalysis
         // Safe C# cannot alias token storage with a reference to another type.
         if (first.Type?.ToDisplayString() != CancellationTokenMetadataName
             || second.Type?.ToDisplayString() != CancellationTokenMetadataName)
+        {
+            return false;
+        }
+
+        // Array element storage cannot be the private slot of a value local or parameter.
+        if ((first is IArrayElementReferenceOperation && second is
+                ILocalReferenceOperation { Local.RefKind: RefKind.None } or IParameterReferenceOperation { Parameter.RefKind: RefKind.None })
+            || (second is IArrayElementReferenceOperation && first is
+                ILocalReferenceOperation { Local.RefKind: RefKind.None } or IParameterReferenceOperation { Parameter.RefKind: RefKind.None }))
         {
             return false;
         }
