@@ -5816,7 +5816,11 @@ internal static class ModuleAuthoringAnalysis
             return null;
         }
 
-        if (!bindings.Where(binding => HasAncestor(binding, write)).All(binding =>
+        // A branch may select non-flowing storage and then replace its value.
+        // Only bindings whose contents survive that branch constrain the read.
+        if (!bindings.Where(binding => HasAncestor(binding, write))
+            .Where(binding => !IsOverwrittenCancellationStorageWrite(binding, read, symbol, isRef: null))
+            .All(binding =>
             CancellationAliasBindingFlows(binding, cancellationTokens, visitedLocals, visitedMethods, visitedWrites)))
         {
             return null;
@@ -6053,7 +6057,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool IsOverwrittenCancellationStorageWrite(
-        IOperation write, IOperation read, ISymbol? symbol, bool isRef = false)
+        IOperation write, IOperation read, ISymbol? symbol, bool? isRef = false)
     {
         // A caught exception can reach a read outside the try without executing
         // a later overwrite. Preserve intermediate values on that exceptional path.
@@ -6110,7 +6114,7 @@ internal static class ModuleAuthoringAnalysis
             || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, branchBoundary ?? operation)));
 
     private static bool CancellationStorageTryOverwrites(
-        ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool isRef) =>
+        ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool? isRef) =>
         (!ReferenceEquals(current, attempt.Finally)
             && FinallyOverwritesCancellationStorage(attempt, read, symbol, isRef))
         || (attempt.Catches.Length > 0 && ReferenceEquals(current, attempt.Body)
@@ -6118,7 +6122,7 @@ internal static class ModuleAuthoringAnalysis
             && attempt.Catches.All(handler => DefinitelyWritesCancellationStorage(handler.Handler, symbol, isRef)));
 
     private static bool CancellationStorageFollowingSequenceOverwrites(
-        IEnumerable<IOperation> sequence, IOperation current, IOperation read, ISymbol? symbol, bool isRef)
+        IEnumerable<IOperation> sequence, IOperation current, IOperation read, ISymbol? symbol, bool? isRef)
     {
         foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
         {
@@ -6138,14 +6142,14 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool FinallyOverwritesCancellationStorage(
-        ITryOperation attempt, IOperation read, ISymbol? symbol, bool isRef) =>
+        ITryOperation attempt, IOperation read, ISymbol? symbol, bool? isRef) =>
         attempt.Finally is { } finalizer && !HasAncestor(read, attempt)
         && DefinitelyWritesCancellationStorage(finalizer, symbol, isRef, read)
         && !CancellationStorageOperationCanThrowBeforeOverwrite(
             finalizer, symbol, isRef, new OperationExceptionClassifier(attempt.SemanticModel), out _);
 
     private static bool CanEscapeCancellationStorageWriteToRead(
-        IOperation write, IOperation read, ISymbol? symbol, bool isRef)
+        IOperation write, IOperation read, ISymbol? symbol, bool? isRef)
     {
         for (var current = write.Parent; current is not null; current = current.Parent)
         {
@@ -6164,7 +6168,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool CanThrowBeforeCancellationStorageOverwrite(
-        IOperation write, IBlockOperation body, ISymbol? symbol, bool isRef)
+        IOperation write, IBlockOperation body, ISymbol? symbol, bool? isRef)
     {
         var classifier = new OperationExceptionClassifier(write.SemanticModel);
         for (var current = write; current.Parent is { } parent; current = parent)
@@ -6229,7 +6233,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool CancellationStorageOperationCanThrowBeforeOverwrite(
-        IOperation operation, ISymbol? symbol, bool isRef, OperationExceptionClassifier classifier, out bool overwritten)
+        IOperation operation, ISymbol? symbol, bool? isRef, OperationExceptionClassifier classifier, out bool overwritten)
     {
         overwritten = false;
         if (operation is IBlockOperation block)
@@ -6249,7 +6253,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool CancellationStorageSequenceCanThrowBeforeOverwrite(
-        IEnumerable<IOperation> operations, ISymbol? symbol, bool isRef,
+        IEnumerable<IOperation> operations, ISymbol? symbol, bool? isRef,
         OperationExceptionClassifier classifier, out bool overwritten)
     {
         overwritten = false;
@@ -6270,7 +6274,7 @@ internal static class ModuleAuthoringAnalysis
     }
 
     private static bool CancellationStorageBranchesCanThrowBeforeOverwrite(
-        IConditionalOperation conditional, ISymbol? symbol, bool isRef,
+        IConditionalOperation conditional, ISymbol? symbol, bool? isRef,
         OperationExceptionClassifier classifier, out bool overwritten)
     {
         overwritten = false;
