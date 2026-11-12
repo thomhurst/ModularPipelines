@@ -533,6 +533,16 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private readonly struct TokenBox { private readonly CancellationToken _token; public TokenBox(CancellationToken token) { _token = token; } public static implicit operator CancellationToken(TokenBox box) => box._token; }");
     }
 
+    [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; var alias = Identity(tokens); tokens[0] = cancellationToken; alias[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; _objects = new object[] { tokens }; tokens[0] = cancellationToken; ResetObjects(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; _objects = [tokens]; tokens[0] = cancellationToken; ResetObjects(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", true)]
+    public async Task Storage_Aliases_Invalidate_Restored_Collection_Facts(string statements, bool warns)
+    {
+        await Verify(statements, warns,
+            "private object[] _objects; private void ResetObjects() => ((CancellationToken[])_objects[0])[0] = default; private static CancellationToken[] Identity(CancellationToken[] tokens) => tokens;");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")

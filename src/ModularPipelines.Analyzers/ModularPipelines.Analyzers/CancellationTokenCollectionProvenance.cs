@@ -628,7 +628,7 @@ internal static class CancellationTokenCollectionProvenance
 
             foreach (var arrayElement in arrayElements)
             {
-                InvalidateArrays(arrayElement, state);
+                EscapeArrays(arrayElement, state);
             }
 
             return Value.None;
@@ -660,7 +660,7 @@ internal static class CancellationTokenCollectionProvenance
 
             foreach (var element in elements)
             {
-                InvalidateArrays(element, state);
+                EscapeArrays(element, state);
             }
 
             return Value.None;
@@ -1042,18 +1042,22 @@ internal static class CancellationTokenCollectionProvenance
             }
         }
 
-        private static void InvalidateAllArrays(State state)
+        private static void InvalidateAllArrays(State state, HashSet<TextSpan>? retained = null)
         {
             // Unknown storage can alias any tracked allocation, including storage
             // assigned after a ref was created. No heap-wide alias proof is made.
             foreach (var identity in state.Arrays.Keys.ToArray())
             {
+                if (retained?.Contains(identity) == true)
+                {
+                    continue;
+                }
+
                 state.Arrays[identity] = state.Arrays[identity].ContainsKey(-1)
                     ? new Dictionary<int, Value> { [-1] = Value.Unknown }
                     : [];
+                state.SafeArrays.Remove(identity);
             }
-
-            state.SafeArrays.Clear();
         }
 
         private static Value GetStorageValue(StorageReference reference, State state)
@@ -1319,6 +1323,13 @@ internal static class CancellationTokenCollectionProvenance
 
         private void WriteCollectionElement(IOperation receiver, IReadOnlyList<IOperation> indices, Value array, Value value, State state)
         {
+            if (array.Unsupported)
+            {
+                // A helper result can also alias a known allocation. Keep this
+                // target's facts before recording its selected element write.
+                InvalidateAllArrays(state, array.Arrays);
+            }
+
             // A helper result may alias a known allocation as well as another helper result.
             InvalidateUnknownCollections(state, array.Arrays);
 
