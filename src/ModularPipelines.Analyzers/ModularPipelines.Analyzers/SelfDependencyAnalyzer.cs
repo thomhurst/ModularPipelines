@@ -25,7 +25,7 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
         nameof(Resources.SelfDependencyAnalyzerDescription));
 
     /// <inheritdoc/>
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
@@ -43,7 +43,7 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
         });
     }
 
-    private void AnalyzeAttribute(
+    private static void AnalyzeAttribute(
         SyntaxNodeAnalysisContext context,
         ImmutableHashSet<string> usingAliasNames)
     {
@@ -51,7 +51,7 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
                 context,
                 usingAliasNames,
                 out var attributeSyntax,
-                out var attributeType,
+                out _,
                 out var dependencyType))
         {
             return;

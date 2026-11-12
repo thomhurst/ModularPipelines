@@ -180,7 +180,7 @@ internal static class TaskCompletionAnalysis
             }
         }
 
-        return input ?? new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        return input ?? [with(SymbolEqualityComparer.Default)];
     }
 
     private static HashSet<ISymbol> GetEdgeState(
@@ -285,7 +285,7 @@ internal static class TaskCompletionAnalysis
             }
         }
 
-        return completion ?? new HashSet<ISymbol>(SymbolEqualityComparer.Default);
+        return completion ?? [with(SymbolEqualityComparer.Default)];
     }
 
     private static bool IsFinallyExit(ControlFlowBranch branch, ControlFlowRegion region)
@@ -671,7 +671,7 @@ internal static class TaskCompletionAnalysis
         state.UnionWith(inputs);
     }
 
-    private static IEnumerable<IOperation> GetInlineTasks(IOperation operation)
+    private static ImmutableArray<IOperation> GetInlineTasks(IOperation operation)
     {
         operation = Unwrap(operation);
         return operation switch

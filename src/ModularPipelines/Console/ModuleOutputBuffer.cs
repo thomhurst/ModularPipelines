@@ -798,7 +798,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         TextWriter console,
         IAnsiConsole directConsole,
         ILogger logger,
-        IReadOnlyList<BufferedOutput> outputs,
+        List<BufferedOutput> outputs,
         int index,
         IReadOnlyList<ILogger> fallbackLoggers,
         List<StructuredDeliveryRetry> failedStructuredDeliveries,
@@ -906,7 +906,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
 
     private int TryRenderMaskableOutput(
         IAnsiConsole directConsole,
-        IReadOnlyList<BufferedOutput> outputs,
+        List<BufferedOutput> outputs,
         int index) =>
         _secretRemasker.TryWrite(directConsole, outputs, index);
 
@@ -958,7 +958,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
         }
     }
 
-    private static IReadOnlyList<ILogger> WriteToFallbackLoggers(
+    private static List<ILogger> WriteToFallbackLoggers(
         IBufferedLogEvent logEvent,
         IReadOnlyList<ILogger> fallbackLoggers,
         TextWriter console)
@@ -1150,8 +1150,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer, IPreObfuscatedModuleOut
     private void RefreshDirectConsoleProfile(IAnsiConsole directConsole)
     {
         var sourceProfile = _renderableConsole?.Profile ?? AnsiConsole.Profile;
-        directConsole.Profile.Width = sourceProfile.Width;
-        directConsole.Profile.Height = sourceProfile.Height;
+        // Redirected or headless terminals can report zero dimensions, which the profile setters reject.
+        directConsole.Profile.Width = sourceProfile.Width > 0 ? sourceProfile.Width : 80;
+        directConsole.Profile.Height = sourceProfile.Height > 0 ? sourceProfile.Height : 24;
         directConsole.Profile.Capabilities = sourceProfile.Capabilities;
     }
 

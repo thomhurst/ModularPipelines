@@ -16,7 +16,7 @@ namespace ModularPipelines.Analyzers;
 public class AsyncModuleCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(AsyncModuleAnalyzer.DiagnosticId);
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => [AsyncModuleAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public sealed override FixAllProvider GetFixAllProvider()
@@ -55,7 +55,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
             diagnostic);
     }
 
-    private async Task<Document> AddAsync(CodeFixContext context, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
+    private static async Task<Document> AddAsync(CodeFixContext context, MethodDeclarationSyntax methodDeclarationSyntax, CancellationToken cancellationToken)
     {
         var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken).ConfigureAwait(false);
 
@@ -96,7 +96,7 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
                    .OfType<ReturnStatementSyntax>()
                    .Reverse()
                    .ToArray()
-               ?? Array.Empty<ReturnStatementSyntax>();
+               ?? [];
     }
 
     private static bool ShouldDescendInto(SyntaxNode node) =>

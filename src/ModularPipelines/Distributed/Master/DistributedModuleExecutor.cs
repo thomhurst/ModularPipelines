@@ -143,7 +143,7 @@ internal class DistributedModuleExecutor(
         var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
 
         // Invoke registration events before dependency resolution
-        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
+        await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules, CancellationToken.None).ConfigureAwait(false);
 
         // Revalidate the runnable set now that registration-event dependencies are populated, so
         // missing/self/cyclic dependencies (including ones added via AddDependency) fail fast here
@@ -210,7 +210,6 @@ internal class DistributedModuleExecutor(
             // workers, and maintains leases for the whole run.
             var inFlightLeases = new InFlightLeases(_options.Value.WorkerTimeout);
             var masterWorkerTask = RunMasterWorkerLoopAsync(
-                modules,
                 moduleLookup,
                 masterCapabilities,
                 workerMaxConcurrency,
@@ -541,9 +540,12 @@ internal class DistributedModuleExecutor(
         if (applied)
         {
             _cacheHitTracker.Record(acceptedResult);
-            _logger.LogInformation(
-                "Restored module {Module} from cache on the coordinator; distributed dispatch avoided",
-                moduleType.Name);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation(
+                    "Restored module {Module} from cache on the coordinator; distributed dispatch avoided",
+                    moduleType.Name);
+            }
         }
 
         await terminalResults.TryPublishAsync(acceptedResult, moduleType).ConfigureAwait(false);
@@ -695,11 +697,14 @@ internal class DistributedModuleExecutor(
             return;
         }
 
-        _logger.LogInformation(
-            "Waiting for at least {Minimum} of {Expected} worker(s) to register (timeout: {Timeout})...",
-            minimumWorkers,
-            expectedWorkers,
-            _options.Value.WorkerRegistrationTimeout);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation(
+                "Waiting for at least {Minimum} of {Expected} worker(s) to register (timeout: {Timeout})...",
+                minimumWorkers,
+                expectedWorkers,
+                _options.Value.WorkerRegistrationTimeout);
+        }
 
         var lastCount = 0;
         while (DateTimeOffset.UtcNow < registrationDeadline)
@@ -717,14 +722,20 @@ internal class DistributedModuleExecutor(
             if (availableWorkers.Length != lastCount)
             {
                 lastCount = availableWorkers.Length;
-                _logger.LogInformation("{Count}/{Expected} worker(s) registered", availableWorkers.Length, expectedWorkers);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("{Count}/{Expected} worker(s) registered", availableWorkers.Length, expectedWorkers);
+                }
             }
 
             if (availableWorkers.Length >= minimumWorkers)
             {
-                _logger.LogInformation(
-                    "Minimum worker count reached — starting work distribution with {Count} worker(s)",
-                    availableWorkers.Length);
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation(
+                        "Minimum worker count reached — starting work distribution with {Count} worker(s)",
+                        availableWorkers.Length);
+                }
                 return;
             }
 
@@ -740,7 +751,6 @@ internal class DistributedModuleExecutor(
     }
 
     private async Task RunMasterWorkerLoopAsync(
-        IReadOnlyList<IModule> modules,
         Dictionary<ModuleId, IModule> moduleLookup,
         IReadOnlySet<Capability> capabilities,
         int maxConcurrency,
@@ -748,13 +758,19 @@ internal class DistributedModuleExecutor(
         CancellationToken pipelineCancellationToken,
         CancellationToken workerCancellationToken)
     {
-        _logger.LogInformation("Coordinator worker loop started with capabilities: {Capabilities}",
-            string.Join(", ", capabilities));
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Coordinator worker loop started with capabilities: {Capabilities}",
+                string.Join(", ", capabilities));
+        }
 
         var dependencyResultCache = new DependencyResultCache(_workerCoordinator, workerCancellationToken);
-        _logger.LogDebug(
-            "Coordinator worker loop starting {MaxConcurrency} concurrent execution slot(s)",
-            maxConcurrency);
+        if (_logger.IsEnabled(LogLevel.Debug))
+        {
+            _logger.LogDebug(
+                "Coordinator worker loop starting {MaxConcurrency} concurrent execution slot(s)",
+                maxConcurrency);
+        }
 
         await DistributedWorkerPool.RunAsync(
             DequeueForMasterAsync,
@@ -832,11 +848,17 @@ internal class DistributedModuleExecutor(
             : pipelineCancellationToken;
         if (executionCancellationToken.IsCancellationRequested)
         {
-            _logger.LogInformation("Coordinator skipping canceled module {Module}", assignment.ModuleId);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Coordinator skipping canceled module {Module}", assignment.ModuleId);
+            }
         }
         else
         {
-            _logger.LogDebug("Coordinator executing module {Module} locally", assignment.ModuleId);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Coordinator executing module {Module} locally", assignment.ModuleId);
+            }
         }
 
         if (!moduleLookup.TryGetValue(assignment.ModuleId, out var module))
@@ -1013,7 +1035,10 @@ internal class DistributedModuleExecutor(
             // Check the route before publishing, so an unroutable module never sits in the queue.
             await EnsureAssignmentHasExecutionRouteAsync(assignment, plan.MasterCapabilities, pipelineToken)
                 .ConfigureAwait(false);
-            _logger.LogDebug("Distributing module {Module} to workers", moduleType.Name);
+            if (_logger.IsEnabled(LogLevel.Debug))
+            {
+                _logger.LogDebug("Distributing module {Module} to workers", moduleType.Name);
+            }
             await _publisher.PublishAsync(assignment, publishCts.Token).ConfigureAwait(false);
             publishCts.CancelAfter(Timeout.InfiniteTimeSpan);
             published = true;
@@ -1149,7 +1174,7 @@ internal class DistributedModuleExecutor(
                 .Where(static status => status.IsFinal)
                 .Select(static status => status.WorkerId)
                 .ToHashSet();
-            workers = workers.Where(worker => !finishedWorkers.Contains(worker.WorkerId)).ToArray();
+            workers = [.. workers.Where(worker => !finishedWorkers.Contains(worker.WorkerId))];
             ValidateWorkerSchemas(workers);
             if (workers.Any(worker => assignment.RequiredCapabilities.IsSatisfiedBy(worker.Capabilities)))
             {
@@ -1319,7 +1344,10 @@ internal class DistributedModuleExecutor(
         TerminalResultPublisher terminalResults)
     {
         var moduleType = moduleState.ModuleType;
-        _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Skipping distributed module {Module}: {Reason}", moduleType.Name, exception.Message);
+        }
         var skipped = RegisterSkippedResult(moduleState.Module, moduleType, exception.SkipDecision, context);
         moduleState.Result = skipped;
         await terminalResults.TryPublishAsync(skipped, moduleType).ConfigureAwait(false);

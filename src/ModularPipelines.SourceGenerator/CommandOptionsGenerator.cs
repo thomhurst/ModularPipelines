@@ -749,7 +749,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
     private static bool TryGetCommandProperty(
         IPropertySymbol property,
         IAssemblySymbol currentAssembly,
-        ISet<string> seenPropertyNames,
+        HashSet<string> seenPropertyNames,
         out PropertyMetadata propertyMetadata,
         out bool isIncomplete)
     {
@@ -1818,13 +1818,14 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
             return [];
         }
 
-        return GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
+        return [
+            .. GetReferencedAssemblyClosure(compilation.SourceModule.ReferencedAssemblySymbols)
             .Where(assembly => !SymbolEqualityComparer.Default.Equals(assembly, runtimeAssembly)
                                && !ReferencesAssemblyDirectly(assembly, runtimeAssembly))
             .Select(assembly => assembly.Identity.ToString())
             .Distinct(StringComparer.Ordinal)
             .OrderBy(static identity => identity, StringComparer.Ordinal)
-            .ToImmutableArray();
+        ];
     }
 
     internal static IEnumerable<IAssemblySymbol> GetReferencedAssemblyClosure(
@@ -1883,7 +1884,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         Compilation compilation,
         bool includeAllRuntimeMetadata,
         ISet<OptionsTypeIdentity> usedOptionsTypes,
-        ISet<string> incompleteTypeNames,
+        HashSet<string> incompleteTypeNames,
         bool hasCurrentSecretMetadata,
         bool hasCurrentCommandMetadata)
     {
@@ -2017,7 +2018,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         && ReferencesAssembly(
             assembly,
             runtimeAssembly,
-            new HashSet<IAssemblySymbol>(SymbolEqualityComparer.Default));
+            [with(SymbolEqualityComparer.Default)]);
 
     private static bool ReferencesAssemblyDirectly(
         IAssemblySymbol assembly,

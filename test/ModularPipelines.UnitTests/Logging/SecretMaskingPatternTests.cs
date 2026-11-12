@@ -2424,11 +2424,11 @@ public class SecretMaskingPatternTests
             () => false,
             CreateObfuscator(provider),
             provider);
-        var lineBufferLock = typeof(CoordinatedTextWriter).GetField(
+        var lineBufferLock = (Lock) typeof(CoordinatedTextWriter).GetField(
             "_lineBufferLock",
             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
             .GetValue(writer)!;
-        var deferredOutputLock = typeof(CoordinatedTextWriter).GetField(
+        var deferredOutputLock = (Lock) typeof(CoordinatedTextWriter).GetField(
             "_deferredOutputLock",
             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!
             .GetValue(writer)!;
@@ -2471,10 +2471,10 @@ public class SecretMaskingPatternTests
                     throw new TimeoutException("The deferred write did not reach its line-buffer lookup.");
                 }
 
-                admissionReserved = !Monitor.TryEnter(deferredOutputLock);
+                admissionReserved = !deferredOutputLock.TryEnter();
                 if (!admissionReserved)
                 {
-                    Monitor.Exit(deferredOutputLock);
+                    deferredOutputLock.Exit();
                 }
 
                 realConsole.ReleaseFlush();

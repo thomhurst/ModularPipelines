@@ -16,7 +16,7 @@ namespace ModularPipelines.Analyzers;
 public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
 {
     /// <inheritdoc/>
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(MissingDependsOnAttributeAnalyzer.DiagnosticId);
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => [MissingDependsOnAttributeAnalyzer.DiagnosticId];
 
     /// <inheritdoc/>
     public sealed override FixAllProvider GetFixAllProvider()
@@ -64,7 +64,7 @@ public class MissingDependsOnAttributeCodeFixProvider : CodeFixProvider
             diagnostic);
     }
 
-    private async Task<Document> AddAttribute(CodeFixContext context, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
+    private static async Task<Document> AddAttribute(CodeFixContext context, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
     {
         var document = context.Document;
 
