@@ -137,6 +137,8 @@ internal static class CancellationTokenCollectionProvenance
 
         public Dictionary<CaptureId, HashSet<StorageReference>> CaptureTargets { get; } = [];
 
+        public Dictionary<CaptureId, HashSet<TextSpan>> CaptureElementArrays { get; } = [];
+
         public Dictionary<ISymbol, HashSet<StorageReference>> ReferenceTargets { get; } = [with(SymbolEqualityComparer.Default)];
 
         // Only syntax-named indices need facts, even for very large allocations.
@@ -250,6 +252,11 @@ internal static class CancellationTokenCollectionProvenance
                 copy.CaptureTargets.Add(entry.Key, [.. entry.Value]);
             }
 
+            foreach (var entry in CaptureElementArrays)
+            {
+                copy.CaptureElementArrays.Add(entry.Key, [.. entry.Value]);
+            }
+
             foreach (var entry in ReferenceTargets)
             {
                 copy.ReferenceTargets.Add(entry.Key, [.. entry.Value]);
@@ -261,6 +268,18 @@ internal static class CancellationTokenCollectionProvenance
         public bool Merge(State other)
         {
             var changed = MergeCaptureTargets(other) | MergeReferenceTargets(other) | MergeEscapedFields(other);
+            foreach (var entry in other.CaptureElementArrays)
+            {
+                if (!CaptureElementArrays.TryGetValue(entry.Key, out var arrays))
+                {
+                    CaptureElementArrays.Add(entry.Key, arrays = []);
+                }
+
+                var count = arrays.Count;
+                arrays.UnionWith(entry.Value);
+                changed |= arrays.Count != count;
+            }
+
             var escapedArrayCount = EscapedArrays.Count;
             EscapedArrays.UnionWith(other.EscapedArrays);
             changed |= escapedArrayCount != EscapedArrays.Count;
@@ -585,7 +604,9 @@ internal static class CancellationTokenCollectionProvenance
                 {
                     // One fact per source element bounds loops that append a spread.
                     _summarizedArrays.Add(collection.Syntax.Span);
-                    elements.Add(IsSafe(Evaluate(spread.Operand, state), state) ? Value.Original : Value.None);
+                    var source = Evaluate(spread.Operand, state);
+                    var unsupported = HasUnsupportedProvenance(source, state) ? Value.Unknown : Value.None;
+                    elements.Add(IsSafe(source, state) ? Value.Original : unsupported);
                 }
                 else
                 {
@@ -641,7 +662,8 @@ internal static class CancellationTokenCollectionProvenance
         }
 
         private static bool HasUnsupportedProvenance(Value value, State state) => value.Unsupported
-            || (value.Arrays is { } arrays && arrays.Any(identity => state.Arrays.TryGetValue(identity, out var elements)
+            || (value.Arrays is { } arrays && arrays.Any(identity => !state.EscapedArrays.Contains(identity)
+                && state.Arrays.TryGetValue(identity, out var elements)
                 && elements.Values.Any(static element => element.Unsupported)));
 
         private Value EvaluateInvocation(IInvocationOperation invocation, State state)
@@ -745,6 +767,7 @@ internal static class CancellationTokenCollectionProvenance
                     var captured = Evaluate(capture.Value, state);
                     state.SetCapture(capture.Id, captured);
                     state.SetCaptureTargets(capture.Id, ReferencedStorage(capture.Value, state));
+                    state.CaptureElementArrays[capture.Id] = [.. ReferencedElementArrays(capture.Value, state)];
                     return captured;
                 case ISimpleAssignmentOperation assignment:
                     return EvaluateAssignment(assignment, state);
@@ -859,6 +882,11 @@ internal static class CancellationTokenCollectionProvenance
                     break;
                 case IFlowCaptureReferenceOperation capture:
                     InvalidateArrays(Get(state.Captures, capture.Id), state);
+                    if (state.CaptureElementArrays.TryGetValue(capture.Id, out var arrays))
+                    {
+                        EscapeArrays(new Value(arrays: arrays), state);
+                    }
+
                     break;
                 case IFieldReferenceOperation field when TupleElementIndex(field) >= 0:
                     InvalidateArrays(Evaluate(field, state), state);
@@ -876,6 +904,16 @@ internal static class CancellationTokenCollectionProvenance
 
             InvalidateReferencedStorage(target, state);
         }
+
+        private IEnumerable<TextSpan> ReferencedElementArrays(IOperation target, State state) => target switch
+        {
+            IArrayElementReferenceOperation element => Evaluate(element.ArrayReference, state).Arrays ?? [],
+            IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } receiver }
+                when IsTokenCollection(receiver.Type) => Evaluate(receiver, state).Arrays ?? [],
+            IFlowCaptureReferenceOperation capture when state.CaptureElementArrays.TryGetValue(capture.Id, out var arrays) => arrays,
+            IConversionOperation conversion => ReferencedElementArrays(conversion.Operand, state),
+            _ => [],
+        };
 
         private static void InvalidateReferencedStorage(IOperation target, State state)
         {

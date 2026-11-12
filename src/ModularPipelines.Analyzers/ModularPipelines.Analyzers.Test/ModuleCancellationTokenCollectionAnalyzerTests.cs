@@ -359,6 +359,20 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
             "private static CancellationToken Pass(CancellationToken token) => token;");
     }
 
+    [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; ref CancellationToken slot = ref tokens[0]; tokens[0] = Pass(cancellationToken); slot = default;", "tokens", true)]
+    [DataRow("var tokens = new[] { Pass(cancellationToken) }; CancellationToken[] copy = [..tokens];", "copy", false)]
+    [DataRow("var tokens = new[] { default(CancellationToken) }; CancellationToken[] copy = [..tokens];", "copy", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; CancellationToken other = default; ref CancellationToken slot = ref (context != null ? ref tokens[0] : ref other); slot = default;", "tokens", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; CancellationToken other = default; ref CancellationToken slot = ref (context != null ? ref other : ref tokens[0]); slot = default;", "tokens", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; Span<CancellationToken> view = tokens; CancellationToken other = default; ref CancellationToken slot = ref (context != null ? ref view[0] : ref other); slot = default;", "tokens", true)]
+    [DataRow("var tokens = new[] { cancellationToken }; var independent = new[] { cancellationToken }; CancellationToken other = default; ref CancellationToken slot = ref (context != null ? ref tokens[0] : ref other); slot = default;", "independent", false)]
+    public async Task Collection_Summaries_Respect_Unknown_And_Escaped_Storage(string statements, string argument, bool warns)
+    {
+        await Verify($"{statements} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({argument}).Token;", warns,
+            "private static CancellationToken Pass(CancellationToken token) => token;");
+    }
+
     public TestContext TestContext { get; set; } = null!;
 
     private static Task Verify(string statements, bool warns, string helpers = "")
