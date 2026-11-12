@@ -6444,8 +6444,20 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return CancellationStorageShortCircuitContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
+            || CancellationStorageCoalesceContinuationCanThrow(current, parent, symbol, isRef, classifier, exceptionBoundary)
             || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary);
     }
+
+    private static bool CancellationStorageCoalesceContinuationCanThrow(
+        IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary) =>
+        parent is ICoalesceOperation coalesce && ReferenceEquals(current, coalesce.Value)
+        && coalesce.Value.ConstantValue is not { HasValue: true, Value: not null }
+        && !IsStaticallyNonNullCoalesceValue(coalesce.Value)
+        // A nullable left value may select the fallback after the write. Its
+        // restoration is conditional, but its exceptions can bypass later writes.
+        && CancellationStorageOperationCanThrowBeforeOverwrite(
+            coalesce.WhenNull, symbol, isRef, classifier, exceptionBoundary, out _);
 
     private static bool CancellationStorageShortCircuitContinuationCanThrow(
         IOperation write, IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
@@ -8176,7 +8188,8 @@ internal static class ModuleAuthoringAnalysis
     {
         var optionalBranch = ancestor switch
         {
-            IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary => binary.RightOperand,
+            IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary
+                when !IsGuaranteedCancellationStorageRightOperand(binary) => binary.RightOperand,
             ICoalesceOperation coalesce => coalesce.WhenNull,
             IConditionalAccessOperation access => access.WhenNotNull,
             _ => null,
@@ -8185,6 +8198,11 @@ internal static class ModuleAuthoringAnalysis
         return IsOptionalCancellationStorageBranch(operation, ancestor, read, optionalBranch)
             || (ancestor is ISwitchExpressionArmOperation && (read is null || !HasAncestor(read, ancestor)));
     }
+
+    private static bool IsGuaranteedCancellationStorageRightOperand(IBinaryOperation binary) =>
+        binary.OperatorMethod is null && binary.Type?.SpecialType == SpecialType.System_Boolean
+        && binary.LeftOperand.ConstantValue is { HasValue: true, Value: bool left }
+        && left == (binary.OperatorKind == BinaryOperatorKind.ConditionalAnd);
 
     private static bool IsOptionalCancellationStorageBranch(
         IOperation operation, IOperation ancestor, IOperation? read, IOperation? optionalBranch) =>

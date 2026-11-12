@@ -3645,6 +3645,28 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("CancellationToken saved = default; _ = true && (saved = third).CanBeCanceled; return saved;", false)]
+    [DataRow("CancellationToken saved = default; _ = false || (saved = third).CanBeCanceled; return saved;", false)]
+    [DataRow("CancellationToken saved = default; _ = false && (saved = third).CanBeCanceled; return saved;", true)]
+    [DataRow("CancellationToken saved = default; _ = true || (saved = third).CanBeCanceled; return saved;", true)]
+    [DataRow("var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; var error = new Exception(); try { _ = ((first = default) is var cleared ? text : null) ?? throw error; first = third; } catch {} return first;", true)]
+    [DataRow("ref var alias = ref first; var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; var error = new Exception(); try { _ = ((alias = default) is var cleared ? text : null) ?? throw error; alias = third; } catch {} return alias;", true)]
+    [DataRow("var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; try { _ = ((first = default) is var cleared ? text : null) ?? \"\"; first = third; } catch {} return first;", false)]
+    [DataRow("var text = DateTime.UtcNow.Ticks > 0 ? null : string.Empty; var error = new Exception(); try { _ = ((first = default) is var cleared ? text : null) ?? Restore(first = third); first = third; } catch {} return first; static string Restore(CancellationToken token) => throw new Exception();", false)]
+    public async Task Tracks_CancellationToken_Conditional_Expression_Continuations(string body, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
     [DataRow("(first = default) is var cleared && MayThrowBool()", true)]
     [DataRow("!((first = default) is var cleared) || MayThrowBool()", true)]
     [DataRow("(alias = default) is var cleared && MayThrowBool()", true)]
