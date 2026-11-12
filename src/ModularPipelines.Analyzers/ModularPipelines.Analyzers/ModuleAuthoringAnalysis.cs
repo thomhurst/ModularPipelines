@@ -6027,21 +6027,56 @@ internal static class ModuleAuthoringAnalysis
     private static bool HasUncertainContainerAssignment(ILocalReferenceOperation reference)
     {
         var callable = GetEnclosingCallable(reference);
-        var operations = GetReachableContainerOperations(GetRoot(reference)).ToArray();
+        var root = GetRoot(reference);
+        var operations = GetReachableContainerOperations(root).ToArray();
+        var reset = FindLocalAssignments(root, reference, reference.Local, callable)
+            .FirstOrDefault(assignment => IsDefiniteContainerPredecessor(assignment, reference));
+        var lifetime = GetContainerAssignmentLifetime(reference, reset, operations);
         return operations.Any(operation => operation switch
         {
             // Captured writes execute at call sites, rather than declaration offsets.
             ISimpleAssignmentOperation { Target: ILocalReferenceOperation target }
                 when SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
-                    && !ReferenceEquals(GetEnclosingCallable(operation), callable) => true,
+                    && !ReferenceEquals(GetEnclosingCallable(operation), callable) =>
+                lifetime is null || lifetime.Contains(operation)
+                || HasEscapedContainerWriter(operations),
             IDeconstructionAssignmentOperation assignment =>
                 CanDeconstructionReachContainerReference(assignment, reference, operations)
+                && !IsSupersededContainerDeconstruction(assignment, reference, reset, operations)
                 && assignment.Target.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
                     .Any(target => SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)),
             IBranchOperation { BranchKind: BranchKind.GoTo } branch =>
                 CanGotoRevisitContainerReference(branch, reference, operations),
             _ => false,
         });
+    }
+
+    private static HashSet<IOperation>? GetContainerAssignmentLifetime(
+        ILocalReferenceOperation reference, ISimpleAssignmentOperation? reset, IOperation[] operations)
+    {
+        // Structured and unstructured back edges can execute earlier calls again.
+        if (reset is null || operations.Any(operation => operation is IBranchOperation { BranchKind: BranchKind.GoTo }
+                || (operation is ILoopOperation loop && HasAncestor(reference, loop))))
+        {
+            return null;
+        }
+
+        return new HashSet<IOperation>(GetCallerContainerOperations(GetRoot(reference), reference, reset.Syntax.Span.End));
+    }
+
+    private static bool IsSupersededContainerDeconstruction(
+        IDeconstructionAssignmentOperation assignment, ILocalReferenceOperation reference,
+        ISimpleAssignmentOperation? reset, IOperation[] operations) =>
+        reset is not null && assignment.Syntax.SpanStart < reset.Syntax.SpanStart
+        && ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(reference))
+        && !operations.OfType<ILoopOperation>().Any(loop => HasAncestor(reference, loop) && HasAncestor(assignment, loop));
+
+    private static bool HasEscapedContainerWriter(IOperation[] operations)
+    {
+        // An escaped wrapper may invoke the writer transitively after the reset.
+        var callables = operations.Select(GetCallableSymbol).OfType<IMethodSymbol>().ToArray();
+        return operations.OfType<IArgumentOperation>().Any(argument => callables.Any(callable =>
+            ValueContainsCallable(argument.Value, callable, [with(SymbolEqualityComparer.Default)])));
     }
 
     private static bool CanDeconstructionReachContainerReference(
@@ -6057,9 +6092,21 @@ internal static class ModuleAuthoringAnalysis
         && operations.OfType<ILabeledOperation>().Any(label =>
             SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
             && label.Syntax.SpanStart <= reference.Syntax.SpanStart
+            && operations.Any(operation => operation.Syntax.SpanStart > reference.Syntax.SpanStart
+                && operation.Syntax.SpanStart < branch.Syntax.SpanStart
+                && operation is IAssignmentOperation assignment
+                && GetAssignedContainerLocals(assignment.Target).Any(local =>
+                    SymbolEqualityComparer.Default.Equals(local, reference.Local)))
             && !FindLocalAssignments(GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference))
                 .Any(assignment => assignment.Syntax.SpanStart > label.Syntax.SpanStart
                     && IsDefiniteContainerPredecessor(assignment, reference)));
+
+    private static IEnumerable<ILocalSymbol> GetAssignedContainerLocals(IOperation target) => target switch
+    {
+        ILocalReferenceOperation local => [local.Local],
+        ITupleOperation tuple => tuple.Elements.SelectMany(GetAssignedContainerLocals),
+        _ => [],
+    };
 
     private static bool HasWritableContainerStorageAlias(ILocalReferenceOperation reference) =>
         GetRoot(reference).DescendantsAndSelf().Any(operation =>
@@ -6190,6 +6237,7 @@ internal static class ModuleAuthoringAnalysis
         var values = bindings
             .Where(binding => latest is null || binding.Syntax.SpanStart >= latest.Syntax.SpanStart)
             .Concat(GetLoopCarriedRefBindings(reference, (IOperation?) latest ?? FindLocalDeclarator(root, reference, reference.Local, callable)))
+            .Concat(GetGotoCarriedRefBindings(reference))
             .Select(static binding => binding.Value);
         if (latest is null
             && FindLocalDeclarator(root, reference, reference.Local, callable)?.Initializer?.Value is { } initializer)
@@ -6198,6 +6246,39 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return values.SelectMany(value => GetContainerStorageReferences(value, [.. visited]));
+    }
+
+    private static IEnumerable<ISimpleAssignmentOperation> GetGotoCarriedRefBindings(ILocalReferenceOperation reference)
+    {
+        var operations = GetReachableContainerOperations(GetRoot(reference)).ToArray();
+        var callable = GetEnclosingCallable(reference);
+        foreach (var branch in operations.OfType<IBranchOperation>().Where(branch =>
+                     branch.BranchKind == BranchKind.GoTo
+                     && branch.Syntax.SpanStart > reference.Syntax.SpanStart
+                     && ReferenceEquals(GetEnclosingCallable(branch), callable)))
+        {
+            var label = operations.OfType<ILabeledOperation>().FirstOrDefault(label =>
+                SymbolEqualityComparer.Default.Equals(label.Label, branch.Target));
+            if (label is null || label.Syntax.SpanStart > reference.Syntax.SpanStart)
+            {
+                continue;
+            }
+
+            var bindings = operations.OfType<ISimpleAssignmentOperation>()
+                .Where(binding => IsReachableRefBinding(binding, reference.Local, callable)).ToArray();
+            if (bindings.Any(binding => binding.Syntax.SpanStart > label.Syntax.SpanStart
+                    && binding.Syntax.SpanStart < reference.Syntax.SpanStart
+                    && IsDefiniteContainerPredecessor(binding, reference)))
+            {
+                continue;
+            }
+
+            foreach (var binding in bindings.Where(binding => binding.Syntax.SpanStart > reference.Syntax.SpanStart
+                         && binding.Syntax.SpanStart < branch.Syntax.SpanStart))
+            {
+                yield return binding;
+            }
+        }
     }
 
     private static IEnumerable<ISimpleAssignmentOperation> GetLoopCarriedRefBindings(
