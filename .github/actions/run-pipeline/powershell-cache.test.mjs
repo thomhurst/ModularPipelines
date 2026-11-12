@@ -3,7 +3,7 @@ import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, statSync, writ
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { preparePowerShellCache, verifyPowerShell } from './powershell-cache.mjs';
+import { preparePowerShellCache, protectPowerShellEnvironment, verifyPowerShell } from './powershell-cache.mjs';
 
 test('each job gets empty, read-only startup profiles without reusing a poisoned cache', t => {
   const root = mkdtempSync(path.join(os.tmpdir(), 'powershell-cache-test-'));
@@ -34,7 +34,12 @@ test('each job gets empty, read-only startup profiles without reusing a poisoned
 });
 
 test('startup probes overlap and inherit the protected cache', { timeout: 5000 }, async () => {
-  const environment = { XDG_CACHE_HOME: '/protected/cache', PATH: '/tools' };
+  const inherited = { PATH: '/tools', DOTNET_MultiCoreJitMinNumCpus: '2' };
+  const environment = protectPowerShellEnvironment(inherited, '/protected/cache');
+  assert.equal(environment.XDG_CACHE_HOME, '/protected/cache');
+  assert.equal(environment.DOTNET_MultiCoreJitMinNumCpus, 'FFFFFFFF');
+  assert.equal(environment.PATH, '/tools');
+  assert.equal(inherited.DOTNET_MultiCoreJitMinNumCpus, '2');
   let started = 0;
   let release;
   const ready = new Promise(resolve => { release = resolve; });

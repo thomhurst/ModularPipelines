@@ -19,6 +19,18 @@ export function preparePowerShellCache(runnerTemp) {
   return cacheHome;
 }
 
+export function protectPowerShellEnvironment(environment, cacheHome) {
+  return {
+    ...environment,
+    XDG_CACHE_HOME: cacheHome,
+    // CoreCLR enables ProfileOptimization only when the CPU count reaches this
+    // threshold. DWORD environment settings use hexadecimal: FFFFFFFF disables
+    // both playback and gathering on hosted runners, unlike file permissions.
+    // https://github.com/dotnet/runtime/blob/v10.0.0/src/coreclr/vm/multicorejit.cpp
+    DOTNET_MultiCoreJitMinNumCpus: 'FFFFFFFF',
+  };
+}
+
 export async function verifyPowerShell(environment, run = promisify(execFile)) {
   // Exercise the same non-interactive startup as command and installer fixtures,
   // including the assembly whose corrupted name caused #7200. Fail on any abort.
@@ -41,7 +53,9 @@ export async function verifyPowerShell(environment, run = promisify(execFile)) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const cacheHome = preparePowerShellCache(process.env.RUNNER_TEMP);
-  const results = await verifyPowerShell({ ...process.env, XDG_CACHE_HOME: cacheHome });
+  const environment = protectPowerShellEnvironment(process.env, cacheHome);
+  const results = await verifyPowerShell(environment);
   console.log(results[0]);
-  appendFileSync(process.env.GITHUB_ENV, `XDG_CACHE_HOME=${cacheHome}\n`);
+  appendFileSync(process.env.GITHUB_ENV,
+    `XDG_CACHE_HOME=${cacheHome}\nDOTNET_MultiCoreJitMinNumCpus=${environment.DOTNET_MultiCoreJitMinNumCpus}\n`);
 }
