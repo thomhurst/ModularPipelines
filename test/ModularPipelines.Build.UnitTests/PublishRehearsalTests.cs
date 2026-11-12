@@ -128,7 +128,7 @@ public class PublishRehearsalTests
     [Arguments("4.0.1", false)]
     [Arguments("4.1.0", false)]
     [Arguments("5.0.0", false)]
-    public async Task Release_Uses_The_Packed_Version_And_Appropriate_Notes(string version, bool prerelease)
+    public async Task Release_Uses_The_Packed_Version_And_Generated_Notes(string version, bool prerelease)
     {
         NewRelease? request = null;
         var client = new Mock<IGitHubClient>(MockBehavior.Strict);
@@ -146,11 +146,8 @@ public class PublishRehearsalTests
         await Assert.That(result.Exception).IsNull();
         await Assert.That(request!.TagName).IsEqualTo($"v{version}");
         await Assert.That(request.Name).IsEqualTo(version);
-        var expectedBody = version == "4.0.0"
-            ? await File.ReadAllTextAsync(Path.Combine(RepositoryRoot(), "RELEASE_NOTES_V4.md"))
-            : null;
-        await Assert.That(request.Body).IsEqualTo(expectedBody);
-        await Assert.That(request.GenerateReleaseNotes).IsEqualTo(version != "4.0.0");
+        await Assert.That(request.Body).IsNull();
+        await Assert.That(request.GenerateReleaseNotes).IsTrue();
         await Assert.That(request.Prerelease).IsEqualTo(prerelease);
         client.Verify(x => x.Repository.Release.Create(123L, It.IsAny<NewRelease>()), Times.Once);
     }
