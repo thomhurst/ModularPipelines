@@ -3714,17 +3714,23 @@ internal static class ModuleAuthoringAnalysis
         IOperation current,
         ISwitchExpressionOperation switchExpression)
     {
-        if (current is not ISwitchExpressionArmOperation arm
-            || switchExpression.Value.ConstantValue
-                is not { HasValue: true } switchValue)
+        if (current is not ISwitchExpressionArmOperation arm)
         {
             return false;
         }
 
-        if (PatternAndGuardMatchesConstant(
-                arm.Pattern,
-                arm.Guard,
-                switchValue.Value) is false)
+        // A selector can have one known value on every path without Roslyn
+        // assigning ConstantValue to the whole conditional expression.
+        var values = GetReachableValueLeaves(switchExpression.Value).ToArray();
+        return values.Length > 0 && values.All(value =>
+            value.ConstantValue is { HasValue: true } constant
+            && IsDeadSwitchExpressionArmForConstant(arm, switchExpression, constant.Value));
+    }
+
+    private static bool IsDeadSwitchExpressionArmForConstant(
+        ISwitchExpressionArmOperation arm, ISwitchExpressionOperation switchExpression, object? switchValue)
+    {
+        if (PatternAndGuardMatchesConstant(arm.Pattern, arm.Guard, switchValue) is false)
         {
             return true;
         }
@@ -3734,7 +3740,7 @@ internal static class ModuleAuthoringAnalysis
             .Any(candidate => PatternAndGuardMatchesConstant(
                 candidate.Pattern,
                 candidate.Guard,
-                switchValue.Value) is true);
+                switchValue) is true);
     }
 
     private static bool? SwitchCaseMatchesConstant(
@@ -5814,6 +5820,15 @@ internal static class ModuleAuthoringAnalysis
         (IInvocationOperation Invocation, IMethodSymbol Method) caller,
         HashSet<IOperation> visitedWrites, HashSet<IMethodSymbol> visitedMethods)
     {
+        return IsCancellationPreservingRefWrite(argument, visitedMethods, value =>
+            IsCancellationPreservingSnapshot(value, source, callerBody, caller,
+                [with(SymbolEqualityComparer.Default)], visitedWrites, visitedMethods));
+    }
+
+    private static bool IsCancellationPreservingRefWrite(
+        IArgumentOperation argument, HashSet<IMethodSymbol> visitedMethods,
+        Func<IOperation, bool> preservesInput)
+    {
         if (argument.Parent is not IInvocationOperation invocation)
         {
             return false;
@@ -5831,18 +5846,22 @@ internal static class ModuleAuthoringAnalysis
         // A helper can copy a different parameter into the ref slot without losing
         // cancellation. Prove each affecting write against its call-site input;
         // parameter identity alone cannot establish that the values are the same.
+        bool PreservesValue(IOperation value) => invocation.Arguments.Any(input =>
+            input.Parameter is { } inputParameter
+            && IsCancellationInput(inputParameter)
+            && GetTargetParameter(method, inputParameter) is { } parameter
+            && FlowsFromCancellationToken(value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(methods))
+            && !HasAliasedCancellationWrite(invocation, method, body, value, parameter, methods)
+            && preservesInput(input.Value));
+
         return body.DescendantsAndSelf()
             .Where(static operation => GetEnclosingCallable(operation) is null && IsInReachableBranch(operation))
             .SelectMany(operation => GetCancellationStorageWrites(operation, methods))
             .Where(write => MayShareCancellationStorage(write.Target, argument.Value, invocation, method))
-            .All(write => write.Value is { } value && invocation.Arguments.Any(input =>
-                input.Parameter is { } inputParameter
-                && IsCancellationInput(inputParameter)
-                && GetTargetParameter(method, inputParameter) is { } parameter
-                && FlowsFromCancellationToken(value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(methods))
-                && !HasAliasedCancellationWrite(invocation, method, body, value, parameter, methods)
-                && IsCancellationPreservingSnapshot(input.Value, source, callerBody, caller,
-                    [with(SymbolEqualityComparer.Default)], visitedWrites, methods)));
+            .All(write => write.Value is { } value
+                ? PreservesValue(value)
+                : write.Target.Parent is IArgumentOperation nestedArgument
+                    && IsCancellationPreservingRefWrite(nestedArgument, methods, PreservesValue));
     }
 
     private static bool CanCancellationWriteReachSnapshot(IOperation write, IOperation read)

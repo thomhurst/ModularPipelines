@@ -7,6 +7,13 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "CopyNested(ref first, first); return first;", false)]
+    [DataRow("ref token, ref token", "", "CopyNested(destination: ref first, source: first); return first;", false)]
+    [DataRow("ref token, ref token", "", "CopyNested(ref first, default); return first;", true)]
+    [DataRow("ref token, ref token", "", "second = default; CopyNested(ref first, first); return first;", true)]
+    [DataRow("ref token, ref token", "", "CopyNestedCleared(ref first, first); return first;", true)]
+    [DataRow("ref token, ref token", "", "CopyRecursive(ref first, first); return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; var copy = saved; CopyNested(ref copy, saved); return copy;", false)]
     [DataRow("ref token, ref token", "", "Copy(ref first, first); return first;", false)]
     [DataRow("ref token, ref token", "", "Copy(source: first, destination: ref second); return first;", false)]
     [DataRow("ref token, ref token", "", "var saved = first; Copy(ref saved, saved); return saved;", false)]
@@ -171,8 +178,8 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("token, ref Field", "", "first = Flag ? first : throw new System.InvalidOperationException(); return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => default }; return first;", true)]
-    // Existing parameter-provenance false positive tracked in #7510.
-    [DataRow("token, ref Field", "", "first = true switch { true => first, false => default }; return first;", true)]
+    // Constant-switch parameter provenance regression fixed in #7510.
+    [DataRow("token, ref Field", "", "first = true switch { true => first, false => default }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag switch { true => first, false => throw new System.InvalidOperationException() }; return first;", false)]
     [DataRow("token, ref Field", "", "first = Flag ? first : (Flag switch { true => first, false => CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token }); return first;", false)]
     public async Task Checks_Helper_Private_Value_Parameter_Storage(
@@ -292,6 +299,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static void IdentityNested(scoped ref CancellationToken value) => Identity(ref value, ref value);
 
 
+                private static void CopyNested(ref CancellationToken destination, CancellationToken source) => Copy(ref destination, source);
+                private static void CopyNestedCleared(ref CancellationToken destination, CancellationToken source) { source = default; Copy(ref destination, source); }
+                private static void CopyRecursive(ref CancellationToken destination, CancellationToken source) => CopyRecursive(ref destination, source);
                 private static void Copy(ref CancellationToken destination, CancellationToken source) => destination = source;
                 private static void CopyCleared(ref CancellationToken destination, CancellationToken source) { source = default; destination = source; }
                 private static void CopyAfterClear(ref CancellationToken destination, ref CancellationToken source) { destination = default; destination = source; }
