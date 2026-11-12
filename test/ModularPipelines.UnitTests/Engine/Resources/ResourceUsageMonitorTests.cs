@@ -248,6 +248,26 @@ public class ResourceUsageMonitorTests
     }
 
     [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    public async Task Sample_UnrelatedSourceChangesPreserveStallDetection(int signal)
+    {
+        var harness = new Harness();
+        harness.Reader.Pressure = new ResourcePressureCounters("container", 0, 0, 0, 0, "cpu", "memory");
+        harness.Sample(cpu: 0.1);
+        for (var index = 1; index <= 3; index++)
+        {
+            harness.Reader.Pressure = new ResourcePressureCounters("container",
+                signal == 0 ? index : 0, 0, signal == 1 ? index : 0, signal == 2 ? index : 0,
+                signal == 2 ? $"cpu{index}" : "cpu", signal == 2 ? "memory" : $"memory{index}");
+            harness.Sample(cpu: 0.1);
+        }
+
+        await Assert.That(harness.Log.ToString()).Contains("Linux task stalls");
+    }
+
+    [Test]
     public async Task Sample_NeverRecordsMoreThanMaxPeriods()
     {
         var harness = new Harness(options => options with { SustainedSamples = 1 });

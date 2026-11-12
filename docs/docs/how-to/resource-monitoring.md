@@ -91,15 +91,16 @@ builder.ConfigureResourceMonitoring(monitoring => monitoring with { Enabled = fa
 ## Linux containers and pressure
 
 On Linux with cgroup v2, memory uses a finite `memory.max` limit and its matching `memory.current`
-when the limit is at or below host memory. Visible parent limits are checked too. Memory includes all
-usage charged to that cgroup, including its other processes and file cache. Unlimited, invalid,
+when the limit is at or below host memory. Each visible parent is checked against its own limit, and the cgroup with the highest
+usage fraction supplies the reading. Memory includes other processes in that cgroup. Reclaimable
+file cache (`inactive_file` from `memory.stat`) is subtracted from usage when available. Unlimited, invalid,
 or unreadable cgroup data falls back to host memory from `/proc/meminfo`.
 
 The monitor detects increases in `cpu.stat`'s `nr_throttled` or `throttled_usec` and in the `some`
 stall-time total from `cpu.pressure` and `memory.pressure`. If cgroup pressure files are unavailable,
 it reads `/proc/pressure/cpu` and `/proc/pressure/memory` instead; these cover the host. Any positive
-increase counts as a stall sample, subject to `SustainedSamples`. Historical totals alone do not
-trigger warnings. Missing counters are ignored without disabling ordinary monitoring.
+increase counts as a stall sample, subject to `SustainedSamples`. Each counter source has its own baseline, so losing one pressure file does not discard unrelated
+counters. Historical totals alone do not trigger warnings. Missing counters are ignored without disabling ordinary monitoring.
 
 See the kernel documentation for [cgroup v2](https://docs.kernel.org/admin-guide/cgroup-v2.html)
 and [pressure stall information](https://docs.kernel.org/accounting/psi.html).

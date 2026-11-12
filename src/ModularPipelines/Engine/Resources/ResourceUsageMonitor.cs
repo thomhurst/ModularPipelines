@@ -127,9 +127,13 @@ internal sealed class ResourceUsageMonitor(
             var baseline = last.Pressure;
             var sameSource = pressure is not null && baseline is not null && pressure.Source == baseline.Source;
             var cpuStalled = sameSource && (Increased(pressure!.ThrottledPeriods, baseline!.ThrottledPeriods)
-                || Increased(pressure.ThrottledMicroseconds, baseline.ThrottledMicroseconds)
-                || Increased(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds));
-            var memoryStalled = sameSource && Increased(pressure!.MemoryStallMicroseconds, baseline!.MemoryStallMicroseconds);
+                || Increased(pressure.ThrottledMicroseconds, baseline.ThrottledMicroseconds));
+            cpuStalled |= pressure is not null && baseline is not null
+                && (pressure.CpuPressureSource ?? pressure.Source) == (baseline.CpuPressureSource ?? baseline.Source)
+                && Increased(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds);
+            var memoryStalled = pressure is not null && baseline is not null
+                && (pressure.MemoryPressureSource ?? pressure.Source) == (baseline.MemoryPressureSource ?? baseline.Source)
+                && Increased(pressure.MemoryStallMicroseconds, baseline.MemoryStallMicroseconds);
             Track(_cpu, cpu, _options.CpuThreshold, now, cpuStalled);
             Track(_memory, memory, _options.MemoryThreshold, now, memoryStalled);
         }

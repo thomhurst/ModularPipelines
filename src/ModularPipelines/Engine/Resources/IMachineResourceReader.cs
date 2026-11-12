@@ -26,4 +26,6 @@ internal sealed record ResourcePressureCounters(
     long? ThrottledPeriods,
     long? ThrottledMicroseconds,
     long? CpuStallMicroseconds,
-    long? MemoryStallMicroseconds);
+    long? MemoryStallMicroseconds,
+    string? CpuPressureSource = null,
+    string? MemoryPressureSource = null);

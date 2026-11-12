@@ -25,40 +25,56 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
         }
 
         var (directory, mount) = FindCgroup();
-        if (directory is not null && mount is not null)
-        {
-            // A parent can impose the effective limit even when the leaf says "max".
-            for (var ancestor = directory; ancestor is not null; ancestor = Path.GetDirectoryName(ancestor))
-            {
-                if (TryNonNegative(Read(Path.Combine(ancestor, "memory.max"))?.Trim(), out var limit)
-                    && limit > 0 && limit <= memoryTotal
-                    && TryNonNegative(Read(Path.Combine(ancestor, "memory.current"))?.Trim(), out var used))
-                {
-                    memoryTotal = limit;
-                    memoryAvailable = Math.Clamp(limit - used, 0, limit);
-                }
-
-                if (ancestor == mount)
-                {
-                    break;
-                }
-            }
-        }
+        (memoryTotal, memoryAvailable) = ReadCgroupMemory(directory, mount, memoryTotal, memoryAvailable);
 
         var cpuStat = directory is null ? null : Read(Path.Combine(directory, "cpu.stat"));
         var cpuPressure = directory is null ? null : Read(Path.Combine(directory, "cpu.pressure"));
         var memoryPressure = directory is null ? null : Read(Path.Combine(directory, "memory.pressure"));
-        var source = $"{directory}|{cpuPressure is not null}|{memoryPressure is not null}";
+        var cpuPressureSource = cpuPressure is null ? "/proc/pressure/cpu" : directory;
+        var memoryPressureSource = memoryPressure is null ? "/proc/pressure/memory" : directory;
         cpuPressure ??= Read("/proc/pressure/cpu");
         memoryPressure ??= Read("/proc/pressure/memory");
         var pressure = new ResourcePressureCounters(
-            source,
+            directory ?? string.Empty,
             FindCounter(cpuStat, "nr_throttled"),
             FindCounter(cpuStat, "throttled_usec"),
             FindPressureTotal(cpuPressure),
-            FindPressureTotal(memoryPressure));
+            FindPressureTotal(memoryPressure),
+            cpuPressureSource,
+            memoryPressureSource);
         reading = new MachineResourceReading(idle, total, memoryTotal, memoryAvailable, pressure);
         return true;
+    }
+
+    private (long Total, long Available) ReadCgroupMemory(string? directory, string? mount, long hostTotal, long hostAvailable)
+    {
+        long total = hostTotal, available = hostAvailable;
+        var found = false;
+        // Compare each visible cgroup against its own limit: siblings can exhaust a larger parent.
+        for (var ancestor = directory; ancestor is not null && mount is not null; ancestor = Path.GetDirectoryName(ancestor))
+        {
+            if (TryNonNegative(Read(Path.Combine(ancestor, "memory.max"))?.Trim(), out var limit)
+                && limit > 0 && limit <= hostTotal
+                && TryNonNegative(Read(Path.Combine(ancestor, "memory.current"))?.Trim(), out var used))
+            {
+                var inactiveFile = FindCounter(Read(Path.Combine(ancestor, "memory.stat")), "inactive_file") ?? 0;
+                used -= Math.Min(used, inactiveFile);
+                var headroom = Math.Clamp(limit - used, 0, limit);
+                if (!found || (double) headroom / limit < (double) available / total)
+                {
+                    total = limit;
+                    available = headroom;
+                    found = true;
+                }
+            }
+
+            if (ancestor == mount)
+            {
+                break;
+            }
+        }
+
+        return (total, available);
     }
 
     private string? Read(string path)
@@ -101,7 +117,8 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
             }
 
             var root = UnescapeMount(fields[3]).TrimEnd('/');
-            var mount = UnescapeMount(fields[4]).TrimEnd('/');
+            var mount = UnescapeMount(fields[4]);
+            mount = mount.Length > 1 ? mount.TrimEnd('/') : mount;
             string relative;
             if (root.Length == 0)
             {

@@ -111,6 +111,68 @@ public class LinuxMachineResourceReaderTests
         await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(250);
     }
 
+    [Test]
+    public async Task ExhaustedLargerParentControlsMemoryUsage()
+    {
+        var files = CgroupFiles();
+        files["/sys/fs/cgroup/job/memory.max"] = "1000";
+        files["/sys/fs/cgroup/job/memory.current"] = "100";
+        files["/sys/fs/cgroup/memory.max"] = "2000";
+        files["/sys/fs/cgroup/memory.current"] = "1950";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        await Assert.That(reading.MemoryTotalBytes).IsEqualTo(2000);
+        await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(50);
+    }
+
+    [Test]
+    [Arguments("800", 850)]
+    [Arguments("2000", 1000)]
+    [Arguments("bad", 50)]
+    [Arguments("-1", 50)]
+    public async Task ReclaimableFileCacheDoesNotCountAsUsedMemory(string inactiveFile, long expectedAvailable)
+    {
+        var files = CgroupFiles();
+        files["/sys/fs/cgroup/job/memory.max"] = "1000";
+        files["/sys/fs/cgroup/job/memory.current"] = "950";
+        files["/sys/fs/cgroup/job/memory.stat"] = $"anon 150\ninactive_file {inactiveFile}\n";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(expectedAvailable);
+    }
+
+    [Test]
+    public async Task RootMountIsSupported()
+    {
+        var files = HostFiles();
+        files["/proc/self/cgroup"] = "0::/job\n";
+        files["/proc/self/mountinfo"] = "29 23 0:26 / / rw - cgroup2 cgroup rw\n";
+        files["/job/memory.max"] = "1000";
+        files["/job/memory.current"] = "950";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(50);
+    }
+
+    [Test]
+    public async Task LosingMemoryPressureDoesNotChangeCpuSources()
+    {
+        var files = CgroupFiles();
+        files["/sys/fs/cgroup/job/cpu.pressure"] = "some total=1";
+        files["/sys/fs/cgroup/job/memory.pressure"] = "some total=1";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+        reader.TryRead(out var before);
+        files.Remove("/sys/fs/cgroup/job/memory.pressure");
+        reader.TryRead(out var after);
+
+        await Assert.That(after.Pressure!.Source).IsEqualTo(before.Pressure!.Source);
+        await Assert.That(after.Pressure.CpuPressureSource).IsEqualTo(before.Pressure.CpuPressureSource);
+        await Assert.That(after.Pressure.MemoryPressureSource).IsNotEqualTo(before.Pressure.MemoryPressureSource);
+    }
+
     private static Dictionary<string, string> HostFiles() => new()
     {
         ["/proc/stat"] = "cpu 100 0 0 900 0 0 0 0\n",
