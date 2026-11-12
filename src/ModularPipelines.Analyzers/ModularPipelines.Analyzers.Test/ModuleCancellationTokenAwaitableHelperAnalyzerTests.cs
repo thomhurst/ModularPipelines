@@ -331,6 +331,47 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify($"static async {taskType}<T> Pass<T>(T token) where T : struct {{ var saved = await {taskType}.FromResult(token); {write} return saved; }}", true, token: "await Pass(cancellationToken)");
     }
 
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Captured_Wrapped_Source_Restore_Keeps_Analysis_Conservative(string taskType)
+    {
+        await Verify($"using var unrelated = new CancellationTokenSource(); using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken); var pending = {taskType}.FromResult(unrelated); void Restore() {{ pending = {taskType}.FromResult(linked); }} Restore(); cancellationToken = (await pending).Token;", false);
+    }
+
+    [TestMethod]
+    [DataRow("(saved, _) = (default, 0);")]
+    [DataRow("ref var alias = ref saved; alias = default;")]
+    public async Task Later_Local_Writes_Do_Not_Invalidate_Earlier_Use(string write)
+    {
+        await Verify($"var saved = cancellationToken; await Task.Delay(1, saved); {write}", false);
+    }
+
+    [TestMethod]
+    public async Task Readonly_Local_Alias_Preserves_Payload()
+    {
+        await Verify("static Task<CancellationToken> Pass(CancellationToken token) { var saved = token; ref readonly var alias = ref saved; return Task.FromResult(saved); }", false, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Captured_Helper_Local_Writes_Reject_Proof(string taskType, bool lambda)
+    {
+        var helper = lambda ? "System.Action replace = () => { saved = default; }; replace();" : "void Replace() { saved = default; } Replace();";
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ var saved = token; {helper} return {taskType}.FromResult(saved); }}", true, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Later_Loop_Writes_Still_Reject_Helper_Proof(string taskType)
+    {
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token, bool choose) {{ var saved = token; while (choose) {{ if (!choose) return {taskType}.FromResult(saved); (saved, _) = (default, 0); }} return {taskType}.FromResult(saved); }}", true, token: "await Pass(cancellationToken, context != null)");
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

@@ -28,7 +28,7 @@ internal static partial class ModuleAuthoringAnalysis
         || (type is INamedTypeSymbol { TypeArguments.Length: 1 } named
             && IsFrameworkPayloadAwaitableType(named)
             && (SymbolEqualityComparer.Default.Equals(named.TypeArguments[0], scalarType)
-                || named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName));
+                || IsCancellationCarrier(named.TypeArguments[0])));
 
     // Only framework wrappers preserve payload identity. In particular, an arbitrary
     // Result property, GetAwaiter implementation or conversion is not a proof.
@@ -155,12 +155,48 @@ internal static partial class ModuleAuthoringAnalysis
             SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
             && IsPotentialScalarWrite(reference));
 
-    private static bool HasUnsupportedLocalPayloadWrite(ILocalReferenceOperation localReference) =>
-        GetRoot(localReference).DescendantsAndSelf().OfType<ILocalReferenceOperation>().Any(reference =>
-            SymbolEqualityComparer.Default.Equals(reference.Local, localReference.Local)
-            && (HasRefStorageAncestor(reference)
-                || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
-                || (reference.Parent is ITupleOperation && IsPayloadAssignmentTarget(reference))));
+    private static bool HasUnsupportedLocalPayloadWrite(ILocalReferenceOperation localReference)
+    {
+        var callable = GetEnclosingCallable(localReference);
+        return GetRoot(localReference).DescendantsAndSelf().OfType<ILocalReferenceOperation>().Any(reference =>
+        {
+            if (!SymbolEqualityComparer.Default.Equals(reference.Local, localReference.Local)
+                || !IsInReachableBranch(reference))
+            {
+                return false;
+            }
+
+            // Captured writes can run at a different point from their declaration.
+            if (!ReferenceEquals(GetEnclosingCallable(reference), callable))
+            {
+                return IsPotentialScalarWrite(reference);
+            }
+
+            return (reference.Syntax.SpanStart < localReference.Syntax.SpanStart
+                    || SharesLoop(reference, localReference))
+                && (HasRefStorageAncestor(reference)
+                    || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+                    || (reference.Parent is ITupleOperation && IsPayloadAssignmentTarget(reference)));
+        });
+    }
+
+    private static bool SharesLoop(IOperation candidate, IOperation reference)
+    {
+        for (var parent = candidate.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is ILoopOperation && HasAncestor(reference, parent))
+            {
+                return true;
+            }
+
+            if (parent is IAnonymousFunctionOperation or ILocalFunctionOperation)
+            {
+                break;
+            }
+        }
+
+        return false;
+    }
 
     // A writable alias can mutate the referenced storage without another direct
     // reference to it. Treat escape as a write rather than trying to track aliases.
@@ -174,8 +210,8 @@ internal static partial class ModuleAuthoringAnalysis
     {
         for (var parent = reference.Parent; parent is not null; parent = parent.Parent)
         {
-            if (parent is ISimpleAssignmentOperation { IsRef: true }
-                or IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: not RefKind.None } })
+            if (parent is ISimpleAssignmentOperation { IsRef: true, Target: ILocalReferenceOperation { Local.RefKind: RefKind.Ref } }
+                or IVariableInitializerOperation { Parent: IVariableDeclaratorOperation { Symbol.RefKind: RefKind.Ref } })
             {
                 return true;
             }
