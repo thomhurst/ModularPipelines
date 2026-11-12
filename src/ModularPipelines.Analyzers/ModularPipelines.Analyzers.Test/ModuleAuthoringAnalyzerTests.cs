@@ -3350,6 +3350,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref first; try { alias = default; MayThrow(); alias = third; } catch { return third; } return alias;")]
     [DataRow("try { first = default; MayThrow(); first = third; } catch { throw; } return first;")]
     [DataRow("try { first = default; MayThrow(); first = third; } catch { if (DateTime.UtcNow.Ticks > 0) return third; else return third; } return first;")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; try { first = default; if (skip) return third; first = third; } catch { return third; } return first;")]
+    [DataRow("var skip = DateTime.UtcNow.Ticks > 0; ref var alias = ref first; try { alias = default; if (skip) return third; alias = third; } catch { return third; } return alias;")]
+    [DataRow("try { try { first = default; } finally { first = third; MayThrow(); } first = third; } catch {} return first;")]
+    [DataRow("try { try { first = default; } finally {} first = third; } catch {} return first;")]
     public async Task Does_Not_Report_CancellationToken_Preserved_Only_By_Exiting_Catch(string body)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3364,6 +3368,11 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("switch (choice) { case 0: alias = default; if (skip) break; alias = third; break; default: alias = third; break; } MayThrow(); alias = third; return alias;")]
     [DataRow("switch (choice) { case 0: { alias = default; if (skip) break; alias = third; break; } default: alias = third; break; } MayThrow(); alias = third; return alias;")]
     [DataRow("switch (choice) { case 0: alias = ref second; if (skip) break; alias = ref third; break; default: alias = ref third; break; } MayThrow(); alias = ref third; return alias;")]
+    [DataRow("try { try { first = default; } finally { MayThrow(); } first = third; } catch {} return first;")]
+    [DataRow("try { try { alias = default; } finally { MayThrow(); } alias = third; } catch {} return alias;")]
+    [DataRow("try { first = default; if (skip) return first; first = third; } catch { return third; } return first;")]
+    [DataRow("try { first = default; if (skip) return third; MayThrow(); first = third; } catch {} return first;")]
+    [DataRow("try { try { alias = ref second; } finally { MayThrow(); } alias = ref third; } catch {} return alias;")]
     public async Task Reports_CancellationToken_Preserved_By_Catch_Or_Early_Case_Exit(string body)
     {
         var isSwitch = body.StartsWith("switch", StringComparison.Ordinal);

@@ -6202,6 +6202,12 @@ internal static class ModuleAuthoringAnalysis
         operation.DescendantsAndSelf().Any(child => child is IReturnOperation
             || (child is IBranchOperation branch && !IsNestedCancellationStorageSwitchBreak(branch, branchBoundary ?? operation)));
 
+    // Returns leave the callable rather than carrying storage past a restoration.
+    // Breaks and gotos can still bypass that restoration and reach the read.
+    private static bool ContainsCancellationStorageBranch(IOperation operation) =>
+        operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
+            !IsNestedCancellationStorageSwitchBreak(branch, operation));
+
     private static bool CancellationStorageTryOverwrites(
         ITryOperation attempt, IOperation current, IOperation read, ISymbol? symbol, bool? isRef) =>
         (!ReferenceEquals(current, attempt.Finally)
@@ -6216,7 +6222,7 @@ internal static class ModuleAuthoringAnalysis
         foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
         {
             if (HasAncestor(read, next) || next.Syntax.SpanStart >= read.Syntax.SpanStart
-                || ContainsCancellationStorageBranchOrReturn(next))
+                || ContainsCancellationStorageBranch(next))
             {
                 break;
             }
@@ -6279,6 +6285,23 @@ internal static class ModuleAuthoringAnalysis
                 if (CancellationStorageSequenceCanThrowBeforeOverwrite(
                     sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1),
                     symbol, isRef, classifier, body, out var overwritten))
+                {
+                    return true;
+                }
+
+                if (overwritten)
+                {
+                    return false;
+                }
+            }
+
+            // Leaving a nested try executes its finally before any following
+            // statement. An exception here can bypass a later restoration.
+            if (parent is ITryOperation attempt && !ReferenceEquals(current, attempt.Finally)
+                && attempt.Finally is { } finalizer)
+            {
+                if (CancellationStorageOperationCanThrowBeforeOverwrite(
+                    finalizer, symbol, isRef, classifier, body, out var overwritten))
                 {
                     return true;
                 }
@@ -6417,7 +6440,7 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            canBypassOverwrite |= ContainsCancellationStorageBranchOrReturn(child);
+            canBypassOverwrite |= ContainsCancellationStorageBranch(child);
         }
 
         return false;
