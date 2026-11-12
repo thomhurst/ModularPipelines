@@ -6300,9 +6300,16 @@ internal static partial class ModuleAuthoringAnalysis
                     branchingOperation,
                     local)
                 .Select(static assignment => assignment.Value);
+            // The completed body supplies the branch proof inside a do condition.
+            // Writes between that body and the use must still contribute values.
+            var completedBranchEnd = branchingOperation is IWhileLoopOperation
+            { ConditionIsTop: false, Condition: { } condition } whileLoop
+                && HasAncestor(operation, condition)
+                    ? whileLoop.Body.Syntax.Span.End
+                    : branchingOperation.Syntax.Span.End;
             var subsequentValues = assignments
                 .Where(candidate =>
-                    candidate.Syntax.SpanStart > branchingOperation.Syntax.Span.End)
+                    candidate.Syntax.SpanStart > completedBranchEnd)
                 .Where(IsInReachableBranch)
                 .Select(static assignment => assignment.Value);
             return subsequentValues.Concat(branchValues);
@@ -6450,9 +6457,7 @@ internal static partial class ModuleAuthoringAnalysis
 
         if (operation is IConditionalOperation conditional)
         {
-            return conditional.WhenFalse is not null
-                   && DefinitelyAssignsLocal(conditional.WhenTrue, local)
-                   && DefinitelyAssignsLocal(conditional.WhenFalse, local);
+            return DefinitelyAssignsLocalInConditional(conditional, local);
         }
 
         return operation switch
@@ -6473,6 +6478,15 @@ internal static partial class ModuleAuthoringAnalysis
                 DefinitelyAssignsLocal(expressionStatement.Operation, local),
             _ => false,
         };
+    }
+
+    private static bool DefinitelyAssignsLocalInConditional(
+        IConditionalOperation conditional,
+        ILocalSymbol local)
+    {
+        return conditional.WhenFalse is not null
+               && DefinitelyAssignsLocal(conditional.WhenTrue, local)
+               && DefinitelyAssignsLocal(conditional.WhenFalse, local);
     }
 
     private static bool DefinitelyAssignsLocalInTry(
