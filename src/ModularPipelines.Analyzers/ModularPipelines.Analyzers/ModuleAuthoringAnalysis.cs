@@ -6017,18 +6017,21 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            var bindings = loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
-                .Where(binding => IsReachableRefBinding(binding, reference.Local, callable))
-                .ToArray();
-            foreach (var binding in bindings)
+            foreach (var binding in GetSurvivingLoopContainerBindings(loop, reference, callable))
             {
-                if (binding.Syntax.SpanStart > reference.Syntax.SpanStart
-                    && !HasSupersedingContainerBinding(bindings, loop, binding))
-                {
-                    yield return binding;
-                }
+                yield return binding;
             }
         }
+    }
+
+    private static IEnumerable<ISimpleAssignmentOperation> GetSurvivingLoopContainerBindings(
+        ILoopOperation loop, ILocalReferenceOperation reference, IOperation? callable)
+    {
+        var bindings = loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+            .Where(binding => IsReachableRefBinding(binding, reference.Local, callable))
+            .ToArray();
+        return bindings.Where(binding => binding.Syntax.SpanStart > reference.Syntax.SpanStart
+            && !HasSupersedingContainerBinding(bindings, loop, binding));
     }
 
     private static bool HasSupersedingContainerBinding(
@@ -6053,12 +6056,7 @@ internal static class ModuleAuthoringAnalysis
     {
         if (branch.BranchKind == BranchKind.GoTo)
         {
-            var target = GetRoot(loop).DescendantsAndSelf().OfType<ILabeledOperation>()
-                .FirstOrDefault(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target));
-            // Switch-case targets have no labeled operation; keep those conservative.
-            return target is null || (HasAncestor(target, loop.Body)
-                && (target.Syntax.SpanStart <= binding.Syntax.SpanStart
-                    || target.Syntax.SpanStart > later.Syntax.SpanStart));
+            return CanGotoCarryContainerBinding(branch, loop, binding, later);
         }
 
         for (var ancestor = branch.Parent; ancestor is not null; ancestor = ancestor.Parent)
@@ -6083,6 +6081,17 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool CanGotoCarryContainerBinding(
+        IBranchOperation branch, ILoopOperation loop, IOperation binding, IOperation later)
+    {
+        var target = GetRoot(loop).DescendantsAndSelf().OfType<ILabeledOperation>()
+            .FirstOrDefault(label => SymbolEqualityComparer.Default.Equals(label.Label, branch.Target));
+        // Switch-case targets have no labeled operation; keep those conservative.
+        return target is null || (HasAncestor(target, loop.Body)
+            && (target.Syntax.SpanStart <= binding.Syntax.SpanStart
+                || target.Syntax.SpanStart > later.Syntax.SpanStart));
     }
 
     private static bool IsReachableRefBinding(
