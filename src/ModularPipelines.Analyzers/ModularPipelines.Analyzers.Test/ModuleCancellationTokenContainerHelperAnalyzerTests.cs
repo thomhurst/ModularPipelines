@@ -68,6 +68,10 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias = ref scratch; alias[0] = default; alias = ref value; }", false)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; if (false) alias = ref value; }", false)]
     [DataRow("CancellationToken[] scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { ref CancellationToken[] alias = ref scratch; alias[0] = default; alias = ref value; }", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; alias = ref scratch; }", false)]
+    [DataRow("CancellationToken[] scratch = new CancellationToken[1]; ref CancellationToken[] alias = ref scratch; for (var i = 0; i < 2; i++) { alias[0] = default; alias = ref value; if (flag) alias = ref scratch; }", true)]
+    [DataRow("CancellationToken[] s1 = new CancellationToken[1]; CancellationToken[] s2 = new CancellationToken[1]; ref CancellationToken[] a = ref s1; ref CancellationToken[] b = ref s2; for (var i = 0; i < 2; i++) { a[0] = default; a = ref (flag ? ref b : ref s1); b = ref (flag ? ref a : ref s2); }", false)]
+    [DataRow("CancellationToken[] s1 = new CancellationToken[1]; CancellationToken[] s2 = new CancellationToken[1]; ref CancellationToken[] a = ref s1; ref CancellationToken[] b = ref s2; for (var i = 0; i < 2; i++) { a[0] = default; a = ref (flag ? ref b : ref value); b = ref (flag ? ref a : ref s2); }", true)]
     public async Task Tracks_Container_Helper_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";
@@ -146,6 +150,9 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("var scratch = new CancellationToken[2]; ref var alias = ref tokens; scratch[alias[0].CanBeCanceled ? 0 : 1] = default;", false)]
     [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref tokens; if (context != null) alias = ref scratch; alias = new CancellationToken[1];", true)]
     [DataRow("ref var alias = ref tokens; alias = ref alias; alias[0] = default;", true)]
+    [DataRow("void ClearScratch(CancellationToken[] scratch) => scratch[0] = default; ClearScratch(new CancellationToken[1]);", false)]
+    [DataRow("void ClearScratch(CancellationToken[] scratch) => scratch[0] = default; ClearScratch(tokens);", true)]
+    [DataRow("void ClearScratch(CancellationToken[] scratch) { var alias = scratch; alias[0] = default; } ClearScratch(new CancellationToken[1]);", false)]
     public async Task Tracks_Caller_Container_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";

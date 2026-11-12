@@ -5696,10 +5696,12 @@ internal static class ModuleAuthoringAnalysis
             .ToArray();
         AddCallerAllocationAliases(children, callerReference, storageStart, relevant);
 
-        // Caller-owned containers can alias even when only one has proven provenance.
+        // Parameters owned by this callable may alias even when only one has proven
+        // provenance. Nested callable parameters can receive independent scratch storage.
         foreach (var parameter in children.OfType<IParameterReferenceOperation>())
         {
-            if (IsCancellationContainer(parameter.Type))
+            if (IsCancellationContainer(parameter.Type)
+                && ReferenceEquals(GetEnclosingCallable(parameter), GetEnclosingCallable(callerReference ?? operation)))
             {
                 relevant.Add(parameter.Parameter);
             }
@@ -5948,16 +5950,16 @@ internal static class ModuleAuthoringAnalysis
             (GetContainerSymbol(child) is { } symbol && symbols.Contains(symbol))
             || (child is IFieldReferenceOperation or IPropertyReferenceOperation && IsCancellationContainer(child.Type)));
 
-    private static IEnumerable<IOperation> GetContainerStorageReferences(IOperation operation) => operation switch
+    private static IEnumerable<IOperation> GetContainerStorageReferences(IOperation operation, HashSet<IOperation>? visited = null) => operation switch
     {
         ILocalReferenceOperation { Local.RefKind: not RefKind.None } local
-            when IsCancellationContainer(local.Type) => GetRefLocalContainerStorageReferences(local, []),
+            when IsCancellationContainer(local.Type) => GetRefLocalContainerStorageReferences(local, visited ?? []),
         ILocalReferenceOperation or IParameterReferenceOperation or IFieldReferenceOperation or IPropertyReferenceOperation
             when IsCancellationContainer(operation.Type) => [operation],
-        IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => GetContainerStorageReferences(instance),
-        IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand),
-        ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Value),
-        _ => GetCompositeContainerStorageReferences(operation),
+        IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => GetContainerStorageReferences(instance, visited),
+        IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand, visited),
+        ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Value, visited),
+        _ => GetCompositeContainerStorageReferences(operation, visited),
     };
 
     private static IEnumerable<IOperation> GetRefLocalContainerStorageReferences(
@@ -5988,9 +5990,7 @@ internal static class ModuleAuthoringAnalysis
             values = values.Append(initializer);
         }
 
-        return values.SelectMany(value => value is ILocalReferenceOperation { Local.RefKind: not RefKind.None } local
-            ? GetRefLocalContainerStorageReferences(local, [.. visited])
-            : GetContainerStorageReferences(value));
+        return values.SelectMany(value => GetContainerStorageReferences(value, [.. visited]));
     }
 
     private static IEnumerable<ISimpleAssignmentOperation> GetLoopCarriedRefBindings(
@@ -6010,20 +6010,28 @@ internal static class ModuleAuthoringAnalysis
                 continue;
             }
 
-            foreach (var binding in loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>())
+            var bindings = loop.DescendantsAndSelf().OfType<ISimpleAssignmentOperation>()
+                .Where(binding => IsReachableRefBinding(binding, reference.Local, callable))
+                .ToArray();
+            foreach (var binding in bindings)
             {
-                if (binding.IsRef
-                    && binding.Syntax.SpanStart > reference.Syntax.SpanStart
-                    && binding.Target is ILocalReferenceOperation target
-                    && SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
-                    && ReferenceEquals(GetEnclosingCallable(binding), callable)
-                    && IsInReachableBranch(binding))
+                if (binding.Syntax.SpanStart > reference.Syntax.SpanStart
+                    && !bindings.Any(later => later.Syntax.SpanStart > binding.Syntax.SpanStart
+                        && IsLinearPredecessor(later, binding)))
                 {
                     yield return binding;
                 }
             }
         }
     }
+
+    private static bool IsReachableRefBinding(
+        ISimpleAssignmentOperation binding, ILocalSymbol local, IOperation? callable) =>
+        binding.IsRef
+        && binding.Target is ILocalReferenceOperation target
+        && SymbolEqualityComparer.Default.Equals(target.Local, local)
+        && ReferenceEquals(GetEnclosingCallable(binding), callable)
+        && IsInReachableBranch(binding);
 
     private static bool IsRefRebinding(IAssignmentOperation assignment) =>
         assignment is ISimpleAssignmentOperation { IsRef: true };
@@ -6037,26 +6045,26 @@ internal static class ModuleAuthoringAnalysis
         _ => false,
     };
 
-    private static IEnumerable<IOperation> GetCompositeContainerStorageReferences(IOperation operation) => operation switch
+    private static IEnumerable<IOperation> GetCompositeContainerStorageReferences(IOperation operation, HashSet<IOperation>? visited) => operation switch
     {
-        ISwitchExpressionOperation expression => expression.Arms.SelectMany(arm => GetContainerStorageReferences(arm.Value)),
-        IArgumentOperation argument => GetContainerStorageReferences(argument.Value),
-        IConditionalOperation conditional => GetContainerStorageReferences(conditional.WhenTrue)
-            .Concat(conditional.WhenFalse is { } alternative ? GetContainerStorageReferences(alternative) : []),
-        ICoalesceOperation coalesce => GetContainerStorageReferences(coalesce.Value).Concat(GetContainerStorageReferences(coalesce.WhenNull)),
-        ITupleOperation tuple => tuple.Elements.SelectMany(GetContainerStorageReferences),
-        IDeclarationExpressionOperation declaration => GetContainerStorageReferences(declaration.Expression),
-        IDeconstructionAssignmentOperation assignment => GetContainerStorageReferences(assignment.Target).Concat(GetContainerStorageReferences(assignment.Value)),
-        IArrayElementReferenceOperation array => GetContainerStorageReferences(array.ArrayReference),
-        _ => GetInvocationContainerStorageReferences(operation),
+        ISwitchExpressionOperation expression => expression.Arms.SelectMany(arm => GetContainerStorageReferences(arm.Value, visited)),
+        IArgumentOperation argument => GetContainerStorageReferences(argument.Value, visited),
+        IConditionalOperation conditional => GetContainerStorageReferences(conditional.WhenTrue, visited)
+            .Concat(conditional.WhenFalse is { } alternative ? GetContainerStorageReferences(alternative, visited) : []),
+        ICoalesceOperation coalesce => GetContainerStorageReferences(coalesce.Value, visited).Concat(GetContainerStorageReferences(coalesce.WhenNull, visited)),
+        ITupleOperation tuple => tuple.Elements.SelectMany(child => GetContainerStorageReferences(child, visited)),
+        IDeclarationExpressionOperation declaration => GetContainerStorageReferences(declaration.Expression, visited),
+        IDeconstructionAssignmentOperation assignment => GetContainerStorageReferences(assignment.Target, visited).Concat(GetContainerStorageReferences(assignment.Value, visited)),
+        IArrayElementReferenceOperation array => GetContainerStorageReferences(array.ArrayReference, visited),
+        _ => GetInvocationContainerStorageReferences(operation, visited),
     };
 
-    private static IEnumerable<IOperation> GetInvocationContainerStorageReferences(IOperation operation) => operation switch
+    private static IEnumerable<IOperation> GetInvocationContainerStorageReferences(IOperation operation, HashSet<IOperation>? visited) => operation switch
     {
-        IInvocationOperation invocation => invocation.Arguments.SelectMany(GetContainerStorageReferences)
-            .Concat(invocation.Instance is { } receiver ? GetContainerStorageReferences(receiver) : []),
-        IDynamicMemberReferenceOperation { Instance: { } instance } => GetContainerStorageReferences(instance),
-        IDynamicInvocationOperation or IDynamicObjectCreationOperation => operation.ChildOperations.SelectMany(GetContainerStorageReferences),
+        IInvocationOperation invocation => invocation.Arguments.SelectMany(child => GetContainerStorageReferences(child, visited))
+            .Concat(invocation.Instance is { } receiver ? GetContainerStorageReferences(receiver, visited) : []),
+        IDynamicMemberReferenceOperation { Instance: { } instance } => GetContainerStorageReferences(instance, visited),
+        IDynamicInvocationOperation or IDynamicObjectCreationOperation => operation.ChildOperations.SelectMany(child => GetContainerStorageReferences(child, visited)),
         _ => [],
     };
 
