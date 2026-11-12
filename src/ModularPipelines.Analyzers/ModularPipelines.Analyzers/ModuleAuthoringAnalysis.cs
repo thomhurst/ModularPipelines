@@ -5649,6 +5649,7 @@ internal static class ModuleAuthoringAnalysis
         var relevant = GetForwardedContainerSymbols(operation, flowedParameters);
         return operation.DescendantsAndSelf().Any(child =>
             IsInReachableBranch(child)
+            && IsInsideReachableNestedCallable(child)
             && (((ExposesCancellationContainer(child)
                         || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
                     && ReferencesContainer(child, relevant))
@@ -5669,7 +5670,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         var children = (callerReference is null
-                ? operation.DescendantsAndSelf().Where(IsInReachableBranch)
+                ? operation.DescendantsAndSelf().Where(IsInReachableBranch).Where(IsInsideReachableNestedCallable)
                 : GetCallerContainerOperations(operation, callerReference, storageStart))
             .ToArray();
         // Caller-owned containers can alias even when only one has proven provenance.
@@ -5713,7 +5714,7 @@ internal static class ModuleAuthoringAnalysis
         var children = root.DescendantsAndSelf().ToArray();
         var caller = GetEnclosingCallable(reference);
         bool PrecedesReference(IOperation child) =>
-            child.Syntax.SpanStart >= storageStart
+            child.Syntax.Span.End > storageStart
             && child.Syntax.SpanStart < reference.Syntax.SpanStart;
 
         // Nested bodies execute at their call sites, irrespective of where the
@@ -5830,7 +5831,8 @@ internal static class ModuleAuthoringAnalysis
             when IsCancellationContainer(operation.Type) => [operation],
         IPropertyReferenceOperation { Property.IsIndexer: true, Instance: { } instance } => GetContainerStorageReferences(instance),
         IConversionOperation conversion => GetContainerStorageReferences(conversion.Operand),
-        ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Value),
+        ISimpleAssignmentOperation assignment => GetContainerStorageReferences(assignment.Target)
+            .Concat(GetContainerStorageReferences(assignment.Value)),
         ISwitchExpressionOperation expression => expression.Arms.SelectMany(arm => GetContainerStorageReferences(arm.Value)),
         IArgumentOperation argument => GetContainerStorageReferences(argument.Value),
         IConditionalOperation conditional => GetContainerStorageReferences(conditional.WhenTrue)
