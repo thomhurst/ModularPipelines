@@ -490,6 +490,13 @@ internal static class CancellationTokenCollectionProvenance
         private Value EvaluateConversion(IConversionOperation conversion, State state)
         {
             var converted = Evaluate(conversion.Operand, state);
+            if (conversion.Operand.Type is IArrayTypeSymbol && IsTokenCollection(conversion.Operand.Type)
+                && conversion.Type is INamedTypeSymbol && IsTokenCollection(conversion.Type)
+                && conversion.OperatorMethod?.ContainingType.OriginalDefinition.ToDisplayString() is "System.Span<T>" or "System.ReadOnlySpan<T>")
+            {
+                return converted;
+            }
+
             if (conversion.OperatorMethod is not null)
             {
                 InvalidateArrays(converted, state);
@@ -702,6 +709,17 @@ internal static class CancellationTokenCollectionProvenance
         {
             switch (operation)
             {
+                case IDeclarationPatternOperation { DeclaredSymbol: { } symbol }:
+                    state.SetValue(symbol, Value.Unknown);
+                    return Value.Unknown;
+                case IRecursivePatternOperation { DeclaredSymbol: { } symbol }:
+                    state.SetValue(symbol, Value.Unknown);
+                    foreach (var child in operation.ChildOperations)
+                    {
+                        Evaluate(child, state);
+                    }
+
+                    return Value.Unknown;
                 case IInvocationOperation invocation:
                     return EvaluateInvocation(invocation, state);
                 case IDeconstructionAssignmentOperation deconstruction:
@@ -784,6 +802,21 @@ internal static class CancellationTokenCollectionProvenance
             };
             if (receiver is null)
             {
+                if (target is IPropertyReferenceOperation property)
+                {
+                    var instance = property.Instance is null ? Value.None : Evaluate(property.Instance, state);
+                    foreach (var argument in property.Arguments)
+                    {
+                        Evaluate(argument.Value, state);
+                    }
+
+                    return value =>
+                    {
+                        InvalidateArrays(instance, state);
+                        InvalidateArrays(value, state);
+                    };
+                }
+
                 return value => Assign(target, value, state);
             }
 
@@ -914,6 +947,19 @@ internal static class CancellationTokenCollectionProvenance
 
         private static Value GetSymbolValue(ISymbol symbol, State state)
         {
+            if (symbol is ILocalSymbol { RefKind: RefKind.RefReadOnly }
+                && state.ReferenceTargets.TryGetValue(symbol, out var targets))
+            {
+                Value? referenced = null;
+                foreach (var target in targets)
+                {
+                    var current = state.IsEscaped(target) ? Value.None : GetStorageValue(target, state);
+                    referenced = referenced is null ? current : referenced.Merge(current);
+                }
+
+                return referenced ?? Value.Unknown;
+            }
+
             if (state.EscapedSymbols.Contains(symbol))
             {
                 return Value.None;
@@ -1047,6 +1093,11 @@ internal static class CancellationTokenCollectionProvenance
 
         private void WriteCollectionElement(IOperation receiver, IReadOnlyList<IOperation> indices, Value array, Value value, State state)
         {
+            if (array.UnknownArray)
+            {
+                InvalidateUnknownReferenceArrays(receiver, state);
+            }
+
             if (array.Arrays is not { } identities)
             {
                 InvalidateUnknownReferenceArrays(receiver, state);

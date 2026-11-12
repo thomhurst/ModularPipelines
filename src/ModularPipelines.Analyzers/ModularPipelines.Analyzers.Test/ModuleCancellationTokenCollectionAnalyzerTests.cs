@@ -7,6 +7,43 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenCollectionAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref tokens; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;", false)]
+    [DataRow("var tokens = new[] { cancellationToken }; ref readonly CancellationToken[] alias = ref tokens; tokens = new CancellationToken[1]; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(alias).Token;", true)]
+    [DataRow("var pair = (1, 2); if (cancellationToken is var saved) cancellationToken = saved;", false)]
+    [DataRow("var pair = (1, 2); if (cancellationToken is { } saved) cancellationToken = saved;", false)]
+    [DataRow("var pair = (1, 2); var saved = cancellationToken; cancellationToken = default; var slots = new Dictionary<CancellationToken, int>(); slots[cancellationToken = saved] = 0;", false)]
+    public async Task Review_Storage_And_Target_Effects(string statements, bool warns)
+    {
+        await Verify(statements, warns);
+    }
+
+    [TestMethod]
+    [DataRow("Span", false)]
+    [DataRow("ReadOnlySpan", false)]
+    [DataRow("Span", true)]
+    public async Task CSharp13_Array_Span_Conversion_Preserves_Storage(string span, bool mutate)
+    {
+        var statements = $"var tokens = new[] {{ cancellationToken }}; {span}<CancellationToken> view = tokens; "
+            + (mutate ? "view[0] = default; " : "")
+            + "cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;";
+        var test = new VerifyCS.Test
+        {
+            TestCode = Source(statements, mutate ? "{|#0:Task.Delay(1, cancellationToken)|}" : "Task.Delay(1, cancellationToken)"),
+            ReferenceAssemblies = Net.Net110,
+            TestState = { AdditionalReferences = { typeof(IModuleContext).Assembly.Location } },
+        };
+        test.SolutionTransforms.Add((solution, projectId) => solution.WithProjectParseOptions(projectId,
+            ((Microsoft.CodeAnalysis.CSharp.CSharpParseOptions) solution.GetProject(projectId)!.ParseOptions!)
+                .WithLanguageVersion(Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp13)));
+        if (mutate)
+        {
+            test.ExpectedDiagnostics.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"));
+        }
+
+        await test.RunAsync();
+    }
+
+    [TestMethod]
     [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(view).Token;", false)]
     [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", false)]
     [DataRow("var tokens = new[] { cancellationToken }; var view = tokens.AsSpan(); view[0] = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", true)]
