@@ -46,10 +46,7 @@ internal sealed class CancellationTokenReachingValues
 
         // Mutable captures have a dedicated lifetime proof, including callback
         // diagnostics. Do not replace that proof with a direct-read CFG result.
-        if (root.DescendantsAndSelf().OfType<IParameterReferenceOperation>().Any(candidate =>
-                SymbolEqualityComparer.Default.Equals(candidate.Parameter, source)
-                && candidate.Syntax.Ancestors().Any(static syntax => syntax is
-                    AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax)))
+        if (HasCapturedSource(root, source))
         {
             return null;
         }
@@ -63,6 +60,14 @@ internal sealed class CancellationTokenReachingValues
         // No evaluated read means this reference is unreachable, including a
         // return whose cleanup and handlers all exit the callable.
         return !analysis._values.TryGetValue((reference.Syntax.Span, reference.Kind), out var value) || value;
+    }
+
+    private static bool HasCapturedSource(IOperation root, IParameterSymbol source)
+    {
+        return root.DescendantsAndSelf().OfType<IParameterReferenceOperation>().Any(candidate =>
+            SymbolEqualityComparer.Default.Equals(candidate.Parameter, source)
+            && candidate.Syntax.Ancestors().Any(static syntax => syntax is
+                AnonymousFunctionExpressionSyntax or LocalFunctionStatementSyntax));
     }
 
     internal static bool? TryGetValueFromSources(IOperation reference, HashSet<IParameterSymbol> sources,
@@ -340,16 +345,7 @@ internal sealed class CancellationTokenReachingValues
             }
 
             state = state.Clone();
-            if (branch.Source.BranchValue is IIsNullOperation { Operand: IFlowCaptureReferenceOperation capture }
-                && state.SourceOrNullCaptures.Contains(capture.Id))
-            {
-                var isNull = branch.IsConditionalSuccessor ==
-                    (branch.Source.ConditionKind == ControlFlowConditionKind.WhenTrue);
-                if (!isNull)
-                {
-                    state.Captures.Add(capture.Id);
-                }
-            }
+            RefineNonNullCapture(branch, state);
 
             var next = RunFinalizers(branch.FinallyRegions, state);
             if (next is null)
@@ -369,6 +365,20 @@ internal sealed class CancellationTokenReachingValues
                 }
 
                 Enqueue(destination, next);
+            }
+        }
+
+        private static void RefineNonNullCapture(ControlFlowBranch branch, State state)
+        {
+            if (branch.Source.BranchValue is IIsNullOperation { Operand: IFlowCaptureReferenceOperation capture }
+                && state.SourceOrNullCaptures.Contains(capture.Id))
+            {
+                var isNull = branch.IsConditionalSuccessor ==
+                    (branch.Source.ConditionKind == ControlFlowConditionKind.WhenTrue);
+                if (!isNull)
+                {
+                    state.Captures.Add(capture.Id);
+                }
             }
         }
 
@@ -394,34 +404,38 @@ internal sealed class CancellationTokenReachingValues
                 return true;
             }
 
-            bool value;
-            if (branch.Source.BranchValue?.ConstantValue is { HasValue: true, Value: bool constant })
-            {
-                value = constant;
-            }
-            else if (branch.Source.BranchValue is IIsPatternOperation
-            { Pattern: IConstantPatternOperation pattern } test
-                && TryGetConstantValue(test.Value, []) is { HasValue: true } subject
-                && pattern.Value.ConstantValue is { HasValue: true } expected)
-            {
-                value = Equals(subject.Value, expected.Value);
-            }
-            else if (!state.HasBackEdge && TryGetInitialForCondition(branch.Source.BranchValue) is { } initialCondition)
-            {
-                value = initialCondition;
-            }
-            else if (branch.Source.BranchValue is IIsNullOperation nullTest
-                && IsKnownNonNull(nullTest.Operand, []))
-            {
-                value = false;
-            }
-            else
+            if (TryGetBranchCondition(branch.Source.BranchValue, state) is not { } value)
             {
                 return true;
             }
 
             var conditionalTaken = branch.Source.ConditionKind == ControlFlowConditionKind.WhenTrue ? value : !value;
             return branch.IsConditionalSuccessor == conditionalTaken;
+        }
+
+        private bool? TryGetBranchCondition(IOperation? condition, State state)
+        {
+            if (condition?.ConstantValue is { HasValue: true, Value: bool constant })
+            {
+                return constant;
+            }
+
+            if (condition is IIsPatternOperation { Pattern: IConstantPatternOperation pattern } test
+                && TryGetConstantValue(test.Value, []) is { HasValue: true } subject
+                && pattern.Value.ConstantValue is { HasValue: true } expected)
+            {
+                return Equals(subject.Value, expected.Value);
+            }
+
+            // Only the entry state can use the initializer: backedges carry later iterations.
+            if (!state.HasBackEdge && TryGetInitialForCondition(condition) is { } initialCondition)
+            {
+                return initialCondition;
+            }
+
+            return condition is IIsNullOperation nullTest && IsKnownNonNull(nullTest.Operand, [])
+                ? false
+                : null;
         }
 
         private Optional<object?> TryGetConstantValue(IOperation operation, HashSet<CaptureId> visited)
