@@ -123,7 +123,7 @@ internal static class ProcessRunner
 
     // Query the retained handle directly: Process.PeakWorkingSet64 uses a process-list
     // snapshot that cannot be created once the process has exited.
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
+#pragma warning disable SYSLIB1054 // Retain the existing psapi marshaling signature for this resource-reporting change.
     [DllImport("psapi.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool GetProcessMemoryInfo(SafeProcessHandle process, out ProcessMemoryCounters counters, uint size);
