@@ -5582,6 +5582,8 @@ internal static class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
+        // Arguments execute before this call enters the helper, so nested calls are not recursion.
+        var argumentMethods = CloneVisitedMethods(visitedMethods);
         var method = NormalizeMethod(invocation.TargetMethod);
         if (!visitedMethods.Add(method)
             || invocation.SemanticModel?.Compilation is not { } compilation
@@ -5596,7 +5598,7 @@ internal static class ModuleAuthoringAnalysis
             method,
             cancellationToken,
             visitedLocals,
-            visitedMethods);
+            argumentMethods);
         if (flowedParameters.Count == 0)
         {
             return false;
@@ -5629,17 +5631,32 @@ internal static class ModuleAuthoringAnalysis
         IOperation body,
         IOperation returnValue,
         IParameterSymbol parameter,
-        HashSet<IMethodSymbol> visitedMethods)
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<ILocalSymbol>? visitedSnapshots = null)
     {
+        visitedSnapshots ??= [with(SymbolEqualityComparer.Default)];
+        if (returnValue is ILocalReferenceOperation { Local.RefKind: RefKind.None } local)
+        {
+            if (!visitedSnapshots.Add(local.Local))
+            {
+                return true;
+            }
+
+            return FindReachingLocalValues(local, local.Local).Any(source =>
+                HasCancellationSnapshotMutation(source, local, body, (invocation, method), [], visitedMethods)
+                || HasAliasedCancellationWrite(invocation, method, body, source, parameter,
+                    visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+        }
+
         if (returnValue is IConversionOperation conversion)
         {
-            return HasAliasedCancellationWrite(invocation, method, body, conversion.Operand, parameter, visitedMethods);
+            return HasAliasedCancellationWrite(invocation, method, body, conversion.Operand, parameter, visitedMethods, visitedSnapshots);
         }
 
         if (returnValue is IPropertyReferenceOperation { Instance: { } instance } property
             && IsCancellationTokenSourceToken(property))
         {
-            return HasAliasedCancellationWrite(invocation, method, body, instance, parameter, visitedMethods);
+            return HasAliasedCancellationWrite(invocation, method, body, instance, parameter, visitedMethods, visitedSnapshots);
         }
 
         if (returnValue is IInvocationOperation factory && IsKnownCancellationCarrierFactory(factory))
@@ -5648,7 +5665,14 @@ internal static class ModuleAuthoringAnalysis
             return !factory.Arguments.Any(argument => argument.Parameter is { } input
                 && IsCancellationInput(input)
                 && FlowsFromCancellationToken(argument.Value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
-                && !HasAliasedCancellationWrite(invocation, method, body, argument.Value, parameter, visitedMethods));
+                && !HasAliasedCancellationWrite(invocation, method, body, argument.Value, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
+        }
+
+        if (returnValue is IInvocationOperation helper)
+        {
+            return !HasCancellationPreservingHelperInput(helper, visitedMethods, argument =>
+                FlowsFromCancellationToken(argument, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(visitedMethods))
+                && !HasAliasedCancellationWrite(invocation, method, body, argument, parameter, visitedMethods, CloneVisitedLocals(visitedSnapshots)));
         }
 
         var caller = (Invocation: invocation, Method: method);
@@ -5767,14 +5791,11 @@ internal static class ModuleAuthoringAnalysis
                     && IsCancellationPreservingSnapshot(argument.Value, read, body, caller,
                         CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
             case IInvocationOperation helper when read is IParameterReferenceOperation origin:
-                return FlowsFromCancellationToken(helper, origin.Parameter,
+                return HasCancellationPreservingHelperInput(helper, visitedMethods, argument =>
+                    FlowsFromCancellationToken(argument, origin.Parameter,
                         CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods))
-                    && helper.Arguments
-                        .Where(argument => argument.Parameter is { } input && IsCancellationInput(input)
-                            && FlowsFromCancellationToken(argument.Value, origin.Parameter,
-                                CloneVisitedLocals(visitedLocals), CloneVisitedMethods(visitedMethods)))
-                        .All(argument => IsCancellationPreservingSnapshot(argument.Value, read, body, caller,
-                            CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
+                    && IsCancellationPreservingSnapshot(argument, read, body, caller,
+                        CloneVisitedLocals(visitedLocals), visitedWrites, CloneVisitedMethods(visitedMethods)));
             case ILocalReferenceOperation { Local.RefKind: RefKind.None } local when visitedLocals.Add(local.Local):
                 var values = FindReachingLocalValues(local, local.Local).ToArray();
                 return values.Length > 0 && values.All(source =>
@@ -5788,6 +5809,38 @@ internal static class ModuleAuthoringAnalysis
             default:
                 return false;
         }
+    }
+
+    private static bool HasCancellationPreservingHelperInput(
+        IInvocationOperation invocation,
+        HashSet<IMethodSymbol> visitedMethods,
+        Func<IOperation, bool> preservesInput)
+    {
+        var method = NormalizeMethod(invocation.TargetMethod);
+        var nestedMethods = CloneVisitedMethods(visitedMethods);
+        if (!nestedMethods.Add(method)
+            || invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } body)
+        {
+            return false;
+        }
+
+        var returns = body.DescendantsAndSelf().OfType<IReturnOperation>()
+            .Where(static operation => GetEnclosingCallable(operation) is null && IsInReachableBranch(operation))
+            .Select(static operation => operation.ReturnedValue)
+            .OfType<IOperation>()
+            .SelectMany(GetReachableValueLeaves)
+            .Where(static value => !AlwaysThrows(value))
+            .ToArray();
+        // Check each returned path against only the arguments that actually carry its value.
+        // Ignored arguments still execute; their writes are checked at the contributing reads.
+        return returns.Length > 0 && returns.All(value => invocation.Arguments.Any(argument =>
+            argument.Parameter is { } input
+            && GetTargetParameter(method, input) is { } parameter
+            && IsCancellationInput(input)
+            && FlowsFromCancellationToken(value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(nestedMethods))
+            && !HasAliasedCancellationWrite(invocation, method, body, value, parameter, nestedMethods)
+            && preservesInput(argument.Value)));
     }
 
     private static IEnumerable<(IOperation Target, IOperation? Value)> GetCancellationStorageWrites(IOperation operation)

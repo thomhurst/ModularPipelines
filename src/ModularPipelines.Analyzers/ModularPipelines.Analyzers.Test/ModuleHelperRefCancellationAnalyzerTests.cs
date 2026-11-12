@@ -61,6 +61,14 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "second = default; second = IdentityValue(default, first); return first;", true)]
     [DataRow("ref token, ref token", "", "second = Flag ? first : CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", false)]
     [DataRow("ref token, ref token", "", "second = Flag ? first : default; return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return IdentityValue(first, saved);", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return IdentityValue(value: saved, ignored: first);", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return IdentityValue(saved, first);", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; return IdentityValue(first, IdentityValue(first, saved));", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; ref CancellationToken alias = ref saved; alias = default; return IdentityValue(first, saved);", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; second = IdentityValue(first, saved); return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = IdentityValue(first, saved); return result;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; second = default; var result = IdentityValue(saved, first); return result;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
