@@ -118,6 +118,8 @@ internal sealed class ResourceUsageMonitor(
         return true;
     }
 
+    private int OpenPeriodCount => (_cpu.IsOpen ? 1 : 0) + (_memory.IsOpen ? 1 : 0);
+
     private static int ToPercent(double fraction) => (int) Math.Round(fraction * 100);
 
     private void Track(SaturationTracker tracker, double value, double threshold, DateTimeOffset now)
@@ -144,7 +146,7 @@ internal sealed class ResourceUsageMonitor(
 
         if (tracker.IsOpen
             || tracker.Consecutive < Math.Max(1, _options.SustainedSamples)
-            || _periods.Count >= MaxPeriods)
+            || _periods.Count + OpenPeriodCount >= MaxPeriods)
         {
             return;
         }

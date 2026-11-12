@@ -80,4 +80,4 @@ builder.ConfigureResourceMonitoring(monitoring => monitoring with { Enabled = fa
 ## Limits
 
 - Inside a container, the figures describe the host, not the container's CPU or memory limit.
-- In distributed runs, each process samples its own machine. Worker figures are not combined into the master's report.
+- In distributed runs, each process samples its own machine. Worker figures are not combined into the master's report, and warnings logged on a worker do not name its running modules.

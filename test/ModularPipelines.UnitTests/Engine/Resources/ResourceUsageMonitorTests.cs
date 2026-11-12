@@ -82,6 +82,25 @@ public class ResourceUsageMonitorTests
     }
 
     [Test]
+    public async Task Sample_NeverRecordsMoreThanMaxPeriods()
+    {
+        var harness = new Harness(options => options with { SustainedSamples = 1 });
+        for (var index = 0; index < ResourceUsageMonitor.MaxPeriods - 1; index++)
+        {
+            harness.Sample(cpu: 0.99);
+            harness.Sample(cpu: 0.10);
+        }
+
+        // One slot is left; CPU and memory saturate in the same sample.
+        harness.Sample(cpu: 0.99, memory: 0.99);
+        harness.Sample(cpu: 0.10);
+        harness.Sample(cpu: 0.99);
+        harness.Sample(cpu: 0.10);
+
+        await Assert.That(harness.Monitor.GetResult()!.Periods.Count).IsEqualTo(ResourceUsageMonitor.MaxPeriods);
+    }
+
+    [Test]
     [Timeout(30_000)]
     public async Task Scope_SamplesOnEachTick_AndClosesOpenPeriodOnDispose(CancellationToken cancellationToken)
     {
