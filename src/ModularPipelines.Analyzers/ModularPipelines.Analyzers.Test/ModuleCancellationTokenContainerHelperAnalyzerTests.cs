@@ -7,6 +7,15 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleCancellationTokenContainerHelperAnalyzerTests
 {
     [TestMethod]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; for (var i = 0; i < 2; i++) { scratch[0] = default; (scratch, _) = (value, 0); }", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; Action bind = () => scratch = value; bind(); scratch[0] = default;", true)]
+    [DataRow("var scratch = value; try { if (flag) throw new Exception(); scratch = new CancellationToken[1]; } catch (Exception) { } scratch[0] = default;", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; void Bind() { scratch = value; } Bind(); scratch[0] = default;", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; (scratch, _) = (value, 0); scratch[0] = default;", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; var passes = 0; Again: scratch[0] = default; scratch = value; if (passes++ == 0) goto Again;", true)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; void Bind() { scratch = value; } scratch[0] = default;", false)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; void Bind() { scratch = value; } if (false) Bind(); scratch[0] = default;", false)]
+    [DataRow("var scratch = value; scratch = new CancellationToken[1]; var passes = 0; Again: scratch = new CancellationToken[1]; scratch[0] = default; scratch = value; if (passes++ == 0) goto Again;", false)]
     [DataRow("var alias = flag switch { true => value, false => value }; alias[0] = default;", true)]
     [DataRow("var (scratch, original) = (new CancellationToken[1], value); scratch[0] = default;", false)]
     [DataRow("Span<CancellationToken> span = value; span[0] = default;", true)]
@@ -130,6 +139,10 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("var scratch = tokens; try { if (context != null) throw new Exception(); scratch = new CancellationToken[1]; } catch (Exception) { } scratch[0] = default;", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; void Bind() { scratch = tokens; } Bind(); scratch[0] = default;", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; (scratch, _) = (tokens, 0); scratch[0] = default;", true)]
+    [DataRow("var scratch = tokens; scratch = new CancellationToken[1]; var passes = 0; Again: scratch[0] = default; scratch = tokens; if (passes++ == 0) goto Again;", true)]
     [DataRow("tokens[0] = default; tokens = [cancellationToken];", false)]
     [DataRow("var old = tokens; tokens = [cancellationToken]; old[0] = default;", false)]
     [DataRow("tokens = [cancellationToken]; tokens[0] = default;", true)]

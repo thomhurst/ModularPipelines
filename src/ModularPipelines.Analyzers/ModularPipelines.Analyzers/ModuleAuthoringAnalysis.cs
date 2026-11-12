@@ -6019,10 +6019,47 @@ internal static class ModuleAuthoringAnalysis
         var allocations = values.SelectMany(value => GetContainerAllocationValues(value, CloneVisitedLocals(visited)));
         // Preserve known inputs when an escape makes the full origin uncertain.
         // They can still be aliases of the storage consumed by the proof.
-        return values.Length == 0 || HasLoopCarriedContainerAssignment(reference) || HasWritableContainerStorageAlias(reference)
+        return values.Length == 0 || HasLoopCarriedContainerAssignment(reference) || HasWritableContainerStorageAlias(reference) || HasUncertainContainerAssignment(reference)
             ? allocations.Prepend(reference)
             : allocations;
     }
+
+    private static bool HasUncertainContainerAssignment(ILocalReferenceOperation reference)
+    {
+        var callable = GetEnclosingCallable(reference);
+        var operations = GetReachableContainerOperations(GetRoot(reference)).ToArray();
+        return operations.Any(operation => operation switch
+        {
+            // Captured writes execute at call sites, rather than declaration offsets.
+            ISimpleAssignmentOperation { Target: ILocalReferenceOperation target }
+                when SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)
+                    && !ReferenceEquals(GetEnclosingCallable(operation), callable) => true,
+            IDeconstructionAssignmentOperation assignment =>
+                CanDeconstructionReachContainerReference(assignment, reference, operations)
+                && assignment.Target.DescendantsAndSelf().OfType<ILocalReferenceOperation>()
+                    .Any(target => SymbolEqualityComparer.Default.Equals(target.Local, reference.Local)),
+            IBranchOperation { BranchKind: BranchKind.GoTo } branch =>
+                CanGotoRevisitContainerReference(branch, reference, operations),
+            _ => false,
+        });
+    }
+
+    private static bool CanDeconstructionReachContainerReference(
+        IDeconstructionAssignmentOperation assignment, ILocalReferenceOperation reference, IOperation[] operations) =>
+        !ReferenceEquals(GetEnclosingCallable(assignment), GetEnclosingCallable(reference))
+        || assignment.Syntax.SpanStart < reference.Syntax.SpanStart
+        || operations.OfType<ILoopOperation>().Any(loop => HasAncestor(reference, loop) && HasAncestor(assignment, loop));
+
+    private static bool CanGotoRevisitContainerReference(
+        IBranchOperation branch, ILocalReferenceOperation reference, IOperation[] operations) =>
+        ReferenceEquals(GetEnclosingCallable(branch), GetEnclosingCallable(reference))
+        && branch.Syntax.SpanStart > reference.Syntax.SpanStart
+        && operations.OfType<ILabeledOperation>().Any(label =>
+            SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+            && label.Syntax.SpanStart <= reference.Syntax.SpanStart
+            && !FindLocalAssignments(GetRoot(reference), reference, reference.Local, GetEnclosingCallable(reference))
+                .Any(assignment => assignment.Syntax.SpanStart > label.Syntax.SpanStart
+                    && IsDefiniteContainerPredecessor(assignment, reference)));
 
     private static bool HasWritableContainerStorageAlias(ILocalReferenceOperation reference) =>
         GetRoot(reference).DescendantsAndSelf().Any(operation =>
@@ -6072,7 +6109,7 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            if (ancestor is ILoopOperation or ISwitchOperation
+            if (ancestor is ILoopOperation or ISwitchOperation or ITryOperation
                 || ancestor is IConditionalOperation { Condition.ConstantValue: not { HasValue: true, Value: bool } })
             {
                 return false;
