@@ -5648,7 +5648,7 @@ internal static class ModuleAuthoringAnalysis
             returnType = nullableType.TypeArguments[0];
         }
 
-        if (!IsCancellationCarrier(returnType))
+        if (!IsCancellationCarrier(returnType) && !IsCancellationInputType(returnType))
         {
             return false;
         }
@@ -5792,11 +5792,16 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool IsCancellationInput(IParameterSymbol parameter)
     {
-        return IsCancellationToken(parameter)
-               || (parameter.Type is IArrayTypeSymbol arrayType
+        return IsCancellationInputType(parameter.Type);
+    }
+
+    private static bool IsCancellationInputType(ITypeSymbol? type)
+    {
+        return type?.ToDisplayString() == CancellationTokenMetadataName
+               || (type is IArrayTypeSymbol arrayType
                    && arrayType.ElementType.ToDisplayString()
                    == CancellationTokenMetadataName)
-               || (parameter.Type is INamedTypeSymbol { IsGenericType: true } namedType
+               || (type is INamedTypeSymbol { IsGenericType: true } namedType
                    && namedType.TypeArguments.Length == 1
                    && namedType.OriginalDefinition.ToDisplayString() is
                        "System.Span<T>"

@@ -634,6 +634,26 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("CancellationToken[]", "return new[] { token };", false)]
+    [DataRow("CancellationToken[]", "return new[] { default(CancellationToken) };", true)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; return tokens;", false)]
+    [DataRow("CancellationToken[]", "var tokens = new[] { token }; tokens = new[] { default(CancellationToken) }; return tokens;", true)]
+    [DataRow("CancellationToken[]", "return [token];", false)]
+    [DataRow("System.ReadOnlySpan<CancellationToken>", "return new[] { token };", false)]
+    [DataRow("System.ReadOnlySpan<CancellationToken>", "return new[] { default(CancellationToken) };", true)]
+    [DataRow("System.Span<CancellationToken>", "return new[] { token };", false)]
+    [DataRow("System.Span<CancellationToken>", "return new[] { default(CancellationToken) };", true)]
+    public async Task Tracks_Token_Collection_Helper_Returns(string type, string body, bool warning)
+    {
+        await Verify("""
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(Tokens(cancellationToken));
+            for (var i = 0; i < 2; i++) await CALL(1, linked.Token);
+            """, warning, $$"""
+            private static {{type}} Tokens(CancellationToken token) { {{body}} }
+            """);
+    }
+
+    [TestMethod]
     [DataRow("DateTime.UtcNow.Ticks > 0 ? first : third", 0, 2, false)]
     [DataRow("DateTime.UtcNow.Ticks switch { > 0 => first, _ => third }", 0, 2, false)]
     [DataRow("DateTime.UtcNow.Ticks > 0 ? first : third", 2, 2, true)]
