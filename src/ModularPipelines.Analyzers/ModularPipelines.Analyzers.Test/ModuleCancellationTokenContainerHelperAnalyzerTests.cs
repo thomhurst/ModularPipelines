@@ -112,6 +112,16 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("if (false) tokens[0] = default;", false)]
     [DataRow("var scratch = new CancellationToken[1]; scratch[0] = default;", false)]
     [DataRow("", false)]
+    [DataRow("CancellationToken[] alias; alias = (tokens = new[] { cancellationToken }); alias[0] = default;", true)]
+    [DataRow("CancellationToken[] alias; alias = (tokens = new[] { cancellationToken }); var other = alias; other[0] = default;", true)]
+    [DataRow("CancellationToken[] alias; alias = (tokens = new[] { cancellationToken }); var scratch = new CancellationToken[1]; scratch[0] = default;", false)]
+    [DataRow("_ = new Lazy<bool>(() => { tokens[0] = default; return true; }).Value;", true)]
+    [DataRow("Func<bool> clear = () => { tokens[0] = default; return true; }; _ = new Lazy<bool>(clear).Value;", true)]
+    [DataRow("_ = new Lazy<bool>(() => { tokens[0] = default; return true; }).Value; tokens = new[] { cancellationToken };", false)]
+    [DataRow("if (false) _ = new Lazy<bool>(() => { tokens[0] = default; return true; }).Value;", false)]
+    [DataRow("ref var alias = ref tokens; alias = new CancellationToken[1];", true)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref scratch; alias = new CancellationToken[1];", false)]
+    [DataRow("ref var alias = ref tokens; alias = new CancellationToken[1]; tokens = new[] { cancellationToken };", false)]
     public async Task Tracks_Caller_Container_Storage(string body, bool warns)
     {
         var call = warns ? "{|#0:Task.Delay(1, linked.Token)|}" : "Task.Delay(1, linked.Token)";

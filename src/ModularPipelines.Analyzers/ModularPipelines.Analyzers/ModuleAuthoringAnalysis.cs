@@ -5743,14 +5743,21 @@ internal static class ModuleAuthoringAnalysis
 
         // An allocation assignment expression returns the new storage now
         // held by the caller local, rather than its earlier storage.
-        foreach (var declaration in children.OfType<IVariableDeclaratorOperation>())
+        foreach (var assignment in children.OfType<ISimpleAssignmentOperation>())
         {
-            if (declaration.Initializer?.Value is ISimpleAssignmentOperation { Target: ILocalReferenceOperation target } assignment
+            if (assignment.Target is ILocalReferenceOperation target
                 && SymbolEqualityComparer.Default.Equals(target.Local, callerReference.Local)
                 && assignment.Syntax.SpanStart < callerReference.Syntax.SpanStart
                 && assignment.Syntax.Span.End > storageStart)
             {
-                relevant.Add(declaration.Symbol);
+                if (assignment.Parent is IVariableInitializerOperation { Parent: IVariableDeclaratorOperation declaration })
+                {
+                    relevant.Add(declaration.Symbol);
+                }
+                else if (assignment.Parent is ISimpleAssignmentOperation outerAssignment)
+                {
+                    AddContainerReferences(outerAssignment.Target, relevant);
+                }
             }
         }
     }
@@ -5776,11 +5783,47 @@ internal static class ModuleAuthoringAnalysis
             .Cast<IMethodSymbol>()
             .ToImmutableArray();
         var reachable = GetReachableCallables(invocations, callables, GetCallableSymbol(caller));
+        AddEscapedCallerCallables(children, caller, PrecedesReference, invocations, callables, reachable);
         return children.Where(IsInReachableBranch).Where(child =>
             ReferenceEquals(GetEnclosingCallable(child), caller)
                 ? PrecedesReference(child)
                 : GetCallableSymbol(GetEnclosingCallable(child)) is { } callable
                   && reachable.Contains(callable));
+    }
+
+    private static void AddEscapedCallerCallables(
+        IOperation[] children, IOperation? caller, Func<IOperation, bool> precedesReference,
+        ImmutableArray<IInvocationOperation> invocations, ImmutableArray<IMethodSymbol> callables,
+        HashSet<IMethodSymbol> reachable)
+    {
+        var arguments = children.OfType<IArgumentOperation>().Where(IsInReachableBranch).ToArray();
+        bool changed;
+        do
+        {
+            var count = reachable.Count;
+            foreach (var argument in arguments)
+            {
+                var enclosing = GetEnclosingCallable(argument);
+                if (ReferenceEquals(enclosing, caller)
+                    ? !precedesReference(argument)
+                    : GetCallableSymbol(enclosing) is not { } owner || !reachable.Contains(owner))
+                {
+                    continue;
+                }
+
+                foreach (var callable in callables)
+                {
+                    if (!reachable.Contains(callable)
+                        && ValueContainsCallable(argument.Value, callable, [with(SymbolEqualityComparer.Default)]))
+                    {
+                        reachable.UnionWith(GetReachableCallables(invocations, callables, callable));
+                    }
+                }
+            }
+
+            changed = count != reachable.Count;
+        }
+        while (changed);
     }
 
     private static void AddContainerAliases(IOperation child, HashSet<ISymbol> relevant)
@@ -6286,10 +6329,11 @@ internal static class ModuleAuthoringAnalysis
                             || (IsCancellationContainerElement(child) && MayWriteContainerElement(child)))
                             && ReferencesContainer(child, relevant))
                         || (child is IAssignmentOperation assignment
-                            && !ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(localReference))
                             && GetContainerStorageReferences(assignment.Target)
                                 .OfType<ILocalReferenceOperation>()
-                                .Any(target => SymbolEqualityComparer.Default.Equals(target.Local, localReference.Local)))));
+                                .Any(target => (target.Local.RefKind != RefKind.None && relevant.Contains(target.Local))
+                                    || (!ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(localReference))
+                                        && SymbolEqualityComparer.Default.Equals(target.Local, localReference.Local))))));
     }
 
     private static bool IsCancellationTokenSourceToken(
