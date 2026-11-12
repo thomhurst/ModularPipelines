@@ -116,12 +116,13 @@ internal static class CancellationTokenFlow
                         break;
                     case ILocalReferenceOperation or IParameterReferenceOperation
                         when IsType(operation.Type, CancellationTokenSourceName)
-                             && (operation.Parent is IMethodReferenceOperation or IArgumentOperation
+                             && (!IsLocalSourceUse(operation)
                                  || (GetEnclosingCallable(operation) is { } capturer
                                      && !SymbolEqualityComparer.Default.Equals(
                                          GetVariable(operation)!.ContainingSymbol,
                                          capturer))):
-                        // The source may be cancelled from elsewhere, such as a module token registration.
+                        // Any other use lets the source be cancelled from elsewhere, such as a
+                        // module token registration.
                         _untracked.Add(GetVariable(operation)!);
                         break;
                     case ISimpleAssignmentOperation { IsRef: true }:
@@ -154,6 +155,15 @@ internal static class CancellationTokenFlow
                 }
             }
         }
+
+        /// <summary>A source stays tracked only while it is assigned to or has a member read or called on it.</summary>
+        private static bool IsLocalSourceUse(IOperation reference) => reference.Parent switch
+        {
+            IPropertyReferenceOperation property => property.Instance == reference,
+            IInvocationOperation invocation => invocation.Instance == reference,
+            ISimpleAssignmentOperation assignment => assignment.Target == reference,
+            _ => false,
+        };
 
         private void Untrack(IOperation? operation)
         {

@@ -73,7 +73,7 @@ shapes are never followed and never produce a diagnostic for a passed token:
 - fields, properties, and awaited values, including `Task` and `ValueTask` results
 - the result or body of any method, local function, or lambda that is given a token
 - a captured variable that is assigned anywhere after its declaration
-- a `CancellationTokenSource` variable that is captured by a lambda or local function, passed to a method, or used as a method group
+- a `CancellationTokenSource` variable that is used for anything other than assigning it or reading or calling its own members, such as capturing it, passing it to a method, or copying it
 - a variable written inside a `try` block, as seen from its `catch` or `finally`
 - branches that are unreachable only because of a constant condition
 

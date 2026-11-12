@@ -27,6 +27,7 @@ public class ModuleCancellationTokenFlowAnalyzerTests
     [DataRow("var token = CancellationToken.None;")]
     [DataRow("var first = CancellationToken.None; var token = first;")]
     [DataRow("var source = new CancellationTokenSource(); var token = source.Token;")]
+    [DataRow("var source = new CancellationTokenSource(); source.CancelAfter(1); var token = source.Token;")]
     [DataRow("var token = cancellationToken; token = default;")]
     [DataRow("CancellationToken token; if (context != null) token = default; else token = CancellationToken.None;")]
     [DataRow("var token = context != null ? default : CancellationToken.None;")]
@@ -61,6 +62,9 @@ public class ModuleCancellationTokenFlowAnalyzerTests
     [DataRow("var source = new CancellationTokenSource(); cancellationToken.Register(() => source.Cancel()); var token = source.Token;")]
     [DataRow("var source = new CancellationTokenSource(); cancellationToken.Register(source.Cancel); var token = source.Token;")]
     [DataRow("var source = new CancellationTokenSource(); Wire(source, cancellationToken); var token = source.Token;")]
+    [DataRow("var source = new CancellationTokenSource(); cancellationToken.Register(static state => ((CancellationTokenSource)state!).Cancel(), source); var token = source.Token;")]
+    [DataRow("var source = new CancellationTokenSource(); var alias = source; cancellationToken.Register(() => alias.Cancel()); var token = source.Token;")]
+    [DataRow("var source = new CancellationTokenSource(); _source = source; var token = source.Token;")]
     public async Task Does_Not_Report_Token_Kept_On_Some_Path(string statements)
     {
         await Verify(statements, "token", warns: false);
@@ -153,6 +157,7 @@ public class ModuleCancellationTokenFlowAnalyzerTests
         public class BuildModule : Module<List<string>>
         {
             private CancellationToken _field;
+            private CancellationTokenSource? _source;
             private static CancellationToken Pass(CancellationToken token) => token;
             private static void Set(ref CancellationToken token) { }
             private static Task WaitByReference(in CancellationToken token) => Task.CompletedTask;
