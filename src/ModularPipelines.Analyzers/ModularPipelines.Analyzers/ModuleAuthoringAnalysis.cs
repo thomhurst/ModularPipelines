@@ -5793,7 +5793,7 @@ internal static class ModuleAuthoringAnalysis
         // A snapshot can survive later writes to its source, but not writes to its own slot.
         // Compare a preserving write with the snapshot's original value, not its copied slot.
         return body.DescendantsAndSelf()
-            .SelectMany(static operation => GetCancellationStorageWrites(operation))
+            .SelectMany(operation => GetCancellationStorageWrites(operation, visitedMethods))
             .Where(write => ReferenceEquals(GetEnclosingCallable(write.Target), GetEnclosingCallable(read)))
             .Where(write => IsInReachableBranch(write.Target)
                 && CanCancellationWriteReachSnapshot(write.Target, read)
@@ -5854,7 +5854,9 @@ internal static class ModuleAuthoringAnalysis
         => switchCase.Parent is ISwitchOperation switchOperation
             && HasAncestor(read, switchOperation)
             && !HasAncestor(read, switchCase)
-            && SwitchCaseCannotReachFollowingOperation(switchCase);
+            && (SwitchCaseCannotReachFollowingOperation(switchCase)
+                || (switchCase.Body.LastOrDefault() is IBranchOperation { BranchKind: BranchKind.Break } branch
+                    && SymbolEqualityComparer.Default.Equals(branch.Target, switchOperation.ExitLabel)));
 
     private static bool CancellationWriteCannotReachOtherSwitchArm(ISwitchExpressionArmOperation arm, IOperation write, IOperation read)
         => HasAncestor(write, arm.Value)
@@ -6926,7 +6928,8 @@ internal static class ModuleAuthoringAnalysis
         var callable = GetEnclosingCallable(operation);
         var assignments = FindLocalAssignments(root, operation, local, callable);
         var linearAssignment = assignments.FirstOrDefault(candidate =>
-            IsLinearPredecessor(candidate, operation));
+            IsLinearPredecessor(candidate, operation)
+            || IsNonThrowingFinallyPredecessor(candidate, operation));
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
             root,
             operation,
@@ -7237,6 +7240,36 @@ internal static class ModuleAuthoringAnalysis
             .Where(declarator => ReferenceEquals(GetEnclosingCallable(declarator), callable))
             .OrderByDescending(static declarator => declarator.Syntax.SpanStart)
             .FirstOrDefault();
+    }
+
+    private static bool IsNonThrowingFinallyPredecessor(IOperation candidate, IOperation operation)
+    {
+        // A finally also runs on exceptional exits. Only discard earlier values when
+        // the prefix through this assignment cannot throw before assigning the local.
+        if (candidate.Parent is not IExpressionStatementOperation statement
+            || statement.Parent is not IBlockOperation { Parent: ITryOperation tryOperation } block
+            || !ReferenceEquals(block, tryOperation.Body)
+            || tryOperation.Finally is not { } finallyBlock
+            || !HasAncestor(operation, finallyBlock))
+        {
+            return false;
+        }
+
+        return block.Operations.TakeWhile(item => !ReferenceEquals(item, statement))
+            .Append(statement).All(IsNonThrowingLocalAssignment);
+    }
+
+    private static bool IsNonThrowingLocalAssignment(IOperation operation)
+    {
+        if (operation is not IExpressionStatementOperation { Operation: ISimpleAssignmentOperation { IsRef: false } assignment }
+            || assignment.Target is not ILocalReferenceOperation { Local.RefKind: RefKind.None })
+        {
+            return false;
+        }
+
+        return assignment.Value is IParameterReferenceOperation { Parameter.RefKind: RefKind.None }
+            or ILocalReferenceOperation { Local.RefKind: RefKind.None }
+            or IDefaultValueOperation or ILiteralOperation;
     }
 
     private static bool IsLinearPredecessor(

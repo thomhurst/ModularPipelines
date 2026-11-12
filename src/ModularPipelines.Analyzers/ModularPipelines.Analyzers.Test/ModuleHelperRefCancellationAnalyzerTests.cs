@@ -7,6 +7,8 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "RecursivePreserve(ref first); return first;", true)]
+    [DataRow("ref token, ref token", "", "var saved = first; switch (Flag) { case true: second = default; break; default: return first; } return saved;", false)]
     [DataRow("ref token, ref token", "", "PreserveLinkedConditional(ref first); return first;", false)]
     [DataRow("ref token, ref token", "", "DiscardLinkedConditional(ref first); return first;", true)]
     [DataRow("ref token, ref token", "", "PreserveLinked(ref first); return first;", false)]
@@ -144,6 +146,38 @@ public class ModuleHelperRefCancellationAnalyzerTests
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: false);
 
+    [TestMethod]
+    [DataRow("token = cancellationToken;", false)]
+    [DataRow("System.Console.WriteLine(); token = cancellationToken;", true)]
+    [DataRow("if (context != null) token = cancellationToken;", true)]
+    public async Task Checks_Token_Assignment_Before_Finally(string body, bool reports)
+    {
+        var source = $$"""
+            {{TestSourceConstants.StandardModuleHeader}}
+            public class BuildModule : Module<List<string>>
+            {
+                protected override async Task<List<string>> ExecuteAsync(
+                    IModuleContext context, CancellationToken cancellationToken)
+                {
+                    CancellationToken token = default;
+                    try { {{body}} }
+                    finally { await {{(reports ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)")}}; }
+                    return null!;
+                }
+            }
+            """;
+        if (reports)
+        {
+            await VerifyCS.VerifyAnalyzerAsync(source,
+                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                    .WithLocation(0).WithArguments("Delay"));
+        }
+        else
+        {
+            await VerifyCS.VerifyAnalyzerAsync(source);
+        }
+    }
+
     private static async Task VerifyStorage(string arguments, string setup, string body, bool reports, bool firstByRef)
     {
         var call = "Task.Delay(1, snapshot)";
@@ -211,6 +245,13 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static void DiscardLinked(scoped ref CancellationToken value)
                     => value = CancellationTokenSource.CreateLinkedTokenSource(default(CancellationToken), CancellationToken.None).Token;
                 private static void PreserveViaValueHelper(scoped ref CancellationToken value) => value = IdentityValue(default, value);
+
+                private static void RecursivePreserve(scoped ref CancellationToken value) => value = RecursiveIdentity(ref value);
+                private static CancellationToken RecursiveIdentity(scoped ref CancellationToken token)
+                {
+                    if (Flag) RecursivePreserve(ref token);
+                    return token;
+                }
 
                 private static void Clear(scoped ref CancellationToken value) => value = default;
                 private static void Preserve(scoped ref CancellationToken value) => value = value;
