@@ -511,6 +511,25 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
             """, token: "await Pass(cancellationToken)");
     }
 
+    [TestMethod]
+    [DataRow("Task")]
+    [DataRow("ValueTask")]
+    public async Task Exception_Filter_Does_Not_Establish_Loop_Reset(string taskType)
+    {
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token) {{ var saved = token; for (int i = 0; ; i++) {{ try {{ }} catch (Exception) when ((saved = token).CanBeCanceled) {{ }} if (i == 1) return {taskType}.FromResult(saved); saved = default; }} }}", true, token: "await Pass(cancellationToken)");
+    }
+
+    [TestMethod]
+    [DataRow("context != null", "true => saved = cancellationToken, false => saved = cancellationToken", false)]
+    [DataRow("context != null", "true => saved = cancellationToken, false => saved = default", true)]
+    [DataRow("context != null", "true => saved = cancellationToken, false => cancellationToken", true)]
+    [DataRow("true", "true => saved = cancellationToken, false => saved = default", false)]
+    [DataRow("context != null", "true when context != null => saved = cancellationToken, _ => saved = cancellationToken", false)]
+    public async Task Exhaustive_Switch_Assignments_Track_Every_Reaching_Value(string input, string arms, bool warns)
+    {
+        await Verify($"CancellationToken saved = default; _ = ({input}) switch {{ {arms} }};", warns, token: "saved");
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

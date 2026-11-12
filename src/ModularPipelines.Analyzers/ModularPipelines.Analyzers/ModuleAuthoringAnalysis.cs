@@ -6332,6 +6332,7 @@ internal static partial class ModuleAuthoringAnalysis
         return root.DescendantsAndSelf()
             .Where(static candidate =>
                 candidate is IConditionalOperation
+                    or ISwitchExpressionOperation
                     or ISwitchOperation
                     or IWhileLoopOperation { ConditionIsTop: false }
                     or ITryOperation)
@@ -6363,6 +6364,10 @@ internal static partial class ModuleAuthoringAnalysis
                     .Concat(conditional.WhenFalse is { } whenFalse
                         ? GetReachingLocalAssignments(whenFalse, local)
                         : []),
+            ISwitchExpressionOperation switchExpression =>
+                switchExpression.Arms
+                    .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+                    .SelectMany(arm => GetReachingLocalAssignments(arm.Value, local)),
             ISwitchOperation switchOperation =>
                 switchOperation.Cases.SelectMany(@case =>
                     GetReachingSequenceAssignments(@case.Body, local)),
@@ -6448,6 +6453,10 @@ internal static partial class ModuleAuthoringAnalysis
         {
             IBlockOperation block => block.Operations.Any(candidate =>
                 DefinitelyAssignsLocal(candidate, local)),
+            ISwitchExpressionOperation switchExpression =>
+                switchExpression.Arms
+                    .Where(arm => !IsDeadSwitchExpressionArm(arm, switchExpression))
+                    .All(arm => DefinitelyAssignsLocal(arm.Value, local)),
             ISwitchOperation switchOperation =>
                 DefinitelyAssignsLocalInSwitch(switchOperation, local),
             IWhileLoopOperation { ConditionIsTop: false } whileLoop =>
@@ -6629,6 +6638,7 @@ internal static partial class ModuleAuthoringAnalysis
             if (ancestor is IConditionalOperation
                 or ILoopOperation
                 or ISwitchOperation
+                or ICatchClauseOperation
                 || (ancestor is ISwitchExpressionArmOperation arm && HasOtherReachableSwitchArm(arm))
                 || IsShortCircuitOperand(operation, ancestor))
             {
