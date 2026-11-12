@@ -5791,13 +5791,34 @@ internal static class ModuleAuthoringAnalysis
         for (var ancestor = write.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
             if (ancestor is IBlockOperation block && !HasAncestor(read, block)
-                && AlwaysExitsBeforeCancellationRead(block, read))
+                && (AlwaysExitsBeforeCancellationRead(block, read)
+                    || (AlwaysJumpsPastCancellationRead(block, read)
+                        && !CanCarryCancellationWriteAcrossLoop(write, read)
+                        && !HasCancellationBackJump(write, read))))
             {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static bool AlwaysJumpsPastCancellationRead(IOperation operation, IOperation read)
+    {
+        return operation switch
+        {
+            IBranchOperation { BranchKind: BranchKind.GoTo } branch =>
+                !CanCancellationExitReachFinally(branch, read)
+                && GetRoot(branch).DescendantsAndSelf().OfType<ILabeledOperation>().Any(label =>
+                    SymbolEqualityComparer.Default.Equals(label.Label, branch.Target)
+                    && label.Syntax.SpanStart > read.Syntax.SpanStart),
+            IBlockOperation { Operations.Length: > 0 } block =>
+                AlwaysJumpsPastCancellationRead(block.Operations[block.Operations.Length - 1], read),
+            IConditionalOperation { WhenFalse: { } whenFalse } conditional =>
+                AlwaysJumpsPastCancellationRead(conditional.WhenTrue, read)
+                && AlwaysJumpsPastCancellationRead(whenFalse, read),
+            _ => false,
+        };
     }
 
     private static bool CanCarryCancellationWriteAcrossLoop(IOperation write, IOperation read)
@@ -5963,7 +5984,7 @@ internal static class ModuleAuthoringAnalysis
     {
         return operation switch
         {
-            IReturnOperation returnOperation => !CanCancellationReturnReachFinally(returnOperation, read),
+            IReturnOperation returnOperation => !CanCancellationExitReachFinally(returnOperation, read),
             IThrowOperation throwOperation => !CanCancellationThrowReachRead(throwOperation, read),
             IBlockOperation { Operations.Length: > 0 } block =>
                 AlwaysExitsBeforeCancellationRead(block.Operations[block.Operations.Length - 1], read),
@@ -5974,12 +5995,12 @@ internal static class ModuleAuthoringAnalysis
         };
     }
 
-    private static bool CanCancellationReturnReachFinally(IReturnOperation returnOperation, IOperation read)
+    private static bool CanCancellationExitReachFinally(IOperation exitOperation, IOperation read)
     {
-        for (var ancestor = returnOperation.Parent; ancestor is not null; ancestor = ancestor.Parent)
+        for (var ancestor = exitOperation.Parent; ancestor is not null; ancestor = ancestor.Parent)
         {
             if (ancestor is ITryOperation { Finally: { } finallyBlock }
-                && !HasAncestor(returnOperation, finallyBlock) && HasAncestor(read, finallyBlock))
+                && !HasAncestor(exitOperation, finallyBlock) && HasAncestor(read, finallyBlock))
             {
                 return true;
             }
