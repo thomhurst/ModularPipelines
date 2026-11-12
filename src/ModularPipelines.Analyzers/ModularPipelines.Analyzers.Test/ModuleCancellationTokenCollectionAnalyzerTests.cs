@@ -466,6 +466,22 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("var holder = Hold(ref tokens[0]); tokens[0] = cancellationToken; holder.Slot = default;", "tokens", true)]
+    [DataRow("Span<CancellationToken> view = tokens; var holder = Hold(ref view[0]); tokens[0] = cancellationToken; holder.Slot = default;", "tokens", true)]
+    [DataRow("var holder = Hold(ref (context != null ? ref tokens[0] : ref tokens[0])); tokens[0] = cancellationToken; holder.Slot = default;", "tokens", true)]
+    [DataRow("var holder = Hold(ref tokens[0]); tokens[0] = cancellationToken; holder.Slot = default;", "independent", false)]
+    [DataRow("_ = new Holder(ref tokens[0]); tokens[0] = cancellationToken;", "tokens", false)]
+    [DataRow("_ = new Holder(ref First(tokens)); tokens[0] = cancellationToken;", "tokens", false)]
+    [DataRow("_ = Hold(ref tokens[0]); tokens[0] = cancellationToken;", "tokens", false)]
+    [DataRow("_ = Hold(ref First(tokens)); tokens[0] = cancellationToken;", "tokens", false)]
+    [DataRow("var view = ReadOnly(tokens); tokens[0] = cancellationToken;", "tokens", false)]
+    public async Task RefStruct_Result_Lifetime_Determines_Element_Escapes(string statements, string collection, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var independent = new[] {{ cancellationToken }}; {statements} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({collection}).Token;", warns,
+            "private static ReadOnlySpan<CancellationToken> ReadOnly(CancellationToken[] values) => values; private static Holder Hold(ref CancellationToken token) => new Holder(ref token); private static ref CancellationToken First(CancellationToken[] values) => ref values[0]; private ref struct Holder { public ref CancellationToken Slot; public Holder(ref CancellationToken token) { Slot = ref token; } }");
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task CSharp13_Span_To_ReadonlySpan_Preserves_Storage(bool mutate)
@@ -552,6 +568,33 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
     {
         await Verify(statements, warns,
             "private object[] _objects; private void ResetObjects() => ((CancellationToken[])_objects[0])[0] = default; private static CancellationToken[] Identity(CancellationToken[] tokens) => tokens;");
+    }
+
+    [TestMethod]
+    [DataRow("var alias = Identity(tokens); var independent = new[] { cancellationToken }; alias[0] = default;", "independent", false)]
+    [DataRow("var alias = Identity(tokens); var independent = new[] { cancellationToken }; alias.AsSpan()[0] = default;", "independent", false)]
+    [DataRow("var alias = Identity(tokens); var independent = new[] { cancellationToken }; var joined = context != null ? alias : independent; joined[0] = default;", "independent", true)]
+    [DataRow("var independent = new[] { cancellationToken }; var alias = Identity(tokens); independent[0] = cancellationToken; alias[0] = default;", "independent", true)]
+    [DataRow("var alias = Identity(tokens); var independent = new[] { cancellationToken }; if (context != null) alias[0] = default;", "independent", false)]
+    public async Task Helper_Result_Writes_Preserve_Later_Independent_Allocations(string statements, string selected, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; {statements} cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({selected}).Token;", warns,
+            "private static CancellationToken[] Identity(CancellationToken[] tokens) => tokens;");
+    }
+
+    [TestMethod]
+    [DataRow("_ = new object[] { tokens };", false)]
+    [DataRow("_ = (object[])[tokens];", false)]
+    [DataRow("(_, _) = (new object[] { tokens }, 0);", false)]
+    [DataRow("_ = context != null ? new object[] { tokens } : new object[0];", false)]
+    [DataRow("_ = (Container)new object[] { tokens };", true)]
+    [DataRow("Observe(new object[] { tokens });", true)]
+    [DataRow("var kept = new object[] { tokens };", true)]
+    [DataRow("var kept = (object[])[tokens];", true)]
+    public async Task Discarded_Containers_Do_Not_Escape_Elements(string statements, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; {statements} tokens[0] = cancellationToken; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource(tokens).Token;", warns,
+            "private static void Observe(object[] value) { } private class Container { public static implicit operator Container(object[] value) => new(); }");
     }
 
     public TestContext TestContext { get; set; } = null!;

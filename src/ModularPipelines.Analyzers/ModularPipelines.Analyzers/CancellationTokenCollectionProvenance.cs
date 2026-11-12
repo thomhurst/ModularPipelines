@@ -147,6 +147,9 @@ internal static class CancellationTokenCollectionProvenance
         // Only syntax-named indices need facts, even for very large allocations.
         public Dictionary<TextSpan, Dictionary<int, Value>> Arrays { get; } = [];
 
+        // A helper result cannot alias an allocation created after it returned.
+        public Dictionary<TextSpan, HashSet<TextSpan>> PossibleArrayAliases { get; } = [];
+
         public HashSet<TextSpan> SafeArrays { get; } = [];
 
         // Writable element aliases can mutate after direct writes restore an index.
@@ -241,6 +244,11 @@ internal static class CancellationTokenCollectionProvenance
                 copy.Arrays.Add(entry.Key, [with(entry.Value)]);
             }
 
+            foreach (var entry in PossibleArrayAliases)
+            {
+                copy.PossibleArrayAliases.Add(entry.Key, [.. entry.Value]);
+            }
+
             copy.SafeArrays.UnionWith(SafeArrays);
             copy.EscapedArrays.UnionWith(EscapedArrays);
             copy.EscapedSymbols.UnionWith(EscapedSymbols);
@@ -270,7 +278,7 @@ internal static class CancellationTokenCollectionProvenance
 
         public bool Merge(State other)
         {
-            var changed = MergeCaptureTargets(other) | MergeReferenceTargets(other) | MergeEscapedFields(other);
+            var changed = MergeCaptureTargets(other) | MergeReferenceTargets(other) | MergeEscapedFields(other) | MergePossibleArrayAliases(other);
             foreach (var entry in other.CaptureElementArrays)
             {
                 if (!CaptureElementArrays.TryGetValue(entry.Key, out var arrays))
@@ -316,6 +324,24 @@ internal static class CancellationTokenCollectionProvenance
                     changed |= !merged.SameAs(current[index]);
                     current[index] = merged;
                 }
+            }
+
+            return changed;
+        }
+
+        private bool MergePossibleArrayAliases(State other)
+        {
+            var changed = false;
+            foreach (var entry in other.PossibleArrayAliases)
+            {
+                if (!PossibleArrayAliases.TryGetValue(entry.Key, out var aliases))
+                {
+                    PossibleArrayAliases.Add(entry.Key, aliases = []);
+                }
+
+                var count = aliases.Count;
+                aliases.UnionWith(entry.Value);
+                changed |= aliases.Count != count;
             }
 
             return changed;
@@ -602,7 +628,7 @@ internal static class CancellationTokenCollectionProvenance
                 InvalidateArrays(value, state);
                 if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
                 {
-                    if (creation.Type?.IsRefLikeType == true)
+                    if (WritableRefLikeResultSurvives(creation))
                     {
                         // A ref field can retain the element alias after direct writes.
                         EscapeArrays(value, state);
@@ -636,9 +662,12 @@ internal static class CancellationTokenCollectionProvenance
                 return CreateArray(array.Syntax.Span, arrayElements, state);
             }
 
-            foreach (var arrayElement in arrayElements)
+            if (!ResultIsDiscarded(array, [], []))
             {
-                EscapeArrays(arrayElement, state);
+                foreach (var arrayElement in arrayElements)
+                {
+                    EscapeArrays(arrayElement, state);
+                }
             }
 
             return Value.None;
@@ -668,12 +697,46 @@ internal static class CancellationTokenCollectionProvenance
                 return CreateArray(collection.Syntax.Span, elements, state);
             }
 
-            foreach (var element in elements)
+            if (collection.Type is not IArrayTypeSymbol || !ResultIsDiscarded(collection, [], []))
             {
-                EscapeArrays(element, state);
+                foreach (var element in elements)
+                {
+                    EscapeArrays(element, state);
+                }
             }
 
             return Value.None;
+        }
+
+        private bool ResultIsDiscarded(IOperation operation, int[] path, HashSet<CaptureId> visited)
+        {
+            return operation.Parent switch
+            {
+                IConversionOperation { OperatorMethod: null } conversion => ResultIsDiscarded(conversion, path, visited),
+                IParenthesizedOperation parentheses => ResultIsDiscarded(parentheses, path, visited),
+                ITupleOperation tuple => ResultIsDiscarded(tuple, [tuple.Elements.IndexOf(operation), .. path], visited),
+                ISimpleAssignmentOperation assignment => IsDiscardTarget(assignment.Target, path),
+                IDeconstructionAssignmentOperation assignment => IsDiscardTarget(assignment.Target, path),
+                IFlowCaptureOperation capture => visited.Add(capture.Id)
+                    && _captureReferences.TryGetValue(capture.Id, out var references)
+                    && references.Count > 0 && references.All(reference => ResultIsDiscarded(reference, path, visited)),
+                _ => false,
+            };
+        }
+
+        private static bool IsDiscardTarget(IOperation target, int[] path)
+        {
+            foreach (var index in path)
+            {
+                if (target is not ITupleOperation tuple || index < 0 || index >= tuple.Elements.Length)
+                {
+                    return false;
+                }
+
+                target = tuple.Elements[index];
+            }
+
+            return target is IDiscardOperation;
         }
 
         private Value EvaluateArrayElement(IArrayElementReferenceOperation element, State state)
@@ -747,7 +810,7 @@ internal static class CancellationTokenCollectionProvenance
             InvalidateUnknownCollections(state);
             foreach (var value in values.Values)
             {
-                InvalidateInvocationArrays(value, invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true), state);
+                InvalidateInvocationArrays(value, WritableResultSurvives(invocation), state);
             }
 
             // Source-helper and awaitable payload proofs remain with the existing
@@ -758,6 +821,7 @@ internal static class CancellationTokenCollectionProvenance
                 // A negative index records unknown untouched contents, while literal
                 // element writes can still prove a subsequent selected token replaced.
                 var identity = invocation.Syntax.Span;
+                state.PossibleArrayAliases[identity] = [.. state.Arrays.Keys];
                 state.Arrays[identity] = new Dictionary<int, Value> { [-1] = Value.Unknown };
                 state.SafeArrays.Remove(identity);
                 return new Value(arrays: [identity], unsupported: true);
@@ -791,7 +855,7 @@ internal static class CancellationTokenCollectionProvenance
             // A call cannot write ref/out targets until every argument is evaluated.
             foreach (var (target, value, elementArrays) in references)
             {
-                var writableEscape = invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true);
+                var writableEscape = WritableResultSurvives(invocation);
                 InvalidateInvocationArrays(value, writableEscape, state);
                 if (writableEscape)
                 {
@@ -799,7 +863,7 @@ internal static class CancellationTokenCollectionProvenance
                 }
 
                 if (UsesReturnedReference(invocation)
-                    || invocation.Type?.IsRefLikeType == true)
+                    || WritableRefLikeResultSurvives(invocation))
                 {
                     InvalidateReferencedStorage(target, state);
                 }
@@ -842,7 +906,7 @@ internal static class CancellationTokenCollectionProvenance
                     InvalidateArrays(Evaluate(argument.Value, state), state);
                     if (argument.Parent is IInvocationOperation referenceCall
                         && (referenceCall.TargetMethod.ReturnsByRef || referenceCall.TargetMethod.ReturnsByRefReadonly
-                            || referenceCall.Type?.IsRefLikeType == true))
+                            || WritableRefLikeResultSurvives(referenceCall)))
                     {
                         InvalidateReferencedStorage(argument.Value, state);
                     }
@@ -1223,7 +1287,7 @@ internal static class CancellationTokenCollectionProvenance
                 IConversionOperation conversion => ReferenceSurvives(conversion, writableOnly, visited),
                 IFlowCaptureOperation capture => CaptureReferenceSurvives(capture.Id, writableOnly, visited ?? []),
                 IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IInvocationOperation invocation } => ArgumentReferenceSurvives(invocation, writableOnly, visited),
-                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IObjectCreationOperation creation } => creation.Type?.IsRefLikeType == true,
+                IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out, Parent: IObjectCreationOperation creation } => WritableRefLikeResultSurvives(creation),
                 _ => false,
             };
         }
@@ -1256,14 +1320,23 @@ internal static class CancellationTokenCollectionProvenance
 
         private bool ArgumentReferenceSurvives(IInvocationOperation invocation, bool writableOnly, HashSet<CaptureId>? visited)
         {
-            return invocation.Type?.IsRefLikeType == true
+            return WritableRefLikeResultSurvives(invocation)
                 || ((invocation.TargetMethod.ReturnsByRef || (!writableOnly && invocation.TargetMethod.ReturnsByRefReadonly))
                     && ReferenceSurvives(invocation, writableOnly, visited));
         }
 
-        private static void InvalidateInvocationArrays(Value value, bool returnsWritableReference, State state)
+        private bool WritableRefLikeResultSurvives(IOperation operation) =>
+            operation.Type is INamedTypeSymbol { IsRefLikeType: true } named
+            && named.OriginalDefinition.ToDisplayString() != "System.ReadOnlySpan<T>"
+            && !ResultIsDiscarded(operation, [], []);
+
+        private bool WritableResultSurvives(IInvocationOperation invocation) =>
+            WritableRefLikeResultSurvives(invocation)
+            || (invocation.TargetMethod.ReturnsByRef && ReferenceSurvives(invocation, writableOnly: true));
+
+        private static void InvalidateInvocationArrays(Value value, bool persistentEscape, State state)
         {
-            if (returnsWritableReference)
+            if (persistentEscape)
             {
                 // The returned alias can write after later direct writes restore facts.
                 EscapeArrays(value, state);
@@ -1337,7 +1410,7 @@ internal static class CancellationTokenCollectionProvenance
             {
                 // A helper result can also alias a known allocation. Keep this
                 // target's facts before recording its selected element write.
-                InvalidateAllArrays(state, array.Arrays);
+                InvalidatePossibleArrayAliases(array, state);
             }
 
             // A helper result may alias a known allocation as well as another helper result.
@@ -1370,6 +1443,27 @@ internal static class CancellationTokenCollectionProvenance
                     UpdateArrayElement(array, identities.Count, identity, items, arrayIndex, value, state);
                 }
             }
+        }
+
+        private static void InvalidatePossibleArrayAliases(Value array, State state)
+        {
+            if (array.UnknownArray || array.Arrays is not { } identities)
+            {
+                InvalidateAllArrays(state, array.Arrays);
+                return;
+            }
+
+            var aliases = new HashSet<TextSpan>();
+            foreach (var identity in identities)
+            {
+                if (state.PossibleArrayAliases.TryGetValue(identity, out var possible))
+                {
+                    aliases.UnionWith(possible);
+                }
+            }
+
+            aliases.ExceptWith(identities);
+            InvalidateArrays(new Value(arrays: aliases), state);
         }
 
         private static void UpdateArrayElement(
