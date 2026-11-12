@@ -320,6 +320,17 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify($"cancellationToken = default; int progress = 0; void Update() {{ {write} }} Update();", true);
     }
 
+    [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Generic_Awaited_Local_Tuple_Writes_Reject_Helper_Proof(string taskType, bool nested)
+    {
+        var write = nested ? "((saved, _), _) = ((default(T), 0), 0);" : "(saved, _) = (default(T), 0);";
+        await Verify($"static async {taskType}<T> Pass<T>(T token) where T : struct {{ var saved = await {taskType}.FromResult(token); {write} return saved; }}", true, token: "await Pass(cancellationToken)");
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";
