@@ -43,7 +43,7 @@ internal static class CancellationTokenParameterProvenance
                 assignment.Target is IParameterReferenceOperation parameter
                 && SymbolEqualityComparer.Default.Equals(parameter.Parameter, source))
             || HasUnsupportedScalarOperations(operations)
-            || operations.Any(HasCapturedWrite)
+            || operations.Any(operation => HasCapturedWrite(operation, source))
             || root.SemanticModel is not { } model)
         {
             return [];
@@ -83,7 +83,7 @@ internal static class CancellationTokenParameterProvenance
         return false;
     }
 
-    private static bool HasCapturedWrite(IOperation operation)
+    private static bool HasCapturedWrite(IOperation operation, IParameterSymbol source)
     {
         var function = operation switch
         {
@@ -107,7 +107,8 @@ internal static class CancellationTokenParameterProvenance
                 _ => null,
             };
             return target is not null
-                && !SymbolEqualityComparer.Default.Equals(target.ContainingSymbol, function);
+                && !SymbolEqualityComparer.Default.Equals(target.ContainingSymbol, function)
+                && ModuleAuthoringAnalysis.IsScalarPayloadType(reference.Type, source.Type);
         });
     }
 

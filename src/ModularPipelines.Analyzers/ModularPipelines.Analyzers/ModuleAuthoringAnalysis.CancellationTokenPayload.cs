@@ -22,6 +22,14 @@ internal static partial class ModuleAuthoringAnalysis
             or "System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult>"
             or "System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable<TResult>";
 
+    internal static bool IsScalarPayloadType(ITypeSymbol? type, ITypeSymbol scalarType) =>
+        SymbolEqualityComparer.Default.Equals(type, scalarType)
+        || IsCancellationCarrier(type)
+        || (type is INamedTypeSymbol { TypeArguments.Length: 1 } named
+            && IsFrameworkPayloadAwaitableType(named)
+            && (SymbolEqualityComparer.Default.Equals(named.TypeArguments[0], scalarType)
+                || named.TypeArguments[0].ToDisplayString() == CancellationTokenMetadataName));
+
     // Only framework wrappers preserve payload identity. In particular, an arbitrary
     // Result property, GetAwaiter implementation or conversion is not a proof.
     internal static IOperation? GetCancellationPayloadInput(IOperation operation) => operation switch
@@ -146,6 +154,13 @@ internal static partial class ModuleAuthoringAnalysis
         operation.DescendantsAndSelf().OfType<IParameterReferenceOperation>().Any(reference =>
             SymbolEqualityComparer.Default.Equals(reference.Parameter, parameter)
             && IsPotentialScalarWrite(reference));
+
+    private static bool HasUnsupportedLocalPayloadWrite(ILocalReferenceOperation localReference) =>
+        GetRoot(localReference).DescendantsAndSelf().OfType<ILocalReferenceOperation>().Any(reference =>
+            SymbolEqualityComparer.Default.Equals(reference.Local, localReference.Local)
+            && (HasRefStorageAncestor(reference)
+                || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
+                || (reference.Parent is ITupleOperation && IsPayloadAssignmentTarget(reference))));
 
     // A writable alias can mutate the referenced storage without another direct
     // reference to it. Treat escape as a write rather than trying to track aliases.

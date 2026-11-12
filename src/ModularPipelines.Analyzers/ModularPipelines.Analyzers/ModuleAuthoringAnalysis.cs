@@ -5921,7 +5921,7 @@ internal static partial class ModuleAuthoringAnalysis
         HashSet<ILocalSymbol> visitedLocals,
         HashSet<IMethodSymbol> visitedMethods)
     {
-        if (!visitedLocals.Add(localReference.Local))
+        if (!visitedLocals.Add(localReference.Local) || HasUnsupportedLocalPayloadWrite(localReference))
         {
             return false;
         }

@@ -300,6 +300,26 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
         await Verify($"var saved = cancellationToken; cancellationToken = default; {helper}", false);
     }
 
+    [TestMethod]
+    [DataRow("Task", false)]
+    [DataRow("ValueTask", false)]
+    [DataRow("Task", true)]
+    [DataRow("ValueTask", true)]
+    public async Task Local_Payload_Ref_Escapes_Reject_Helper_Proof(string taskType, bool conditional)
+    {
+        var alias = conditional ? "ref (choose ? ref saved : ref saved)" : "ref saved";
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token, bool choose) {{ var saved = token; ref var alias = {alias}; alias = default; return {taskType}.FromResult(saved); }} cancellationToken = await Pass(cancellationToken, context != null);", true);
+    }
+
+    [TestMethod]
+    [DataRow("progress++;")]
+    [DataRow("progress = 1;")]
+    [DataRow("(progress, _) = (1, 0);")]
+    public async Task Unrelated_Captured_Writes_Do_Not_Hide_Replaced_Token(string write)
+    {
+        await Verify($"cancellationToken = default; int progress = 0; void Update() {{ {write} }} Update();", true);
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";
