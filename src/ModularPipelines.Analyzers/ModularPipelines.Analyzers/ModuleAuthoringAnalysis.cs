@@ -5860,6 +5860,12 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        return IsCancellationSnapshotResetByLoop(declaration, read, write);
+    }
+
+    private static bool IsCancellationSnapshotResetByLoop(
+        IVariableDeclaratorOperation declaration, IOperation read, IOperation write)
+    {
         // A declaration inside the repeated loop resets its slot before this read.
         // Writes in the current iteration still pass the source-order check above.
         for (var ancestor = read.Parent; ancestor is not null; ancestor = ancestor.Parent)
