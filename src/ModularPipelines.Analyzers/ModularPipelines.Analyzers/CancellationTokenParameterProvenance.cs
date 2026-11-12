@@ -325,6 +325,25 @@ internal static class CancellationTokenParameterProvenance
                     return GetSymbolValue(state, local.Local);
                 case IFlowCaptureReferenceOperation capture:
                     return Get(state.Captures, capture.Id);
+                case IConversionOperation conversion:
+                    return EvaluateConversion(conversion, state);
+                case IFlowCaptureOperation capture:
+                    return EvaluateCapture(capture, state);
+                case ISimpleAssignmentOperation assignment:
+                    return EvaluateAssignment(assignment, state);
+                case IArgumentOperation argument:
+                    return Evaluate(argument.Value, state);
+                case IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation:
+                    return false;
+                default:
+                    return EvaluatePayloadOrChildren(operation, state);
+            }
+        }
+
+        private bool? EvaluatePayloadOrChildren(IOperation operation, State state)
+        {
+            switch (operation)
+            {
                 case IAwaitOperation awaited:
                     var awaitedValue = Evaluate(awaited.Operation, state);
                     return ModuleAuthoringAnalysis.GetCancellationPayloadInput(awaited) is not null ? awaitedValue : false;
@@ -338,21 +357,11 @@ internal static class CancellationTokenParameterProvenance
                     when property.Type?.ToDisplayString() == "System.Threading.CancellationToken":
                     EvaluateChildren(property, state);
                     return false;
-                case IConversionOperation conversion:
-                    return EvaluateConversion(conversion, state);
                 case IPropertyReferenceOperation { Property.Name: "Token", Instance: { } instance } property
                     when property.Property.ContainingType.ToDisplayString() == "System.Threading.CancellationTokenSource":
                     return Evaluate(instance, state);
-                case IFlowCaptureOperation capture:
-                    return EvaluateCapture(capture, state);
-                case ISimpleAssignmentOperation assignment:
-                    return EvaluateAssignment(assignment, state);
                 case IInvocationOperation invocation:
                     return EvaluateLocalHelper(invocation, state);
-                case IArgumentOperation argument:
-                    return Evaluate(argument.Value, state);
-                case IAnonymousFunctionOperation or IFlowAnonymousFunctionOperation or ILocalFunctionOperation:
-                    return false;
                 default:
                     EvaluateChildren(operation, state);
                     return IsReplacementValue(operation) ? false : null;
@@ -463,7 +472,6 @@ internal static class CancellationTokenParameterProvenance
             }
 
             return conversion.Conversion.IsIdentity || conversion.Operand is IDefaultValueOperation ? converted : null;
-
         }
 
         private bool? EvaluateFrameworkInvocation(IInvocationOperation invocation, IOperation payload, State state)
@@ -488,7 +496,6 @@ internal static class CancellationTokenParameterProvenance
             }
 
             return result;
-
         }
 
         private bool? EvaluateParameter(IParameterReferenceOperation parameter, State state)
