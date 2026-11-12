@@ -3519,12 +3519,21 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("return PickMiddle(first = default, first, first = third);", true)]
     [DataRow("ref var alias = ref first; return PickMiddle(alias = default, alias, alias = third);", true)]
     [DataRow("return PickMiddle(first = default, first = third, first);", false)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 => Pick(saved = third, saved), _ => third };", false)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 => Pick(third, saved), _ => third };", true)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 => Pick(saved = third, third), _ => saved };", true)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 when DateTime.UtcNow.Ticks > 0 || (saved = third).CanBeCanceled => saved, _ => third };", true)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 when (saved = third).CanBeCanceled => saved, _ => third };", false)]
+    [DataRow("CancellationToken saved = default; var text = choice > 0 ? \"value\" : null; return choice switch { 0 => PickText(text ?? (saved = third).ToString(), saved, third), _ => third };", true)]
+    [DataRow("CancellationToken saved = default; object? receiver = choice > 0 ? new object() : null; return choice switch { 0 => PickCondition(receiver?.Equals(saved = third), saved, third), _ => third };", true)]
     public async Task Tracks_CancellationToken_Expression_Evaluation_Order(string body, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(
             "var choice = DateTime.UtcNow.Ticks; " + body
             + " static CancellationToken Pick(CancellationToken first, CancellationToken second) => second;"
             + " static CancellationToken PickMiddle(CancellationToken first, CancellationToken second, CancellationToken third) => second;"
+            + " static CancellationToken PickText(string? text, CancellationToken first, CancellationToken second) => first;"
+            + " static CancellationToken PickCondition(bool? condition, CancellationToken first, CancellationToken second) => first;"
             + " static void ClearLater(ref CancellationToken target, CancellationToken saved) => target = default;",
             "cancellationToken", report);
         var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
@@ -3603,7 +3612,10 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("0 when (first = default) is var cleared && skip => third, > 0 when MayThrowBool() => third, _ => third", false)]
     [DataRow("0 when (first = default) is var cleared && skip => third, _ => third", false)]
     [DataRow("0 when (first = default) is var cleared && skip => third, 0 => third, _ => throw error", false)]
+    [DataRow("0 when (alias = default) is var cleared && skip => third, 0 => third, _ => throw error", false)]
     [DataRow("0 when (first = default) is var cleared && skip => third, >= 0 => third, _ => throw error", false)]
+    [DataRow("0 when (first = default) is var cleared && skip => third, 0 when skip => third, _ => throw error", true)]
+    [DataRow("0 when (first = default) is var cleared && skip => third, 0 => throw error, _ => third", true)]
     public async Task Tracks_CancellationToken_Exceptions_After_Switch_Guards(string arms, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3634,6 +3646,11 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("(first = default) is var cleared && (skip && Check(first = third)) && MayThrowBool()", false)]
     [DataRow("(first = default) is var cleared && (skip || Check(first = third)) && MayThrowBool()", true)]
     [DataRow("(first = default) is var cleared && (Check(first = third) && MayThrowBool())", false)]
+    [DataRow("((first = default) is var cleared && skip) && MayThrowBool()", true)]
+    [DataRow("!((first = default) is var cleared && skip) || MayThrowBool()", true)]
+    [DataRow("(first = default) is var cleared && skip", false)]
+    [DataRow("!((first = default) is var cleared) || skip", false)]
+    [DataRow("(first = default) is var cleared && (skip || MayThrowBool())", true)]
     public async Task Tracks_CancellationToken_Exceptions_After_ShortCircuit_Writes(string expression, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3641,6 +3658,33 @@ public class ModuleAuthoringAnalyzerTests
             + " try { _ = " + expression + "; first = third; } catch {} return first;"
             + " static bool MayThrowBool(CancellationToken token = default) => throw new Exception();"
             + " static bool Check(CancellationToken token) => false;", "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
+    [DataRow("if ((first = default) is var cleared) throw error;", true)]
+    [DataRow("if ((alias = default) is var cleared) throw error;", true)]
+    [DataRow("if ((first = default) is var cleared && skip) { } else throw error;", true)]
+    [DataRow("_ = (first = default) is var cleared ? throw error : third;", true)]
+    [DataRow("_ = (first = default) is var cleared && skip ? third : throw error;", true)]
+    [DataRow("if ((first = default) is var cleared) { _ = third; }", false)]
+    [DataRow("if ((first = default) is var cleared) { first = third; throw error; }", false)]
+    [DataRow("if ((first = default) is var cleared) { if (skip) throw error; }", true)]
+    [DataRow("if ((first = default) is var cleared && skip) first = third; else first = third; MayThrow();", false)]
+    [DataRow("if ((first = default) is var cleared && skip) { first = third; throw error; }", false)]
+    public async Task Tracks_CancellationToken_Exceptions_After_Conditional_Conditions(string body, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; var error = new Exception(); var skip = DateTime.UtcNow.Ticks > 0;"
+            + " try { " + body + " first = third; } catch {} return first;"
+            + " static void MayThrow() => throw new Exception();", "default", report);
         var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
         if (report)
         {

@@ -6374,8 +6374,8 @@ internal static class ModuleAuthoringAnalysis
 
         for (var current = write; current.Parent is { } parent; current = parent)
         {
-            if (CancellationStorageShortCircuitContinuationCanThrow(write, current, parent, symbol, isRef, classifier, body)
-                || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, body))
+            if (CancellationStorageAlternateContinuationCanThrow(
+                write, current, parent, symbol, isRef, classifier, body, out var alternateOverwrites))
             {
                 return true;
             }
@@ -6387,15 +6387,14 @@ internal static class ModuleAuthoringAnalysis
                 return true;
             }
 
-            if (overwritten)
+            if (alternateOverwrites || overwritten)
             {
                 return false;
             }
 
             // Expression completion happens after its children, including a
             // write embedded in an argument, conversion, or assignment value.
-            if ((parent is IThrowOperation || !classifier.Classify(parent).IsEmpty)
-                && !IsCaughtBeforeCancellationStorageBoundary(parent, body))
+            if (CancellationStorageCompletionCanThrow(parent, classifier, body))
             {
                 return true;
             }
@@ -6407,6 +6406,28 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return false;
+    }
+
+    private static bool CancellationStorageCompletionCanThrow(
+        IOperation operation, OperationExceptionClassifier classifier, IOperation exceptionBoundary) =>
+        (operation is IThrowOperation || !classifier.Classify(operation).IsEmpty)
+        && !IsCaughtBeforeCancellationStorageBoundary(operation, exceptionBoundary);
+
+    private static bool CancellationStorageAlternateContinuationCanThrow(
+        IOperation write, IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary, out bool overwritten)
+    {
+        overwritten = false;
+        if (parent is IConditionalOperation conditional && ReferenceEquals(current, conditional.Condition))
+        {
+            // The condition has already evaluated. Examine its possible branches
+            // without replaying throws or writes that precede the originating write.
+            return CancellationStorageBranchesCanThrowBeforeOverwrite(
+                conditional, symbol, isRef, classifier, exceptionBoundary, out overwritten, includeCondition: false);
+        }
+
+        return CancellationStorageShortCircuitContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary)
+            || CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, exceptionBoundary);
     }
 
     private static bool CancellationStorageShortCircuitContinuationCanThrow(
@@ -6429,10 +6450,14 @@ internal static class ModuleAuthoringAnalysis
             && invocation.Arguments.Any(argument => CancellationStorageWritesOnBooleanOutcome(argument, outcome, symbol, isRef, after)))
         || (operation is IParenthesizedOperation parenthesized
             && CancellationStorageWritesOnBooleanOutcome(parenthesized.Operand, outcome, symbol, isRef, after))
-        || (operation is IBinaryOperation { OperatorMethod: null, Type.SpecialType: SpecialType.System_Boolean, OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary
+        || CancellationStorageShortCircuitWritesOnBooleanOutcome(operation, outcome, symbol, isRef, after);
+
+    private static bool CancellationStorageShortCircuitWritesOnBooleanOutcome(
+        IOperation operation, bool outcome, ISymbol? symbol, bool? isRef, IOperation? after) =>
+        operation is IBinaryOperation { OperatorMethod: null, Type.SpecialType: SpecialType.System_Boolean, OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary
             && outcome == (binary.OperatorKind == BinaryOperatorKind.ConditionalAnd)
             && (CancellationStorageWritesOnBooleanOutcome(binary.LeftOperand, outcome, symbol, isRef, after)
-                || CancellationStorageWritesOnBooleanOutcome(binary.RightOperand, outcome, symbol, isRef, after)));
+                || CancellationStorageWritesOnBooleanOutcome(binary.RightOperand, outcome, symbol, isRef, after));
 
     private static bool CanEvaluateCancellationStorageRightOperand(IBinaryOperation binary) =>
         binary.LeftOperand.ConstantValue is not { HasValue: true, Value: bool left }
@@ -6452,8 +6477,7 @@ internal static class ModuleAuthoringAnalysis
         // An overwrite on one alternative does not overwrite every alternative.
         foreach (var arm in switchExpression.Arms.SkipWhile(arm => !ReferenceEquals(arm, sourceArm)))
         {
-            if (sourceArm.Pattern is IConstantPatternOperation { Value.ConstantValue: { HasValue: true } constant }
-                && PatternMatchesConstant(arm.Pattern, constant.Value) is false)
+            if (!CancellationStorageArmCanMatchSource(arm, sourceArm))
             {
                 continue;
             }
@@ -6463,17 +6487,15 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
-            IEnumerable<IOperation> operations = !ReferenceEquals(arm, sourceArm) && arm.Guard is { } nextGuard
-                ? [nextGuard, arm.Value]
-                : [arm.Value];
             if (CancellationStorageSequenceCanThrowBeforeOverwrite(
-                operations, symbol, isRef, classifier, exceptionBoundary, out _))
+                GetCancellationStorageGuardContinuationOperations(arm, sourceArm), symbol, isRef, classifier, exceptionBoundary, out _))
             {
                 return true;
             }
 
-            if (!ReferenceEquals(arm, sourceArm) && arm.Guard is null
-                && CancellationStorageArmAlwaysMatches(arm, sourceArm))
+            // Once this source value must select an unguarded arm, later
+            // arms cannot throw on the path carrying the originating write.
+            if (arm.Guard is null && CancellationStorageArmAlwaysMatches(arm, sourceArm))
             {
                 break;
             }
@@ -6481,6 +6503,17 @@ internal static class ModuleAuthoringAnalysis
 
         return false;
     }
+
+    private static bool CancellationStorageArmCanMatchSource(
+        ISwitchExpressionArmOperation arm, ISwitchExpressionArmOperation sourceArm) =>
+        sourceArm.Pattern is not IConstantPatternOperation { Value.ConstantValue: { HasValue: true } constant }
+        || PatternMatchesConstant(arm.Pattern, constant.Value) is not false;
+
+    private static IEnumerable<IOperation> GetCancellationStorageGuardContinuationOperations(
+        ISwitchExpressionArmOperation arm, ISwitchExpressionArmOperation sourceArm) =>
+        !ReferenceEquals(arm, sourceArm) && arm.Guard is { } nextGuard
+            ? [nextGuard, arm.Value]
+            : [arm.Value];
 
     private static bool CancellationStorageGuardAlwaysOverwrites(
         ISwitchExpressionArmOperation arm, ISwitchExpressionArmOperation sourceArm, ISymbol? symbol, bool? isRef,
@@ -6550,23 +6583,8 @@ internal static class ModuleAuthoringAnalysis
             && !switchOperation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
                 !IsNestedCancellationStorageSwitchBreak(branch, switchOperation)))
         {
-            if (CancellationStorageOperationCanThrow(switchOperation.Value, classifier, exceptionBoundary))
-            {
-                return true;
-            }
-
-            foreach (var switchCase in switchOperation.Cases)
-            {
-                if (switchCase.Clauses.Any(clause => CancellationStorageOperationCanThrow(clause, classifier, exceptionBoundary))
-                    || CancellationStorageSequenceCanThrowBeforeOverwrite(
-                        switchCase.Body, symbol, isRef, classifier, exceptionBoundary, out _))
-                {
-                    return true;
-                }
-            }
-
-            overwritten = DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read: null);
-            return false;
+            return CancellationStorageSwitchCanThrowBeforeOverwrite(
+                switchOperation, symbol, isRef, classifier, exceptionBoundary, out overwritten);
         }
 
         if (operation is IBinaryOperation { OperatorMethod: null, Type.SpecialType: SpecialType.System_Boolean, OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary)
@@ -6582,6 +6600,30 @@ internal static class ModuleAuthoringAnalysis
 
         overwritten = DefinitelyWritesCancellationStorage(operation, symbol, isRef);
         return CancellationStorageOperationCanThrow(operation, classifier, exceptionBoundary);
+    }
+
+    private static bool CancellationStorageSwitchCanThrowBeforeOverwrite(
+        ISwitchOperation switchOperation, ISymbol? symbol, bool? isRef, OperationExceptionClassifier classifier,
+        IOperation exceptionBoundary, out bool overwritten)
+    {
+        overwritten = false;
+        if (CancellationStorageOperationCanThrow(switchOperation.Value, classifier, exceptionBoundary))
+        {
+            return true;
+        }
+
+        foreach (var switchCase in switchOperation.Cases)
+        {
+            if (switchCase.Clauses.Any(clause => CancellationStorageOperationCanThrow(clause, classifier, exceptionBoundary))
+                || CancellationStorageSequenceCanThrowBeforeOverwrite(
+                    switchCase.Body, symbol, isRef, classifier, exceptionBoundary, out _))
+            {
+                return true;
+            }
+        }
+
+        overwritten = DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read: null);
+        return false;
     }
 
     private static bool CancellationStorageShortCircuitCanThrowBeforeOverwrite(
@@ -6672,7 +6714,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool CancellationStorageBranchesCanThrowBeforeOverwrite(
         IConditionalOperation conditional, ISymbol? symbol, bool? isRef,
-        OperationExceptionClassifier classifier, IOperation exceptionBoundary, out bool overwritten)
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary, out bool overwritten, bool includeCondition = true)
     {
         overwritten = false;
         if (conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition })
@@ -6681,7 +6723,7 @@ internal static class ModuleAuthoringAnalysis
                 && CancellationStorageOperationCanThrowBeforeOverwrite(selected, symbol, isRef, classifier, exceptionBoundary, out overwritten);
         }
 
-        if (CancellationStorageOperationCanThrow(conditional.Condition, classifier, exceptionBoundary)
+        if ((includeCondition && CancellationStorageOperationCanThrow(conditional.Condition, classifier, exceptionBoundary))
             || CancellationStorageOperationCanThrowBeforeOverwrite(conditional.WhenTrue, symbol, isRef, classifier, exceptionBoundary, out var whenTrue))
         {
             return true;
@@ -8096,13 +8138,27 @@ internal static class ModuleAuthoringAnalysis
             if (ancestor is IConditionalOperation
                 or ILoopOperation
                 or ISwitchOperation
-                || (ancestor is ISwitchExpressionArmOperation && (read is null || !HasAncestor(read, ancestor))))
+                || IsConditionalExpressionBranch(operation, ancestor, read))
             {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private static bool IsConditionalExpressionBranch(IOperation operation, IOperation ancestor, IOperation? read)
+    {
+        var optionalBranch = ancestor switch
+        {
+            IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary => binary.RightOperand,
+            ICoalesceOperation coalesce => coalesce.WhenNull,
+            IConditionalAccessOperation access => access.WhenNotNull,
+            _ => null,
+        };
+
+        return (optionalBranch is not null && HasAncestor(operation, optionalBranch) && (read is null || !HasAncestor(read, optionalBranch)))
+            || (ancestor is ISwitchExpressionArmOperation && (read is null || !HasAncestor(read, ancestor)));
     }
 
     private static bool HasAncestor(
