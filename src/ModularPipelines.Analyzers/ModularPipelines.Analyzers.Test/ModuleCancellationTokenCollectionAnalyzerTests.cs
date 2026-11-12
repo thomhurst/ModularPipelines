@@ -455,6 +455,17 @@ public class ModuleCancellationTokenCollectionAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("ref tokens[0]", "tokens", true)]
+    [DataRow("ref view[0]", "tokens", true)]
+    [DataRow("ref (context != null ? ref tokens[0] : ref tokens[0])", "tokens", true)]
+    [DataRow("ref tokens[0]", "independent", false)]
+    public async Task RefStruct_Constructors_Persist_Element_Reference_Escapes(string argument, string collection, bool warns)
+    {
+        await Verify($"var tokens = new[] {{ cancellationToken }}; var independent = new[] {{ cancellationToken }}; Span<CancellationToken> view = tokens; var holder = new Holder({argument}); tokens[0] = cancellationToken; holder.Slot = default; cancellationToken = CancellationTokenSource.CreateLinkedTokenSource({collection}).Token;", warns,
+            "private ref struct Holder { public ref CancellationToken Slot; public Holder(ref CancellationToken token) { Slot = ref token; } }");
+    }
+
+    [TestMethod]
     [DataRow(false)]
     [DataRow(true)]
     public async Task CSharp13_Span_To_ReadonlySpan_Preserves_Storage(bool mutate)

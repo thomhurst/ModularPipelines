@@ -580,7 +580,14 @@ internal static class CancellationTokenCollectionProvenance
 
         private Value EvaluateCreation(IObjectCreationOperation creation, State state)
         {
-            var arguments = creation.Arguments.Select(argument => (Argument: argument, Value: Evaluate(argument.Value, state))).ToArray();
+            var arguments = creation.Arguments.Select(argument =>
+            {
+                var value = Evaluate(argument.Value, state);
+                var elementArrays = argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out
+                    ? new HashSet<TextSpan>(ReferencedElementArrays(argument.Value, state))
+                    : [];
+                return (Argument: argument, Value: value, ElementArrays: elementArrays);
+            }).ToArray();
             if (IsTokenCollection(creation.Type) && creation.Arguments.Length is 1 or 3
                 && creation.Arguments[0].Parameter?.Type is IArrayTypeSymbol)
             {
@@ -590,13 +597,16 @@ internal static class CancellationTokenCollectionProvenance
             }
 
             // Constructors cannot mutate arguments until all values are evaluated.
-            foreach (var (argument, value) in arguments)
+            foreach (var (argument, value, elementArrays) in arguments)
             {
                 InvalidateArrays(value, state);
                 if (argument.Parameter?.RefKind is RefKind.Ref or RefKind.Out)
                 {
                     if (creation.Type?.IsRefLikeType == true)
                     {
+                        // A ref field can retain the element alias after direct writes.
+                        EscapeArrays(value, state);
+                        EscapeArrays(new Value(arrays: elementArrays), state);
                         InvalidateReferencedStorage(argument.Value, state);
                     }
                     Assign(argument.Value, Value.None, state);
