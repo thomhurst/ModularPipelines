@@ -7,6 +7,13 @@ namespace ModularPipelines.Analyzers.Test;
 public class ModuleHelperRefCancellationAnalyzerTests
 {
     [TestMethod]
+    [DataRow("ref token, ref token", "", "Copy(ref first, first); return first;", false)]
+    [DataRow("ref token, ref token", "", "Copy(source: first, destination: ref second); return first;", false)]
+    [DataRow("ref token, ref token", "", "var saved = first; Copy(ref saved, saved); return saved;", false)]
+    [DataRow("ref token, ref token", "", "Copy(ref first, default); return first;", true)]
+    [DataRow("ref token, ref token", "", "second = default; Copy(ref first, first); return first;", true)]
+    [DataRow("ref token, ref token", "", "CopyCleared(ref first, first); return first;", true)]
+    [DataRow("ref token, ref token", "", "CopyAfterClear(ref first, ref second); return first;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; try { second = default; if (Flag) throw new Exception(); goto done; } catch { return first; } done: return saved;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; try { second = default; goto done; } finally { saved = first; } done: return saved;", true)]
     [DataRow("ref token, ref token", "", "var saved = first; if (Flag) { second = default; goto done; } return first; done: return saved;", false)]
@@ -285,6 +292,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static void IdentityNested(scoped ref CancellationToken value) => Identity(ref value, ref value);
 
 
+                private static void Copy(ref CancellationToken destination, CancellationToken source) => destination = source;
+                private static void CopyCleared(ref CancellationToken destination, CancellationToken source) { source = default; destination = source; }
+                private static void CopyAfterClear(ref CancellationToken destination, ref CancellationToken source) { destination = default; destination = source; }
                 private static CancellationToken IdentityValue(CancellationToken ignored, CancellationToken value) => value;
 
                 private static CancellationToken Link(CancellationToken token, int remaining)

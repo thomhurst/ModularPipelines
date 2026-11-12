@@ -5801,9 +5801,48 @@ internal static class ModuleAuthoringAnalysis
                 && (ReferenceEquals(source, read) || write.Target.Syntax.SpanStart > source.Syntax.SpanStart))
             .Where(write => MayShareCancellationStorage(write.Target, read, caller.Invocation, caller.Method))
             .Any(write => !visitedWrites.Contains(write.Target)
-                && (write.Value is null || !IsCancellationPreservingSnapshot(
-                    write.Value, source, body, caller, [with(SymbolEqualityComparer.Default)],
-                    new HashSet<IOperation>(visitedWrites) { write.Target }, visitedMethods)));
+                && !(write.Value is { } value
+                    ? IsCancellationPreservingSnapshot(value, source, body, caller, [with(SymbolEqualityComparer.Default)],
+                        new HashSet<IOperation>(visitedWrites) { write.Target }, visitedMethods)
+                    : write.Target.Parent is IArgumentOperation argument
+                        && IsCancellationPreservingRefWrite(argument, source, body, caller,
+                            new HashSet<IOperation>(visitedWrites) { write.Target }, visitedMethods)));
+    }
+
+    private static bool IsCancellationPreservingRefWrite(
+        IArgumentOperation argument, IOperation source, IOperation callerBody,
+        (IInvocationOperation Invocation, IMethodSymbol Method) caller,
+        HashSet<IOperation> visitedWrites, HashSet<IMethodSymbol> visitedMethods)
+    {
+        if (argument.Parent is not IInvocationOperation invocation)
+        {
+            return false;
+        }
+
+        var method = NormalizeMethod(invocation.TargetMethod);
+        var methods = CloneVisitedMethods(visitedMethods);
+        if (!methods.Add(method)
+            || invocation.SemanticModel?.Compilation is not { } compilation
+            || GetMethodOperation(method, compilation, default) is not { } body)
+        {
+            return false;
+        }
+
+        // A helper can copy a different parameter into the ref slot without losing
+        // cancellation. Prove each affecting write against its call-site input;
+        // parameter identity alone cannot establish that the values are the same.
+        return body.DescendantsAndSelf()
+            .Where(static operation => GetEnclosingCallable(operation) is null && IsInReachableBranch(operation))
+            .SelectMany(operation => GetCancellationStorageWrites(operation, methods))
+            .Where(write => MayShareCancellationStorage(write.Target, argument.Value, invocation, method))
+            .All(write => write.Value is { } value && invocation.Arguments.Any(input =>
+                input.Parameter is { } inputParameter
+                && IsCancellationInput(inputParameter)
+                && GetTargetParameter(method, inputParameter) is { } parameter
+                && FlowsFromCancellationToken(value, parameter, [with(SymbolEqualityComparer.Default)], CloneVisitedMethods(methods))
+                && !HasAliasedCancellationWrite(invocation, method, body, value, parameter, methods)
+                && IsCancellationPreservingSnapshot(input.Value, source, callerBody, caller,
+                    [with(SymbolEqualityComparer.Default)], visitedWrites, methods)));
     }
 
     private static bool CanCancellationWriteReachSnapshot(IOperation write, IOperation read)
