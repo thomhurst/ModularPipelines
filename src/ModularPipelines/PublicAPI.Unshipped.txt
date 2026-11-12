@@ -4057,6 +4057,7 @@ ModularPipelines.CommandResult.TotalProcessorTime.init -> void
 ModularPipelines.CommandResult.PeakWorkingSetBytes.get -> long?
 ModularPipelines.CommandResult.PeakWorkingSetBytes.init -> void
 ModularPipelines.Reporting.CommandResourceUsage
+ModularPipelines.Reporting.CommandResourceUsage.<Clone>$() -> ModularPipelines.Reporting.CommandResourceUsage!
 ModularPipelines.Reporting.CommandResourceUsage.CommandResourceUsage() -> void
 ModularPipelines.Reporting.CommandResourceUsage.Equals(ModularPipelines.Reporting.CommandResourceUsage? other) -> bool
 ModularPipelines.Reporting.CommandResourceUsage.ModuleId.get -> ModularPipelines.ModuleId?
