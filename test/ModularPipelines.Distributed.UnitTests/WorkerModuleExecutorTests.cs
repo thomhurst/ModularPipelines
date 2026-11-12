@@ -321,6 +321,7 @@ public class WorkerModuleExecutorTests
             await coordinator.EnqueueModuleAsync(DistributedTestData.Assignment(module, typeRegistry), cancellationToken);
         }
 
+        var metrics = new MetricsCollector();
         var executor = new WorkerModuleExecutor(
             pipeline.Services.GetRequiredService<IHostApplicationLifetime>(),
             coordinator,
@@ -339,10 +340,12 @@ public class WorkerModuleExecutorTests
             pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
             pipeline.Services.GetRequiredService<IServiceScopeFactory>(),
             null,
-            NullLogger<WorkerModuleExecutor>.Instance);
+            NullLogger<WorkerModuleExecutor>.Instance,
+            metricsCollector: metrics);
 
         var executionTask = executor.ExecuteAsync(modules);
         await probe.TwoStarted.WaitAsync(cancellationToken);
+        var runningModules = metrics.GetRunningModules();
         await coordinator.SignalCompletionAsync(cancellationToken);
         probe.Release();
 
@@ -350,6 +353,10 @@ public class WorkerModuleExecutorTests
 
         using (Assert.Multiple())
         {
+            await Assert.That(runningModules).Contains(typeof(ParallelWorkerModuleA));
+            await Assert.That(runningModules).Contains(typeof(ParallelWorkerModuleB));
+            await Assert.That(metrics.GetRunningModules()).IsEmpty();
+            await Assert.That(metrics.GetTimelines().All(timeline => timeline.Status == ModuleStatus.Succeeded)).IsTrue();
             await Assert.That(probe.PeakActive).IsEqualTo(2);
             await Assert.That(results).Count().IsEqualTo(2);
         }
@@ -437,6 +444,7 @@ public class WorkerModuleExecutorTests
             });
         var serializer = new ModuleResultSerializer(typeRegistry);
         var registry = pipeline.Services.GetRequiredService<IModuleResultRegistry>();
+        var metrics = new MetricsCollector();
         var executor = new WorkerModuleExecutor(
             pipeline.Services.GetRequiredService<IHostApplicationLifetime>(), coordinator.Object,
             modules, typeRegistry, serializer, runner.Object, registry,
@@ -445,7 +453,8 @@ public class WorkerModuleExecutorTests
             MsOptions.Create(new DistributedOptions { InstanceIndex = 1, MaxParallelism = 2 }),
             pipeline.Services.GetRequiredService<IParallelLimitProvider>(),
             pipeline.Services.GetRequiredService<IServiceScopeFactory>(), null,
-            NullLogger<WorkerModuleExecutor>.Instance);
+            NullLogger<WorkerModuleExecutor>.Instance,
+            metricsCollector: metrics);
         var run = executor.ExecuteAsync(
             new ExecutionBackendRequest
             {
@@ -470,6 +479,7 @@ public class WorkerModuleExecutorTests
         var returned = await run.WaitAsync(cancellationToken);
         await Assert.That(returned.Cast<ModuleResult>().Select(result => result.ModuleType!))
             .IsEquivalentTo(modules.Select(module => module.GetType()));
+        await Assert.That(metrics.GetRunningModules()).IsEmpty();
         foreach (var result in returned)
         {
             await Assert.That(result.ExceptionOrDefault).IsNotNull();

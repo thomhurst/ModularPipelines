@@ -32,7 +32,8 @@ internal class WorkerModuleExecutor(
     IExecutionLocationContext? executionLocationContext = null,
     LocalCapabilityRegistry? localCapabilities = null,
     AcceptedArtifactRegistry? acceptedArtifacts = null,
-    TimeProvider? timeProvider = null) : IExecutionBackend
+    TimeProvider? timeProvider = null,
+    IMetricsCollector? metricsCollector = null) : IExecutionBackend
 {
     private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
     private readonly IHostApplicationLifetime _lifetime = lifetime;
@@ -56,7 +57,8 @@ internal class WorkerModuleExecutor(
         artifactLifecycleManager,
         acceptedArtifacts,
         executionLocationContext,
-        logger);
+        logger,
+        metricsCollector);
 
     private WorkerRegistration? _registration;
 
