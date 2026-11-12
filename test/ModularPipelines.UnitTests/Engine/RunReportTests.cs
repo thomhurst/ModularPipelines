@@ -1536,6 +1536,76 @@ public class RunReportTests
     }
 
     [Test]
+    [Arguments(1)]
+    [Arguments(PipelineRunReport.CurrentSchemaVersion)]
+    public async Task FileSystemHistoryStoreAcceptsEmptyModules(int schemaVersion)
+    {
+        var directory = CreateTemporaryDirectory();
+        var store = CreateHistoryStore(directory, historyRetention: 1);
+        try
+        {
+            await store.SaveAsync(new PipelineRunReport
+            {
+                PipelineIdentity = "pipeline-a",
+                SchemaVersion = schemaVersion,
+                Modules = [],
+            });
+
+            var report = await store.GetLatestAsync("pipeline-a");
+
+            await Assert.That(report).IsNotNull();
+            await Assert.That(report!.Modules).IsEmpty();
+            await Assert.That(report.SchemaVersion).IsEqualTo(schemaVersion);
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
+    [Arguments("null")]
+    [Arguments("[null]")]
+    public async Task FileSystemHistoryStoreSkipsMalformedModulesForTrends(string modulesJson)
+    {
+        var directory = CreateTemporaryDirectory();
+        var log = new StringBuilder();
+        var options = OptionsFactory.Create(new PipelineOptions
+        {
+            RunReport = new RunReportOptions
+            {
+                PipelineIdentity = "pipeline-a",
+                HistoryDirectory = directory,
+                HistoryRetention = 4,
+            },
+        });
+        var store = new FileSystemRunHistoryStore(options,
+            new StringLogger<FileSystemRunHistoryStore>(log), CreateReportFactory());
+        try
+        {
+            var end = DateTimeOffset.UtcNow;
+            await store.SaveAsync(CreateTrendReport("older", end, "module", measured: true));
+            await store.SaveAsync(CreateTrendReport("damaged", end.AddSeconds(1), "module", measured: true));
+            var newestFile = Directory.GetFiles(directory, "*.json")
+                .OrderByDescending(Path.GetFileName, StringComparer.Ordinal).First();
+            var json = System.Text.Json.Nodes.JsonNode.Parse(await File.ReadAllTextAsync(newestFile))!;
+            json["modules"] = System.Text.Json.Nodes.JsonNode.Parse(modulesJson);
+            await File.WriteAllTextAsync(newestFile, json.ToJsonString());
+
+            var samples = await new RunHistoryReader(store, options)
+                .GetModuleDurationTrendAsync(new ModuleId("module"), 1);
+
+            await Assert.That(samples).Count().IsEqualTo(1);
+            await Assert.That(samples[0].RunId).IsEqualTo("older");
+            await Assert.That(log.ToString()).Contains($"Could not read pipeline run history file {newestFile}");
+        }
+        finally
+        {
+            Directory.Delete(directory, recursive: true);
+        }
+    }
+
+    [Test]
     public async Task FileSystemHistoryStoreSkipsInvalidSchemaMetadata()
     {
         var directory = CreateTemporaryDirectory();

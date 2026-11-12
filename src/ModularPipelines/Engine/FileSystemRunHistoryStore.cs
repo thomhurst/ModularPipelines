@@ -126,9 +126,14 @@ internal sealed class FileSystemRunHistoryStore(
             return (null, schemaVersion);
         }
 
-        return (
-            document.RootElement.Deserialize(RunReportJsonContext.Default.PipelineRunReport),
-            null);
+        var report = document.RootElement.Deserialize(RunReportJsonContext.Default.PipelineRunReport);
+        if (report is not null
+            && (report.Modules is null || report.Modules.Any(static module => module is null)))
+        {
+            throw new JsonException("Pipeline run history modules must be a nonnull array containing no null entries.");
+        }
+
+        return (report, null);
     }
 
     private static int ReadSchemaVersion(JsonElement root)
