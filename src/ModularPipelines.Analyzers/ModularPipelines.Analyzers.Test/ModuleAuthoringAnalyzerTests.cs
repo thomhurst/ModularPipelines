@@ -3404,6 +3404,88 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
+    [TestMethod]
+    [DataRow("first = ref third; ref var alias = ref first; Clear(ref alias); return first;")]
+    [DataRow("Clear(ref first); return first;")]
+    [DataRow("first = ref third; var skip = DateTime.UtcNow.Ticks > 0; if (skip) Clear(ref first); return first;")]
+    [DataRow("first = ref third; for (var i = 0; i < 2; i++) { if (i > 0) return first; Clear(ref first); } return first;")]
+    public async Task Reports_CancellationToken_Storage_Cleared_Through_Call(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("first = ref third; Clear(ref first); first = second; return first;")]
+    [DataRow("first = ref third; Clear(ref first); first = ref second; return first;")]
+    [DataRow("Clear(ref first); first = ref third; return first;")]
+    [DataRow("first = ref third; Clear(ref second); return first;")]
+    [DataRow("first = ref third; if (false) Clear(ref first); return first;")]
+    [DataRow("first = ref third; Observe(in first); return first; static void Observe(in CancellationToken value) {}")]
+    [DataRow("first = ref third; ClearValue(first); return first; static void ClearValue(CancellationToken value) => value = default;")]
+    public async Task Does_Not_Report_CancellationToken_Storage_Unchanged_Or_Restored_After_Call(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(body, "cancellationToken", report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("try { first = default; MayThrow(); return third; } catch {} return first;")]
+    [DataRow("ref var alias = ref first; try { alias = default; MayThrow(); return third; } catch {} return alias;")]
+    [DataRow("ref var alias = ref first; try { alias = ref second; MayThrow(); return third; } catch {} return alias;")]
+    [DataRow("try { MayThrow(first = default); first = third; } catch {} return first;")]
+    [DataRow("ref var alias = ref first; try { MayThrow(alias = default); alias = third; } catch {} return alias;")]
+    [DataRow("try { Take(first = default, MayThrow()); first = third; } catch {} return first; static void Take(CancellationToken token, CancellationToken other) {}")]
+    [DataRow("try { _ = new OperationCanceledException(first = default); first = third; } catch {} return first;")]
+    public async Task Reports_CancellationToken_Preserved_By_Expression_Exception(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body + " static CancellationToken MayThrow(CancellationToken token = default) => throw new Exception();", "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
+    [TestMethod]
+    [DataRow("try { MayThrow(); first = default; return third; } catch {} return first;")]
+    [DataRow("try { first = default; first = third; MayThrow(); return third; } catch {} return first;")]
+    [DataRow("try { first = default; try { MayThrow(); } catch {} return third; } catch {} return first;")]
+    [DataRow("try { MayThrow(first = default); first = third; } catch { return third; } return first;")]
+    [DataRow("try { MayThrow(first = third); } catch {} return first;")]
+    [DataRow("try { Take(first = default, first = third); } catch {} return first; static void Take(CancellationToken token, CancellationToken other) {}")]
+    public async Task Does_Not_Report_CancellationToken_Unchanged_By_Expression_Exception(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body + " static CancellationToken MayThrow(CancellationToken token = default) => throw new Exception();", "default", report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("first = Restore(out first, third); return first;")]
+    [DataRow("first = ref third; first = Restore(out first, second); return first;")]
+    [DataRow("ref var alias = ref first; alias = Restore(out alias, third); return alias;")]
+    [DataRow("try { first = Restore(out first, third); } catch { return third; } return first;")]
+    public async Task Does_Not_Report_CancellationToken_Restored_By_Enclosing_Assignment(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body + " static CancellationToken Restore(out CancellationToken target, CancellationToken saved) { target = default; return saved; }", "cancellationToken", report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("try { first = Restore(out first, third); } catch {} return first;")]
+    [DataRow("ref var alias = ref first; try { alias = Restore(out alias, third); } catch {} return alias;")]
+    public async Task Reports_CancellationToken_Not_Restored_By_Throwing_Enclosing_Assignment(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            body + " static CancellationToken Restore(out CancellationToken target, CancellationToken saved) { target = default; if (DateTime.UtcNow.Ticks > 0) throw new Exception(); return saved; }", "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
