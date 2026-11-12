@@ -6099,7 +6099,9 @@ internal static class ModuleAuthoringAnalysis
     {
         foreach (var operation in operations)
         {
-            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef, read))
+            if (DefinitelyWritesCancellationStorage(operation, symbol, isRef, read)
+                || (operation is IBlockOperation block
+                    && CancellationStorageSequenceDefinitelyWrites(block.Operations, symbol, isRef, read)))
             {
                 return true;
             }
@@ -6337,34 +6339,33 @@ internal static class ModuleAuthoringAnalysis
             && !switchOperation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch =>
                 !IsNestedCancellationStorageSwitchBreak(branch, switchOperation)))
         {
-            if (switchOperation.Value.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty))
+            if (CancellationStorageOperationCanThrow(switchOperation.Value, classifier))
             {
                 return true;
             }
 
-            var allCasesOverwrite = switchOperation.Cases.Any(@case =>
-                @case.Clauses.Any(static clause => clause is IDefaultCaseClauseOperation));
             foreach (var switchCase in switchOperation.Cases)
             {
-                if (switchCase.Clauses.Any(clause => clause.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty))
+                if (switchCase.Clauses.Any(clause => CancellationStorageOperationCanThrow(clause, classifier))
                     || CancellationStorageSequenceCanThrowBeforeOverwrite(
-                        switchCase.Body, symbol, isRef, classifier, out var caseOverwritten))
+                        switchCase.Body, symbol, isRef, classifier, out _))
                 {
                     return true;
                 }
-
-                allCasesOverwrite &= caseOverwritten;
             }
 
-            overwritten = allCasesOverwrite;
+            overwritten = DefinitelyWritesCancellationStorageSwitch(switchOperation, symbol, isRef, read: null);
             return false;
         }
 
         overwritten = DefinitelyWritesCancellationStorage(operation, symbol, isRef);
-        return operation.DescendantsAndSelf().Any(child =>
+        return CancellationStorageOperationCanThrow(operation, classifier);
+    }
+
+    private static bool CancellationStorageOperationCanThrow(IOperation operation, OperationExceptionClassifier classifier) =>
+        operation.DescendantsAndSelf().Any(child =>
             ReferenceEquals(GetEnclosingCallable(child), GetEnclosingCallable(operation))
             && (child is IThrowOperation || !classifier.Classify(child).IsEmpty));
-    }
 
     private static bool CancellationStorageSequenceCanThrowBeforeOverwrite(
         IEnumerable<IOperation> operations, ISymbol? symbol, bool? isRef,
@@ -6398,7 +6399,7 @@ internal static class ModuleAuthoringAnalysis
                 && CancellationStorageOperationCanThrowBeforeOverwrite(selected, symbol, isRef, classifier, out overwritten);
         }
 
-        if (conditional.Condition.DescendantsAndSelf().Any(child => !classifier.Classify(child).IsEmpty)
+        if (CancellationStorageOperationCanThrow(conditional.Condition, classifier)
             || CancellationStorageOperationCanThrowBeforeOverwrite(conditional.WhenTrue, symbol, isRef, classifier, out var whenTrue))
         {
             return true;

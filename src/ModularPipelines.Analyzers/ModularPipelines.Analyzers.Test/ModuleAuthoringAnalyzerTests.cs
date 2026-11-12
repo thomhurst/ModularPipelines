@@ -3292,6 +3292,44 @@ public class ModuleAuthoringAnalyzerTests
         await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
     }
 
+    [TestMethod]
+    [DataRow("alias = default; switch (choice) { case 0: { alias = third; MayThrow(); break; } default: alias = third; MayThrow(); break; }")]
+    [DataRow("alias = ref second; switch (choice) { case 0: { alias = ref third; MayThrow(); break; } default: alias = ref third; MayThrow(); break; }")]
+    [DataRow("alias = default; switch (choice) { case 0: switch (choice) { default: alias = third; MayThrow(); break; } break; default: alias = third; MayThrow(); break; }")]
+    [DataRow("alias = default; switch (choice) { case 0: alias = third; MayThrow(); break; } alias = third;")]
+    [DataRow("try { alias = default; } finally { switch (choice) { case 0: { alias = third; MayThrow(); break; } default: alias = third; MayThrow(); break; } }")]
+    public async Task Does_Not_Report_CancellationToken_Restored_Before_Switch_Exception(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; try { " + body
+            + " } catch (Exception) {} return alias; static void MayThrow() => throw new Exception();",
+            "default", report: false);
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source);
+    }
+
+    [TestMethod]
+    [DataRow("switch (choice) { case 0 when MayThrow() > 0: alias = third; break; default: alias = third; break; }")]
+    [DataRow("switch (skip ? throw error : choice) { case 0: alias = third; break; default: alias = third; break; }")]
+    [DataRow("switch (choice) { case 0 when (skip ? throw error : true): alias = third; break; default: alias = third; break; }")]
+    [DataRow("if (skip ? throw error : true) alias = third; else alias = third;")]
+    [DataRow("switch (choice) { case 0: alias = third; break; } MayThrow(); alias = third;")]
+    [DataRow("switch (choice) { case 0: if (skip) break; alias = third; break; default: alias = third; break; } MayThrow(); alias = third;")]
+    [DataRow("alias = ref second; switch (choice) { case 0: if (skip) break; alias = ref third; break; default: alias = ref third; break; } MayThrow(); alias = ref third;")]
+    [DataRow("switch (choice) { case 0: { if (skip) break; alias = third; break; } default: alias = third; break; } MayThrow(); alias = third;")]
+    [DataRow("switch (choice) { case 0: { MayThrow(); alias = third; break; } default: alias = third; break; }")]
+    [DataRow("switch (choice) { case 0: goto default; default: if (choice > 1) goto AfterRestore; alias = third; AfterRestore: MayThrow(); break; }")]
+    [DataRow("try {} finally { switch (choice) { case 0: { if (skip) break; alias = third; break; } default: alias = third; break; } MayThrow(); alias = third; }")]
+    public async Task Reports_CancellationToken_Not_Restored_Before_Switch_Exception(string body)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; var choice = DateTime.UtcNow.Ticks; var skip = DateTime.UtcNow.Ticks > 0; var error = new Exception(); try { alias = default; " + body
+            + " } catch (Exception) {} return alias; static long MayThrow() => throw new Exception();",
+            "default", report: true);
+        var expected = VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+            .WithLocation(0).WithArguments("Delay");
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
+    }
+
     private static string ReboundCancellationTokenHelperSource(string body, string second, bool report)
     {
         var delay = report ? "{|#0:Task.Delay(1, snapshot)|}" : "Task.Delay(1, snapshot)";
