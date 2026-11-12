@@ -5455,6 +5455,14 @@ internal static class ModuleAuthoringAnalysis
                 visitedLocals,
                 visitedMethods,
                 visitedWrites),
+            // A value assignment evaluates to the assigned value, even when a
+            // later argument changes the target storage again.
+            ISimpleAssignmentOperation { IsRef: false } assignment => FlowsFromCancellationToken(
+                assignment.Value,
+                cancellationTokens,
+                visitedLocals,
+                visitedMethods,
+                visitedWrites),
             IParameterReferenceOperation parameterReference =>
                 IsStableCapturedCancellationToken(parameterReference)
                 && (FlowsFromCancellationTokenStorage(
@@ -5873,7 +5881,7 @@ internal static class ModuleAuthoringAnalysis
         ];
     }
 
-    private static IEnumerable<IArgumentOperation> FindCancellationStorageCallWrites(
+    private static IEnumerable<IOperation> FindCancellationStorageCallWrites(
         IOperation read, ISymbol? symbol, IReadOnlyCollection<IParameterSymbol> cancellationTokens)
     {
         var callable = GetEnclosingCallable(read);
@@ -5890,7 +5898,10 @@ internal static class ModuleAuthoringAnalysis
             .Where(argument => GetCancellationTokenStorages(argument.Value, argument, [])
                 .Any(storage => GetCancellationStorageSymbol(storage) is { } target
                     && (SymbolEqualityComparer.Default.Equals(target, symbol)
-                        || MayShareCancellationParameterStorage(target, symbol, cancellationTokens))));
+                        || MayShareCancellationParameterStorage(target, symbol, cancellationTokens))))
+            // The callee can mutate storage only after every argument evaluates.
+            .Select(static argument => argument.Parent ?? argument)
+            .Distinct();
     }
 
     private static IOperation? FindDefiniteCancellationStorageWrite(IOperation read, ISymbol? symbol, bool? isRef)
@@ -5970,6 +5981,7 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool ReachesAfterCancellationStorageReset(IOperation write, IOperation? reset, IOperation read) =>
         reset is null
+        || HasAncestor(reset, write)
         || (write.Syntax.SpanStart >= reset.Syntax.SpanStart && write.Syntax.SpanStart < read.Syntax.SpanStart
             && !ResetsCancellationStorageBranchRevisits(reset, write, read))
         || (SharesCancellationStorageLoop(write, read) && !ResetsCancellationStorageBackedges(reset, write, read))
@@ -6031,6 +6043,11 @@ internal static class ModuleAuthoringAnalysis
     {
         for (var current = write; current.Parent is { } parent; current = parent)
         {
+            if (IsReadInSiblingCancellationSwitchArm(current, parent, read))
+            {
+                return parent;
+            }
+
             if (current is ISwitchCaseOperation sourceCase && parent is ISwitchOperation switchOperation
                 && switchOperation.Cases.FirstOrDefault(candidate => HasAncestor(read, candidate)) is { } targetCase
                 && !ReferenceEquals(sourceCase, targetCase))
@@ -6191,6 +6208,12 @@ internal static class ModuleAuthoringAnalysis
         // values even when the branch as a whole is the definite predecessor.
         for (var current = write; current.Parent is { } parent; current = parent)
         {
+            // Once the read has evaluated, later writes cannot change its copy.
+            if (HasAncestor(read, current))
+            {
+                break;
+            }
+
             if (CancellationStorageParentOverwrites(current, parent, read, symbol, isRef))
             {
                 return true;
@@ -6233,9 +6256,11 @@ internal static class ModuleAuthoringAnalysis
         IOperation current, IOperation parent, IOperation read, ISymbol? symbol, bool? isRef) =>
         (parent is ITryOperation attempt && CancellationStorageTryOverwrites(attempt, current, read, symbol, isRef))
         || (parent is ISimpleAssignmentOperation assignment && ReferenceEquals(current, assignment.Value)
-            && DefinitelyWritesCancellationStorage(assignment, symbol, isRef, read))
+            && !HasAncestor(read, assignment) && DefinitelyWritesCancellationStorage(assignment, symbol, isRef, read))
         || (parent.Syntax is ExpressionSyntax && CancellationStorageSequenceDefinitelyWrites(
-            GetCancellationStorageFollowingOperations(current, parent), symbol, isRef, read));
+            GetCancellationStorageFollowingOperations(current, parent)
+                .TakeWhile(operation => !HasAncestor(read, operation) && operation.Syntax.SpanStart < read.Syntax.SpanStart),
+            symbol, isRef, read));
 
     private static bool ContainsCancellationStorageBranchOrReturn(IOperation operation, IOperation? branchBoundary = null) =>
         operation.DescendantsAndSelf().Any(child => child is IReturnOperation
@@ -6340,6 +6365,13 @@ internal static class ModuleAuthoringAnalysis
         IOperation write, IBlockOperation body, ISymbol? symbol, bool? isRef)
     {
         var classifier = new OperationExceptionClassifier(write.SemanticModel);
+        // A callee may mutate its ref/out storage and then throw before an
+        // enclosing assignment restores it on successful completion.
+        if (!classifier.Classify(write).IsEmpty && !IsCaughtBeforeCancellationStorageBoundary(write, body))
+        {
+            return true;
+        }
+
         for (var current = write; current.Parent is { } parent; current = parent)
         {
             if (CancellationStorageSequenceCanThrowBeforeOverwrite(
@@ -6642,6 +6674,13 @@ internal static class ModuleAuthoringAnalysis
                 return false;
             }
 
+            if (IsReadInSiblingCancellationSwitchArm(current, parent, read)
+                && !SharesCancellationStorageLoop(binding, read)
+                && !CanRevisitCancellationStorageOperation(parent))
+            {
+                return false;
+            }
+
             if (IsUnreachableCancellationStorageCase(current, binding, read))
             {
                 return false;
@@ -6658,6 +6697,10 @@ internal static class ModuleAuthoringAnalysis
 
         return true;
     }
+
+    private static bool IsReadInSiblingCancellationSwitchArm(IOperation branch, IOperation parent, IOperation read) =>
+        branch is ISwitchExpressionArmOperation && parent is ISwitchExpressionOperation switchExpression
+        && switchExpression.Arms.Any(arm => !ReferenceEquals(arm, branch) && HasAncestor(read, arm));
 
     private static bool IsReadInSiblingCancellationConditional(
         IOperation branch, IConditionalOperation conditional, IOperation read) =>
