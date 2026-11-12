@@ -28,4 +28,10 @@ internal sealed record ResourcePressureCounters(
     long? CpuStallMicroseconds,
     long? MemoryStallMicroseconds,
     string? CpuPressureSource = null,
-    string? MemoryPressureSource = null);
+    string? MemoryPressureSource = null,
+    IReadOnlyList<CgroupCpuThrottlingCounters>? AncestorThrottling = null);
+
+internal sealed record CgroupCpuThrottlingCounters(
+    string Source,
+    long? ThrottledPeriods,
+    long? ThrottledMicroseconds);

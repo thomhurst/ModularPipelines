@@ -96,7 +96,7 @@ usage fraction supplies the reading. Memory includes other processes in that cgr
 file cache (`inactive_file` from `memory.stat`) is subtracted from usage when available. Unlimited, invalid,
 or unreadable cgroup data falls back to host memory from `/proc/meminfo`.
 
-The monitor detects increases in `cpu.stat`'s `nr_throttled` or `throttled_usec` and in the `some`
+The monitor reads `cpu.stat` from the process cgroup and every visible ancestor, detecting increases in its `nr_throttled` or `throttled_usec` and in the `some`
 stall-time total from `cpu.pressure` and `memory.pressure`. If cgroup pressure files are unavailable,
 it reads `/proc/pressure/cpu` and `/proc/pressure/memory` instead; these cover the host. A PSI stall increase must cover at least 10% of the actual elapsed sample interval to count as a stall sample; brief routine contention is ignored. Any positive CPU throttling increase counts. Both signals remain subject to `SustainedSamples`. Each counter source has its own baseline, so losing one pressure file does not discard unrelated
 counters. Historical totals alone do not trigger warnings. Missing counters are ignored without disabling ordinary monitoring.
@@ -106,5 +106,5 @@ and [pressure stall information](https://docs.kernel.org/accounting/psi.html).
 
 ## Limits
 
-- cgroup v1 limits are not read. CPU percentages always describe the host. Ancestor limits or throttling outside the visible cgroup mount cannot be observed. CPU throttling counters are read from the process's own cgroup.
+- cgroup v1 limits are not read. CPU percentages always describe the host. Ancestor limits or throttling outside the visible cgroup mount cannot be observed. Ambiguous namespace-root bind mounts are used only when `cgroup.procs` confirms process membership; otherwise monitoring tries another mount or host data.
 - In distributed runs, each process samples its own machine. Worker warnings and saturation periods name the modules executing on that worker. Worker figures are not combined into the master's report.

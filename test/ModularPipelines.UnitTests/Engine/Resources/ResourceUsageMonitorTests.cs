@@ -291,6 +291,48 @@ public class ResourceUsageMonitorTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task Sample_AncestorThrottlingWarnsIndependentlyOfLeafAndOtherAncestors(bool microseconds)
+    {
+        var harness = new Harness();
+        for (var index = 0; index <= 3; index++)
+        {
+            harness.Reader.Pressure = new ResourcePressureCounters($"leaf{index}", 0, 0, null, null,
+                AncestorThrottling:
+                [new("parent", microseconds ? 0 : index, microseconds ? index : 0), new($"other{index}", 100, 100)]);
+            harness.Sample(cpu: 0.1);
+        }
+
+        harness.Sample(cpu: 0.1);
+        await Assert.That(harness.Log.ToString()).Contains("Linux task stalls or CPU throttling detected");
+        await Assert.That(harness.Monitor.GetResult()!.Periods.Single().Kind).IsEqualTo(ResourceKind.Cpu);
+    }
+
+    [Test]
+    public async Task Sample_AncestorThrottlingRequiresMatchingNonResetBaseline()
+    {
+        var harness = new Harness(options => options with { SustainedSamples = 1 });
+        foreach (var counters in new IReadOnlyList<CgroupCpuThrottlingCounters>?[]
+        {
+            [new("parent", 100, 100)],
+            [new("parent", 0, 0)],
+            null,
+            [new("parent", 200, 200)],
+            [new("different", 300, 300)],
+            [new("different", null, null)],
+            [new("different", 400, 400)],
+        })
+        {
+            harness.Reader.Pressure = new ResourcePressureCounters("leaf", 0, 0, null, null,
+                AncestorThrottling: counters);
+            harness.Sample(cpu: 0.1);
+        }
+
+        await Assert.That(harness.Log.ToString()).IsEmpty();
+    }
+
+    [Test]
     public async Task Sample_NeverRecordsMoreThanMaxPeriods()
     {
         var harness = new Harness(options => options with { SustainedSamples = 1 });

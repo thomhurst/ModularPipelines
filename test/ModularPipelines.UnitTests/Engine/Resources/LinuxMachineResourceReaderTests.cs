@@ -14,6 +14,7 @@ public class LinuxMachineResourceReaderTests
         var files = HostFiles();
         files["/proc/self/cgroup"] = $"0::{membership}\n";
         files["/proc/self/mountinfo"] = $"29 23 0:26 {mountRoot} /sys/fs/cgroup rw - cgroup2 cgroup rw\n";
+        files["/sys/fs/cgroup/cgroup.procs"] = $"{Environment.ProcessId}\n";
         files[$"{directory}/memory.max"] = "1000\n";
         files[$"{directory}/memory.current"] = "950\n";
         files[$"{directory}/cpu.stat"] = "usage_usec 9999\nnr_throttled 12\nthrottled_usec 345\n";
@@ -171,6 +172,72 @@ public class LinuxMachineResourceReaderTests
         await Assert.That(after.Pressure!.Source).IsEqualTo(before.Pressure!.Source);
         await Assert.That(after.Pressure.CpuPressureSource).IsEqualTo(before.Pressure.CpuPressureSource);
         await Assert.That(after.Pressure.MemoryPressureSource).IsNotEqualTo(before.Pressure.MemoryPressureSource);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task AmbiguousBindMountRequiresProcessMembership(bool containsProcess)
+    {
+        var files = HostFiles();
+        files["/proc/self/cgroup"] = "0::/";
+        files["/proc/self/mountinfo"] = "29 23 0:26 /jobs/build /bound rw - cgroup2 cgroup rw";
+        files["/bound/memory.max"] = "1000";
+        files["/bound/memory.current"] = "950";
+        files["/bound/cgroup.procs"] = containsProcess ? $"{Environment.ProcessId}\n" : "invalid\n";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(containsProcess ? 50 : 5000 * 1024);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task UnavailableBindMountMembershipFallsBackToHost(bool denied)
+    {
+        var files = HostFiles();
+        files["/proc/self/cgroup"] = "0::/";
+        files["/proc/self/mountinfo"] = "29 23 0:26 /jobs/build /bound rw - cgroup2 cgroup rw";
+        files["/bound/memory.max"] = "1000";
+        files["/bound/memory.current"] = "950";
+        var reader = new LinuxMachineResourceReader(path => path == "/bound/cgroup.procs" && denied
+            ? throw new UnauthorizedAccessException() : files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(5000 * 1024);
+    }
+
+    [Test]
+    public async Task UnrelatedBindMountDoesNotHideMatchingMount()
+    {
+        var files = HostFiles();
+        files["/proc/self/cgroup"] = "0::/";
+        files["/proc/self/mountinfo"] = "29 23 0:26 /jobs/build /unrelated rw - cgroup2 cgroup rw\n30 23 0:26 / /actual rw - cgroup2 cgroup rw";
+        files["/unrelated/memory.max"] = "1000";
+        files["/unrelated/memory.current"] = "950";
+        files["/actual/memory.max"] = "2000";
+        files["/actual/memory.current"] = "500";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        await Assert.That(reading.MemoryAvailableBytes).IsEqualTo(1500);
+    }
+
+    [Test]
+    public async Task ReadsThrottlingThroughVisibleMountOnly()
+    {
+        var files = CgroupFiles();
+        files["/sys/fs/cgroup/job/cpu.stat"] = "nr_throttled 0";
+        files["/sys/fs/cgroup/cpu.stat"] = "nr_throttled 12\nthrottled_usec 345";
+        files["/sys/fs/cpu.stat"] = "nr_throttled 999";
+        var reader = new LinuxMachineResourceReader(path => files.GetValueOrDefault(path));
+
+        await Assert.That(reader.TryRead(out var reading)).IsTrue();
+        var ancestor = reading.Pressure!.AncestorThrottling!.Single();
+        await Assert.That(ancestor.Source).IsEqualTo("/sys/fs/cgroup");
+        await Assert.That(ancestor.ThrottledPeriods).IsEqualTo(12);
+        await Assert.That(ancestor.ThrottledMicroseconds).IsEqualTo(345);
     }
 
     private static Dictionary<string, string> HostFiles() => new()

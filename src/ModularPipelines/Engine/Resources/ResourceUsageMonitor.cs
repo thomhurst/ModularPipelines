@@ -132,6 +132,7 @@ internal sealed class ResourceUsageMonitor(
             var sameSource = pressure is not null && baseline is not null && pressure.Source == baseline.Source;
             var cpuStalled = sameSource && (Increased(pressure!.ThrottledPeriods, baseline!.ThrottledPeriods)
                 || Increased(pressure.ThrottledMicroseconds, baseline.ThrottledMicroseconds));
+            cpuStalled |= AncestorThrottlingIncreased(pressure?.AncestorThrottling, baseline?.AncestorThrottling);
             cpuStalled |= pressure is not null && baseline is not null
                 && (pressure.CpuPressureSource ?? pressure.Source) == (baseline.CpuPressureSource ?? baseline.Source)
                 && SignificantStall(pressure.CpuStallMicroseconds, baseline.CpuStallMicroseconds, elapsed);
@@ -143,6 +144,21 @@ internal sealed class ResourceUsageMonitor(
         }
 
         return true;
+    }
+
+    private static bool AncestorThrottlingIncreased(
+        IReadOnlyList<CgroupCpuThrottlingCounters>? current,
+        IReadOnlyList<CgroupCpuThrottlingCounters>? previous)
+    {
+        if (current is null || previous is null)
+        {
+            return false;
+        }
+
+        var baselines = previous.ToDictionary(counter => counter.Source, StringComparer.Ordinal);
+        return current.Any(counter => baselines.TryGetValue(counter.Source, out var baseline)
+            && (Increased(counter.ThrottledPeriods, baseline.ThrottledPeriods)
+                || Increased(counter.ThrottledMicroseconds, baseline.ThrottledMicroseconds)));
     }
 
     private static bool Increased(long? current, long? previous) =>

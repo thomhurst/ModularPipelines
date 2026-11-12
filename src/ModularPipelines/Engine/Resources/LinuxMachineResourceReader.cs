@@ -41,9 +41,30 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
             FindPressureTotal(cpuPressure),
             FindPressureTotal(memoryPressure),
             cpuPressureSource,
-            memoryPressureSource);
+            memoryPressureSource,
+            ReadAncestorThrottling(directory, mount));
         reading = new MachineResourceReading(idle, total, memoryTotal, memoryAvailable, pressure);
         return true;
+    }
+
+    private IReadOnlyList<CgroupCpuThrottlingCounters> ReadAncestorThrottling(string? directory, string? mount)
+    {
+        List<CgroupCpuThrottlingCounters> counters = [];
+        // cpu.stat bandwidth counters cover only the quota configured at that cgroup.
+        for (var ancestor = directory; ancestor is not null && mount is not null && ancestor != mount;)
+        {
+            ancestor = Path.GetDirectoryName(ancestor);
+            if (ancestor is null)
+            {
+                break;
+            }
+
+            var stat = Read(Path.Combine(ancestor, "cpu.stat"));
+            counters.Add(new CgroupCpuThrottlingCounters(ancestor,
+                FindCounter(stat, "nr_throttled"), FindCounter(stat, "throttled_usec")));
+        }
+
+        return counters;
     }
 
     private (long Total, long Available) ReadCgroupMemory(string? directory, string? mount, long hostTotal, long hostAvailable)
@@ -128,9 +149,11 @@ internal sealed class LinuxMachineResourceReader : IMachineResourceReader
             {
                 relative = membership[root.Length..];
             }
-            else if (membership == "/")
+            else if (membership == "/" && Lines(Read(Path.Combine(mount, "cgroup.procs")))
+                .Any(pid => TryNonNegative(pid, out var value) && value == Environment.ProcessId))
             {
-                // A cgroup namespace reports its root as /, even for a bind-mounted subtree.
+                // Namespace-relative / alone cannot identify a bind-mounted subtree.
+                // Accept it only when this process is listed in the mounted cgroup.
                 relative = string.Empty;
             }
             else
