@@ -5636,6 +5636,7 @@ internal static class ModuleAuthoringAnalysis
 
         var reachingWrites = writes
             .Where(write => !IsOverwrittenCancellationStorageWrite(write, read, symbol))
+            .Where(write => !IsFormerCancellationAliasReferentWrite(write, read, symbol))
             .Where(write => ReachesAfterCancellationStorageReset(write, definiteWrite, read));
         foreach (var write in reachingWrites)
         {
@@ -5661,6 +5662,35 @@ internal static class ModuleAuthoringAnalysis
         }
 
         return InitialCancellationTokenStorageFlows(storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+    }
+
+    private static bool IsFormerCancellationAliasReferentWrite(
+        IOperation write, IOperation read, ISymbol? storageSymbol)
+    {
+        var aliasSymbol = GetCancellationStorageSymbol(read);
+        if (aliasSymbol is not (ILocalSymbol { RefKind: not RefKind.None }
+            or IParameterSymbol { RefKind: not RefKind.None })
+            || SymbolEqualityComparer.Default.Equals(aliasSymbol, storageSymbol)
+            || SharesCancellationStorageLoop(write, read)
+            || SharesCancellationStorageBranchTransfer(write, read)
+            || !IsOverwrittenCancellationStorageWrite(write, read, aliasSymbol, isRef: true))
+        {
+            return false;
+        }
+
+        // A branch can write the old referent and then select different storage.
+        // Keep the write if any subsequent reachable binding could select that
+        // old storage again, including after the branch rejoins the read's path.
+        var bindings = FindCancellationStorageAssignments(read, aliasSymbol, isRef: true)
+            .Where(binding => binding.Syntax.SpanStart > write.Syntax.SpanStart)
+            .Where(binding => CanReachCancellationStorageRead(write, binding))
+            .ToArray();
+        return bindings.Length > 0 && bindings.All(binding =>
+            !SharesCancellationStorageLoop(binding, read)
+            && !SharesCancellationStorageBranchTransfer(binding, read)
+            && GetCancellationTokenStorages(binding.Value, binding, []).All(storage =>
+                GetCancellationStorageSymbol(storage) is { } symbol
+                && !SymbolEqualityComparer.Default.Equals(symbol, storageSymbol)));
     }
 
     private static bool InitialCancellationTokenStorageFlows(
