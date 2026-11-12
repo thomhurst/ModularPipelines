@@ -6304,6 +6304,15 @@ internal static class ModuleAuthoringAnalysis
         IParameterReferenceOperation read,
         (IInvocationOperation Invocation, IMethodSymbol Method)? caller = null)
     {
+        // A value parameter owns private storage even when a ref argument resolves
+        // to unknown caller storage. Resolve local ref aliases first so writes
+        // through an alias of that private parameter still invalidate its reads.
+        if (read.Parameter.RefKind == RefKind.None
+            && GetCancellationStorage(write, [], preserveParameters: true) is { } writeStorage)
+        {
+            return SymbolEqualityComparer.Default.Equals(writeStorage, read.Parameter);
+        }
+
         // Use the actual helper arguments when available; unknown callers remain conservative.
         if (caller is { } context)
         {

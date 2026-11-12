@@ -157,27 +157,34 @@ public class ModuleHelperRefCancellationAnalyzerTests
     }
 
     [TestMethod]
-    [DataRow(true, "(third, count) = (default(CancellationToken), 1);", true, false)]
-    [DataRow(true, "(count, (third, count)) = (1, (default(CancellationToken), 2));", true, false)]
-    [DataRow(true, "ref CancellationToken alias = ref third; (alias, count) = (default(CancellationToken), 1);", true, false)]
-    [DataRow(true, "(third, count) = (first, 1);", false, false)]
-    [DataRow(true, "(third, count) = (local, 1);", false, false)]
-    [DataRow(true, "local = default; (third, count) = (local, 1);", true, false)]
-    [DataRow(true, "(third, local) = (local, default(CancellationToken));", true, false)]
-    [DataRow(true, "(third, local) = (default(CancellationToken), local);", true, false)]
-    [DataRow(true, "local = default; (third, local) = (local, third);", true, false)]
-    [DataRow(true, "CancellationToken unrelated = default; scoped ref CancellationToken alias = ref third; alias = ref unrelated; (alias, count) = (default(CancellationToken), 1);", false, false)]
-    [DataRow(true, "(third, count) = (local, 1); third = default;", true, false)]
-    [DataRow(true, "intact = default; Copy(); (third, count) = (local, 1);", true, false)]
-    [DataRow(true, "CancellationToken unrelated = default; (unrelated, count) = (default(CancellationToken), 1);", false, false)]
-    [DataRow(false, "(third, count) = (default(CancellationToken), 1);", false, false)]
-    [DataRow(true, "(third, count) = (default(CancellationToken), 1);", false, true)]
-    [DataRow(true, "(count, (third, count)) = (1, (default(CancellationToken), 2));", false, true)]
-    [DataRow(true, "ref CancellationToken alias = ref third; (alias, count) = (default(CancellationToken), 1);", false, true)]
-    [DataRow(true, "(third, local) = (default(CancellationToken), local);", false, true)]
-    [DataRow(true, "(third, count) = (default(CancellationToken), 1); first = default;", true, true)]
-    [DataRow(true, "third = ref first; (third, count) = (default(CancellationToken), 1);", true, true)]
-    public async Task Checks_Tuple_Ref_Parameter_Snapshot(bool thirdByRef, string store, bool reports, bool distinctThird)
+    [DataRow(true, "(third, count) = (default(CancellationToken), 1);", true, false, true, false)]
+    [DataRow(true, "(count, (third, count)) = (1, (default(CancellationToken), 2));", true, false, true, false)]
+    [DataRow(true, "ref CancellationToken alias = ref third; (alias, count) = (default(CancellationToken), 1);", true, false, true, false)]
+    [DataRow(true, "(third, count) = (first, 1);", false, false, true, false)]
+    [DataRow(true, "(third, count) = (local, 1);", false, false, true, false)]
+    [DataRow(true, "local = default; (third, count) = (local, 1);", true, false, true, false)]
+    [DataRow(true, "(third, local) = (local, default(CancellationToken));", true, false, true, false)]
+    [DataRow(true, "(third, local) = (default(CancellationToken), local);", true, false, true, false)]
+    [DataRow(true, "local = default; (third, local) = (local, third);", true, false, true, false)]
+    [DataRow(true, "CancellationToken unrelated = default; scoped ref CancellationToken alias = ref third; alias = ref unrelated; (alias, count) = (default(CancellationToken), 1);", false, false, true, false)]
+    [DataRow(true, "(third, count) = (local, 1); third = default;", true, false, true, false)]
+    [DataRow(true, "intact = default; Copy(); (third, count) = (local, 1);", true, false, true, false)]
+    [DataRow(true, "CancellationToken unrelated = default; (unrelated, count) = (default(CancellationToken), 1);", false, false, true, false)]
+    [DataRow(false, "(third, count) = (default(CancellationToken), 1);", false, false, true, false)]
+    [DataRow(true, "(third, count) = (default(CancellationToken), 1);", false, true, true, false)]
+    [DataRow(true, "(count, (third, count)) = (1, (default(CancellationToken), 2));", false, true, true, false)]
+    [DataRow(true, "ref CancellationToken alias = ref third; (alias, count) = (default(CancellationToken), 1);", false, true, true, false)]
+    [DataRow(true, "(third, local) = (default(CancellationToken), local);", false, true, true, false)]
+    [DataRow(true, "(third, count) = (default(CancellationToken), 1); first = default;", true, true, true, false)]
+    [DataRow(true, "third = ref first; (third, count) = (default(CancellationToken), 1);", true, true, true, false)]
+    [DataRow(true, "(third, count) = (default(CancellationToken), 1);", false, false, false, true)]
+    [DataRow(true, "(count, (third, count)) = (1, (default(CancellationToken), 2));", false, false, false, true)]
+    [DataRow(true, "ref CancellationToken alias = ref third; (alias, count) = (default(CancellationToken), 1);", false, false, false, true)]
+    [DataRow(true, "third = default;", false, false, false, true)]
+    [DataRow(true, "(third, count) = (default(CancellationToken), 1); first = default;", true, false, false, true)]
+    [DataRow(true, "ref CancellationToken alias = ref first; (alias, count) = (default(CancellationToken), 1);", true, false, false, true)]
+    public async Task Checks_Tuple_Ref_Parameter_Snapshot(
+        bool thirdByRef, string store, bool reports, bool distinctThird, bool firstByRef, bool fieldThird)
     {
         var call = "Task.Delay(1, snapshot)";
         var source = $$"""
@@ -185,8 +192,10 @@ public class ModuleHelperRefCancellationAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
+                private static CancellationToken Field;
+
                 private static CancellationToken Forward(
-                    ref CancellationToken first, scoped ref CancellationToken second,
+                    {{(firstByRef ? "ref " : "")}}CancellationToken first, scoped ref CancellationToken second,
                     {{(thirdByRef ? "ref " : "")}}CancellationToken third)
                 {
                     var local = first;
@@ -208,7 +217,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
                     var token = cancellationToken;
                     CancellationToken other = default;
                     CancellationToken unrelated = default;
-                    var snapshot = Forward(ref token, ref other, {{(thirdByRef ? "ref " : "")}}{{(distinctThird ? "unrelated" : "token")}});
+                    var snapshot = Forward({{(firstByRef ? "ref " : "")}}token, ref other, {{(thirdByRef ? "ref " : "")}}{{(fieldThird ? "Field" : distinctThird ? "unrelated" : "token")}});
                     for (var i = 0; i < 2; i++)
                         await {{(reports ? "{|#0:" + call + "|}" : call)}};
                     return null!;
