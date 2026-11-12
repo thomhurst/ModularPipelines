@@ -414,6 +414,53 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("Task", "choose && (saved = token).CanBeCanceled", false)]
+    [DataRow("ValueTask", "choose && (saved = token).CanBeCanceled", false)]
+    [DataRow("Task", "choose || (saved = token).CanBeCanceled", true)]
+    [DataRow("ValueTask", "choose || (saved = token).CanBeCanceled", true)]
+    [DataRow("Task", "((CancellationToken?)token ?? (saved = token)).CanBeCanceled", false)]
+    [DataRow("ValueTask", "((CancellationToken?)token ?? (saved = token)).CanBeCanceled", false)]
+    [DataRow("Task", "((object?)null)?.Equals(saved = token)", false)]
+    [DataRow("ValueTask", "((object?)null)?.Equals(saved = token)", false)]
+    [DataRow("Task", "choose switch { true => (saved = token).CanBeCanceled, _ => false }", false)]
+    [DataRow("ValueTask", "choose switch { true => (saved = token).CanBeCanceled, _ => false }", false)]
+    public async Task Skipped_Expression_Loop_Reset_Does_Not_Hide_Replaced_Payload(string taskType, string expression, bool choose)
+    {
+        var choice = choose ? "true" : "false";
+        await Verify($"static {taskType}<CancellationToken> Pass(CancellationToken token, bool choose) {{ var saved = token; for (int i = 0; ; i++) {{ _ = {expression}; if (i == 1) return {taskType}.FromResult(saved); saved = default; }} }}", true, token: $"await Pass(cancellationToken, {choice})");
+    }
+
+    [TestMethod]
+    [DataRow("(saved = token).CanBeCanceled && choose")]
+    [DataRow("(saved = token).CanBeCanceled || choose")]
+    [DataRow("(CancellationToken?)(saved = token) ?? default")]
+    [DataRow("((object)(saved = token))?.ToString()")]
+    [DataRow("(saved = token).CanBeCanceled switch { true => choose, _ => false }")]
+    [DataRow("true && (saved = token).CanBeCanceled")]
+    [DataRow("false || (saved = token).CanBeCanceled")]
+    [DataRow("(CancellationToken?)null ?? (saved = token)")]
+    [DataRow("\"receiver\"?.Equals(saved = token)")]
+    [DataRow("new object()?.Equals(saved = token)")]
+    [DataRow("true switch { true => (saved = token).CanBeCanceled, _ => false }")]
+    [DataRow("choose switch { _ => (saved = token).CanBeCanceled }")]
+    public async Task Guaranteed_Expression_Loop_Reset_Preserves_Payload(string expression)
+    {
+        await Verify($"static Task<CancellationToken> Pass(CancellationToken token, bool choose) {{ var saved = token; for (int i = 0; ; i++) {{ _ = {expression}; if (i == 1) return Task.FromResult(saved); saved = default; }} }}", false, token: "await Pass(cancellationToken, false)");
+    }
+
+    [TestMethod]
+    [DataRow("true && (saved = cancellationToken).CanBeCanceled", false)]
+    [DataRow("false || (saved = cancellationToken).CanBeCanceled", false)]
+    [DataRow("(CancellationToken?)null ?? (saved = cancellationToken)", false)]
+    [DataRow("false && (saved = cancellationToken).CanBeCanceled", true)]
+    [DataRow("true || (saved = cancellationToken).CanBeCanceled", true)]
+    [DataRow("(CancellationToken?)cancellationToken ?? (saved = cancellationToken)", true)]
+    public async Task Short_Circuit_Assignment_Tracks_Guaranteed_Execution(string expression, bool warns)
+    {
+        await Verify($"CancellationToken saved = default; _ = {expression};", warns, token: "saved");
+    }
+
+    [TestMethod]
     [DataRow("Task")]
     [DataRow("ValueTask")]
     public async Task Ordinary_Writes_Across_Loop_Backedge_Reject_Helper_Proof(string taskType)

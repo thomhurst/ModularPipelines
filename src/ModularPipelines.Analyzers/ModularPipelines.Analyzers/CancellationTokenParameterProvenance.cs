@@ -318,6 +318,11 @@ internal static class CancellationTokenParameterProvenance
                 return null;
             }
 
+            return EvaluatePayloadHelper(invocation, values);
+        }
+
+        private bool? EvaluatePayloadHelper(IInvocationOperation invocation, Dictionary<TextSpan, bool?> values)
+        {
             // CFG operations have no semantic model; recover the source invocation
             // for helper lookup while retaining the already evaluated caller values.
             if (compilation.GetSemanticModel(invocation.Syntax.SyntaxTree)

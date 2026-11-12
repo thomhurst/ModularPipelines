@@ -184,15 +184,7 @@ internal static partial class ModuleAuthoringAnalysis
 
             if (SharesLoop(reference, localReference))
             {
-                if (reference.Parent is ISimpleAssignmentOperation { IsRef: false } assignment
-                    && ReferenceEquals(assignment.Target, reference)
-                    && (reference.Syntax.SpanStart < localReference.Syntax.SpanStart
-                        || HasLoopLocalReset(reference, localReference)))
-                {
-                    return false;
-                }
-
-                return IsPotentialScalarWrite(reference);
+                return IsUnsupportedLoopPayloadWrite(reference, localReference);
             }
 
             return reference.Syntax.SpanStart < localReference.Syntax.SpanStart
@@ -200,6 +192,18 @@ internal static partial class ModuleAuthoringAnalysis
                     || reference.Parent is IArgumentOperation { Parameter.RefKind: RefKind.Ref or RefKind.Out }
                     || (reference.Parent is ITupleOperation && IsPayloadAssignmentTarget(reference)));
         });
+    }
+
+    private static bool IsUnsupportedLoopPayloadWrite(ILocalReferenceOperation write, ILocalReferenceOperation use)
+    {
+        if (write.Parent is ISimpleAssignmentOperation { IsRef: false } assignment
+            && ReferenceEquals(assignment.Target, write)
+            && (write.Syntax.SpanStart < use.Syntax.SpanStart || HasLoopLocalReset(write, use)))
+        {
+            return false;
+        }
+
+        return IsPotentialScalarWrite(write);
     }
 
     private static bool HasLoopLocalReset(IOperation write, ILocalReferenceOperation use)

@@ -6629,10 +6629,8 @@ internal static partial class ModuleAuthoringAnalysis
             if (ancestor is IConditionalOperation
                 or ILoopOperation
                 or ISwitchOperation
-                || (ancestor is IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd or BinaryOperatorKind.ConditionalOr } binary
-                    && HasAncestor(operation, binary.RightOperand))
-                || (ancestor is ICoalesceOperation coalesce
-                    && HasAncestor(operation, coalesce.WhenNull)))
+                || (ancestor is ISwitchExpressionArmOperation arm && HasOtherReachableSwitchArm(arm))
+                || IsShortCircuitOperand(operation, ancestor))
             {
                 return true;
             }
@@ -6640,6 +6638,30 @@ internal static partial class ModuleAuthoringAnalysis
 
         return false;
     }
+
+    private static bool IsShortCircuitOperand(IOperation operation, IOperation ancestor) => ancestor switch
+    {
+        IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalAnd } binary =>
+            binary.LeftOperand.ConstantValue is not { HasValue: true, Value: true }
+            && HasAncestor(operation, binary.RightOperand),
+        IBinaryOperation { OperatorKind: BinaryOperatorKind.ConditionalOr } binary =>
+            binary.LeftOperand.ConstantValue is not { HasValue: true, Value: false }
+            && HasAncestor(operation, binary.RightOperand),
+        ICoalesceOperation coalesce => coalesce.Value.ConstantValue is not { HasValue: true, Value: null }
+            && HasAncestor(operation, coalesce.WhenNull),
+        IConditionalAccessOperation conditionalAccess => !IsDefinitelyNonNullValue(conditionalAccess.Operation)
+            && HasAncestor(operation, conditionalAccess.WhenNotNull),
+        _ => false,
+    };
+
+    private static bool IsDefinitelyNonNullValue(IOperation operation) =>
+        operation.ConstantValue is { HasValue: true, Value: not null }
+        || operation is IObjectCreationOperation { Type.IsReferenceType: true } or IArrayCreationOperation;
+
+    private static bool HasOtherReachableSwitchArm(ISwitchExpressionArmOperation arm) =>
+        arm.Parent is ISwitchExpressionOperation expression
+        && expression.Arms.Any(candidate => !ReferenceEquals(candidate, arm)
+            && !IsDeadSwitchExpressionArm(candidate, expression));
 
     private static bool HasAncestor(
         IOperation operation,
