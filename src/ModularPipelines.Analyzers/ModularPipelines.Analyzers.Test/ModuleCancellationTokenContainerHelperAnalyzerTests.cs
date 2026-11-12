@@ -21,6 +21,11 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     [DataRow("void ClearLocal() { value[0] = default; }", false)]
     [DataRow("Action clear = () => value[0] = default; clear();", true)]
     [DataRow("void ClearLocal() { value[0] = default; } ClearLocal();", true)]
+    [DataRow("_ = new Lazy<bool>(() => { value[0] = default; return true; }).Value;", true)]
+    [DataRow("Func<bool> clear = () => { value[0] = default; return true; }; _ = new Lazy<bool>(clear).Value;", true)]
+    [DataRow("var scratch = value; var fresh = (scratch = new CancellationToken[1]); fresh[0] = default;", false)]
+    [DataRow("ref var alias = ref value; alias = new CancellationToken[1];", true)]
+    [DataRow("var scratch = new CancellationToken[1]; ref var alias = ref scratch; alias = new CancellationToken[1];", false)]
     [DataRow("", false)]
     [DataRow("var scratch = new CancellationToken[1]; scratch[0] = default;", false)]
     [DataRow("var scratch = new CancellationToken[value.Length]; scratch[0] = default;", false)]
@@ -78,6 +83,9 @@ public class ModuleCancellationTokenContainerHelperAnalyzerTests
     }
 
     [TestMethod]
+    [DataRow("tokens[0] = default; tokens = [cancellationToken];", false)]
+    [DataRow("var old = tokens; tokens = [cancellationToken]; old[0] = default;", false)]
+    [DataRow("tokens = [cancellationToken]; tokens[0] = default;", true)]
     [DataRow("tokens[0] = default; tokens = new[] { cancellationToken };", false)]
     [DataRow("var old = tokens; tokens = new[] { cancellationToken }; old[0] = default;", false)]
     [DataRow("tokens[0] = default; tokens = tokens;", true)]
