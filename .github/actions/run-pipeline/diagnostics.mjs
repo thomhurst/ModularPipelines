@@ -28,15 +28,40 @@ export function samplesResources(environment) {
 
 // Samples come from this process, outside the pipeline's output lock. GitHub log groups do not
 // nest, so forward the pipeline's stdout and write a sample only at a line start outside a group.
-export function forwardOutput(source, sink) {
+export function forwardOutput(source, sink, child) {
   let grouped = false;
   let line = '';
   let pending;
-  source.on('data', chunk => {
-    if (!sink.write(chunk)) {
-      source.pause();
-      sink.once('drain', () => source.resume());
+  let exited = false;
+  let ended = source.readableEnded || source.destroyed;
+  let backpressured = false;
+  let cleanupTimer;
+  function resetCleanup() {
+    clearTimeout(cleanupTimer);
+    // A descendant may hold stdout open, but output waiting on the sink is not idle.
+    if (exited && !ended && !backpressured) {
+      cleanupTimer = setTimeout(() => source.destroy(), 5000);
+      cleanupTimer.unref();
     }
+  }
+  child?.once('exit', () => { exited = true; resetCleanup(); });
+  function finish() { ended = true; clearTimeout(cleanupTimer); }
+  source.once('end', finish);
+  source.once('close', finish);
+  function forward(chunk) {
+    if (!sink.write(chunk) && !backpressured) {
+      backpressured = true;
+      source.pause();
+      sink.once('drain', () => {
+        backpressured = false;
+        resetCleanup();
+        source.resume();
+      });
+    }
+    resetCleanup();
+  }
+  source.on('data', chunk => {
+    forward(chunk);
     const lines = (line + chunk.toString('latin1')).split('\n');
     // Only the start of a line identifies a workflow command.
     line = lines.pop().slice(0, 16);
@@ -45,27 +70,25 @@ export function forwardOutput(source, sink) {
       else if (complete.startsWith('::endgroup::')) grouped = false;
     }
     if (pending && !grouped && !line) {
-      sink.write(pending);
+      forward(pending);
       pending = undefined;
     }
   });
   return text => {
     if (grouped || line) pending = `${text}\n`;
-    else sink.write(`${text}\n`);
+    else forward(`${text}\n`);
   };
 }
 
 export function startDiagnostics(environment, child, {
-  capture = captureDiagnostics, write, schedule = setInterval, cancel = clearInterval,
+  capture = captureDiagnostics, write, stdout = process.stdout, schedule = setInterval, cancel = clearInterval,
 } = {}) {
   if (!samplesResources(environment)) {
     return;
   }
 
   if (!write) {
-    write = forwardOutput(child.stdout, process.stdout);
-    // A process that outlives the pipeline can hold the pipe open; do not wait for it.
-    child.once('exit', () => setTimeout(() => child.stdout.destroy(), 5000).unref());
+    write = forwardOutput(child.stdout, stdout, child);
   }
 
   let stopped = false;

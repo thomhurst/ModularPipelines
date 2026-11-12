@@ -123,3 +123,46 @@ test('forwarding pauses the pipeline output until the sink drains', () => {
   sink.emit('drain');
   assert.equal(source.paused, false);
 });
+
+for (const exitBeforeOutput of [false, true]) {
+  test(`stdout cleanup waits for backpressure and resets on progress (exit first: ${exitBeforeOutput})`, t => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const source = Object.assign(new EventEmitter(), {
+      destroyed: false, pause() {}, resume() {}, destroy() { this.destroyed = true; },
+    });
+    const child = Object.assign(new EventEmitter(), { stdout: source });
+    const sink = Object.assign(new EventEmitter(), { write: () => false });
+    startDiagnostics(master, child, {
+      stdout: sink, capture: async () => 'sample',
+      schedule: () => ({ unref() {} }), cancel() {},
+    });
+    if (exitBeforeOutput) child.emit('exit');
+    source.emit('data', Buffer.from('trailing output\n'));
+    if (!exitBeforeOutput) child.emit('exit');
+    t.mock.timers.tick(6000);
+    assert.equal(source.destroyed, false, 'Backpressure must suspend the cleanup deadline');
+    sink.write = () => true;
+    sink.emit('drain');
+    t.mock.timers.tick(4000);
+    source.emit('data', Buffer.from('final output\n'));
+    t.mock.timers.tick(4000);
+    assert.equal(source.destroyed, false, 'Forwarding progress must reset the idle deadline');
+    t.mock.timers.tick(1000);
+    assert.equal(source.destroyed, true, 'An idle pipe held open by a descendant must still close');
+  });
+}
+
+test('stdout completion cancels the post-exit cleanup deadline', t => {
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  const source = Object.assign(new EventEmitter(), {
+    destroy() { assert.fail('Completed stdout must not be destroyed by a stale timer'); },
+  });
+  const child = Object.assign(new EventEmitter(), { stdout: source });
+  startDiagnostics(master, child, {
+    stdout: { write: () => true }, capture: async () => 'sample',
+    schedule: () => ({ unref() {} }), cancel() {},
+  });
+  child.emit('exit');
+  source.emit('end');
+  t.mock.timers.tick(6000);
+});
