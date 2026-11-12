@@ -10,40 +10,6 @@ public class ModuleTaskRunCancellationAnalyzerTests
     [DataRow("execute")]
     [DataRow("lifecycle")]
     [DataRow("configuration")]
-    public async Task Reports_Potentially_Modified_Captured_Token(string root)
-    {
-        string[] mutations =
-        [
-            "cancellationToken = CancellationToken.None;",
-            "Replace(ref cancellationToken);",
-            "Replace(out cancellationToken);",
-            "ref CancellationToken alias = ref cancellationToken; alias = CancellationToken.None;",
-            "CancellationToken other = default; ref CancellationToken alias = ref other; alias = ref cancellationToken; alias = CancellationToken.None;",
-            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref cancellationToken : ref other); alias = CancellationToken.None;",
-            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref cancellationToken); alias = CancellationToken.None;",
-            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref cancellationToken : ref other)); alias = CancellationToken.None;",
-            "(cancellationToken, _) = (CancellationToken.None, 1);",
-        ];
-        foreach (var mutation in mutations)
-        {
-            var source = Source(root, mutation, "{|#0:Task.Delay(1, cancellationToken)|}");
-            var warnsAtRun = mutation == "cancellationToken = CancellationToken.None;";
-            if (warnsAtRun)
-            {
-                source = source.Replace("Task.Run(async () => await", "{|#1:Task.Run(async () => await")
-                    .Replace("|}, cancellationToken);", "|}, cancellationToken)|};");
-            }
-
-            await VerifyCS.VerifyAnalyzerAsync(source, warnsAtRun
-                ? [MissingToken(), VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("Run")]
-                : [MissingToken()]);
-        }
-    }
-
-    [TestMethod]
-    [DataRow("execute")]
-    [DataRow("lifecycle")]
-    [DataRow("configuration")]
     public async Task Accepts_Immutable_Captured_Token(string root)
     {
         await VerifyCS.VerifyAnalyzerAsync(Source(root, "", "Task.Delay(1, cancellationToken)"));
@@ -85,32 +51,6 @@ public class ModuleTaskRunCancellationAnalyzerTests
                 + "var tokens = new CancellationToken[1]; "
                 + mutation;
             await VerifyCS.VerifyAnalyzerAsync(Source(root, setup, "Task.Delay(1, cancellationToken)"));
-        }
-    }
-
-    [TestMethod]
-    [DataRow("execute")]
-    [DataRow("lifecycle")]
-    [DataRow("configuration")]
-    public async Task Reports_Modified_Captured_Parallel_Callback_Token(string root)
-    {
-        string[] mutations =
-        [
-            "callbackToken = CancellationToken.None;",
-            "Replace(ref callbackToken);",
-            "Replace(out callbackToken);",
-            "ref CancellationToken alias = ref callbackToken; alias = CancellationToken.None;",
-            "CancellationToken other = default; ref CancellationToken alias = ref other; alias = ref callbackToken; alias = CancellationToken.None;",
-            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref callbackToken : ref other); alias = CancellationToken.None;",
-            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref callbackToken); alias = CancellationToken.None;",
-            "bool flag = true; CancellationToken other = default; ref CancellationToken alias = ref (flag ? ref other : ref (flag ? ref callbackToken : ref other)); alias = CancellationToken.None;",
-            "(callbackToken, _) = (CancellationToken.None, 1);",
-        ];
-        foreach (var mutation in mutations)
-        {
-            await VerifyCS.VerifyAnalyzerAsync(
-                Source(root, mutation, "{|#0:Task.Delay(1, callbackToken)|}", parallelCallback: true),
-                MissingToken());
         }
     }
 

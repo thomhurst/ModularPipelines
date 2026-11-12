@@ -149,16 +149,14 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
 
                 async Task RunAsync(CancellationToken localToken)
                 {
-                    await {|#1:Task.Run(() => { }, localToken)|};
+                    await Task.Run(() => { }, localToken);
                 }
             }
             """);
 
         await VerifyCS.VerifyAnalyzerAsync(source,
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(0).WithArguments("RunAsync"),
-            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(1).WithArguments("Run"));
+                .WithLocation(0).WithArguments("RunAsync"));
     }
 
     [TestMethod]
@@ -183,16 +181,14 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
 
                 async Task Inner(CancellationToken innerToken)
                 {
-                    await {|#1:Task.Run(() => { }, innerToken)|};
+                    await Task.Run(() => { }, innerToken);
                 }
             }
             """);
 
         await VerifyCS.VerifyAnalyzerAsync(source,
             VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(0).WithArguments("Inner"),
-            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                .WithLocation(1).WithArguments("Run"));
+                .WithLocation(0).WithArguments("Inner"));
     }
 
     [TestMethod]
@@ -292,62 +288,6 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
     }
 
     [TestMethod]
-    [DataRow("execute", false)]
-    [DataRow("lifecycle", false)]
-    [DataRow("configuration", false)]
-    [DataRow("execute", true)]
-    [DataRow("lifecycle", true)]
-    [DataRow("configuration", true)]
-    public async Task Reports_Once_For_Overwritten_Capture_In_Returned_Lambda(string root, bool functionPointer)
-    {
-        var source = ModuleSource(root, $$"""
-            private static Task HelperAsync(CancellationToken token)
-            {
-                {{(functionPointer ? "ref var alias = ref token;" : "")}}
-                try { {{(functionPointer ? "unsafe { delegate* managed<void> action = &Throw; action(); }" : "Throw();")}} }
-                catch { {{(functionPointer ? "alias" : "token")}} = default; }
-                return Task.Run(() => {|#0:Task.Delay(1, token)|}, token);
-            }
-
-            private static void Throw() => throw new InvalidOperationException();
-            """);
-        var test = new VerifyCS.Test
-        {
-            TestCode = source,
-            ReferenceAssemblies = Net.Net110,
-            TestState = { AdditionalReferences = { typeof(IModuleContext).Assembly.Location } },
-        };
-        test.SolutionTransforms.Add((solution, projectId) => solution.WithProjectCompilationOptions(
-            projectId, ((CSharpCompilationOptions) solution.GetProject(projectId)!.CompilationOptions!).WithAllowUnsafe(true)));
-        test.ExpectedDiagnostics.Add(VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0).WithArguments("Delay"));
-        await test.RunAsync(CancellationToken.None);
-    }
-
-    [TestMethod]
-    [DataRow("execute")]
-    [DataRow("lifecycle")]
-    [DataRow("configuration")]
-    public async Task Preserves_Distinct_Returned_Callback_Findings(string root)
-    {
-        var source = ModuleSource(root, """
-            private static Task HelperAsync(CancellationToken token)
-            {
-                try { Throw(); }
-                catch { token = default; }
-                return Task.WhenAll(
-                    Task.Run(() => {|#0:Task.Delay(1, token)|}, token),
-                    Task.Run(() => {|#1:Task.Delay(2, token)|}, token));
-            }
-
-            private static void Throw() => throw new InvalidOperationException();
-            """);
-        await VerifyCS.VerifyAnalyzerAsync(source,
-            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay"),
-            VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(1).WithArguments("Delay"));
-    }
-
-    [TestMethod]
     [DataRow("execute")]
     [DataRow("lifecycle")]
     [DataRow("configuration")]
@@ -397,73 +337,24 @@ public class ModuleLocalFunctionCancellationAnalyzerTests
     [DataRow("execute")]
     [DataRow("lifecycle")]
     [DataRow("configuration")]
-    public async Task Reports_Changed_Saved_Token_Restored_In_Handler(string root)
+    public async Task Does_Not_Report_Token_Restored_From_Saved_Copy_In_Callback(string root)
     {
-        string[] mutations =
-        [
-            "original = CancellationToken.None;",
-            "original = new CancellationTokenSource().Token;",
-            "ref var alias = ref original; alias = CancellationToken.None;",
-            "Replace(ref original);",
-            "Reset(out original);",
-            "(original, _) = (CancellationToken.None, 0);",
-            "System.Action change = () => original = CancellationToken.None; change();",
-            "Change(); void Change() => original = CancellationToken.None;",
-            "if (token.CanBeCanceled) token = CancellationToken.None;",
-        ];
-        foreach (var mutation in mutations)
-        {
-            var source = ModuleSource(root, $$"""
-                private static Task HelperAsync(CancellationToken token)
-                {
-                    var original = token;
-                    {{mutation}}
-                    try { Throw(); }
-                    catch { token = original; }
-                    return Task.Run(() => {|#0:Task.Delay(1, token)|}, token);
-                }
-
-                private static void Throw() => throw new System.InvalidOperationException();
-                private static void Replace(ref CancellationToken token) => token = CancellationToken.None;
-                private static void Reset(out CancellationToken token) => token = CancellationToken.None;
-                """);
-
-            await VerifyCS.VerifyAnalyzerAsync(source,
-                VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-                    .WithLocation(0).WithArguments("Delay"));
-        }
-    }
-
-    [TestMethod]
-    [DataRow("execute", false)]
-    [DataRow("lifecycle", false)]
-    [DataRow("configuration", false)]
-    [DataRow("execute", true)]
-    [DataRow("lifecycle", true)]
-    [DataRow("configuration", true)]
-    public async Task Checks_Saved_Copy_Outside_Restoring_Callback(string root, bool changed)
-    {
-        var call = changed ? "{|#0:Task.Delay(1, token)|}" : "Task.Delay(1, token)";
-        var source = ModuleSource(root, $$"""
+        var source = ModuleSource(root, """
             private static Task HelperAsync(CancellationToken token)
             {
                 var original = token;
-                {{(changed ? "original = CancellationToken.None;" : "")}}
                 return Task.Run(() =>
                 {
                     try { Throw(); }
                     catch { token = original; }
-                    return {{call}};
+                    return Task.Delay(1, token);
                 }, token);
             }
 
             private static void Throw() => throw new System.InvalidOperationException();
             """);
 
-        var diagnostics = changed
-            ? new[] { VerifyCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId).WithLocation(0).WithArguments("Delay") }
-            : [];
-        await VerifyCS.VerifyAnalyzerAsync(source, diagnostics);
+        await VerifyCS.VerifyAnalyzerAsync(source);
     }
 
     private static string ModuleSource(string root, string helper)

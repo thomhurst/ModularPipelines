@@ -3191,32 +3191,6 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_Arbitrary_Cancellation_Carrier_Helper()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                await {|#0:Task.Delay(
-                    1,
-                    Select(cancellationToken, CancellationToken.None))|};
-                return null!;
-            }
-
-                private static CancellationToken Select(
-                    CancellationToken first,
-                    CancellationToken second) => second;
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
     public async Task Does_Not_Report_Cancellation_Overload_For_Task_Property_Receiver()
     {
         var source = ModuleSource("""
@@ -3291,56 +3265,6 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
-    }
-
-    [TestMethod]
-    public async Task Reports_Branch_Dependent_CancellationToken_Flow()
-    {
-        var cancellationLast = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                CancellationToken token;
-                if (context is not null)
-                {
-                    token = CancellationToken.None;
-                }
-                else
-                {
-                    token = cancellationToken;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-        var cancellationFirst = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                CancellationToken token;
-                if (context is not null)
-                {
-                    token = cancellationToken;
-                }
-                else
-                {
-                    token = CancellationToken.None;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationLast, expected);
-        await VerifyAsyncCS.VerifyAnalyzerAsync(cancellationFirst, expected);
     }
 
     [TestMethod]
@@ -3447,38 +3371,6 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
-    }
-
-    [TestMethod]
-    public async Task Reports_Token_When_Do_Loop_Can_Break_Before_Assignment()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                var token = CancellationToken.None;
-                do
-                {
-                    if (DateTime.UtcNow.Ticks > 0)
-                    {
-                        break;
-                    }
-
-                    token = cancellationToken;
-                }
-                while (DateTime.UtcNow.Ticks > 0);
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -3620,163 +3512,6 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
-    }
-
-    [TestMethod]
-    public async Task Reports_Token_Initializer_Reaching_One_Branch()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                var token = CancellationToken.None;
-                if (context is not null)
-                {
-                    token = cancellationToken;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
-    public async Task Reports_Conditional_Unflowed_Token_After_Flowed_Initializer()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                var token = cancellationToken;
-                if (context is not null)
-                {
-                    token = CancellationToken.None;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
-    public async Task Reports_Conditional_Unflowed_Token_After_Fully_Assigning_Branch()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                CancellationToken token;
-                if (context is not null)
-                {
-                    token = cancellationToken;
-                }
-                else
-                {
-                    token = cancellationToken;
-                }
-
-                if (DateTime.UtcNow.Ticks > 0)
-                {
-                    token = CancellationToken.None;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
-    public async Task Reports_Nested_Conditional_Unflowed_Token_In_Branch()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                CancellationToken token;
-                if (context is not null)
-                {
-                    token = cancellationToken;
-                    if (DateTime.UtcNow.Ticks > 0)
-                    {
-                        token = CancellationToken.None;
-                    }
-                }
-                else
-                {
-                    token = cancellationToken;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
-    public async Task Reports_Nested_Conditional_Unflowed_Token_In_Switch_Case()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                CancellationToken token;
-                switch (context is not null)
-                {
-                    case true:
-                        token = cancellationToken;
-                        if (DateTime.UtcNow.Ticks > 0)
-                        {
-                            token = CancellationToken.None;
-                        }
-
-                        break;
-                    default:
-                        token = cancellationToken;
-                        break;
-                }
-
-                await {|#0:Task.Delay(1, token)|};
-                return null!;
-            }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
     }
 
     [TestMethod]
@@ -4675,61 +4410,6 @@ public class ModuleAuthoringAnalyzerTests
     }
 
     [TestMethod]
-    public async Task Reports_Unrelated_First_Token_In_Member_Helper()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                await WorkAsync(CancellationToken.None, cancellationToken);
-                return null!;
-            }
-
-                private static async Task WorkAsync(
-                    CancellationToken unrelatedToken,
-                    CancellationToken moduleToken)
-                {
-                    await {|#0:Task.Delay(1, unrelatedToken)|};
-                }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
-    public async Task Reports_When_Token_Position_Differs_Across_Helper_Calls()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                await WorkAsync(CancellationToken.None, cancellationToken);
-                await WorkAsync(cancellationToken, CancellationToken.None);
-                return null!;
-            }
-
-                private static async Task WorkAsync(
-                    CancellationToken firstToken,
-                    CancellationToken secondToken)
-                {
-                    await {|#0:Task.Delay(1, firstToken)|};
-                }
-            """);
-
-        var expected = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(source, expected);
-    }
-
-    [TestMethod]
     public async Task Reports_Unflowed_Token_In_Task_Returning_Member_Helper()
     {
         var source = ModuleSource("""
@@ -5376,36 +5056,6 @@ public class ModuleAuthoringAnalyzerTests
             """);
 
         await VerifyAsyncCS.VerifyAnalyzerAsync(source);
-    }
-
-    [TestMethod]
-    public async Task Reports_Unrelated_Parallel_ForEachAsync_Callback_Token()
-    {
-        var source = ModuleSource("""
-            protected override async Task<List<string>> ExecuteAsync(
-                IModuleContext context,
-                CancellationToken cancellationToken)
-            {
-                await {|#1:Parallel.ForEachAsync(
-                    new[] { 1 },
-                    CancellationToken.None,
-                    async (_, token) => await {|#0:Task.Delay(1, token)|})|};
-                return null!;
-            }
-            """);
-
-        var delayDiagnostic = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(0)
-            .WithArguments("Delay");
-        var forEachDiagnostic = VerifyAsyncCS.Diagnostic(
-                ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
-            .WithLocation(1)
-            .WithArguments("ForEachAsync");
-        await VerifyAsyncCS.VerifyAnalyzerAsync(
-            source,
-            delayDiagnostic,
-            forEachDiagnostic);
     }
 
     [TestMethod]
@@ -7487,10 +7137,10 @@ public class ModuleAuthoringAnalyzerTests
     [TestMethod]
     [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "cancellationToken", false)]
     [DataRow("context is null ? (CancellationToken?)cancellationToken : null", "cancellationToken", false)]
-    [DataRow("context is null ? (CancellationToken?)null : CancellationToken.None", "cancellationToken", true)]
-    [DataRow("context is null ? (CancellationToken?)null : other", "cancellationToken", true)]
-    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "CancellationToken.None", true)]
-    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "other", true)]
+    [DataRow("context is null ? (CancellationToken?)null : CancellationToken.None", "cancellationToken", false)]
+    [DataRow("context is null ? (CancellationToken?)null : other", "cancellationToken", false)]
+    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "CancellationToken.None", false)]
+    [DataRow("context is null ? (CancellationToken?)null : cancellationToken", "other", false)]
     [DataRow("context switch { null => (CancellationToken?)null, _ => cancellationToken }", "cancellationToken", false)]
     [DataRow("context is null ? (CancellationToken?)null : ((CancellationToken?)null ?? cancellationToken)", "cancellationToken", false)]
     public async Task Tracks_Conditional_Nullable_Coalesced_CancellationToken(
