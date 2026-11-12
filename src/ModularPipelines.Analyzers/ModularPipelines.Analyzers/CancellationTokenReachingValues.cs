@@ -17,6 +17,7 @@ internal sealed class CancellationTokenReachingValues
         ConcurrentDictionary<IParameterSymbol, Lazy<CancellationTokenReachingValues?>>> Analyses = new();
 
     private readonly ControlFlowGraph _graph;
+    private bool _assumeTupleReadsFlow;
     private readonly SemanticModel _model;
     private readonly OperationExceptionClassifier _exceptions;
     private readonly ImmutableArray<TextSpan> _earlyCollectionCallSpans;
@@ -37,18 +38,21 @@ internal sealed class CancellationTokenReachingValues
     public static bool? TryGetValue(IOperation reference, IParameterSymbol source, HashSet<IMethodSymbol>? visitedMethods = null, HashSet<IParameterSymbol>? visitedSources = null)
     {
         var root = GetAnalysisRoot(reference);
-        if (root?.SemanticModel is not { } model
-            || (visitedMethods is not { Count: > 0 }
-                && !root.DescendantsAndSelf().Any(static operation => operation is ILoopOperation or ITryOperation)))
+        if (root?.SemanticModel is not { } model || !NeedsControlFlowAnalysis(root, visitedMethods))
         {
             return null;
         }
 
-        // Mutable captures and unsupported tuple storage retain their existing
-        // proofs. Do not replace them with a direct-read CFG result.
-        if (HasCapturedSource(root, source) || HasUnsupportedTupleRead(root, reference))
+        // Mutable captures retain their existing proof. Local function effects
+        // are not represented by a direct-read CFG result.
+        if (HasCapturedSource(root, source))
         {
             return null;
+        }
+
+        if (HasUnsupportedTupleRead(root, reference))
+        {
+            return GetTupleIndependentValue(root, model, reference, [source], visitedMethods, visitedSources);
         }
 
         var analysis = GetAnalysis(root, model, source, visitedMethods, visitedSources);
@@ -61,6 +65,10 @@ internal sealed class CancellationTokenReachingValues
         // return whose cleanup and handlers all exit the callable.
         return !analysis._values.TryGetValue((reference.Syntax.Span, reference.Kind), out var value) || value;
     }
+
+    private static bool NeedsControlFlowAnalysis(IOperation root, HashSet<IMethodSymbol>? visitedMethods)
+        => visitedMethods is { Count: > 0 }
+            || root.DescendantsAndSelf().Any(static operation => operation is ILoopOperation or ITryOperation);
 
     private static bool HasCapturedSource(IOperation root, IParameterSymbol source)
     {
@@ -78,13 +86,36 @@ internal sealed class CancellationTokenReachingValues
             return null;
         }
 
-        if (sources.Any(source => HasCapturedSource(root, source)) || HasUnsupportedTupleRead(root, reference))
+        if (sources.Any(source => HasCapturedSource(root, source)))
         {
             return null;
         }
 
+        if (HasUnsupportedTupleRead(root, reference))
+        {
+            return GetTupleIndependentValue(root, model, reference, sources, visitedMethods, visitedSources);
+        }
+
         var analysis = Create(root, model, sources.First(), visitedMethods, visitedSources, sources);
         return analysis is null ? null : !analysis._values.TryGetValue((reference.Syntax.Span, reference.Kind), out var value) || value;
+    }
+
+    private static bool? GetTupleIndependentValue(IOperation root, SemanticModel model, IOperation reference,
+        HashSet<IParameterSymbol> sources, HashSet<IMethodSymbol>? visitedMethods, HashSet<IParameterSymbol>? visitedSources)
+    {
+        // Give unsupported tuple reads the most optimistic provenance. A negative
+        // result still proves a replacement independently of tuple contents;
+        // otherwise retain the existing tuple proof rather than certifying a read.
+        var analysis = Create(root, model, sources.First(), visitedMethods ?? [with(SymbolEqualityComparer.Default)],
+            visitedSources, sources, assumeTupleReadsFlow: true);
+        if (analysis is not null
+            && analysis._values.TryGetValue((reference.Syntax.Span, reference.Kind), out var value)
+            && !value)
+        {
+            return false;
+        }
+
+        return null;
     }
 
     private static bool HasUnsupportedTupleRead(IOperation root, IOperation reference)
@@ -97,15 +128,7 @@ internal sealed class CancellationTokenReachingValues
             return false;
         }
 
-        var writes = operations.Select(static operation => operation switch
-        {
-            IVariableDeclaratorOperation { Initializer.Value: { } value } declaration
-                => (Symbol: (ISymbol?) declaration.Symbol, Value: value),
-            ISimpleAssignmentOperation assignment
-                => (Symbol: GetScalarSymbol(assignment.Target), assignment.Value),
-            _ => (Symbol: (ISymbol?) null, Value: (IOperation?) null),
-        }).Where(static write => write.Symbol is not null && write.Value is not null)
-            .ToLookup(static write => write.Symbol!, static write => write.Value!, SymbolEqualityComparer.Default);
+        var writes = GetScalarWrites(operations);
         var visited = new HashSet<ISymbol>(SymbolEqualityComparer.Default);
         var pending = new Stack<IOperation>();
         pending.Push(reference);
@@ -129,6 +152,19 @@ internal sealed class CancellationTokenReachingValues
         }
 
         return false;
+    }
+
+    private static ILookup<ISymbol, IOperation> GetScalarWrites(IEnumerable<IOperation> operations)
+    {
+        return operations.Select(static operation => operation switch
+        {
+            IVariableDeclaratorOperation { Initializer.Value: { } value } declaration
+                => (Symbol: (ISymbol?) declaration.Symbol, Value: value),
+            ISimpleAssignmentOperation assignment
+                => (Symbol: GetScalarSymbol(assignment.Target), assignment.Value),
+            _ => (Symbol: (ISymbol?) null, Value: (IOperation?) null),
+        }).Where(static write => write.Symbol is not null && write.Value is not null)
+            .ToLookup(static write => write.Symbol!, static write => write.Value!, SymbolEqualityComparer.Default);
     }
 
     private static ISymbol? GetScalarSymbol(IOperation operation) => operation switch
@@ -172,7 +208,7 @@ internal sealed class CancellationTokenReachingValues
         return root;
     }
 
-    private static CancellationTokenReachingValues? Create(IOperation root, SemanticModel model, IParameterSymbol source, HashSet<IMethodSymbol> visitedMethods, HashSet<IParameterSymbol>? visitedSources = null, HashSet<IParameterSymbol>? initialSources = null)
+    private static CancellationTokenReachingValues? Create(IOperation root, SemanticModel model, IParameterSymbol source, HashSet<IMethodSymbol> visitedMethods, HashSet<IParameterSymbol>? visitedSources = null, HashSet<IParameterSymbol>? initialSources = null, bool assumeTupleReadsFlow = false)
     {
         ControlFlowGraph? graph;
         try
@@ -194,7 +230,10 @@ internal sealed class CancellationTokenReachingValues
             ? [with(SymbolEqualityComparer.Default)]
             : new HashSet<IParameterSymbol>(visitedSources, SymbolEqualityComparer.Default);
         sources.UnionWith(initialSources ?? [source]);
-        var analysis = new CancellationTokenReachingValues(root, graph, model, visitedMethods, sources);
+        var analysis = new CancellationTokenReachingValues(root, graph, model, visitedMethods, sources)
+        {
+            _assumeTupleReadsFlow = assumeTupleReadsFlow,
+        };
         var initial = new State();
         initial.Values.UnionWith(initialSources ?? [source]);
         if (source.ContainingSymbol is IMethodSymbol method)
@@ -1179,8 +1218,9 @@ internal sealed class CancellationTokenReachingValues
             exceptional(block, state.Clone(), exceptionType);
         }
 
-        return operation is IArrayInitializerOperation or IArrayCreationOperation or ICollectionExpressionOperation or ISpreadOperation
-            && children.Any(static child => child);
+        return (_assumeTupleReadsFlow && IsTupleCarrierRead(operation))
+            || (operation is IArrayInitializerOperation or IArrayCreationOperation or ICollectionExpressionOperation or ISpreadOperation
+                && children.Any(static child => child));
     }
 
     private static void InvalidateDynamicRefArguments(IOperation operation, State state)

@@ -578,6 +578,8 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
     {
         yield return ["captured-restore", "var original = token; void Restore() { token = original; } token = default; Restore(); return token;", false];
         yield return ["tuple-round-trip", "var saved = (token, 1); token = saved.Item1; return token;", false];
+        yield return ["tuple-then-reset", "var saved = (token, 1); token = saved.Item1; token = default; return token;", true];
+        yield return ["tuple-then-loop-reset", "var saved = (token, 1); token = saved.Item1; for (var i = 0; i < 2; i++) token = default; return token;", true];
         yield return ["loop-reset", "for (var i = 0; i < 2; i++) { } token = default; return token;", true];
         yield return ["straight-line-reset", "token = default; return token;", true];
         yield return ["conditional-reset", "if (token.CanBeCanceled) token = default; return token;", true];
@@ -622,6 +624,10 @@ public class ModuleCancellationTokenControlFlowAnalyzerTests
 
     [TestMethod]
     [DataRow("var saved = (cancellationToken, 1); cancellationToken = saved.Item1;", false)]
+    [DataRow("var saved = (cancellationToken, 1); cancellationToken = saved.Item1; cancellationToken = default;", true)]
+    [DataRow("var saved = (cancellationToken, 1); var copy = saved.Item1; cancellationToken = copy; cancellationToken = default;", true)]
+    [DataRow("var saved = (cancellationToken, 1); cancellationToken = saved.Item1; if (cancellationToken.CanBeCanceled) cancellationToken = default;", true)]
+    [DataRow("var saved = (cancellationToken, 1); cancellationToken = default; cancellationToken = saved.Item1;", false)]
     [DataRow("var saved = (Original: cancellationToken, Number: 1); cancellationToken = saved.Original;", false)]
     [DataRow("var numbers = (1, 2); _ = numbers.Item1; cancellationToken = default;", true)]
     [DataRow("var saved = (cancellationToken, 1); _ = saved.Item1; cancellationToken = default;", true)]
