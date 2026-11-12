@@ -56,6 +56,9 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("ref token, ref token", "", "switch (Flag) { case true: second = default; goto default; default: return first; }", true)]
     [DataRow("ref token, ref token", "", "switch (Flag) { case true: second = default; break; default: break; } return first;", true)]
     [DataRow("ref token, ref token", "", "return IdentityValue(second = default, first);", true)]
+    [DataRow("ref token, ref token", "", "second = CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", false)]
+    [DataRow("ref token, ref token", "", "second = IdentityValue(default, first); return first;", false)]
+    [DataRow("ref token, ref token", "", "second = default; second = IdentityValue(default, first); return first;", true)]
     public async Task Checks_Helper_Ref_Argument_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
@@ -70,6 +73,13 @@ public class ModuleHelperRefCancellationAnalyzerTests
     [DataRow("token, ref Field", "", "int count = 0; (second, count) = (default(CancellationToken), 1); return first;", false)]
     [DataRow("token, ref Field", "", "int count = 0; (first, count) = (default(CancellationToken), 1); return first;", true)]
     [DataRow("token, ref Field", "", "var saved = first; int count = 0; (first, count) = (saved, 1); return first;", false)]
+    [DataRow("token, ref Field", "", "first = CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", false)]
+    [DataRow("token, ref Field", "", "first = IdentityValue(default, first); return first;", false)]
+    [DataRow("token, ref Field", "", "first = default; first = CancellationTokenSource.CreateLinkedTokenSource(first, CancellationToken.None).Token; return first;", true)]
+    [DataRow("token, ref Field", "", "return Flag ? first : CancellationTokenSource.CreateLinkedTokenSource(Forward(first, ref second), first).Token;", false)]
+    [DataRow("token, ref Field", "", "return Link(first, 2);", false)]
+    [DataRow("token, ref Field", "", "return Mutual(first, 2);", false)]
+    [DataRow("token, ref Field", "", "first = IdentityValue(first, default); return first;", true)]
     public async Task Checks_Helper_Private_Value_Parameter_Storage(
         string arguments, string setup, string body, bool reports)
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: false);
@@ -94,6 +104,15 @@ public class ModuleHelperRefCancellationAnalyzerTests
                 private static CancellationToken Identity(scoped ref CancellationToken ignored, scoped ref CancellationToken value) => value;
 
                 private static CancellationToken IdentityValue(CancellationToken ignored, CancellationToken value) => value;
+
+                private static CancellationToken Link(CancellationToken token, int remaining)
+                    => remaining == 0 ? token : CancellationTokenSource.CreateLinkedTokenSource(Link(token, remaining - 1), token).Token;
+
+                private static CancellationToken Mutual(CancellationToken token, int remaining)
+                    => remaining == 0 ? token : CancellationTokenSource.CreateLinkedTokenSource(MutualOther(token, remaining - 1), token).Token;
+
+                private static CancellationToken MutualOther(CancellationToken token, int remaining) => Mutual(token, remaining);
+
 
                 protected override async Task<List<string>> ExecuteAsync(
                     IModuleContext context, CancellationToken cancellationToken)
