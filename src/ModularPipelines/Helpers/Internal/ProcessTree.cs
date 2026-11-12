@@ -14,7 +14,7 @@ namespace ModularPipelines.Helpers.Internal;
 /// (dotnet/runtime#131944, actions/runner-images#14833). Killing each process individually from a
 /// descendant snapshot does not trigger it.
 /// </remarks>
-internal static class ProcessTree
+internal static partial class ProcessTree
 {
     /// <summary>
     /// Kills a process and every descendant found when the call starts.
@@ -192,7 +192,7 @@ internal static class ProcessTree
     private readonly record struct CapturedProcess(int ProcessId, DateTime StartTime);
 
     [SupportedOSPlatform("macos")]
-    private static class MacNativeMethods
+    private static partial class MacNativeMethods
     {
         public static int[] GetChildProcessIds(int parentProcessId)
         {
@@ -210,12 +210,10 @@ internal static class ProcessTree
                 : [];
         }
 
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
-        [DllImport("libproc", EntryPoint = "proc_listchildpids")]
-        private static extern int ProcListChildPids(
+        [LibraryImport("libproc", EntryPoint = "proc_listchildpids")]
+        private static partial int ProcListChildPids(
             int parentProcessId,
-            int[]? processIds,
+            [Out] int[]? processIds,
             int byteCount);
-#pragma warning restore SYSLIB1054
     }
 }

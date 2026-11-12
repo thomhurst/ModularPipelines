@@ -23,7 +23,7 @@ namespace ModularPipelines.Context;
 /// Orchestrates command-line tool execution by coordinating argument building,
 /// placeholder replacement, and command execution.
 /// </summary>
-internal sealed class Command(
+internal sealed partial class Command(
     ICommandLogger commandLogger,
     ICommandLineBuilder commandLineBuilder,
     IEnumerable<ICommandInterceptor> commandInterceptors,
@@ -1269,7 +1269,7 @@ internal sealed class Command(
         }
     }
 
-    internal sealed class ProcessTreeTerminator(
+    internal sealed partial class ProcessTreeTerminator(
         ICommandLogger commandLogger,
         WindowsJobLifetime windowsJobLifetime,
         Func<Process, SafeFileHandle?>? createWindowsJob = null) : IDisposable
@@ -1687,7 +1687,7 @@ internal sealed class Command(
             return new ProcessTerminationTarget(processId, processName);
         }
 
-        private static class WindowsNativeMethods
+        private static partial class WindowsNativeMethods
         {
             private const int JobObjectBasicAccountingInformation = 1;
             private const int JobObjectExtendedLimitInformation = 9;
@@ -1724,37 +1724,35 @@ internal sealed class Command(
                 return information.ActiveProcesses > 0;
             }
 
-#pragma warning disable SYSLIB1054 // LibraryImport requires unsafe blocks, which this project does not enable.
-            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-            public static extern SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
+            [LibraryImport("kernel32.dll", EntryPoint = "CreateJobObjectW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+            public static partial SafeFileHandle CreateJobObject(nint jobAttributes, string? name);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [LibraryImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
-            public static extern bool AssignProcessToJobObject(
+            public static partial bool AssignProcessToJobObject(
                 SafeFileHandle job,
                 SafeProcessHandle process);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [LibraryImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
-            public static extern bool TerminateJobObject(SafeFileHandle job, uint exitCode);
+            public static partial bool TerminateJobObject(SafeFileHandle job, uint exitCode);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [LibraryImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
-            private static extern bool SetInformationJobObject(
+            private static partial bool SetInformationJobObject(
                 SafeFileHandle job,
                 int informationClass,
                 in ExtendedLimitInformation information,
                 uint informationLength);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [LibraryImport("kernel32.dll", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
-            private static extern bool QueryInformationJobObject(
+            private static partial bool QueryInformationJobObject(
                 SafeFileHandle job,
                 int informationClass,
                 out BasicAccountingInformation information,
                 uint informationLength,
                 out uint returnLength);
-#pragma warning restore SYSLIB1054
 
             [StructLayout(LayoutKind.Sequential)]
             private struct BasicLimitInformation
