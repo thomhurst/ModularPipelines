@@ -6374,9 +6374,7 @@ internal static class ModuleAuthoringAnalysis
 
         for (var current = write; current.Parent is { } parent; current = parent)
         {
-            // A guard may fail after the write, so later arms remain reachable.
-            // Arm values are exclusive once selected and keep the normal exclusion.
-            if (CancellationStorageFailedGuardCanThrow(write, current, parent, symbol, isRef, classifier, body))
+            if (CancellationStorageGuardContinuationCanThrow(write, current, parent, symbol, isRef, classifier, body))
             {
                 return true;
             }
@@ -6410,14 +6408,53 @@ internal static class ModuleAuthoringAnalysis
         return false;
     }
 
-    private static bool CancellationStorageFailedGuardCanThrow(
+    private static bool CancellationStorageGuardContinuationCanThrow(
         IOperation write, IOperation current, IOperation parent, ISymbol? symbol, bool? isRef,
-        OperationExceptionClassifier classifier, IOperation boundary) =>
-        current is ISwitchExpressionArmOperation { Guard: { } guard } arm
-        && parent is ISwitchExpressionOperation expression && HasAncestor(write, guard)
-        && expression.Arms.SkipWhile(candidate => !ReferenceEquals(candidate, arm)).Skip(1)
-            .Any(candidate => CancellationStorageOperationCanThrowBeforeOverwrite(
-                candidate, symbol, isRef, classifier, boundary, out _));
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary)
+    {
+        if (current is not ISwitchExpressionArmOperation { Guard: { } guard } sourceArm
+            || parent is not ISwitchExpressionOperation switchExpression || !HasAncestor(write, guard))
+        {
+            return false;
+        }
+
+        // The guard can select its value or fail and continue to another arm.
+        // An overwrite on one alternative does not overwrite every alternative.
+        foreach (var arm in switchExpression.Arms.SkipWhile(arm => !ReferenceEquals(arm, sourceArm)))
+        {
+            if (sourceArm.Pattern is IConstantPatternOperation { Value.ConstantValue: { HasValue: true } constant }
+                && PatternMatchesConstant(arm.Pattern, constant.Value) is false)
+            {
+                continue;
+            }
+
+            if (CancellationStorageGuardAlwaysOverwrites(arm, sourceArm, symbol, isRef, classifier, exceptionBoundary))
+            {
+                return false;
+            }
+
+            IEnumerable<IOperation> operations = !ReferenceEquals(arm, sourceArm) && arm.Guard is { } nextGuard
+                ? [nextGuard, arm.Value]
+                : [arm.Value];
+            if (CancellationStorageSequenceCanThrowBeforeOverwrite(
+                operations, symbol, isRef, classifier, exceptionBoundary, out _))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static bool CancellationStorageGuardAlwaysOverwrites(
+        ISwitchExpressionArmOperation arm, ISwitchExpressionArmOperation sourceArm, ISymbol? symbol, bool? isRef,
+        OperationExceptionClassifier classifier, IOperation exceptionBoundary) =>
+        !ReferenceEquals(arm, sourceArm) && arm.Guard is { } guard
+        && (arm.Pattern is IDiscardPatternOperation
+            || (sourceArm.Pattern is IConstantPatternOperation { Value.ConstantValue: { HasValue: true } constant }
+                && PatternMatchesConstant(arm.Pattern, constant.Value) is true))
+        && !CancellationStorageOperationCanThrowBeforeOverwrite(guard, symbol, isRef, classifier, exceptionBoundary, out var overwritten)
+        && overwritten;
 
     private static IEnumerable<IOperation> GetCancellationStorageFollowingOperations(IOperation current, IOperation parent) =>
         parent switch
@@ -6492,9 +6529,20 @@ internal static class ModuleAuthoringAnalysis
             return false;
         }
 
+        if (operation is IInvocationOperation)
+        {
+            return CancellationStorageCallCanThrowBeforeOverwrite(operation, symbol, isRef, classifier, exceptionBoundary, out overwritten);
+        }
+
         overwritten = DefinitelyWritesCancellationStorage(operation, symbol, isRef);
         return CancellationStorageOperationCanThrow(operation, classifier, exceptionBoundary);
     }
+
+    private static bool CancellationStorageCallCanThrowBeforeOverwrite(
+        IOperation operation, ISymbol? symbol, bool? isRef, OperationExceptionClassifier classifier,
+        IOperation exceptionBoundary, out bool overwritten) =>
+        CancellationStorageSequenceCanThrowBeforeOverwrite(operation.ChildOperations, symbol, isRef, classifier, exceptionBoundary, out overwritten)
+        || (!overwritten && CancellationStorageOperationCanThrow(operation, classifier, exceptionBoundary));
 
     private static bool CancellationStorageOperationCanThrow(
         IOperation operation, OperationExceptionClassifier classifier, IOperation exceptionBoundary, IOperation? after = null) =>
@@ -6627,8 +6675,8 @@ internal static class ModuleAuthoringAnalysis
         }
 
         if (binding.Syntax.SpanStart >= read.Syntax.SpanStart || sequence is null
-            || !HasAncestor(read, sequence) || HasBranchingAncestor(predecessor, sequence)
-            || (!ReferenceEquals(binding, predecessor) && HasBranchingAncestor(binding, predecessor)))
+            || !HasAncestor(read, sequence) || HasBranchingAncestor(predecessor, sequence, read)
+            || (!ReferenceEquals(binding, predecessor) && HasBranchingAncestor(binding, predecessor, read)))
         {
             return false;
         }
@@ -7969,7 +8017,8 @@ internal static class ModuleAuthoringAnalysis
 
     private static bool HasBranchingAncestor(
         IOperation operation,
-        IOperation containingBlock)
+        IOperation containingBlock,
+        IOperation? read = null)
     {
         for (var ancestor = operation.Parent;
              ancestor is not null && !ReferenceEquals(ancestor, containingBlock);
@@ -7978,7 +8027,7 @@ internal static class ModuleAuthoringAnalysis
             if (ancestor is IConditionalOperation
                 or ILoopOperation
                 or ISwitchOperation
-                or ISwitchExpressionOperation)
+                || (ancestor is ISwitchExpressionArmOperation && (read is null || !HasAncestor(read, ancestor))))
             {
                 return true;
             }
