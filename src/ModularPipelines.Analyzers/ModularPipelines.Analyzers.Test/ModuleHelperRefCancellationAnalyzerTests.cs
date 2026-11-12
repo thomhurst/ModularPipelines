@@ -156,6 +156,14 @@ public class ModuleHelperRefCancellationAnalyzerTests
         => await VerifyStorage(arguments, setup, body, reports, firstByRef: true);
 
     [TestMethod]
+    [DataRow("token, ref Field", "", "return ((long)1) switch { 1L => default(CancellationToken), _ => first };", true)]
+    [DataRow("token, ref Field", "", "return ((long)1) switch { 1L => first, _ => default(CancellationToken) };", false)]
+    [DataRow("token, ref Field", "", "return ((long)(Flag ? 1 : 1)) switch { 1L => default(CancellationToken), _ => first };", true)]
+    [DataRow("token, ref Field", "", "return (Flag ? (long)1 : (long)1) switch { 1L => first, _ => default(CancellationToken) };", false)]
+    [DataRow("token, ref Field", "", "return (Flag ? (long)1 : (long)2) switch { 1L => default(CancellationToken), _ => first };", true)]
+    [DataRow("token, ref holder.Token", "var holder = new Holder();", "var saved = first; second = default; return saved;", false)]
+    [DataRow("token, ref holder.Token", "var holder = new Holder();", "var saved = first; second = default; saved = default; return saved;", true)]
+    [DataRow("token, ref holder.Token", "var holder = new Holder();", "var saved = first; ref CancellationToken alias = ref saved; second = default; alias = default; return saved;", true)]
     [DataRow("token, ref token", "", "second = default; return first;", false)]
     [DataRow("token, ref Field", "", "second = default; return first;", false)]
     [DataRow("token, ref Field", "", "first = default; return first;", true)]
@@ -226,6 +234,7 @@ public class ModuleHelperRefCancellationAnalyzerTests
 
             public class BuildModule : Module<List<string>>
             {
+                private sealed class Holder { public CancellationToken Token; }
                 private static int Count;
                 private static bool Flag;
                 private static CancellationToken Field;

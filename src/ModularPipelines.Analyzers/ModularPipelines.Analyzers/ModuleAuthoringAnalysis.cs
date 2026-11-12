@@ -3721,10 +3721,31 @@ internal static class ModuleAuthoringAnalysis
 
         // A selector can have one known value on every path without Roslyn
         // assigning ConstantValue to the whole conditional expression.
-        var values = GetReachableValueLeaves(switchExpression.Value).ToArray();
+        var values = GetSwitchSelectorValueLeaves(switchExpression.Value).ToArray();
         return values.Length > 0 && values.All(value =>
             value.ConstantValue is { HasValue: true } constant
             && IsDeadSwitchExpressionArmForConstant(arm, switchExpression, constant.Value));
+    }
+
+    private static IEnumerable<IOperation> GetSwitchSelectorValueLeaves(IOperation value)
+    {
+        // Keep the selector's converted constant. An unknown conversion must stay
+        // unknown: comparing its operand would use a value of the wrong type.
+        if (value.ConstantValue.HasValue)
+        {
+            return [value];
+        }
+
+        return value switch
+        {
+            IParenthesizedOperation parenthesized => GetSwitchSelectorValueLeaves(parenthesized.Operand),
+            IConditionalOperation { WhenFalse: not null } conditional when conditional.Condition.ConstantValue is { HasValue: true, Value: bool condition }
+                => GetSwitchSelectorValueLeaves(condition ? conditional.WhenTrue : conditional.WhenFalse),
+            IConditionalOperation { WhenFalse: not null } conditional
+                => GetSwitchSelectorValueLeaves(conditional.WhenTrue)
+                    .Concat(GetSwitchSelectorValueLeaves(conditional.WhenFalse)),
+            _ => [value],
+        };
     }
 
     private static bool IsDeadSwitchExpressionArmForConstant(
@@ -6397,8 +6418,8 @@ internal static class ModuleAuthoringAnalysis
 
         var firstStorage = GetCancellationStorage(first, [], invocation, method);
         var secondStorage = GetCancellationStorage(second, [], invocation, method);
-        // A by-value parameter has private storage even beside an unknown caller ref.
-        if (IsPrivateCancellationParameter(firstStorage, method) || IsPrivateCancellationParameter(secondStorage, method))
+        // Helper-owned value storage cannot alias an unknown reference from its caller.
+        if (IsPrivateCancellationStorage(firstStorage, method) || IsPrivateCancellationStorage(secondStorage, method))
         {
             return SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
         }
@@ -6407,9 +6428,9 @@ internal static class ModuleAuthoringAnalysis
             || SymbolEqualityComparer.Default.Equals(firstStorage, secondStorage);
     }
 
-    private static bool IsPrivateCancellationParameter(ISymbol? storage, IMethodSymbol method)
-        => storage is IParameterSymbol { RefKind: RefKind.None } parameter
-            && SymbolEqualityComparer.Default.Equals(parameter.ContainingSymbol, method);
+    private static bool IsPrivateCancellationStorage(ISymbol? storage, IMethodSymbol method)
+        => storage is IParameterSymbol { RefKind: RefKind.None } or ILocalSymbol { RefKind: RefKind.None }
+            && SymbolEqualityComparer.Default.Equals(storage.ContainingSymbol, method);
 
     private static ISymbol? GetCancellationStorage(
         IOperation value,
