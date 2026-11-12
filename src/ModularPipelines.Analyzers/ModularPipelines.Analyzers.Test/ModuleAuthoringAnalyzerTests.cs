@@ -3574,6 +3574,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("return choice switch { 0 when Check(first = third) => third, _ => first };", false)]
     [DataRow("first = default; return choice switch { 0 when (first = third).CanBeCanceled => first, _ => third };", false)]
     [DataRow("return choice switch { 0 when Check(first = default) => third, _ => first = third };", false)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 => Pick(saved = third, saved), _ => third }; static CancellationToken Pick(CancellationToken a, CancellationToken b) => b;", false)]
+    [DataRow("CancellationToken saved = default; return choice switch { 0 => saved = third, _ => saved };", true)]
     public async Task Tracks_Conditional_CancellationToken_Switch_Guard_Bindings(string body, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3600,6 +3602,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("0 when (first = default) is var cleared && skip => third, 1 when MayThrowBool() => third, _ => third", false)]
     [DataRow("0 when (first = default) is var cleared && skip => third, > 0 when MayThrowBool() => third, _ => third", false)]
     [DataRow("0 when (first = default) is var cleared && skip => third, _ => third", false)]
+    [DataRow("0 when (first = default) is var cleared && skip => third, 0 => third, _ => throw error", false)]
+    [DataRow("0 when (first = default) is var cleared && skip => third, >= 0 => third, _ => throw error", false)]
     public async Task Tracks_CancellationToken_Exceptions_After_Switch_Guards(string arms, bool report)
     {
         var source = ReboundCancellationTokenHelperSource(
@@ -3608,6 +3612,35 @@ public class ModuleAuthoringAnalyzerTests
             + " static bool MayThrowBool() => throw new Exception();"
             + " static bool Check(CancellationToken token) => false;"
             + " static CancellationToken MayThrow(CancellationToken token) => throw new Exception();", "default", report);
+        var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
+        if (report)
+        {
+            expected.Add(VerifyAsyncCS.Diagnostic(ModuleAsyncSafetyAnalyzer.UnflowedCancellationTokenId)
+                .WithLocation(0).WithArguments("Delay"));
+        }
+
+        await VerifyAsyncCS.VerifyAnalyzerAsync(source, [.. expected]);
+    }
+
+    [TestMethod]
+    [DataRow("(first = default) is var cleared && MayThrowBool()", true)]
+    [DataRow("!((first = default) is var cleared) || MayThrowBool()", true)]
+    [DataRow("(alias = default) is var cleared && MayThrowBool()", true)]
+    [DataRow("(first = ref second).CanBeCanceled || MayThrowBool()", true)]
+    [DataRow("(first = default) is var cleared && Check(first = third)", false)]
+    [DataRow("(first = default) is var cleared && MayThrowBool(first = third)", false)]
+    [DataRow("(first = default) is var cleared && (skip && MayThrowBool())", true)]
+    [DataRow("(first = default) is var cleared && (skip && Check(first = third))", false)]
+    [DataRow("(first = default) is var cleared && (skip && Check(first = third)) && MayThrowBool()", false)]
+    [DataRow("(first = default) is var cleared && (skip || Check(first = third)) && MayThrowBool()", true)]
+    [DataRow("(first = default) is var cleared && (Check(first = third) && MayThrowBool())", false)]
+    public async Task Tracks_CancellationToken_Exceptions_After_ShortCircuit_Writes(string expression, bool report)
+    {
+        var source = ReboundCancellationTokenHelperSource(
+            "ref var alias = ref first; var skip = DateTime.UtcNow.Ticks > 1;"
+            + " try { _ = " + expression + "; first = third; } catch {} return first;"
+            + " static bool MayThrowBool(CancellationToken token = default) => throw new Exception();"
+            + " static bool Check(CancellationToken token) => false;", "default", report);
         var expected = new List<Microsoft.CodeAnalysis.Testing.DiagnosticResult>();
         if (report)
         {
