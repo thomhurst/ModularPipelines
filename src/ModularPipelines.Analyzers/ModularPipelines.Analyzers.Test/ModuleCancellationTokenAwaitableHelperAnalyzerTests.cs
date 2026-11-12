@@ -662,6 +662,28 @@ public class ModuleCancellationTokenAwaitableHelperAnalyzerTests
             : []);
     }
 
+    [TestMethod]
+    [DataRow("Task", "Replace(saved = Task.FromResult(token))", true)]
+    [DataRow("ValueTask", "Replace(saved = ValueTask.FromResult(token))", true)]
+    [DataRow("Task", "Preserve(saved = Task.FromResult(CancellationToken.None), token)", false)]
+    [DataRow("ValueTask", "Preserve(saved = ValueTask.FromResult(CancellationToken.None), token)", false)]
+    [DataRow("Task", "saved = Task.FromResult(token)", false)]
+    [DataRow("ValueTask", "saved = ValueTask.FromResult(token)", false)]
+    public async Task Helper_Local_Uses_Assignment_Completion_Order(string taskType, string value, bool warns)
+    {
+        var helper = $$"""
+            static {{taskType}}<CancellationToken> Pass(CancellationToken token)
+            {
+                var saved = {{taskType}}.FromResult(token);
+                saved = {{value}};
+                return saved;
+            }
+            static {{taskType}}<CancellationToken> Replace({{taskType}}<CancellationToken> _) => {{taskType}}.FromResult(CancellationToken.None);
+            static {{taskType}}<CancellationToken> Preserve({{taskType}}<CancellationToken> _, CancellationToken token) => {{taskType}}.FromResult(token);
+            """;
+        await Verify(helper, warns, token: "await Pass(cancellationToken)");
+    }
+
     private static Task Verify(string statements, bool warns, string extra = "", string token = "cancellationToken")
     {
         var call = warns ? "{|#0:Task.Delay(1, " + token + ")|}" : "Task.Delay(1, " + token + ")";

@@ -6281,7 +6281,12 @@ internal static partial class ModuleAuthoringAnalysis
     {
         var root = GetRoot(operation);
         var callable = GetEnclosingCallable(operation);
-        var assignments = FindLocalAssignments(root, operation, local, callable);
+        // An enclosing assignment completes after its nested writes. Exclude
+        // assignments still evaluating their value at this reference.
+        var assignments = FindLocalAssignments(root, operation, local, callable)
+            .Where(candidate => candidate.Syntax.Span.End <= operation.Syntax.SpanStart)
+            .OrderByDescending(static candidate => candidate.Syntax.Span.End)
+            .ToArray();
         var linearAssignment = assignments.FirstOrDefault(candidate =>
             IsLinearPredecessor(candidate, operation));
         var branchingOperation = FindLatestDefinitelyAssigningBranch(
@@ -6290,7 +6295,7 @@ internal static partial class ModuleAuthoringAnalysis
             local,
             callable);
         var lowerBound = Math.Max(
-            linearAssignment?.Syntax.SpanStart ?? int.MinValue,
+            linearAssignment?.Syntax.Span.End ?? int.MinValue,
             branchingOperation?.Syntax.SpanStart ?? int.MinValue);
 
         if (branchingOperation is not null
@@ -6304,7 +6309,7 @@ internal static partial class ModuleAuthoringAnalysis
         }
 
         var assignedValues = assignments
-            .Where(candidate => candidate.Syntax.SpanStart >= lowerBound)
+            .Where(candidate => candidate.Syntax.Span.End >= lowerBound)
             .Where(IsInReachableBranch)
             .Select(static assignment => assignment.Value);
         if (linearAssignment is not null || branchingOperation is not null)

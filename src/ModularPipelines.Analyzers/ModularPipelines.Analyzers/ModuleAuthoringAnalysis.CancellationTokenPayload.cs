@@ -36,6 +36,7 @@ internal static partial class ModuleAuthoringAnalysis
     {
         // Framework await preserves any T payload, including a helper's type parameter.
         // The recursive proof still has to reach a mapped original token input.
+        ISimpleAssignmentOperation { IsRef: false } assignment => assignment.Value,
         IAwaitOperation awaited when IsFrameworkPayloadAwaitableType(awaited.Operation.Type) => awaited.Operation,
         IInvocationOperation invocation => GetFrameworkPayloadInvocationInput(invocation),
         IObjectCreationOperation { Arguments.Length: 1 } creation
