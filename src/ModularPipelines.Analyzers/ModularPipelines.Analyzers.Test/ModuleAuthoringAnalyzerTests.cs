@@ -3008,6 +3008,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { goto Read; alias = first; Read: ; } else alias = third; return alias;")]
     [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = first; else throw new Exception(); } catch (Exception) {} return alias;")]
     [DataRow("ref var alias = ref second; try { if (DateTime.UtcNow.Ticks > 0) alias = ref first; else throw new Exception(); } catch (Exception) {} return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: if (DateTime.UtcNow.Ticks > 1) break; alias = first; break; } } else alias = third; return alias;")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: if (DateTime.UtcNow.Ticks > 1) break; alias = ref first; break; } } else alias = ref third; return alias;")]
     public async Task Reports_CancellationToken_Read_From_Rebound_Helper_Storage(string body)
     {
         var source = ReboundCancellationTokenHelperSource(body, "default", report: true);
@@ -3092,6 +3094,8 @@ public class ModuleAuthoringAnalyzerTests
     [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = first; else throw new Exception(); return alias;", "default")]
     [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) alias = ref first; else throw new Exception(); return alias;", "default")]
     [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) throw new Exception(); else alias = first; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = first; break; } } else alias = third; return alias;", "default")]
+    [DataRow("ref var alias = ref second; if (DateTime.UtcNow.Ticks > 0) { switch (DateTime.UtcNow.Ticks) { default: alias = ref first; break; } } else alias = ref third; return alias;", "default")]
     public async Task Does_Not_Report_CancellationToken_Read_From_Rebound_Helper_Storage(string body, string second)
     {
         var source = ReboundCancellationTokenHelperSource(body, second, report: false);

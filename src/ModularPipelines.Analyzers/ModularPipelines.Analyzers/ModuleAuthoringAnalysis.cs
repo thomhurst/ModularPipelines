@@ -5659,6 +5659,17 @@ internal static class ModuleAuthoringAnalysis
             return true;
         }
 
+        return InitialCancellationTokenStorageFlows(storage, read, cancellationTokens, visitedLocals, visitedMethods, visitedWrites);
+    }
+
+    private static bool InitialCancellationTokenStorageFlows(
+        IOperation storage,
+        IOperation read,
+        IReadOnlyCollection<IParameterSymbol> cancellationTokens,
+        HashSet<ILocalSymbol> visitedLocals,
+        HashSet<IMethodSymbol> visitedMethods,
+        HashSet<IOperation> visitedWrites)
+    {
         return storage switch
         {
             IParameterReferenceOperation parameter =>
@@ -5826,7 +5837,7 @@ internal static class ModuleAuthoringAnalysis
         }
 
         // Jumps inside a branch can bypass an otherwise unconditional write.
-        if (operation.DescendantsAndSelf().Any(static child => child is IBranchOperation))
+        if (operation.DescendantsAndSelf().OfType<IBranchOperation>().Any(branch => !IsNestedCancellationStorageSwitchBreak(branch, operation)))
         {
             return false;
         }
@@ -5842,6 +5853,30 @@ internal static class ModuleAuthoringAnalysis
             ITryOperation attempt => DefinitelyWritesCancellationStorageTry(attempt, symbol, isRef, read),
             _ => false,
         };
+    }
+
+    private static bool IsNestedCancellationStorageSwitchBreak(IBranchOperation branch, IOperation operation)
+    {
+        if (branch.BranchKind != BranchKind.Break)
+        {
+            return false;
+        }
+
+        for (var parent = branch.Parent; parent is not null; parent = parent.Parent)
+        {
+            if (parent is ISwitchOperation nestedSwitch
+                && SymbolEqualityComparer.Default.Equals(branch.Target, nestedSwitch.ExitLabel))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(parent, operation))
+            {
+                break;
+            }
+        }
+
+        return false;
     }
 
     private static bool DefinitelyWritesCancellationStorageSwitch(
@@ -6024,17 +6059,16 @@ internal static class ModuleAuthoringAnalysis
             };
             if (!sequence.IsDefault)
             {
-                foreach (var next in sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1))
+                if (CancellationStorageSequenceCanThrowBeforeOverwrite(
+                    sequence.SkipWhile(operation => !ReferenceEquals(operation, current)).Skip(1),
+                    symbol, isRef, classifier, out var overwritten))
                 {
-                    if (CancellationStorageOperationCanThrowBeforeOverwrite(next, symbol, isRef, classifier, out var overwritten))
-                    {
-                        return true;
-                    }
+                    return true;
+                }
 
-                    if (overwritten)
-                    {
-                        return false;
-                    }
+                if (overwritten)
+                {
+                    return false;
                 }
             }
 
