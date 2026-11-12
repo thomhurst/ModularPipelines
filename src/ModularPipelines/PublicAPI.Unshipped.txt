@@ -4047,3 +4047,8 @@ static ModularPipelines.Reporting.ResourceSaturationPeriod.operator !=(ModularPi
 static ModularPipelines.Reporting.ResourceSaturationPeriod.operator ==(ModularPipelines.Reporting.ResourceSaturationPeriod? left, ModularPipelines.Reporting.ResourceSaturationPeriod? right) -> bool
 static ModularPipelines.Reporting.ResourceUsage.operator !=(ModularPipelines.Reporting.ResourceUsage? left, ModularPipelines.Reporting.ResourceUsage? right) -> bool
 static ModularPipelines.Reporting.ResourceUsage.operator ==(ModularPipelines.Reporting.ResourceUsage? left, ModularPipelines.Reporting.ResourceUsage? right) -> bool
+
+ModularPipelines.Distributed.WorkerStatus.ResourceUsage.get -> ModularPipelines.Reporting.ResourceUsage?
+ModularPipelines.Distributed.WorkerStatus.ResourceUsage.init -> void
+ModularPipelines.Reporting.DistributedWorkerRunReport.ResourceUsage.get -> ModularPipelines.Reporting.ResourceUsage?
+ModularPipelines.Reporting.DistributedWorkerRunReport.ResourceUsage.init -> void

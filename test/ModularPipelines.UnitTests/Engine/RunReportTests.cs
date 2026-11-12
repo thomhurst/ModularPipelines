@@ -2525,7 +2525,8 @@ public class RunReportTests
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance);
 
-            var report = await service.CompleteAsync(CreateEmptySummary());
+            var usage = new ResourceUsage { SampleCount = 3, PeakCpu = 0.95 };
+            var report = await service.CompleteAsync(CreateEmptySummary() with { ResourceUsage = usage });
 
             using (Assert.Multiple())
             {
@@ -2541,6 +2542,7 @@ public class RunReportTests
                     It.Is<WorkerStatus>(status =>
                         status.WorkerId == WorkerId.FromInstanceIndex(1)
                         && status.RunId == "current-run"
+                        && status.ResourceUsage == usage
                         && status.IsFinal
                         && status.UnattributedCommandCount == 3
                         && status.ModuleCommandCounts[ModuleId.FromType(typeof(SuccessfulModule))] == 2),
@@ -3027,6 +3029,9 @@ public class RunReportTests
             InstanceIndex = 0,
             TotalInstances = 3,
         });
+        var telemetry = new DistributedTelemetryTracker();
+        var workerUsage = new ResourceUsage { SampleCount = 4, PeakCpu = 0.98 };
+        var masterUsage = new ResourceUsage { SampleCount = 2, PeakCpu = 0.25 };
         var coordinator = new Mock<IDistributedMasterCoordinator>();
         coordinator.Setup(x => x.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync([
@@ -3052,6 +3057,7 @@ public class RunReportTests
                     WorkerId = WorkerId.FromInstanceIndex(1),
                     RunId = distributedOptions.Value.RunId,
                     IsFinal = true,
+                    ResourceUsage = workerUsage,
                     UnattributedCommandCount = 3,
                     ModuleCommandCounts = new Dictionary<ModuleId, int>()
                     {
@@ -3079,7 +3085,9 @@ public class RunReportTests
                 Mock.Of<IRunHistoryStore>(),
                 new PipelineRunReportFactory(
                     commandExecutionCounter,
-                    new PassthroughSecretObfuscator()),
+                    new PassthroughSecretObfuscator(),
+                    distributedTelemetryTracker: telemetry,
+                    distributedOptions: distributedOptions),
                 Mock.Of<IBuildSystemDetector>(),
                 OptionsFactory.Create(new PipelineOptions()),
                 distributedOptions,
@@ -3087,7 +3095,8 @@ public class RunReportTests
                 Mock.Of<IDistributedWorkerCoordinator>(),
                 commandExecutionCounter,
                 NullLogger<RunReportService>.Instance,
-                masterCoordinator: coordinator.Object);
+                masterCoordinator: coordinator.Object,
+                distributedTelemetryTracker: telemetry);
 
             var report = await service.CompleteAsync(new PipelineSummary(
                     [module],
@@ -3098,11 +3107,19 @@ public class RunReportTests
                     moduleTimelines:
                     [
                         CreateTimeline(typeof(SuccessfulModule), runStartedAt, TimeSpan.FromSeconds(1)),
-                    ]))
+                    ]) with
+            { ResourceUsage = masterUsage })
                 .WaitAsync(HangGuard);
 
             using (Assert.Multiple())
             {
+                var workers = report.Distributed!.Workers;
+                await Assert.That(report.ResourceUsage).IsEqualTo(masterUsage);
+                await Assert.That(workers.Single(w => w.WorkerId == WorkerId.FromInstanceIndex(0)).ResourceUsage).IsEqualTo(masterUsage);
+                await Assert.That(workers.Single(w => w.WorkerId == WorkerId.FromInstanceIndex(1)).ResourceUsage).IsEqualTo(workerUsage);
+                await Assert.That(workers.Single(w => w.WorkerId == WorkerId.FromInstanceIndex(2)).ResourceUsage).IsNull();
+                var roundTrip = RunReportJsonSerializer.Deserialize(RunReportJsonSerializer.Serialize(report))!;
+                await Assert.That(roundTrip.Distributed!.Workers[1].ResourceUsage!.PeakCpu).IsEqualTo(0.98);
                 await Assert.That(report.CommandCount).IsEqualTo(7);
                 await Assert.That(report.UnattributedCommandCount).IsEqualTo(4);
                 await Assert.That(report.Modules.Single().CommandCount).IsEqualTo(3);
@@ -3112,6 +3129,33 @@ public class RunReportTests
         {
             Environment.SetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE", previousInstance);
         }
+    }
+
+    [Test]
+    public async Task WorkerStatusJsonRoundTripPreservesResourceUsage()
+    {
+        var status = new WorkerStatus
+        {
+            WorkerId = WorkerId.FromInstanceIndex(1),
+            IsFinal = true,
+            ResourceUsage = new ResourceUsage
+            {
+                PeakCpu = 0.98,
+                AverageCpu = 0.75,
+                PeakMemory = 0.9,
+                SampleCount = 5,
+                SaturatedDuration = TimeSpan.FromSeconds(2),
+            },
+        };
+
+        var restored = System.Text.Json.JsonSerializer.Deserialize<WorkerStatus>(
+            System.Text.Json.JsonSerializer.Serialize(status))!;
+
+        await Assert.That(System.Text.Json.JsonSerializer.Serialize(restored.ResourceUsage))
+            .IsEqualTo(System.Text.Json.JsonSerializer.Serialize(status.ResourceUsage));
+        var legacy = System.Text.Json.JsonSerializer.Deserialize<WorkerStatus>(
+            "{\"WorkerId\":\"instance-1\",\"IsFinal\":true}")!;
+        await Assert.That(legacy.ResourceUsage).IsNull();
     }
 
     [Test]

@@ -5,6 +5,16 @@ namespace ModularPipelines.Distributed;
 
 internal sealed class DistributedTelemetryTracker
 {
+    private readonly ConcurrentDictionary<WorkerId, ResourceUsage> _workerResourceUsage = new();
+
+    public void RecordWorkerResourceUsage(WorkerId workerId, ResourceUsage? usage)
+    {
+        if (usage is not null)
+        {
+            _workerResourceUsage[workerId] = usage;
+        }
+    }
+
     private readonly ConcurrentDictionary<ModuleId, AssignmentTiming> _assignments = new();
     private readonly ConcurrentDictionary<ModuleId, ResultTiming> _results = new();
 
@@ -30,7 +40,7 @@ internal sealed class DistributedTelemetryTracker
             .OfType<DistributedModuleRunReport>()
             .OrderBy(static module => module.EnqueuedAt)
             .ToArray();
-        if (modules.Length == 0)
+        if (modules.Length == 0 && _workerResourceUsage.IsEmpty)
         {
             return null;
         }
@@ -43,6 +53,7 @@ internal sealed class DistributedTelemetryTracker
         var workerIds = configuredWorkerIds
             .Concat(modules
                 .Select(static module => module.WorkerId)
+                .Concat(_workerResourceUsage.Keys)
                 .Where(workerId => !configuredWorkerIds.Contains(workerId))
                 .Distinct()
                 .OrderBy(static workerId => workerId.Value, StringComparer.Ordinal))
@@ -114,7 +125,7 @@ internal sealed class DistributedTelemetryTracker
         };
     }
 
-    private static DistributedWorkerRunReport CreateWorkerReport(
+    private DistributedWorkerRunReport CreateWorkerReport(
         WorkerId workerId,
         IReadOnlyCollection<DistributedModuleRunReport> modules,
         DateTimeOffset pipelineStart,
@@ -127,6 +138,7 @@ internal sealed class DistributedTelemetryTracker
         return new DistributedWorkerRunReport
         {
             WorkerId = workerId,
+            ResourceUsage = _workerResourceUsage.GetValueOrDefault(workerId),
             ModuleCount = workerModules.Length,
             BusyDuration = busy,
             IdleDuration = idle,

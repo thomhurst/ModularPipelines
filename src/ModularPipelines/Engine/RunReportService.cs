@@ -24,7 +24,8 @@ internal sealed class RunReportService(
     TimeSpan? enricherTimeout = null,
     IEnumerable<IRunReportEnricher>? runReportEnrichers = null,
     RunReportPathResolver? pathResolver = null,
-    IDistributedMasterCoordinator? masterCoordinator = null) : IRunReportService
+    IDistributedMasterCoordinator? masterCoordinator = null,
+    DistributedTelemetryTracker? distributedTelemetryTracker = null) : IRunReportService
 {
     private static readonly TimeSpan DefaultHistoryStoreTimeout = TimeSpan.FromSeconds(30);
     private static readonly TimeSpan ReportWriteTimeout = TimeSpan.FromSeconds(30);
@@ -119,10 +120,12 @@ internal sealed class RunReportService(
     {
         if (isDistributedWorker)
         {
-            await PublishWorkerMetricsAsync(cancellationToken).ConfigureAwait(false);
+            await PublishWorkerMetricsAsync(summary, cancellationToken).ConfigureAwait(false);
         }
         else if (executionLocationContext.IsMaster)
         {
+            distributedTelemetryTracker?.RecordWorkerResourceUsage(
+                distributedOptions.Value.LocalWorkerId, summary.ResourceUsage);
             await AggregateWorkerMetricsAsync(summary, cancellationToken).ConfigureAwait(false);
         }
     }
@@ -341,7 +344,7 @@ internal sealed class RunReportService(
             : null;
     }
 
-    private async Task PublishWorkerMetricsAsync(CancellationToken cancellationToken)
+    private async Task PublishWorkerMetricsAsync(PipelineSummary summary, CancellationToken cancellationToken)
     {
         var options = distributedOptions.Value;
         await RunTimedPhaseAsync(
@@ -353,6 +356,7 @@ internal sealed class RunReportService(
                                 WorkerId = options.LocalWorkerId,
                                 RunId = options.RunId,
                                 IsFinal = true,
+                                ResourceUsage = summary.ResourceUsage,
                                 UnattributedCommandCount = commandExecutionCounter.UnattributedCount,
                                 ModuleCommandCounts = commandExecutionCounter.GetModuleCounts()
                                     .GroupBy(
@@ -443,6 +447,7 @@ internal sealed class RunReportService(
             foreach (var worker in completedWorkers)
             {
                 commandExecutionCounter.Add(null, worker.UnattributedCommandCount);
+                distributedTelemetryTracker?.RecordWorkerResourceUsage(worker.WorkerId, worker.ResourceUsage);
             }
 
             ReconcileWorkerModuleCommandCounts(summary, completedWorkers);

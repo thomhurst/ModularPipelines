@@ -8,6 +8,9 @@ public sealed record DistributedWorkerRunReport
     /// <summary>Gets the reported worker.</summary>
     public Distributed.WorkerId WorkerId { get; init; }
 
+    /// <summary>Gets machine-wide resource usage sampled by this worker, when available.</summary>
+    public ResourceUsage? ResourceUsage { get; init; }
+
     /// <summary>Gets the number of modules executed by the worker.</summary>
     public int ModuleCount { get; init; }
 
