@@ -397,6 +397,11 @@ internal static class ModuleAuthoringAnalysis
             CollectCallbackCalls(receiver, containingMethod, compilation, methodCalls);
         }
 
+        if (DirectCommandLineAction.GetTarget(invocation) is { } action)
+        {
+            methodCalls.Add((NormalizeMethod(containingMethod), NormalizeMethod(action)));
+        }
+
         var targetMethod = NormalizeMethod(invocation.TargetMethod);
         foreach (var argument in invocation.Arguments)
         {
@@ -4446,6 +4451,11 @@ internal static class ModuleAuthoringAnalysis
         IInvocationOperation invocation,
         ImmutableArray<IMethodSymbol> callables)
     {
+        if (DirectCommandLineAction.GetTarget(invocation) is { } action)
+        {
+            yield return action;
+        }
+
         var targetMethod = invocation.TargetMethod.OriginalDefinition;
         foreach (var callable in callables)
         {
